@@ -19,12 +19,11 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListAll_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetListAllMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listAll()) {
+  for await (const item of client.virtualMachineScaleSets.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -37,20 +36,19 @@ async function virtualMachineScaleSetListAllMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ListAll_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetListAllMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listAll()) {
+  for await (const item of client.virtualMachineScaleSets.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  virtualMachineScaleSetListAllMaximumSetGen();
-  virtualMachineScaleSetListAllMinimumSetGen();
+  await virtualMachineScaleSetListAllMaximumSetGen();
+  await virtualMachineScaleSetListAllMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -19,17 +19,12 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachineRedeployMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "a";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginRedeployAndWait(
-    resourceGroupName,
-    vmName,
-  );
+  const result = await client.virtualMachines.beginRedeployAndWait(resourceGroupName, vmName);
   console.log(result);
 }
 
@@ -40,23 +35,18 @@ async function virtualMachineRedeployMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachineRedeployMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginRedeployAndWait(
-    resourceGroupName,
-    vmName,
-  );
+  const result = await client.virtualMachines.beginRedeployAndWait(resourceGroupName, vmName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  virtualMachineRedeployMaximumSetGen();
-  virtualMachineRedeployMinimumSetGen();
+  await virtualMachineRedeployMaximumSetGen();
+  await virtualMachineRedeployMinimumSetGen();
 }
 
 main().catch(console.error);

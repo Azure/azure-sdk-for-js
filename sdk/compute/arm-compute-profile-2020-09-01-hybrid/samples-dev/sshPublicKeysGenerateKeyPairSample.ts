@@ -19,22 +19,17 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GenerateSshKeyPair.json
  */
 async function generateAnSshKeyPair(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.sshPublicKeys.generateKeyPair(
-    resourceGroupName,
-    sshPublicKeyName
-  );
+  const result = await client.sshPublicKeys.generateKeyPair(resourceGroupName, sshPublicKeyName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  generateAnSshKeyPair();
+  await generateAnSshKeyPair();
 }
 
 main().catch(console.error);

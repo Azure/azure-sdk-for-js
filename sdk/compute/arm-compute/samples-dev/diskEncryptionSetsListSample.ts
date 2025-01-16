@@ -19,19 +19,18 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListBySubscription.json
  */
 async function listAllDiskEncryptionSetsInASubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diskEncryptionSets.list()) {
+  for await (const item of client.diskEncryptionSets.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  listAllDiskEncryptionSetsInASubscription();
+  await listAllDiskEncryptionSetsInASubscription();
 }
 
 main().catch(console.error);

@@ -19,22 +19,17 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Start.json
  */
 async function startCloudService(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.cloudServices.beginStartAndWait(
-    resourceGroupName,
-    cloudServiceName,
-  );
+  const result = await client.cloudServices.beginStartAndWait(resourceGroupName, cloudServiceName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  startCloudService();
+  await startCloudService();
 }
 
 main().catch(console.error);

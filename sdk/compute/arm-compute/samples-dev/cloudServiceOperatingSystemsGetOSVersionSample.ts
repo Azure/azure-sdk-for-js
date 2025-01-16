@@ -19,21 +19,17 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceOSVersion_Get.json
  */
 async function getCloudServiceOSVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "westus2";
   const osVersionName = "WA-GUEST-OS-3.90_202010-02";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.cloudServiceOperatingSystems.getOSVersion(
-    location,
-    osVersionName,
-  );
+  const result = await client.cloudServiceOperatingSystems.getOSVersion(location, osVersionName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  getCloudServiceOSVersion();
+  await getCloudServiceOSVersion();
 }
 
 main().catch(console.error);

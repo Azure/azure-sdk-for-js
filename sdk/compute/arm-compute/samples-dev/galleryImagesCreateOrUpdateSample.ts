@@ -19,10 +19,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImage_Create.json
  */
 async function createOrUpdateASimpleGalleryImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImage: GalleryImage = {
@@ -48,7 +46,7 @@ async function createOrUpdateASimpleGalleryImage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateASimpleGalleryImage();
+  await createOrUpdateASimpleGalleryImage();
 }
 
 main().catch(console.error);

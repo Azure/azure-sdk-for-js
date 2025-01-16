@@ -19,8 +19,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageGetMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaa";
   const typeParam = "aaaaaaaaaaaaaaaaaa";
@@ -43,8 +42,7 @@ async function virtualMachineExtensionImageGetMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageGetMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const typeParam = "aa";
@@ -61,8 +59,8 @@ async function virtualMachineExtensionImageGetMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachineExtensionImageGetMaximumSetGen();
-  virtualMachineExtensionImageGetMinimumSetGen();
+  await virtualMachineExtensionImageGetMaximumSetGen();
+  await virtualMachineExtensionImageGetMinimumSetGen();
 }
 
 main().catch(console.error);

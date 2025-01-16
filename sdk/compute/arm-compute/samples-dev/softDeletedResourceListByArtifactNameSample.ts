@@ -19,17 +19,15 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GallerySoftDeletedResource_ListByArtifactName.json
  */
 async function listSoftDeletedResourcesOfAnArtifactInTheGallery(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const artifactType = "images";
   const artifactName = "myGalleryImageName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.softDeletedResource.listByArtifactName(
+  for await (const item of client.softDeletedResource.listByArtifactName(
     resourceGroupName,
     galleryName,
     artifactType,
@@ -41,7 +39,7 @@ async function listSoftDeletedResourcesOfAnArtifactInTheGallery(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  listSoftDeletedResourcesOfAnArtifactInTheGallery();
+  await listSoftDeletedResourcesOfAnArtifactInTheGallery();
 }
 
 main().catch(console.error);

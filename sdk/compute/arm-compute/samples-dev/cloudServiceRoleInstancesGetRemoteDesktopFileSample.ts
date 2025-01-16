@@ -19,11 +19,9 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceRoleInstance_Get_RemoteDesktopFile.json
  */
 async function getCloudServiceRole(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const roleInstanceName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcloudService";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcloudService";
   const cloudServiceName = "aaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -36,7 +34,7 @@ async function getCloudServiceRole(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCloudServiceRole();
+  await getCloudServiceRole();
 }
 
 main().catch(console.error);

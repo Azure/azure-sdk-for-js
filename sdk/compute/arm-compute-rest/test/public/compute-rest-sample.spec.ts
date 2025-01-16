@@ -63,7 +63,7 @@ describe("Compute test", () => {
   let interface_name: string;
   let virtual_machine_name: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || "";
@@ -84,7 +84,7 @@ describe("Compute test", () => {
     virtual_machine_name = "virtualmachinex";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -147,7 +147,7 @@ describe("Compute test", () => {
     console.log(nic_info);
   }
 
-  it("availabilitySets create test", async function () {
+  it("availabilitySets create test", async () => {
     const options: AvailabilitySetsCreateOrUpdateParameters = {
       body: {
         location: "westus",
@@ -169,7 +169,7 @@ describe("Compute test", () => {
     assert.equal(result.body.name, availabilitySetName);
   });
 
-  it("availabilitySets update test", async function () {
+  it("availabilitySets update test", async () => {
     const options: AvailabilitySetsUpdateParameters = {
       body: {
         properties: { platformFaultDomainCount: 2, platformUpdateDomainCount: 20 },
@@ -190,7 +190,7 @@ describe("Compute test", () => {
     assert.equal(result.body.type, "Microsoft.Compute/availabilitySets");
   });
 
-  it("availabilitySets get test", async function () {
+  it("availabilitySets get test", async () => {
     const options: AvailabilitySetsGetParameters = {
       queryParameters: { "api-version": "2022-08-01" },
     };
@@ -208,7 +208,7 @@ describe("Compute test", () => {
     assert.equal(result.body.name, availabilitySetName);
   });
 
-  it("availabilitySets list test", async function () {
+  it("availabilitySets list test", async () => {
     const options: AvailabilitySetsListParameters = {
       queryParameters: { "api-version": "2022-08-01" },
     };
@@ -227,7 +227,7 @@ describe("Compute test", () => {
     assert.equal(result.length, 1);
   });
 
-  it("availabilitySets delete test", async function () {
+  it("availabilitySets delete test", async () => {
     const deleteOptions: AvailabilitySetsDeleteParameters = {
       queryParameters: { "api-version": "2022-08-01" },
     };
@@ -260,7 +260,7 @@ describe("Compute test", () => {
     assert.equal(result.length, 0);
   });
 
-  it("virtualMachines create test", async function () {
+  it("virtualMachines create test", async () => {
     await createVirtualNetwork();
     await createNetworkInterface(resourceGroupName, interface_name);
     const options: VirtualMachinesCreateOrUpdateParameters = {
@@ -343,7 +343,7 @@ describe("Compute test", () => {
     assert.equal(result.body.name, virtual_machine_name);
   });
 
-  it("virtualMachines get test", async function () {
+  it("virtualMachines get test", async () => {
     const options: VirtualMachinesGetParameters = {
       queryParameters: { "api-version": "2022-08-01" },
     };
@@ -361,7 +361,7 @@ describe("Compute test", () => {
     assert.equal(result.body.name, virtual_machine_name);
   });
 
-  it("virtualMachines list test", async function () {
+  it("virtualMachines list test", async () => {
     const options: VirtualMachinesListParameters = {
       queryParameters: {
         "api-version": "2022-08-01",
@@ -382,7 +382,7 @@ describe("Compute test", () => {
     assert.equal(result.length, 1);
   });
 
-  it("virtualMachines update test", async function () {
+  it("virtualMachines update test", async () => {
     const options: VirtualMachinesUpdateParameters = {
       body: {
         properties: {
@@ -422,7 +422,7 @@ describe("Compute test", () => {
     assert.equal(result.body.type, "Microsoft.Compute/virtualMachines");
   });
 
-  it("virtualMachines delete test", async function () {
+  it("virtualMachines delete test", async () => {
     const deleteOptions: VirtualMachinesDeleteParameters = {
       queryParameters: { forceDeletion: true, "api-version": "2022-08-01" },
     };

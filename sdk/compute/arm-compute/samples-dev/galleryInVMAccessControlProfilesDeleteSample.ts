@@ -19,25 +19,22 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Delete.json
  */
 async function deleteAGalleryInVMAccessControlProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const inVMAccessControlProfileName = "myInVMAccessControlProfileName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.galleryInVMAccessControlProfiles.beginDeleteAndWait(
-      resourceGroupName,
-      galleryName,
-      inVMAccessControlProfileName,
-    );
+  const result = await client.galleryInVMAccessControlProfiles.beginDeleteAndWait(
+    resourceGroupName,
+    galleryName,
+    inVMAccessControlProfileName,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  deleteAGalleryInVMAccessControlProfile();
+  await deleteAGalleryInVMAccessControlProfile();
 }
 
 main().catch(console.error);

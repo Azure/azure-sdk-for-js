@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CloudService,
-  CloudServicesCreateOrUpdateOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { CloudService, CloudServicesCreateOrUpdateOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +20,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithMultiRole.json
  */
 async function createNewCloudServiceWithMultipleRoles(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters: CloudService = {
     location: "westus",
@@ -85,10 +80,8 @@ async function createNewCloudServiceWithMultipleRoles(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithMultiRole_WithZones.json
  */
 async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters: CloudService = {
     location: "westus",
@@ -148,10 +141,8 @@ async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRole.json
  */
 async function createNewCloudServiceWithSingleRole(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters: CloudService = {
     location: "westus",
@@ -206,10 +197,8 @@ async function createNewCloudServiceWithSingleRole(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRoleAndCertificate.json
  */
 async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters: CloudService = {
     location: "westus",
@@ -279,10 +268,8 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault(): 
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRoleAndRDP.json
  */
 async function createNewCloudServiceWithSingleRoleAndRdpExtension(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters: CloudService = {
     location: "westus",
@@ -295,8 +282,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension(): Promise<voi
             properties: {
               type: "RDP",
               autoUpgradeMinorVersion: false,
-              protectedSettings:
-                "<PrivateConfig><Password>{password}</Password></PrivateConfig>",
+              protectedSettings: "<PrivateConfig><Password>{password}</Password></PrivateConfig>",
               publisher: "Microsoft.Windows.Azure.Extensions",
               settings:
                 "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
@@ -348,11 +334,11 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  createNewCloudServiceWithMultipleRoles();
-  createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone();
-  createNewCloudServiceWithSingleRole();
-  createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault();
-  createNewCloudServiceWithSingleRoleAndRdpExtension();
+  await createNewCloudServiceWithMultipleRoles();
+  await createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone();
+  await createNewCloudServiceWithSingleRole();
+  await createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault();
+  await createNewCloudServiceWithSingleRoleAndRdpExtension();
 }
 
 main().catch(console.error);

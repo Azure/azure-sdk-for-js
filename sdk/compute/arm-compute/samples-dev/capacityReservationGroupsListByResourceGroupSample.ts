@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CapacityReservationGroupsListByResourceGroupOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { CapacityReservationGroupsListByResourceGroupOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +20,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservationGroup_ListByResourceGroup.json
  */
 async function listCapacityReservationGroupsInResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const expand = "virtualMachines/$ref";
   const options: CapacityReservationGroupsListByResourceGroupOptionalParams = {
     expand,
@@ -33,7 +29,7 @@ async function listCapacityReservationGroupsInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.capacityReservationGroups.listByResourceGroup(
+  for await (const item of client.capacityReservationGroups.listByResourceGroup(
     resourceGroupName,
     options,
   )) {
@@ -43,7 +39,7 @@ async function listCapacityReservationGroupsInResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCapacityReservationGroupsInResourceGroup();
+  await listCapacityReservationGroupsInResourceGroup();
 }
 
 main().catch(console.error);

@@ -19,15 +19,13 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceUpdateDomain_List.json
  */
 async function listUpdateDomainsInCloudService(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServicesUpdateDomain.listUpdateDomains(
+  for await (const item of client.cloudServicesUpdateDomain.listUpdateDomains(
     resourceGroupName,
     cloudServiceName,
   )) {
@@ -37,7 +35,7 @@ async function listUpdateDomainsInCloudService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listUpdateDomainsInCloudService();
+  await listUpdateDomainsInCloudService();
 }
 
 main().catch(console.error);

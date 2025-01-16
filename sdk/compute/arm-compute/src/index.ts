@@ -7,6 +7,6 @@
  */
 
 export { getContinuationToken } from "./pagingHelper.js";
-export * from "./models.js";
+export * from "./models/index.js";
 export { ComputeManagementClient } from "./computeManagementClient.js";
-export * from "./operationsInterfaces.js";
+export * from "./operationsInterfaces/index.js";

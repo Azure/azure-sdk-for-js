@@ -19,16 +19,14 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
  */
 async function getAnIncrementalDiskRestorePointResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "rpc";
   const vmRestorePointName = "vmrp";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diskRestorePointOperations.listByRestorePoint(
+  for await (const item of client.diskRestorePointOperations.listByRestorePoint(
     resourceGroupName,
     restorePointCollectionName,
     vmRestorePointName,
@@ -39,7 +37,7 @@ async function getAnIncrementalDiskRestorePointResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAnIncrementalDiskRestorePointResource();
+  await getAnIncrementalDiskRestorePointResource();
 }
 
 main().catch(console.error);

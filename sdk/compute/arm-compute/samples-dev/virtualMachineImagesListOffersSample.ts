@@ -19,16 +19,12 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListOffers_MaximumSet_Gen.json
  */
 async function virtualMachineImageListOffersMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaa";
   const publisherName = "aaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineImages.listOffers(
-    location,
-    publisherName,
-  );
+  const result = await client.virtualMachineImages.listOffers(location, publisherName);
   console.log(result);
 }
 
@@ -39,22 +35,18 @@ async function virtualMachineImageListOffersMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListOffers_MinimumSet_Gen.json
  */
 async function virtualMachineImageListOffersMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineImages.listOffers(
-    location,
-    publisherName,
-  );
+  const result = await client.virtualMachineImages.listOffers(location, publisherName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  virtualMachineImageListOffersMaximumSetGen();
-  virtualMachineImageListOffersMinimumSetGen();
+  await virtualMachineImageListOffersMaximumSetGen();
+  await virtualMachineImageListOffersMinimumSetGen();
 }
 
 main().catch(console.error);

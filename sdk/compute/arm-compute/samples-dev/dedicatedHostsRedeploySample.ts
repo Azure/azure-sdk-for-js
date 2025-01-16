@@ -19,10 +19,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Redeploy.json
  */
 async function redeployDedicatedHost(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const hostName = "myHost";
   const credential = new DefaultAzureCredential();
@@ -36,7 +34,7 @@ async function redeployDedicatedHost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redeployDedicatedHost();
+  await redeployDedicatedHost();
 }
 
 main().catch(console.error);

@@ -19,10 +19,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
  */
 async function getVMScaleSetVMWithUserData(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const instanceId = "0";
   const credential = new DefaultAzureCredential();
@@ -42,10 +40,8 @@ async function getVMScaleSetVMWithUserData(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
  */
 async function getVMScaleSetVMWithVMSizeProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const instanceId = "0";
   const credential = new DefaultAzureCredential();
@@ -59,8 +55,8 @@ async function getVMScaleSetVMWithVMSizeProperties(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getVMScaleSetVMWithUserData();
-  getVMScaleSetVMWithVMSizeProperties();
+  await getVMScaleSetVMWithUserData();
+  await getVMScaleSetVMWithVMSizeProperties();
 }
 
 main().catch(console.error);

@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  VirtualMachineExtensionUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineExtensionUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +20,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Update.json
  */
 async function updateVMExtension(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const vmExtensionName = "myVMExtension";
   const extensionParameters: VirtualMachineExtensionUpdate = {
@@ -55,7 +51,7 @@ async function updateVMExtension(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateVMExtension();
+  await updateVMExtension();
 }
 
 main().catch(console.error);

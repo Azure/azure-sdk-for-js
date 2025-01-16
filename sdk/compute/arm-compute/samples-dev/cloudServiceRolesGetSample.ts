@@ -19,24 +19,18 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceRole_Get.json
  */
 async function getCloudServiceRole(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const roleName = "{role-name}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.cloudServiceRoles.get(
-    roleName,
-    resourceGroupName,
-    cloudServiceName,
-  );
+  const result = await client.cloudServiceRoles.get(roleName, resourceGroupName, cloudServiceName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  getCloudServiceRole();
+  await getCloudServiceRole();
 }
 
 main().catch(console.error);

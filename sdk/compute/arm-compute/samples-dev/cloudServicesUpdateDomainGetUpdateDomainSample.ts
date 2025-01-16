@@ -19,10 +19,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceUpdateDomain_Get.json
  */
 async function getCloudServiceUpdateDomain(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const updateDomain = 1;
   const credential = new DefaultAzureCredential();
@@ -36,7 +34,7 @@ async function getCloudServiceUpdateDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCloudServiceUpdateDomain();
+  await getCloudServiceUpdateDomain();
 }
 
 main().catch(console.error);

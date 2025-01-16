@@ -8,7 +8,7 @@
 
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { CapacityReservationGroups } from "../operationsInterfaces.js";
+import type { CapacityReservationGroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -31,7 +31,7 @@ import type {
   CapacityReservationGroupsGetResponse,
   CapacityReservationGroupsListByResourceGroupNextResponse,
   CapacityReservationGroupsListBySubscriptionNextResponse,
-} from "../models.js";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CapacityReservationGroups operations. */

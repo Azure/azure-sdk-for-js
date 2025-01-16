@@ -19,15 +19,13 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineRunCommand_List.json
  */
 async function listRunCommandsInAVirtualMachine(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineRunCommands.listByVirtualMachine(
+  for await (const item of client.virtualMachineRunCommands.listByVirtualMachine(
     resourceGroupName,
     vmName,
   )) {
@@ -37,7 +35,7 @@ async function listRunCommandsInAVirtualMachine(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRunCommandsInAVirtualMachine();
+  await listRunCommandsInAVirtualMachine();
 }
 
 main().catch(console.error);

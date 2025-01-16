@@ -19,8 +19,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
  */
 async function getACommunityGalleryImageVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
   const publicGalleryName = "publicGalleryName";
   const galleryImageName = "myGalleryImageName";
@@ -37,7 +36,7 @@ async function getACommunityGalleryImageVersion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getACommunityGalleryImageVersion();
+  await getACommunityGalleryImageVersion();
 }
 
 main().catch(console.error);

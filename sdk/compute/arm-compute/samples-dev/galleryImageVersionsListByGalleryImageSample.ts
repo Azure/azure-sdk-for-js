@@ -19,16 +19,14 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_ListByGalleryImage.json
  */
 async function listGalleryImageVersionsInAGalleryImageDefinition(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleryImageVersions.listByGalleryImage(
+  for await (const item of client.galleryImageVersions.listByGalleryImage(
     resourceGroupName,
     galleryName,
     galleryImageName,
@@ -39,7 +37,7 @@ async function listGalleryImageVersionsInAGalleryImageDefinition(): Promise<void
 }
 
 async function main(): Promise<void> {
-  listGalleryImageVersionsInAGalleryImageDefinition();
+  await listGalleryImageVersionsInAGalleryImageDefinition();
 }
 
 main().catch(console.error);

@@ -19,22 +19,20 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GetAProximityPlacementGroup.json
  */
 async function createAProximityPlacementGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const proximityPlacementGroupName = "myProximityPlacementGroup";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.proximityPlacementGroups.get(
     resourceGroupName,
-    proximityPlacementGroupName
+    proximityPlacementGroupName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createAProximityPlacementGroup();
+  await createAProximityPlacementGroup();
 }
 
 main().catch(console.error);

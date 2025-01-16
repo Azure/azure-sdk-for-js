@@ -24,14 +24,14 @@ async function virtualMachineRunCommandList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineRunCommands.list(location)) {
+  for await (const item of client.virtualMachineRunCommands.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  virtualMachineRunCommandList();
+  await virtualMachineRunCommandList();
 }
 
 main().catch(console.error);

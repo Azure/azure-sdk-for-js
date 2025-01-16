@@ -19,8 +19,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/sharedGalleryExamples/SharedGalleryImage_Get.json
  */
 async function getASharedGalleryImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
   const galleryUniqueName = "galleryUniqueName";
   const galleryImageName = "myGalleryImageName";
@@ -35,7 +34,7 @@ async function getASharedGalleryImage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getASharedGalleryImage();
+  await getASharedGalleryImage();
 }
 
 main().catch(console.error);

@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  VirtualMachine,
-  ComputeManagementClient
-} from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import type { VirtualMachine } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +20,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateACustomImageVmFromAnUnmanagedGeneralizedOsImage.json
  */
 async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "{vm-name}";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -33,16 +29,15 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       osDisk: {
@@ -50,23 +45,21 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<
         caching: "ReadWrite",
         createOption: "FromImage",
         image: {
-          uri:
-            "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd"
+          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
         },
         osType: "Windows",
         vhd: {
-          uri:
-            "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"
-        }
-      }
-    }
+          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -78,10 +71,8 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAPlatformImageVmWithUnmanagedOsAndDataDisks.json
  */
 async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "{vm-name}";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2_v2" },
@@ -89,16 +80,15 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       dataDisks: [
@@ -107,43 +97,40 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void
           diskSizeGB: 1023,
           lun: 0,
           vhd: {
-            uri:
-              "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk0.vhd"
-          }
+            uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk0.vhd",
+          },
         },
         {
           createOption: "Empty",
           diskSizeGB: 1023,
           lun: 1,
           vhd: {
-            uri:
-              "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk1.vhd"
-          }
-        }
+            uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk1.vhd",
+          },
+        },
       ],
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
         vhd: {
-          uri:
-            "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"
-        }
-      }
-    }
+          uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -155,10 +142,8 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmFromACustomImage.json
  */
 async function createAVMFromACustomImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -166,36 +151,34 @@ async function createAVMFromACustomImage(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       imageReference: {
-        id:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -207,53 +190,49 @@ async function createAVMFromACustomImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmInAnAvailabilitySet.json
  */
 async function createAVMInAnAvailabilitySet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     availabilitySet: {
-      id:
-        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/{existing-availability-set-name}"
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/availabilitySets/{existing-availability-set-name}",
     },
     hardwareProfile: { vmSize: "Standard_D1_v2" },
     location: "westus",
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -265,10 +244,8 @@ async function createAVMInAnAvailabilitySet(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithDiskEncryptionSetResource.json
  */
 async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -276,16 +253,15 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk():
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       dataDisks: [
@@ -296,11 +272,10 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk():
           lun: 0,
           managedDisk: {
             diskEncryptionSet: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
-            storageAccountType: "Standard_LRS"
-          }
+            storageAccountType: "Standard_LRS",
+          },
         },
         {
           caching: "ReadWrite",
@@ -309,18 +284,15 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk():
           lun: 1,
           managedDisk: {
             diskEncryptionSet: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
             },
-            id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-managed-disk-name}",
-            storageAccountType: "Standard_LRS"
-          }
-        }
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/{existing-managed-disk-name}",
+            storageAccountType: "Standard_LRS",
+          },
+        },
       ],
       imageReference: {
-        id:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
       },
       osDisk: {
         name: "myVMosdisk",
@@ -328,20 +300,19 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk():
         createOption: "FromImage",
         managedDisk: {
           diskEncryptionSet: {
-            id:
-              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
           },
-          storageAccountType: "Standard_LRS"
-        }
-      }
-    }
+          storageAccountType: "Standard_LRS",
+        },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -353,10 +324,8 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk():
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithEncryptionAtHost.json
  */
 async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -364,21 +333,20 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promi
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     securityProfile: { encryptionAtHost: true },
     storageProfile: {
@@ -386,22 +354,22 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promi
         offer: "windows-data-science-vm",
         publisher: "microsoft-ads",
         sku: "windows2016",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadOnly",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -413,10 +381,8 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithAMarketplaceImagePlan.json
  */
 async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -424,43 +390,42 @@ async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     storageProfile: {
       imageReference: {
         offer: "windows-data-science-vm",
         publisher: "microsoft-ads",
         sku: "windows2016",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -472,10 +437,8 @@ async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithPatchSettingModeOfAutomaticByOS.json
  */
 async function createAVMWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -483,11 +446,10 @@ async function createAVMWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<voi
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
@@ -496,30 +458,30 @@ async function createAVMWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<voi
       windowsConfiguration: {
         enableAutomaticUpdates: true,
         patchSettings: { patchMode: "AutomaticByOS" },
-        provisionVMAgent: true
-      }
+        provisionVMAgent: true,
+      },
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Premium_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -531,10 +493,8 @@ async function createAVMWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<voi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithPatchSettingModeOfAutomaticByPlatform.json
  */
 async function createAVMWithAPatchSettingPatchModeOfAutomaticByPlatform(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -542,11 +502,10 @@ async function createAVMWithAPatchSettingPatchModeOfAutomaticByPlatform(): Promi
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
@@ -555,30 +514,30 @@ async function createAVMWithAPatchSettingPatchModeOfAutomaticByPlatform(): Promi
       windowsConfiguration: {
         enableAutomaticUpdates: true,
         patchSettings: { patchMode: "AutomaticByPlatform" },
-        provisionVMAgent: true
-      }
+        provisionVMAgent: true,
+      },
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Premium_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -590,10 +549,8 @@ async function createAVMWithAPatchSettingPatchModeOfAutomaticByPlatform(): Promi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithPatchSettingModeOfManual.json
  */
 async function createAVMWithAPatchSettingPatchModeOfManual(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -601,11 +558,10 @@ async function createAVMWithAPatchSettingPatchModeOfManual(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
@@ -614,30 +570,30 @@ async function createAVMWithAPatchSettingPatchModeOfManual(): Promise<void> {
       windowsConfiguration: {
         enableAutomaticUpdates: true,
         patchSettings: { patchMode: "Manual" },
-        provisionVMAgent: true
-      }
+        provisionVMAgent: true,
+      },
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Premium_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -649,18 +605,15 @@ async function createAVMWithAPatchSettingPatchModeOfManual(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithExtensionsTimeBudget.json
  */
 async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net"
-      }
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+      },
     },
     extensionsTimeBudget: "PT30M",
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -668,38 +621,37 @@ async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -711,56 +663,52 @@ async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithBootDiagnostics.json
  */
 async function createAVMWithBootDiagnostics(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net"
-      }
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+      },
     },
     hardwareProfile: { vmSize: "Standard_D1_v2" },
     location: "westus",
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -772,10 +720,8 @@ async function createAVMWithBootDiagnostics(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithEmptyDataDisks.json
  */
 async function createAVMWithEmptyDataDisks(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2_v2" },
@@ -783,42 +729,41 @@ async function createAVMWithEmptyDataDisks(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       dataDisks: [
         { createOption: "Empty", diskSizeGB: 1023, lun: 0 },
-        { createOption: "Empty", diskSizeGB: 1023, lun: 1 }
+        { createOption: "Empty", diskSizeGB: 1023, lun: 1 },
       ],
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -830,10 +775,8 @@ async function createAVMWithEmptyDataDisks(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
  */
 async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -841,44 +784,43 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     storageProfile: {
       imageReference: {
         offer: "windows-data-science-vm",
         publisher: "microsoft-ads",
         sku: "windows2016",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadOnly",
         createOption: "FromImage",
         diffDiskSettings: { option: "Local", placement: "CacheDisk" },
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -890,10 +832,8 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
  */
 async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -901,44 +841,43 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     storageProfile: {
       imageReference: {
         offer: "windows-data-science-vm",
         publisher: "microsoft-ads",
         sku: "windows2016",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadOnly",
         createOption: "FromImage",
         diffDiskSettings: { option: "Local", placement: "ResourceDisk" },
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -950,10 +889,8 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithADiffOsDisk.json
  */
 async function createAVMWithEphemeralOSDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -961,44 +898,43 @@ async function createAVMWithEphemeralOSDisk(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     storageProfile: {
       imageReference: {
         offer: "windows-data-science-vm",
         publisher: "microsoft-ads",
         sku: "windows2016",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadOnly",
         createOption: "FromImage",
         diffDiskSettings: { option: "Local" },
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1010,10 +946,8 @@ async function createAVMWithEphemeralOSDisk(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithManagedBootDiagnostics.json
  */
 async function createAVMWithManagedBootDiagnostics(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: { bootDiagnostics: { enabled: true } },
@@ -1022,38 +956,37 @@ async function createAVMWithManagedBootDiagnostics(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1065,10 +998,8 @@ async function createAVMWithManagedBootDiagnostics(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithPasswordAuthentication.json
  */
 async function createAVMWithPasswordAuthentication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1076,38 +1007,37 @@ async function createAVMWithPasswordAuthentication(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1119,10 +1049,8 @@ async function createAVMWithPasswordAuthentication(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithPremiumStorage.json
  */
 async function createAVMWithPremiumStorage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1130,38 +1058,37 @@ async function createAVMWithPremiumStorage(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminPassword: "{your-password}",
       adminUsername: "{your-username}",
-      computerName: "myVM"
+      computerName: "myVM",
     },
     storageProfile: {
       imageReference: {
         offer: "WindowsServer",
         publisher: "MicrosoftWindowsServer",
         sku: "2016-Datacenter",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Premium_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Premium_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1173,10 +1100,8 @@ async function createAVMWithPremiumStorage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAVmWithSshAuthentication.json
  */
 async function createAVMWithSshAuthentication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1184,11 +1109,10 @@ async function createAVMWithSshAuthentication(): Promise<void> {
     networkProfile: {
       networkInterfaces: [
         {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
-          primary: true
-        }
-      ]
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+          primary: true,
+        },
+      ],
     },
     osProfile: {
       adminUsername: "{your-username}",
@@ -1200,58 +1124,58 @@ async function createAVMWithSshAuthentication(): Promise<void> {
             {
               path: "/home/{your-username}/.ssh/authorized_keys",
               keyData:
-                "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"
-            }
-          ]
-        }
-      }
+                "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1",
+            },
+          ],
+        },
+      },
     },
     storageProfile: {
       imageReference: {
         offer: "{image_offer}",
         publisher: "{image_publisher}",
         sku: "{image_sku}",
-        version: "latest"
+        version: "latest",
       },
       osDisk: {
         name: "myVMosdisk",
         caching: "ReadWrite",
         createOption: "FromImage",
-        managedDisk: { storageAccountType: "Standard_LRS" }
-      }
-    }
+        managedDisk: { storageAccountType: "Standard_LRS" },
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createACustomImageVMFromAnUnmanagedGeneralizedOSImage();
-  createAPlatformImageVMWithUnmanagedOSAndDataDisks();
-  createAVMFromACustomImage();
-  createAVMInAnAvailabilitySet();
-  createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk();
-  createAVMWithHostEncryptionUsingEncryptionAtHostProperty();
-  createAVMWithAMarketplaceImagePlan();
-  createAVMWithAPatchSettingPatchModeOfAutomaticByOS();
-  createAVMWithAPatchSettingPatchModeOfAutomaticByPlatform();
-  createAVMWithAPatchSettingPatchModeOfManual();
-  createAVMWithAnExtensionsTimeBudget();
-  createAVMWithBootDiagnostics();
-  createAVMWithEmptyDataDisks();
-  createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty();
-  createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty();
-  createAVMWithEphemeralOSDisk();
-  createAVMWithManagedBootDiagnostics();
-  createAVMWithPasswordAuthentication();
-  createAVMWithPremiumStorage();
-  createAVMWithSshAuthentication();
+  await createACustomImageVMFromAnUnmanagedGeneralizedOSImage();
+  await createAPlatformImageVMWithUnmanagedOSAndDataDisks();
+  await createAVMFromACustomImage();
+  await createAVMInAnAvailabilitySet();
+  await createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk();
+  await createAVMWithHostEncryptionUsingEncryptionAtHostProperty();
+  await createAVMWithAMarketplaceImagePlan();
+  await createAVMWithAPatchSettingPatchModeOfAutomaticByOS();
+  await createAVMWithAPatchSettingPatchModeOfAutomaticByPlatform();
+  await createAVMWithAPatchSettingPatchModeOfManual();
+  await createAVMWithAnExtensionsTimeBudget();
+  await createAVMWithBootDiagnostics();
+  await createAVMWithEmptyDataDisks();
+  await createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty();
+  await createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty();
+  await createAVMWithEphemeralOSDisk();
+  await createAVMWithManagedBootDiagnostics();
+  await createAVMWithPasswordAuthentication();
+  await createAVMWithPremiumStorage();
+  await createAVMWithSshAuthentication();
 }
 
 main().catch(console.error);

@@ -19,15 +19,13 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
  */
 async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diskEncryptionSets.listAssociatedResources(
+  for await (const item of client.diskEncryptionSets.listAssociatedResources(
     resourceGroupName,
     diskEncryptionSetName,
   )) {
@@ -37,7 +35,7 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet(): Prom
 }
 
 async function main(): Promise<void> {
-  listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet();
+  await listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet();
 }
 
 main().catch(console.error);

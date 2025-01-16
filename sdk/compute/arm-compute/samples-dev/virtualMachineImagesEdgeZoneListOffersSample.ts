@@ -19,8 +19,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaa";
@@ -41,8 +40,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen(): Promise<vo
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -57,8 +55,8 @@ async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  virtualMachineImagesEdgeZoneListOffersMaximumSetGen();
-  virtualMachineImagesEdgeZoneListOffersMinimumSetGen();
+  await virtualMachineImagesEdgeZoneListOffersMaximumSetGen();
+  await virtualMachineImagesEdgeZoneListOffersMinimumSetGen();
 }
 
 main().catch(console.error);

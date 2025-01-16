@@ -19,21 +19,17 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceOSFamily_Get.json
  */
 async function getCloudServiceOSFamily(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "westus2";
   const osFamilyName = "3";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.cloudServiceOperatingSystems.getOSFamily(
-    location,
-    osFamilyName,
-  );
+  const result = await client.cloudServiceOperatingSystems.getOSFamily(location, osFamilyName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  getCloudServiceOSFamily();
+  await getCloudServiceOSFamily();
 }
 
 main().catch(console.error);

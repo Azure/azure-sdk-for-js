@@ -19,12 +19,11 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MaximumSet_Gen.json
  */
 async function sshPublicKeyListBySubscriptionMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sshPublicKeys.listBySubscription()) {
+  for await (const item of client.sshPublicKeys.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -37,20 +36,19 @@ async function sshPublicKeyListBySubscriptionMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MinimumSet_Gen.json
  */
 async function sshPublicKeyListBySubscriptionMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sshPublicKeys.listBySubscription()) {
+  for await (const item of client.sshPublicKeys.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  sshPublicKeyListBySubscriptionMaximumSetGen();
-  sshPublicKeyListBySubscriptionMinimumSetGen();
+  await sshPublicKeyListBySubscriptionMaximumSetGen();
+  await sshPublicKeyListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

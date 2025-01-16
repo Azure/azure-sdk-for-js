@@ -19,18 +19,13 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineImageListSkusMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const offer = "aaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineImages.listSkus(
-    location,
-    publisherName,
-    offer,
-  );
+  const result = await client.virtualMachineImages.listSkus(location, publisherName, offer);
   console.log(result);
 }
 
@@ -41,24 +36,19 @@ async function virtualMachineImageListSkusMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineImageListSkusMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaa";
   const publisherName = "aaaaaaaaaaaaa";
   const offer = "aaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineImages.listSkus(
-    location,
-    publisherName,
-    offer,
-  );
+  const result = await client.virtualMachineImages.listSkus(location, publisherName, offer);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  virtualMachineImageListSkusMaximumSetGen();
-  virtualMachineImageListSkusMinimumSetGen();
+  await virtualMachineImageListSkusMaximumSetGen();
+  await virtualMachineImageListSkusMinimumSetGen();
 }
 
 main().catch(console.error);

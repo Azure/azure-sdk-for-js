@@ -19,27 +19,24 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Delete.json
  */
 async function deleteVirtualMachineScaleSetVMExtension(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const vmExtensionName = "myVMExtension";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetVMExtensions.beginDeleteAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      vmExtensionName,
-    );
+  const result = await client.virtualMachineScaleSetVMExtensions.beginDeleteAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    instanceId,
+    vmExtensionName,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  deleteVirtualMachineScaleSetVMExtension();
+  await deleteVirtualMachineScaleSetVMExtension();
 }
 
 main().catch(console.error);

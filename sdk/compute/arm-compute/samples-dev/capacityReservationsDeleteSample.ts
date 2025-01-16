@@ -19,10 +19,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservation_Delete_MaximumSet_Gen.json
  */
 async function capacityReservationDeleteMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const capacityReservationGroupName = "aaaaaaaaaaa";
   const capacityReservationName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -42,10 +40,8 @@ async function capacityReservationDeleteMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservation_Delete_MinimumSet_Gen.json
  */
 async function capacityReservationDeleteMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const capacityReservationGroupName = "aaa";
   const capacityReservationName = "aaaaaa";
   const credential = new DefaultAzureCredential();
@@ -59,8 +55,8 @@ async function capacityReservationDeleteMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  capacityReservationDeleteMaximumSetGen();
-  capacityReservationDeleteMinimumSetGen();
+  await capacityReservationDeleteMaximumSetGen();
+  await capacityReservationDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

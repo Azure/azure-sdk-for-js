@@ -19,16 +19,14 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_ListByGalleryInVMAccessControlProfile.json
  */
 async function listGalleryInVMAccessControlProfileVersionsInAGalleryInVmaccessControlProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const inVMAccessControlProfileName = "myInVMAccessControlProfileName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleryInVMAccessControlProfileVersions.listByGalleryInVMAccessControlProfile(
+  for await (const item of client.galleryInVMAccessControlProfileVersions.listByGalleryInVMAccessControlProfile(
     resourceGroupName,
     galleryName,
     inVMAccessControlProfileName,
@@ -39,7 +37,7 @@ async function listGalleryInVMAccessControlProfileVersionsInAGalleryInVmaccessCo
 }
 
 async function main(): Promise<void> {
-  listGalleryInVMAccessControlProfileVersionsInAGalleryInVmaccessControlProfile();
+  await listGalleryInVMAccessControlProfileVersionsInAGalleryInVmaccessControlProfile();
 }
 
 main().catch(console.error);
