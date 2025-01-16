@@ -28,9 +28,6 @@ execCommand("cp tsp-location.yaml src/generated");
 // Step 3: Run tsp-client command
 // emitter-option as a workaround for https://github.com/Azure/azure-rest-api-specs/issues/31610
 execCommand(`tsp-client update -d -o src/generated --emitter-options generateMetadata=false`);
-// execCommand(
-//   "tsp-client update -d -o src/generated --tsp-config ~/workspace/azure-rest-api-specs/specification/keyvault/Security.KeyVault.Keys/tspconfig.yaml --local-spec-repo ~/workspace/azure-rest-api-specs/specification/keyvault/Security.KeyVault.Keys --repo ~/workspace/azure-rest-api-specs --commit 9561bad7d2eed94cc91aa6164d3721b8aa8699fe --emitter-options generateMetadata=false"
-// );
 
 // Step 4: Move generated/src/* files to generated until src-folder is supported
 execCommand("mv src/generated/src/* src/generated/");
