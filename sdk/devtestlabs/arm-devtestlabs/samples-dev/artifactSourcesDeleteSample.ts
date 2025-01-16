@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Delete artifact source.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/ArtifactSources_Delete.json
  */
-async function artifactSourcesDelete() {
+async function artifactSourcesDelete(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";
   const labName = "{labName}";

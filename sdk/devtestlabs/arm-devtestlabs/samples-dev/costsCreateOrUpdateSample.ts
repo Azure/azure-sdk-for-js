@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or replace an existing cost.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Costs_CreateOrUpdate.json
  */
-async function costsCreateOrUpdate() {
+async function costsCreateOrUpdate(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";
   const labName = "{labName}";

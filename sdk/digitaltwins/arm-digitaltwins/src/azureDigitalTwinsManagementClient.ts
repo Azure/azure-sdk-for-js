@@ -21,7 +21,7 @@ import {
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
   TimeSeriesDatabaseConnectionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   DigitalTwins,
   DigitalTwinsEndpoint,
@@ -29,8 +29,8 @@ import {
   PrivateLinkResources,
   PrivateEndpointConnections,
   TimeSeriesDatabaseConnections
-} from "./operationsInterfaces";
-import { AzureDigitalTwinsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureDigitalTwinsManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient {
   $host: string;
