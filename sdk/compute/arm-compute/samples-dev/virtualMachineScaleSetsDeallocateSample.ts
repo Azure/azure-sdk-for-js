@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import type {
   VirtualMachineScaleSetVMInstanceIDs,
-  VirtualMachineScaleSetsDeallocateOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
+  VirtualMachineScaleSetsDeallocateOptionalParams,
 } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -27,10 +21,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Deallocate_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetDeallocateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const hibernate = true;
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
@@ -57,10 +49,8 @@ async function virtualMachineScaleSetDeallocateMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Deallocate_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetDeallocateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -72,8 +62,8 @@ async function virtualMachineScaleSetDeallocateMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachineScaleSetDeallocateMaximumSetGen();
-  virtualMachineScaleSetDeallocateMinimumSetGen();
+  await virtualMachineScaleSetDeallocateMaximumSetGen();
+  await virtualMachineScaleSetDeallocateMinimumSetGen();
 }
 
 main().catch(console.error);

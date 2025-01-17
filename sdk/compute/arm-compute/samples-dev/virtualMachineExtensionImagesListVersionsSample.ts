@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  VirtualMachineExtensionImagesListVersionsOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineExtensionImagesListVersionsOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -26,8 +18,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaa";
   const typeParam = "aaaaaaaaaaaaaaaaaa";
@@ -57,8 +48,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const typeParam = "aaaa";
@@ -73,8 +63,8 @@ async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<
 }
 
 async function main(): Promise<void> {
-  virtualMachineExtensionImageListVersionsMaximumSetGen();
-  virtualMachineExtensionImageListVersionsMinimumSetGen();
+  await virtualMachineExtensionImageListVersionsMaximumSetGen();
+  await virtualMachineExtensionImageListVersionsMinimumSetGen();
 }
 
 main().catch(console.error);

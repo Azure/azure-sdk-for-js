@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import type {
   VirtualMachineScaleSetVMInstanceIDs,
-  VirtualMachineScaleSetsPowerOffOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
+  VirtualMachineScaleSetsPowerOffOptionalParams,
 } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -27,10 +21,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_PowerOff_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetPowerOffMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaa";
   const skipShutdown = true;
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
@@ -57,10 +49,8 @@ async function virtualMachineScaleSetPowerOffMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_PowerOff_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetPowerOffMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "a";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -72,8 +62,8 @@ async function virtualMachineScaleSetPowerOffMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachineScaleSetPowerOffMaximumSetGen();
-  virtualMachineScaleSetPowerOffMinimumSetGen();
+  await virtualMachineScaleSetPowerOffMaximumSetGen();
+  await virtualMachineScaleSetPowerOffMinimumSetGen();
 }
 
 main().catch(console.error);
