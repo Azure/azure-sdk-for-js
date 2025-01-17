@@ -73,24 +73,23 @@ describe("Compute test", () => {
 
   // network_client.virtualNetworks.createOrUpdate
   async function createVirtualNetwork(): Promise<void> {
-    const parameter: VirtualNetwork = {
+    const parameter = {
       location: location,
       addressSpace: {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    const virtualNetworks_create_info =
-      await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
-        resourceGroupName,
-        network_name,
-        parameter,
-        testPollingOptions,
-      );
+    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      network_name,
+      parameter,
+      testPollingOptions,
+    );
 
-    const subnet_parameter: Subnet = {
+    const subnet_parameter = {
       addressPrefix: "10.0.0.0/24",
     };
-    const subnet__create_info = await network_client.subnets.beginCreateOrUpdateAndWait(
+    await network_client.subnets.beginCreateOrUpdateAndWait(
       resourceGroupName,
       network_name,
       subnet_name,
@@ -105,7 +104,7 @@ describe("Compute test", () => {
     networkInterfaceLocation: string,
     nic_name: string,
   ): Promise<void> {
-    const parameter: NetworkInterface = {
+    const parameter = {
       location: networkInterfaceLocation,
       ipConfigurations: [
         {
@@ -124,7 +123,7 @@ describe("Compute test", () => {
         },
       ],
     };
-    const nic_info = await network_client.networkInterfaces.beginCreateOrUpdateAndWait(
+    await network_client.networkInterfaces.beginCreateOrUpdateAndWait(
       group_name,
       nic_name,
       parameter,
