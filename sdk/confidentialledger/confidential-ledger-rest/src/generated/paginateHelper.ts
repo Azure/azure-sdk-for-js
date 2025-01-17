@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Client,
-  createRestError,
-  PathUncheckedResponse,
-} from "@azure-rest/core-client";
+import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError } from "@azure-rest/core-client";
 
 /**
  * returns an async iterator that iterates over results. It also has a `byPage`
@@ -190,20 +187,20 @@ export interface PagingOptions<TResponse> {
  */
 export type PaginateReturn<TResult> = TResult extends
   | {
-    body: { value?: infer TPage };
-  }
+      body: { value?: infer TPage };
+    }
   | {
-    body: { members?: infer TPage };
-  }
+      body: { members?: infer TPage };
+    }
   | {
-    body: { collections?: infer TPage };
-  }
+      body: { collections?: infer TPage };
+    }
   | {
-    body: { entries?: infer TPage };
-  }
+      body: { entries?: infer TPage };
+    }
   | {
-    body: { ledgerUsers?: infer TPage };
-  }
+      body: { ledgerUsers?: infer TPage };
+    }
   ? GetArrayType<TPage>
   : Array<unknown>;
 
@@ -233,18 +230,18 @@ export function paginate<TResponse extends PathUncheckedResponse>(
       typeof customGetPage === "function"
         ? customGetPage
         : async (pageLink: string) => {
-          const result = firstRun
-            ? initialResponse
-            : await client.pathUnchecked(pageLink).get();
-          firstRun = false;
-          checkPagingRequest(result);
-          const nextLink = getNextLink(result.body, nextLinkName);
-          const values = getElements<TElement>(result.body, itemName);
-          return {
-            page: values,
-            nextPageLink: nextLink,
-          };
-        },
+            const result = firstRun
+              ? initialResponse
+              : await client.pathUnchecked(pageLink).get();
+            firstRun = false;
+            checkPagingRequest(result);
+            const nextLink = getNextLink(result.body, nextLinkName);
+            const values = getElements<TElement>(result.body, itemName);
+            return {
+              page: values,
+              nextPageLink: nextLink,
+            };
+          },
   };
 
   return getPagedAsyncIterator(pagedResult);

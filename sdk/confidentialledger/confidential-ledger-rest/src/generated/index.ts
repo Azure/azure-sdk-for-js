@@ -12,5 +12,4 @@ export * from "./models.js";
 export * from "./outputModels.js";
 export * from "./paginateHelper.js";
 
-
 export default ConfidentialLedger;
