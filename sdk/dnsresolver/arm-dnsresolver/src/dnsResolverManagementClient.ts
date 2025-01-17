@@ -25,7 +25,7 @@ import {
   DnsSecurityRulesImpl,
   DnsResolverPolicyVirtualNetworkLinksImpl,
   DnsResolverDomainListsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   DnsResolvers,
   InboundEndpoints,
@@ -37,8 +37,8 @@ import {
   DnsSecurityRules,
   DnsResolverPolicyVirtualNetworkLinks,
   DnsResolverDomainLists,
-} from "./operationsInterfaces";
-import { DnsResolverManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DnsResolverManagementClientOptionalParams } from "./models/index.js";
 
 export class DnsResolverManagementClient extends coreClient.ServiceClient {
   $host: string;

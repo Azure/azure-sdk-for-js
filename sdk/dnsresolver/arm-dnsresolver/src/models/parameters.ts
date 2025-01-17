@@ -32,7 +32,7 @@ import {
   DnsResolverPolicyVirtualNetworkLinkPatch as DnsResolverPolicyVirtualNetworkLinkPatchMapper,
   DnsResolverDomainList as DnsResolverDomainListMapper,
   DnsResolverDomainListPatch as DnsResolverDomainListPatchMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
