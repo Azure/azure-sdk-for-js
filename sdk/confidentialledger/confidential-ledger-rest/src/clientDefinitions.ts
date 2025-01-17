@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GetUserDefinedEndpoint } from "./generated/clientDefinitions.js";
 import type {
   GetConstitutionParameters,
+  GetUserDefinedEndpointParameters,
+  CreateUserDefinedEndpointParameters,
   ListConsortiumMembersParameters,
   GetEnclaveQuotesParameters,
   ListCollectionsParameters,
@@ -21,6 +22,10 @@ import type {
 import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
+  GetUserDefinedEndpoint200Response,
+  GetUserDefinedEndpointDefaultResponse,
+  CreateUserDefinedEndpoint201Response,
+  CreateUserDefinedEndpointDefaultResponse,
   ListConsortiumMembers200Response,
   ListConsortiumMembersDefaultResponse,
   GetEnclaveQuotes200Response,
@@ -50,7 +55,18 @@ import type {
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export type { GetUserDefinedEndpoint };
+export interface GetUserDefinedEndpoint {
+  /** Returns the user defined endpoint in the ACL instance */
+  get(
+    options?: GetUserDefinedEndpointParameters,
+  ): StreamableMethod<GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse>;
+  /** Creates the user defined endpoint in the ACL instance */
+  put(
+    options: CreateUserDefinedEndpointParameters,
+  ): StreamableMethod<
+    CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse
+  >;
+}
 
 export interface GetConstitution {
   /** The constitution is a script that assesses and applies proposals from consortium members. */

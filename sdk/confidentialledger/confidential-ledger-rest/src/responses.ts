@@ -5,6 +5,7 @@ import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpResponse } from "@azure-rest/core-client";
 import type {
   ConstitutionOutput,
+  BundleOutput,
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
   ConfidentialLedgerEnclavesOutput,
@@ -27,6 +28,17 @@ export interface GetConstitution200Response extends HttpResponse {
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitutionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Creates the user defined endpoint in the ACL instance */
+export interface CreateUserDefinedEndpoint201Response extends HttpResponse {
+  status: "201";
+}
+
+/** Creates the user defined endpoint in the ACL instance */
+export interface CreateUserDefinedEndpointDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -192,7 +204,14 @@ export interface CreateOrUpdateUserDefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
-export type {
-  GetUserDefinedEndpoint200Response,
-  GetUserDefinedEndpointDefaultResponse,
-} from "./generated/responses.js";
+/** Returns the user defined endpoint in the ACL instance */
+export interface GetUserDefinedEndpoint200Response extends HttpResponse {
+  status: "200";
+  body: BundleOutput;
+}
+
+/** Returns the user defined endpoint in the ACL instance */
+export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
