@@ -121,6 +121,7 @@ export function toWebResourceLike(
           "onUploadProgress",
           "proxySettings",
           "streamResponseStatusCodes",
+          "agent",
         ];
 
         if (typeof prop === "string" && passThroughProps.includes(prop)) {
