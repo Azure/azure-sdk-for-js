@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -34,7 +29,7 @@ async function virtualMachineRunCommandList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachineRunCommandList();
+  await virtualMachineRunCommandList();
 }
 
 main().catch(console.error);

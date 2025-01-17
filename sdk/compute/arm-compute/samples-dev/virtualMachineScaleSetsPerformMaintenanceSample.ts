@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import type {
   VirtualMachineScaleSetVMInstanceIDs,
-  VirtualMachineScaleSetsPerformMaintenanceOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
+  VirtualMachineScaleSetsPerformMaintenanceOptionalParams,
 } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -27,10 +21,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_PerformMaintenance_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetPerformMaintenanceMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaa"],
@@ -40,12 +32,11 @@ async function virtualMachineScaleSetPerformMaintenanceMaximumSetGen(): Promise<
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginPerformMaintenanceAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      options,
-    );
+  const result = await client.virtualMachineScaleSets.beginPerformMaintenanceAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    options,
+  );
   console.log(result);
 }
 
@@ -56,24 +47,21 @@ async function virtualMachineScaleSetPerformMaintenanceMaximumSetGen(): Promise<
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_PerformMaintenance_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetPerformMaintenanceMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginPerformMaintenanceAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-    );
+  const result = await client.virtualMachineScaleSets.beginPerformMaintenanceAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  virtualMachineScaleSetPerformMaintenanceMaximumSetGen();
-  virtualMachineScaleSetPerformMaintenanceMinimumSetGen();
+  await virtualMachineScaleSetPerformMaintenanceMaximumSetGen();
+  await virtualMachineScaleSetPerformMaintenanceMinimumSetGen();
 }
 
 main().catch(console.error);

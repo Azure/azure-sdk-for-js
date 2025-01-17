@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  ResourceSkusListOptionalParams} from "@azure/arm-compute";
-import {
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { ResourceSkusListOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -26,8 +18,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkus.json
  */
 async function listsAllAvailableResourceSkUs(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -44,8 +35,7 @@ async function listsAllAvailableResourceSkUs(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusForARegion.json
  */
 async function listsAllAvailableResourceSkUsForTheSpecifiedRegion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const filter = "location eq 'westus'";
   const options: ResourceSkusListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -64,8 +54,7 @@ async function listsAllAvailableResourceSkUsForTheSpecifiedRegion(): Promise<voi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusWithExtendedLocations.json
  */
 async function listsAllAvailableResourceSkUsWithExtendedLocationInformation(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const includeExtendedLocations = "true";
   const options: ResourceSkusListOptionalParams = { includeExtendedLocations };
   const credential = new DefaultAzureCredential();
@@ -78,9 +67,9 @@ async function listsAllAvailableResourceSkUsWithExtendedLocationInformation(): P
 }
 
 async function main(): Promise<void> {
-  listsAllAvailableResourceSkUs();
-  listsAllAvailableResourceSkUsForTheSpecifiedRegion();
-  listsAllAvailableResourceSkUsWithExtendedLocationInformation();
+  await listsAllAvailableResourceSkUs();
+  await listsAllAvailableResourceSkUsForTheSpecifiedRegion();
+  await listsAllAvailableResourceSkUsWithExtendedLocationInformation();
 }
 
 main().catch(console.error);
