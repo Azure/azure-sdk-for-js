@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ZoneUpdate, DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a DNS zone. Does not modify DNS records within the zone.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates a DNS zone. Does not modify DNS records within the zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/PatchZone.json
  */
-async function patchZone() {
+async function patchZone(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -35,7 +33,7 @@ async function patchZone() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchZone();
 }
 

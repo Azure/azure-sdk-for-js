@@ -16,7 +16,7 @@ import {
   Zone as ZoneMapper,
   ZoneUpdate as ZoneUpdateMapper,
   DnsResourceReferenceRequest as DnsResourceReferenceRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./dnssecConfigs";
-export * from "./recordSets";
-export * from "./zones";
-export * from "./dnsResourceReferenceOperations";
+export * from "./dnssecConfigs.js";
+export * from "./recordSets.js";
+export * from "./zones.js";
+export * from "./dnsResourceReferenceOperations.js";
