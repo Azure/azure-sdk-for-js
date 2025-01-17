@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List the status of operation.
  * x-ms-original-file: specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2017-08-01/examples/operationStatuses.json
  */
-async function getDetailsOfAServer() {
+async function getDetailsOfAServer(): Promise<void> {
   const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const location = "West US";
   const operationId = "testoperationid";

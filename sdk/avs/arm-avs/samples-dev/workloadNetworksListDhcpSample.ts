@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List WorkloadNetworkDhcp resources by WorkloadNetwork
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_ListDhcp.json
  */
-async function workloadNetworksListDhcp() {
+async function workloadNetworksListDhcp(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function workloadNetworksListDhcp() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workloadNetworksListDhcp();
 }
 

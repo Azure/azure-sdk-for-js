@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual machine before performing this operation. <br>For Windows, please refer to [Create a managed image of a generalized VM in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/capture-image-resource).<br>For Linux, please refer to [How to create an image of a virtual machine or VHD](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/capture-image).
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/GeneralizeVirtualMachine.json
  */
-async function generalizeAVirtualMachine() {
+async function generalizeAVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function generalizeAVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   generalizeAVirtualMachine();
 }
 

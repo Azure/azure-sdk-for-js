@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Create or Update a Certificate.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironmentsCertificate_CreateOrUpdate.json
  */
-async function createOrUpdateCertificate() {
+async function createOrUpdateCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -50,7 +50,7 @@ async function createOrUpdateCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateCertificate();
 }
 

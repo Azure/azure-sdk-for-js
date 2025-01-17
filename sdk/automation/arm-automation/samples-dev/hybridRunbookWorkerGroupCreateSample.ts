@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a hybrid runbook worker group.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/putHybridRunbookWorkerGroup.json
  */
-async function createAHybridWorkerGroup() {
+async function createAHybridWorkerGroup(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "testaccount";
@@ -40,7 +40,7 @@ async function createAHybridWorkerGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAHybridWorkerGroup();
 }
 

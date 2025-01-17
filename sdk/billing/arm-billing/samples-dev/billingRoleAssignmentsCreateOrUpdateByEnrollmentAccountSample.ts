@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a billing role assignment. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleAssignmentCreateOrUpdateByEnrollmentAccount.json
  */
-async function billingRoleAssignmentCreateOrUpdateByEnrollmentAccount() {
+async function billingRoleAssignmentCreateOrUpdateByEnrollmentAccount(): Promise<void> {
   const billingAccountName = "7898901";
   const enrollmentAccountName = "123456";
   const billingRoleAssignmentName = "9dfd08c2-62a3-4d47-85bd-1cdba1408402";
@@ -46,7 +46,7 @@ async function billingRoleAssignmentCreateOrUpdateByEnrollmentAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingRoleAssignmentCreateOrUpdateByEnrollmentAccount();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Patches container group profile with specified properties.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupProfilesPatch.json
  */
-async function containerGroupProfilesPatch() {
+async function containerGroupProfilesPatch(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +44,7 @@ async function containerGroupProfilesPatch() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   containerGroupProfilesPatch();
 }
 

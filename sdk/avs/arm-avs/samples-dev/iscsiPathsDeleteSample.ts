@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a IscsiPath
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/IscsiPaths_Delete.json
  */
-async function iscsiPathsDelete() {
+async function iscsiPathsDelete(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +33,7 @@ async function iscsiPathsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   iscsiPathsDelete();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all permissions the caller has for a resource.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-05-01-preview/examples/GetResourcePermissions.json
  */
-async function listPermissionsForResource() {
+async function listPermissionsForResource(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function listPermissionsForResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPermissionsForResource();
 }
 

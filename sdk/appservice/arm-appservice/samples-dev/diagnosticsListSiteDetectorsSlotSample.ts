@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get Detectors
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_ListSiteDetectors.json
  */
-async function listAppDetectors() {
+async function listAppDetectors(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -47,7 +47,7 @@ async function listAppDetectors() {
  * @summary Description for Get Detectors
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_ListSiteDetectorsSlot.json
  */
-async function listAppSlotDetectors() {
+async function listAppSlotDetectors(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -70,7 +70,7 @@ async function listAppSlotDetectors() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAppDetectors();
   listAppSlotDetectors();
 }

@@ -97,8 +97,14 @@ export async function makeSampleGenerationInfo(
 
   const sampleConfiguration = getSampleConfiguration(projectInfo.packageJson);
 
-  const [scope, baseName] = projectInfo.name.split("/");
-  log.debug("Determined project baseName:", baseName);
+  let scope, baseName: string | undefined;
+  [scope, baseName] = projectInfo.name.split("/");
+  if (baseName === undefined) {
+    log.debug(`unscoped package name: ${projectInfo.name}`);
+    baseName = scope;
+    scope = undefined;
+  }
+  log.debug(`Determined project scope: ${scope}, baseName: ${baseName}`);
 
   // A helper to handle configuration errors.
   function fail(...values: unknown[]): never {

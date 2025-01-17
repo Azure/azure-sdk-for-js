@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Update a FarmBeats resource.
  * x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/FarmBeatsModels_Update.json
  */
-async function farmBeatsModelsUpdate() {
+async function farmBeatsModelsUpdate(): Promise<void> {
   const subscriptionId = "11111111-2222-3333-4444-555555555555";
   const resourceGroupName = "examples-rg";
   const farmBeatsResourceName = "examples-farmBeatsResourceName";
@@ -45,7 +45,7 @@ farmBeatsModelsUpdate().catch(console.error);
  * @summary Update a FarmBeats resource.
  * x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/FarmBeatsModels_UpdateWithSensor.json
  */
-async function farmBeatsModelsUpdateWithSensor() {
+async function farmBeatsModelsUpdateWithSensor(): Promise<void> {
   const subscriptionId = "11111111-2222-3333-4444-555555555555";
   const resourceGroupName = "examples-rg";
   const farmBeatsResourceName = "examples-farmBeatsResourceName";

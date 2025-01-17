@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates a Connection Setting registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateConnection.json
  */
-async function updateConnectionSetting() {
+async function updateConnectionSetting(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -51,7 +51,7 @@ async function updateConnectionSetting() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateConnectionSetting();
 }
 

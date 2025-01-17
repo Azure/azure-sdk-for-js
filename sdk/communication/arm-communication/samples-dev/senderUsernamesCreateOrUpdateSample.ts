@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Add a new SenderUsername resource under the parent Domains resource or update an existing SenderUsername resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/createOrUpdate.json
  */
-async function createOrUpdateSenderUsernamesResource() {
+async function createOrUpdateSenderUsernamesResource(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -49,7 +49,7 @@ async function createOrUpdateSenderUsernamesResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateSenderUsernamesResource();
 }
 

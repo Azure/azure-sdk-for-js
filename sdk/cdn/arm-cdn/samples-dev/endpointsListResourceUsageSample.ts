@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks the quota and usage of geo filters and custom domains under the given endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_ListResourceUsage.json
  */
-async function endpointsListResourceUsage() {
+async function endpointsListResourceUsage(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -36,7 +36,7 @@ async function endpointsListResourceUsage() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   endpointsListResourceUsage();
 }
 

@@ -59,8 +59,8 @@ Use the returned token credential to authenticate the client:
 import PurviewScanning from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
 const client = PurviewScanning(
-  "https://<my-account-name>.scan.purview.azure.com",
-  new DefaultAzureCredential(),
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential()
 );
 ```
 
@@ -79,28 +79,25 @@ The following section shows you how to initialize and authenticate your client, 
 ### List All Data Sources
 
 ```typescript
-import PurviewScanning, { paginate, DataSource } from "@azure-rest/purview-scanning";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import PurviewScanning, { paginate, DataSourceOutput, PagedAsyncIterableIterator, PageSettings, isUnexpected } from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
   console.log("== List dataSources ==");
   const client = PurviewScanning(
-    "https://<my-account-name>.scan.purview.azure.com",
-    new DefaultAzureCredential(),
+    "https://<my-account-name>.purview.azure.com",
+    new DefaultAzureCredential()
   );
 
   const dataSources = await client.path("/datasources").get();
-  if (dataSources.status !== "200") {
+  if (isUnexpected(dataSources)) {
     throw dataSources.body.error;
   }
   const iter = paginate(client, dataSources);
 
-  const items: DataSource[] = [];
+  const items: DataSourceOutput[] = [];
 
-  for await (const item of <PagedAsyncIterableIterator<DataSource, DataSource[], PageSettings>>(
-    iter
-  )) {
+  for await (const item of <PagedAsyncIterableIterator<DataSourceOutput, (DataSourceOutput)[], PageSettings>>iter) {
     items.push(item);
   }
 

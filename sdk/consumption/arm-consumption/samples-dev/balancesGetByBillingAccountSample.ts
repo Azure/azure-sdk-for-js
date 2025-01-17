@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the balances for a scope by billingAccountId. Balances are available via this API only for May 1, 2014 or later.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/BalancesByBillingAccount.json
  */
-async function balances() {
+async function balances(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,7 +29,7 @@ async function balances() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   balances();
 }
 

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes an Application Insights web test.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestDelete.json
  */
-async function webTestDelete() {
+async function webTestDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "my-resource-group";
   const webTestName = "my-webtest-01-mywebservice";

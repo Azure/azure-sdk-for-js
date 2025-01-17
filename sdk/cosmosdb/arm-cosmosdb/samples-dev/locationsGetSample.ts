@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the properties of an existing Cosmos DB location
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBLocationGet.json
  */
-async function cosmosDbLocationGet() {
+async function cosmosDbLocationGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,7 +29,7 @@ async function cosmosDbLocationGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbLocationGet();
 }
 

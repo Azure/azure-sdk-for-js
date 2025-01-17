@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Update networking configuration of an App Service Environment
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_UpdateAseNetworkingConfiguration.json
  */
-async function updateNetworkingConfigurationOfAnAppServiceEnvironment() {
+async function updateNetworkingConfigurationOfAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,7 +43,7 @@ async function updateNetworkingConfigurationOfAnAppServiceEnvironment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateNetworkingConfigurationOfAnAppServiceEnvironment();
 }
 

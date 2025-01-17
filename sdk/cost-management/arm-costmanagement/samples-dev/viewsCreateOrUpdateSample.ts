@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to create or update a view. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/PrivateViewCreateOrUpdate.json
  */
-async function createOrUpdatePrivateView() {
+async function createOrUpdatePrivateView(): Promise<void> {
   const viewName = "swaggerExample";
   const parameters: View = {
     typePropertiesQueryType: "Usage",
@@ -55,7 +55,7 @@ async function createOrUpdatePrivateView() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdatePrivateView();
 }
 

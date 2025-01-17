@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EasmMgmtClient } from "@azure/arm-defendereasm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Label.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Update a Label.
  * x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2023-04-01-preview/examples/Labels_Update.json
  */
-async function labels() {
+async function labels(): Promise<void> {
   const subscriptionId =
     process.env["DEFENDEREASM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function labels() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   labels();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/VMScaleSetExtensionRollingUpgrade.json
  */
-async function startAnExtensionRollingUpgrade() {
+async function startAnExtensionRollingUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function startAnExtensionRollingUpgrade() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startAnExtensionRollingUpgrade();
 }
 

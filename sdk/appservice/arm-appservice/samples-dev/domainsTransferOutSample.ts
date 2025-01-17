@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Transfer out domain to another registrar
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/TransferOutDomain.json
  */
-async function transferOutDomain() {
+async function transferOutDomain(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,7 +34,7 @@ async function transferOutDomain() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   transferOutDomain();
 }
 

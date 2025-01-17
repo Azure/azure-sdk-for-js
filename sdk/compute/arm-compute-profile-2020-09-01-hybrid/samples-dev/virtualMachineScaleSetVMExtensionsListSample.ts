@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to get all extensions of an instance in Virtual Machine Scaleset.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/ListVirtualMachineScaleSetVMExtensions.json
  */
-async function listExtensionsInVmssInstance() {
+async function listExtensionsInVmssInstance(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function listExtensionsInVmssInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listExtensionsInVmssInstance();
 }
 

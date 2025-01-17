@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Obtains details of a cached recommendation.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/GetRecommendationDetail.json
  */
-async function getRecommendationDetail() {
+async function getRecommendationDetail(): Promise<void> {
   const resourceUri = "resourceUri";
   const recommendationId = "recommendationId";
   const credential = new DefaultAzureCredential();

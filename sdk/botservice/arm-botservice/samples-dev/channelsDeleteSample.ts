@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a Channel registration from a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DeleteChannel.json
  */
-async function deleteChannel() {
+async function deleteChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function deleteChannel() {
  * @summary Deletes a Channel registration from a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DeleteDirectLineSpeechChannel.json
  */
-async function deleteDirectLineSpeechChannel() {
+async function deleteDirectLineSpeechChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -58,7 +58,7 @@ async function deleteDirectLineSpeechChannel() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteChannel();
   deleteDirectLineSpeechChannel();
 }

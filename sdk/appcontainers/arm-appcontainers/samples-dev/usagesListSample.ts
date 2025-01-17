@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets, for the specified location, the current resource usage information as well as the limits under the subscription.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Usages_List.json
  */
-async function listUsages() {
+async function listUsages(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
@@ -31,7 +31,7 @@ async function listUsages() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listUsages();
 }
 

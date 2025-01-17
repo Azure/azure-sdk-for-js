@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get all available tag keys for the defined scope
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/Tags.json
  */
-async function tagsGet() {
+async function tagsGet(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,7 +29,7 @@ async function tagsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   tagsGet();
 }
 
