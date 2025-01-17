@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ComputeManagementClient, { paginate } from "../src/index.js";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
+import ComputeManagementClient, { VirtualMachinesListParameters, paginate } from "../src/index.js";
+import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
     const credential = new DefaultAzureCredential();
+    // @ts-ignore
     const client = ComputeManagementClient(credential);
   });
 
@@ -18,7 +19,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const subscriptionId = "";
     const resourceGroupName = "rgcompute";
-    const options = {
+    const options: VirtualMachinesListParameters = {
       queryParameters: {
         $filter: "aaaaaaaaaaaaaaaaaaaaaaa",
         "api-version": "2022-08-01",
