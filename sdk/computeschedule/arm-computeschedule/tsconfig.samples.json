@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-computeschedule": ["./dist/esm"]
+      "@azure/arm-computeschedule": [
+        "./dist/esm"
+      ]
     }
   }
 }
