@@ -41,21 +41,21 @@ describe("Dns test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new DnsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest.com";
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new DnsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest.com";
 
-    });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("zones create test", async function () {
     const res = await client.zones.createOrUpdate(
@@ -88,6 +88,7 @@ describe("Dns test", () => {
 
   it("zones delete test", async function () {
     const resArray = new Array();
+    await client.zones.beginDeleteAndWait(resourceGroup, resourcename);
     for await (let item of client.zones.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
