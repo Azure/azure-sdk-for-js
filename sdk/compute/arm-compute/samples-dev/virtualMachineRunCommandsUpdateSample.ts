@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,14 +11,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualMachineRunCommandUpdate} from "@azure/arm-compute";
 import {
-  VirtualMachineRunCommandUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update the run command.
@@ -23,7 +25,7 @@ dotenv.config();
  * @summary The operation to update the run command.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineRunCommand_Update.json
  */
-async function updateARunCommand() {
+async function updateARunCommand(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -61,7 +63,7 @@ async function updateARunCommand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateARunCommand();
 }
 

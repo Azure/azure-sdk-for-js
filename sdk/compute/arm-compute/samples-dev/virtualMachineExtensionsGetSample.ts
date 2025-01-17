@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,14 +11,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualMachineExtensionsGetOptionalParams} from "@azure/arm-compute";
 import {
-  VirtualMachineExtensionsGetOptionalParams,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get the extension.
@@ -23,7 +25,7 @@ dotenv.config();
  * @summary The operation to get the extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Get_MaximumSet_Gen.json
  */
-async function virtualMachineExtensionGetMaximumSetGen() {
+async function virtualMachineExtensionGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -49,7 +51,7 @@ async function virtualMachineExtensionGetMaximumSetGen() {
  * @summary The operation to get the extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Get_MinimumSet_Gen.json
  */
-async function virtualMachineExtensionGetMinimumSetGen() {
+async function virtualMachineExtensionGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -66,7 +68,7 @@ async function virtualMachineExtensionGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineExtensionGetMaximumSetGen();
   virtualMachineExtensionGetMinimumSetGen();
 }

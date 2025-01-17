@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,14 +11,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AvailabilitySetUpdate} from "@azure/arm-compute";
 import {
-  AvailabilitySetUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an availability set.
@@ -23,7 +25,7 @@ dotenv.config();
  * @summary Update an availability set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Update_MaximumSet_Gen.json
  */
-async function availabilitySetUpdateMaximumSetGen() {
+async function availabilitySetUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -59,7 +61,7 @@ async function availabilitySetUpdateMaximumSetGen() {
  * @summary Update an availability set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Update_MinimumSet_Gen.json
  */
-async function availabilitySetUpdateMinimumSetGen() {
+async function availabilitySetUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -76,7 +78,7 @@ async function availabilitySetUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   availabilitySetUpdateMaximumSetGen();
   availabilitySetUpdateMinimumSetGen();
 }

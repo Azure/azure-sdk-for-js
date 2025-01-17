@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,9 +13,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a role instance from a cloud service.
@@ -20,7 +21,7 @@ dotenv.config();
  * @summary Gets a role instance from a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceRoleInstance_Get.json
  */
-async function getCloudServiceRoleInstance() {
+async function getCloudServiceRoleInstance(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const roleInstanceName = "{roleInstance-name}";
@@ -37,7 +38,7 @@ async function getCloudServiceRoleInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCloudServiceRoleInstance();
 }
 

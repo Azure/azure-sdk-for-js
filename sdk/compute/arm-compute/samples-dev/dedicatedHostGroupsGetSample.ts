@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,9 +13,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about a dedicated host group.
@@ -20,7 +21,7 @@ dotenv.config();
  * @summary Retrieves information about a dedicated host group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
  */
-async function createADedicatedHostGroup() {
+async function createADedicatedHostGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -41,7 +42,7 @@ async function createADedicatedHostGroup() {
  * @summary Retrieves information about a dedicated host group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
  */
-async function createAnUltraSsdEnabledDedicatedHostGroup() {
+async function createAnUltraSsdEnabledDedicatedHostGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -56,7 +57,7 @@ async function createAnUltraSsdEnabledDedicatedHostGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createADedicatedHostGroup();
   createAnUltraSsdEnabledDedicatedHostGroup();
 }

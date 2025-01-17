@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,11 +11,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { GrantAccessData, ComputeManagementClient } from "@azure/arm-compute";
+import type { GrantAccessData} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Grants access to a disk.
@@ -20,7 +22,7 @@ dotenv.config();
  * @summary Grants access to a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_BeginGetAccess.json
  */
-async function getASasOnAManagedDisk() {
+async function getASasOnAManagedDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -47,7 +49,7 @@ async function getASasOnAManagedDisk() {
  * @summary Grants access to a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
  */
-async function getSasOnManagedDiskAndVMGuestState() {
+async function getSasOnManagedDiskAndVMGuestState(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -68,7 +70,7 @@ async function getSasOnManagedDiskAndVMGuestState() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getASasOnAManagedDisk();
   getSasOnManagedDiskAndVMGuestState();
 }

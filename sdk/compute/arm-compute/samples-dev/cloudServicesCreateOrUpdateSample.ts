@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,15 +11,14 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   CloudService,
-  CloudServicesCreateOrUpdateOptionalParams,
+  CloudServicesCreateOrUpdateOptionalParams} from "@azure/arm-compute";
+import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
@@ -24,7 +26,7 @@ dotenv.config();
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithMultiRole.json
  */
-async function createNewCloudServiceWithMultipleRoles() {
+async function createNewCloudServiceWithMultipleRoles(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -86,7 +88,7 @@ async function createNewCloudServiceWithMultipleRoles() {
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithMultiRole_WithZones.json
  */
-async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone() {
+async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -149,7 +151,7 @@ async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRole.json
  */
-async function createNewCloudServiceWithSingleRole() {
+async function createNewCloudServiceWithSingleRole(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -207,7 +209,7 @@ async function createNewCloudServiceWithSingleRole() {
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRoleAndCertificate.json
  */
-async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
+async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -280,7 +282,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
  * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Create_WithSingleRoleAndRDP.json
  */
-async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
+async function createNewCloudServiceWithSingleRoleAndRdpExtension(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -349,7 +351,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createNewCloudServiceWithMultipleRoles();
   createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone();
   createNewCloudServiceWithSingleRole();

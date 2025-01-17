@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get disk restorePoint resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get disk restorePoint resource
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskRestorePointExamples/DiskRestorePoint_Get.json
  */
-async function getAnIncrementalDiskRestorePointResource() {
+async function getAnIncrementalDiskRestorePointResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -46,7 +44,7 @@ async function getAnIncrementalDiskRestorePointResource() {
  * @summary Get disk restorePoint resource
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskRestorePointExamples/DiskRestorePoint_Get_WhenSourceResourceIsFromDifferentRegion.json
  */
-async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion() {
+async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -66,7 +64,7 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAnIncrementalDiskRestorePointResource();
   getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion();
 }

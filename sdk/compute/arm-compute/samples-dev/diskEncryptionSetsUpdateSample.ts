@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,14 +11,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DiskEncryptionSetUpdate} from "@azure/arm-compute";
 import {
-  DiskEncryptionSetUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -23,7 +25,7 @@ dotenv.config();
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
  */
-async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded() {
+async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -54,7 +56,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
  */
-async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating() {
+async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -85,7 +87,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
  */
-async function updateADiskEncryptionSet() {
+async function updateADiskEncryptionSet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -112,7 +114,7 @@ async function updateADiskEncryptionSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded();
   updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating();
   updateADiskEncryptionSet();

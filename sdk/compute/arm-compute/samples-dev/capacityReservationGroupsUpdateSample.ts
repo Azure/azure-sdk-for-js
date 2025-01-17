@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,14 +11,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CapacityReservationGroupUpdate} from "@azure/arm-compute";
 import {
-  CapacityReservationGroupUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
@@ -23,7 +25,7 @@ dotenv.config();
  * @summary The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MaximumSet_Gen.json
  */
-async function capacityReservationGroupUpdateMaximumSetGen() {
+async function capacityReservationGroupUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -49,7 +51,7 @@ async function capacityReservationGroupUpdateMaximumSetGen() {
  * @summary The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MinimumSet_Gen.json
  */
-async function capacityReservationGroupUpdateMinimumSetGen() {
+async function capacityReservationGroupUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -66,7 +68,7 @@ async function capacityReservationGroupUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   capacityReservationGroupUpdateMaximumSetGen();
   capacityReservationGroupUpdateMinimumSetGen();
 }

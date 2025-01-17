@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,9 +13,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
@@ -20,7 +21,7 @@ dotenv.config();
  * @summary Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
  */
-async function listCapacityReservationsInReservationGroup() {
+async function listCapacityReservationsInReservationGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -29,7 +30,7 @@ async function listCapacityReservationsInReservationGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.capacityReservations.listByCapacityReservationGroup(
+  for await (const item of client.capacityReservations.listByCapacityReservationGroup(
     resourceGroupName,
     capacityReservationGroupName,
   )) {
@@ -38,7 +39,7 @@ async function listCapacityReservationsInReservationGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCapacityReservationsInReservationGroup();
 }
 

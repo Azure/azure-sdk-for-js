@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,9 +13,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a gallery inVMAccessControlProfile.
@@ -20,7 +21,7 @@ dotenv.config();
  * @summary Delete a gallery inVMAccessControlProfile.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Delete.json
  */
-async function deleteAGalleryInVMAccessControlProfile() {
+async function deleteAGalleryInVMAccessControlProfile(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -38,7 +39,7 @@ async function deleteAGalleryInVMAccessControlProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAGalleryInVMAccessControlProfile();
 }
 

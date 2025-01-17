@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,14 +11,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VMScaleSetConvertToSinglePlacementGroupInput} from "@azure/arm-compute";
 import {
-  VMScaleSetConvertToSinglePlacementGroupInput,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
@@ -23,7 +25,7 @@ dotenv.config();
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen() {
+async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -49,7 +51,7 @@ async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen(
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen() {
+async function virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -67,7 +69,7 @@ async function virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen(
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen();
   virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen();
 }

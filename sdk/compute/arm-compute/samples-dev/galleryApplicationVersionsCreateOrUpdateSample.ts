@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,14 +11,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GalleryApplicationVersion} from "@azure/arm-compute";
 import {
-  GalleryApplicationVersion,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a gallery Application Version.
@@ -23,7 +25,7 @@ dotenv.config();
  * @summary Create or update a gallery Application Version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplicationVersion_Create.json
  */
-async function createOrUpdateASimpleGalleryApplicationVersion() {
+async function createOrUpdateASimpleGalleryApplicationVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -86,7 +88,7 @@ async function createOrUpdateASimpleGalleryApplicationVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateASimpleGalleryApplicationVersion();
 }
 

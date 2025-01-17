@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,14 +11,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GalleryImageVersion} from "@azure/arm-compute";
 import {
-  GalleryImageVersion,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a gallery image version.
@@ -23,7 +25,7 @@ dotenv.config();
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -113,7 +115,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithCommunityImageVersionAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -203,7 +205,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImag
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -292,7 +294,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -383,7 +385,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode() {
+async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -427,7 +429,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -516,7 +518,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -607,7 +609,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD_UefiSettings.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys() {
+async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -699,7 +701,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCust
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -781,7 +783,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithAdditionalReplicaSets.json
  */
-async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas() {
+async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -870,7 +872,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas()
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
  */
-async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified() {
+async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -953,7 +955,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateASimpleGalleryImageVersionUsingVMAsSource();
   createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource();
   createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource();

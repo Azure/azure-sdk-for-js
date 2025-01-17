@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,9 +13,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
@@ -20,7 +21,7 @@ dotenv.config();
  * @summary Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function sshPublicKeyListByResourceGroupMaximumSetGen() {
+async function sshPublicKeyListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -28,7 +29,7 @@ async function sshPublicKeyListByResourceGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sshPublicKeys.listByResourceGroup(
+  for await (const item of client.sshPublicKeys.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -42,7 +43,7 @@ async function sshPublicKeyListByResourceGroupMaximumSetGen() {
  * @summary Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function sshPublicKeyListByResourceGroupMinimumSetGen() {
+async function sshPublicKeyListByResourceGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -50,7 +51,7 @@ async function sshPublicKeyListByResourceGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sshPublicKeys.listByResourceGroup(
+  for await (const item of client.sshPublicKeys.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -58,7 +59,7 @@ async function sshPublicKeyListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   sshPublicKeyListByResourceGroupMaximumSetGen();
   sshPublicKeyListByResourceGroupMinimumSetGen();
 }

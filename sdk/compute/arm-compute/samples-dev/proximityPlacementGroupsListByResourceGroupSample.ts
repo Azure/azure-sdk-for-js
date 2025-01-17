@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,9 +13,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all proximity placement groups in a resource group.
@@ -20,7 +21,7 @@ dotenv.config();
  * @summary Lists all proximity placement groups in a resource group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_ListByResourceGroup.json
  */
-async function listProximityPlacementGroup() {
+async function listProximityPlacementGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -28,7 +29,7 @@ async function listProximityPlacementGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.proximityPlacementGroups.listByResourceGroup(
+  for await (const item of client.proximityPlacementGroups.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -36,7 +37,7 @@ async function listProximityPlacementGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listProximityPlacementGroup();
 }
 

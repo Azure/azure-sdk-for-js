@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,11 +11,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AvailabilitySet, ComputeManagementClient } from "@azure/arm-compute";
+import type { AvailabilitySet} from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an availability set.
@@ -20,7 +22,7 @@ dotenv.config();
  * @summary Create or update an availability set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Create_WithScheduledEventProfile.json
  */
-async function createAnAvailabilitySetWithScheduledEventPolicy() {
+async function createAnAvailabilitySetWithScheduledEventPolicy(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -47,7 +49,7 @@ async function createAnAvailabilitySetWithScheduledEventPolicy() {
  * @summary Create or update an availability set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
  */
-async function createAnAvailabilitySet() {
+async function createAnAvailabilitySet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -68,7 +70,7 @@ async function createAnAvailabilitySet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAnAvailabilitySetWithScheduledEventPolicy();
   createAnAvailabilitySet();
 }

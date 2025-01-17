@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -10,9 +13,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
@@ -20,7 +21,7 @@ dotenv.config();
  * @summary Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function dedicatedHostGroupListByResourceGroupMaximumSetGen() {
+async function dedicatedHostGroupListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -28,7 +29,7 @@ async function dedicatedHostGroupListByResourceGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHostGroups.listByResourceGroup(
+  for await (const item of client.dedicatedHostGroups.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -42,7 +43,7 @@ async function dedicatedHostGroupListByResourceGroupMaximumSetGen() {
  * @summary Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function dedicatedHostGroupListByResourceGroupMinimumSetGen() {
+async function dedicatedHostGroupListByResourceGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -50,7 +51,7 @@ async function dedicatedHostGroupListByResourceGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHostGroups.listByResourceGroup(
+  for await (const item of client.dedicatedHostGroups.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -58,7 +59,7 @@ async function dedicatedHostGroupListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dedicatedHostGroupListByResourceGroupMaximumSetGen();
   dedicatedHostGroupListByResourceGroupMinimumSetGen();
 }
