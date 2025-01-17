@@ -42,27 +42,27 @@ describe("dnsresolve test", () => {
   let dnsResolverName: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new DnsResolverManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      resourceGroup = "myjstest";
-      dnsResolverName = "sampleDnsResolver";
-      parameters = {
-        location: "EastUS",
-        tags: { key1: "value1" },
-        virtualNetwork: {
-          id:
-            "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/virtualNetworks/sampleVirtualNetwork"
-        }
-      };
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new DnsResolverManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    resourceGroup = "myjstest";
+    dnsResolverName = "sampleDnsResolver";
+    parameters = {
+      location: "EastUS",
+      tags: { key1: "value1" },
+      virtualNetwork: {
+        id:
+          "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/virtualNetworks/sampleVirtualNetwork"
+      }
+    };
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("dnsResolvers create clusters", async function () {
     let res = await client.dnsResolvers.beginCreateOrUpdateAndWait(
@@ -92,6 +92,7 @@ describe("dnsresolve test", () => {
 
   it("dnsResolvers delete clusters", async function () {
     const resArray = new Array();
+    await client.dnsResolvers.beginDeleteAndWait(resourceGroup, dnsResolverName, testPollingOptions);
     for await (const item of client.dnsResolvers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
