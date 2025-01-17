@@ -6,7 +6,7 @@ import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 /** The certificate list result. */
 export interface _CertificateListResult {
   /** A response message containing a list of certificates in the key vault along with a link to the next page of certificates. */
-  readonly value?: CertificateItem[];
+  value?: CertificateItem[];
   /** The URL to get the next set of certificates. */
   readonly nextLink?: string;
 }
@@ -139,18 +139,6 @@ export enum KnownDeletionRecoveryLevel {
  * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7 <= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
  */
 export type DeletionRecoveryLevel = string;
-
-/** The key vault error exception. */
-export interface KeyVaultError {
-  /** The key vault server error. */
-  readonly error?: ErrorModel;
-}
-
-export function keyVaultErrorDeserializer(item: any): KeyVaultError {
-  return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
-  };
-}
 
 /** The key vault server error. */
 export interface ErrorModel {

@@ -121,7 +121,7 @@ export function getCertificates(
     () => _getCertificatesSend(context, options),
     _getCertificatesDeserialize,
     ["200"],
-    { itemName: "value" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -285,7 +285,7 @@ export function getCertificateIssuers(
     () => _getCertificateIssuersSend(context, options),
     _getCertificateIssuersDeserialize,
     ["200"],
-    { itemName: "value" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -554,7 +554,7 @@ export function getCertificateVersions(
     () => _getCertificateVersionsSend(context, certificateName, options),
     _getCertificateVersionsDeserialize,
     ["200"],
-    { itemName: "value" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
@@ -981,7 +981,7 @@ export function getDeletedCertificates(
     () => _getDeletedCertificatesSend(context, options),
     _getDeletedCertificatesDeserialize,
     ["200"],
-    { itemName: "value" },
+    { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
