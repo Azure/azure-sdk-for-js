@@ -28,8 +28,8 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-visualstudio.d.ts",
   "devDependencies": {
-    "@azure-tools/test-credential": "^^2.0.0",
-    "@azure-tools/test-recorder": "^^4.1.0",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.6.0",

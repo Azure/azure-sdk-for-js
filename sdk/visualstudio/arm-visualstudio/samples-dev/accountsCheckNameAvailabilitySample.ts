@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,8 +11,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckNameAvailabilityParameter} from "@azure/arm-visualstudio";
 import {
-  CheckNameAvailabilityParameter,
   VisualStudioResourceProviderClient
 } from "@azure/arm-visualstudio";
 import { DefaultAzureCredential } from "@azure/identity";
