@@ -36,7 +36,6 @@ describe("Dns test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DnsManagementClient;
-  let location: string;
   let resourceGroup: string;
   let resourcename: string;
 
@@ -47,7 +46,6 @@ describe("Dns test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new DnsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest.com";
 
