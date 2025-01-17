@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -26,7 +29,7 @@ async function getsTheListOfRestorePointCollectionsInAResourceGroup(): Promise<v
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorePointCollections.list(
+  for await (const item of client.restorePointCollections.list(
     resourceGroupName,
   )) {
     resArray.push(item);

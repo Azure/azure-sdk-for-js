@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -25,7 +28,7 @@ async function listCloudServiceOSVersionsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServiceOperatingSystems.listOSVersions(
+  for await (const item of client.cloudServiceOperatingSystems.listOSVersions(
     location,
   )) {
     resArray.push(item);

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,8 +11,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CapacityReservationGroupsListByResourceGroupOptionalParams} from "@azure/arm-compute";
 import {
-  CapacityReservationGroupsListByResourceGroupOptionalParams,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +37,7 @@ async function listCapacityReservationGroupsInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.capacityReservationGroups.listByResourceGroup(
+  for await (const item of client.capacityReservationGroups.listByResourceGroup(
     resourceGroupName,
     options,
   )) {

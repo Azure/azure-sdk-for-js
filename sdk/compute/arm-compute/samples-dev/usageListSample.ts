@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -25,7 +28,7 @@ async function usageListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageOperations.list(location)) {
+  for await (const item of client.usageOperations.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -44,7 +47,7 @@ async function usageListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageOperations.list(location)) {
+  for await (const item of client.usageOperations.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

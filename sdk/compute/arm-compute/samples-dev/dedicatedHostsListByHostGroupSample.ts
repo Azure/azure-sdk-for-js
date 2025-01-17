@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -27,7 +30,7 @@ async function dedicatedHostListByHostGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHosts.listByHostGroup(
+  for await (const item of client.dedicatedHosts.listByHostGroup(
     resourceGroupName,
     hostGroupName,
   )) {
@@ -51,7 +54,7 @@ async function dedicatedHostListByHostGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHosts.listByHostGroup(
+  for await (const item of client.dedicatedHosts.listByHostGroup(
     resourceGroupName,
     hostGroupName,
   )) {

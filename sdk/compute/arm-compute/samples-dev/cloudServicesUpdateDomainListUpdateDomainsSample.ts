@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -27,7 +30,7 @@ async function listUpdateDomainsInCloudService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServicesUpdateDomain.listUpdateDomains(
+  for await (const item of client.cloudServicesUpdateDomain.listUpdateDomains(
     resourceGroupName,
     cloudServiceName,
   )) {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,8 +11,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualMachineScaleSetVMsListOptionalParams} from "@azure/arm-compute";
 import {
-  VirtualMachineScaleSetVMsListOptionalParams,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -38,7 +42,7 @@ async function virtualMachineScaleSetVMListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSetVMs.list(
+  for await (const item of client.virtualMachineScaleSetVMs.list(
     resourceGroupName,
     virtualMachineScaleSetName,
     options,
@@ -63,7 +67,7 @@ async function virtualMachineScaleSetVMListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSetVMs.list(
+  for await (const item of client.virtualMachineScaleSetVMs.list(
     resourceGroupName,
     virtualMachineScaleSetName,
   )) {

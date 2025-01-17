@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,8 +11,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualMachinesListOptionalParams} from "@azure/arm-compute";
 import {
-  VirtualMachinesListOptionalParams,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +35,7 @@ async function virtualMachineListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachines.list(
+  for await (const item of client.virtualMachines.list(
     resourceGroupName,
     options,
   )) {
@@ -54,7 +58,7 @@ async function virtualMachineListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachines.list(resourceGroupName)) {
+  for await (const item of client.virtualMachines.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

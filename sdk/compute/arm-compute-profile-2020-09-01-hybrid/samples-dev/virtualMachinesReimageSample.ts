@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,9 +11,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   VirtualMachineReimageParameters,
-  VirtualMachinesReimageOptionalParams,
+  VirtualMachinesReimageOptionalParams} from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import {
   ComputeManagementClient
 } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

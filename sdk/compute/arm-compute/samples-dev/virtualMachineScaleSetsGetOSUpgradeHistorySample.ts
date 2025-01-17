@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -27,7 +30,7 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen(): Promise
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listOSUpgradeHistory(
+  for await (const item of client.virtualMachineScaleSets.listOSUpgradeHistory(
     resourceGroupName,
     vmScaleSetName,
   )) {
@@ -51,7 +54,7 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen(): Promise
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listOSUpgradeHistory(
+  for await (const item of client.virtualMachineScaleSets.listOSUpgradeHistory(
     resourceGroupName,
     vmScaleSetName,
   )) {

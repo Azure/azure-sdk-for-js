@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -26,7 +29,7 @@ async function sshPublicKeyListByResourceGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sshPublicKeys.listByResourceGroup(
+  for await (const item of client.sshPublicKeys.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -48,7 +51,7 @@ async function sshPublicKeyListByResourceGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sshPublicKeys.listByResourceGroup(
+  for await (const item of client.sshPublicKeys.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

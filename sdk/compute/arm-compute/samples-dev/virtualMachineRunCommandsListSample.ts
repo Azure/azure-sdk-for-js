@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -24,7 +27,7 @@ async function virtualMachineRunCommandList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineRunCommands.list(location)) {
+  for await (const item of client.virtualMachineRunCommands.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

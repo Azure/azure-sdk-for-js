@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -24,7 +27,7 @@ async function virtualMachineScaleSetListAllMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listAll()) {
+  for await (const item of client.virtualMachineScaleSets.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -42,7 +45,7 @@ async function virtualMachineScaleSetListAllMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listAll()) {
+  for await (const item of client.virtualMachineScaleSets.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -8,8 +11,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AvailabilitySetsListBySubscriptionOptionalParams} from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import {
-  AvailabilitySetsListBySubscriptionOptionalParams,
   ComputeManagementClient
 } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +33,7 @@ async function listAvailabilitySetsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availabilitySets.listBySubscription(options)) {
+  for await (const item of client.availabilitySets.listBySubscription(options)) {
     resArray.push(item);
   }
   console.log(resArray);
