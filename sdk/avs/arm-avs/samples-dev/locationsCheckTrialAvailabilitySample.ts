@@ -14,9 +14,7 @@ import {
   AzureVMwareSolutionAPI,
 } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Return trial status for subscription by region
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Return trial status for subscription by region
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Locations_CheckTrialAvailability.json
  */
-async function locationsCheckTrialAvailability() {
+async function locationsCheckTrialAvailability(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function locationsCheckTrialAvailability() {
  * @summary Return trial status for subscription by region
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Locations_CheckTrialAvailabilityWithSku.json
  */
-async function locationsCheckTrialAvailabilityWithSku() {
+async function locationsCheckTrialAvailabilityWithSku(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -57,7 +55,7 @@ async function locationsCheckTrialAvailabilityWithSku() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   locationsCheckTrialAvailability();
   locationsCheckTrialAvailabilityWithSku();
 }

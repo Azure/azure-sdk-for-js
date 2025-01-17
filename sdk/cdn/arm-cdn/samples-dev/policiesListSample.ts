@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the protection policies within a resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the protection policies within a resource group.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafListPolicies.json
  */
-async function listPoliciesInAResourceGroup() {
+async function listPoliciesInAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "rg1";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function listPoliciesInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPoliciesInAResourceGroup();
 }
 

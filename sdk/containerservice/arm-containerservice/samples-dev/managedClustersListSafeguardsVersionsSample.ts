@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Contains list of Safeguards version along with its support info and whether it is a default version.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Contains list of Safeguards version along with its support info and whether it is a default version.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ListSafeguardsVersions.json
  */
-async function listSafeguardsVersions() {
+async function listSafeguardsVersions(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function listSafeguardsVersions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSafeguardsVersions();
 }
 

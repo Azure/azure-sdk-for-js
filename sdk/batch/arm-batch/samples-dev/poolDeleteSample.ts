@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified pool.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the specified pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolDelete.json
  */
-async function deletePool() {
+async function deletePool(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -36,7 +34,7 @@ async function deletePool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletePool();
 }
 

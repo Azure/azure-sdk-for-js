@@ -18,13 +18,13 @@ import {
   OperationsImpl,
   DpsCertificateImpl,
   IotDpsResourceImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   DpsCertificate,
   IotDpsResource
-} from "./operationsInterfaces";
-import { IotDpsClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { IotDpsClientOptionalParams } from "./models/index.js";
 
 export class IotDpsClient extends coreClient.ServiceClient {
   $host: string;

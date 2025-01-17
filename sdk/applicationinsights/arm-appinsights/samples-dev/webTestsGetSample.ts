@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get a specific Application Insights web test definition.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestGet.json
  */
-async function webTestGet() {
+async function webTestGet(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "my-resource-group";
   const webTestName = "my-webtest-01-mywebservice";

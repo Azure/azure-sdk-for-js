@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the available Cosmos DB Resource Provider operations.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBOperationsList.json
  */
-async function cosmosDbOperationsList() {
+async function cosmosDbOperationsList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function cosmosDbOperationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbOperationsList();
 }
 

@@ -46,7 +46,7 @@
       "Azure Confidential Compute": "https://azure.microsoft.com/solutions/confidential-compute"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/azure/confidential-ledger"
+    "apiRefLink": "https://learn.microsoft.com/azure/confidential-ledger"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -80,7 +80,6 @@
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
-    "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.18.0",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"

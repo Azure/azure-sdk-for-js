@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the dsc configuration identified by configuration name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete the dsc configuration identified by configuration name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/deleteDscConfiguration.json
  */
-async function deleteDscConfiguration() {
+async function deleteDscConfiguration(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -35,7 +33,7 @@ async function deleteDscConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteDscConfiguration();
 }
 

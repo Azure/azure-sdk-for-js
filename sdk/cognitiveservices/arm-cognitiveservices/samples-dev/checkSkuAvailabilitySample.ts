@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check available SKUs.
  *
  * @summary Check available SKUs.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/CheckSkuAvailability.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/CheckSkuAvailability.json
  */
-async function checkSkuAvailability() {
+async function checkSkuAvailability(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -31,18 +29,18 @@ async function checkSkuAvailability() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.checkSkuAvailability(
     location,
     skus,
     kind,
-    typeParam
+    typeParam,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkSkuAvailability();
 }
 

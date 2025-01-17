@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List BuilderResource resources by resource group
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List BuilderResource resources by resource group
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builders_ListByResourceGroup.json
  */
-async function buildersListByResourceGroup0() {
+async function buildersListByResourceGroup0(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function buildersListByResourceGroup0() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   buildersListByResourceGroup0();
 }
 

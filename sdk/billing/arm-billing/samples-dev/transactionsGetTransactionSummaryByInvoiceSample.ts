@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the transaction summary for an invoice. Transactions include purchases, refunds and Azure usage charges.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the transaction summary for an invoice. Transactions include purchases, refunds and Azure usage charges.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/transactionSummaryGetByInvoice.json
  */
-async function transactionSummaryGetByInvoice() {
+async function transactionSummaryGetByInvoice(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const invoiceName = "G123456789";
@@ -33,7 +31,7 @@ async function transactionSummaryGetByInvoice() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   transactionSummaryGetByInvoice();
 }
 

@@ -13,9 +13,7 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an image.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageFromABlobWithDiskEncryptionSet.json
  */
-async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource() {
+async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,7 +58,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageFromABlob.json
  */
-async function createAVirtualMachineImageFromABlob() {
+async function createAVirtualMachineImageFromABlob(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -94,7 +92,7 @@ async function createAVirtualMachineImageFromABlob() {
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageFromAManagedDiskWithDiskEncryptionSet.json
  */
-async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource() {
+async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -133,7 +131,7 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageFromAManagedDisk.json
  */
-async function createAVirtualMachineImageFromAManagedDisk() {
+async function createAVirtualMachineImageFromAManagedDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -169,7 +167,7 @@ async function createAVirtualMachineImageFromAManagedDisk() {
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageFromASnapshotWithDiskEncryptionSet.json
  */
-async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource() {
+async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -208,7 +206,7 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageFromASnapshot.json
  */
-async function createAVirtualMachineImageFromASnapshot() {
+async function createAVirtualMachineImageFromASnapshot(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -244,7 +242,7 @@ async function createAVirtualMachineImageFromASnapshot() {
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageFromAVM.json
  */
-async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
+async function createAVirtualMachineImageFromAnExistingVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -273,7 +271,7 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageThatIncludesADataDiskFromABlob.json
  */
-async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
+async function createAVirtualMachineImageThatIncludesADataDiskFromABlob(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -314,7 +312,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageThatIncludesADataDiskFromAManagedDisk.json
  */
-async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk() {
+async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -359,7 +357,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnImageThatIncludesADataDiskFromASnapshot.json
  */
-async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
+async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -398,7 +396,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource();
   createAVirtualMachineImageFromABlob();
   createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource();

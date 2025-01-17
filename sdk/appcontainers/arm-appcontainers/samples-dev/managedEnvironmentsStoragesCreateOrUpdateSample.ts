@@ -13,9 +13,7 @@ import {
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update storage for a managedEnvironment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
  */
-async function createOrUpdateEnvironmentsStorage() {
+async function createOrUpdateEnvironmentsStorage(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -58,7 +56,7 @@ async function createOrUpdateEnvironmentsStorage() {
  * @summary Create or update storage for a managedEnvironment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
  */
-async function createOrUpdateEnvironmentsStorageForNfsAzureFile() {
+async function createOrUpdateEnvironmentsStorageForNfsAzureFile(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -86,7 +84,7 @@ async function createOrUpdateEnvironmentsStorageForNfsAzureFile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateEnvironmentsStorage();
   createOrUpdateEnvironmentsStorageForNfsAzureFile();
 }

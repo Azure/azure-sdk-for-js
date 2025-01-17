@@ -6,7 +6,7 @@ A pipeline policy manipulates a request as it travels through the pipeline. It i
 
 It is important to note that the **first** policy to touch the request will be the **last** policy to work on the response.
 
-[Find out more about the Middleware pattern](https://docs.microsoft.com/aspnet/core/fundamentals/middleware/?tabs=aspnetcore2x&view=aspnetcore-6.0)
+[Find out more about the Middleware pattern](https://learn.microsoft.com/aspnet/core/fundamentals/middleware/?tabs=aspnetcore2x&view=aspnetcore-6.0)
 
 ```typescript
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;

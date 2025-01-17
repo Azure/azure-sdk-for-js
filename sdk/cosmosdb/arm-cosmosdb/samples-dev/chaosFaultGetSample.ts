@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get Chaos Fault for a CosmosdB account for a particular Chaos Fault.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/ChaosFaultGet.json
  */
-async function chaosFaultGet() {
+async function chaosFaultGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +35,7 @@ async function chaosFaultGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   chaosFaultGet();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureStackHCIClient } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete specified Update Run
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete specified Update Run
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/DeleteUpdateRuns.json
  */
-async function deleteAnUpdate() {
+async function deleteAnUpdate(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "b8d594e5-51f3-4c11-9c54-a7771b81c712";
@@ -40,7 +38,7 @@ async function deleteAnUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAnUpdate();
 }
 

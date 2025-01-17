@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConnectionSetting, AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a Connection Setting registration for a Bot Service
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates a Connection Setting registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateConnection.json
  */
-async function updateConnectionSetting() {
+async function updateConnectionSetting(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -53,7 +51,7 @@ async function updateConnectionSetting() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateConnectionSetting();
 }
 

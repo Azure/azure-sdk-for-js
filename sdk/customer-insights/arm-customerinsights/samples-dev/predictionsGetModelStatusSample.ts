@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets model status of the prediction.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/PredictionsGetModelStatus.json
  */
-async function predictionsGetModelStatus() {
+async function predictionsGetModelStatus(): Promise<void> {
   const subscriptionId = "c909e979-ef71-4def-a970-bc7c154db8c5";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";

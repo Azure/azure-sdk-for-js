@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Checks the name availability of the resource with requested resource name.
  * x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/Locations_CheckNameAvailability_AlreadyExists.json
  */
-async function locationsCheckNameAvailabilityAlreadyExists() {
+async function locationsCheckNameAvailabilityAlreadyExists(): Promise<void> {
   const subscriptionId = "11111111-2222-3333-4444-555555555555";
   const body: CheckNameAvailabilityRequest = {
     name: "existingaccountname",
@@ -40,7 +40,7 @@ locationsCheckNameAvailabilityAlreadyExists().catch(console.error);
  * @summary Checks the name availability of the resource with requested resource name.
  * x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/Locations_CheckNameAvailability_Available.json
  */
-async function locationsCheckNameAvailabilityAvailable() {
+async function locationsCheckNameAvailabilityAvailable(): Promise<void> {
   const subscriptionId = "11111111-2222-3333-4444-555555555555";
   const body: CheckNameAvailabilityRequest = {
     name: "newaccountname",

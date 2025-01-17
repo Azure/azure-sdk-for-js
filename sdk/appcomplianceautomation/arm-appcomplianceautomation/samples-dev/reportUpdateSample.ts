@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an exiting AppComplianceAutomation report.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Update an exiting AppComplianceAutomation report.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_Update.json
  */
-async function reportUpdate() {
+async function reportUpdate(): Promise<void> {
   const reportName = "testReportName";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -55,7 +53,7 @@ async function reportUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reportUpdate();
 }
 

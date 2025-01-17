@@ -16,7 +16,7 @@ import {
   AnalyticsItemsPutOptionalParams,
   AnalyticsItemsPutResponse,
   AnalyticsItemsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AnalyticsItems. */
 export interface AnalyticsItems {

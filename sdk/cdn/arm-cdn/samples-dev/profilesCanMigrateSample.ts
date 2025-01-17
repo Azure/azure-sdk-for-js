@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CanMigrateParameters, CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Profiles_CanMigrate.json
  */
-async function profilesCanMigrate() {
+async function profilesCanMigrate(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const canMigrateParameters: CanMigrateParameters = {
@@ -37,7 +35,7 @@ async function profilesCanMigrate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   profilesCanMigrate();
 }
 

@@ -13,9 +13,7 @@ import {
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all software update configurations for the account.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get all software update configurations for the account.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfiguration/listSoftwareUpdateConfigurations.json
  */
-async function listSoftwareUpdateConfigurations() {
+async function listSoftwareUpdateConfigurations(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "1a7d4044-286c-4acb-969a-96639265bf2e";
@@ -45,7 +43,7 @@ async function listSoftwareUpdateConfigurations() {
  * @summary Get all software update configurations for the account.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfiguration/listSoftwareUpdateConfigurationsByVm.json
  */
-async function listSoftwareUpdateConfigurationsTargetingASpecificAzureVirtualMachine() {
+async function listSoftwareUpdateConfigurationsTargetingASpecificAzureVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "1a7d4044-286c-4acb-969a-96639265bf2e";
@@ -65,7 +63,7 @@ async function listSoftwareUpdateConfigurationsTargetingASpecificAzureVirtualMac
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSoftwareUpdateConfigurations();
   listSoftwareUpdateConfigurationsTargetingASpecificAzureVirtualMachine();
 }

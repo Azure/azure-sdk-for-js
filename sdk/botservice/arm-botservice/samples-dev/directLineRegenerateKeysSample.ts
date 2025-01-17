@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SiteInfo, AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DirectlineRegenerateKeys.json
  */
-async function regenerateKeysForDirectLineChannelSite() {
+async function regenerateKeysForDirectLineChannelSite(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -45,7 +43,7 @@ async function regenerateKeysForDirectLineChannelSite() {
  * @summary Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/WebChatRegenerateKeys.json
  */
-async function regenerateKeysForWebChatChannelSite() {
+async function regenerateKeysForWebChatChannelSite(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -64,7 +62,7 @@ async function regenerateKeysForWebChatChannelSite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   regenerateKeysForDirectLineChannelSite();
   regenerateKeysForWebChatChannelSite();
 }

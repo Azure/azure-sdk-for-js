@@ -14,9 +14,7 @@ import {
   WorkloadsClient,
 } from "@azure/arm-workloadssapvirtualinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a Virtual Instance for SAP solutions resource
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Updates a Virtual Instance for SAP solutions resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_TrustedAccessEnable_Update.json
  */
-async function sapVirtualInstancesTrustedAccessEnableUpdate() {
+async function sapVirtualInstancesTrustedAccessEnableUpdate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -53,7 +51,7 @@ async function sapVirtualInstancesTrustedAccessEnableUpdate() {
  * @summary Updates a Virtual Instance for SAP solutions resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Update.json
  */
-async function sapVirtualInstancesUpdate() {
+async function sapVirtualInstancesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -75,7 +73,7 @@ async function sapVirtualInstancesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   sapVirtualInstancesTrustedAccessEnableUpdate();
   sapVirtualInstancesUpdate();
 }

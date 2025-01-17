@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Stop ongoing capturing network packets for the site.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Stop ongoing capturing network packets for the site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2018-02-01/examples/StopWebSiteNetworkTrace.json
  */
-async function stopACurrentlyRunningNetworkTraceOperationForASite() {
+async function stopACurrentlyRunningNetworkTraceOperationForASite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,7 +36,7 @@ async function stopACurrentlyRunningNetworkTraceOperationForASite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopACurrentlyRunningNetworkTraceOperationForASite();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List container registries resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List container registries resource.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ContainerRegistries_List.json
  */
-async function containerRegistriesList() {
+async function containerRegistriesList(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function containerRegistriesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   containerRegistriesList();
 }
 

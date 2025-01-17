@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the available Skus in the region and information related to them
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all the available Skus in the region and information related to them
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/ListSkus.json
  */
-async function listSkus() {
+async function listSkus(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -33,7 +31,7 @@ async function listSkus() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSkus();
 }
 

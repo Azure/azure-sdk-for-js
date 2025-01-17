@@ -9,14 +9,12 @@
  */
 
 import DocumentTranslator from "@azure-rest/ai-document-translator";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "document-translator endpoint";
 const apiKey = process.env["DOCUMENT_TRANSLATOR_API_KEY"] || "<api key>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== List supported document formats sample ==");
 
   const client = DocumentTranslator(endpoint, { key: apiKey });

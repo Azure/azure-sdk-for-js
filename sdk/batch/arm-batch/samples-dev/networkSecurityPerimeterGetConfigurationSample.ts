@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about the specified NSP configuration.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets information about the specified NSP configuration.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/NspConfigurationGet.json
  */
-async function getNspConfiguration() {
+async function getNspConfiguration(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -38,7 +36,7 @@ async function getNspConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getNspConfiguration();
 }
 

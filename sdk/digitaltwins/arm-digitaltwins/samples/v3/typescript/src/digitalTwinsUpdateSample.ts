@@ -13,9 +13,7 @@ import {
   AzureDigitalTwinsManagementClient
 } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update metadata of DigitalTwinsInstance.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update metadata of DigitalTwinsInstance.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsPatch_example.json
  */
-async function patchADigitalTwinsInstanceResource() {
+async function patchADigitalTwinsInstanceResource(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -52,7 +50,7 @@ async function patchADigitalTwinsInstanceResource() {
  * @summary Update metadata of DigitalTwinsInstance.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsPatch_WithIdentity_example.json
  */
-async function patchADigitalTwinsInstanceResourceWithIdentity() {
+async function patchADigitalTwinsInstanceResourceWithIdentity(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -81,7 +79,7 @@ async function patchADigitalTwinsInstanceResourceWithIdentity() {
  * @summary Update metadata of DigitalTwinsInstance.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsPatch_WithPublicNetworkAccess.json
  */
-async function patchADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty() {
+async function patchADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -104,7 +102,7 @@ async function patchADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchADigitalTwinsInstanceResource();
   patchADigitalTwinsInstanceResourceWithIdentity();
   patchADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty();

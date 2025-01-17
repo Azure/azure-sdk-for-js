@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Delete the requested Linked Subscription resource.
  * x-ms-original-file: specification/azurestack/resource-manager/Microsoft.AzureStack/preview/2020-06-01-preview/examples/LinkedSubscription/Delete.json
  */
-async function deleteTheRequestedLinkedSubscription() {
+async function deleteTheRequestedLinkedSubscription(): Promise<void> {
   const subscriptionId = "dd8597b4-8739-4467-8b10-f8679f62bfbf";
   const resourceGroup = "azurestack";
   const linkedSubscriptionName = "testlinkedsubscription";

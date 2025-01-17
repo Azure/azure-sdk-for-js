@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Pool, BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the properties of an existing pool.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates the properties of an existing pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolUpdate_EnableAutoScale.json
  */
-async function updatePoolEnableAutoscale() {
+async function updatePoolEnableAutoscale(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -46,7 +44,7 @@ async function updatePoolEnableAutoscale() {
  * @summary Updates the properties of an existing pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolUpdate_OtherProperties.json
  */
-async function updatePoolOtherProperties() {
+async function updatePoolOtherProperties(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -89,7 +87,7 @@ async function updatePoolOtherProperties() {
  * @summary Updates the properties of an existing pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolUpdate_RemoveStartTask.json
  */
-async function updatePoolRemoveStartTask() {
+async function updatePoolRemoveStartTask(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -113,7 +111,7 @@ async function updatePoolRemoveStartTask() {
  * @summary Updates the properties of an existing pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolUpdate_ResizePool.json
  */
-async function updatePoolResizePool() {
+async function updatePoolResizePool(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -140,7 +138,7 @@ async function updatePoolResizePool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updatePoolEnableAutoscale();
   updatePoolOtherProperties();
   updatePoolRemoveStartTask();

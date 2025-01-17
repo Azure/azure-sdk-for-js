@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Suspend the test job.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Suspend the test job.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/suspendTestJob.json
  */
-async function suspendTestJob() {
+async function suspendTestJob(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -38,7 +36,7 @@ async function suspendTestJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   suspendTestJob();
 }
 
