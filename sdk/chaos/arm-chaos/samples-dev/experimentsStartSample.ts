@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Start a Experiment resource.
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/StartExperiment.json
  */
-async function startAExperiment() {
+async function startAExperiment(): Promise<void> {
   const subscriptionId =
     process.env["CHAOS_SUBSCRIPTION_ID"] ||
     "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -33,7 +33,7 @@ async function startAExperiment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startAExperiment();
 }
 

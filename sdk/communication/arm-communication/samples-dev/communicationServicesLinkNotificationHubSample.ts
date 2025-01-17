@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Links an Azure Notification Hub to this communication service.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/linkNotificationHub.json
  */
-async function linkNotificationHub() {
+async function linkNotificationHub(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -51,7 +51,7 @@ async function linkNotificationHub() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   linkNotificationHub();
 }
 

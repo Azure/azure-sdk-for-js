@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Adds payment terms to all the billing profiles under the billing account. Currently, payment terms can be added only on billing accounts that have Agreement Type as 'Microsoft Customer Agreement' and AccountType as 'Enterprise'. This action needs pre-authorization and only Field Sellers are authorized to add the payment terms and is not a self-serve action.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/paymentTermsAdd.json
  */
-async function paymentTermsAdd() {
+async function paymentTermsAdd(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const parameters: PaymentTerm[] = [
@@ -37,7 +37,7 @@ async function paymentTermsAdd() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   paymentTermsAdd();
 }
 

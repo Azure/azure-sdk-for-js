@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a new role or updates an existing role.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/RoleCreate.json
  */
-async function roleCreate() {
+async function roleCreate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -38,7 +38,7 @@ async function roleCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   roleCreate();
 }
 

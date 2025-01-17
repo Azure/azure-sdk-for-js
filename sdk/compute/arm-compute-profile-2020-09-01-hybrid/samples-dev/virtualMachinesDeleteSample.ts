@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary The operation to delete a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/ForceDeleteVirtualMachine.json
  */
-async function forceDeleteAVM() {
+async function forceDeleteAVM(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function forceDeleteAVM() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   forceDeleteAVM();
 }
 

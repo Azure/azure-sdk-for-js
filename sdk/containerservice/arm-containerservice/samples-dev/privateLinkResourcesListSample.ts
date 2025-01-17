@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary To learn more about private clusters, see: https://learn.microsoft.com/azure/aks/private-clusters
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/PrivateLinkResourcesList.json
  */
-async function listPrivateLinkResourcesByManagedCluster() {
+async function listPrivateLinkResourcesByManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function listPrivateLinkResourcesByManagedCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPrivateLinkResourcesByManagedCluster();
 }
 

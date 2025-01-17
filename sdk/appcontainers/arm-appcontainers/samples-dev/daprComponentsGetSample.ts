@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a dapr component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponents_Get_SecretStoreComponent.json
  */
-async function getDaprComponentWithSecretStoreComponent() {
+async function getDaprComponentWithSecretStoreComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -42,7 +42,7 @@ async function getDaprComponentWithSecretStoreComponent() {
  * @summary Get a dapr component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponents_Get_Secrets.json
  */
-async function getDaprComponentWithSecrets() {
+async function getDaprComponentWithSecrets(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -60,7 +60,7 @@ async function getDaprComponentWithSecrets() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDaprComponentWithSecretStoreComponent();
   getDaprComponentWithSecrets();
 }

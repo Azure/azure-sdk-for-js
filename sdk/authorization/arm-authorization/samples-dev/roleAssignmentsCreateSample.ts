@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a role assignment by scope and name.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_CreateForResource.json
  */
-async function createRoleAssignmentForResource() {
+async function createRoleAssignmentForResource(): Promise<void> {
   const scope =
     "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg/providers/Microsoft.DocumentDb/databaseAccounts/test-db-account";
   const roleAssignmentName = "05c5a614-a7d6-4502-b150-c2fb455033ff";
@@ -47,7 +47,7 @@ async function createRoleAssignmentForResource() {
  * @summary Create or update a role assignment by scope and name.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_CreateForResourceGroup.json
  */
-async function createRoleAssignmentForResourceGroup() {
+async function createRoleAssignmentForResourceGroup(): Promise<void> {
   const scope =
     "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/resourceGroups/testrg";
   const roleAssignmentName = "05c5a614-a7d6-4502-b150-c2fb455033ff";
@@ -73,7 +73,7 @@ async function createRoleAssignmentForResourceGroup() {
  * @summary Create or update a role assignment by scope and name.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_CreateForSubscription.json
  */
-async function createRoleAssignmentForSubscription() {
+async function createRoleAssignmentForSubscription(): Promise<void> {
   const scope = "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2";
   const roleAssignmentName = "05c5a614-a7d6-4502-b150-c2fb455033ff";
   const parameters: RoleAssignmentCreateParameters = {
@@ -92,7 +92,7 @@ async function createRoleAssignmentForSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createRoleAssignmentForResource();
   createRoleAssignmentForResourceGroup();
   createRoleAssignmentForSubscription();

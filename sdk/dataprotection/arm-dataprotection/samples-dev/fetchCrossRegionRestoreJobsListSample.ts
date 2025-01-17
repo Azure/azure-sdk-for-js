@@ -13,9 +13,7 @@ import {
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetches list of Cross Region Restore job belonging to the vault
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Fetches list of Cross Region Restore job belonging to the vault
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CrossRegionRestore/FetchCrossRegionRestoreJobs.json
  */
-async function listCrossRegionRestoreJobs() {
+async function listCrossRegionRestoreJobs(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "62b829ee-7936-40c9-a1c9-47a93f9f3965";
@@ -48,7 +46,7 @@ async function listCrossRegionRestoreJobs() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCrossRegionRestoreJobs();
 }
 

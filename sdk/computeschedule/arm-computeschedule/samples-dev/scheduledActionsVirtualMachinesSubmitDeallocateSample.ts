@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine
  * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitDeallocate_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
+async function scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximum
  * @summary virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine
  * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitDeallocate_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
+async function scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -67,9 +67,9 @@ async function scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximum
   console.log(result);
 }
 
-async function main() {
-  scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+async function main(): Promise<void> {
+  await scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await scheduledActionsVirtualMachinesSubmitDeallocateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

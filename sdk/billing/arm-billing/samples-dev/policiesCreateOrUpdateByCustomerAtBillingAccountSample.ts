@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the policies for a customer at billing account scope. This operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/policiesPutByCustomerAtBillingAccount.json
  */
-async function policiesPutByCustomerAtBillingAccount() {
+async function policiesPutByCustomerAtBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const customerName = "11111111-1111-1111-1111-111111111111";
@@ -34,7 +34,7 @@ async function policiesPutByCustomerAtBillingAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   policiesPutByCustomerAtBillingAccount();
 }
 

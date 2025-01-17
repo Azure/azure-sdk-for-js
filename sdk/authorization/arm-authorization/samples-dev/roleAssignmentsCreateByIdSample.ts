@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a role assignment by ID.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_CreateById.json
  */
-async function createOrUpdateRoleAssignmentById() {
+async function createOrUpdateRoleAssignmentById(): Promise<void> {
   const roleAssignmentId =
     "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2/providers/Microsoft.Authorization/roleAssignments/b0f43c54-e787-4862-89b1-a653fa9cf747";
   const parameters: RoleAssignmentCreateParameters = {
@@ -39,7 +39,7 @@ async function createOrUpdateRoleAssignmentById() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateRoleAssignmentById();
 }
 

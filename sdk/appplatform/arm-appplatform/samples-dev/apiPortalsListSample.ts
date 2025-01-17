@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Handles requests to list all resources in a Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ApiPortals_List.json
  */
-async function apiPortalsList() {
+async function apiPortalsList(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function apiPortalsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiPortalsList();
 }
 

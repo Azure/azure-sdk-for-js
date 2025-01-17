@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of python 2 packages.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPython2PackagesByAutomationAccount.json
  */
-async function listPython2PackagesByAutomationAccount() {
+async function listPython2PackagesByAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -34,7 +34,7 @@ async function listPython2PackagesByAutomationAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPython2PackagesByAutomationAccount();
 }
 

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesGetOperationStatus: getOperationStatus for a virtual machine
  * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesGetOperationStatus_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRuleGeneratedByMaximumSetRule() {
+async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -30,7 +30,7 @@ async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinim
  * @summary virtualMachinesGetOperationStatus: getOperationStatus for a virtual machine
  * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesGetOperationStatus_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRule() {
+async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -41,9 +41,9 @@ async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinim
   console.log(result);
 }
 
-async function main() {
-  scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRule();
+async function main(): Promise<void> {
+  await scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRuleGeneratedByMaximumSetRule();
+  await scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

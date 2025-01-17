@@ -9,9 +9,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-    ApiManagementClient,
-    ApiPolicyCreateOrUpdateOptionalParams,
-    PolicyContract
+  ApiManagementClient,
+  ApiPolicyCreateOrUpdateOptionalParams,
+  PolicyContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -22,32 +22,32 @@ import "dotenv/config";
  * @summary Creates or updates policy configuration for the API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiPolicy.json
  */
-async function apiManagementCreateApiPolicy() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "5600b57e7e8880006a040001";
-    const policyId = "policy";
-    const ifMatch = "*";
-    const parameters: PolicyContract = {
-        format: "xml",
-        value:
-            "<policies> <inbound /> <backend>    <forward-request />  </backend>  <outbound /></policies>"
-    };
-    const options: ApiPolicyCreateOrUpdateOptionalParams = { ifMatch };
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.apiPolicy.createOrUpdate(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        policyId,
-        parameters,
-        options
-    );
-    console.log(result);
+async function apiManagementCreateApiPolicy(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "5600b57e7e8880006a040001";
+  const policyId = "policy";
+  const ifMatch = "*";
+  const parameters: PolicyContract = {
+    format: "xml",
+    value:
+      "<policies> <inbound /> <backend>    <forward-request />  </backend>  <outbound /></policies>"
+  };
+  const options: ApiPolicyCreateOrUpdateOptionalParams = { ifMatch };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiPolicy.createOrUpdate(
+    resourceGroupName,
+    serviceName,
+    apiId,
+    policyId,
+    parameters,
+    options
+  );
+  console.log(result);
 }
 
 /**
@@ -56,37 +56,37 @@ async function apiManagementCreateApiPolicy() {
  * @summary Creates or updates policy configuration for the API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiPolicyNonXmlEncoded.json
  */
-async function apiManagementCreateApiPolicyNonXmlEncoded() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "5600b57e7e8880006a040001";
-    const policyId = "policy";
-    const ifMatch = "*";
-    const parameters: PolicyContract = {
-        format: "rawxml",
-        value:
-            '<policies>\r\n     <inbound>\r\n     <base />\r\n  <set-header name="newvalue" exists-action="override">\r\n   <value>"@(context.Request.Headers.FirstOrDefault(h => h.Ke=="Via"))" </value>\r\n    </set-header>\r\n  </inbound>\r\n      </policies>'
-    };
-    const options: ApiPolicyCreateOrUpdateOptionalParams = { ifMatch };
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.apiPolicy.createOrUpdate(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        policyId,
-        parameters,
-        options
-    );
-    console.log(result);
+async function apiManagementCreateApiPolicyNonXmlEncoded(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "5600b57e7e8880006a040001";
+  const policyId = "policy";
+  const ifMatch = "*";
+  const parameters: PolicyContract = {
+    format: "rawxml",
+    value:
+      '<policies>\r\n     <inbound>\r\n     <base />\r\n  <set-header name="newvalue" exists-action="override">\r\n   <value>"@(context.Request.Headers.FirstOrDefault(h => h.Ke=="Via"))" </value>\r\n    </set-header>\r\n  </inbound>\r\n      </policies>'
+  };
+  const options: ApiPolicyCreateOrUpdateOptionalParams = { ifMatch };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiPolicy.createOrUpdate(
+    resourceGroupName,
+    serviceName,
+    apiId,
+    policyId,
+    parameters,
+    options
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementCreateApiPolicy();
-    apiManagementCreateApiPolicyNonXmlEncoded();
+async function main(): Promise<void> {
+  apiManagementCreateApiPolicy();
+  apiManagementCreateApiPolicyNonXmlEncoded();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns all the resources of a particular type belonging to a subscription.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListDeletedAccountsBySubscription.json
  */
-async function listDeletedAccountsBySubscription() {
+async function listDeletedAccountsBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -34,7 +34,7 @@ async function listDeletedAccountsBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDeletedAccountsBySubscription();
 }
 

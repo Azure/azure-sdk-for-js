@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/SnapshotsCreate.json
  */
-async function createOrUpdateSnapshot() {
+async function createOrUpdateSnapshot(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +43,7 @@ async function createOrUpdateSnapshot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateSnapshot();
 }
 

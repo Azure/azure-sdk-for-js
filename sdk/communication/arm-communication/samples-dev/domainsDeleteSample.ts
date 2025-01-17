@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Operation to delete a Domains resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/delete.json
  */
-async function deleteDomainsResource() {
+async function deleteDomainsResource(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -39,7 +39,7 @@ async function deleteDomainsResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteDomainsResource();
 }
 

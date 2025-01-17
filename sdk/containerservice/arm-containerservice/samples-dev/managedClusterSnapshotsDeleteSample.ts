@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a managed cluster snapshot.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClusterSnapshotsDelete.json
  */
-async function deleteManagedClusterSnapshot() {
+async function deleteManagedClusterSnapshot(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function deleteManagedClusterSnapshot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteManagedClusterSnapshot();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a collection of metadata schemas.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/MetadataSchemas_List.json
  */
-async function metadataSchemasListByService() {
+async function metadataSchemasListByService(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function metadataSchemasListByService() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   metadataSchemasListByService();
 }
 

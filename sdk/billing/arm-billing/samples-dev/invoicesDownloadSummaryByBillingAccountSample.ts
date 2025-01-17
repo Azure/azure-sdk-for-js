@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a URL to download the summary document for an invoice. The operation is supported for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesDownloadSummaryByBillingAccount.json
  */
-async function invoicesDownloadSummaryByBillingAccount() {
+async function invoicesDownloadSummaryByBillingAccount(): Promise<void> {
   const billingAccountName = "123456789";
   const invoiceName = "G123456789";
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function invoicesDownloadSummaryByBillingAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoicesDownloadSummaryByBillingAccount();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/UpdateRuns_Skip.json
  */
-async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun() {
+async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,7 +46,7 @@ async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun();
 }
 

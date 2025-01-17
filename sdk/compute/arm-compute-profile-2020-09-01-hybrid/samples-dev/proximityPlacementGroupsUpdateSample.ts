@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update a proximity placement group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/PatchAProximityPlacementGroup.json
  */
-async function createAProximityPlacementGroup() {
+async function createAProximityPlacementGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -40,7 +40,7 @@ async function createAProximityPlacementGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAProximityPlacementGroup();
 }
 

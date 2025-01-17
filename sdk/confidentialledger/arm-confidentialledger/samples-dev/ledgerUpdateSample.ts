@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates properties of Confidential Ledger
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Update.json
  */
-async function confidentialLedgerUpdate() {
+async function confidentialLedgerUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
@@ -62,7 +62,7 @@ async function confidentialLedgerUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   confidentialLedgerUpdate();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Restores a Managed CCF Resource.
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Restore.json
  */
-async function managedCcfRestore() {
+async function managedCcfRestore(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
@@ -44,7 +44,7 @@ async function managedCcfRestore() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   managedCcfRestore();
 }
 
