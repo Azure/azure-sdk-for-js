@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  ProjectResource} from "@azure/arm-visualstudio";
-import {
-  VisualStudioResourceProviderClient
-} from "@azure/arm-visualstudio";
+import type { ProjectResource } from "@azure/arm-visualstudio";
+import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -32,25 +24,21 @@ async function createAProjectResource(): Promise<void> {
   const body: ProjectResource = {
     name: "ExampleProject",
     type: "Microsoft.VisualStudio/account/project",
-    id:
-      "/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourceGroups/VS-Example-Group/providers/Microsoft.VisualStudio/account/ExampleAccount/project/ExampleProject",
+    id: "/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourceGroups/VS-Example-Group/providers/Microsoft.VisualStudio/account/ExampleAccount/project/ExampleProject",
     location: "Central US",
     properties: {
       processTemplateId: "6B724908-EF14-45CF-84F8-768B5384DA45",
-      versionControlOption: "Git"
+      versionControlOption: "Git",
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
-  const client = new VisualStudioResourceProviderClient(
-    credential,
-    subscriptionId
-  );
+  const client = new VisualStudioResourceProviderClient(credential, subscriptionId);
   const result = await client.projects.beginCreateAndWait(
     resourceGroupName,
     rootResourceName,
     resourceName,
-    body
+    body,
   );
   console.log(result);
 }

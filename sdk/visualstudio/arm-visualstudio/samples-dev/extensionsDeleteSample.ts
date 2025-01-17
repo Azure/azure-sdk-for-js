@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -26,14 +21,11 @@ async function deleteAnExtensionResource(): Promise<void> {
   const accountResourceName = "Example";
   const extensionResourceName = "ms.example";
   const credential = new DefaultAzureCredential();
-  const client = new VisualStudioResourceProviderClient(
-    credential,
-    subscriptionId
-  );
+  const client = new VisualStudioResourceProviderClient(credential, subscriptionId);
   const result = await client.extensions.delete(
     resourceGroupName,
     accountResourceName,
-    extensionResourceName
+    extensionResourceName,
   );
   console.log(result);
 }

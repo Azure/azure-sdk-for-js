@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -25,14 +20,8 @@ async function getAListOfExtensionResourcesWithinTheResourceGroup(): Promise<voi
   const resourceGroupName = "VS-Example-Group";
   const accountResourceName = "ExampleAccount";
   const credential = new DefaultAzureCredential();
-  const client = new VisualStudioResourceProviderClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.extensions.listByAccount(
-    resourceGroupName,
-    accountResourceName
-  );
+  const client = new VisualStudioResourceProviderClient(credential, subscriptionId);
+  const result = await client.extensions.listByAccount(resourceGroupName, accountResourceName);
   console.log(result);
 }
 

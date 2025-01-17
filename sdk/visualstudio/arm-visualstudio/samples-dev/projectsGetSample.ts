@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -9,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -26,15 +21,8 @@ async function getAProjectResource(): Promise<void> {
   const rootResourceName = "ExampleAccount";
   const resourceName = "ExampleProject";
   const credential = new DefaultAzureCredential();
-  const client = new VisualStudioResourceProviderClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.projects.get(
-    resourceGroupName,
-    rootResourceName,
-    resourceName
-  );
+  const client = new VisualStudioResourceProviderClient(credential, subscriptionId);
+  const result = await client.projects.get(resourceGroupName, rootResourceName, resourceName);
   console.log(result);
 }
 
