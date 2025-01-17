@@ -41,7 +41,7 @@ async function triggerAzureVMDiscovery() {
 }
 
 async function main() {
-  triggerAzureVMDiscovery();
+  await triggerAzureVMDiscovery();
 }
 
 main().catch(console.error);

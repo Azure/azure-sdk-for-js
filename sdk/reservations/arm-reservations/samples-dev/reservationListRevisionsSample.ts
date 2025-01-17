@@ -36,7 +36,7 @@ async function reservationRevisions() {
 }
 
 async function main() {
-  reservationRevisions();
+  await reservationRevisions();
 }
 
 main().catch(console.error);

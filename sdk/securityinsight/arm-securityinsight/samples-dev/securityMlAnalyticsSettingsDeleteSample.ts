@@ -39,7 +39,7 @@ async function deleteASecurityMlAnalyticsSettings() {
 }
 
 async function main() {
-  deleteASecurityMlAnalyticsSettings();
+  await deleteASecurityMlAnalyticsSettings();
 }
 
 main().catch(console.error);

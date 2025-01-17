@@ -36,7 +36,7 @@ async function getCommunicationDetailsForASubscriptionSupportTicket() {
 }
 
 async function main() {
-  getCommunicationDetailsForASubscriptionSupportTicket();
+  await getCommunicationDetailsForASubscriptionSupportTicket();
 }
 
 main().catch(console.error);

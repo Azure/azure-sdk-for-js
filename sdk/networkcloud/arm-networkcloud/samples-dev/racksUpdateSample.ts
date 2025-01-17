@@ -48,7 +48,7 @@ async function patchRack() {
 }
 
 async function main() {
-  patchRack();
+  await patchRack();
 }
 
 main().catch(console.error);

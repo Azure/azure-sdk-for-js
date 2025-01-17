@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates VpnServerConfiguration tags.
  *
  * @summary Updates VpnServerConfiguration tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VpnServerConfigurationUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnServerConfigurationUpdateTags.json
  */
 async function vpnServerConfigurationUpdate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -38,7 +38,7 @@ async function vpnServerConfigurationUpdate() {
 }
 
 async function main() {
-  vpnServerConfigurationUpdate();
+  await vpnServerConfigurationUpdate();
 }
 
 main().catch(console.error);

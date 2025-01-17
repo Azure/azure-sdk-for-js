@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  AuthorizationContract,
-  ApiManagementClient
+  ApiManagementClient,
+  AuthorizationContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates authorization.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates authorization.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationAADAuthCode.json
  */
-async function apiManagementCreateAuthorizationAadAuthCode() {
+async function apiManagementCreateAuthorizationAadAuthCode(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -53,7 +51,7 @@ async function apiManagementCreateAuthorizationAadAuthCode() {
  * @summary Creates or updates authorization.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationAADClientCred.json
  */
-async function apiManagementCreateAuthorizationAadClientCred() {
+async function apiManagementCreateAuthorizationAadClientCred(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -81,7 +79,7 @@ async function apiManagementCreateAuthorizationAadClientCred() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateAuthorizationAadAuthCode();
   apiManagementCreateAuthorizationAadClientCred();
 }

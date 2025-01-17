@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the Azure Cosmos DB database accounts available under the subscription.
  *
  * @summary Lists all the Azure Cosmos DB database accounts available under the subscription.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/CosmosDBDatabaseAccountList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDatabaseAccountList.json
  */
-async function cosmosDbDatabaseAccountList() {
+async function cosmosDbDatabaseAccountList(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -31,7 +29,7 @@ async function cosmosDbDatabaseAccountList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbDatabaseAccountList();
 }
 

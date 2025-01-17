@@ -34,7 +34,7 @@ async function deleteHadoopOnLinuxCluster() {
 }
 
 async function main() {
-  deleteHadoopOnLinuxCluster();
+  await deleteHadoopOnLinuxCluster();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function systemTopicEventSubscriptionsGet() {
 }
 
 async function main() {
-  systemTopicEventSubscriptionsGet();
+  await systemTopicEventSubscriptionsGet();
 }
 
 main().catch(console.error);

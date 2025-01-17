@@ -41,7 +41,7 @@ async function patchUser() {
 }
 
 async function main() {
-  patchUser();
+  await patchUser();
 }
 
 main().catch(console.error);

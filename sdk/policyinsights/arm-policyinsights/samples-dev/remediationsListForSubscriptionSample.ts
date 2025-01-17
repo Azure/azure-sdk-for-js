@@ -10,18 +10,16 @@
 // Licensed under the MIT License.
 import {
   RemediationsListForSubscriptionOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all remediations for the subscription.
  *
  * @summary Gets all remediations for the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListSubscriptionScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListSubscriptionScope.json
  */
 async function listRemediationsAtSubscriptionScope() {
   const subscriptionId =
@@ -40,7 +38,7 @@ async function listRemediationsAtSubscriptionScope() {
  * This sample demonstrates how to Gets all remediations for the subscription.
  *
  * @summary Gets all remediations for the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListSubscriptionScope_WithQuery.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListSubscriptionScope_WithQuery.json
  */
 async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
   const subscriptionId =
@@ -50,7 +48,8 @@ async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
   const filter =
     "PolicyAssignmentId eq '/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5' AND PolicyDefinitionReferenceId eq 'storageSkuDef'";
   const options: RemediationsListForSubscriptionOptionalParams = {
-    queryOptions: { top: top, filter: filter }
+    top,
+    filter,
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -62,8 +61,8 @@ async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
 }
 
 async function main() {
-  listRemediationsAtSubscriptionScope();
-  listRemediationsAtSubscriptionScopeWithQueryParameters();
+  await listRemediationsAtSubscriptionScope();
+  await listRemediationsAtSubscriptionScopeWithQueryParameters();
 }
 
 main().catch(console.error);

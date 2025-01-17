@@ -53,8 +53,8 @@ async function getServerWithExpandAdministratorsOrActivedirectory() {
 }
 
 async function main() {
-  getServer();
-  getServerWithExpandAdministratorsOrActivedirectory();
+  await getServer();
+  await getServerWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

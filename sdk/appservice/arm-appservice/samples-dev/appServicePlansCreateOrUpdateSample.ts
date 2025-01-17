@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppServicePlan, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Creates or updates an App Service Plan.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Description for Creates or updates an App Service Plan.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateAppServicePlan.json
  */
-async function createOrUpdateAppServicePlan() {
+async function createOrUpdateAppServicePlan(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,7 +40,7 @@ async function createOrUpdateAppServicePlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAppServicePlan();
 }
 

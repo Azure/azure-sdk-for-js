@@ -13,9 +13,7 @@ import {
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Approve or reject a private endpoint connection with a given name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/PrivateEndpointConnectionUpdate.json
  */
-async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
+async function approveOrRejectAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -47,7 +45,7 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   approveOrRejectAPrivateEndpointConnectionWithAGivenName();
 }
 

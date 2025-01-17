@@ -31,7 +31,7 @@ async function getsTheDiagnosticSetting() {
 }
 
 async function main() {
-  getsTheDiagnosticSetting();
+  await getsTheDiagnosticSetting();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function eventSubscriptionsGetDeliveryAttributes() {
 }
 
 async function main() {
-  eventSubscriptionsGetDeliveryAttributes();
+  await eventSubscriptionsGetDeliveryAttributes();
 }
 
 main().catch(console.error);

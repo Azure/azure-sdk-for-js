@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the token used to connect to the endpoint where source code can be uploaded for a build.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the token used to connect to the endpoint where source code can be uploaded for a build.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_ListAuthToken.json
  */
-async function getBuildAuthToken() {
+async function getBuildAuthToken(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function getBuildAuthToken() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getBuildAuthToken();
 }
 

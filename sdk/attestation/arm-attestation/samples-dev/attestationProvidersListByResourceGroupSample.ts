@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns attestation providers list in a resource group.
  * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/Get_AttestationProvidersListByResourceGroup.json
  */
-async function attestationProvidersListByResourceGroup() {
+async function attestationProvidersListByResourceGroup(): Promise<void> {
   const subscriptionId = "6c96b33e-f5b8-40a6-9011-5cb1c58b0915";
   const resourceGroupName = "testrg1";
   const credential = new DefaultAzureCredential();

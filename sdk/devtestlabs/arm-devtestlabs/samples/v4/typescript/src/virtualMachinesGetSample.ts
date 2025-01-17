@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get virtual machine.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_Get.json
  */
-async function virtualMachinesGet() {
+async function virtualMachinesGet(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";
   const labName = "{labName}";

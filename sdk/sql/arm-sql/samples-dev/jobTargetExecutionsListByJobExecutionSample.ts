@@ -45,7 +45,7 @@ async function listJobStepTargetExecutions() {
 }
 
 async function main() {
-  listJobStepTargetExecutions();
+  await listJobStepTargetExecutions();
 }
 
 main().catch(console.error);

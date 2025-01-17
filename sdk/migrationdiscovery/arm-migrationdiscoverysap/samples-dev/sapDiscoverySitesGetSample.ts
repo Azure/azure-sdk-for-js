@@ -37,7 +37,7 @@ async function getASapMigrationDiscoverySiteResource() {
 }
 
 async function main() {
-  getASapMigrationDiscoverySiteResource();
+  await getASapMigrationDiscoverySiteResource();
 }
 
 main().catch(console.error);

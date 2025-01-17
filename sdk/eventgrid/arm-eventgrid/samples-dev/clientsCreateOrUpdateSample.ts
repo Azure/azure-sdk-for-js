@@ -48,7 +48,7 @@ async function clientsCreateOrUpdate() {
 }
 
 async function main() {
-  clientsCreateOrUpdate();
+  await clientsCreateOrUpdate();
 }
 
 main().catch(console.error);

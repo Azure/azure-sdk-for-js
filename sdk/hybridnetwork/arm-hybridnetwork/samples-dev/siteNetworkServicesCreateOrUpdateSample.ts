@@ -104,8 +104,8 @@ async function createSiteNetworkService() {
 }
 
 async function main() {
-  createFirstPartySiteNetworkService();
-  createSiteNetworkService();
+  await createFirstPartySiteNetworkService();
+  await createSiteNetworkService();
 }
 
 main().catch(console.error);

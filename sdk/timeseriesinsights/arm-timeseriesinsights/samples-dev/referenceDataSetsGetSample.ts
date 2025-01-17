@@ -38,7 +38,7 @@ async function referenceDataSetsGet() {
 }
 
 async function main() {
-  referenceDataSetsGet();
+  await referenceDataSetsGet();
 }
 
 main().catch(console.error);

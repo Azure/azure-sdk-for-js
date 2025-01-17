@@ -36,7 +36,7 @@ async function listsSecretsThatBelongToThatAzureRedHatOpenShiftCluster() {
 }
 
 async function main() {
-  listsSecretsThatBelongToThatAzureRedHatOpenShiftCluster();
+  await listsSecretsThatBelongToThatAzureRedHatOpenShiftCluster();
 }
 
 main().catch(console.error);

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
- * This sample demonstrates how to See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
+ * This sample demonstrates how to See [starting a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
  *
- * @summary See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/ManagedClustersStart.json
+ * @summary See [starting a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersStart.json
  */
-async function startManagedCluster() {
+async function startManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function startManagedCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startManagedCluster();
 }
 

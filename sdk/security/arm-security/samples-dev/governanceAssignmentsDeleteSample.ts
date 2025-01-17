@@ -36,7 +36,7 @@ async function deleteSecurityAssignment() {
 }
 
 async function main() {
-  deleteSecurityAssignment();
+  await deleteSecurityAssignment();
 }
 
 main().catch(console.error);

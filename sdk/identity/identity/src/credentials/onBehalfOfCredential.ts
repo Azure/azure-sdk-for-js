@@ -17,7 +17,7 @@ import {
 } from "../util/tenantIdUtils.js";
 
 import type { CertificateParts } from "../msal/types.js";
-import type { ClientCertificatePEMCertificatePath } from "./clientCertificateCredential.js";
+import type { ClientCertificatePEMCertificatePath } from "./clientCertificateCredentialModels.js";
 import type { CredentialPersistenceOptions } from "./credentialPersistenceOptions.js";
 import { CredentialUnavailableError } from "../errors.js";
 import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
@@ -60,6 +60,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *
@@ -88,6 +89,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *
@@ -119,6 +121,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
+   *
    * await client.getKey("key-name");
    * ```
    *

@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-call-automation",
-  "version": "1.3.0-beta.1",
+  "version": "1.4.0-beta.2",
   "description": "Azure client library for Azure Communication Call Automation services",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -22,7 +22,7 @@
     "generate:client": "autorest --typescript ./swagger/README.md && dev-tool admin migrate-source && rushx format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -66,7 +66,7 @@
     ],
     "disableDocsMs": true,
     "requiredResources": {
-      "Azure Communication Services Resource": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
+      "Azure Communication Services Resource": "https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     }
   },
   "dependencies": {
@@ -89,6 +89,7 @@
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/communication-identity": "^1.2.0",
     "@azure/communication-phone-numbers": "^1.2.0",
+    "@azure/identity": "^4.5.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/service-bus": "^7.9.5",
@@ -99,8 +100,24 @@
     "eslint": "^9.9.0",
     "inherits": "^2.0.3",
     "playwright": "^1.48.2",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.1.5"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/models/constants.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/src/callAutomationApiClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
   },
   "type": "module",
   "tshy": {
@@ -116,7 +133,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

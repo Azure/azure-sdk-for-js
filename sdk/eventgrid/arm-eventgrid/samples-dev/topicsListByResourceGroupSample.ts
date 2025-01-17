@@ -36,7 +36,7 @@ async function topicsListByResourceGroup() {
 }
 
 async function main() {
-  topicsListByResourceGroup();
+  await topicsListByResourceGroup();
 }
 
 main().catch(console.error);

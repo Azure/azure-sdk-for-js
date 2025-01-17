@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists report records by Product.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists report records by Product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetReportsByProduct.json
  */
-async function apiManagementGetReportsByProduct() {
+async function apiManagementGetReportsByProduct(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -41,7 +39,7 @@ async function apiManagementGetReportsByProduct() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetReportsByProduct();
 }
 

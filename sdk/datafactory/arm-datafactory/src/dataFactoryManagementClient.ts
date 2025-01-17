@@ -38,7 +38,7 @@ import {
   PrivateLinkResourcesImpl,
   GlobalParametersImpl,
   ChangeDataCaptureImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Factories,
@@ -63,8 +63,8 @@ import {
   PrivateLinkResources,
   GlobalParameters,
   ChangeDataCapture,
-} from "./operationsInterfaces";
-import { DataFactoryManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DataFactoryManagementClientOptionalParams } from "./models/index.js";
 
 export class DataFactoryManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -98,7 +98,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-datafactory/17.0.1`;
+    const packageDetails = `azsdk-js-arm-datafactory/18.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

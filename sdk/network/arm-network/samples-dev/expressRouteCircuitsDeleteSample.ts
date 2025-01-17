@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified express route circuit.
  *
  * @summary Deletes the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/ExpressRouteCircuitDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ExpressRouteCircuitDelete.json
  */
 async function deleteExpressRouteCircuit() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function deleteExpressRouteCircuit() {
 }
 
 async function main() {
-  deleteExpressRouteCircuit();
+  await deleteExpressRouteCircuit();
 }
 
 main().catch(console.error);

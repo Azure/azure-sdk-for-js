@@ -36,7 +36,7 @@ async function accountsRenewCredentials() {
 }
 
 async function main() {
-  accountsRenewCredentials();
+  await accountsRenewCredentials();
 }
 
 main().catch(console.error);

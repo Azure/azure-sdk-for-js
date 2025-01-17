@@ -44,7 +44,7 @@ async function patchAnIntegrationServiceEnvironment() {
 }
 
 async function main() {
-  patchAnIntegrationServiceEnvironment();
+  await patchAnIntegrationServiceEnvironment();
 }
 
 main().catch(console.error);

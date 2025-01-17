@@ -178,7 +178,7 @@ if (isUnexpected(initialResponse)) {
 }
 
 const poller = await getLongRunningPoller(client, initialResponse);
-const analyzeResult = ((await poller.pollUntilDone().body) as AnalyzeResultOperationOutput)
+const analyzeResult = ((await poller.pollUntilDone().body) as AnalyzeOperationOutput)
   .analyzeResult;
 
 const pages = analyzeResult?.pages;
@@ -312,4 +312,4 @@ To enable a wider set of scenarios, service introduces a "split" query parameter
 
   Each page is treated as a separate document. Each empty page is kept as its own document.
 
-Checkout our [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta) for more examples.
+Checkout our [samples](https://github.com/Azure/azure-sdk-for-js/tree/764472643e74cd1771009d9d7753df0ee5842939/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1) for more examples.

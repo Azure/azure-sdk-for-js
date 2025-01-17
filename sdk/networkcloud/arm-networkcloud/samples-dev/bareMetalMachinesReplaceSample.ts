@@ -52,7 +52,7 @@ async function replaceBareMetalMachine() {
 }
 
 async function main() {
-  replaceBareMetalMachine();
+  await replaceBareMetalMachine();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function cloudHsmClusterGetMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterGetMaximumSetGen();
+  await cloudHsmClusterGetMaximumSetGen();
 }
 
 main().catch(console.error);

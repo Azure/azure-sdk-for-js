@@ -40,7 +40,7 @@ async function getListSchedule() {
 }
 
 async function main() {
-  getListSchedule();
+  await getListSchedule();
 }
 
 main().catch(console.error);

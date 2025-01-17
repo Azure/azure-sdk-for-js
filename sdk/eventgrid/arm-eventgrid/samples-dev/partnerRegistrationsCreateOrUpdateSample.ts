@@ -45,7 +45,7 @@ async function partnerRegistrationsCreateOrUpdate() {
 }
 
 async function main() {
-  partnerRegistrationsCreateOrUpdate();
+  await partnerRegistrationsCreateOrUpdate();
 }
 
 main().catch(console.error);

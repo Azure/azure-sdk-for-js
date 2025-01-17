@@ -33,7 +33,7 @@ async function impactedResourcesGet() {
 }
 
 async function main() {
-  impactedResourcesGet();
+  await impactedResourcesGet();
 }
 
 main().catch(console.error);

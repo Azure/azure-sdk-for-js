@@ -40,7 +40,7 @@ async function kustoAttachedDatabaseConfigurationsListByCluster() {
 }
 
 async function main() {
-  kustoAttachedDatabaseConfigurationsListByCluster();
+  await kustoAttachedDatabaseConfigurationsListByCluster();
 }
 
 main().catch(console.error);

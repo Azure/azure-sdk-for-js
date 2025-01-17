@@ -56,7 +56,7 @@ async function migrateItem() {
 }
 
 async function main() {
-  migrateItem();
+  await migrateItem();
 }
 
 main().catch(console.error);

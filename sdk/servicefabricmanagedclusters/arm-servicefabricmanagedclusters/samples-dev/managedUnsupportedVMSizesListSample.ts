@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the lists of unsupported vm sizes for Service Fabric Managed Clusters.
  *
  * @summary Get the lists of unsupported vm sizes for Service Fabric Managed Clusters.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/managedUnsupportedVMSizesList_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/managedUnsupportedVMSizesList_example.json
  */
 async function listUnsupportedVMSizes() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function listUnsupportedVMSizes() {
 }
 
 async function main() {
-  listUnsupportedVMSizes();
+  await listUnsupportedVMSizes();
 }
 
 main().catch(console.error);

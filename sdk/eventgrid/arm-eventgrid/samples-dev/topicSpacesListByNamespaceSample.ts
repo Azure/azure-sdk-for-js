@@ -40,7 +40,7 @@ async function topicSpacesListByNamespace() {
 }
 
 async function main() {
-  topicSpacesListByNamespace();
+  await topicSpacesListByNamespace();
 }
 
 main().catch(console.error);

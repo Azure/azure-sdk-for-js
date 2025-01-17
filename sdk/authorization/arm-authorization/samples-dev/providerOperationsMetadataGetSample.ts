@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets provider operations metadata for the specified resource provider.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets provider operations metadata for the specified resource provider.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/GetProviderOperationsRP.json
  */
-async function listProviderOperationsMetadataForResourceProvider() {
+async function listProviderOperationsMetadataForResourceProvider(): Promise<void> {
   const resourceProviderNamespace = "resourceProviderNamespace";
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
@@ -30,7 +28,7 @@ async function listProviderOperationsMetadataForResourceProvider() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listProviderOperationsMetadataForResourceProvider();
 }
 

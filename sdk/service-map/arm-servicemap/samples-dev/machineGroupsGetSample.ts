@@ -39,7 +39,7 @@ async function smMachineGroupsGet() {
 }
 
 async function main() {
-  smMachineGroupsGet();
+  await smMachineGroupsGet();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function azureDevOpsProjectGet() {
 }
 
 async function main() {
-  azureDevOpsProjectGet();
+  await azureDevOpsProjectGet();
 }
 
 main().catch(console.error);

@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  IssueCommentContract,
-  ApiManagementClient
+  ApiManagementClient,
+  IssueCommentContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new Comment for the Issue in an API or updates an existing one.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a new Comment for the Issue in an API or updates an existing one.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiIssueComment.json
  */
-async function apiManagementCreateApiIssueComment() {
+async function apiManagementCreateApiIssueComment(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -51,7 +49,7 @@ async function apiManagementCreateApiIssueComment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateApiIssueComment();
 }
 

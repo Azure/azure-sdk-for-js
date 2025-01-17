@@ -77,8 +77,8 @@ async function fileSystemsUpdateMinimumSetGen() {
 }
 
 async function main() {
-  fileSystemsUpdate();
-  fileSystemsUpdateMinimumSetGen();
+  await fileSystemsUpdate();
+  await fileSystemsUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a DSCP Configuration.
  *
  * @summary Deletes a DSCP Configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/DscpConfigurationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/DscpConfigurationDelete.json
  */
 async function deleteDscpConfiguration() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function deleteDscpConfiguration() {
 }
 
 async function main() {
-  deleteDscpConfiguration();
+  await deleteDscpConfiguration();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function deleteVirtualNetworkAddress() {
 }
 
 async function main() {
-  deleteVirtualNetworkAddress();
+  await deleteVirtualNetworkAddress();
 }
 
 main().catch(console.error);

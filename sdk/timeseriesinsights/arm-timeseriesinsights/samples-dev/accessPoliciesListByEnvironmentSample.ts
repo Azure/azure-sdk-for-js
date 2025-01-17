@@ -36,7 +36,7 @@ async function accessPoliciesByEnvironment() {
 }
 
 async function main() {
-  accessPoliciesByEnvironment();
+  await accessPoliciesByEnvironment();
 }
 
 main().catch(console.error);

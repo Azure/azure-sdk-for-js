@@ -34,7 +34,7 @@ async function getVirtualNetworkGatewayLearnedRoutes() {
 }
 
 async function main() {
-  getVirtualNetworkGatewayLearnedRoutes();
+  await getVirtualNetworkGatewayLearnedRoutes();
 }
 
 main().catch(console.error);

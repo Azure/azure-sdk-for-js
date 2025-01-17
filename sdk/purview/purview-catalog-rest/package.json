@@ -43,10 +43,10 @@
       "azure"
     ],
     "requiredResources": {
-      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/purview/"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/purview/"
   },
   "browser": "./dist/browser/index.js",
   "scripts": {
@@ -99,7 +99,7 @@
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.1.5"
   },
   "type": "module",
@@ -116,7 +116,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

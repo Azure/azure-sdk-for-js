@@ -34,7 +34,7 @@ async function listIntegrationServiceEnvironmentsBySubscription() {
 }
 
 async function main() {
-  listIntegrationServiceEnvironmentsBySubscription();
+  await listIntegrationServiceEnvironmentsBySubscription();
 }
 
 main().catch(console.error);

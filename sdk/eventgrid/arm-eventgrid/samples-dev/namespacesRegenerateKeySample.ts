@@ -44,7 +44,7 @@ async function namespacesRegenerateKey() {
 }
 
 async function main() {
-  namespacesRegenerateKey();
+  await namespacesRegenerateKey();
 }
 
 main().catch(console.error);

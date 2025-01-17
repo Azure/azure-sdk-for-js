@@ -45,7 +45,7 @@ async function draOperationStatusGet() {
 }
 
 async function main() {
-  draOperationStatusGet();
+  await draOperationStatusGet();
 }
 
 main().catch(console.error);

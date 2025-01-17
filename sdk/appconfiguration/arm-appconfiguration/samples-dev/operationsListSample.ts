@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the operations available from this provider.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the operations available from this provider.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/OperationsList.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function operationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationsList();
 }
 

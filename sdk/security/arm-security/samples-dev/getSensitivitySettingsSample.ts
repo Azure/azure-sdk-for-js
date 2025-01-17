@@ -28,7 +28,7 @@ async function getSensitivitySettings() {
 }
 
 async function main() {
-  getSensitivitySettings();
+  await getSensitivitySettings();
 }
 
 main().catch(console.error);

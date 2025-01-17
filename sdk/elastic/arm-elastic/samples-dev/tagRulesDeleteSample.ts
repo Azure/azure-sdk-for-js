@@ -39,7 +39,7 @@ async function tagRulesDelete() {
 }
 
 async function main() {
-  tagRulesDelete();
+  await tagRulesDelete();
 }
 
 main().catch(console.error);

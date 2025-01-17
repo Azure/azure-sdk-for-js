@@ -42,7 +42,7 @@ async function vaultListBySubscription() {
 }
 
 async function main() {
-  vaultListBySubscription();
+  await vaultListBySubscription();
 }
 
 main().catch(console.error);

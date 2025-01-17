@@ -13,17 +13,15 @@ import {
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a trusted access role binding
  *
  * @summary Create or update a trusted access role binding
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
  */
-async function createOrUpdateATrustedAccessRoleBinding() {
+async function createOrUpdateATrustedAccessRoleBinding(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +49,7 @@ async function createOrUpdateATrustedAccessRoleBinding() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateATrustedAccessRoleBinding();
 }
 

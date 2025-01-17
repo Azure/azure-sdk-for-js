@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineScaleSetExtension,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineScaleSetExtension } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create or update an extension.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary The operation to create or update an extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaa";
   const extensionParameters: VirtualMachineScaleSetExtension = {
@@ -45,13 +37,12 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmssExtensionName,
-      extensionParameters,
-    );
+  const result = await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    vmssExtensionName,
+    extensionParameters,
+  );
   console.log(result);
 }
 
@@ -61,29 +52,26 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
  * @summary The operation to create or update an extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaa";
   const extensionParameters: VirtualMachineScaleSetExtension = {};
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmssExtensionName,
-      extensionParameters,
-    );
+  const result = await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    vmssExtensionName,
+    extensionParameters,
+  );
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen();
-  virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen();
+  await virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

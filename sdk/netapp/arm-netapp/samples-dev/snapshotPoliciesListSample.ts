@@ -39,7 +39,7 @@ async function snapshotPoliciesList() {
 }
 
 async function main() {
-  snapshotPoliciesList();
+  await snapshotPoliciesList();
 }
 
 main().catch(console.error);

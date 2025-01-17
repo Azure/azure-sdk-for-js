@@ -13,17 +13,15 @@ import {
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Cassandra view
  *
  * @summary Update RUs per second of an Azure Cosmos DB Cassandra view
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/CosmosDBCassandraViewThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraViewThroughputUpdate.json
  */
-async function cosmosDbCassandraViewThroughputUpdate() {
+async function cosmosDbCassandraViewThroughputUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -46,7 +44,7 @@ async function cosmosDbCassandraViewThroughputUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbCassandraViewThroughputUpdate();
 }
 

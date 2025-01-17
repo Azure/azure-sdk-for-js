@@ -13,9 +13,7 @@ import {
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a connection type.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create a connection type.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/createOrUpdateConnectionType.json
  */
-async function createOrUpdateConnectionType() {
+async function createOrUpdateConnectionType(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount22";
@@ -52,7 +50,7 @@ async function createOrUpdateConnectionType() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateConnectionType();
 }
 

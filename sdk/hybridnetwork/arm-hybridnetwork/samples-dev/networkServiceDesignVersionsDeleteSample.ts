@@ -39,7 +39,7 @@ async function deleteANetworkServiceDesignVersion() {
 }
 
 async function main() {
-  deleteANetworkServiceDesignVersion();
+  await deleteANetworkServiceDesignVersion();
 }
 
 main().catch(console.error);

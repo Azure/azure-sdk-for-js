@@ -43,7 +43,7 @@ async function networkInterfacesListByNetworkDeviceMaximumSetGen() {
 }
 
 async function main() {
-  networkInterfacesListByNetworkDeviceMaximumSetGen();
+  await networkInterfacesListByNetworkDeviceMaximumSetGen();
 }
 
 main().catch(console.error);

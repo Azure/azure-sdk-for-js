@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the specified network security rule.
  *
  * @summary Get the specified network security rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkSecurityGroupRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkSecurityGroupRuleGet.json
  */
 async function getNetworkSecurityRuleInNetworkSecurityGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function getNetworkSecurityRuleInNetworkSecurityGroup() {
 }
 
 async function main() {
-  getNetworkSecurityRuleInNetworkSecurityGroup();
+  await getNetworkSecurityRuleInNetworkSecurityGroup();
 }
 
 main().catch(console.error);

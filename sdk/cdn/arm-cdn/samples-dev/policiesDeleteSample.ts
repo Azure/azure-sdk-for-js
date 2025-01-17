@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes Policy
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes Policy
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafPolicyDelete.json
  */
-async function deleteProtectionPolicy() {
+async function deleteProtectionPolicy(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "rg1";
   const policyName = "Policy1";
@@ -30,7 +28,7 @@ async function deleteProtectionPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteProtectionPolicy();
 }
 

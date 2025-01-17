@@ -39,7 +39,7 @@ async function deleteAnIPv6FirewallRule() {
 }
 
 async function main() {
-  deleteAnIPv6FirewallRule();
+  await deleteAnIPv6FirewallRule();
 }
 
 main().catch(console.error);

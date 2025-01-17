@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Virtual Router.
  *
  * @summary Gets the specified Virtual Router.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VirtualRouterGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualRouterGet.json
  */
 async function getVirtualRouter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function getVirtualRouter() {
 }
 
 async function main() {
-  getVirtualRouter();
+  await getVirtualRouter();
 }
 
 main().catch(console.error);

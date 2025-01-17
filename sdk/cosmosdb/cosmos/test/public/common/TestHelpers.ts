@@ -38,22 +38,28 @@ import {
 import type { ExtractPromise } from "../../../src/utils/diagnostics";
 import { getCurrentTimestampInMs } from "../../../src/utils/time";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey";
+import fs from "fs";
+import path from "path";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
 
-export const defaultClient = new CosmosClient({
-  endpoint,
-  key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
-  diagnosticLevel: CosmosDbDiagnosticLevel.info,
-});
+export function getDefaultClient(): CosmosClient {
+  return new CosmosClient({
+    endpoint,
+    key: masterKey,
+    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+    diagnosticLevel: CosmosDbDiagnosticLevel.info,
+  });
+}
 
-export const defaultComputeGatewayClient = new CosmosClient({
-  endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
-  key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
-});
+export function getDefaultComputeGatewayClient(): CosmosClient {
+  return new CosmosClient({
+    endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
+    key: masterKey,
+    connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+  });
+}
 
 export function addEntropy(name: string): string {
   return name + getEntropy();
@@ -63,8 +69,11 @@ export function getEntropy(): string {
   return `${Math.floor(Math.random() * 10000)}`;
 }
 
-export async function removeAllDatabases(client: CosmosClient = defaultClient): Promise<void> {
+export async function removeAllDatabases(client?: CosmosClient): Promise<void> {
   try {
+    if (!client) {
+      client = getDefaultClient();
+    }
     const { resources: databases } = await client.databases.readAll().fetchAll();
     const length = databases.length;
 
@@ -422,9 +431,12 @@ function validateRequestStartTimeForDiagnostics(
 
 export async function getTestDatabase(
   testName: string,
-  client: CosmosClient = defaultClient,
+  client?: CosmosClient,
   attrs?: Partial<DatabaseRequest>,
 ): Promise<Database> {
+  if (!client) {
+    client = getDefaultClient();
+  }
   const entropy = Math.floor(Math.random() * 10000);
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
   await client.databases.create({ id, ...attrs });
@@ -433,10 +445,13 @@ export async function getTestDatabase(
 
 export async function getTestContainer(
   testName: string,
-  client: CosmosClient = defaultClient,
+  client?: CosmosClient,
   containerDef?: ContainerRequest,
   options?: RequestOptions,
 ): Promise<Container> {
+  if (!client) {
+    client = getDefaultClient();
+  }
   const db = await getTestDatabase(testName, client);
   const entropy = Math.floor(Math.random() * 10000);
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
@@ -689,4 +704,16 @@ export async function changeFeedAllVersionsDeleteItems(
 export function isValidV4UUID(uuid: string): boolean {
   const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
   return uuidRegex.test(uuid);
+}
+
+export function readAndParseJSONFile(fileName: string): any {
+  const filePath = path.join(__dirname, fileName);
+  const rawData = fs.readFileSync(filePath, "utf-8");
+  let parsedData: any;
+  try {
+    parsedData = JSON.parse(rawData);
+  } catch (error) {
+    console.error("Error parsing JSON file:", error);
+  }
+  return parsedData;
 }

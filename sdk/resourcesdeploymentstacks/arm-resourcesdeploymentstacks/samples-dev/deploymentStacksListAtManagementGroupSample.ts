@@ -34,7 +34,7 @@ async function deploymentStacksManagementGroupList() {
 }
 
 async function main() {
-  deploymentStacksManagementGroupList();
+  await deploymentStacksManagementGroupList();
 }
 
 main().catch(console.error);

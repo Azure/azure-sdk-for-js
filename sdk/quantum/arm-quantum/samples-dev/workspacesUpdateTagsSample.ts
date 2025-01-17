@@ -41,7 +41,7 @@ async function quantumWorkspacesPatchTags() {
 }
 
 async function main() {
-  quantumWorkspacesPatchTags();
+  await quantumWorkspacesPatchTags();
 }
 
 main().catch(console.error);

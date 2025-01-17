@@ -39,7 +39,7 @@ async function pauseASqlAnalyticsPool() {
 }
 
 async function main() {
-  pauseASqlAnalyticsPool();
+  await pauseASqlAnalyticsPool();
 }
 
 main().catch(console.error);

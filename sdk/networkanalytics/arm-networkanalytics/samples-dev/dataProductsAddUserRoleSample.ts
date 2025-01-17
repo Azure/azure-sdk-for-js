@@ -80,8 +80,8 @@ async function dataProductsAddUserRoleMaximumSetGenGeneratedByMinimumSetRuleMini
 }
 
 async function main() {
-  dataProductsAddUserRoleMaximumSetGen();
-  dataProductsAddUserRoleMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsAddUserRoleMaximumSetGen();
+  await dataProductsAddUserRoleMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

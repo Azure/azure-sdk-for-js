@@ -10,7 +10,7 @@ import { resolve } from "node:path";
 import stripJsonComments from "strip-json-comments";
 import { existsSync, lstatSync } from "node:fs";
 
-const log = createPrinter("migrate-package");
+const log = createPrinter("migrate-source");
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let _rushJson: any = undefined;
@@ -56,39 +56,40 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async ({ "package-name": packageName }) => {
-  const root = await resolveRoot();
-
-  const rushJson = await getRushJson();
-  const projects = rushJson.projects;
+  let projectFolder: string;
 
   if (!packageName) {
+    projectFolder = process.cwd();
     const info = await resolveProject(process.cwd());
     packageName = info.packageJson.name;
-  }
+  } else {
+    const root = await resolveRoot();
 
-  const project = projects.find((p: RushJsonProject) => p.packageName === packageName);
-  if (!project) {
-    log.error(`Package ${packageName} not found in rush.json`);
-    return false;
+    const rushJson = await getRushJson();
+    const projects = rushJson.projects;
+
+    const project = projects.find((p: RushJsonProject) => p.packageName === packageName);
+    if (!project) {
+      log.error(`Package ${packageName} not found in rush.json`);
+      return false;
+    }
+
+    projectFolder = resolve(root, project.projectFolder);
   }
 
   log.info(`Migrating package ${packageName}`);
 
-  const projectFolder = resolve(root, project.projectFolder);
   const projectFile = resolve(projectFolder, "tsconfig.json");
 
-  const projectFileContents = await readFile(projectFile, "utf-8");
-  const projectFileJSON = JSON.parse(projectFileContents);
-  const module = projectFileJSON.compilerOptions.module;
-  const moduleResolution = projectFileJSON.compilerOptions.moduleResolution;
-
-  if (module !== "NodeNext" || moduleResolution !== "NodeNext") {
-    log.info("Package does not use NodeNext module resolution. Skipping.");
-    return true;
-  }
+  const skipPatterns = [/^vitest.*\.config\.ts$/];
 
   const tsProject = new Project({ tsConfigFilePath: projectFile });
   for (const sourceFile of tsProject.getSourceFiles()) {
+    // Skip config files
+    if (skipPatterns.some((pattern) => pattern.test(sourceFile.getBaseName()))) {
+      continue;
+    }
+
     fixSourceFile(sourceFile);
     await sourceFile.save();
   }

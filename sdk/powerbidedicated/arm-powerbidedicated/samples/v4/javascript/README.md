@@ -77,6 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [capacitiesresumesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/powerbidedicated/arm-powerbidedicated/samples/v4/javascript/capacitiesResumeSample.js
 [capacitiessuspendsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/powerbidedicated/arm-powerbidedicated/samples/v4/javascript/capacitiesSuspendSample.js
 [capacitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/powerbidedicated/arm-powerbidedicated/samples/v4/javascript/capacitiesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-powerbidedicated?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-powerbidedicated?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/powerbidedicated/arm-powerbidedicated/README.md

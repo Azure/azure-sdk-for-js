@@ -63,8 +63,8 @@ async function volumeGroupsListSapHana() {
 }
 
 async function main() {
-  volumeGroupsListOracle();
-  volumeGroupsListSapHana();
+  await volumeGroupsListOracle();
+  await volumeGroupsListSapHana();
 }
 
 main().catch(console.error);

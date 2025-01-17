@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified network security group.
  *
  * @summary Deletes the specified network security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkSecurityGroupDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkSecurityGroupDelete.json
  */
 async function deleteNetworkSecurityGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function deleteNetworkSecurityGroup() {
 }
 
 async function main() {
-  deleteNetworkSecurityGroup();
+  await deleteNetworkSecurityGroup();
 }
 
 main().catch(console.error);

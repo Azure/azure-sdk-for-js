@@ -36,7 +36,7 @@ async function stopsTheManagedInstance() {
 }
 
 async function main() {
-  stopsTheManagedInstance();
+  await stopsTheManagedInstance();
 }
 
 main().catch(console.error);

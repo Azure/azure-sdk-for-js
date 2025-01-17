@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified Network Virtual Appliance.
  *
  * @summary Deletes the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkVirtualApplianceDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkVirtualApplianceDelete.json
  */
 async function deleteNetworkVirtualAppliance() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function deleteNetworkVirtualAppliance() {
 }
 
 async function main() {
-  deleteNetworkVirtualAppliance();
+  await deleteNetworkVirtualAppliance();
 }
 
 main().catch(console.error);

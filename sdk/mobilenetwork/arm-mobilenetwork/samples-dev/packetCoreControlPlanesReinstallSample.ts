@@ -37,7 +37,7 @@ async function reinstallPacketCoreControlPlane() {
 }
 
 async function main() {
-  reinstallPacketCoreControlPlane();
+  await reinstallPacketCoreControlPlane();
 }
 
 main().catch(console.error);

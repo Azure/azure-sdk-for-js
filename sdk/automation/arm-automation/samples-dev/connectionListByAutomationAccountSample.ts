@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve a list of connections.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieve a list of connections.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listConnectionsByAutomationAccount_First100.json
  */
-async function listConnectionsByAutomationAccountFirst100() {
+async function listConnectionsByAutomationAccountFirst100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount28";
@@ -42,7 +40,7 @@ async function listConnectionsByAutomationAccountFirst100() {
  * @summary Retrieve a list of connections.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listConnectionsByAutomationAccount_Next100.json
  */
-async function listConnectionsByAutomationAccountNext100() {
+async function listConnectionsByAutomationAccountNext100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount28";
@@ -58,7 +56,7 @@ async function listConnectionsByAutomationAccountNext100() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listConnectionsByAutomationAccountFirst100();
   listConnectionsByAutomationAccountNext100();
 }

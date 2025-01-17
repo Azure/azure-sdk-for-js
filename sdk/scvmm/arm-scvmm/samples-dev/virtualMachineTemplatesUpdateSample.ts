@@ -63,8 +63,8 @@ async function virtualMachineTemplatesUpdateMinimumSet() {
 }
 
 async function main() {
-  virtualMachineTemplatesUpdateMaximumSet();
-  virtualMachineTemplatesUpdateMinimumSet();
+  await virtualMachineTemplatesUpdateMaximumSet();
+  await virtualMachineTemplatesUpdateMinimumSet();
 }
 
 main().catch(console.error);

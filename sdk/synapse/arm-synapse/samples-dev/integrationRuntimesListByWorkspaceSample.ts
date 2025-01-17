@@ -40,7 +40,7 @@ async function listIntegrationRuntimes() {
 }
 
 async function main() {
-  listIntegrationRuntimes();
+  await listIntegrationRuntimes();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getThreatIntelligenceIndicatorsMetrics() {
 }
 
 async function main() {
-  getThreatIntelligenceIndicatorsMetrics();
+  await getThreatIntelligenceIndicatorsMetrics();
 }
 
 main().catch(console.error);

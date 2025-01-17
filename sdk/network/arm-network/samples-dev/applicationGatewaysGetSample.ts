@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified application gateway.
  *
  * @summary Gets the specified application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/ApplicationGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ApplicationGatewayGet.json
  */
 async function getApplicationGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function getApplicationGateway() {
 }
 
 async function main() {
-  getApplicationGateway();
+  await getApplicationGateway();
 }
 
 main().catch(console.error);

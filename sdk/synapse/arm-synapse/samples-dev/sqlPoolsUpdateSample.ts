@@ -48,7 +48,7 @@ async function updateASqlAnalyticsPool() {
 }
 
 async function main() {
-  updateASqlAnalyticsPool();
+  await updateASqlAnalyticsPool();
 }
 
 main().catch(console.error);

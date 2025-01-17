@@ -41,7 +41,7 @@ async function getDatabaseAdvisor() {
 }
 
 async function main() {
-  getDatabaseAdvisor();
+  await getDatabaseAdvisor();
 }
 
 main().catch(console.error);

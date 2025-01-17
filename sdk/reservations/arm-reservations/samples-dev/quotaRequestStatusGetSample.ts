@@ -81,9 +81,9 @@ async function quotaRequestStatus() {
 }
 
 async function main() {
-  quotaRequestFailed();
-  quotaRequestInProgress();
-  quotaRequestStatus();
+  await quotaRequestFailed();
+  await quotaRequestInProgress();
+  await quotaRequestStatus();
 }
 
 main().catch(console.error);

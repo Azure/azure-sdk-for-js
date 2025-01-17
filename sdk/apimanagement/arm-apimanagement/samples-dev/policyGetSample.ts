@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  PolicyGetOptionalParams,
-  ApiManagementClient
+  ApiManagementClient,
+  PolicyGetOptionalParams
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the Global policy definition of the Api Management service.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get the Global policy definition of the Api Management service.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetPolicy.json
  */
-async function apiManagementGetPolicy() {
+async function apiManagementGetPolicy(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -46,7 +44,7 @@ async function apiManagementGetPolicy() {
  * @summary Get the Global policy definition of the Api Management service.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetPolicyFormat.json
  */
-async function apiManagementGetPolicyFormat() {
+async function apiManagementGetPolicyFormat(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -66,7 +64,7 @@ async function apiManagementGetPolicyFormat() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetPolicy();
   apiManagementGetPolicyFormat();
 }

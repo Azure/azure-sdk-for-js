@@ -33,7 +33,7 @@ async function getComplianceResultsOnSubscription() {
 }
 
 async function main() {
-  getComplianceResultsOnSubscription();
+  await getComplianceResultsOnSubscription();
 }
 
 main().catch(console.error);

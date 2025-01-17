@@ -36,7 +36,7 @@ async function kustoOperationsResultsLocationGet() {
 }
 
 async function main() {
-  kustoOperationsResultsLocationGet();
+  await kustoOperationsResultsLocationGet();
 }
 
 main().catch(console.error);

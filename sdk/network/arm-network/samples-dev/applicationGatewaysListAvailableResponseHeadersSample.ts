@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all available response headers.
  *
  * @summary Lists all available response headers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/ApplicationGatewayAvailableResponseHeadersGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ApplicationGatewayAvailableResponseHeadersGet.json
  */
 async function getAvailableResponseHeaders() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getAvailableResponseHeaders() {
 }
 
 async function main() {
-  getAvailableResponseHeaders();
+  await getAvailableResponseHeaders();
 }
 
 main().catch(console.error);

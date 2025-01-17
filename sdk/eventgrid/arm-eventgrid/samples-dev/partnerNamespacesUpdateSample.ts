@@ -44,7 +44,7 @@ async function partnerNamespacesUpdate() {
 }
 
 async function main() {
-  partnerNamespacesUpdate();
+  await partnerNamespacesUpdate();
 }
 
 main().catch(console.error);

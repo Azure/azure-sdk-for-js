@@ -56,7 +56,7 @@ async function createOrUpdateResourceSyncRule() {
 }
 
 async function main() {
-  createOrUpdateResourceSyncRule();
+  await createOrUpdateResourceSyncRule();
 }
 
 main().catch(console.error);

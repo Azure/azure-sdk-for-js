@@ -36,7 +36,7 @@ async function createASecurityOperatorOnTheGivenScope() {
 }
 
 async function main() {
-  createASecurityOperatorOnTheGivenScope();
+  await createASecurityOperatorOnTheGivenScope();
 }
 
 main().catch(console.error);

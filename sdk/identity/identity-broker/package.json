@@ -27,8 +27,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest -- --test-timeout 300000",
-    "update-snippets": "dev-tool run update-snippets",
-    "unit-test:manual": "dev-tool run test:node-ts-input -- --timeout 300000 'test/manual/node/popTokenSupport.spec.ts'"
+    "unit-test:manual": "dev-tool run test:node-ts-input -- --timeout 300000 'test/manual/node/popTokenSupport.spec.ts'",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -76,7 +76,7 @@
     "@vitest/coverage-istanbul": "^2.1.4",
     "eslint": "^9.9.0",
     "playwright": "^1.48.2",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.1.4"
   },
   "//sampleConfiguration": {
@@ -102,7 +102,8 @@
     "esmDialects": [
       "browser"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "browser": "./dist/browser/index.js",
   "exports": {

@@ -39,7 +39,7 @@ async function refreshObjectMetadata() {
 }
 
 async function main() {
-  refreshObjectMetadata();
+  await refreshObjectMetadata();
 }
 
 main().catch(console.error);

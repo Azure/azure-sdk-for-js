@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { JobCreateParameters, AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a job of the runbook.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a job of the runbook.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/job/createJob.json
  */
-async function createJob() {
+async function createJob(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -44,7 +42,7 @@ async function createJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createJob();
 }
 

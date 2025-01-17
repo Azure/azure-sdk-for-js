@@ -37,7 +37,7 @@ async function getANetworkServiceDesignGroupResource() {
 }
 
 async function main() {
-  getANetworkServiceDesignGroupResource();
+  await getANetworkServiceDesignGroupResource();
 }
 
 main().catch(console.error);

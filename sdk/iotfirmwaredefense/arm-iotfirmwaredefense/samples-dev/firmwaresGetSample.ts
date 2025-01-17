@@ -65,8 +65,8 @@ async function firmwaresGetMinimumSetGen() {
 }
 
 async function main() {
-  firmwaresGetMaximumSetGen();
-  firmwaresGetMinimumSetGen();
+  await firmwaresGetMaximumSetGen();
+  await firmwaresGetMinimumSetGen();
 }
 
 main().catch(console.error);

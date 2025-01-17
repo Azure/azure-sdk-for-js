@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  SnapshotsUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { SnapshotsUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a snapshot.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Updates (patches) a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
  */
-async function updateASnapshotWithAcceleratedNetworking() {
+async function updateASnapshotWithAcceleratedNetworking(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -42,7 +36,7 @@ async function updateASnapshotWithAcceleratedNetworking() {
       snapshotName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -54,7 +48,7 @@ updateASnapshotWithAcceleratedNetworking().catch(console.error);
  * @summary Updates (patches) a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Update.json
  */
-async function updateASnapshot() {
+async function updateASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -75,7 +69,7 @@ async function updateASnapshot() {
       snapshotName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an image.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/imageExamples/Image_Get.json
  */
-async function getInformationAboutAVirtualMachineImage() {
+async function getInformationAboutAVirtualMachineImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -32,7 +30,7 @@ async function getInformationAboutAVirtualMachineImage() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getInformationAboutAVirtualMachineImage();
 }
 

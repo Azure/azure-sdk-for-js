@@ -35,7 +35,7 @@ async function deleteAFluidRelayServer() {
 }
 
 async function main() {
-  deleteAFluidRelayServer();
+  await deleteAFluidRelayServer();
 }
 
 main().catch(console.error);

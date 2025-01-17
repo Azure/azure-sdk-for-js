@@ -42,7 +42,7 @@ async function kustoDatabasesCheckNameAvailability() {
 }
 
 async function main() {
-  kustoDatabasesCheckNameAvailability();
+  await kustoDatabasesCheckNameAvailability();
 }
 
 main().catch(console.error);

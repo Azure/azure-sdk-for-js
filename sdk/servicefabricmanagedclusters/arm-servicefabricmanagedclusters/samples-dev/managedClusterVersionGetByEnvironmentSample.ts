@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about an available Service Fabric cluster code version by environment.
  *
  * @summary Gets information about an available Service Fabric cluster code version by environment.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ManagedClusterVersionGetByEnvironment_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ManagedClusterVersionGetByEnvironment_example.json
  */
 async function getClusterVersionByEnvironment() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function getClusterVersionByEnvironment() {
 }
 
 async function main() {
-  getClusterVersionByEnvironment();
+  await getClusterVersionByEnvironment();
 }
 
 main().catch(console.error);

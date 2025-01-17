@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureDigitalTwinsManagementClient } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a DigitalTwinsInstance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a DigitalTwinsInstance.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsDelete_example.json
  */
-async function deleteADigitalTwinsInstanceResource() {
+async function deleteADigitalTwinsInstanceResource(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -45,7 +43,7 @@ async function deleteADigitalTwinsInstanceResource() {
  * @summary Delete a DigitalTwinsInstance.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsDelete_WithIdentity_example.json
  */
-async function deleteADigitalTwinsInstanceResourceWithIdentity() {
+async function deleteADigitalTwinsInstanceResourceWithIdentity(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -64,9 +62,9 @@ async function deleteADigitalTwinsInstanceResourceWithIdentity() {
   console.log(result);
 }
 
-async function main() {
-  deleteADigitalTwinsInstanceResource();
-  deleteADigitalTwinsInstanceResourceWithIdentity();
+async function main(): Promise<void> {
+  await deleteADigitalTwinsInstanceResource();
+  await deleteADigitalTwinsInstanceResourceWithIdentity();
 }
 
 main().catch(console.error);

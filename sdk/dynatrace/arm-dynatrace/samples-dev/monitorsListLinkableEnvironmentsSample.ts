@@ -80,8 +80,8 @@ async function monitorsListLinkableEnvironmentsMinimumSetGen() {
 }
 
 async function main() {
-  monitorsListLinkableEnvironmentsMaximumSetGen();
-  monitorsListLinkableEnvironmentsMinimumSetGen();
+  await monitorsListLinkableEnvironmentsMaximumSetGen();
+  await monitorsListLinkableEnvironmentsMinimumSetGen();
 }
 
 main().catch(console.error);

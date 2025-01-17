@@ -48,7 +48,7 @@ async function moveCollectionsPrepare() {
 }
 
 async function main() {
-  moveCollectionsPrepare();
+  await moveCollectionsPrepare();
 }
 
 main().catch(console.error);

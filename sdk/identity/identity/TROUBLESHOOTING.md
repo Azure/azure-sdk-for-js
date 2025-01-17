@@ -52,6 +52,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 const keyVaultUrl = "https://key-vault-name.vault.azure.net";
 const credential = new DefaultAzureCredential();
 const client = new KeyClient(keyVaultUrl, credential);
+
 try {
   // Retrieving the properties of the existing keys in that specific Key Vault.
   console.log(await client.listPropertiesOfKeys().next());
@@ -74,6 +75,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 const keyVaultUrl = "https://key-vault-name.vault.azure.net";
 const credential = new DefaultAzureCredential();
 const client = new KeyClient(keyVaultUrl, credential);
+
 try {
   // Retrieving the properties of the existing keys in that specific Key Vault.
   console.log(await client.listPropertiesOfKeys().next());
@@ -150,6 +152,7 @@ import { setLogLevel } from "@azure/logger";
 import { DefaultAzureCredential } from "@azure/identity";
 
 setLogLevel("info");
+
 const credential = new DefaultAzureCredential({
   loggingOptions: { allowLoggingAccountIdentifiers: true },
 });
@@ -172,6 +175,7 @@ import { setLogLevel } from "@azure/logger";
 import { DefaultAzureCredential } from "@azure/identity";
 
 setLogLevel("info");
+
 const credential = new DefaultAzureCredential({
   loggingOptions: { enableUnsafeSupportLogging: true },
 });

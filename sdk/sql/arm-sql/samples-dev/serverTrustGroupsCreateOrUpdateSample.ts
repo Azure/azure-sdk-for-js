@@ -52,7 +52,7 @@ async function createServerTrustGroup() {
 }
 
 async function main() {
-  createServerTrustGroup();
+  await createServerTrustGroup();
 }
 
 main().catch(console.error);

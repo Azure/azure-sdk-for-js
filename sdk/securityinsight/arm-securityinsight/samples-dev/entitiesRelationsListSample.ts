@@ -42,7 +42,7 @@ async function getAllRelationsOfAnEntity() {
 }
 
 async function main() {
-  getAllRelationsOfAnEntity();
+  await getAllRelationsOfAnEntity();
 }
 
 main().catch(console.error);

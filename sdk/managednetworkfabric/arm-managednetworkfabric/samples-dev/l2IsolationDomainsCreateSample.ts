@@ -53,7 +53,7 @@ async function l2IsolationDomainsCreateMaximumSetGen() {
 }
 
 async function main() {
-  l2IsolationDomainsCreateMaximumSetGen();
+  await l2IsolationDomainsCreateMaximumSetGen();
 }
 
 main().catch(console.error);

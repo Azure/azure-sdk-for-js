@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./azureBareMetalInstances";
-export * from "./operations";
-export * from "./azureBareMetalStorageInstances";
+export * from "./azureBareMetalInstances.js";
+export * from "./operations.js";
+export * from "./azureBareMetalStorageInstances.js";

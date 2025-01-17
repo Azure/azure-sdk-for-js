@@ -36,7 +36,7 @@ async function redisCacheAccessPolicyAssignmentGet() {
 }
 
 async function main() {
-  redisCacheAccessPolicyAssignmentGet();
+  await redisCacheAccessPolicyAssignmentGet();
 }
 
 main().catch(console.error);

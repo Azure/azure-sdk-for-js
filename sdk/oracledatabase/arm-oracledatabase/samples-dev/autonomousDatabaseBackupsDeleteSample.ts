@@ -63,8 +63,8 @@ async function deleteAutonomousDatabaseBackup() {
 }
 
 async function main() {
-  autonomousDatabaseBackupsDelete();
-  deleteAutonomousDatabaseBackup();
+  await autonomousDatabaseBackupsDelete();
+  await deleteAutonomousDatabaseBackup();
 }
 
 main().catch(console.error);

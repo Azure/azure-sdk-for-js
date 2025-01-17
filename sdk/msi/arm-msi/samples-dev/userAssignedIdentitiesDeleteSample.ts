@@ -34,7 +34,7 @@ async function identityDelete() {
 }
 
 async function main() {
-  identityDelete();
+  await identityDelete();
 }
 
 main().catch(console.error);

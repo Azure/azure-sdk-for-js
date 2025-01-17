@@ -35,7 +35,7 @@ async function getsAnNetworkExperimentProfileByProfileId() {
 }
 
 async function main() {
-  getsAnNetworkExperimentProfileByProfileId();
+  await getsAnNetworkExperimentProfileByProfileId();
 }
 
 main().catch(console.error);

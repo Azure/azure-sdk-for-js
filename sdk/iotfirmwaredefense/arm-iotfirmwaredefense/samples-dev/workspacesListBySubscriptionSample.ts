@@ -53,8 +53,8 @@ async function workspacesListBySubscriptionMinimumSetGen() {
 }
 
 async function main() {
-  workspacesListBySubscriptionMaximumSetGen();
-  workspacesListBySubscriptionMinimumSetGen();
+  await workspacesListBySubscriptionMaximumSetGen();
+  await workspacesListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

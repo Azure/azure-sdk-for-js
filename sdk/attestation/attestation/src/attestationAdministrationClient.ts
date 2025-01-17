@@ -29,7 +29,6 @@ import type { TokenCredential } from "@azure/core-auth";
 import { TypeDeserializer } from "./utils/typeDeserializer.js";
 import * as Mappers from "./generated/models/mappers.js";
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 import { hexToBase64 } from "./utils/helpers.js";
@@ -108,13 +107,12 @@ export class AttestationAdministrationClient {
    * Creates an instance of AttestationAdministrationClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:AttestationAdministrationClient_Constructor
    * import { AttestationAdministrationClient } from "@azure/attestation";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * const client = new AttestationAdministrationClient(
-   *    "<service endpoint>",
-   *    new TokenCredential("<>")
-   * );
+   * const endpoint = "https://<attestation-instance>.<region>.attest.azure.net";
+   * const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
    * ```
    *
    * @param endpoint - The attestation instance endpoint, for example https://mytenant.attest.azure.net.

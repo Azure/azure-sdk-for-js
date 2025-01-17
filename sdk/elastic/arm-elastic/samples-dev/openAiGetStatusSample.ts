@@ -39,7 +39,7 @@ async function openAiGetStatus() {
 }
 
 async function main() {
-  openAiGetStatus();
+  await openAiGetStatus();
 }
 
 main().catch(console.error);

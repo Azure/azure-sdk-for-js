@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a BotService specified by the parameters.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a BotService specified by the parameters.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetBot.json
  */
-async function getBot() {
+async function getBot(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -32,7 +30,7 @@ async function getBot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getBot();
 }
 

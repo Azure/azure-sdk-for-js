@@ -52,7 +52,7 @@ async function listOnlineDeployments() {
 }
 
 async function main() {
-  listOnlineDeployments();
+  await listOnlineDeployments();
 }
 
 main().catch(console.error);

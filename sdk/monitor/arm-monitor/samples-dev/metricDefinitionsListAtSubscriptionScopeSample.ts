@@ -45,7 +45,7 @@ async function getSubscriptionLevelMetricDefinitionsWithoutFilter() {
 }
 
 async function main() {
-  getSubscriptionLevelMetricDefinitionsWithoutFilter();
+  await getSubscriptionLevelMetricDefinitionsWithoutFilter();
 }
 
 main().catch(console.error);

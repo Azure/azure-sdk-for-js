@@ -36,7 +36,7 @@ async function createZone() {
 }
 
 async function main() {
-  createZone();
+  await createZone();
 }
 
 main().catch(console.error);

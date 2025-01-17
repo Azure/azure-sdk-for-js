@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LoggerContract, ApiManagementClient } from "@azure/arm-apimanagement";
+import { ApiManagementClient, LoggerContract } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or Updates a logger.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or Updates a logger.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAILogger.json
  */
-async function apiManagementCreateAiLogger() {
+async function apiManagementCreateAiLogger(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -49,7 +47,7 @@ async function apiManagementCreateAiLogger() {
  * @summary Creates or Updates a logger.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateEHLogger.json
  */
-async function apiManagementCreateEhLogger() {
+async function apiManagementCreateEhLogger(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -76,7 +74,7 @@ async function apiManagementCreateEhLogger() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateAiLogger();
   apiManagementCreateEhLogger();
 }

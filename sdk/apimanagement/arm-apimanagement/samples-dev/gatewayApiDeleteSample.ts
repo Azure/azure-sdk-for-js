@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified API from the specified Gateway.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the specified API from the specified Gateway.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGatewayApi.json
  */
-async function apiManagementDeleteGatewayApi() {
+async function apiManagementDeleteGatewayApi(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -39,7 +37,7 @@ async function apiManagementDeleteGatewayApi() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteGatewayApi();
 }
 

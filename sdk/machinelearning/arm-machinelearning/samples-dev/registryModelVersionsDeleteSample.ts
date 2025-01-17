@@ -44,7 +44,7 @@ async function deleteRegistryModelVersion() {
 }
 
 async function main() {
-  deleteRegistryModelVersion();
+  await deleteRegistryModelVersion();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listLogProfiles() {
 }
 
 async function main() {
-  listLogProfiles();
+  await listLogProfiles();
 }
 
 main().catch(console.error);

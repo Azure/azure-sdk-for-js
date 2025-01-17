@@ -48,7 +48,7 @@ async function installPatchStateOfAMachine() {
 }
 
 async function main() {
-  installPatchStateOfAMachine();
+  await installPatchStateOfAMachine();
 }
 
 main().catch(console.error);

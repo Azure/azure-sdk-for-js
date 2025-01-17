@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_NestedResourceCheckNameAvailability_Report_Evidence_Check_Name_Availability.json
  */
-async function reportEvidenceCheckNameAvailability() {
+async function reportEvidenceCheckNameAvailability(): Promise<void> {
   const reportName = "reportABC";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -40,7 +38,7 @@ async function reportEvidenceCheckNameAvailability() {
  * @summary Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_NestedResourceCheckNameAvailability_Report_Snapshot_Check_Name_Availability.json
  */
-async function reportSnapshotCheckNameAvailability() {
+async function reportSnapshotCheckNameAvailability(): Promise<void> {
   const reportName = "reportABC";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -60,7 +58,7 @@ async function reportSnapshotCheckNameAvailability() {
  * @summary Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_NestedResourceCheckNameAvailability_Report_Webhook_Check_Name_Availability.json
  */
-async function reportWebhookCheckNameAvailability() {
+async function reportWebhookCheckNameAvailability(): Promise<void> {
   const reportName = "reportABC";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -74,7 +72,7 @@ async function reportWebhookCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reportEvidenceCheckNameAvailability();
   reportSnapshotCheckNameAvailability();
   reportWebhookCheckNameAvailability();

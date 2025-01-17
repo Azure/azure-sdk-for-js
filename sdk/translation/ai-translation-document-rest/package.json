@@ -42,7 +42,7 @@
       "azure-translator"
     ],
     "requiredResources": {
-      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     }
   },
   "dependencies": {
@@ -79,11 +79,11 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-source-map-support": "~1.4.0",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
+    "mocha": "^11.0.2",
     "nyc": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.7.2"
   },
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",

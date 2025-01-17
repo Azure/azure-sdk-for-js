@@ -13,9 +13,7 @@ import {
   ConfluentManagementClient,
 } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to cloud provider regions available for creating Schema Registry clusters.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary cloud provider regions available for creating Schema Registry clusters.
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_ListRegions.json
  */
-async function organizationListRegions() {
+async function organizationListRegions(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function organizationListRegions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationListRegions();
 }
 

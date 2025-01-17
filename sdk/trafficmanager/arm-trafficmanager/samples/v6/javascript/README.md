@@ -77,6 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [trafficmanagerusermetricskeyscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/javascript/trafficManagerUserMetricsKeysCreateOrUpdateSample.js
 [trafficmanagerusermetricskeysdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/javascript/trafficManagerUserMetricsKeysDeleteSample.js
 [trafficmanagerusermetricskeysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/javascript/trafficManagerUserMetricsKeysGetSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-trafficmanager?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-trafficmanager?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/trafficmanager/arm-trafficmanager/README.md

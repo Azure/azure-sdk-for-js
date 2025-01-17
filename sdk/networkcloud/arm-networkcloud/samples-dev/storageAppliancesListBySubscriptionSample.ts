@@ -34,7 +34,7 @@ async function listStorageAppliancesForSubscription() {
 }
 
 async function main() {
-  listStorageAppliancesForSubscription();
+  await listStorageAppliancesForSubscription();
 }
 
 main().catch(console.error);

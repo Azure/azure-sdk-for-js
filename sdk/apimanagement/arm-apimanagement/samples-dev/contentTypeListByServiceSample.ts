@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the developer portal's content types. Content types describe content items' properties, validation rules, and constraints.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the developer portal's content types. Content types describe content items' properties, validation rules, and constraints.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListContentTypes.json
  */
-async function apiManagementListContentTypes() {
+async function apiManagementListContentTypes(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function apiManagementListContentTypes() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListContentTypes();
 }
 

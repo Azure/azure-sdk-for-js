@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a HubVirtualNetworkConnection.
  *
  * @summary Deletes a HubVirtualNetworkConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/HubVirtualNetworkConnectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/HubVirtualNetworkConnectionDelete.json
  */
 async function hubVirtualNetworkConnectionDelete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function hubVirtualNetworkConnectionDelete() {
 }
 
 async function main() {
-  hubVirtualNetworkConnectionDelete();
+  await hubVirtualNetworkConnectionDelete();
 }
 
 main().catch(console.error);

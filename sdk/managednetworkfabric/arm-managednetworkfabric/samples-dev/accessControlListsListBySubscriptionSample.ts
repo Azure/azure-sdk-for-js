@@ -37,7 +37,7 @@ async function accessControlListsListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  accessControlListsListBySubscriptionMaximumSetGen();
+  await accessControlListsListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

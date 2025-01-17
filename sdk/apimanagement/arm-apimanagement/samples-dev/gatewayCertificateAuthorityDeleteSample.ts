@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Remove relationship between Certificate Authority and Gateway entity.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Remove relationship between Certificate Authority and Gateway entity.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGatewayCertificateAuthority.json
  */
-async function apiManagementDeleteGatewayCertificateAuthority() {
+async function apiManagementDeleteGatewayCertificateAuthority(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -41,7 +39,7 @@ async function apiManagementDeleteGatewayCertificateAuthority() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteGatewayCertificateAuthority();
 }
 

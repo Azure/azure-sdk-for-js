@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Firewall Policy.
  *
  * @summary Gets the specified Firewall Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/FirewallPolicyGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyGet.json
  */
 async function getFirewallPolicy() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function getFirewallPolicy() {
 }
 
 async function main() {
-  getFirewallPolicy();
+  await getFirewallPolicy();
 }
 
 main().catch(console.error);

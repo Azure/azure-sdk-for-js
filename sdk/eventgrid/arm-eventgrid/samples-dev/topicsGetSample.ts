@@ -34,7 +34,7 @@ async function topicsGet() {
 }
 
 async function main() {
-  topicsGet();
+  await topicsGet();
 }
 
 main().catch(console.error);

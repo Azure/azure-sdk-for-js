@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all Azure resources associated to the same Datadog organization as the target resource.

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { IdentityPlugin, TokenCachePersistenceOptions } from "@azure/identity";
-import { createPersistenceCachePlugin } from "./provider";
+import { createPersistenceCachePlugin } from "./provider.js";
 
 /**
  * Plugin context entries for controlling cache plugins.
@@ -11,6 +11,7 @@ interface CachePluginControl {
   setPersistence(
     persistenceFactory: (
       options?: TokenCachePersistenceOptions,
+      // eslint-disable-next-line @typescript-eslint/consistent-type-imports
     ) => Promise<import("@azure/msal-node").ICachePlugin>,
   ): void;
 }
@@ -44,8 +45,10 @@ interface AzurePluginContext {
  *     enabled: true,
  *   },
  * });
+ *
  * // We'll use the Microsoft Graph scope as an example
  * const scope = "https://graph.microsoft.com/.default";
+ *
  * // Print out part of the access token
  * console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
  * ```

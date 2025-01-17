@@ -37,7 +37,7 @@ async function deleteSpecificPrivateEndpointConnectionForASpecificHdInsightClust
 }
 
 async function main() {
-  deleteSpecificPrivateEndpointConnectionForASpecificHdInsightCluster();
+  await deleteSpecificPrivateEndpointConnectionForASpecificHdInsightCluster();
 }
 
 main().catch(console.error);

@@ -76,8 +76,8 @@ async function updateCapacityToGeneration2() {
 }
 
 async function main() {
-  updateCapacityParameters();
-  updateCapacityToGeneration2();
+  await updateCapacityParameters();
+  await updateCapacityToGeneration2();
 }
 
 main().catch(console.error);

@@ -8,11 +8,13 @@ schema: 2.0.0
 # New-TestResources.ps1
 
 ## SYNOPSIS
+
 Deploys live test resources defined for a service directory to Azure.
 
 ## SYNTAX
 
 ### Default (Default)
+
 ```
 New-TestResources.ps1 [-BaseName <String>] [-ResourceGroupName <String>] [-ServiceDirectory] <String>
  [-TestResourcesDirectory <String>] [-TestApplicationId <String>] [-TestApplicationSecret <String>]
@@ -24,6 +26,7 @@ New-TestResources.ps1 [-BaseName <String>] [-ResourceGroupName <String>] [-Servi
 ```
 
 ### Provisioner
+
 ```
 New-TestResources.ps1 [-BaseName <String>] [-ResourceGroupName <String>] [-ServiceDirectory] <String>
  [-TestResourcesDirectory <String>] [-TestApplicationId <String>] [-TestApplicationSecret <String>]
@@ -37,6 +40,7 @@ New-TestResources.ps1 [-BaseName <String>] [-ResourceGroupName <String>] [-Servi
 ```
 
 ## DESCRIPTION
+
 Deploys live test resouces specified in test-resources.json or test-resources.bicep
 files to a new resource group.
 
@@ -59,6 +63,7 @@ or those specified in $ProvisionerApplicationId and $ProvisionerApplicationSecre
 ## EXAMPLES
 
 ### EXAMPLE 1
+
 ```
 Connect-AzAccount -Subscription 'REPLACE_WITH_SUBSCRIPTION_ID'
 New-TestResources.ps1 keyvault
@@ -74,6 +79,7 @@ Requires PowerShell 7 to use ConvertFrom-SecureString -AsPlainText or convert
 the SecureString to plaintext by another means.
 
 ### EXAMPLE 2
+
 ```
 Connect-AzAccount -Subscription 'REPLACE_WITH_SUBSCRIPTION_ID'
 New-TestResources.ps1 `
@@ -96,6 +102,7 @@ Requires PowerShell 7 to use ConvertFrom-SecureString -AsPlainText or convert
 the SecureString to plaintext by another means.
 
 ### EXAMPLE 3
+
 ```
 Connect-AzAccount -Subscription 'REPLACE_WITH_SUBSCRIPTION_ID'
 New-TestResources.ps1 `
@@ -115,6 +122,7 @@ to the 'TestApplicationId' for the resource group and the resources that it cont
 without altering its existing permissions.
 
 ### EXAMPLE 4
+
 ```
 New-TestResources.ps1 `
     -BaseName 'azsdk' `
@@ -145,6 +153,7 @@ Requires PowerShell 7 to use ConvertFrom-SecureString -AsPlainText or convert
 the SecureString to plaintext by another means.
 
 ### EXAMPLE 5
+
 ```
 New-TestResources.ps1 `
     -ServiceDirectory '$(ServiceDirectory)' `
@@ -167,10 +176,11 @@ log redaction).
 ## PARAMETERS
 
 ### -BaseName
+
 A name to use in the resource group and passed to the ARM template as 'baseName'.
 Limit $BaseName to enough characters to be under limit plus prefixes specified in
 the ARM template.
-See also https://docs.microsoft.com/azure/architecture/best-practices/resource-naming
+See also https://learn.microsoft.com/azure/architecture/best-practices/resource-naming
 
 Note: The value specified for this parameter will be overriden and generated
 by New-TestResources.ps1 if $CI is specified.
@@ -188,6 +198,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
+
 Set this value to deploy directly to a Resource Group that has already been
 created or to create a new resource group with this name.
 
@@ -207,6 +218,7 @@ Accept wildcard characters: False
 ```
 
 ### -ServiceDirectory
+
 A directory under 'sdk' in the repository root - optionally with subdirectories
 specified - in which to discover ARM templates named 'test-resources.json' and
 Bicep templates named 'test-resources.bicep'.
@@ -228,6 +240,7 @@ Accept wildcard characters: False
 ```
 
 ### -TestResourcesDirectory
+
 An override directory in which to discover ARM templates named 'test-resources.json' and
 Bicep templates named 'test-resources.bicep'.
 This can be an absolute path
@@ -246,6 +259,7 @@ Accept wildcard characters: False
 ```
 
 ### -TestApplicationId
+
 Optional Azure Active Directory Application ID to authenticate the test runner
 against deployed resources.
 Passed to the ARM template as 'testApplicationId'.
@@ -275,6 +289,7 @@ Accept wildcard characters: False
 ```
 
 ### -TestApplicationSecret
+
 Optional service principal secret (password) to authenticate the test runner
 against deployed resources.
 Passed to the ARM template as
@@ -296,6 +311,7 @@ Accept wildcard characters: False
 ```
 
 ### -TestApplicationOid
+
 Service Principal Object ID of the AAD Test Application.
 This is used to assign
 permissions to the AAD application so it can access tested features on the live
@@ -311,7 +327,7 @@ it will need the permission 'Application.Read.All' for the Microsoft Graph API
 in order to query AAD.
 
 For more information on the relationship between AAD Applications and Service
-Principals see: https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
+Principals see: https://learn.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
 
 ```yaml
 Type: String
@@ -326,6 +342,7 @@ Accept wildcard characters: False
 ```
 
 ### -TenantId
+
 The tenant ID of a service principal when a provisioner is specified.
 The same
 Tenant ID is used for Test Application and Provisioner Application.
@@ -345,6 +362,7 @@ Accept wildcard characters: False
 ```
 
 ### -SubscriptionId
+
 Optional subscription ID to use for new resources when logging in as a
 provisioner.
 You can also use Set-AzContext if not provisioning.
@@ -368,6 +386,7 @@ Accept wildcard characters: False
 ```
 
 ### -ProvisionerApplicationId
+
 Optional Application ID of the Azure Active Directory service principal to use for
 provisioning the test resources.
 If not, specified New-TestResources.ps1 uses the
@@ -376,11 +395,11 @@ context of the caller to provision.
 If specified, the Provisioner Application principal would benefit from the following
 permissions to the Microsoft Graph API:
 
-  - 'Application.Read.All' in order to query AAD to obtain the 'TestApplicaitonOid'
+- 'Application.Read.All' in order to query AAD to obtain the 'TestApplicaitonOid'
 
-  - 'Application.ReadWrite.OwnedBy' in order to create the Test Application principal
-     or grant an existing principal ownership of the resource group associated with
-     the test resources.
+- 'Application.ReadWrite.OwnedBy' in order to create the Test Application principal
+  or grant an existing principal ownership of the resource group associated with
+  the test resources.
 
 If the provisioner does not have these permissions, it can still be used with
 New-TestResources.ps1 by specifying an existing Test Application principal, including
@@ -401,6 +420,7 @@ Accept wildcard characters: False
 ```
 
 ### -ProvisionerApplicationOid
+
 {{ Fill ProvisionerApplicationOid Description }}
 
 ```yaml
@@ -416,6 +436,7 @@ Accept wildcard characters: False
 ```
 
 ### -ProvisionerApplicationSecret
+
 A service principal secret (password) used to provision test resources when a
 provisioner is specified.
 
@@ -434,6 +455,7 @@ Accept wildcard characters: False
 ```
 
 ### -DeleteAfterHours
+
 Positive integer number of hours from the current time to set the
 'DeleteAfter' tag on the created resource group.
 The computed value is a
@@ -457,14 +479,15 @@ Accept wildcard characters: False
 ```
 
 ### -Location
+
 Optional location where resources should be created.
 If left empty, the default
 is based on the cloud to which the template is being deployed:
 
-* AzureCloud -\> 'westus'
-* AzureUSGovernment -\> 'usgovvirginia'
-* AzureChinaCloud -\> 'chinaeast2'
-* Dogfood -\> 'westus'
+- AzureCloud -\> 'westus'
+- AzureUSGovernment -\> 'usgovvirginia'
+- AzureChinaCloud -\> 'chinaeast2'
+- Dogfood -\> 'westus'
 
 ```yaml
 Type: String
@@ -479,6 +502,7 @@ Accept wildcard characters: False
 ```
 
 ### -Environment
+
 Optional name of the cloud environment.
 The default is the Azure Public Cloud
 ('AzureCloud')
@@ -496,6 +520,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceType
+
 {{ Fill ResourceType Description }}
 
 ```yaml
@@ -511,6 +536,7 @@ Accept wildcard characters: False
 ```
 
 ### -ArmTemplateParameters
+
 Optional key-value pairs of parameters to pass to the ARM template(s).
 
 ```yaml
@@ -526,6 +552,7 @@ Accept wildcard characters: False
 ```
 
 ### -AdditionalParameters
+
 Optional key-value pairs of parameters to pass to the ARM template(s) and pre-post scripts.
 
 ```yaml
@@ -541,6 +568,7 @@ Accept wildcard characters: False
 ```
 
 ### -EnvironmentVariables
+
 Optional key-value pairs of parameters to set as environment variables to the shell.
 
 ```yaml
@@ -556,6 +584,7 @@ Accept wildcard characters: False
 ```
 
 ### -CI
+
 Indicates the script is run as part of a Continuous Integration / Continuous
 Deployment (CI/CD) build (only Azure Pipelines is currently supported).
 
@@ -572,6 +601,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
+
 Force creation of resources instead of being prompted.
 
 ```yaml
@@ -587,6 +617,7 @@ Accept wildcard characters: False
 ```
 
 ### -OutFile
+
 Save test environment settings into a .env file next to test resources template.
 The contents of the file are protected via the .NET Data Protection API (DPAPI).
 This is supported only on Windows.
@@ -612,6 +643,7 @@ Accept wildcard characters: False
 ```
 
 ### -SuppressVsoCommands
+
 By default, the -CI parameter will print out secrets to logs with Azure Pipelines log
 commands that cause them to be redacted.
 For CI environments that don't support this (like
@@ -630,6 +662,7 @@ Accept wildcard characters: False
 ```
 
 ### -ServicePrincipalAuth
+
 Use the provisioner SP credentials to deploy, and pass the test SP credentials
 to tests.
 If provisioner and test SP are not set, provision an SP with user
@@ -648,6 +681,7 @@ Accept wildcard characters: False
 ```
 
 ### -NewTestResourcesRemainingArguments
+
 Captures any arguments not declared here (no parameter errors)
 This enables backwards compatibility with old script versions in
 hotfix branches if and when the dynamic subscription configuration
@@ -666,6 +700,7 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
+
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
@@ -682,6 +717,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
+
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
@@ -697,6 +733,7 @@ Accept wildcard characters: False
 ```
 
 ### -ProgressAction
+
 {{ Fill ProgressAction Description }}
 
 ```yaml
@@ -712,6 +749,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
+
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](https://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS

@@ -41,7 +41,7 @@ async function listIoTConnectors() {
 }
 
 async function main() {
-  listIoTConnectors();
+  await listIoTConnectors();
 }
 
 main().catch(console.error);

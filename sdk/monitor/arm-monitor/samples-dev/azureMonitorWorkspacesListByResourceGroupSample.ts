@@ -38,7 +38,7 @@ async function listAzureMonitorWorkspacesByResourceGroup() {
 }
 
 async function main() {
-  listAzureMonitorWorkspacesByResourceGroup();
+  await listAzureMonitorWorkspacesByResourceGroup();
 }
 
 main().catch(console.error);

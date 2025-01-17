@@ -157,9 +157,9 @@ async function createOrUpdateAServiceWithMinimumParameters() {
 }
 
 async function main() {
-  createOrUpdateAServiceWithAllParameters();
-  createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovereignRegion();
-  createOrUpdateAServiceWithMinimumParameters();
+  await createOrUpdateAServiceWithAllParameters();
+  await createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovereignRegion();
+  await createOrUpdateAServiceWithMinimumParameters();
 }
 
 main().catch(console.error);

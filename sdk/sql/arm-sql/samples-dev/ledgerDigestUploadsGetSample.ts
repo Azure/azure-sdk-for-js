@@ -40,7 +40,7 @@ async function getsTheCurrentLedgerDigestUploadConfigurationForADatabase() {
 }
 
 async function main() {
-  getsTheCurrentLedgerDigestUploadConfigurationForADatabase();
+  await getsTheCurrentLedgerDigestUploadConfigurationForADatabase();
 }
 
 main().catch(console.error);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -77,7 +77,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
         },
       ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     storageProfile: {
       source: {
         virtualMachineId:
@@ -101,7 +104,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithCommunityImageVersionAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithCommunityImageVersionAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -162,7 +165,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImag
         },
       ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     storageProfile: {
       source: {
         communityGalleryImageId:
@@ -186,7 +192,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImag
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -247,7 +253,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
         },
       ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     storageProfile: {
       source: {
         id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
@@ -270,7 +279,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -321,7 +330,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
         },
       ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     storageProfile: {
       dataDiskImages: [
         {
@@ -356,7 +368,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -370,7 +382,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
       replicationMode: "Shallow",
       targetRegions: [{ name: "West US", excludeFromLatest: false, regionalReplicaCount: 1 }],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     storageProfile: {
       source: {
         id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
@@ -393,7 +408,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -454,7 +469,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
         },
       ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     storageProfile: {
       source: {
         id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}",
@@ -477,7 +495,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -528,7 +546,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
         },
       ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     storageProfile: {
       dataDiskImages: [
         {
@@ -563,7 +584,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD_UefiSettings.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD_UefiSettings.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -601,7 +622,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCust
         },
       ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     securityProfile: {
       uefiSettings: {
         additionalSignatures: {
@@ -650,7 +674,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCust
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -688,7 +712,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
         },
       ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
     storageProfile: {
       dataDiskImages: [
         {
@@ -727,9 +754,9 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithAdditionalReplicaSets.json
  */
-async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified() {
+async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
@@ -741,6 +768,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
       targetRegions: [
         {
           name: "West US",
+          additionalReplicaSets: [{ regionalReplicaCount: 1, storageAccountType: "PreviumV2_LRS" }],
           encryption: {
             dataDiskImages: [
               {
@@ -807,6 +835,93 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to Create or update a gallery image version.
+ *
+ * @summary Create or update a gallery image version.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
+ */
+async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified() {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const galleryName = "myGalleryName";
+  const galleryImageName = "myGalleryImageName";
+  const galleryImageVersionName = "1.0.0";
+  const galleryImageVersion = {
+    location: "West US",
+    publishingProfile: {
+      targetRegions: [
+        {
+          name: "West US",
+          encryption: {
+            dataDiskImages: [
+              {
+                diskEncryptionSetId:
+                  "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
+                lun: 0,
+              },
+              {
+                diskEncryptionSetId:
+                  "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                lun: 1,
+              },
+            ],
+            osDiskImage: {
+              diskEncryptionSetId:
+                "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+            },
+          },
+          excludeFromLatest: false,
+          regionalReplicaCount: 1,
+        },
+        {
+          name: "East US",
+          encryption: {
+            dataDiskImages: [
+              {
+                diskEncryptionSetId:
+                  "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
+                lun: 0,
+              },
+              {
+                diskEncryptionSetId:
+                  "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                lun: 1,
+              },
+            ],
+            osDiskImage: {
+              diskEncryptionSetId:
+                "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+            },
+          },
+          excludeFromLatest: false,
+          regionalReplicaCount: 2,
+          storageAccountType: "Standard_ZRS",
+        },
+      ],
+    },
+    safetyProfile: {
+      allowDeletionOfReplicatedLocations: false,
+      blockDeletionBeforeEndOfLife: false,
+    },
+    storageProfile: {
+      source: {
+        id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+      },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    galleryName,
+    galleryImageName,
+    galleryImageVersionName,
+    galleryImageVersion,
+  );
+  console.log(result);
+}
+
 async function main() {
   createOrUpdateASimpleGalleryImageVersionUsingVMAsSource();
   createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource();
@@ -817,6 +932,7 @@ async function main() {
   createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource();
   createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys();
   createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource();
+  createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas();
   createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified();
 }
 

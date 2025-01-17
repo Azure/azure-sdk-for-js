@@ -40,7 +40,7 @@ async function networkTapRulesValidateConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  networkTapRulesValidateConfigurationMaximumSetGen();
+  await networkTapRulesValidateConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

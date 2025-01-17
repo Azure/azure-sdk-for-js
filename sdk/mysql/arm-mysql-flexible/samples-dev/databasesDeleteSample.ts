@@ -41,7 +41,7 @@ async function deleteADatabase() {
 }
 
 async function main() {
-  deleteADatabase();
+  await deleteADatabase();
 }
 
 main().catch(console.error);

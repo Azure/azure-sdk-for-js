@@ -44,7 +44,7 @@ async function createManagedServerDnsAlias() {
 }
 
 async function main() {
-  createManagedServerDnsAlias();
+  await createManagedServerDnsAlias();
 }
 
 main().catch(console.error);

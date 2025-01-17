@@ -39,7 +39,7 @@ async function getASecret() {
 }
 
 async function main() {
-  getASecret();
+  await getASecret();
 }
 
 main().catch(console.error);

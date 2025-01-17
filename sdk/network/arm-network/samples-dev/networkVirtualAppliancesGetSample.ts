@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Network Virtual Appliance.
  *
  * @summary Gets the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkVirtualApplianceGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkVirtualApplianceGet.json
  */
 async function getNetworkVirtualAppliance() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function getNetworkVirtualAppliance() {
 }
 
 async function main() {
-  getNetworkVirtualAppliance();
+  await getNetworkVirtualAppliance();
 }
 
 main().catch(console.error);

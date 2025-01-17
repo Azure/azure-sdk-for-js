@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the specified alert.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the specified alert.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-08-01-preview/examples/GetAlertById.json
  */
-async function getAlertById() {
+async function getAlertById(): Promise<void> {
   const scope = "subscriptions/afa2a084-766f-4003-8ae1-c4aeb893a99f";
   const alertId = "TooManyOwnersAssignedToResource";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getAlertById() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAlertById();
 }
 

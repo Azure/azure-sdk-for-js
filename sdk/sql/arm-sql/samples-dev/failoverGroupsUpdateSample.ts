@@ -82,8 +82,8 @@ async function updateFailoverGroup() {
 }
 
 async function main() {
-  addDatabaseToFailoverGroupWithStandbySecondaryOnPartnerServer();
-  updateFailoverGroup();
+  await addDatabaseToFailoverGroupWithStandbySecondaryOnPartnerServer();
+  await updateFailoverGroup();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete an access review history definition
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete an access review history definition
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/DeleteAccessReviewHistoryDefinition.json
  */
-async function deleteAccessReview() {
+async function deleteAccessReview(): Promise<void> {
   const scope = "subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d";
   const historyDefinitionId = "fa73e90b-5bf1-45fd-a182-35ce5fc0674d";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function deleteAccessReview() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAccessReview();
 }
 

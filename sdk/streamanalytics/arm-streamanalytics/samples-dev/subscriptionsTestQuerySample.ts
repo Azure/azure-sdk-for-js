@@ -81,7 +81,7 @@ async function testTheStreamAnalyticsQuery() {
 }
 
 async function main() {
-  testTheStreamAnalyticsQuery();
+  await testTheStreamAnalyticsQuery();
 }
 
 main().catch(console.error);

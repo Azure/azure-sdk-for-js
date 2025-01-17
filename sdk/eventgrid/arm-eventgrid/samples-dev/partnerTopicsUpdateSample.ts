@@ -44,7 +44,7 @@ async function partnerTopicsUpdate() {
 }
 
 async function main() {
-  partnerTopicsUpdate();
+  await partnerTopicsUpdate();
 }
 
 main().catch(console.error);

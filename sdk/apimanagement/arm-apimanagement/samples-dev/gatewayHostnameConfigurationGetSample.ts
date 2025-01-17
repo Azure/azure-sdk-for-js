@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get details of a hostname configuration
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get details of a hostname configuration
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetGatewayHostnameConfiguration.json
  */
-async function apiManagementGetGatewayHostnameConfiguration() {
+async function apiManagementGetGatewayHostnameConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -39,7 +37,7 @@ async function apiManagementGetGatewayHostnameConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetGatewayHostnameConfiguration();
 }
 

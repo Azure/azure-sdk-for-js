@@ -45,7 +45,7 @@ async function createNetworkSlice() {
 }
 
 async function main() {
-  createNetworkSlice();
+  await createNetworkSlice();
 }
 
 main().catch(console.error);

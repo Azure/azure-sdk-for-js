@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to start an Azure Bare Metal instance
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The operation to start an Azure Bare Metal instance
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalInstances_Start.json
  */
-async function startAnAzureBareMetalInstance() {
+async function startAnAzureBareMetalInstance(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function startAnAzureBareMetalInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startAnAzureBareMetalInstance();
 }
 

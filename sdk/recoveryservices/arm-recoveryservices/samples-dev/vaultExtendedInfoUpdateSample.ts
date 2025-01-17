@@ -42,7 +42,7 @@ async function patchExtendedInfoOfResource() {
 }
 
 async function main() {
-  patchExtendedInfoOfResource();
+  await patchExtendedInfoOfResource();
 }
 
 main().catch(console.error);

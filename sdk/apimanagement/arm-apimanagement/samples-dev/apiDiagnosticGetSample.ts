@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the details of the Diagnostic for an API specified by its identifier.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the details of the Diagnostic for an API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiDiagnostic.json
  */
-async function apiManagementGetApiDiagnostic() {
+async function apiManagementGetApiDiagnostic(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -39,7 +37,7 @@ async function apiManagementGetApiDiagnostic() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetApiDiagnostic();
 }
 

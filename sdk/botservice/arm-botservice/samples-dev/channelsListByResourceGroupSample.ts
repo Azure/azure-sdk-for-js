@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns all the Channel registrations of a particular BotService resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns all the Channel registrations of a particular BotService resource
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListChannelsByBotService.json
  */
-async function listChannelsByResourceGroup() {
+async function listChannelsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function listChannelsByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listChannelsByResourceGroup();
 }
 

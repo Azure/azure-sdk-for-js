@@ -13,9 +13,7 @@ import {
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Splits a subscription into a new subscription with quantity less than current subscription quantity and not equal to 0.

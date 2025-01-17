@@ -53,8 +53,8 @@ async function operationsListMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen
 }
 
 async function main() {
-  operationsListMaximumSetGen();
-  operationsListMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await operationsListMaximumSetGen();
+  await operationsListMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

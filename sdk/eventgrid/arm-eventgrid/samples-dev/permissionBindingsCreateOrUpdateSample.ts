@@ -48,7 +48,7 @@ async function permissionBindingsCreateOrUpdate() {
 }
 
 async function main() {
-  permissionBindingsCreateOrUpdate();
+  await permissionBindingsCreateOrUpdate();
 }
 
 main().catch(console.error);

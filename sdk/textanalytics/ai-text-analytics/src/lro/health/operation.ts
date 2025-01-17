@@ -10,28 +10,33 @@ import type {
   HealthStatusOptionalParams as HealthcareJobStatusOptions,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "../../generated/models";
+} from "../../generated/models/index.js";
 import type {
   AnalyzeHealthcareEntitiesResult,
   AnalyzeHealthcareEntitiesResultArray,
   PagedAnalyzeHealthcareEntitiesResult,
   PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
-} from "../../analyzeHealthcareEntitiesResult";
+} from "../../analyzeHealthcareEntitiesResult.js";
 import {
   makeHealthcareEntitiesErrorResult,
   makeHealthcareEntitiesResult,
-} from "../../analyzeHealthcareEntitiesResult";
+} from "../../analyzeHealthcareEntitiesResult.js";
 import type { PageSettings } from "@azure/core-paging";
-import type { StringIndexType } from "../../util";
-import { addStrEncodingParam, getOperationId, nextLinkToTopAndSkip, throwError } from "../../util";
+import type { StringIndexType } from "../../util.js";
+import {
+  addStrEncodingParam,
+  getOperationId,
+  nextLinkToTopAndSkip,
+  throwError,
+} from "../../util.js";
 import type {
   AnalysisPollOperationState,
   OperationMetadata as AnalyzeHealthcareEntitiesOperationMetadata,
-} from "../poller";
-import { AnalysisPollOperation } from "../poller";
-import type { GeneratedClient as Client } from "../../generated";
-import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
-import type { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
+} from "../poller.js";
+import { AnalysisPollOperation } from "../poller.js";
+import type { GeneratedClient as Client } from "../../generated/index.js";
+import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult.js";
+import type { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions.js";
 import type { TracingClient } from "@azure/core-tracing";
 
 /**
@@ -70,7 +75,7 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
    * For supported model versions, see operation-specific documentation, for example:
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
+   * https://learn.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
    */
   modelVersion?: string;
   /**

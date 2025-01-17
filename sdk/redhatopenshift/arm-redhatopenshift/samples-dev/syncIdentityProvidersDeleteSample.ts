@@ -38,7 +38,7 @@ async function deletesASyncIdentityProviderWithTheSpecifiedSubscriptionResourceG
 }
 
 async function main() {
-  deletesASyncIdentityProviderWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await deletesASyncIdentityProviderWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

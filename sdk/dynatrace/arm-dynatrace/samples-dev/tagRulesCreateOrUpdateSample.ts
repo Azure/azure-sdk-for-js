@@ -84,8 +84,8 @@ async function tagRulesCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  tagRulesCreateOrUpdateMaximumSetGen();
-  tagRulesCreateOrUpdateMinimumSetGen();
+  await tagRulesCreateOrUpdateMaximumSetGen();
+  await tagRulesCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -59,8 +59,8 @@ async function getRegistryWithUserCreatedAccounts() {
 }
 
 async function main() {
-  getRegistryWithSystemCreatedAccounts();
-  getRegistryWithUserCreatedAccounts();
+  await getRegistryWithSystemCreatedAccounts();
+  await getRegistryWithUserCreatedAccounts();
 }
 
 main().catch(console.error);

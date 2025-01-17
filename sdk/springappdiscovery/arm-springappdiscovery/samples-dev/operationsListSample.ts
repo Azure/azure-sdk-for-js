@@ -59,8 +59,8 @@ async function operationsListMinimumSetGen() {
 }
 
 async function main() {
-  operationsListMaximumSetGen();
-  operationsListMinimumSetGen();
+  await operationsListMaximumSetGen();
+  await operationsListMinimumSetGen();
 }
 
 main().catch(console.error);

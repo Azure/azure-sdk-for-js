@@ -40,7 +40,7 @@ async function getATargetGroup() {
 }
 
 async function main() {
-  getATargetGroup();
+  await getATargetGroup();
 }
 
 main().catch(console.error);

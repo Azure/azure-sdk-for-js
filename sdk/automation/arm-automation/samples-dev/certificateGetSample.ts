@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve the certificate identified by certificate name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieve the certificate identified by certificate name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getCertificate.json
  */
-async function getACertificate() {
+async function getACertificate(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -35,7 +33,7 @@ async function getACertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getACertificate();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the available BotService operations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the available BotService operations.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetOperations.json
  */
-async function getOperations() {
+async function getOperations(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function getOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getOperations();
 }
 

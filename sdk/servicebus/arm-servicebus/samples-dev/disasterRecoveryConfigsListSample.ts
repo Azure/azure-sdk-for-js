@@ -40,7 +40,7 @@ async function sbAliasList() {
 }
 
 async function main() {
-  sbAliasList();
+  await sbAliasList();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function redisCacheForceReboot() {
 }
 
 async function main() {
-  redisCacheForceReboot();
+  await redisCacheForceReboot();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listProvisionedClusterInstances() {
 }
 
 async function main() {
-  listProvisionedClusterInstances();
+  await listProvisionedClusterInstances();
 }
 
 main().catch(console.error);

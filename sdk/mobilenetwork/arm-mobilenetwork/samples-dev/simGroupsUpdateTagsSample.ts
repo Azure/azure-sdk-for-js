@@ -51,7 +51,7 @@ async function patchSimGroup() {
 }
 
 async function main() {
-  patchSimGroup();
+  await patchSimGroup();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function troubleshootersGet() {
 }
 
 async function main() {
-  troubleshootersGet();
+  await troubleshootersGet();
 }
 
 main().catch(console.error);

@@ -13,9 +13,7 @@ import {
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a credential.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update a credential.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/updateCredential_patch.json
  */
-async function updateACredential() {
+async function updateACredential(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount18";
@@ -45,7 +43,7 @@ async function updateACredential() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateACredential();
 }
 

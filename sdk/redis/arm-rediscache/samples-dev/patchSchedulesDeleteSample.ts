@@ -36,7 +36,7 @@ async function redisCachePatchSchedulesDelete() {
 }
 
 async function main() {
-  redisCachePatchSchedulesDelete();
+  await redisCachePatchSchedulesDelete();
 }
 
 main().catch(console.error);

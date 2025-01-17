@@ -41,7 +41,7 @@ async function consumerGroupDelete() {
 }
 
 async function main() {
-  consumerGroupDelete();
+  await consumerGroupDelete();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function getsAListOfAvailableMaintenanceWindowsForASelectedDatabase() {
 }
 
 async function main() {
-  getsAListOfAvailableMaintenanceWindowsForASelectedDatabase();
+  await getsAListOfAvailableMaintenanceWindowsForASelectedDatabase();
 }
 
 main().catch(console.error);

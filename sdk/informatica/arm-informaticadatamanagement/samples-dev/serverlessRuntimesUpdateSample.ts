@@ -128,8 +128,8 @@ async function serverlessRuntimesUpdateMin() {
 }
 
 async function main() {
-  serverlessRuntimesUpdate();
-  serverlessRuntimesUpdateMin();
+  await serverlessRuntimesUpdate();
+  await serverlessRuntimesUpdateMin();
 }
 
 main().catch(console.error);

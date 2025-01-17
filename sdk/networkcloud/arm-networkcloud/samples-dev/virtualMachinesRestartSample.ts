@@ -37,7 +37,7 @@ async function restartVirtualMachine() {
 }
 
 async function main() {
-  restartVirtualMachine();
+  await restartVirtualMachine();
 }
 
 main().catch(console.error);

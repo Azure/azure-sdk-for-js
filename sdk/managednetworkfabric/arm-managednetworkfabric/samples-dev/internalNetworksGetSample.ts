@@ -42,7 +42,7 @@ async function internalNetworksGetMaximumSetGen() {
 }
 
 async function main() {
-  internalNetworksGetMaximumSetGen();
+  await internalNetworksGetMaximumSetGen();
 }
 
 main().catch(console.error);

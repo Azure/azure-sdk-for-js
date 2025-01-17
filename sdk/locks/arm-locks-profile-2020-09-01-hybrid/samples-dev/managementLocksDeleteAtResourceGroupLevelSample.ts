@@ -36,7 +36,7 @@ async function deleteManagementLockAtResourceGroupLevel() {
 }
 
 async function main() {
-  deleteManagementLockAtResourceGroupLevel();
+  await deleteManagementLockAtResourceGroupLevel();
 }
 
 main().catch(console.error);

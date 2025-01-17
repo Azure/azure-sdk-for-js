@@ -21,7 +21,7 @@
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "integration-test:node": "dev-tool run test:vitest",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "eslint package.json tsconfig.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json tsconfig.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -76,7 +76,7 @@
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.1.8"
   },
   "//metadata": {
@@ -97,7 +97,7 @@
   },
   "//sampleConfiguration": {
     "disableDocsMs": false,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/",
     "skipFolder": true,
     "productName": "Azure Mixed Reality Authentication",
     "productSlugs": [
@@ -106,9 +106,9 @@
       "azure-spatial-anchors"
     ],
     "requiredResources": {
-      "Azure Object Anchors account": "https://docs.microsoft.com/azure/object-anchors/quickstarts/get-started-model-conversion#create-an-object-anchors-account",
-      "Azure Remote Rendering account": "https://docs.microsoft.com/azure/remote-rendering/quickstarts/convert-model#azure-setup",
-      "Azure Spatial Anchors account": "https://docs.microsoft.com/azure/spatial-anchors/quickstarts/get-started-hololens?tabs=azure-portal#create-a-spatial-anchors-resource"
+      "Azure Object Anchors account": "https://learn.microsoft.com/azure/object-anchors/quickstarts/get-started-model-conversion#create-an-object-anchors-account",
+      "Azure Remote Rendering account": "https://learn.microsoft.com/azure/remote-rendering/quickstarts/convert-model#azure-setup",
+      "Azure Spatial Anchors account": "https://learn.microsoft.com/azure/spatial-anchors/quickstarts/get-started-hololens?tabs=azure-portal#create-a-spatial-anchors-resource"
     },
     "customSnippets": {
       "prerequisites": "snippets/prerequisites.md"
@@ -128,7 +128,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

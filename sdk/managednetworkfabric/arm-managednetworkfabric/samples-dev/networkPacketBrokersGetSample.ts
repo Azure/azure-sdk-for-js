@@ -40,7 +40,7 @@ async function networkPacketBrokersGetMaximumSetGen() {
 }
 
 async function main() {
-  networkPacketBrokersGetMaximumSetGen();
+  await networkPacketBrokersGetMaximumSetGen();
 }
 
 main().catch(console.error);

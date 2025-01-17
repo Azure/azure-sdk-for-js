@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  AuthorizationAccessPolicyContract,
-  ApiManagementClient
+  ApiManagementClient,
+  AuthorizationAccessPolicyContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates Authorization Access Policy.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates Authorization Access Policy.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationAccessPolicy.json
  */
-async function apiManagementCreateAuthorizationAccessPolicy() {
+async function apiManagementCreateAuthorizationAccessPolicy(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -49,7 +47,7 @@ async function apiManagementCreateAuthorizationAccessPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateAuthorizationAccessPolicy();
 }
 

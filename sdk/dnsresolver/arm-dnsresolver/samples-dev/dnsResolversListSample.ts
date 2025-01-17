@@ -34,7 +34,7 @@ async function listDnsResolversBySubscription() {
 }
 
 async function main() {
-  listDnsResolversBySubscription();
+  await listDnsResolversBySubscription();
 }
 
 main().catch(console.error);

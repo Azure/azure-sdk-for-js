@@ -42,7 +42,7 @@ async function getDatabaseExtensions() {
 }
 
 async function main() {
-  getDatabaseExtensions();
+  await getDatabaseExtensions();
 }
 
 main().catch(console.error);

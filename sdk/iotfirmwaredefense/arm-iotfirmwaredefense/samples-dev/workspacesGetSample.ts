@@ -53,8 +53,8 @@ async function workspacesGetMinimumSetGen() {
 }
 
 async function main() {
-  workspacesGetMaximumSetGen();
-  workspacesGetMinimumSetGen();
+  await workspacesGetMaximumSetGen();
+  await workspacesGetMinimumSetGen();
 }
 
 main().catch(console.error);

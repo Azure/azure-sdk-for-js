@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the billing permissions the caller has for a customer at billing account level.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the billing permissions the caller has for a customer at billing account level.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPermissionsListByCustomerAtBillingAccount.json
  */
-async function billingPermissionsListByCustomerAtBillingAccount() {
+async function billingPermissionsListByCustomerAtBillingAccount(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const customerName = "11111111-1111-1111-1111-111111111111";
@@ -36,7 +34,7 @@ async function billingPermissionsListByCustomerAtBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingPermissionsListByCustomerAtBillingAccount();
 }
 

@@ -89,11 +89,11 @@ async function getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReporti
 }
 
 async function main() {
-  getStatusForAVMScaleSetThatIsActivelyReportingData();
-  getStatusForAVMThatHasNotYetReportedData();
-  getStatusForAVMThatIsActivelyReportingData();
-  getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReportingData();
-  getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReportingData();
+  await getStatusForAVMScaleSetThatIsActivelyReportingData();
+  await getStatusForAVMThatHasNotYetReportedData();
+  await getStatusForAVMThatIsActivelyReportingData();
+  await getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReportingData();
+  await getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReportingData();
 }
 
 main().catch(console.error);

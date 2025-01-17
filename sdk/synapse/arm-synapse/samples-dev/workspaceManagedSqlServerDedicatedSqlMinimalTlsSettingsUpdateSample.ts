@@ -46,7 +46,7 @@ async function updateTlsVersionOfTheWorkspaceManagedSqlServer() {
 }
 
 async function main() {
-  updateTlsVersionOfTheWorkspaceManagedSqlServer();
+  await updateTlsVersionOfTheWorkspaceManagedSqlServer();
 }
 
 main().catch(console.error);

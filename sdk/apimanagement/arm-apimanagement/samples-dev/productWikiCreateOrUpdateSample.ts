@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { WikiContract, ApiManagementClient } from "@azure/arm-apimanagement";
+import { ApiManagementClient, WikiContract } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new Wiki for a Product or updates an existing one.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a new Wiki for a Product or updates an existing one.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateProductWiki.json
  */
-async function apiManagementCreateProductWiki() {
+async function apiManagementCreateProductWiki(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -41,7 +39,7 @@ async function apiManagementCreateProductWiki() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateProductWiki();
 }
 

@@ -41,7 +41,7 @@ async function listAllReportsForTheVmssGuestConfigurationAssignmentWithLatestRep
 }
 
 async function main() {
-  listAllReportsForTheVmssGuestConfigurationAssignmentWithLatestReportFirst();
+  await listAllReportsForTheVmssGuestConfigurationAssignmentWithLatestReportFirst();
 }
 
 main().catch(console.error);

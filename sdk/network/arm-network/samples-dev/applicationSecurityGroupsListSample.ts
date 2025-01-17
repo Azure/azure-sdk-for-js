@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all the application security groups in a resource group.
  *
  * @summary Gets all the application security groups in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/ApplicationSecurityGroupList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ApplicationSecurityGroupList.json
  */
 async function listLoadBalancersInResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function listLoadBalancersInResourceGroup() {
 }
 
 async function main() {
-  listLoadBalancersInResourceGroup();
+  await listLoadBalancersInResourceGroup();
 }
 
 main().catch(console.error);

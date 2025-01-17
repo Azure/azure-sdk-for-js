@@ -41,7 +41,7 @@ async function getTheLiveEventOperationStatus() {
 }
 
 async function main() {
-  getTheLiveEventOperationStatus();
+  await getTheLiveEventOperationStatus();
 }
 
 main().catch(console.error);

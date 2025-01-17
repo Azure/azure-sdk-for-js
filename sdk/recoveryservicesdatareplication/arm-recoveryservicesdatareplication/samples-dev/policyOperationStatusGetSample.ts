@@ -45,7 +45,7 @@ async function policyOperationStatusGet() {
 }
 
 async function main() {
-  policyOperationStatusGet();
+  await policyOperationStatusGet();
 }
 
 main().catch(console.error);

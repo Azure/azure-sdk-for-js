@@ -44,7 +44,7 @@ async function getWorkspaceCodeVersion() {
 }
 
 async function main() {
-  getWorkspaceCodeVersion();
+  await getWorkspaceCodeVersion();
 }
 
 main().catch(console.error);

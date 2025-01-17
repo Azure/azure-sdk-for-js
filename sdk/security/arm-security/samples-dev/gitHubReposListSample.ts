@@ -41,7 +41,7 @@ async function listGitHubRepos() {
 }
 
 async function main() {
-  listGitHubRepos();
+  await listGitHubRepos();
 }
 
 main().catch(console.error);

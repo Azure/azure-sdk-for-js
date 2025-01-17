@@ -43,7 +43,7 @@ async function listWorkspaceFeatures() {
 }
 
 async function main() {
-  listWorkspaceFeatures();
+  await listWorkspaceFeatures();
 }
 
 main().catch(console.error);

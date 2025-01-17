@@ -38,7 +38,7 @@ async function getsASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResourceN
 }
 
 async function main() {
-  getsASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await getsASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

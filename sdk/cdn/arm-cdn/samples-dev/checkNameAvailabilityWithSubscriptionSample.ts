@@ -13,9 +13,7 @@ import {
   CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CheckNameAvailabilityWithSubscription.json
  */
-async function checkNameAvailabilityWithSubscription() {
+async function checkNameAvailabilityWithSubscription(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const checkNameAvailabilityInput: CheckNameAvailabilityInput = {
     name: "sampleName",
@@ -37,7 +35,7 @@ async function checkNameAvailabilityWithSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkNameAvailabilityWithSubscription();
 }
 

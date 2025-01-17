@@ -42,7 +42,7 @@ async function kustoPoolsCheckNameAvailability() {
 }
 
 async function main() {
-  kustoPoolsCheckNameAvailability();
+  await kustoPoolsCheckNameAvailability();
 }
 
 main().catch(console.error);

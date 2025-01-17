@@ -40,7 +40,7 @@ async function domainTopicsListByDomain() {
 }
 
 async function main() {
-  domainTopicsListByDomain();
+  await domainTopicsListByDomain();
 }
 
 main().catch(console.error);

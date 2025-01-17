@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets information about the specified relationship.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/RelationshipsGet.json
  */
-async function relationshipsGet() {
+async function relationshipsGet(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";

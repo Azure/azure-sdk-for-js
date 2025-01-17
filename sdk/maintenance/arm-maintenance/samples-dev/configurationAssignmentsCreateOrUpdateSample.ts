@@ -51,7 +51,7 @@ async function configurationAssignmentsCreateOrUpdate() {
 }
 
 async function main() {
-  configurationAssignmentsCreateOrUpdate();
+  await configurationAssignmentsCreateOrUpdate();
 }
 
 main().catch(console.error);

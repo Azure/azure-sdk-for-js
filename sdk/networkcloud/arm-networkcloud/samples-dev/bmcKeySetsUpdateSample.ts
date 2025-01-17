@@ -71,7 +71,7 @@ async function patchBaseboardManagementControllerKeySetOfCluster() {
 }
 
 async function main() {
-  patchBaseboardManagementControllerKeySetOfCluster();
+  await patchBaseboardManagementControllerKeySetOfCluster();
 }
 
 main().catch(console.error);

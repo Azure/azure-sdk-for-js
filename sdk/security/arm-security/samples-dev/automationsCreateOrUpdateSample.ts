@@ -191,9 +191,9 @@ async function disableOrEnableASecurityAutomation() {
 }
 
 async function main() {
-  createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSeverities();
-  createOrUpdateASecurityAutomationForAllHighSeverityAssessments();
-  disableOrEnableASecurityAutomation();
+  await createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSeverities();
+  await createOrUpdateASecurityAutomationForAllHighSeverityAssessments();
+  await disableOrEnableASecurityAutomation();
 }
 
 main().catch(console.error);

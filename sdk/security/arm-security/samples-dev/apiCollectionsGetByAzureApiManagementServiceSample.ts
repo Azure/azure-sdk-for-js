@@ -38,7 +38,7 @@ async function getsAnAzureApiManagementApiIfItHasBeenOnboardedToMicrosoftDefende
 }
 
 async function main() {
-  getsAnAzureApiManagementApiIfItHasBeenOnboardedToMicrosoftDefenderForApIs();
+  await getsAnAzureApiManagementApiIfItHasBeenOnboardedToMicrosoftDefenderForApIs();
 }
 
 main().catch(console.error);

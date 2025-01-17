@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import type {
   OperationOptions,
   InternalClientPipelineOptions,
@@ -9,8 +8,8 @@ import type {
 } from "@azure/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { v4 as generateUuid } from "uuid";
-import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
+import { randomUUID } from "@azure/core-util";
+import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI.js";
 import type {
   DigitalTwinsGetByIdResponse,
   DigitalTwinsAddOptionalParams,
@@ -34,7 +33,7 @@ import type {
   EventRoutesGetByIdResponse,
   EventRoute,
   QueryQueryTwinsResponse,
-} from "./generated/models";
+} from "./generated/models/index.js";
 import {
   DigitalTwinModelsGetByIdOptionalParams as GetModelOptions,
   DigitalTwinModelsListOptionalParams as ListModelsOptions,
@@ -42,9 +41,9 @@ import {
   EventRoutesListOptionalParams as ListEventRoutesOptions,
   DigitalTwinsListRelationshipsOptionalParams as ListRelationshipsOptions,
   DigitalTwinsListIncomingRelationshipsOptionalParams as ListIncomingRelationshipsOptions,
-} from "./generated/models";
-import { tracingClient } from "./tracing";
-import { logger } from "./logger";
+} from "./generated/models/index.js";
+import { tracingClient } from "./tracing.js";
+import { logger } from "./logger.js";
 export {
   GetModelOptions,
   ListModelsOptions,
@@ -406,7 +405,7 @@ export class DigitalTwinsClient {
       async (updatedOptions) => {
         return this.client.digitalTwins.sendTelemetry(
           digitalTwinId,
-          messageId || generateUuid(),
+          messageId || randomUUID(),
           payload,
           {
             ...updatedOptions,
@@ -441,7 +440,7 @@ export class DigitalTwinsClient {
         return this.client.digitalTwins.sendComponentTelemetry(
           digitalTwinId,
           componentName,
-          messageId || generateUuid(),
+          messageId || randomUUID(),
           payload,
           { ...updatedOptions, telemetrySourceTime: new Date().toISOString() },
         );

@@ -39,7 +39,7 @@ async function endpointsDelete() {
 }
 
 async function main() {
-  endpointsDelete();
+  await endpointsDelete();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function listAllPublisherResourcesInASubscription() {
 }
 
 async function main() {
-  listAllPublisherResourcesInASubscription();
+  await listAllPublisherResourcesInASubscription();
 }
 
 main().catch(console.error);

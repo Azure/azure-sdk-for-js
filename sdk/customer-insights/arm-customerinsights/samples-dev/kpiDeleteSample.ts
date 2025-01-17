@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a KPI in the hub.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/KpiDelete.json
  */
-async function kpiDelete() {
+async function kpiDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";

@@ -30,7 +30,7 @@ async function setMarketplaceTerms() {
 }
 
 async function main() {
-  setMarketplaceTerms();
+  await setMarketplaceTerms();
 }
 
 main().catch(console.error);

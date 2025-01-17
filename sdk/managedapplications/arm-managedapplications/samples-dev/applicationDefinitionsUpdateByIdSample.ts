@@ -43,7 +43,7 @@ async function updateManagedApplicationDefinition() {
 }
 
 async function main() {
-  updateManagedApplicationDefinition();
+  await updateManagedApplicationDefinition();
 }
 
 main().catch(console.error);

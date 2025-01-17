@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualHubBgpConnectionsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the details of all VirtualHubBgpConnections.
@@ -25,14 +23,14 @@ async function virtualHubRouteTableV2List() {
   const resourceGroupName = "rg1";
   const virtualHubName = "hub1";
   const options: VirtualHubBgpConnectionsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections",
       subscriptionId,
       resourceGroupName,
-      virtualHubName
+      virtualHubName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

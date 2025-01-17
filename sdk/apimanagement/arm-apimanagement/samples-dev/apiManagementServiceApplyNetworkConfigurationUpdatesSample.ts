@@ -9,14 +9,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
+  ApiManagementClient,
   ApiManagementServiceApplyNetworkConfigurationParameters,
-  ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
-  ApiManagementClient
+  ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS changes.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS changes.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementApplyNetworkConfigurationUpdates.json
  */
-async function apiManagementApplyNetworkConfigurationUpdates() {
+async function apiManagementApplyNetworkConfigurationUpdates(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -46,7 +44,7 @@ async function apiManagementApplyNetworkConfigurationUpdates() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementApplyNetworkConfigurationUpdates();
 }
 

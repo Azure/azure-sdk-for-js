@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ApiManagementServiceResource,
-  ApiManagementClient
+  ApiManagementClient,
+  ApiManagementServiceResource
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateMultiRegionServiceWithCustomHostname.json
  */
-async function apiManagementCreateMultiRegionServiceWithCustomHostname() {
+async function apiManagementCreateMultiRegionServiceWithCustomHostname(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -82,7 +80,7 @@ async function apiManagementCreateMultiRegionServiceWithCustomHostname() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateService.json
  */
-async function apiManagementCreateService() {
+async function apiManagementCreateService(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -111,7 +109,7 @@ async function apiManagementCreateService() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceHavingMsi.json
  */
-async function apiManagementCreateServiceHavingMsi() {
+async function apiManagementCreateServiceHavingMsi(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -141,7 +139,7 @@ async function apiManagementCreateServiceHavingMsi() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceInVnetWithPublicIP.json
  */
-async function apiManagementCreateServiceInVnetWithPublicIP() {
+async function apiManagementCreateServiceInVnetWithPublicIP(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -178,7 +176,7 @@ async function apiManagementCreateServiceInVnetWithPublicIP() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceInZones.json
  */
-async function apiManagementCreateServiceInZones() {
+async function apiManagementCreateServiceInZones(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -208,7 +206,7 @@ async function apiManagementCreateServiceInZones() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithCustomHostnameKeyVault.json
  */
-async function apiManagementCreateServiceWithCustomHostnameKeyVault() {
+async function apiManagementCreateServiceWithCustomHostnameKeyVault(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -269,7 +267,7 @@ async function apiManagementCreateServiceWithCustomHostnameKeyVault() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithNatGatewayEnabled.json
  */
-async function apiManagementCreateServiceWithNatGatewayEnabled() {
+async function apiManagementCreateServiceWithNatGatewayEnabled(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -299,7 +297,7 @@ async function apiManagementCreateServiceWithNatGatewayEnabled() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithSystemCertificates.json
  */
-async function apiManagementCreateServiceWithSystemCertificates() {
+async function apiManagementCreateServiceWithSystemCertificates(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -336,7 +334,7 @@ async function apiManagementCreateServiceWithSystemCertificates() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithUserAssignedIdentity.json
  */
-async function apiManagementCreateServiceWithUserAssignedIdentity() {
+async function apiManagementCreateServiceWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -371,7 +369,7 @@ async function apiManagementCreateServiceWithUserAssignedIdentity() {
  * @summary Creates or updates an API Management service. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUndelete.json
  */
-async function apiManagementUndelete() {
+async function apiManagementUndelete(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -394,7 +392,7 @@ async function apiManagementUndelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateMultiRegionServiceWithCustomHostname();
   apiManagementCreateService();
   apiManagementCreateServiceHavingMsi();

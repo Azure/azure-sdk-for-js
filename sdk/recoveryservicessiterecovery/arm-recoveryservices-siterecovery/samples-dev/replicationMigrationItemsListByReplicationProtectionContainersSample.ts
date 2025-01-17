@@ -45,7 +45,7 @@ async function getsTheListOfMigrationItemsInTheProtectionContainer() {
 }
 
 async function main() {
-  getsTheListOfMigrationItemsInTheProtectionContainer();
+  await getsTheListOfMigrationItemsInTheProtectionContainer();
 }
 
 main().catch(console.error);

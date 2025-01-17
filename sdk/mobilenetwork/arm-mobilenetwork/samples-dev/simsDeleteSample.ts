@@ -39,7 +39,7 @@ async function deleteSim() {
 }
 
 async function main() {
-  deleteSim();
+  await deleteSim();
 }
 
 main().catch(console.error);

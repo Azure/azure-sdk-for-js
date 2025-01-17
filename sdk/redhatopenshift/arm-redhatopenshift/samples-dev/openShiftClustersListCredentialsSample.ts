@@ -36,7 +36,7 @@ async function listsCredentialsOfAnOpenShiftClusterWithTheSpecifiedSubscriptionR
 }
 
 async function main() {
-  listsCredentialsOfAnOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await listsCredentialsOfAnOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function subvolumesList() {
 }
 
 async function main() {
-  subvolumesList();
+  await subvolumesList();
 }
 
 main().catch(console.error);

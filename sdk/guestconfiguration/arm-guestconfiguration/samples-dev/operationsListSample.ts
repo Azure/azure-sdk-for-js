@@ -34,7 +34,7 @@ async function listsAllOfTheAvailableGuestConfigurationRestApiOperations() {
 }
 
 async function main() {
-  listsAllOfTheAvailableGuestConfigurationRestApiOperations();
+  await listsAllOfTheAvailableGuestConfigurationRestApiOperations();
 }
 
 main().catch(console.error);

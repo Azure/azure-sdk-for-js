@@ -49,7 +49,7 @@ async function createAFirewallRule() {
 }
 
 async function main() {
-  createAFirewallRule();
+  await createAFirewallRule();
 }
 
 main().catch(console.error);

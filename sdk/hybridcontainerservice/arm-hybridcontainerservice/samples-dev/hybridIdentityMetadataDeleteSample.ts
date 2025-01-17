@@ -32,7 +32,7 @@ async function deleteHybridIdentityMetadata() {
 }
 
 async function main() {
-  deleteHybridIdentityMetadata();
+  await deleteHybridIdentityMetadata();
 }
 
 main().catch(console.error);

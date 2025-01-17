@@ -41,7 +41,7 @@ async function managedDatabaseRestoreDetails() {
 }
 
 async function main() {
-  managedDatabaseRestoreDetails();
+  await managedDatabaseRestoreDetails();
 }
 
 main().catch(console.error);

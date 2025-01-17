@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about the Batch accounts associated with the subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets information about the Batch accounts associated with the subscription.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountList.json
  */
-async function batchAccountList() {
+async function batchAccountList(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -31,7 +29,7 @@ async function batchAccountList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   batchAccountList();
 }
 

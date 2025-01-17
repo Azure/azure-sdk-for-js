@@ -40,7 +40,7 @@ async function listBitLockerKeysForDrivesInAJob() {
 }
 
 async function main() {
-  listBitLockerKeysForDrivesInAJob();
+  await listBitLockerKeysForDrivesInAJob();
 }
 
 main().catch(console.error);

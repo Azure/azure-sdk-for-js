@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given database account and collection.
  *
  * @summary Retrieves the metrics determined by the given filter for the given database account and collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/CosmosDBCollectionGetMetrics.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCollectionGetMetrics.json
  */
-async function cosmosDbCollectionGetMetrics() {
+async function cosmosDbCollectionGetMetrics(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -43,7 +41,7 @@ async function cosmosDbCollectionGetMetrics() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbCollectionGetMetrics();
 }
 

@@ -34,7 +34,7 @@ async function retrieveAVault() {
 }
 
 async function main() {
-  retrieveAVault();
+  await retrieveAVault();
 }
 
 main().catch(console.error);

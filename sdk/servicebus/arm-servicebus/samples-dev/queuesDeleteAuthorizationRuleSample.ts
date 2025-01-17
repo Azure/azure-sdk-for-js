@@ -41,7 +41,7 @@ async function queueAuthorizationRuleDelete() {
 }
 
 async function main() {
-  queueAuthorizationRuleDelete();
+  await queueAuthorizationRuleDelete();
 }
 
 main().catch(console.error);

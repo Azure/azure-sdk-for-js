@@ -13,17 +13,15 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a gallery Application Definition.
  *
  * @summary Update a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplication_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_Update.json
  */
-async function updateASimpleGalleryApplication() {
+async function updateASimpleGalleryApplication(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -64,7 +62,7 @@ async function updateASimpleGalleryApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateASimpleGalleryApplication();
 }
 

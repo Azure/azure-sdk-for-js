@@ -37,7 +37,7 @@ async function systemTopicsGet() {
 }
 
 async function main() {
-  systemTopicsGet();
+  await systemTopicsGet();
 }
 
 main().catch(console.error);

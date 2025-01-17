@@ -35,7 +35,7 @@ async function getSecurityAlertsOnAResourceGroup() {
 }
 
 async function main() {
-  getSecurityAlertsOnAResourceGroup();
+  await getSecurityAlertsOnAResourceGroup();
 }
 
 main().catch(console.error);

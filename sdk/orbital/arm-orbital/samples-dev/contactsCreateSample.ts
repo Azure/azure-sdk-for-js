@@ -49,7 +49,7 @@ async function createAContact() {
 }
 
 async function main() {
-  createAContact();
+  await createAContact();
 }
 
 main().catch(console.error);

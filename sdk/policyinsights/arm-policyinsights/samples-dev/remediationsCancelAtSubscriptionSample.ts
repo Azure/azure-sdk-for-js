@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Cancels a remediation at subscription scope.
  *
  * @summary Cancels a remediation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_CancelSubscriptionScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CancelSubscriptionScope.json
  */
 async function cancelARemediationAtSubscriptionScope() {
   const subscriptionId =
@@ -27,14 +25,13 @@ async function cancelARemediationAtSubscriptionScope() {
   const remediationName = "myRemediation";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.remediations.cancelAtSubscription(
-    remediationName
-  );
+  const result =
+    await client.remediations.cancelAtSubscription(remediationName);
   console.log(result);
 }
 
 async function main() {
-  cancelARemediationAtSubscriptionScope();
+  await cancelARemediationAtSubscriptionScope();
 }
 
 main().catch(console.error);

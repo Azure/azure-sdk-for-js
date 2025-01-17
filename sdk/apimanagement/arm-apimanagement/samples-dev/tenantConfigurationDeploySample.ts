@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  DeployConfigurationParameters,
-  ApiManagementClient
+  ApiManagementClient,
+  DeployConfigurationParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation applies changes from the specified Git branch to the configuration database. This is a long running operation and could take several minutes to complete.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary This operation applies changes from the specified Git branch to the configuration database. This is a long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementTenantConfigurationDeploy.json
  */
-async function apiManagementTenantConfigurationDeploy() {
+async function apiManagementTenantConfigurationDeploy(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -42,7 +40,7 @@ async function apiManagementTenantConfigurationDeploy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementTenantConfigurationDeploy();
 }
 

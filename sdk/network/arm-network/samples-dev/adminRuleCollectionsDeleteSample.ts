@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an admin rule collection.
  *
  * @summary Deletes an admin rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerAdminRuleCollectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerAdminRuleCollectionDelete.json
  */
 async function deletesAnAdminRuleCollection() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function deletesAnAdminRuleCollection() {
 }
 
 async function main() {
-  deletesAnAdminRuleCollection();
+  await deletesAnAdminRuleCollection();
 }
 
 main().catch(console.error);

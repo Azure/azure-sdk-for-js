@@ -22,7 +22,7 @@ import {
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Extensions,
   FarmBeatsExtensions,
@@ -31,8 +31,8 @@ import {
   Operations,
   PrivateEndpointConnections,
   PrivateLinkResources
-} from "./operationsInterfaces";
-import { AgriFoodMgmtClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AgriFoodMgmtClientOptionalParams } from "./models/index.js";
 
 export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   $host: string;

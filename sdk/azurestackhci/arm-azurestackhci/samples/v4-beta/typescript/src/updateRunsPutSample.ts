@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { UpdateRun, AzureStackHCIClient } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Put Update runs for a specified update

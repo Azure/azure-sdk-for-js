@@ -38,7 +38,7 @@ async function storageAccountHierarchicalNamespaceMigration() {
 }
 
 async function main() {
-  storageAccountHierarchicalNamespaceMigration();
+  await storageAccountHierarchicalNamespaceMigration();
 }
 
 main().catch(console.error);

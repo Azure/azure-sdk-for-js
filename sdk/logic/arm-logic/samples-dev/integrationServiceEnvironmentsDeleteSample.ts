@@ -36,7 +36,7 @@ async function deleteAnIntegrationAccount() {
 }
 
 async function main() {
-  deleteAnIntegrationAccount();
+  await deleteAnIntegrationAccount();
 }
 
 main().catch(console.error);

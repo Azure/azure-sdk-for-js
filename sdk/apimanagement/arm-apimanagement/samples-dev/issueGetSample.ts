@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets API Management issue details
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets API Management issue details
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetIssue.json
  */
-async function apiManagementGetIssue() {
+async function apiManagementGetIssue(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function apiManagementGetIssue() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetIssue();
 }
 

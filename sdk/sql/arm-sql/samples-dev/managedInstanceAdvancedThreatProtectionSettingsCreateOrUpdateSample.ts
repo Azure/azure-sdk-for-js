@@ -76,8 +76,8 @@ async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimal
 }
 
 async function main() {
-  updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllParameters();
-  updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimalParameters();
+  await updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllParameters();
+  await updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimalParameters();
 }
 
 main().catch(console.error);

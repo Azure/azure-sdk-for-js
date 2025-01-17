@@ -25,7 +25,7 @@ import {
   CommandProperties as CommandPropertiesMapper,
   Project as ProjectMapper,
   ProjectFile as ProjectFileMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

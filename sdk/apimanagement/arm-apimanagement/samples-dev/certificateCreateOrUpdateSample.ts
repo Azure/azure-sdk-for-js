@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  CertificateCreateOrUpdateParameters,
-  ApiManagementClient
+  ApiManagementClient,
+  CertificateCreateOrUpdateParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the certificate being used for authentication with the backend.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates the certificate being used for authentication with the backend.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateCertificate.json
  */
-async function apiManagementCreateCertificate() {
+async function apiManagementCreateCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -52,7 +50,7 @@ async function apiManagementCreateCertificate() {
  * @summary Creates or updates the certificate being used for authentication with the backend.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateCertificateWithKeyVault.json
  */
-async function apiManagementCreateCertificateWithKeyVault() {
+async function apiManagementCreateCertificateWithKeyVault(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -77,7 +75,7 @@ async function apiManagementCreateCertificateWithKeyVault() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateCertificate();
   apiManagementCreateCertificateWithKeyVault();
 }

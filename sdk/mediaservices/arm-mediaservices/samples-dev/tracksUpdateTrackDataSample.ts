@@ -41,7 +41,7 @@ async function updateTheDataForATracks() {
 }
 
 async function main() {
-  updateTheDataForATracks();
+  await updateTheDataForATracks();
 }
 
 main().catch(console.error);

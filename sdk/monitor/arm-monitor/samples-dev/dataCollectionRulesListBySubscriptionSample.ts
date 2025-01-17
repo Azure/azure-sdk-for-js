@@ -34,7 +34,7 @@ async function listDataCollectionRulesBySubscription() {
 }
 
 async function main() {
-  listDataCollectionRulesBySubscription();
+  await listDataCollectionRulesBySubscription();
 }
 
 main().catch(console.error);

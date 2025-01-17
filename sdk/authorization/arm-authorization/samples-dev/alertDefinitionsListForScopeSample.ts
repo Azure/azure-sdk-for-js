@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets alert definitions for a resource scope.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets alert definitions for a resource scope.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-08-01-preview/examples/GetAlertDefinitions.json
  */
-async function getAlertDefinitions() {
+async function getAlertDefinitions(): Promise<void> {
   const scope = "subscriptions/afa2a084-766f-4003-8ae1-c4aeb893a99f";
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
@@ -31,7 +29,7 @@ async function getAlertDefinitions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAlertDefinitions();
 }
 

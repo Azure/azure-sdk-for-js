@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists ExpressRoute gateways under a given subscription.
  *
  * @summary Lists ExpressRoute gateways under a given subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/ExpressRouteGatewayListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ExpressRouteGatewayListBySubscription.json
  */
 async function expressRouteGatewayListBySubscription() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function expressRouteGatewayListBySubscription() {
 }
 
 async function main() {
-  expressRouteGatewayListBySubscription();
+  await expressRouteGatewayListBySubscription();
 }
 
 main().catch(console.error);

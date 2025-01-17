@@ -1,13 +1,14 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "paths": {
-      "@azure/core-amqp": ["./src/index.ts"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
     },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": ".",
-    "resolveJsonModule": true
-  },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ],
+  "files": []
 }

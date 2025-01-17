@@ -42,7 +42,7 @@ async function getsTheDetailsOfARecoveryServicesProvider() {
 }
 
 async function main() {
-  getsTheDetailsOfARecoveryServicesProvider();
+  await getsTheDetailsOfARecoveryServicesProvider();
 }
 
 main().catch(console.error);

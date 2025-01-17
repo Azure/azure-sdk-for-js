@@ -34,7 +34,7 @@ async function configurationAssignmentsForSubscriptionsDelete() {
 }
 
 async function main() {
-  configurationAssignmentsForSubscriptionsDelete();
+  await configurationAssignmentsForSubscriptionsDelete();
 }
 
 main().catch(console.error);

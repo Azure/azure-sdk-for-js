@@ -46,7 +46,7 @@ async function updateAUserConfiguration() {
 }
 
 async function main() {
-  updateAUserConfiguration();
+  await updateAUserConfiguration();
 }
 
 main().catch(console.error);

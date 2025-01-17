@@ -38,7 +38,7 @@ async function listBareMetalMachinesForResourceGroup() {
 }
 
 async function main() {
-  listBareMetalMachinesForResourceGroup();
+  await listBareMetalMachinesForResourceGroup();
 }
 
 main().catch(console.error);

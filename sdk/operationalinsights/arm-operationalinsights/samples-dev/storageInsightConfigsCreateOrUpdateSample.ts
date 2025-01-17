@@ -55,7 +55,7 @@ async function storageInsightsCreate() {
 }
 
 async function main() {
-  storageInsightsCreate();
+  await storageInsightsCreate();
 }
 
 main().catch(console.error);

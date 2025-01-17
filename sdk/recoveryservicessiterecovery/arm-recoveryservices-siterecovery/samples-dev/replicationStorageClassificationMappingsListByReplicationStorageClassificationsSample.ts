@@ -46,7 +46,7 @@ async function getsTheListOfStorageClassificationMappingsObjectsUnderAStorage() 
 }
 
 async function main() {
-  getsTheListOfStorageClassificationMappingsObjectsUnderAStorage();
+  await getsTheListOfStorageClassificationMappingsObjectsUnderAStorage();
 }
 
 main().catch(console.error);

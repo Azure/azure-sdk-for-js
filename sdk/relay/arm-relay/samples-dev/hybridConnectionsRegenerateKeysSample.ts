@@ -43,7 +43,7 @@ async function relayHybridConnectionAuthorizationRuleRegenrateKey() {
 }
 
 async function main() {
-  relayHybridConnectionAuthorizationRuleRegenrateKey();
+  await relayHybridConnectionAuthorizationRuleRegenrateKey();
 }
 
 main().catch(console.error);

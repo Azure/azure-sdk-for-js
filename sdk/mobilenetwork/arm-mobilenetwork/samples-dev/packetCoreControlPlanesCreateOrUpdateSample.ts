@@ -83,7 +83,7 @@ async function createPacketCoreControlPlane() {
 }
 
 async function main() {
-  createPacketCoreControlPlane();
+  await createPacketCoreControlPlane();
 }
 
 main().catch(console.error);

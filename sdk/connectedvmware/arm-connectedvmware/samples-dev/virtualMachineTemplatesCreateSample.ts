@@ -14,9 +14,7 @@ import {
   AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create Or Update virtual machine template.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Create Or Update virtual machine template.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/CreateVirtualMachineTemplate.json
  */
-async function createVirtualMachineTemplate() {
+async function createVirtualMachineTemplate(): Promise<void> {
   const subscriptionId =
     process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -56,7 +54,7 @@ async function createVirtualMachineTemplate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createVirtualMachineTemplate();
 }
 

@@ -44,7 +44,7 @@ async function deleteWorkspaceModelVersion() {
 }
 
 async function main() {
-  deleteWorkspaceModelVersion();
+  await deleteWorkspaceModelVersion();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function configurationAssignmentsDeleteParent() {
 }
 
 async function main() {
-  configurationAssignmentsDeleteParent();
+  await configurationAssignmentsDeleteParent();
 }
 
 main().catch(console.error);

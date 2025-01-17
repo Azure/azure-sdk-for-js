@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified route filter.
  *
  * @summary Deletes the specified route filter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/RouteFilterDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/RouteFilterDelete.json
  */
 async function routeFilterDelete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function routeFilterDelete() {
 }
 
 async function main() {
-  routeFilterDelete();
+  await routeFilterDelete();
 }
 
 main().catch(console.error);

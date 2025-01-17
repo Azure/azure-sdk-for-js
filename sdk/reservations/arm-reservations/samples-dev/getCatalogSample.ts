@@ -38,7 +38,7 @@ async function catalog() {
 }
 
 async function main() {
-  catalog();
+  await catalog();
 }
 
 main().catch(console.error);

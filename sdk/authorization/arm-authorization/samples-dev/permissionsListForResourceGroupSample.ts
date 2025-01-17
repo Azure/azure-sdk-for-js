@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all permissions the caller has for a resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all permissions the caller has for a resource group.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-05-01-preview/examples/GetPermissions.json
  */
-async function listPermissionsForResourceGroup() {
+async function listPermissionsForResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName =
@@ -36,7 +34,7 @@ async function listPermissionsForResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPermissionsForResourceGroup();
 }
 

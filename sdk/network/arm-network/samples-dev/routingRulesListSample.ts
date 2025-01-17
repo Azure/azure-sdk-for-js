@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all network manager routing configuration routing rules.
  *
  * @summary List all network manager routing configuration routing rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerRoutingRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRuleList.json
  */
 async function listRoutingRules() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function listRoutingRules() {
 }
 
 async function main() {
-  listRoutingRules();
+  await listRoutingRules();
 }
 
 main().catch(console.error);

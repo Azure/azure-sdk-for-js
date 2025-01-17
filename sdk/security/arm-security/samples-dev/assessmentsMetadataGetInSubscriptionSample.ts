@@ -34,7 +34,7 @@ async function getSecurityAssessmentMetadataForSubscription() {
 }
 
 async function main() {
-  getSecurityAssessmentMetadataForSubscription();
+  await getSecurityAssessmentMetadataForSubscription();
 }
 
 main().catch(console.error);

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets Guest Usages resources under a resource group for the Microsoft.AzureActiveDirectory resource provider
  * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/GuestUsagesResourceGroupGet.json
  */
-async function guestUsagesResourceGroupList() {
+async function guestUsagesResourceGroupList(): Promise<void> {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const resourceGroupName = "contosoResourceGroup";
   const credential = new DefaultAzureCredential();

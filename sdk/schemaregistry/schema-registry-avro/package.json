@@ -20,7 +20,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --browser --no-test-proxy",
-    "integration-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy --esm",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -93,12 +93,13 @@
     "playwright": "^1.47.1",
     "process": "^0.11.10",
     "stream": "^0.0.3",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "uuid": "^8.3.0",
     "vitest": "^2.1.1"
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

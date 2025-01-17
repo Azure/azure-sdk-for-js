@@ -13,9 +13,7 @@ import {
   BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountRegenerateKey.json
  */
-async function batchAccountRegenerateKey() {
+async function batchAccountRegenerateKey(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -41,7 +39,7 @@ async function batchAccountRegenerateKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   batchAccountRegenerateKey();
 }
 

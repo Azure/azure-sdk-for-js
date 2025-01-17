@@ -13,9 +13,7 @@ import {
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountUpdateWithPONumber.json
  */
-async function billingAccountUpdateWithPoNumber() {
+async function billingAccountUpdateWithPoNumber(): Promise<void> {
   const billingAccountName = "6575495";
   const parameters: BillingAccountPatch = {
     properties: { enrollmentDetails: { poNumber: "poNumber123" } },
@@ -43,7 +41,7 @@ async function billingAccountUpdateWithPoNumber() {
  * @summary Updates the properties of a billing account. Currently, displayName and address can be updated for billing accounts with agreement type Microsoft Customer Agreement. Currently address and notification email address can be updated for billing accounts with agreement type Microsoft Online Services Agreement. Currently, purchase order number can be edited for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsUpdate.json
  */
-async function billingAccountsUpdate() {
+async function billingAccountsUpdate(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const parameters: BillingAccountPatch = {
@@ -68,7 +66,7 @@ async function billingAccountsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingAccountUpdateWithPoNumber();
   billingAccountsUpdate();
 }

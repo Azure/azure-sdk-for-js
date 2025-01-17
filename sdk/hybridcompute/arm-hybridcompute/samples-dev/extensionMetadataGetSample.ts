@@ -40,7 +40,7 @@ async function getAnExtensionsMetadata() {
 }
 
 async function main() {
-  getAnExtensionsMetadata();
+  await getAnExtensionsMetadata();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function deletedAccountList() {
 }
 
 async function main() {
-  deletedAccountList();
+  await deletedAccountList();
 }
 
 main().catch(console.error);

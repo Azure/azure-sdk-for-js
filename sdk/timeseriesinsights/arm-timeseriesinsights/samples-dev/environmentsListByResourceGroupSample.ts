@@ -34,7 +34,7 @@ async function environmentsByResourceGroup() {
 }
 
 async function main() {
-  environmentsByResourceGroup();
+  await environmentsByResourceGroup();
 }
 
 main().catch(console.error);

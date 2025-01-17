@@ -44,7 +44,7 @@ async function getsAProtectionContainerMapping() {
 }
 
 async function main() {
-  getsAProtectionContainerMapping();
+  await getsAProtectionContainerMapping();
 }
 
 main().catch(console.error);

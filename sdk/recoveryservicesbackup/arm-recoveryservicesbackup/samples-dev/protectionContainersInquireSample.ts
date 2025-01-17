@@ -41,7 +41,7 @@ async function inquireAzureStorageProtectionContainers() {
 }
 
 async function main() {
-  inquireAzureStorageProtectionContainers();
+  await inquireAzureStorageProtectionContainers();
 }
 
 main().catch(console.error);

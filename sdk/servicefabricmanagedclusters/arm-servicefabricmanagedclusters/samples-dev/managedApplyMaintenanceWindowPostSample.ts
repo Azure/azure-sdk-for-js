@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending update will be applied.
  *
  * @summary Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any pending update will be applied.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ManagedApplyMaintenanceWindowPost_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ManagedApplyMaintenanceWindowPost_example.json
  */
 async function maintenanceWindowStatus() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function maintenanceWindowStatus() {
 }
 
 async function main() {
-  maintenanceWindowStatus();
+  await maintenanceWindowStatus();
 }
 
 main().catch(console.error);

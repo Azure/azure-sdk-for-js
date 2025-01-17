@@ -49,7 +49,7 @@ async function upsertVirtualNetworkLinkToADnsForwardingRuleset() {
 }
 
 async function main() {
-  upsertVirtualNetworkLinkToADnsForwardingRuleset();
+  await upsertVirtualNetworkLinkToADnsForwardingRuleset();
 }
 
 main().catch(console.error);

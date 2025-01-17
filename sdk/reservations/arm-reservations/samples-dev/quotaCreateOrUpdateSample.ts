@@ -140,9 +140,9 @@ async function quotasRequestPutForMachineLearningServicesLowPriorityResource() {
 }
 
 async function main() {
-  quotasRequestPutForCompute();
-  quotasRequestPutForMachineLearningServicesDedicatedResource();
-  quotasRequestPutForMachineLearningServicesLowPriorityResource();
+  await quotasRequestPutForCompute();
+  await quotasRequestPutForMachineLearningServicesDedicatedResource();
+  await quotasRequestPutForMachineLearningServicesLowPriorityResource();
 }
 
 main().catch(console.error);

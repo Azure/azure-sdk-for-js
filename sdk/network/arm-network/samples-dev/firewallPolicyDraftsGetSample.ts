@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a draft Firewall Policy.
  *
  * @summary Get a draft Firewall Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/FirewallPolicyDraftGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyDraftGet.json
  */
 async function getFirewallPolicyDraft() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function getFirewallPolicyDraft() {
 }
 
 async function main() {
-  getFirewallPolicyDraft();
+  await getFirewallPolicyDraft();
 }
 
 main().catch(console.error);

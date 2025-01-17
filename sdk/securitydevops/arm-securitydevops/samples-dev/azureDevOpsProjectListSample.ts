@@ -42,7 +42,7 @@ async function azureDevOpsProjectList() {
 }
 
 async function main() {
-  azureDevOpsProjectList();
+  await azureDevOpsProjectList();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function organizationsGetApiKey() {
 }
 
 async function main() {
-  organizationsGetApiKey();
+  await organizationsGetApiKey();
 }
 
 main().catch(console.error);

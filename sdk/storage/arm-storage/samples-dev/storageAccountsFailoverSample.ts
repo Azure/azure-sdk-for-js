@@ -55,8 +55,8 @@ async function storageAccountFailoverPlanned() {
 }
 
 async function main() {
-  storageAccountFailover();
-  storageAccountFailoverPlanned();
+  await storageAccountFailover();
+  await storageAccountFailoverPlanned();
 }
 
 main().catch(console.error);

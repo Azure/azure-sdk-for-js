@@ -67,7 +67,7 @@ async function putLabPlan() {
 }
 
 async function main() {
-  putLabPlan();
+  await putLabPlan();
 }
 
 main().catch(console.error);

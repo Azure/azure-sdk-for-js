@@ -40,7 +40,7 @@ async function updateDevOpsConfigurations() {
 }
 
 async function main() {
-  updateDevOpsConfigurations();
+  await updateDevOpsConfigurations();
 }
 
 main().catch(console.error);

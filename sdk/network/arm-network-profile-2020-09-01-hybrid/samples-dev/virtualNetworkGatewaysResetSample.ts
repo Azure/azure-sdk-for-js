@@ -34,7 +34,7 @@ async function resetVirtualNetworkGateway() {
 }
 
 async function main() {
-  resetVirtualNetworkGateway();
+  await resetVirtualNetworkGateway();
 }
 
 main().catch(console.error);

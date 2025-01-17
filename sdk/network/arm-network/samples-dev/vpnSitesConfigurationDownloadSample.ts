@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gives the sas-url to download the configurations for vpn-sites in a resource group.
  *
  * @summary Gives the sas-url to download the configurations for vpn-sites in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VpnSitesConfigurationDownload.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnSitesConfigurationDownload.json
  */
 async function vpnSitesConfigurationDownload() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -45,7 +45,7 @@ async function vpnSitesConfigurationDownload() {
 }
 
 async function main() {
-  vpnSitesConfigurationDownload();
+  await vpnSitesConfigurationDownload();
 }
 
 main().catch(console.error);

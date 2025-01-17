@@ -51,7 +51,7 @@ async function runDataExtractionOnBareMetalMachine() {
 }
 
 async function main() {
-  runDataExtractionOnBareMetalMachine();
+  await runDataExtractionOnBareMetalMachine();
 }
 
 main().catch(console.error);

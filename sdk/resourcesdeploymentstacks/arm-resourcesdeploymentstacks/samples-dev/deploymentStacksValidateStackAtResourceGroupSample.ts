@@ -61,7 +61,7 @@ async function deploymentStacksResourceGroupValidate() {
 }
 
 async function main() {
-  deploymentStacksResourceGroupValidate();
+  await deploymentStacksResourceGroupValidate();
 }
 
 main().catch(console.error);

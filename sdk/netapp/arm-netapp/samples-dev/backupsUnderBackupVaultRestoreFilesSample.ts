@@ -46,7 +46,7 @@ async function backupsSingleFileRestore() {
 }
 
 async function main() {
-  backupsSingleFileRestore();
+  await backupsSingleFileRestore();
 }
 
 main().catch(console.error);

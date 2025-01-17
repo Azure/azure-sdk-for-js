@@ -44,7 +44,7 @@ async function generateAnUpgradedDefinition() {
 }
 
 async function main() {
-  generateAnUpgradedDefinition();
+  await generateAnUpgradedDefinition();
 }
 
 main().catch(console.error);

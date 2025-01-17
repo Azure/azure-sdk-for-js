@@ -54,7 +54,7 @@ async function internetGatewaysCreateMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewaysCreateMaximumSetGen();
+  await internetGatewaysCreateMaximumSetGen();
 }
 
 main().catch(console.error);

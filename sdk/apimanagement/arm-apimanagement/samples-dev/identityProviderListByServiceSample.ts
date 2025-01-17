@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists a collection of Identity Provider configured in the specified service instance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists a collection of Identity Provider configured in the specified service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListIdentityProviders.json
  */
-async function apiManagementListIdentityProviders() {
+async function apiManagementListIdentityProviders(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function apiManagementListIdentityProviders() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListIdentityProviders();
 }
 

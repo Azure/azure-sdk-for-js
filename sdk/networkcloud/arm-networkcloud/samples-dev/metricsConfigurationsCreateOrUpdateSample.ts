@@ -53,7 +53,7 @@ async function createOrUpdateMetricsConfigurationOfCluster() {
 }
 
 async function main() {
-  createOrUpdateMetricsConfigurationOfCluster();
+  await createOrUpdateMetricsConfigurationOfCluster();
 }
 
 main().catch(console.error);

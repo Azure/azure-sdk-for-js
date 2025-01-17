@@ -40,7 +40,7 @@ async function topicEventSubscriptionsList() {
 }
 
 async function main() {
-  topicEventSubscriptionsList();
+  await topicEventSubscriptionsList();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getASapInstanceResource() {
 }
 
 async function main() {
-  getASapInstanceResource();
+  await getASapInstanceResource();
 }
 
 main().catch(console.error);

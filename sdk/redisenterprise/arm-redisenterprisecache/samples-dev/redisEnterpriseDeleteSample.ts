@@ -40,7 +40,7 @@ async function redisEnterpriseDelete() {
 }
 
 async function main() {
-  redisEnterpriseDelete();
+  await redisEnterpriseDelete();
 }
 
 main().catch(console.error);

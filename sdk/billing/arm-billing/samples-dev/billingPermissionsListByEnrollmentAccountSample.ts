@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the billing permissions the caller has for an enrollment account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the billing permissions the caller has for an enrollment account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPermissionsListByEnrollmentAccount.json
  */
-async function billingPermissionsListByEnrollmentAccount() {
+async function billingPermissionsListByEnrollmentAccount(): Promise<void> {
   const billingAccountName = "6100092";
   const enrollmentAccountName = "123456";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function billingPermissionsListByEnrollmentAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingPermissionsListByEnrollmentAccount();
 }
 

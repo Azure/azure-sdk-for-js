@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the single sign-on configurations for a given monitor resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List the single sign-on configurations for a given monitor resource.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/SingleSignOnConfigurations_List.json
  */
-async function singleSignOnConfigurationsList() {
+async function singleSignOnConfigurationsList(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,8 +37,8 @@ async function singleSignOnConfigurationsList() {
   console.log(resArray);
 }
 
-async function main() {
-  singleSignOnConfigurationsList();
+async function main(): Promise<void> {
+  await singleSignOnConfigurationsList();
 }
 
 main().catch(console.error);

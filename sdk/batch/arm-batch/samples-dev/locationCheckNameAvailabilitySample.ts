@@ -13,9 +13,7 @@ import {
   BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks whether the Batch account name is available in the specified region.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Checks whether the Batch account name is available in the specified region.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/LocationCheckNameAvailability_AlreadyExists.json
  */
-async function locationCheckNameAvailabilityAlreadyExists() {
+async function locationCheckNameAvailabilityAlreadyExists(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const locationName = "japaneast";
   const parameters: CheckNameAvailabilityParameters = {
@@ -45,7 +43,7 @@ async function locationCheckNameAvailabilityAlreadyExists() {
  * @summary Checks whether the Batch account name is available in the specified region.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/LocationCheckNameAvailability_Available.json
  */
-async function locationCheckNameAvailabilityAvailable() {
+async function locationCheckNameAvailabilityAvailable(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const locationName = "japaneast";
   const parameters: CheckNameAvailabilityParameters = {
@@ -61,7 +59,7 @@ async function locationCheckNameAvailabilityAvailable() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   locationCheckNameAvailabilityAlreadyExists();
   locationCheckNameAvailabilityAvailable();
 }

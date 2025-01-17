@@ -45,7 +45,7 @@ async function getsTheDetailsOfAStorageClassificationMapping() {
 }
 
 async function main() {
-  getsTheDetailsOfAStorageClassificationMapping();
+  await getsTheDetailsOfAStorageClassificationMapping();
 }
 
 main().catch(console.error);

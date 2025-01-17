@@ -39,7 +39,7 @@ async function deleteForwardingRuleInADnsForwardingRuleset() {
 }
 
 async function main() {
-  deleteForwardingRuleInADnsForwardingRuleset();
+  await deleteForwardingRuleInADnsForwardingRuleset();
 }
 
 main().catch(console.error);

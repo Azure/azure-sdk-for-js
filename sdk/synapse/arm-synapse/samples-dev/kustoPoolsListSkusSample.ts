@@ -34,7 +34,7 @@ async function kustoPoolsListSkus() {
 }
 
 async function main() {
-  kustoPoolsListSkus();
+  await kustoPoolsListSkus();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of Microsoft.ApiManagement SKUs available for your Subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the list of Microsoft.ApiManagement SKUs available for your Subscription.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSku.json
  */
-async function listsAllAvailableResourceSkUs() {
+async function listsAllAvailableResourceSkUs(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function listsAllAvailableResourceSkUs() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsAllAvailableResourceSkUs();
 }
 

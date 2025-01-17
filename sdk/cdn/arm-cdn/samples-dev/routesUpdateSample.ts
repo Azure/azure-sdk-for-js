@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RouteUpdateParameters, CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Routes_Update.json
  */
-async function routesUpdate() {
+async function routesUpdate(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -67,7 +65,7 @@ async function routesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   routesUpdate();
 }
 

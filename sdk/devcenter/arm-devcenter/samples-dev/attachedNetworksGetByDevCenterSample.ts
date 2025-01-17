@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an attached NetworkConnection.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets an attached NetworkConnection.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/AttachedNetworks_GetByDevCenter.json
  */
-async function attachedNetworksGetByDevCenter() {
+async function attachedNetworksGetByDevCenter(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -37,8 +35,8 @@ async function attachedNetworksGetByDevCenter() {
   console.log(result);
 }
 
-async function main() {
-  attachedNetworksGetByDevCenter();
+async function main(): Promise<void> {
+  await attachedNetworksGetByDevCenter();
 }
 
 main().catch(console.error);

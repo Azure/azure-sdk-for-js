@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified commitmentPlans associated with the Cognitive Services account.
  *
  * @summary Gets the specified commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/GetCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetCommitmentPlan.json
  */
-async function getCommitmentPlan() {
+async function getCommitmentPlan(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -30,17 +28,17 @@ async function getCommitmentPlan() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.commitmentPlans.get(
     resourceGroupName,
     accountName,
-    commitmentPlanName
+    commitmentPlanName,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCommitmentPlan();
 }
 

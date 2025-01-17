@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Adds support for `ungrounded_material` in `ContentFilterResultsForChoiceOutput`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -29,16 +31,16 @@ This release adds types for Azure features supported in Azure OpenAI Service API
 
 ### Features Added
 
-- Add support for connecting to MongoDB in Azure On Your Data.
-- Add support for citation information in Azure On Your Data responses.
-- Add support for content filtering in image generation.
+- Adds support for connecting to MongoDB in Azure On Your Data.
+- Adds support for citation information in Azure On Your Data responses.
+- Adds support for content filtering in image generation.
 
 ### Breaking Changes
 
-- Remove the Azure ML connection in Azure On Your Data.
-- Remove the enhancements feature from chat completions.
-- Remove the now deprecated `finish_details` field in chat completion responses. Use `finish_reason` instead.
-- Remove the `role_information` field from the On Your Data request models.
+- Removes the Azure ML connection in Azure On Your Data.
+- Removes the enhancements feature from chat completions.
+- Removes the now deprecated `finish_details` field in chat completion responses. Use `finish_reason` instead.
+- Removes the `role_information` field from the On Your Data request models.
 
 ## 2.0.0-beta.2 (2024-09-09)
 
@@ -187,7 +189,7 @@ On Your Data:
   - A list of AzureExtensionChatConfiguration may be populated on `ChatCompletionsOptions` via its `azureExtensionOption.extensions` property. These configurations include a type together with a JSON Schema representation of its parameters. The type is used to determine which extension to use when generating chat completions. See the `bringYourOwnData.js` sample for an example of how to use this feature.
 - Functions for chat completions are now supported: see [OpenAI's blog post on the topic](https://openai.com/blog/function-calling-and-other-api-updates) for much more detail.
   - A list of `FunctionDefinition` objects may be populated on `ChatCompletionsOptions` via its `functions` property. These definitions include a name and description together with a serialized JSON Schema representation of its parameters.
-  - **NOTE**: Chat Functions requires a minimum of the `-0613` model versions for `gpt-4` and `gpt-3.5-turbo`/`gpt-35-turbo`. Please ensure you're using these later model versions, as Functions are not supported with older model revisions. For Azure OpenAI, you can update a deployment's model version or create a new model deployment with an updated version via the Azure AI Studio interface, also accessible through Azure Portal.
+  - **NOTE**: Chat Functions requires a minimum of the `-0613` model versions for `gpt-4` and `gpt-3.5-turbo`/`gpt-35-turbo`. Please ensure you're using these later model versions, as Functions are not supported with older model revisions. For Azure OpenAI, you can update a deployment's model version or create a new model deployment with an updated version via the Azure AI Foundry interface, also accessible through Azure Portal.
 - (Azure OpenAI specific) Completions and Chat Completions responses now include embedded content filter annotations for prompts and responses
 
 ### Breaking Changes

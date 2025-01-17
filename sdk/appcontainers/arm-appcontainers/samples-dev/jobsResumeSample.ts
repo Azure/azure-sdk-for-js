@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Resumes a suspended job
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Resumes a suspended job
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Jobs_Resume.json
  */
-async function resumeJob() {
+async function resumeJob(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,7 +33,7 @@ async function resumeJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   resumeJob();
 }
 

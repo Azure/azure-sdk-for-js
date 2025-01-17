@@ -57,7 +57,7 @@ async function deploymentStacksManagementGroupValidate() {
 }
 
 async function main() {
-  deploymentStacksManagementGroupValidate();
+  await deploymentStacksManagementGroupValidate();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listVMClustersBySubscription() {
 }
 
 async function main() {
-  listVMClustersBySubscription();
+  await listVMClustersBySubscription();
 }
 
 main().catch(console.error);

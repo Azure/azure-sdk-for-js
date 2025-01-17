@@ -52,7 +52,7 @@ async function listRegistryCodeVersion() {
 }
 
 async function main() {
-  listRegistryCodeVersion();
+  await listRegistryCodeVersion();
 }
 
 main().catch(console.error);

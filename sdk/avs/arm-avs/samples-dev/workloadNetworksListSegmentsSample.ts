@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List WorkloadNetworkSegment resources by WorkloadNetwork
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List WorkloadNetworkSegment resources by WorkloadNetwork
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_ListSegments.json
  */
-async function workloadNetworksListSegments() {
+async function workloadNetworksListSegments(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function workloadNetworksListSegments() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workloadNetworksListSegments();
 }
 

@@ -13,9 +13,7 @@ import {
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a workspace.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update a workspace.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Workspace_Create.json
  */
-async function workspaceCreate() {
+async function workspaceCreate(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] ||
     "daefabc0-95b4-48b3-b645-8a753a63c4fa";
@@ -46,8 +44,8 @@ async function workspaceCreate() {
   console.log(result);
 }
 
-async function main() {
-  workspaceCreate();
+async function main(): Promise<void> {
+  await workspaceCreate();
 }
 
 main().catch(console.error);

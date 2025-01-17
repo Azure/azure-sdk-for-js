@@ -34,7 +34,7 @@ async function listAllSecurityAutomationsOfASpecifiedSubscription() {
 }
 
 async function main() {
-  listAllSecurityAutomationsOfASpecifiedSubscription();
+  await listAllSecurityAutomationsOfASpecifiedSubscription();
 }
 
 main().catch(console.error);

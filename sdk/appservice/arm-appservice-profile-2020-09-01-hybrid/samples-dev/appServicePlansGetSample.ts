@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get an App Service plan.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get an App Service plan.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2018-02-01/examples/GetAppServicePlan.json
  */
-async function getAppServicePlan() {
+async function getAppServicePlan(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,7 +31,7 @@ async function getAppServicePlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAppServicePlan();
 }
 

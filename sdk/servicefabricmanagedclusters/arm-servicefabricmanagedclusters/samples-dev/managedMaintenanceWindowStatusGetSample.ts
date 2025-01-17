@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Action to get Maintenance Window Status of the Service Fabric Managed Clusters.
  *
  * @summary Action to get Maintenance Window Status of the Service Fabric Managed Clusters.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ManagedMaintenanceWindowStatusGet_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ManagedMaintenanceWindowStatusGet_example.json
  */
 async function maintenanceWindowStatus() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function maintenanceWindowStatus() {
 }
 
 async function main() {
-  maintenanceWindowStatus();
+  await maintenanceWindowStatus();
 }
 
 main().catch(console.error);

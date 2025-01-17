@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves a network manager security admin configuration.
  *
  * @summary Retrieves a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerSecurityAdminConfigurationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityAdminConfigurationGet.json
  */
 async function getSecurityAdminConfigurations() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getSecurityAdminConfigurations() {
 }
 
 async function main() {
-  getSecurityAdminConfigurations();
+  await getSecurityAdminConfigurations();
 }
 
 main().catch(console.error);

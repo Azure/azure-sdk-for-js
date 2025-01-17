@@ -39,7 +39,7 @@ async function getAListOfIntegrationAccountSessions() {
 }
 
 async function main() {
-  getAListOfIntegrationAccountSessions();
+  await getAListOfIntegrationAccountSessions();
 }
 
 main().catch(console.error);

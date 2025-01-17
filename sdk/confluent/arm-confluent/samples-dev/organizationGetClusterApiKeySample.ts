@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get API key details of a kafka or schema registry cluster
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get API key details of a kafka or schema registry cluster
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetClusterAPIKey.json
  */
-async function organizationGetClusterApiKey() {
+async function organizationGetClusterApiKey(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function organizationGetClusterApiKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationGetClusterApiKey();
 }
 

@@ -39,16 +39,6 @@ vi.mock("../src/index.js", async (importActual) => {
 
 import { CallAutomationClient } from "../../src/index.js";
 
-function createOPSCallAutomationClient(
-  oPSSourceIdentity: MicrosoftTeamsAppIdentifier,
-): CallAutomationClient {
-  const connectionString = "endpoint=https://redacted.communication.azure.com/;accesskey=redacted";
-
-  return new CallAutomationClient(connectionString, {
-    opsSourceIdentity: oPSSourceIdentity,
-  });
-}
-
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
   let target: CallInvite;
@@ -132,21 +122,6 @@ describe("Call Automation Client Unit Tests", () => {
     // defined dummy variables
     const appId = "28:acs:redacted";
     const appCloud = KnownCommunicationCloudEnvironmentModel.Public;
-    const oPSSouceStub = {
-      teamsAppId: appId,
-      cloud: appCloud,
-    };
-
-    // stub an OPS CallAutomationClient
-    const createOPSClientStub = vi
-      .fn()
-      .mockImplementation(() => createOPSCallAutomationClient(oPSSouceStub));
-
-    // Use the stubbed factory function to create the client
-    const oPSClient: MockedObject<CallAutomationClient> = createOPSClientStub();
-
-    // Explicitly stub the createCall method
-    oPSClient.createCall = vi.fn();
 
     // mocks
     const createCallResultMock: CreateCallResult = {
@@ -163,14 +138,26 @@ describe("Call Automation Client Unit Tests", () => {
       },
     };
 
-    vi.spyOn(oPSClient, "createCall").mockResolvedValue(createCallResultMock);
-    const promiseResult = oPSClient.createCall(target, CALL_CALLBACK_URL);
+    vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
+    const promiseResult = client.createCall(target, CALL_CALLBACK_URL, {
+      teamsAppSource: {
+        rawId: appId,
+        teamsAppId: appId,
+        cloud: appCloud,
+      } as MicrosoftTeamsAppIdentifier,
+    });
 
     // asserts
     promiseResult
       .then((result: CreateCallResult) => {
         assert.isNotNull(result);
-        expect(oPSClient.createCall).toHaveBeenCalledWith(target, CALL_CALLBACK_URL);
+        expect(client.createCall).toHaveBeenCalledWith(target, CALL_CALLBACK_URL, {
+          teamsAppSource: {
+            rawId: appId,
+            teamsAppId: appId,
+            cloud: appCloud,
+          } as MicrosoftTeamsAppIdentifier,
+        });
         assert.equal(result, createCallResultMock);
         return;
       })
