@@ -322,18 +322,19 @@ export type CampaignStatus =
   | "MicrosoftSupportEngaged";
 /** Defines values for ContentType. */
 export type ContentType =
-  | "TwoFactorAuthentication"
   | "AccountNotification"
   | "CustomerCare"
   | "DeliveryNotification"
   | "FraudAlert"
   | "HigherEducation"
   | "LowVolume"
+  | "MachineToMachine"
   | "Marketing"
   | "Mixed"
   | "PollingVoting"
   | "PublicServiceAnnouncement"
-  | "SecurityAlert";
+  | "SecurityAlert"
+  | "TwoFactorAuthentication";
 /** Defines values for SubContentType. */
 export type SubContentType =
   | "TwoFactorAuthentication"
