@@ -65,7 +65,7 @@ export interface ContactInformation {
 }
 
 // @public
-export type ContentType = "TwoFactorAuthentication" | "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "LowVolume" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert";
+export type ContentType = "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "LowVolume" | "MachineToMachine" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert" | "TwoFactorAuthentication";
 
 // @public
 export interface DeleteBrandOptionalParams extends TenDlcDeleteUSBrandOptionalParams {

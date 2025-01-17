@@ -868,6 +868,9 @@ importers:
       '@rush-temp/communication-sms':
         specifier: file:./projects/communication-sms.tgz
         version: file:projects/communication-sms.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))
+      '@rush-temp/communication-ten-dlc':
+        specifier: file:./projects/communication-ten-dlc.tgz
+        version: file:projects/communication-ten-dlc.tgz
       '@rush-temp/communication-tiering':
         specifier: file:./projects/communication-tiering.tgz
         version: file:projects/communication-tiering.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))
@@ -2725,11 +2728,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-computefleet@file:projects/arm-computefleet.tgz':
-    resolution: {integrity: sha512-0cXmYkP6BC+rpZF30nOPzX72QzBfHP0iamJAUKGriMelkP/CvSHLzlc0iSChtrvLF+f+7Irm0Rq2CS8fRR8PGA==, tarball: file:projects/arm-computefleet.tgz}
+    resolution: {integrity: sha512-dHEiVJCBXoDiwRqnRqCf5ia8PtkGBLUuYc0aJSreNxdDbAAncfEfHBY2o38AGVWpCU6FlIrhVsrA2x6C3mlaUg==, tarball: file:projects/arm-computefleet.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
-    resolution: {integrity: sha512-c/+NgTKQURRLUShIyScM53VoFwieM+cr9h+WpoAqCHHvYHW2nvljuSfPoPQHuXMiDVRuiDlHQ+kt4Nq1ZJDguw==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-ib3pXHOqIcDQ6gtwwYl5zxa/HVC4zt6G0McgfgKemX+qsXm6XDFNsah1iDrmQh4G3Gmb2/4WDtxhsff9DCqzww==, tarball: file:projects/arm-computeschedule.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
@@ -3624,6 +3627,10 @@ packages:
     resolution: {integrity: sha512-HCXJQnm4PLnKjfZutc1vHXh9ed2iq1e5CI6rvjzRw0SzCgfs1GmtwMtt05bJyanzeunaiWLXWMfKHVoQa9MlsA==, tarball: file:projects/communication-sms.tgz}
     version: 0.0.0
 
+  '@rush-temp/communication-ten-dlc@file:projects/communication-ten-dlc.tgz':
+    resolution: {integrity: sha512-G7uY96RSsMx8qW9C219doVAEpIvK70MXxY9+1TiC65Us2xGkaIKApujxA3ybr3rK6KpB7lOVxCoDPcrxuGT2mQ==, tarball: file:projects/communication-ten-dlc.tgz}
+    version: 0.0.0
+
   '@rush-temp/communication-tiering@file:projects/communication-tiering.tgz':
     resolution: {integrity: sha512-UqpcP6tGe7h8mJpfdq3qLXa7F6ctb6QHGbJr1cHw7GrUeICfRd8IGX4o2YOtwi7WoRIxcakFLtR3DmJT/aS3sg==, tarball: file:projects/communication-tiering.tgz}
     version: 0.0.0
@@ -3789,7 +3796,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz':
-    resolution: {integrity: sha512-9nrkkH+RxeVz3ygp5vzRYD3DszYzyUch+Zp91THbSTktEAFHRMxfuUD56glXmTTxf//KN1y+HxYAJNfxCO+AdQ==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-NizLT7d7g7FIam+lwQJpaMWvoM1SIdA0x1rpi4AN/U99Qw4L3PAAEwZjSa+LQmIco2o8/vBNXgmqTt1OFnGcUQ==, tarball: file:projects/keyvault-admin.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz':
@@ -3993,7 +4000,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/purview-scanning@file:projects/purview-scanning.tgz':
-    resolution: {integrity: sha512-3//USsp+OcONrh4BsZVi8bkx7KCMhq2rAvA/UKiZeUg9dwPyYQobK5f5z3fCBc27Km2JqvJeaBvMr6rhVtFvYA==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-HJFfAYdCIriBJK7H2DtIyP6nUNFjDorEk2NfKDYGnk/q9b/xFcTY1ypEz53vbhUkgpMFTQDZ2GgrsitXizTx5w==, tarball: file:projects/purview-scanning.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-sharing@file:projects/purview-sharing.tgz':
@@ -6279,6 +6286,9 @@ packages:
 
   karma-env-preprocessor@0.1.1:
     resolution: {integrity: sha512-3FAuA0B1lS4DXNyOpD1Y+BjteVmnfX0WXUpsZ19aYykTk/GPz0kqnjzdApDiEe4sapreVeVSme2qTALnbHJb/A==}
+
+  karma-firefox-launcher@1.3.0:
+    resolution: {integrity: sha512-Fi7xPhwrRgr+94BnHX0F5dCl1miIW4RHnzjIGxF8GaIEp7rNqX7LSi7ok63VXs3PS/5MQaQMhGxw+bvD+pibBQ==}
 
   karma-firefox-launcher@2.1.3:
     resolution: {integrity: sha512-LMM2bseebLbYjODBOVt7TCPP9OI2vZIXCavIXhkO9m+10Uj5l7u/SKoeRmYx8FYHTVGZSpk6peX+3BMHC1WwNw==}
@@ -11699,7 +11709,6 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.18.0
       playwright: 1.49.1
-      prettier: 3.4.2
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
@@ -17034,6 +17043,45 @@ snapshots:
       - vite
       - webdriverio
 
+  '@rush-temp/communication-ten-dlc@file:projects/communication-ten-dlc.tgz':
+    dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.49.1(@types/node@18.19.70)
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.10
+      '@types/node': 18.19.70
+      '@types/sinon': 17.0.3
+      chai: 4.5.0
+      cross-env: 7.0.3
+      dotenv: 16.4.7
+      eslint: 8.57.1
+      inherits: 2.0.4
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
+      rimraf: 5.0.10
+      sinon: 17.0.1
+      ts-node: 10.9.2(@types/node@18.19.70)(typescript@5.5.4)
+      tslib: 2.8.1
+      typescript: 5.5.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+
   '@rush-temp/communication-tiering@file:projects/communication-tiering.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
       '@azure/core-lro': 2.7.2
@@ -18480,7 +18528,6 @@ snapshots:
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -20925,11 +20972,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -20947,7 +20994,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/cookie@0.4.1': {}
 
@@ -20955,7 +21002,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -20978,7 +21025,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -20993,7 +21040,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
@@ -21002,7 +21049,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -21019,7 +21066,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
@@ -21056,11 +21103,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.70':
@@ -21085,7 +21132,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       pg-protocol: 1.7.0
       pg-types: 2.2.0
 
@@ -21102,7 +21149,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -21113,12 +21160,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -21137,7 +21184,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -22163,7 +22210,7 @@ snapshots:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -23289,6 +23336,10 @@ snapshots:
 
   karma-env-preprocessor@0.1.1: {}
 
+  karma-firefox-launcher@1.3.0:
+    dependencies:
+      is-wsl: 2.2.0
+
   karma-firefox-launcher@2.1.3:
     dependencies:
       is-wsl: 2.2.0
@@ -24299,7 +24350,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       long: 5.2.4
 
   proxy-addr@2.0.7:
@@ -25065,6 +25116,24 @@ snapshots:
     dependencies:
       '@ts-morph/common': 0.26.0
       code-block-writer: 13.0.3
+
+  ts-node@10.9.2(@types/node@18.19.70)(typescript@5.5.4):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.70
+      acorn: 8.14.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.5.4
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
 
   ts-node@10.9.2(@types/node@18.19.70)(typescript@5.7.3):
     dependencies:
