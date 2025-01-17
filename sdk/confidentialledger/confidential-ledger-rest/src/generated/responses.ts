@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ConstitutionOutput,
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
@@ -23,7 +23,7 @@ import {
   JSRuntimeOptionsOutput,
   ModuleDefOutput,
   RoleOutput,
-} from "./outputModels.js";
+} from "./outputModels";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitution200Response extends HttpResponse {

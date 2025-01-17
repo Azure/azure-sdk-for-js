@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   LedgerEntry,
   LedgerUser,
   LedgerUserMultipleRoles,
   Bundle,
   JSRuntimeOptions,
   Role,
-} from "./models.js";
+} from "./models";
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
   ListConsortiumMembers200Response,
@@ -56,7 +56,7 @@ import {
   UpdateUserDefinedRoleDefaultResponse,
   DeleteUserDefinedRole200Response,
   DeleteUserDefinedRoleDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],

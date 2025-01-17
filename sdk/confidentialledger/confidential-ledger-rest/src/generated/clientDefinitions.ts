@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetConstitutionParameters,
   ListConsortiumMembersParameters,
   GetEnclaveQuotesParameters,
@@ -29,8 +29,8 @@ import {
   CreateUserDefinedRoleParameters,
   UpdateUserDefinedRoleParameters,
   DeleteUserDefinedRoleParameters,
-} from "./parameters.js";
-import {
+} from "./parameters";
+import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
   ListConsortiumMembers200Response,
@@ -85,8 +85,8 @@ import {
   UpdateUserDefinedRoleDefaultResponse,
   DeleteUserDefinedRole200Response,
   DeleteUserDefinedRoleDefaultResponse,
-} from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetConstitution {
   /** The constitution is a script that assesses and applies proposals from consortium members. */
