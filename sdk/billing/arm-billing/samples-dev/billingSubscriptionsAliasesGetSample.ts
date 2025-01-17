@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a subscription by its alias ID.  The operation is supported for seat based billing subscriptions.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a subscription by its alias ID.  The operation is supported for seat based billing subscriptions.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionAliasGet.json
  */
-async function billingSubscriptionAliasGet() {
+async function billingSubscriptionAliasGet(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const aliasName = "c356b7c7-7545-4686-b843-c1a49cf853fc";
@@ -33,7 +31,7 @@ async function billingSubscriptionAliasGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionAliasGet();
 }
 

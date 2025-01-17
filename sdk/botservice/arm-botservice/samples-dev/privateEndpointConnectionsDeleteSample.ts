@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Bot.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the specified private endpoint connection associated with the Bot.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DeletePrivateEndpointConnection.json
  */
-async function deletePrivateEndpointConnection() {
+async function deletePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function deletePrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletePrivateEndpointConnection();
 }
 

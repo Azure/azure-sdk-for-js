@@ -11,7 +11,7 @@
 import {
   L3NetworkPatchParameters,
   L3NetworksUpdateOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update tags associated with the provided layer 3 (L3) network.
  *
  * @summary Update tags associated with the provided layer 3 (L3) network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/L3Networks_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/L3Networks_Patch.json
  */
 async function patchL3Network() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function patchL3Network() {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const l3NetworkName = "l3NetworkName";
   const l3NetworkUpdateParameters: L3NetworkPatchParameters = {
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const options: L3NetworksUpdateOptionalParams = { l3NetworkUpdateParameters };
   const credential = new DefaultAzureCredential();
@@ -40,13 +40,13 @@ async function patchL3Network() {
   const result = await client.l3Networks.update(
     resourceGroupName,
     l3NetworkName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  patchL3Network();
+  await patchL3Network();
 }
 
 main().catch(console.error);

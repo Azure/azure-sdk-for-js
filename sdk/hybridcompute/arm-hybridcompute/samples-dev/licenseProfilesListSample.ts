@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get all license profiles of a non-Azure machine
  *
  * @summary The operation to get all license profiles of a non-Azure machine
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/licenseProfile/LicenseProfile_List.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/licenseProfile/LicenseProfile_List.json
  */
 async function listAllLicenseProfiles() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function listAllLicenseProfiles() {
 }
 
 async function main() {
-  listAllLicenseProfiles();
+  await listAllLicenseProfiles();
 }
 
 main().catch(console.error);

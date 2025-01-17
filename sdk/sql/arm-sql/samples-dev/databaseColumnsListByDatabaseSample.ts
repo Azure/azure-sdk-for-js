@@ -81,8 +81,8 @@ async function listDatabaseColumns() {
 }
 
 async function main() {
-  filterDatabaseColumns();
-  listDatabaseColumns();
+  await filterDatabaseColumns();
+  await listDatabaseColumns();
 }
 
 main().catch(console.error);

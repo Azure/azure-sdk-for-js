@@ -58,7 +58,7 @@ node associationsInterfaceCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICENETWORKING_SUBSCRIPTION_ID="<servicenetworking subscription id>" SERVICENETWORKING_RESOURCE_GROUP="<servicenetworking resource group>" node associationsInterfaceCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env SERVICENETWORKING_SUBSCRIPTION_ID="<servicenetworking subscription id>" SERVICENETWORKING_RESOURCE_GROUP="<servicenetworking resource group>" node associationsInterfaceCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -87,6 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [trafficcontrollerinterfacelistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v1-beta/javascript/trafficControllerInterfaceListByResourceGroupSample.js
 [trafficcontrollerinterfacelistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v1-beta/javascript/trafficControllerInterfaceListBySubscriptionSample.js
 [trafficcontrollerinterfaceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicenetworking/arm-servicenetworking/samples/v1-beta/javascript/trafficControllerInterfaceUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicenetworking/arm-servicenetworking/README.md

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of volumes in the provided subscription.
  *
  * @summary Get a list of volumes in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Volumes_ListBySubscription.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Volumes_ListBySubscription.json
  */
 async function listVolumeForSubscription() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function listVolumeForSubscription() {
 }
 
 async function main() {
-  listVolumeForSubscription();
+  await listVolumeForSubscription();
 }
 
 main().catch(console.error);

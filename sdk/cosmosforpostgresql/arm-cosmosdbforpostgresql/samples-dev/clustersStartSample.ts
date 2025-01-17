@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts stopped compute on all cluster nodes.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Starts stopped compute on all cluster nodes.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterStart.json
  */
-async function startAllServersInTheCluster() {
+async function startAllServersInTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +34,7 @@ async function startAllServersInTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startAllServersInTheCluster();
 }
 

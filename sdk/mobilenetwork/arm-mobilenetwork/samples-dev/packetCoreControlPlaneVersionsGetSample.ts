@@ -29,7 +29,7 @@ async function getPacketCoreControlPlaneVersion() {
 }
 
 async function main() {
-  getPacketCoreControlPlaneVersion();
+  await getPacketCoreControlPlaneVersion();
 }
 
 main().catch(console.error);

@@ -65,8 +65,8 @@ async function volumeSnapshotsDeleteMinimumSetGen() {
 }
 
 async function main() {
-  volumeSnapshotsDeleteMaximumSetGen();
-  volumeSnapshotsDeleteMinimumSetGen();
+  await volumeSnapshotsDeleteMaximumSetGen();
+  await volumeSnapshotsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

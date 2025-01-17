@@ -38,7 +38,7 @@ async function patchVirtualMachine() {
 }
 
 async function main() {
-  patchVirtualMachine();
+  await patchVirtualMachine();
 }
 
 main().catch(console.error);

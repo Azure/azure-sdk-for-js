@@ -105,7 +105,7 @@ node dist/advancedThreatProtectionSettingsGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MYSQL_SUBSCRIPTION_ID="<mysql subscription id>" MYSQL_RESOURCE_GROUP="<mysql resource group>" node dist/advancedThreatProtectionSettingsGetSample.js
+npx dev-tool run vendored cross-env MYSQL_SUBSCRIPTION_ID="<mysql subscription id>" MYSQL_RESOURCE_GROUP="<mysql resource group>" node dist/advancedThreatProtectionSettingsGetSample.js
 ```
 
 ## Next Steps
@@ -169,7 +169,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [serversstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mysql/arm-mysql-flexible/samples/v4-beta/typescript/src/serversStopSample.ts
 [serversupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mysql/arm-mysql-flexible/samples/v4-beta/typescript/src/serversUpdateSample.ts
 [serversvalidateestimatehighavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mysql/arm-mysql-flexible/samples/v4-beta/typescript/src/serversValidateEstimateHighAvailabilitySample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-mysql-flexible?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-mysql-flexible?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mysql/arm-mysql-flexible/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

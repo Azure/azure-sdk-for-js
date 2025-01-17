@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LogsUploadFailure } from "../../src";
-import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src";
-import type { Context } from "mocha";
-import { assert } from "chai";
+import type { LogsUploadFailure } from "../../src/index.js";
+import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src/index.js";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
-import type { RecorderAndLogsClient } from "./shared/testShared";
+import type { RecorderAndLogsClient } from "./shared/testShared.js";
 import {
   createClientAndStartRecorder,
   getDcrId,
   getLogsIngestionEndpoint,
   loggerForTest,
-} from "./shared/testShared";
+} from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -38,9 +37,9 @@ describe("LogsIngestionClient live tests", function () {
   let recorder: Recorder;
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     recordedClient = await createClientAndStartRecorder(recorder);
     client = recordedClient.client;
   });
@@ -152,7 +151,7 @@ describe("LogsIngestionClient live tests", function () {
 
     function errorCallback(uploadLogsError: LogsUploadFailure): void {
       if (
-        (uploadLogsError.cause as Error).message ===
+        uploadLogsError.cause.message ===
         "Data collection rule with immutable Id 'immutable-id-123' not found."
       ) {
         ++errorCallbackCount;
@@ -237,7 +236,7 @@ export function getObjects(logsCount: number): LogData[] {
 }
 /**
  * The data fields should match the column names exactly even with the
- * captilization in order for the data to show up in the logs
+ * capitalization in order for the data to show up in the logs
  */
 export type LogData = {
   Time: Date;

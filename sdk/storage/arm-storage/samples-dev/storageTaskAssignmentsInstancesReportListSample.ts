@@ -39,7 +39,7 @@ async function listStorageTaskAssignmentsInstancesReportSummary() {
 }
 
 async function main() {
-  listStorageTaskAssignmentsInstancesReportSummary();
+  await listStorageTaskAssignmentsInstancesReportSummary();
 }
 
 main().catch(console.error);

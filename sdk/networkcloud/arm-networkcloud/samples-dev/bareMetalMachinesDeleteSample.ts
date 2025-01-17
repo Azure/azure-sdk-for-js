@@ -20,7 +20,7 @@ All customer initiated requests will be rejected as the life cycle of this resou
  *
  * @summary Delete the provided bare metal machine.
 All customer initiated requests will be rejected as the life cycle of this resource is managed by the system.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachines_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_Delete.json
  */
 async function deleteBareMetalMachine() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function deleteBareMetalMachine() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginDeleteAndWait(
     resourceGroupName,
-    bareMetalMachineName
+    bareMetalMachineName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteBareMetalMachine();
+  await deleteBareMetalMachine();
 }
 
 main().catch(console.error);

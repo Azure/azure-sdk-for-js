@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  DiagnosticContract,
-  ApiManagementClient
+  ApiManagementClient,
+  DiagnosticContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the details of the Diagnostic specified by its identifier.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the details of the Diagnostic specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateDiagnostic.json
  */
-async function apiManagementUpdateDiagnostic() {
+async function apiManagementUpdateDiagnostic(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -56,7 +54,7 @@ async function apiManagementUpdateDiagnostic() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateDiagnostic();
 }
 

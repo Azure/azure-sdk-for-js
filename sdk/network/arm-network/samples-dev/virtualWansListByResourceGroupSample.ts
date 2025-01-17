@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the VirtualWANs in a resource group.
  *
  * @summary Lists all the VirtualWANs in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VirtualWANListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualWANListByResourceGroup.json
  */
 async function virtualWanListByResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function virtualWanListByResourceGroup() {
 }
 
 async function main() {
-  virtualWanListByResourceGroup();
+  await virtualWanListByResourceGroup();
 }
 
 main().catch(console.error);

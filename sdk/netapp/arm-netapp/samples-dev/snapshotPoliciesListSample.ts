@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List snapshot policy
  *
  * @summary List snapshot policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/SnapshotPolicies_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/SnapshotPolicies_List.json
  */
 async function snapshotPoliciesList() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function snapshotPoliciesList() {
 }
 
 async function main() {
-  snapshotPoliciesList();
+  await snapshotPoliciesList();
 }
 
 main().catch(console.error);

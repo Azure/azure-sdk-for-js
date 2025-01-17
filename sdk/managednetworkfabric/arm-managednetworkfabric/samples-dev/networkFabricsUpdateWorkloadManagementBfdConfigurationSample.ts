@@ -48,7 +48,7 @@ async function networkFabricsUpdateWorkloadManagementBfdConfigurationMaximumSetG
 }
 
 async function main() {
-  networkFabricsUpdateWorkloadManagementBfdConfigurationMaximumSetGen();
+  await networkFabricsUpdateWorkloadManagementBfdConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

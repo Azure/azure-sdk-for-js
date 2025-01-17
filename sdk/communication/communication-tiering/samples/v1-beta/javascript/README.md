@@ -50,7 +50,7 @@ node getAcquiredNumberLimits.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node getAcquiredNumberLimits.js
+npx dev-tool run vendored cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node getAcquiredNumberLimits.js
 ```
 
 ## Next Steps
@@ -60,5 +60,5 @@ Here are some [samples] <!--TODO: Enable link after release (https://github.com/
 [getacquirednumberlimits]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-tiering/samples/v1-beta/javascript/getAcquiredNumberLimits.js
 [gettierinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-tiering/samples/v1-beta/javascript/getTierInfo.js
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-tiering/README.md

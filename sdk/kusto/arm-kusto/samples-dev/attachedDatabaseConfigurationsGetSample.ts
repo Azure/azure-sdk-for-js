@@ -40,7 +40,7 @@ async function attachedDatabaseConfigurationsGet() {
 }
 
 async function main() {
-  attachedDatabaseConfigurationsGet();
+  await attachedDatabaseConfigurationsGet();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function usageList() {
 }
 
 async function main() {
-  usageList();
+  await usageList();
 }
 
 main().catch(console.error);

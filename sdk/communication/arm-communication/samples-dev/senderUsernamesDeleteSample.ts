@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to delete a SenderUsernames resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Operation to delete a SenderUsernames resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/delete.json
  */
-async function deleteSenderUsernamesResource() {
+async function deleteSenderUsernamesResource(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -43,7 +41,7 @@ async function deleteSenderUsernamesResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteSenderUsernamesResource();
 }
 

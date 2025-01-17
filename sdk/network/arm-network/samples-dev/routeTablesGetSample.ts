@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified route table.
  *
  * @summary Gets the specified route table.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/RouteTableGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/RouteTableGet.json
  */
 async function getRouteTable() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function getRouteTable() {
 }
 
 async function main() {
-  getRouteTable();
+  await getRouteTable();
 }
 
 main().catch(console.error);

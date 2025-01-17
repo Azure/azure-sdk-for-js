@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Target, ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Target resource that extends a tracked regional resource.

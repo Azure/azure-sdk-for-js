@@ -77,8 +77,8 @@ async function kustoPoolDatabasesCheckNameAvailability() {
 }
 
 async function main() {
-  kustoPoolAttachedDatabaseConfigurationCheckNameAvailability();
-  kustoPoolDatabasesCheckNameAvailability();
+  await kustoPoolAttachedDatabaseConfigurationCheckNameAvailability();
+  await kustoPoolDatabasesCheckNameAvailability();
 }
 
 main().catch(console.error);

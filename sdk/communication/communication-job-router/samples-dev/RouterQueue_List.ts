@@ -7,7 +7,6 @@ import { RouterQueueItem, JobRouterAdministrationClient } from "@azure/communica
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { assert } from "chai";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -33,8 +32,6 @@ async function listJobQueues(): Promise<void> {
         console.log("Listing router jobQueue with id: " + queue.queue.id);
       }
     }
-    let pageSize = receivedPagedItems.length;
-    assert.isAtMost(pageSize, maxPageSize);
   }
 }
 

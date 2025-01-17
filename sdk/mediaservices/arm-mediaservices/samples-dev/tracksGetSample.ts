@@ -41,7 +41,7 @@ async function getATrackByName() {
 }
 
 async function main() {
-  getATrackByName();
+  await getATrackByName();
 }
 
 main().catch(console.error);

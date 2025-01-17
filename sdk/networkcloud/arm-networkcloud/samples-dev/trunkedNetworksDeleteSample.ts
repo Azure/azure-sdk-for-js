@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the provided trunked network.
  *
  * @summary Delete the provided trunked network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/TrunkedNetworks_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/TrunkedNetworks_Delete.json
  */
 async function deleteTrunkedNetwork() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function deleteTrunkedNetwork() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.trunkedNetworks.beginDeleteAndWait(
     resourceGroupName,
-    trunkedNetworkName
+    trunkedNetworkName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteTrunkedNetwork();
+  await deleteTrunkedNetwork();
 }
 
 main().catch(console.error);

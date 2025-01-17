@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the VirtualWANs in a subscription.
  *
  * @summary Lists all the VirtualWANs in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VirtualWANList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualWANList.json
  */
 async function virtualWanList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function virtualWanList() {
 }
 
 async function main() {
-  virtualWanList();
+  await virtualWanList();
 }
 
 main().catch(console.error);

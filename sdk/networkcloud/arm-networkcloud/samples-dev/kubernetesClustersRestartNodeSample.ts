@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   KubernetesClusterRestartNodeParameters,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Restart a targeted node of a Kubernetes cluster.
  *
  * @summary Restart a targeted node of a Kubernetes cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/KubernetesClusters_RestartNode.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/KubernetesClusters_RestartNode.json
  */
 async function restartAKubernetesClusterNode() {
   const subscriptionId =
@@ -30,21 +30,20 @@ async function restartAKubernetesClusterNode() {
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const kubernetesClusterName = "kubernetesClusterName";
-  const kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters = {
-    nodeName: "nodeName"
-  };
+  const kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters =
+    { nodeName: "nodeName" };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.kubernetesClusters.beginRestartNodeAndWait(
     resourceGroupName,
     kubernetesClusterName,
-    kubernetesClusterRestartNodeParameters
+    kubernetesClusterRestartNodeParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  restartAKubernetesClusterNode();
+  await restartAKubernetesClusterNode();
 }
 
 main().catch(console.error);

@@ -127,8 +127,8 @@ async function serverlessRuntimesCreateOrUpdateMin() {
 }
 
 async function main() {
-  serverlessRuntimesCreateOrUpdate();
-  serverlessRuntimesCreateOrUpdateMin();
+  await serverlessRuntimesCreateOrUpdate();
+  await serverlessRuntimesCreateOrUpdateMin();
 }
 
 main().catch(console.error);

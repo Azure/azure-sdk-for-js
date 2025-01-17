@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterMetricsConfiguration,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create new or update the existing metrics configuration of the provided cluster.
  *
  * @summary Create new or update the existing metrics configuration of the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/ClusterMetricsConfigurations_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/ClusterMetricsConfigurations_Create.json
  */
 async function createOrUpdateMetricsConfigurationOfCluster() {
   const subscriptionId =
@@ -35,12 +35,11 @@ async function createOrUpdateMetricsConfigurationOfCluster() {
     collectionInterval: 15,
     enabledMetrics: ["metric1", "metric2"],
     extendedLocation: {
-      name:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
-      type: "CustomLocation"
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+      type: "CustomLocation",
     },
     location: "location",
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
@@ -48,13 +47,13 @@ async function createOrUpdateMetricsConfigurationOfCluster() {
     resourceGroupName,
     clusterName,
     metricsConfigurationName,
-    metricsConfigurationParameters
+    metricsConfigurationParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateMetricsConfigurationOfCluster();
+  await createOrUpdateMetricsConfigurationOfCluster();
 }
 
 main().catch(console.error);

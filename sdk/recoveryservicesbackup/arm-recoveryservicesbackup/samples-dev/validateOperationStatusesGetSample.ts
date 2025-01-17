@@ -43,7 +43,7 @@ async function getOperationStatusOfValidateOperation() {
 }
 
 async function main() {
-  getOperationStatusOfValidateOperation();
+  await getOperationStatusOfValidateOperation();
 }
 
 main().catch(console.error);

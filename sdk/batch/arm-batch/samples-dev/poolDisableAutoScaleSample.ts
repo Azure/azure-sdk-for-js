@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Disables automatic scaling for a pool.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Disables automatic scaling for a pool.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolDisableAutoScale.json
  */
-async function disableAutoScale() {
+async function disableAutoScale(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -36,7 +34,7 @@ async function disableAutoScale() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   disableAutoScale();
 }
 

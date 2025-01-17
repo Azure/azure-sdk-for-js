@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Restore the specified files from the specified backup to the active filesystem
  *
  * @summary Restore the specified files from the specified backup to the active filesystem
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/BackupsUnderBackupVault_SingleFileRestore.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupsUnderBackupVault_SingleFileRestore.json
  */
 async function backupsSingleFileRestore() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function backupsSingleFileRestore() {
 }
 
 async function main() {
-  backupsSingleFileRestore();
+  await backupsSingleFileRestore();
 }
 
 main().catch(console.error);

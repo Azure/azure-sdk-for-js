@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RuntimeVersions } from "../operationsInterfaces";
+import { RuntimeVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClient } from "../appPlatformManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   RuntimeVersionsListRuntimeVersionsOptionalParams,
   RuntimeVersionsListRuntimeVersionsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing RuntimeVersions operations. */
 export class RuntimeVersionsImpl implements RuntimeVersions {

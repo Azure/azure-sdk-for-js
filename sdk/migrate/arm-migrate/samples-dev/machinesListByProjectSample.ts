@@ -40,7 +40,7 @@ async function machinesListByProject() {
 }
 
 async function main() {
-  machinesListByProject();
+  await machinesListByProject();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function getAzureStorageProtectionContainerOperationResult() {
 }
 
 async function main() {
-  getAzureStorageProtectionContainerOperationResult();
+  await getAzureStorageProtectionContainerOperationResult();
 }
 
 main().catch(console.error);

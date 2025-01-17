@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all backups Under a Backup Vault
  *
  * @summary List all backups Under a Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/BackupsUnderBackupVault_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupsUnderBackupVault_List.json
  */
 async function backupsList() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function backupsList() {
 }
 
 async function main() {
-  backupsList();
+  await backupsList();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about the view of a license profile.
  *
  * @summary Retrieves information about the view of a license profile.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/licenseProfile/LicenseProfile_Get.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/licenseProfile/LicenseProfile_Get.json
  */
 async function getLicenseProfile() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getLicenseProfile() {
 }
 
 async function main() {
-  getLicenseProfile();
+  await getLicenseProfile();
 }
 
 main().catch(console.error);

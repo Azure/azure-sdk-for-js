@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the network security perimeter configuration for a private link scope.
  *
  * @summary Gets the network security perimeter configuration for a private link scope.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationGet.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationGet.json
  */
 async function getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope
 }
 
 async function main() {
-  getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope();
+  await getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope();
 }
 
 main().catch(console.error);

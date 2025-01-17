@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Check if a resource name is available.
  *
  * @summary Check if a resource name is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/CheckNameAvailability.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/CheckNameAvailability.json
  */
 async function checkNameAvailability() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function checkNameAvailability() {
 }
 
 async function main() {
-  checkNameAvailability();
+  await checkNameAvailability();
 }
 
 main().catch(console.error);

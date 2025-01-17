@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the provided Kubernetes cluster agent pool.
  *
  * @summary Delete the provided Kubernetes cluster agent pool.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/AgentPools_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/AgentPools_Delete.json
  */
 async function deleteKubernetesClusterAgentPool() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function deleteKubernetesClusterAgentPool() {
   const result = await client.agentPools.beginDeleteAndWait(
     resourceGroupName,
     kubernetesClusterName,
-    agentPoolName
+    agentPoolName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteKubernetesClusterAgentPool();
+  await deleteKubernetesClusterAgentPool();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiVersion, AzureAPICenter } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates new or updates existing API version.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates new or updates existing API version.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/ApiVersions_CreateOrUpdate.json
  */
-async function apiVersionsCreateOrUpdate() {
+async function apiVersionsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,7 +44,7 @@ async function apiVersionsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiVersionsCreateOrUpdate();
 }
 

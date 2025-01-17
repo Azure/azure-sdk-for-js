@@ -50,7 +50,7 @@ node operationsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node operationsListSample.js
+npx dev-tool run vendored cross-env  node operationsListSample.js
 ```
 
 ## Next Steps
@@ -71,6 +71,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [savingsplanupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanUpdateSample.js
 [savingsplanvalidateupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/savingsPlanValidateUpdateSample.js
 [validatepurchasesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/javascript/validatePurchaseSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-billingbenefits?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-billingbenefits?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billingbenefits/arm-billingbenefits/README.md

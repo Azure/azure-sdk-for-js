@@ -46,7 +46,7 @@ async function acquireManagedServerDnsAlias() {
 }
 
 async function main() {
-  acquireManagedServerDnsAlias();
+  await acquireManagedServerDnsAlias();
 }
 
 main().catch(console.error);

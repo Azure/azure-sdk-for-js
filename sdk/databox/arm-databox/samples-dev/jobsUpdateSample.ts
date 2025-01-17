@@ -13,9 +13,7 @@ import {
   DataBoxManagementClient
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the properties of an existing job.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the properties of an existing job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatch.json
  */
-async function jobsPatch() {
+async function jobsPatch(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -65,7 +63,7 @@ async function jobsPatch() {
  * @summary Updates the properties of an existing job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchCmk.json
  */
-async function jobsPatchCmk() {
+async function jobsPatchCmk(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -97,7 +95,7 @@ async function jobsPatchCmk() {
  * @summary Updates the properties of an existing job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchSystemAssignedToUserAssigned.json
  */
-async function jobsPatchSystemAssignedToUserAssigned() {
+async function jobsPatchSystemAssignedToUserAssigned(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -136,7 +134,7 @@ async function jobsPatchSystemAssignedToUserAssigned() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsPatch();
   jobsPatchCmk();
   jobsPatchSystemAssignedToUserAssigned();

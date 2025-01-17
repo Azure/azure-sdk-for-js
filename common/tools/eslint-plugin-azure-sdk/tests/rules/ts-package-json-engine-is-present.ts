@@ -8,8 +8,8 @@
 
 "use strict";
 
-import { createRuleTester } from "../ruleTester";
-import rule, { LTS } from "../../src/rules/ts-package-json-engine-is-present";
+import { createRuleTester } from "../ruleTester.js";
+import rule, { LTS } from "../../src/rules/ts-package-json-engine-is-present.js";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -59,7 +59,6 @@ const examplePackageGood = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -170,7 +169,6 @@ const examplePackageBad = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",

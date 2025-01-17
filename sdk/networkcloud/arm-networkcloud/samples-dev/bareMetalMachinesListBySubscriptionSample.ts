@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of bare metal machines in the provided subscription.
  *
  * @summary Get a list of bare metal machines in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachines_ListBySubscription.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_ListBySubscription.json
  */
 async function listBareMetalMachinesForSubscription() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function listBareMetalMachinesForSubscription() {
 }
 
 async function main() {
-  listBareMetalMachinesForSubscription();
+  await listBareMetalMachinesForSubscription();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function reconcileNspConfig() {
 }
 
 async function main() {
-  reconcileNspConfig();
+  await reconcileNspConfig();
 }
 
 main().catch(console.error);

@@ -78,8 +78,8 @@ async function updateAServerThreatDetectionPolicyWithMinimalParameters() {
 }
 
 async function main() {
-  updateAServerThreatDetectionPolicyWithAllParameters();
-  updateAServerThreatDetectionPolicyWithMinimalParameters();
+  await updateAServerThreatDetectionPolicyWithAllParameters();
+  await updateAServerThreatDetectionPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

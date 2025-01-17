@@ -48,7 +48,7 @@ node fluidRelayContainersDeleteSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env FLUIDRELAY_SUBSCRIPTION_ID="<fluidrelay subscription id>" node fluidRelayContainersDeleteSample.js
+npx dev-tool run vendored cross-env FLUIDRELAY_SUBSCRIPTION_ID="<fluidrelay subscription id>" node fluidRelayContainersDeleteSample.js
 ```
 
 ## Next Steps
@@ -67,6 +67,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [fluidrelayserverslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fluidrelay/arm-fluidrelay/samples/v1/javascript/fluidRelayServersListKeysSample.js
 [fluidrelayserversregeneratekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fluidrelay/arm-fluidrelay/samples/v1/javascript/fluidRelayServersRegenerateKeySample.js
 [fluidrelayserversupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fluidrelay/arm-fluidrelay/samples/v1/javascript/fluidRelayServersUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-fluidrelay?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-fluidrelay?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fluidrelay/arm-fluidrelay/README.md

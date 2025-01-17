@@ -63,7 +63,7 @@ node dist/operationsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env IMAGEBUILDER_SUBSCRIPTION_ID="<imagebuilder subscription id>" node dist/operationsListSample.js
+npx dev-tool run vendored cross-env IMAGEBUILDER_SUBSCRIPTION_ID="<imagebuilder subscription id>" node dist/operationsListSample.js
 ```
 
 ## Next Steps
@@ -85,7 +85,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualmachineimagetemplateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/typescript/src/virtualMachineImageTemplatesListSample.ts
 [virtualmachineimagetemplatesrunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/typescript/src/virtualMachineImageTemplatesRunSample.ts
 [virtualmachineimagetemplatesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/typescript/src/virtualMachineImageTemplatesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-imagebuilder?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-imagebuilder?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/imagebuilder/arm-imagebuilder/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

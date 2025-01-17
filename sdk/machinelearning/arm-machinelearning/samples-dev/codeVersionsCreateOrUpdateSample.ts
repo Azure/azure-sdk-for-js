@@ -57,7 +57,7 @@ async function createOrUpdateWorkspaceCodeVersion() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceCodeVersion();
+  await createOrUpdateWorkspaceCodeVersion();
 }
 
 main().catch(console.error);

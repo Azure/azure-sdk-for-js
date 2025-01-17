@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a network watcher tags.
  *
  * @summary Updates a network watcher tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkWatcherUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherUpdateTags.json
  */
 async function updateNetworkWatcherTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function updateNetworkWatcherTags() {
 }
 
 async function main() {
-  updateNetworkWatcherTags();
+  await updateNetworkWatcherTags();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ import type {
   AtlasTypesDefOutput,
   AtlasTypeDefHeaderOutput,
   TermTemplateDefOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /**
  * Create or update an entity in Atlas.

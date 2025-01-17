@@ -40,7 +40,7 @@ async function kustoPrincipalAssignmentsList() {
 }
 
 async function main() {
-  kustoPrincipalAssignmentsList();
+  await kustoPrincipalAssignmentsList();
 }
 
 main().catch(console.error);

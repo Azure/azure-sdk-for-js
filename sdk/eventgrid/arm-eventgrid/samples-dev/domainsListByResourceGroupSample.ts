@@ -38,7 +38,7 @@ async function domainsListByResourceGroup() {
 }
 
 async function main() {
-  domainsListByResourceGroup();
+  await domainsListByResourceGroup();
 }
 
 main().catch(console.error);

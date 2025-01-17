@@ -54,7 +54,7 @@ node bgpPeersCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node bgpPeersCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node bgpPeersCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -79,6 +79,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageclassgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/javascript/storageClassGetSample.js
 [storageclasslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/javascript/storageClassListSample.js
 [storageclassupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/javascript/storageClassUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/README.md

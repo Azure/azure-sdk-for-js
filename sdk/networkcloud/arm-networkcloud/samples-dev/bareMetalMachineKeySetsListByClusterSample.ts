@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of bare metal machine key sets for the provided cluster.
  *
  * @summary Get a list of bare metal machine key sets for the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachineKeySets_ListByCluster.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachineKeySets_ListByCluster.json
  */
 async function listBareMetalMachineKeySetsOfTheCluster() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function listBareMetalMachineKeySetsOfTheCluster() {
   const resArray = new Array();
   for await (let item of client.bareMetalMachineKeySets.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function listBareMetalMachineKeySetsOfTheCluster() {
 }
 
 async function main() {
-  listBareMetalMachineKeySetsOfTheCluster();
+  await listBareMetalMachineKeySetsOfTheCluster();
 }
 
 main().catch(console.error);

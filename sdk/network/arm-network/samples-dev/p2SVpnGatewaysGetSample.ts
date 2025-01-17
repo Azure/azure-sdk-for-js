@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of a virtual wan p2s vpn gateway.
  *
  * @summary Retrieves the details of a virtual wan p2s vpn gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/P2SVpnGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/P2SVpnGatewayGet.json
  */
 async function p2SVpnGatewayGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function p2SVpnGatewayGet() {
 }
 
 async function main() {
-  p2SVpnGatewayGet();
+  await p2SVpnGatewayGet();
 }
 
 main().catch(console.error);

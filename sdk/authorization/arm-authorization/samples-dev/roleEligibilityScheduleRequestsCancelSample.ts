@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Cancels a pending role eligibility schedule request.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Cancels a pending role eligibility schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/CancelRoleEligibilityScheduleRequestByName.json
  */
-async function cancelRoleEligibilityScheduleRequestByName() {
+async function cancelRoleEligibilityScheduleRequestByName(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleEligibilityScheduleRequestName =
@@ -34,7 +32,7 @@ async function cancelRoleEligibilityScheduleRequestByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cancelRoleEligibilityScheduleRequestByName();
 }
 

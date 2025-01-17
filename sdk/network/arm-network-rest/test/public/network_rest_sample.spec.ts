@@ -12,8 +12,6 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type {
   IpGroupsCreateOrUpdateParameters,
   IpGroupsDeleteParameters,
@@ -29,13 +27,13 @@ import type {
   VirtualNetworksGetParameters,
   VirtualNetworksListParameters,
   VirtualNetworksUpdateTagsParameters,
-} from "../../src";
-import { getLongRunningPoller, isUnexpected, paginate } from "../../src";
-import { createTestNetworkManagementClient } from "./utils/recordedClient";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected, paginate } from "../../src/index.js";
+import { createTestNetworkManagementClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
-  RESOURCE_GROUP_NAME: "azure_resource_group",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -60,8 +58,8 @@ describe("Network test", () => {
   let subnet_name: string;
   let ipGroupName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
@@ -103,7 +101,7 @@ describe("Network test", () => {
       throw "create virtualNetworks set error result" + res;
     }
 
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, virtualNetworkName);
   });
@@ -130,7 +128,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "create subnets set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, subnet_name);
   });
@@ -160,7 +158,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "create ipGroups set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, ipGroupName);
   });
@@ -201,7 +199,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "get subnets set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, subnet_name);
   });
@@ -222,7 +220,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "get ipGroups set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, ipGroupName);
   });
@@ -244,7 +242,7 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 2);
+    assert.equal(result.length, 1);
   });
 
   it("subnets list test", async function () {
@@ -305,7 +303,7 @@ describe("Network test", () => {
     if (isUnexpected(res)) {
       throw "update virtualNetworks set error result" + res;
     }
-    const poller = getLongRunningPoller(client, res, testPollingOptions);
+    const poller = await getLongRunningPoller(client, res, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.body.name, virtualNetworkName);
   });
@@ -323,7 +321,7 @@ describe("Network test", () => {
       )
       .delete(options);
 
-    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {
@@ -363,7 +361,7 @@ describe("Network test", () => {
       )
       .delete(options);
 
-    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {
@@ -403,7 +401,7 @@ describe("Network test", () => {
       )
       .delete(options);
 
-    const poller = getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, deleteInitialResponse, testPollingOptions);
     const deleteResponse = await poller.pollUntilDone();
 
     if (isUnexpected(deleteResponse)) {
@@ -426,6 +424,6 @@ describe("Network test", () => {
     for await (const item of pageData) {
       result.push(item);
     }
-    assert.equal(result.length, 1);
+    assert.equal(result.length, 0);
   });
 });

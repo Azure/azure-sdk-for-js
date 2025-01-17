@@ -38,7 +38,7 @@ async function listPacketCoreControlPlanesInResourceGroup() {
 }
 
 async function main() {
-  listPacketCoreControlPlanesInResourceGroup();
+  await listPacketCoreControlPlanesInResourceGroup();
 }
 
 main().catch(console.error);

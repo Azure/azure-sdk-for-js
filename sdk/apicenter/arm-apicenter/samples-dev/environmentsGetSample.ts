@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureAPICenter } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns details of the environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns details of the environment.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Environments_Get.json
  */
-async function environmentsGet() {
+async function environmentsGet(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +38,7 @@ async function environmentsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   environmentsGet();
 }
 

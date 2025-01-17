@@ -4,7 +4,6 @@
 import { type TaskContext } from "vitest";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import "./env";
 import type { AzureDeveloperDevCenterClient } from "../../../src/clientDefinitions.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { AzurePowerShellCredential } from "@azure/identity";

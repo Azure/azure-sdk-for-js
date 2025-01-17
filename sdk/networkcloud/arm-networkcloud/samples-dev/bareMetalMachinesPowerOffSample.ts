@@ -11,7 +11,7 @@
 import {
   BareMetalMachinePowerOffParameters,
   BareMetalMachinesPowerOffOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Power off the provided bare metal machine.
  *
  * @summary Power off the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachines_PowerOff.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_PowerOff.json
  */
 async function powerOffBareMetalMachine() {
   const subscriptionId =
@@ -31,24 +31,23 @@ async function powerOffBareMetalMachine() {
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
-  const bareMetalMachinePowerOffParameters: BareMetalMachinePowerOffParameters = {
-    skipShutdown: "True"
-  };
+  const bareMetalMachinePowerOffParameters: BareMetalMachinePowerOffParameters =
+    { skipShutdown: "True" };
   const options: BareMetalMachinesPowerOffOptionalParams = {
-    bareMetalMachinePowerOffParameters
+    bareMetalMachinePowerOffParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginPowerOffAndWait(
     resourceGroupName,
     bareMetalMachineName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  powerOffBareMetalMachine();
+  await powerOffBareMetalMachine();
 }
 
 main().catch(console.error);

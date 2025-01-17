@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureAPICenter } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Exports the API specification.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Exports the API specification.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/ApiDefinitions_ExportSpecification.json
  */
-async function apiDefinitionsExportSpecification() {
+async function apiDefinitionsExportSpecification(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +42,7 @@ async function apiDefinitionsExportSpecification() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiDefinitionsExportSpecification();
 }
 

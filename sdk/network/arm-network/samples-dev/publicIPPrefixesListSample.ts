@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all public IP prefixes in a resource group.
  *
  * @summary Gets all public IP prefixes in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/PublicIpPrefixList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PublicIpPrefixList.json
  */
 async function listResourceGroupPublicIPPrefixes() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function listResourceGroupPublicIPPrefixes() {
 }
 
 async function main() {
-  listResourceGroupPublicIPPrefixes();
+  await listResourceGroupPublicIPPrefixes();
 }
 
 main().catch(console.error);

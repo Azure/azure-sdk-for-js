@@ -32,7 +32,7 @@ async function deleteAWorkspaceSettingDataForResourceGroup() {
 }
 
 async function main() {
-  deleteAWorkspaceSettingDataForResourceGroup();
+  await deleteAWorkspaceSettingDataForResourceGroup();
 }
 
 main().catch(console.error);

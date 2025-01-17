@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ConnectivityCheckRequest,
-  ApiManagementClient
+  ApiManagementClient,
+  ConnectivityCheckRequest
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Performs a connectivity check between the API Management service and a given destination, and returns metrics for the connection, as well as errors encountered while trying to establish it.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Performs a connectivity check between the API Management service and a given destination, and returns metrics for the connection, as well as errors encountered while trying to establish it.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPerformConnectivityCheckHttpConnect.json
  */
-async function httpConnectivityCheck() {
+async function httpConnectivityCheck(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -57,7 +55,7 @@ async function httpConnectivityCheck() {
  * @summary Performs a connectivity check between the API Management service and a given destination, and returns metrics for the connection, as well as errors encountered while trying to establish it.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPerformConnectivityCheck.json
  */
-async function tcpConnectivityCheck() {
+async function tcpConnectivityCheck(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -78,7 +76,7 @@ async function tcpConnectivityCheck() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   httpConnectivityCheck();
   tcpConnectivityCheck();
 }

@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { AlphaIdsImpl } from "./operations";
-import { AlphaIds } from "./operationsInterfaces";
-import { AlphaIDsClientOptionalParams } from "./models";
+import { AlphaIdsImpl } from "./operations/index.js";
+import { AlphaIds } from "./operationsInterfaces/index.js";
+import { AlphaIDsClientOptionalParams } from "./models/index.js";
 
 export class AlphaIDsClient extends coreClient.ServiceClient {
   endpoint: string;

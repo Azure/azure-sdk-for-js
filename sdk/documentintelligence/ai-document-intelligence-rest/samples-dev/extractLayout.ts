@@ -10,8 +10,11 @@
  * @azsdk-skip-javascript
  */
 
-import DocumentIntelligence, { AnalyzeResultOperationOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
-
+import DocumentIntelligence, {
+  AnalyzeOperationOutput,
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -19,15 +22,17 @@ dotenv.config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
 
   const initialResponse = await client
     .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
     .post({
       contentType: "application/json",
       body: {
-        urlSource: "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf",
-      }
+        urlSource:
+          "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf",
+      },
     });
 
   if (isUnexpected(initialResponse)) {
@@ -35,9 +40,8 @@ async function main() {
   }
 
   const poller = getLongRunningPoller(client, initialResponse);
-  const analyzeResult = (
-    (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput
-  ).analyzeResult;
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
+    .analyzeResult;
 
   const pages = analyzeResult?.pages;
   const tables = analyzeResult?.tables;
@@ -50,7 +54,7 @@ async function main() {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
       console.log(
-        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`
+        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`,
       );
 
       if (page.lines && page.lines.length > 0) {
@@ -69,7 +73,7 @@ async function main() {
     console.log("Tables:");
     for (const table of tables) {
       console.log(
-        `- Extracted table: ${table.columnCount} columns, ${table.rowCount} rows (${table.cells.length} cells)`
+        `- Extracted table: ${table.columnCount} columns, ${table.rowCount} rows (${table.cells.length} cells)`,
       );
     }
   }

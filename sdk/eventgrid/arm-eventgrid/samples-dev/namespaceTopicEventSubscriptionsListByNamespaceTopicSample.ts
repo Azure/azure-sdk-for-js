@@ -42,7 +42,7 @@ async function namespaceTopicEventSubscriptionsListByNamespaceTopic() {
 }
 
 async function main() {
-  namespaceTopicEventSubscriptionsListByNamespaceTopic();
+  await namespaceTopicEventSubscriptionsListByNamespaceTopic();
 }
 
 main().catch(console.error);

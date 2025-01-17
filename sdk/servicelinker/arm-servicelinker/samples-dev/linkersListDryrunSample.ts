@@ -33,7 +33,7 @@ async function listDryrun() {
 }
 
 async function main() {
-  listDryrun();
+  await listDryrun();
 }
 
 main().catch(console.error);

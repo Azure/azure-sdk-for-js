@@ -62,7 +62,7 @@ node checkNameAvailabilityLocalSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node checkNameAvailabilityLocalSample.js
+npx dev-tool run vendored cross-env  node checkNameAvailabilityLocalSample.js
 ```
 
 ## Next Steps
@@ -95,6 +95,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [spatialanchorsaccountslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/arm-mixedreality/samples/v4-beta/javascript/spatialAnchorsAccountsListKeysSample.js
 [spatialanchorsaccountsregeneratekeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/arm-mixedreality/samples/v4-beta/javascript/spatialAnchorsAccountsRegenerateKeysSample.js
 [spatialanchorsaccountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mixedreality/arm-mixedreality/samples/v4-beta/javascript/spatialAnchorsAccountsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-mixedreality?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-mixedreality?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/arm-mixedreality/README.md

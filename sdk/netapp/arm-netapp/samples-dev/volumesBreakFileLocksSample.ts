@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Break all the file locks on a volume
  *
  * @summary Break all the file locks on a volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Volumes_BreakFileLocks.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_BreakFileLocks.json
  */
 async function volumesBreakFileLocks() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function volumesBreakFileLocks() {
 }
 
 async function main() {
-  volumesBreakFileLocks();
+  await volumesBreakFileLocks();
 }
 
 main().catch(console.error);

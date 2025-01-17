@@ -34,7 +34,7 @@ async function signalRListKeys() {
 }
 
 async function main() {
-  signalRListKeys();
+  await signalRListKeys();
 }
 
 main().catch(console.error);

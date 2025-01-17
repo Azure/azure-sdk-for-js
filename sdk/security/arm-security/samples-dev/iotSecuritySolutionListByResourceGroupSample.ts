@@ -68,8 +68,8 @@ async function listIoTSecuritySolutionsByResourceGroupAndIoTHub() {
 }
 
 async function main() {
-  listIoTSecuritySolutionsByResourceGroup();
-  listIoTSecuritySolutionsByResourceGroupAndIoTHub();
+  await listIoTSecuritySolutionsByResourceGroup();
+  await listIoTSecuritySolutionsByResourceGroupAndIoTHub();
 }
 
 main().catch(console.error);

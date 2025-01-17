@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import { PurviewAccount, PurviewAccountClient } from "@azure-rest/purview-administration";
+import { PurviewAccount } from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -16,9 +16,9 @@ dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== List collections sample ==");
-  const client = PurviewAccountClient(endpoint, new DefaultAzureCredential());
+  const client = PurviewAccount.createClient(endpoint, new DefaultAzureCredential());
 
   const response = await client.path("/collections").get();
 
@@ -26,7 +26,7 @@ async function main() {
     console.log(`GET "/collections" failed with ${response.status}`);
   }
 
-  const dataSources = PurviewAccount.Pagination.paginate(client, response);
+  const dataSources = PurviewAccount.PaginateHelper.paginate(client, response);
 
   for await (const dataSource of dataSources) {
     console.log(dataSource);

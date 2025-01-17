@@ -38,7 +38,7 @@ async function partnerNamespacesListByResourceGroup() {
 }
 
 async function main() {
-  partnerNamespacesListByResourceGroup();
+  await partnerNamespacesListByResourceGroup();
 }
 
 main().catch(console.error);

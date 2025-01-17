@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CallRecording } from "../operationsInterfaces";
+import { CallRecording } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CallAutomationApiClient } from "../callAutomationApiClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CallAutomationApiClient } from "../callAutomationApiClient.js";
 import {
   StartCallRecordingRequest,
   CallRecordingStartRecordingOptionalParams,
@@ -20,7 +20,7 @@ import {
   CallRecordingStopRecordingOptionalParams,
   CallRecordingPauseRecordingOptionalParams,
   CallRecordingResumeRecordingOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing CallRecording operations. */
 export class CallRecordingImpl implements CallRecording {
@@ -117,6 +117,9 @@ const startRecordingOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
+      bodyMapper: Mappers.RecordingStateResponse,
+    },
+    202: {
       bodyMapper: Mappers.RecordingStateResponse,
     },
     default: {

@@ -75,8 +75,8 @@ async function getExtensionWithPlan() {
 }
 
 async function main() {
-  getExtension();
-  getExtensionWithPlan();
+  await getExtension();
+  await getExtensionWithPlan();
 }
 
 main().catch(console.error);

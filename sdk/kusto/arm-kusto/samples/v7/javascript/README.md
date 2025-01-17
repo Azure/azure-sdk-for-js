@@ -107,7 +107,7 @@ node attachedDatabaseConfigurationsCheckNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KUSTO_SUBSCRIPTION_ID="<kusto subscription id>" KUSTO_RESOURCE_GROUP="<kusto resource group>" node attachedDatabaseConfigurationsCheckNameAvailabilitySample.js
+npx dev-tool run vendored cross-env KUSTO_SUBSCRIPTION_ID="<kusto subscription id>" KUSTO_RESOURCE_GROUP="<kusto resource group>" node attachedDatabaseConfigurationsCheckNameAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -185,6 +185,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [scriptslistbydatabasesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kusto/arm-kusto/samples/v7/javascript/scriptsListByDatabaseSample.js
 [scriptsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kusto/arm-kusto/samples/v7/javascript/scriptsUpdateSample.js
 [skuslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kusto/arm-kusto/samples/v7/javascript/skusListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-kusto?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-kusto?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kusto/arm-kusto/README.md

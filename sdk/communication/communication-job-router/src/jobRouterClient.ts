@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import type { CommunicationTokenCredential } from "@azure/communication-common";
 import {
   createCommunicationAuthPolicy,
@@ -12,7 +11,7 @@ import {
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { OperationOptions } from "@azure/core-client";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION } from "./constants.js";
 import type {
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
@@ -22,9 +21,9 @@ import type {
   RouterJobItem as RouterJobItemGenerated,
   RouterWorkerItem as RouterWorkerItemGenerated,
   JobMatchingMode,
-} from "./generated/src";
-import { JobRouterApiClient, KnownJobMatchModeType } from "./generated/src";
-import { logger } from "./logger";
+} from "./generated/src/index.js";
+import { JobRouterApiClient, KnownJobMatchModeType } from "./generated/src/index.js";
+import { logger } from "./logger.js";
 import type {
   RouterJobItem,
   RouterWorkerItem,
@@ -33,7 +32,7 @@ import type {
   RouterWorkerSelector,
   RouterJobMatchingMode,
   RouterWorkerState,
-} from "./models";
+} from "./models.js";
 import type {
   JobRouterClientOptions,
   CreateJobOptions,
@@ -48,7 +47,7 @@ import type {
   CreateWorkerOptions,
   UpdateWorkerOptions,
   ListWorkersOptions,
-} from "./options";
+} from "./options.js";
 import type {
   RouterJobResponse,
   CancelJobResponse,
@@ -59,8 +58,8 @@ import type {
   AcceptJobOfferResponse,
   DeclineJobOfferResponse,
   RouterWorkerResponse,
-} from "./responses";
-import { TransformingPagedAsyncIterableIterator } from "./clientUtils";
+} from "./responses.js";
+import { TransformingPagedAsyncIterableIterator } from "./clientUtils.js";
 
 /**
  * Checks whether a value is of type {@link JobRouterClientOptions}.

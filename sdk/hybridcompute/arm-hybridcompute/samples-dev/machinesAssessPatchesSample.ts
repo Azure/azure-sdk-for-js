@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to assess patches on a hybrid machine identity in Azure.
  *
  * @summary The operation to assess patches on a hybrid machine identity in Azure.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/machine/Machine_AssessPatches.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/machine/Machine_AssessPatches.json
  */
 async function assessPatchStateOfAMachine() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function assessPatchStateOfAMachine() {
 }
 
 async function main() {
-  assessPatchStateOfAMachine();
+  await assessPatchStateOfAMachine();
 }
 
 main().catch(console.error);

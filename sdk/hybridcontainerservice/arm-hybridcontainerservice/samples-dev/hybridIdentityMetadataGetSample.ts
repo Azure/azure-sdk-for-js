@@ -32,7 +32,7 @@ async function getHybridIdentityMetadata() {
 }
 
 async function main() {
-  getHybridIdentityMetadata();
+  await getHybridIdentityMetadata();
 }
 
 main().catch(console.error);

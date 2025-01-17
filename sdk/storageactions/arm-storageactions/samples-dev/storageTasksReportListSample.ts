@@ -40,7 +40,7 @@ async function listStorageTasksByResourceGroup() {
 }
 
 async function main() {
-  listStorageTasksByResourceGroup();
+  await listStorageTasksByResourceGroup();
 }
 
 main().catch(console.error);

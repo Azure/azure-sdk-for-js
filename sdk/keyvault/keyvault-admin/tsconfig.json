@@ -1,20 +1,14 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "lib": ["dom"],
-    "resolveJsonModule": true,
-    "paths": {
-      "@azure/keyvault-admin": ["./src/index.js"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
     },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "./samples-dev/**/*.ts",
-    "./test/**/*.ts"
-  ]
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ],
+  "files": []
 }

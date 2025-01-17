@@ -56,7 +56,7 @@ async function agentsUpdate() {
 }
 
 async function main() {
-  agentsUpdate();
+  await agentsUpdate();
 }
 
 main().catch(console.error);

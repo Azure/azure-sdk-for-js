@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Performs vip swap operation on swappable cloud services.
  *
  * @summary Performs vip swap operation on swappable cloud services.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/CloudServiceSwapPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/CloudServiceSwapPut.json
  */
 async function putVipSwapOperation() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function putVipSwapOperation() {
 }
 
 async function main() {
-  putVipSwapOperation();
+  await putVipSwapOperation();
 }
 
 main().catch(console.error);

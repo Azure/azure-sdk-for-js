@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of storage appliances in the provided subscription.
  *
  * @summary Get a list of storage appliances in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/StorageAppliances_ListBySubscription.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/StorageAppliances_ListBySubscription.json
  */
 async function listStorageAppliancesForSubscription() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function listStorageAppliancesForSubscription() {
 }
 
 async function main() {
-  listStorageAppliancesForSubscription();
+  await listStorageAppliancesForSubscription();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Disable remote vendor management of the provided storage appliance.
  *
  * @summary Disable remote vendor management of the provided storage appliance.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/StorageAppliances_DisableRemoteVendorManagement.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/StorageAppliances_DisableRemoteVendorManagement.json
  */
 async function turnOffRemoteVendorManagementForStorageAppliance() {
   const subscriptionId =
@@ -29,15 +29,16 @@ async function turnOffRemoteVendorManagementForStorageAppliance() {
   const storageApplianceName = "storageApplianceName";
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.storageAppliances.beginDisableRemoteVendorManagementAndWait(
-    resourceGroupName,
-    storageApplianceName
-  );
+  const result =
+    await client.storageAppliances.beginDisableRemoteVendorManagementAndWait(
+      resourceGroupName,
+      storageApplianceName,
+    );
   console.log(result);
 }
 
 async function main() {
-  turnOffRemoteVendorManagementForStorageAppliance();
+  await turnOffRemoteVendorManagementForStorageAppliance();
 }
 
 main().catch(console.error);

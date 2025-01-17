@@ -13,9 +13,7 @@ import {
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Configure the Container Apps Patch skip option by patch name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Configure the Container Apps Patch skip option by patch name.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerAppsPatches_Skip_Configure.json
  */
-async function containerAppsPatchesSkipConfigure0() {
+async function containerAppsPatchesSkipConfigure0(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function containerAppsPatchesSkipConfigure0() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   containerAppsPatchesSkipConfigure0();
 }
 

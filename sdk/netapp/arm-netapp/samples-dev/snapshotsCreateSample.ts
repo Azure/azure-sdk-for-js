@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create the specified snapshot within the given volume
  *
  * @summary Create the specified snapshot within the given volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Snapshots_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Snapshots_Create.json
  */
 async function snapshotsCreate() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function snapshotsCreate() {
 }
 
 async function main() {
-  snapshotsCreate();
+  await snapshotsCreate();
 }
 
 main().catch(console.error);

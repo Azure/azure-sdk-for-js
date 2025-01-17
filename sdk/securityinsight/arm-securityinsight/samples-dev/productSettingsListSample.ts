@@ -37,7 +37,7 @@ async function getAllSettings() {
 }
 
 async function main() {
-  getAllSettings();
+  await getAllSettings();
 }
 
 main().catch(console.error);

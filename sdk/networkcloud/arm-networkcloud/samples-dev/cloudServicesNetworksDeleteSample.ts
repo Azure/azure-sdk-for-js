@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the provided cloud services network.
  *
  * @summary Delete the provided cloud services network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/CloudServicesNetworks_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/CloudServicesNetworks_Delete.json
  */
 async function deleteCloudServicesNetwork() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function deleteCloudServicesNetwork() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.cloudServicesNetworks.beginDeleteAndWait(
     resourceGroupName,
-    cloudServicesNetworkName
+    cloudServicesNetworkName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteCloudServicesNetwork();
+  await deleteCloudServicesNetwork();
 }
 
 main().catch(console.error);

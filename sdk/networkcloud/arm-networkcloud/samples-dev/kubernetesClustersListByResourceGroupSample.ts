@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of Kubernetes clusters in the provided resource group.
  *
  * @summary Get a list of Kubernetes clusters in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/KubernetesClusters_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/KubernetesClusters_ListByResourceGroup.json
  */
 async function listKubernetesClustersForResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listKubernetesClustersForResourceGroup() {
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.kubernetesClusters.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function listKubernetesClustersForResourceGroup() {
 }
 
 async function main() {
-  listKubernetesClustersForResourceGroup();
+  await listKubernetesClustersForResourceGroup();
 }
 
 main().catch(console.error);

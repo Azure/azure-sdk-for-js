@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to validate a license.
  *
  * @summary The operation to validate a license.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/license/License_ValidateLicense.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/license/License_ValidateLicense.json
  */
 async function validateALicense() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function validateALicense() {
 }
 
 async function main() {
-  validateALicense();
+  await validateALicense();
 }
 
 main().catch(console.error);

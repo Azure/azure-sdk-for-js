@@ -41,7 +41,7 @@ async function listsASqlAnalyticPoolReplicationLinks() {
 }
 
 async function main() {
-  listsASqlAnalyticPoolReplicationLinks();
+  await listsASqlAnalyticPoolReplicationLinks();
 }
 
 main().catch(console.error);

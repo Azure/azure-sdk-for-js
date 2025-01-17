@@ -51,7 +51,7 @@ async function createASqlAnalyticsPool() {
 }
 
 async function main() {
-  createASqlAnalyticsPool();
+  await createASqlAnalyticsPool();
 }
 
 main().catch(console.error);

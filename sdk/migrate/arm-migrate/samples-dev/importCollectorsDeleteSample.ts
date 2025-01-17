@@ -39,7 +39,7 @@ async function importCollectorsDelete() {
 }
 
 async function main() {
-  importCollectorsDelete();
+  await importCollectorsDelete();
 }
 
 main().catch(console.error);

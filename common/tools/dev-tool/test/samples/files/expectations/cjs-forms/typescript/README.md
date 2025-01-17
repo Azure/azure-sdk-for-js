@@ -51,7 +51,7 @@ node dist/index.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WAIT_TIME="<wait time>" node dist/index.js
+npx dev-tool run vendored cross-env WAIT_TIME="<wait time>" node dist/index.js
 ```
 
 ## Next Steps
@@ -59,7 +59,7 @@ npx cross-env WAIT_TIME="<wait time>" node dist/index.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [index]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/cjs-forms/typescript/src/index.ts
-[apiref]: https://docs.microsoft.com/
+[apiref]: https://learn.microsoft.com/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_test]: https://contoso.com
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/README.md

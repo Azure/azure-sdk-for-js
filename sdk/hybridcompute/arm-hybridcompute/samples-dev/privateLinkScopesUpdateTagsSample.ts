@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/privateLinkScope/PrivateLinkScopes_UpdateTagsOnly.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopes_UpdateTagsOnly.json
  */
 async function privateLinkScopeUpdateTagsOnly() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function privateLinkScopeUpdateTagsOnly() {
 }
 
 async function main() {
-  privateLinkScopeUpdateTagsOnly();
+  await privateLinkScopeUpdateTagsOnly();
 }
 
 main().catch(console.error);

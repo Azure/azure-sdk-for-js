@@ -13,9 +13,7 @@ import {
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides a list of check access response objects for a customer.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Provides a list of check access response objects for a customer.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/checkAccessByCustomer.json
  */
-async function checkAccessByCustomer() {
+async function checkAccessByCustomer(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -45,7 +43,7 @@ async function checkAccessByCustomer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkAccessByCustomer();
 }
 

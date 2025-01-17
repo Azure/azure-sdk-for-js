@@ -69,10 +69,9 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
-    "cross-env": "^7.0.2",
     "eslint": "^9.9.0",
     "playwright": "^1.46.0",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.0.5"
   },
   "type": "module",
@@ -88,7 +87,8 @@
     "esmDialects": [
       "browser"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

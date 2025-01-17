@@ -42,7 +42,7 @@ async function getRegistryDataContainer() {
 }
 
 async function main() {
-  getRegistryDataContainer();
+  await getRegistryDataContainer();
 }
 
 main().catch(console.error);

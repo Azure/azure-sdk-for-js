@@ -39,7 +39,7 @@ async function generateVpnClientPackage() {
 }
 
 async function main() {
-  generateVpnClientPackage();
+  await generateVpnClientPackage();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function createMobileNetworkSite() {
 }
 
 async function main() {
-  createMobileNetworkSite();
+  await createMobileNetworkSite();
 }
 
 main().catch(console.error);

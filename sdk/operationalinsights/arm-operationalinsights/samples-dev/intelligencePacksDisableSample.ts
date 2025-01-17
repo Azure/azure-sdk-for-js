@@ -42,7 +42,7 @@ async function intelligencePacksDisable() {
 }
 
 async function main() {
-  intelligencePacksDisable();
+  await intelligencePacksDisable();
 }
 
 main().catch(console.error);

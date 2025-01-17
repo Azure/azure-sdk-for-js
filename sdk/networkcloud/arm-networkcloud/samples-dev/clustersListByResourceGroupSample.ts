@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of clusters in the provided resource group.
  *
  * @summary Get a list of clusters in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Clusters_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_ListByResourceGroup.json
  */
 async function listClustersForResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listClustersForResourceGroup() {
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.clusters.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function listClustersForResourceGroup() {
 }
 
 async function main() {
-  listClustersForResourceGroup();
+  await listClustersForResourceGroup();
 }
 
 main().catch(console.error);

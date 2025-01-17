@@ -47,7 +47,7 @@ async function applyUpdatesGetParent() {
 }
 
 async function main() {
-  applyUpdatesGetParent();
+  await applyUpdatesGetParent();
 }
 
 main().catch(console.error);

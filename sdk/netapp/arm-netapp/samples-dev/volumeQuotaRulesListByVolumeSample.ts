@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all quota rules associated with the volume
  *
  * @summary List all quota rules associated with the volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/VolumeQuotaRules_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeQuotaRules_List.json
  */
 async function volumeQuotaRulesList() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function volumeQuotaRulesList() {
 }
 
 async function main() {
-  volumeQuotaRulesList();
+  await volumeQuotaRulesList();
 }
 
 main().catch(console.error);

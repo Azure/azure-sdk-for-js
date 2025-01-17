@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new cluster or update the properties of the cluster if it exists.
  *
  * @summary Create a new cluster or update the properties of the cluster if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Clusters_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Create.json
  */
 async function createOrUpdateCluster() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function createOrUpdateCluster() {
           machineDetails: "extraDetails",
           machineName: "bmmName1",
           rackSlot: 1,
-          serialNumber: "BM1219XXX"
+          serialNumber: "BM1219XXX",
         },
         {
           bmcCredentials: { password: "{password}", username: "username" },
@@ -46,8 +46,8 @@ async function createOrUpdateCluster() {
           machineDetails: "extraDetails",
           machineName: "bmmName2",
           rackSlot: 2,
-          serialNumber: "BM1219YYY"
-        }
+          serialNumber: "BM1219YYY",
+        },
       ],
       networkRackId:
         "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkRacks/networkRackName",
@@ -60,9 +60,9 @@ async function createOrUpdateCluster() {
           adminCredentials: { password: "{password}", username: "username" },
           rackSlot: 1,
           serialNumber: "BM1219XXX",
-          storageApplianceName: "vmName"
-        }
-      ]
+          storageApplianceName: "vmName",
+        },
+      ],
     },
     analyticsWorkspaceId:
       "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/microsoft.operationalInsights/workspaces/logAnalyticsWorkspaceName",
@@ -71,14 +71,23 @@ async function createOrUpdateCluster() {
       applicationId: "12345678-1234-1234-1234-123456789012",
       password: "{password}",
       principalId: "00000008-0004-0004-0004-000000000012",
-      tenantId: "80000000-4000-4000-4000-120000000000"
+      tenantId: "80000000-4000-4000-4000-120000000000",
     },
     clusterType: "SingleRack",
     clusterVersion: "1.0.0",
+    commandOutputSettings: {
+      associatedIdentity: {
+        identityType: "UserAssignedIdentity",
+        userAssignedIdentityResourceId:
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity1",
+      },
+      containerUrl:
+        "https://myaccount.blob.core.windows.net/mycontainer?restype=container",
+    },
     computeDeploymentThreshold: {
       type: "PercentSuccess",
       grouping: "PerCluster",
-      value: 90
+      value: 90,
     },
     computeRackDefinitions: [
       {
@@ -90,7 +99,7 @@ async function createOrUpdateCluster() {
             machineDetails: "extraDetails",
             machineName: "bmmName1",
             rackSlot: 1,
-            serialNumber: "BM1219XXX"
+            serialNumber: "BM1219XXX",
           },
           {
             bmcCredentials: { password: "{password}", username: "username" },
@@ -99,8 +108,8 @@ async function createOrUpdateCluster() {
             machineDetails: "extraDetails",
             machineName: "bmmName2",
             rackSlot: 2,
-            serialNumber: "BM1219YYY"
-          }
+            serialNumber: "BM1219YYY",
+          },
         ],
         networkRackId:
           "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkRacks/networkRackName",
@@ -113,37 +122,56 @@ async function createOrUpdateCluster() {
             adminCredentials: { password: "{password}", username: "username" },
             rackSlot: 1,
             serialNumber: "BM1219XXX",
-            storageApplianceName: "vmName"
-          }
-        ]
-      }
+            storageApplianceName: "vmName",
+          },
+        ],
+      },
     ],
     extendedLocation: {
-      name:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
-      type: "CustomLocation"
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
+      type: "CustomLocation",
+    },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/123e4567E89b12d3A456426655440000/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/userIdentity1":
+          {},
+      },
     },
     location: "location",
     managedResourceGroupConfiguration: {
       name: "my-managed-rg",
-      location: "East US"
+      location: "East US",
     },
     networkFabricId:
       "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkFabrics/fabricName",
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    runtimeProtectionConfiguration: { enforcementLevel: "OnDemand" },
+    secretArchive: {
+      keyVaultId:
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.KeyVault/vaults/keyVaultName",
+      useKeyVault: "True",
+    },
+    tags: { key1: "myvalue1", key2: "myvalue2" },
+    updateStrategy: {
+      maxUnavailable: 4,
+      strategyType: "Rack",
+      thresholdType: "CountSuccess",
+      thresholdValue: 4,
+      waitTimeMinutes: 10,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     clusterName,
-    clusterParameters
+    clusterParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateCluster();
+  await createOrUpdateCluster();
 }
 
 main().catch(console.error);

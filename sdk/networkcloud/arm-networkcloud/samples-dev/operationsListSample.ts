@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of all available resource provider operations. It contains a URL link to get the next set of results.
  *
  * @summary Get a list of all available resource provider operations. It contains a URL link to get the next set of results.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Operations_List.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Operations_List.json
  */
 async function listResourceProviderOperations() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function listResourceProviderOperations() {
 }
 
 async function main() {
-  listResourceProviderOperations();
+  await listResourceProviderOperations();
 }
 
 main().catch(console.error);

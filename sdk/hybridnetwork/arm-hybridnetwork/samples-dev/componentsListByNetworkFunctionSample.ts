@@ -38,7 +38,7 @@ async function listComponentsInNetworkFunction() {
 }
 
 async function main() {
-  listComponentsInNetworkFunction();
+  await listComponentsInNetworkFunction();
 }
 
 main().catch(console.error);

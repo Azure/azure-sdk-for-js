@@ -82,7 +82,7 @@ node dicomServicesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env HEALTHCAREAPIS_SUBSCRIPTION_ID="<healthcareapis subscription id>" HEALTHCAREAPIS_RESOURCE_GROUP="<healthcareapis resource group>" node dicomServicesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env HEALTHCAREAPIS_SUBSCRIPTION_ID="<healthcareapis subscription id>" HEALTHCAREAPIS_RESOURCE_GROUP="<healthcareapis resource group>" node dicomServicesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -135,6 +135,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthcareapis/arm-healthcareapis/samples/v3/javascript/workspacesListByResourceGroupSample.js
 [workspaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthcareapis/arm-healthcareapis/samples/v3/javascript/workspacesListBySubscriptionSample.js
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthcareapis/arm-healthcareapis/samples/v3/javascript/workspacesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-healthcareapis?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthcareapis/arm-healthcareapis/README.md

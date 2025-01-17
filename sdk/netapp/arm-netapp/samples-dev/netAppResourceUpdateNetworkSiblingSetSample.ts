@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update the network features of the specified network sibling set.
  *
  * @summary Update the network features of the specified network sibling set.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/NetworkSiblingSet_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/NetworkSiblingSet_Update.json
  */
 async function networkFeaturesUpdate() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function networkFeaturesUpdate() {
 }
 
 async function main() {
-  networkFeaturesUpdate();
+  await networkFeaturesUpdate();
 }
 
 main().catch(console.error);

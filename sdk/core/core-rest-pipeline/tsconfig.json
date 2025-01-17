@@ -1,20 +1,14 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "paths": {
-      "@azure/core-rest-pipeline": ["./src/index.ts"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
     },
-    "lib": ["dom", "dom.iterable"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "exclude": ["./samples/**/*.ts"],
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "./test/**/*.ts",
-    "./samples-dev/**/*.ts"
-  ]
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ],
+  "files": []
 }

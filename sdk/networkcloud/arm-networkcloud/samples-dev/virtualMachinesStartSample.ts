@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Start the provided virtual machine.
  *
  * @summary Start the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/VirtualMachines_Start.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/VirtualMachines_Start.json
  */
 async function startVirtualMachine() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function startVirtualMachine() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.virtualMachines.beginStartAndWait(
     resourceGroupName,
-    virtualMachineName
+    virtualMachineName,
   );
   console.log(result);
 }
 
 async function main() {
-  startVirtualMachine();
+  await startVirtualMachine();
 }
 
 main().catch(console.error);

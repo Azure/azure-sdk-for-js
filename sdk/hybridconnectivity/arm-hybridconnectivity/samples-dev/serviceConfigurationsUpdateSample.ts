@@ -43,7 +43,7 @@ async function serviceConfigurationsPatchSsh() {
 }
 
 async function main() {
-  serviceConfigurationsPatchSsh();
+  await serviceConfigurationsPatchSsh();
 }
 
 main().catch(console.error);

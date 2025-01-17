@@ -56,7 +56,7 @@ async function importCollectorsCreate() {
 }
 
 async function main() {
-  importCollectorsCreate();
+  await importCollectorsCreate();
 }
 
 main().catch(console.error);

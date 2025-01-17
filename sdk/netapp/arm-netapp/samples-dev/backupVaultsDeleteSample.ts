@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the specified Backup Vault
  *
  * @summary Delete the specified Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/BackupVaults_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupVaults_Delete.json
  */
 async function backupVaultsDelete() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function backupVaultsDelete() {
 }
 
 async function main() {
-  backupVaultsDelete();
+  await backupVaultsDelete();
 }
 
 main().catch(console.error);

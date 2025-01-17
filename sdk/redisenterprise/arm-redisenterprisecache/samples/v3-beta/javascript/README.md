@@ -66,7 +66,7 @@ node accessPolicyAssignmentCreateUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env REDISENTERPRISE_SUBSCRIPTION_ID="<redisenterprise subscription id>" REDISENTERPRISE_RESOURCE_GROUP="<redisenterprise resource group>" node accessPolicyAssignmentCreateUpdateSample.js
+npx dev-tool run vendored cross-env REDISENTERPRISE_SUBSCRIPTION_ID="<redisenterprise subscription id>" REDISENTERPRISE_RESOURCE_GROUP="<redisenterprise resource group>" node accessPolicyAssignmentCreateUpdateSample.js
 ```
 
 ## Next Steps
@@ -103,6 +103,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [redisenterpriselistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redisenterprise/arm-redisenterprisecache/samples/v3-beta/javascript/redisEnterpriseListByResourceGroupSample.js
 [redisenterpriselistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redisenterprise/arm-redisenterprisecache/samples/v3-beta/javascript/redisEnterpriseListSample.js
 [redisenterpriseupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redisenterprise/arm-redisenterprisecache/samples/v3-beta/javascript/redisEnterpriseUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-redisenterprisecache?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-redisenterprisecache?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redisenterprise/arm-redisenterprisecache/README.md

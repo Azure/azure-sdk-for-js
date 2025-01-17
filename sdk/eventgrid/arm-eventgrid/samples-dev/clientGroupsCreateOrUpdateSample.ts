@@ -44,7 +44,7 @@ async function clientGroupsCreateOrUpdate() {
 }
 
 async function main() {
-  clientGroupsCreateOrUpdate();
+  await clientGroupsCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -29,7 +29,7 @@ import {
   AccessDeleteRoleBindingOptionalParams,
   AccessListRoleBindingNameListOptionalParams,
   AccessListRoleBindingNameListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Access. */
 export interface Access {

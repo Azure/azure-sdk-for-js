@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Stops an existing running CDN endpoint.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Stops an existing running CDN endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_Stop.json
  */
-async function endpointsStop() {
+async function endpointsStop(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -35,7 +33,7 @@ async function endpointsStop() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   endpointsStop();
 }
 

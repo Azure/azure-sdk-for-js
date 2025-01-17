@@ -71,7 +71,7 @@ node applicationCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICEFABRICMESH_SUBSCRIPTION_ID="<servicefabricmesh subscription id>" SERVICEFABRICMESH_RESOURCE_GROUP="<servicefabricmesh resource group>" node applicationCreateSample.js
+npx dev-tool run vendored cross-env SERVICEFABRICMESH_SUBSCRIPTION_ID="<servicefabricmesh subscription id>" SERVICEFABRICMESH_RESOURCE_GROUP="<servicefabricmesh resource group>" node applicationCreateSample.js
 ```
 
 ## Next Steps
@@ -113,6 +113,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [volumegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabricmesh/arm-servicefabricmesh/samples/v3-beta/javascript/volumeGetSample.js
 [volumelistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabricmesh/arm-servicefabricmesh/samples/v3-beta/javascript/volumeListByResourceGroupSample.js
 [volumelistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabricmesh/arm-servicefabricmesh/samples/v3-beta/javascript/volumeListBySubscriptionSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-servicefabricmesh?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicefabricmesh?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabricmesh/arm-servicefabricmesh/README.md

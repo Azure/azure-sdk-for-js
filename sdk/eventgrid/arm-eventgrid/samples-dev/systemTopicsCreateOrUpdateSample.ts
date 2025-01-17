@@ -45,7 +45,7 @@ async function systemTopicsCreateOrUpdate() {
 }
 
 async function main() {
-  systemTopicsCreateOrUpdate();
+  await systemTopicsCreateOrUpdate();
 }
 
 main().catch(console.error);

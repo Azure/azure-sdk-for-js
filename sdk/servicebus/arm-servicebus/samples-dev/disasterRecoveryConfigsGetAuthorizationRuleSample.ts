@@ -40,7 +40,7 @@ async function disasterRecoveryConfigsAuthorizationRuleGet() {
 }
 
 async function main() {
-  disasterRecoveryConfigsAuthorizationRuleGet();
+  await disasterRecoveryConfigsAuthorizationRuleGet();
 }
 
 main().catch(console.error);

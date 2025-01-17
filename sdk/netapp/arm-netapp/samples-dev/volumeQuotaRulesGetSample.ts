@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get details of the specified quota rule
  *
  * @summary Get details of the specified quota rule
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/VolumeQuotaRules_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeQuotaRules_Get.json
  */
 async function volumeQuotaRulesGet() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function volumeQuotaRulesGet() {
 }
 
 async function main() {
-  volumeQuotaRulesGet();
+  await volumeQuotaRulesGet();
 }
 
 main().catch(console.error);

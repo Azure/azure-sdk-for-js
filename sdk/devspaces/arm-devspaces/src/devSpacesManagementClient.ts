@@ -18,13 +18,13 @@ import {
   ContainerHostMappingsImpl,
   OperationsImpl,
   ControllersImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   ContainerHostMappings,
   Operations,
   Controllers
-} from "./operationsInterfaces";
-import { DevSpacesManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DevSpacesManagementClientOptionalParams } from "./models/index.js";
 
 export class DevSpacesManagementClient extends coreClient.ServiceClient {
   $host: string;

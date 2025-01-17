@@ -53,7 +53,7 @@ node endpointsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env TRAFFICMANAGER_SUBSCRIPTION_ID="<trafficmanager subscription id>" TRAFFICMANAGER_RESOURCE_GROUP="<trafficmanager resource group>" node endpointsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env TRAFFICMANAGER_SUBSCRIPTION_ID="<trafficmanager subscription id>" TRAFFICMANAGER_RESOURCE_GROUP="<trafficmanager resource group>" node endpointsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -77,6 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [trafficmanagerusermetricskeyscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/javascript/trafficManagerUserMetricsKeysCreateOrUpdateSample.js
 [trafficmanagerusermetricskeysdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/javascript/trafficManagerUserMetricsKeysDeleteSample.js
 [trafficmanagerusermetricskeysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/trafficmanager/arm-trafficmanager/samples/v6/javascript/trafficManagerUserMetricsKeysGetSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-trafficmanager?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-trafficmanager?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/trafficmanager/arm-trafficmanager/README.md

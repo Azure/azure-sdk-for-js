@@ -41,7 +41,7 @@ async function queryPackListByResourceGroup() {
 }
 
 async function main() {
-  queryPackListByResourceGroup();
+  await queryPackListByResourceGroup();
 }
 
 main().catch(console.error);

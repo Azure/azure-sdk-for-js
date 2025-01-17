@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all available SKU for a given API Management service
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all available SKU for a given API Management service
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSKUs-Consumption.json
  */
-async function apiManagementListSkUsConsumption() {
+async function apiManagementListSkUsConsumption(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -44,7 +42,7 @@ async function apiManagementListSkUsConsumption() {
  * @summary Gets all available SKU for a given API Management service
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSKUs-Dedicated.json
  */
-async function apiManagementListSkUsDedicated() {
+async function apiManagementListSkUsDedicated(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -62,7 +60,7 @@ async function apiManagementListSkUsDedicated() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListSkUsConsumption();
   apiManagementListSkUsDedicated();
 }

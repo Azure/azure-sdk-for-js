@@ -40,7 +40,7 @@ async function listPacketCaptureSessionsUnderAPacketCoreControlPlane() {
 }
 
 async function main() {
-  listPacketCaptureSessionsUnderAPacketCoreControlPlane();
+  await listPacketCaptureSessionsUnderAPacketCoreControlPlane();
 }
 
 main().catch(console.error);

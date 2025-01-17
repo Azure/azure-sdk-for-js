@@ -89,7 +89,7 @@ async function createOrUpdateATenantActionGroup() {
 }
 
 async function main() {
-  createOrUpdateATenantActionGroup();
+  await createOrUpdateATenantActionGroup();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Uncordon the provided bare metal machine's Kubernetes node.
  *
  * @summary Uncordon the provided bare metal machine's Kubernetes node.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachines_Uncordon.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_Uncordon.json
  */
 async function uncordonBareMetalMachine() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function uncordonBareMetalMachine() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginUncordonAndWait(
     resourceGroupName,
-    bareMetalMachineName
+    bareMetalMachineName,
   );
   console.log(result);
 }
 
 async function main() {
-  uncordonBareMetalMachine();
+  await uncordonBareMetalMachine();
 }
 
 main().catch(console.error);

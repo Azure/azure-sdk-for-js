@@ -13,9 +13,7 @@ import {
   DataBoxManagementClient
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to CancelJob.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary CancelJob.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCancelPost.json
  */
-async function jobsCancelPost() {
+async function jobsCancelPost(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -40,7 +38,7 @@ async function jobsCancelPost() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsCancelPost();
 }
 

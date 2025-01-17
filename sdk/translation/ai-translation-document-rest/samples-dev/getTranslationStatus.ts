@@ -60,8 +60,8 @@ export async function main() {
   console.log("Translation lastActionDateTimeUtc = " + responseBody.lastActionDateTimeUtc);
   console.log("Total documents submitted for translation = " + responseBody.summary.total);
   console.log("Total characters charged = " + responseBody.summary.totalCharacterCharged);
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

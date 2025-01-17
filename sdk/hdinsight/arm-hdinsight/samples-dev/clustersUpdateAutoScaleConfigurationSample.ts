@@ -105,9 +105,9 @@ async function enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsi
 }
 
 async function main() {
-  disableAutoscaleForTheHdInsightCluster();
-  enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightCluster();
-  enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsightCluster();
+  await disableAutoscaleForTheHdInsightCluster();
+  await enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightCluster();
+  await enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsightCluster();
 }
 
 main().catch(console.error);

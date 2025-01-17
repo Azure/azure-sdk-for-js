@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new Kubernetes cluster agent pool or update the properties of the existing one.
  *
  * @summary Create a new Kubernetes cluster agent pool or update the properties of the existing one.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/AgentPools_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/AgentPools_Create.json
  */
 async function createOrUpdateKubernetesClusterAgentPool() {
   const subscriptionId =
@@ -34,9 +34,9 @@ async function createOrUpdateKubernetesClusterAgentPool() {
       sshPublicKeys: [
         {
           keyData:
-            "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm"
-        }
-      ]
+            "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm",
+        },
+      ],
     },
     agentOptions: { hugepagesCount: 96, hugepagesSize: "1G" },
     attachedNetworkConfiguration: {
@@ -44,31 +44,30 @@ async function createOrUpdateKubernetesClusterAgentPool() {
         {
           networkId:
             "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/l2Networks/l2NetworkName",
-          pluginType: "DPDK"
-        }
+          pluginType: "DPDK",
+        },
       ],
       l3Networks: [
         {
           ipamEnabled: "False",
           networkId:
             "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/l3Networks/l3NetworkName",
-          pluginType: "SRIOV"
-        }
+          pluginType: "SRIOV",
+        },
       ],
       trunkedNetworks: [
         {
           networkId:
             "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/trunkedNetworks/trunkedNetworkName",
-          pluginType: "MACVLAN"
-        }
-      ]
+          pluginType: "MACVLAN",
+        },
+      ],
     },
     availabilityZones: ["1", "2", "3"],
     count: 3,
     extendedLocation: {
-      name:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
-      type: "CustomLocation"
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+      type: "CustomLocation",
     },
     labels: [{ key: "kubernetes.label", value: "true" }],
     location: "location",
@@ -76,7 +75,7 @@ async function createOrUpdateKubernetesClusterAgentPool() {
     tags: { key1: "myvalue1", key2: "myvalue2" },
     taints: [{ key: "kubernetes.taint", value: "true" }],
     upgradeSettings: { maxSurge: "1" },
-    vmSkuName: "NC_M16_v1"
+    vmSkuName: "NC_XXXX",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
@@ -84,13 +83,13 @@ async function createOrUpdateKubernetesClusterAgentPool() {
     resourceGroupName,
     kubernetesClusterName,
     agentPoolName,
-    agentPoolParameters
+    agentPoolParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateKubernetesClusterAgentPool();
+  await createOrUpdateKubernetesClusterAgentPool();
 }
 
 main().catch(console.error);

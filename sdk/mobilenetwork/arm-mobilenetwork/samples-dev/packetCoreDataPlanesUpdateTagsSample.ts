@@ -44,7 +44,7 @@ async function updatePacketCoreDataPlaneTags() {
 }
 
 async function main() {
-  updatePacketCoreDataPlaneTags();
+  await updatePacketCoreDataPlaneTags();
 }
 
 main().catch(console.error);

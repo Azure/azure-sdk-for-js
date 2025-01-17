@@ -41,7 +41,7 @@ async function relayHybridConnectionCreate() {
 }
 
 async function main() {
-  relayHybridConnectionCreate();
+  await relayHybridConnectionCreate();
 }
 
 main().catch(console.error);

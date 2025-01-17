@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new virtual machine console or update the properties of the existing virtual machine console.
  *
  * @summary Create a new virtual machine console or update the properties of the existing virtual machine console.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Consoles_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Consoles_Create.json
  */
 async function createOrUpdateVirtualMachineConsole() {
   const subscriptionId =
@@ -32,16 +32,15 @@ async function createOrUpdateVirtualMachineConsole() {
     enabled: "True",
     expiration: new Date("2022-06-01T01:27:03.008Z"),
     extendedLocation: {
-      name:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
-      type: "CustomLocation"
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterManagerExtendedLocationName",
+      type: "CustomLocation",
     },
     location: "location",
     sshPublicKey: {
       keyData:
-        "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm"
+        "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm",
     },
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
@@ -49,13 +48,13 @@ async function createOrUpdateVirtualMachineConsole() {
     resourceGroupName,
     virtualMachineName,
     consoleName,
-    consoleParameters
+    consoleParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateVirtualMachineConsole();
+  await createOrUpdateVirtualMachineConsole();
 }
 
 main().catch(console.error);

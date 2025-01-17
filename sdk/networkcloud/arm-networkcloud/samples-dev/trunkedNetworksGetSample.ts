@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of the provided trunked network.
  *
  * @summary Get properties of the provided trunked network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/TrunkedNetworks_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/TrunkedNetworks_Get.json
  */
 async function getTrunkedNetwork() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function getTrunkedNetwork() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.trunkedNetworks.get(
     resourceGroupName,
-    trunkedNetworkName
+    trunkedNetworkName,
   );
   console.log(result);
 }
 
 async function main() {
-  getTrunkedNetwork();
+  await getTrunkedNetwork();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines.
  *
  * @summary Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/machine/Machines_ListByResourceGroup.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/machine/Machines_ListByResourceGroup.json
  */
 async function listMachinesByResourceGroup() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function listMachinesByResourceGroup() {
 }
 
 async function main() {
-  listMachinesByResourceGroup();
+  await listMachinesByResourceGroup();
 }
 
 main().catch(console.error);

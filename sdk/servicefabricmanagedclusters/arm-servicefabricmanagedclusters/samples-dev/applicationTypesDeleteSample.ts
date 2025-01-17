@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Service Fabric managed application type name resource with the specified name.
  *
  * @summary Delete a Service Fabric managed application type name resource with the specified name.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ApplicationTypeNameDeleteOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationTypeNameDeleteOperation_example.json
  */
 async function deleteAnApplicationType() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function deleteAnApplicationType() {
 }
 
 async function main() {
-  deleteAnApplicationType();
+  await deleteAnApplicationType();
 }
 
 main().catch(console.error);

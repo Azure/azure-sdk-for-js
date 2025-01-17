@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a Azure Arc PrivateLinkScope.
  *
  * @summary Returns a Azure Arc PrivateLinkScope.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/privateLinkScope/PrivateLinkScopes_Get.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopes_Get.json
  */
 async function privateLinkScopeGet() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function privateLinkScopeGet() {
 }
 
 async function main() {
-  privateLinkScopeGet();
+  await privateLinkScopeGet();
 }
 
 main().catch(console.error);

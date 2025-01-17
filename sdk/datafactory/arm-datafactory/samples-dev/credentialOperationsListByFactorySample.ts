@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List credentials.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List credentials.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Credentials_ListByFactory.json
  */
-async function credentialsListByFactory() {
+async function credentialsListByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -39,8 +37,8 @@ async function credentialsListByFactory() {
   console.log(resArray);
 }
 
-async function main() {
-  credentialsListByFactory();
+async function main(): Promise<void> {
+  await credentialsListByFactory();
 }
 
 main().catch(console.error);

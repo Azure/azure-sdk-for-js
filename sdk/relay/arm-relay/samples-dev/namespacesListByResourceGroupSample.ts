@@ -38,7 +38,7 @@ async function relayNameSpaceListByResourceGroup() {
 }
 
 async function main() {
-  relayNameSpaceListByResourceGroup();
+  await relayNameSpaceListByResourceGroup();
 }
 
 main().catch(console.error);

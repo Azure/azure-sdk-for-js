@@ -40,7 +40,7 @@ async function networkPacketBrokersDeleteMaximumSetGen() {
 }
 
 async function main() {
-  networkPacketBrokersDeleteMaximumSetGen();
+  await networkPacketBrokersDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

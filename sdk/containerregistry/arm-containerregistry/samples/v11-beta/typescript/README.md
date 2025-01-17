@@ -152,7 +152,7 @@ node dist/agentPoolsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONTAINERREGISTRY_SUBSCRIPTION_ID="<containerregistry subscription id>" CONTAINERREGISTRY_RESOURCE_GROUP="<containerregistry resource group>" node dist/agentPoolsCreateSample.js
+npx dev-tool run vendored cross-env CONTAINERREGISTRY_SUBSCRIPTION_ID="<containerregistry subscription id>" CONTAINERREGISTRY_RESOURCE_GROUP="<containerregistry resource group>" node dist/agentPoolsCreateSample.js
 ```
 
 ## Next Steps
@@ -263,7 +263,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [webhookslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksListSample.ts
 [webhookspingsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksPingSample.ts
 [webhooksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/arm-containerregistry/samples/v11-beta/typescript/src/webhooksUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-containerregistry?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-containerregistry?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistry/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

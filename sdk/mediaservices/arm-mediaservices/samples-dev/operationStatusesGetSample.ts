@@ -99,9 +99,9 @@ async function getStatusOfAsynchronousOperationWhenItIsOngoing() {
 }
 
 async function main() {
-  getStatusOfAsynchronousOperationWhenItIsCompletedWithError();
-  getStatusOfAsynchronousOperationWhenItIsCompleted();
-  getStatusOfAsynchronousOperationWhenItIsOngoing();
+  await getStatusOfAsynchronousOperationWhenItIsCompletedWithError();
+  await getStatusOfAsynchronousOperationWhenItIsCompleted();
+  await getStatusOfAsynchronousOperationWhenItIsOngoing();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of the provided layer 3 (L3) network.
  *
  * @summary Get properties of the provided layer 3 (L3) network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/L3Networks_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/L3Networks_Get.json
  */
 async function getL3Network() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getL3Network() {
 }
 
 async function main() {
-  getL3Network();
+  await getL3Network();
 }
 
 main().catch(console.error);

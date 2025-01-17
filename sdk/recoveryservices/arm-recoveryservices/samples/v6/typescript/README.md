@@ -68,7 +68,7 @@ node dist/getOperationResultSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env RECOVERYSERVICES_SUBSCRIPTION_ID="<recoveryservices subscription id>" RECOVERYSERVICES_RESOURCE_GROUP="<recoveryservices resource group>" node dist/getOperationResultSample.js
+npx dev-tool run vendored cross-env RECOVERYSERVICES_SUBSCRIPTION_ID="<recoveryservices subscription id>" RECOVERYSERVICES_RESOURCE_GROUP="<recoveryservices resource group>" node dist/getOperationResultSample.js
 ```
 
 ## Next Steps
@@ -95,7 +95,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [vaultslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservices/arm-recoveryservices/samples/v6/typescript/src/vaultsListByResourceGroupSample.ts
 [vaultslistbysubscriptionidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservices/arm-recoveryservices/samples/v6/typescript/src/vaultsListBySubscriptionIdSample.ts
 [vaultsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservices/arm-recoveryservices/samples/v6/typescript/src/vaultsUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservices/arm-recoveryservices/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

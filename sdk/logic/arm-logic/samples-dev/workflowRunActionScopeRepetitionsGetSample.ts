@@ -43,7 +43,7 @@ async function getAScopedRepetition() {
 }
 
 async function main() {
-  getAScopedRepetition();
+  await getAScopedRepetition();
 }
 
 main().catch(console.error);

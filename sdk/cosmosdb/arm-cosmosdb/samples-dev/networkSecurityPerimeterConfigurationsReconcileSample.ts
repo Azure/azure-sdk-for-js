@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Refreshes any information about the association.
  *
  * @summary Refreshes any information about the association.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/NetworkSecurityPerimeterConfigurationReconcile.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/NetworkSecurityPerimeterConfigurationReconcile.json
  */
-async function networkSecurityPerimeterConfigurationList() {
+async function networkSecurityPerimeterConfigurationList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -39,7 +37,7 @@ async function networkSecurityPerimeterConfigurationList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkSecurityPerimeterConfigurationList();
 }
 

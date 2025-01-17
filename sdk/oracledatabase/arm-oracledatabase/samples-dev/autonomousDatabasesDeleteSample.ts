@@ -37,7 +37,7 @@ async function deleteAutonomousDatabase() {
 }
 
 async function main() {
-  deleteAutonomousDatabase();
+  await deleteAutonomousDatabase();
 }
 
 main().catch(console.error);

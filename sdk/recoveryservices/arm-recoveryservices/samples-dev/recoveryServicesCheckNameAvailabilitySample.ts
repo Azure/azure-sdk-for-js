@@ -80,8 +80,8 @@ async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSu
 }
 
 async function main() {
-  availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours();
-  availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists();
+  await availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours();
+  await availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists();
 }
 
 main().catch(console.error);

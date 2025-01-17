@@ -13,9 +13,7 @@ import {
   CostManagementClient
 } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the forecast charges for external cloud provider type defined.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the forecast charges for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountForecast.json
  */
-async function externalBillingAccountForecast() {
+async function externalBillingAccountForecast(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";
   const parameters: ForecastDefinition = {
@@ -83,7 +81,7 @@ async function externalBillingAccountForecast() {
  * @summary Lists the forecast charges for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalSubscriptionForecast.json
  */
-async function externalSubscriptionForecast() {
+async function externalSubscriptionForecast(): Promise<void> {
   const externalCloudProviderType = "externalSubscriptions";
   const externalCloudProviderId = "100";
   const parameters: ForecastDefinition = {
@@ -137,7 +135,7 @@ async function externalSubscriptionForecast() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   externalBillingAccountForecast();
   externalSubscriptionForecast();
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new baseboard management controller key set or update the existing one for the provided cluster.
  *
  * @summary Create a new baseboard management controller key set or update the existing one for the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BmcKeySets_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BmcKeySets_Create.json
  */
 async function createOrUpdateBaseboardManagementControllerKeySetOfCluster() {
   const subscriptionId =
@@ -32,9 +32,8 @@ async function createOrUpdateBaseboardManagementControllerKeySetOfCluster() {
     azureGroupId: "f110271b-XXXX-4163-9b99-214d91660f0e",
     expiration: new Date("2022-12-31T23:59:59.008Z"),
     extendedLocation: {
-      name:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
-      type: "CustomLocation"
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+      type: "CustomLocation",
     },
     location: "location",
     privilegeLevel: "Administrator",
@@ -46,8 +45,9 @@ async function createOrUpdateBaseboardManagementControllerKeySetOfCluster() {
         azureUserName: "userABC",
         sshPublicKey: {
           keyData:
-            "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm"
-        }
+            "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm",
+        },
+        userPrincipalName: "userABC@contoso.com",
       },
       {
         description:
@@ -55,10 +55,11 @@ async function createOrUpdateBaseboardManagementControllerKeySetOfCluster() {
         azureUserName: "userXYZ",
         sshPublicKey: {
           keyData:
-            "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm"
-        }
-      }
-    ]
+            "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm",
+        },
+        userPrincipalName: "userABC@contoso.com",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
@@ -66,13 +67,13 @@ async function createOrUpdateBaseboardManagementControllerKeySetOfCluster() {
     resourceGroupName,
     clusterName,
     bmcKeySetName,
-    bmcKeySetParameters
+    bmcKeySetParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateBaseboardManagementControllerKeySetOfCluster();
+  await createOrUpdateBaseboardManagementControllerKeySetOfCluster();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listStorageTasksBySubscription() {
 }
 
 async function main() {
-  listStorageTasksBySubscription();
+  await listStorageTasksBySubscription();
 }
 
 main().catch(console.error);

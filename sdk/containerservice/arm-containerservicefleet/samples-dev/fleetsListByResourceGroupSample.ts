@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists fleets in the specified subscription and resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists fleets in the specified subscription and resource group.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/Fleets_ListByResourceGroup.json
  */
-async function listsTheFleetResourcesInAResourceGroup() {
+async function listsTheFleetResourcesInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -34,7 +32,7 @@ async function listsTheFleetResourcesInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsTheFleetResourcesInAResourceGroup();
 }
 

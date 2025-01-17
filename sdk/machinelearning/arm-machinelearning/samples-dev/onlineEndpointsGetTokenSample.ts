@@ -42,7 +42,7 @@ async function getTokenWorkspaceOnlineEndpoint() {
 }
 
 async function main() {
-  getTokenWorkspaceOnlineEndpoint();
+  await getTokenWorkspaceOnlineEndpoint();
 }
 
 main().catch(console.error);

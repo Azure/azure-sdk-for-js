@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Start the provided bare metal machine.
  *
  * @summary Start the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachines_Start.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_Start.json
  */
 async function startBareMetalMachine() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function startBareMetalMachine() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginStartAndWait(
     resourceGroupName,
-    bareMetalMachineName
+    bareMetalMachineName,
   );
   console.log(result);
 }
 
 async function main() {
-  startBareMetalMachine();
+  await startBareMetalMachine();
 }
 
 main().catch(console.error);

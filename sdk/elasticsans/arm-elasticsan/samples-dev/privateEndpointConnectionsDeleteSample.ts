@@ -61,8 +61,8 @@ async function privateEndpointConnectionsDeleteMinimumSetGen() {
 }
 
 async function main() {
-  privateEndpointConnectionsDeleteMaximumSetGen();
-  privateEndpointConnectionsDeleteMinimumSetGen();
+  await privateEndpointConnectionsDeleteMaximumSetGen();
+  await privateEndpointConnectionsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

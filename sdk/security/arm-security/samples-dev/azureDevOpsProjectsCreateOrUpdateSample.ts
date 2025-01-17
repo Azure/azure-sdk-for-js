@@ -47,7 +47,7 @@ async function createOrUpdateAzureDevOpsProjects() {
 }
 
 async function main() {
-  createOrUpdateAzureDevOpsProjects();
+  await createOrUpdateAzureDevOpsProjects();
 }
 
 main().catch(console.error);

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a managed Cassandra data center.
  *
  * @summary Delete a managed Cassandra data center.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/CosmosDBManagedCassandraDataCenterDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraDataCenterDelete.json
  */
-async function cosmosDbManagedCassandraDataCenterDelete() {
+async function cosmosDbManagedCassandraDataCenterDelete(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function cosmosDbManagedCassandraDataCenterDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraDataCenterDelete();
 }
 

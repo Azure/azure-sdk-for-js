@@ -42,7 +42,7 @@ async function networkToNetworkInterconnectsDeleteMaximumSetGen() {
 }
 
 async function main() {
-  networkToNetworkInterconnectsDeleteMaximumSetGen();
+  await networkToNetworkInterconnectsDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

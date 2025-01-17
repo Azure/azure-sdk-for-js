@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_ListOutboundNetworkDependenciesEndpoints.json
  */
-async function integrationRuntimesOutboundNetworkDependenciesEndpoints() {
+async function integrationRuntimesOutboundNetworkDependenciesEndpoints(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "7ad7c73b-38b8-4df3-84ee-52ff91092f61";
@@ -39,8 +37,8 @@ async function integrationRuntimesOutboundNetworkDependenciesEndpoints() {
   console.log(result);
 }
 
-async function main() {
-  integrationRuntimesOutboundNetworkDependenciesEndpoints();
+async function main(): Promise<void> {
+  await integrationRuntimesOutboundNetworkDependenciesEndpoints();
 }
 
 main().catch(console.error);

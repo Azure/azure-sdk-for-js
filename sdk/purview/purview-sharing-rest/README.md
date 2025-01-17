@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-sharing-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/purview-sharing)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-sharing-rest/samples)
 
 ## Getting started
@@ -50,7 +50,7 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");

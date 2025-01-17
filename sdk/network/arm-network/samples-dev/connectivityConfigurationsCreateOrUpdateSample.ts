@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates/Updates a new network manager connectivity configuration
  *
  * @summary Creates/Updates a new network manager connectivity configuration
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerConnectivityConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerConnectivityConfigurationPut.json
  */
 async function connectivityConfigurationsPut() {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function connectivityConfigurationsPut() {
 }
 
 async function main() {
-  connectivityConfigurationsPut();
+  await connectivityConfigurationsPut();
 }
 
 main().catch(console.error);

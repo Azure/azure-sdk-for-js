@@ -33,7 +33,7 @@ async function hybridConnectivityEndpointsGet() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsGet();
+  await hybridConnectivityEndpointsGet();
 }
 
 main().catch(console.error);

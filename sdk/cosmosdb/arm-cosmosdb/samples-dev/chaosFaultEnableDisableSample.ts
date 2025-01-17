@@ -13,17 +13,15 @@ import {
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Enable, disable Chaos Fault in a CosmosDB account.
  *
  * @summary Enable, disable Chaos Fault in a CosmosDB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/ChaosFaultEnableDisable.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/ChaosFaultEnableDisable.json
  */
-async function chaosFaultEnableDisable() {
+async function chaosFaultEnableDisable(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -48,7 +46,7 @@ async function chaosFaultEnableDisable() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   chaosFaultEnableDisable();
 }
 

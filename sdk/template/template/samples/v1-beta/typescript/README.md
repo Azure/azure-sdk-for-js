@@ -51,7 +51,7 @@ node dist/getConfigurationSetting.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_KEY="<appconfig test setting key>" node dist/getConfigurationSetting.js
+npx dev-tool run vendored cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_KEY="<appconfig test setting key>" node dist/getConfigurationSetting.js
 ```
 
 ## Next Steps
@@ -59,8 +59,8 @@ npx cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_K
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/samples/v1-beta/typescript/src/getConfigurationSetting.ts
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
+[createinstance_azureappconfiguration]: https://learn.microsoft.com/azure/azure-app-configuration/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

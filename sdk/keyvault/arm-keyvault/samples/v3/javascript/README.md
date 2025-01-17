@@ -84,7 +84,7 @@ node keysCreateIfNotExistSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KEYVAULT_SUBSCRIPTION_ID="<keyvault subscription id>" KEYVAULT_RESOURCE_GROUP="<keyvault resource group>" node keysCreateIfNotExistSample.js
+npx dev-tool run vendored cross-env KEYVAULT_SUBSCRIPTION_ID="<keyvault subscription id>" KEYVAULT_RESOURCE_GROUP="<keyvault resource group>" node keysCreateIfNotExistSample.js
 ```
 
 ## Next Steps
@@ -139,6 +139,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [vaultspurgedeletedsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/arm-keyvault/samples/v3/javascript/vaultsPurgeDeletedSample.js
 [vaultsupdateaccesspolicysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/arm-keyvault/samples/v3/javascript/vaultsUpdateAccessPolicySample.js
 [vaultsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/arm-keyvault/samples/v3/javascript/vaultsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-keyvault?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-keyvault?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/arm-keyvault/README.md

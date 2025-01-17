@@ -55,8 +55,8 @@ async function storageAccountGetPropertiesCmkEnabled() {
 }
 
 async function main() {
-  storageAccountGetProperties();
-  storageAccountGetPropertiesCmkEnabled();
+  await storageAccountGetProperties();
+  await storageAccountGetPropertiesCmkEnabled();
 }
 
 main().catch(console.error);

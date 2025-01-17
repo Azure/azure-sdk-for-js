@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete quota rule
  *
  * @summary Delete quota rule
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/VolumeQuotaRules_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeQuotaRules_Delete.json
  */
 async function volumeQuotaRulesDelete() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function volumeQuotaRulesDelete() {
 }
 
 async function main() {
-  volumeQuotaRulesDelete();
+  await volumeQuotaRulesDelete();
 }
 
 main().catch(console.error);

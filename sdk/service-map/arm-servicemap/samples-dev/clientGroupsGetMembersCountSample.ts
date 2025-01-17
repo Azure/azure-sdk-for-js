@@ -50,7 +50,7 @@ async function smClientGroupsGetMembersCountGet() {
 }
 
 async function main() {
-  smClientGroupsGetMembersCountGet();
+  await smClientGroupsGetMembersCountGet();
 }
 
 main().catch(console.error);

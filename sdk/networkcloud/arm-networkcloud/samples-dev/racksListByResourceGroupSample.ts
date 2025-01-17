@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of racks in the provided resource group.
  *
  * @summary Get a list of racks in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Racks_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Racks_ListByResourceGroup.json
  */
 async function listRacksForResourceGroup() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function listRacksForResourceGroup() {
 }
 
 async function main() {
-  listRacksForResourceGroup();
+  await listRacksForResourceGroup();
 }
 
 main().catch(console.error);

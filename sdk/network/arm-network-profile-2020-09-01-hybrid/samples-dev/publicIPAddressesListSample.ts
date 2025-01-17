@@ -33,7 +33,7 @@ async function listResourceGroupPublicIPAddresses() {
 }
 
 async function main() {
-  listResourceGroupPublicIPAddresses();
+  await listResourceGroupPublicIPAddresses();
 }
 
 main().catch(console.error);

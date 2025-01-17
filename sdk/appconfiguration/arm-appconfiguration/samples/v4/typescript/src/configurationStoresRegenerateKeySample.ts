@@ -10,18 +10,16 @@
 // Licensed under the MIT License.
 import {
   RegenerateKeyParameters,
-  AppConfigurationManagementClient
+  AppConfigurationManagementClient,
 } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerates an access key for the specified configuration store.
  *
  * @summary Regenerates an access key for the specified configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresRegenerateKey.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresRegenerateKey.json
  */
 async function configurationStoresRegenerateKey() {
   const subscriptionId =
@@ -31,17 +29,17 @@ async function configurationStoresRegenerateKey() {
     process.env["APPCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroup";
   const configStoreName = "contoso";
   const regenerateKeyParameters: RegenerateKeyParameters = {
-    id: "439AD01B4BE67DB1"
+    id: "439AD01B4BE67DB1",
   };
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurationStores.regenerateKey(
     resourceGroupName,
     configStoreName,
-    regenerateKeyParameters
+    regenerateKeyParameters,
   );
   console.log(result);
 }

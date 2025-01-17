@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  SuppressionContract,
-  AdvisorManagementClient
-} from "@azure/arm-advisor";
+import { SuppressionContract, AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute is referred to as a suppression. Use this API to create or update the snoozed or dismissed status of a recommendation.
@@ -23,7 +18,7 @@ dotenv.config();
  * @summary Enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute is referred to as a suppression. Use this API to create or update the snoozed or dismissed status of a recommendation.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateSuppression.json
  */
-async function createSuppression() {
+async function createSuppression(): Promise<void> {
   const resourceUri = "resourceUri";
   const recommendationId = "recommendationId";
   const name = "suppressionName1";
@@ -34,12 +29,12 @@ async function createSuppression() {
     resourceUri,
     recommendationId,
     name,
-    suppressionContract
+    suppressionContract,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createSuppression();
 }
 

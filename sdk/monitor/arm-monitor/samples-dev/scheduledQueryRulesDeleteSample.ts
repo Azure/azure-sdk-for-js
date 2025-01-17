@@ -37,7 +37,7 @@ async function deleteAScheduledQueryRule() {
 }
 
 async function main() {
-  deleteAScheduledQueryRule();
+  await deleteAScheduledQueryRule();
 }
 
 main().catch(console.error);

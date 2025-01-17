@@ -34,7 +34,7 @@ async function listActionGroupsAtSubscriptionLevel() {
 }
 
 async function main() {
-  listActionGroupsAtSubscriptionLevel();
+  await listActionGroupsAtSubscriptionLevel();
 }
 
 main().catch(console.error);

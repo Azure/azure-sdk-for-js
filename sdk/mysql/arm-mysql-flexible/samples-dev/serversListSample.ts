@@ -37,7 +37,7 @@ async function listServersInASubscription() {
 }
 
 async function main() {
-  listServersInASubscription();
+  await listServersInASubscription();
 }
 
 main().catch(console.error);

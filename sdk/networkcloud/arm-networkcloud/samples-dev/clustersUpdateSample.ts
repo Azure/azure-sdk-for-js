@@ -11,7 +11,7 @@
 import {
   ClusterPatchParameters,
   ClustersUpdateOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Clusters_Patch_AggregatorOrSingleRackDefinition.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_AggregatorOrSingleRackDefinition.json
  */
 async function patchClusterAggregatorOrSingleRackDefinition() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function patchClusterAggregatorOrSingleRackDefinition() {
           machineDetails: "extraDetails",
           machineName: "bmmName1",
           rackSlot: 1,
-          serialNumber: "BM1219XXX"
+          serialNumber: "BM1219XXX",
         },
         {
           bmcCredentials: { password: "{password}", username: "username" },
@@ -50,8 +50,8 @@ async function patchClusterAggregatorOrSingleRackDefinition() {
           machineDetails: "extraDetails",
           machineName: "bmmName2",
           rackSlot: 2,
-          serialNumber: "BM1219YYY"
-        }
+          serialNumber: "BM1219YYY",
+        },
       ],
       networkRackId:
         "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedNetworkFabric/networkRacks/networkRackName",
@@ -64,16 +64,16 @@ async function patchClusterAggregatorOrSingleRackDefinition() {
           adminCredentials: { password: "{password}", username: "username" },
           rackSlot: 1,
           serialNumber: "BM1219XXX",
-          storageApplianceName: "vmName"
-        }
-      ]
+          storageApplianceName: "vmName",
+        },
+      ],
     },
     computeDeploymentThreshold: {
       type: "PercentSuccess",
       grouping: "PerCluster",
-      value: 90
+      value: 90,
     },
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const options: ClustersUpdateOptionalParams = { clusterUpdateParameters };
   const credential = new DefaultAzureCredential();
@@ -81,7 +81,7 @@ async function patchClusterAggregatorOrSingleRackDefinition() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -90,7 +90,52 @@ async function patchClusterAggregatorOrSingleRackDefinition() {
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Clusters_Patch_Location.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_CommandOutput.json
+ */
+async function patchClusterCommandOutput() {
+  const subscriptionId =
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
+  const resourceGroupName =
+    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
+  const clusterName = "clusterName";
+  const clusterUpdateParameters: ClusterPatchParameters = {
+    commandOutputSettings: {
+      associatedIdentity: {
+        identityType: "UserAssignedIdentity",
+        userAssignedIdentityResourceId:
+          "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity2",
+      },
+      containerUrl:
+        "https://myaccount.blob.core.windows.net/mycontainer?restype=container",
+    },
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/123e4567E89b12d3A456426655440000/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/userIdentity1":
+          {},
+        "/subscriptions/123e4567E89b12d3A456426655440000/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/userIdentity2":
+          {},
+      },
+    },
+    tags: { key1: "myvalue1", key2: "myvalue2" },
+  };
+  const options: ClustersUpdateOptionalParams = { clusterUpdateParameters };
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkCloud(credential, subscriptionId);
+  const result = await client.clusters.beginUpdateAndWait(
+    resourceGroupName,
+    clusterName,
+    options,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ *
+ * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_Location.json
  */
 async function patchClusterLocation() {
   const subscriptionId =
@@ -101,7 +146,7 @@ async function patchClusterLocation() {
   const clusterName = "clusterName";
   const clusterUpdateParameters: ClusterPatchParameters = {
     clusterLocation: "Foo Street, 3rd Floor, row 9",
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const options: ClustersUpdateOptionalParams = { clusterUpdateParameters };
   const credential = new DefaultAzureCredential();
@@ -109,14 +154,112 @@ async function patchClusterLocation() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    options
+    options,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ *
+ * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_RuntimeProtectionConfiguration.json
+ */
+async function patchRuntimeProtectionConfiguration() {
+  const subscriptionId =
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
+  const resourceGroupName =
+    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
+  const clusterName = "clusterName";
+  const clusterUpdateParameters: ClusterPatchParameters = {
+    runtimeProtectionConfiguration: { enforcementLevel: "OnDemand" },
+    tags: { key1: "myvalue1", key2: "myvalue2" },
+  };
+  const options: ClustersUpdateOptionalParams = { clusterUpdateParameters };
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkCloud(credential, subscriptionId);
+  const result = await client.clusters.beginUpdateAndWait(
+    resourceGroupName,
+    clusterName,
+    options,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ *
+ * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_SecretArchive.json
+ */
+async function patchSecretArchive() {
+  const subscriptionId =
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
+  const resourceGroupName =
+    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
+  const clusterName = "clusterName";
+  const clusterUpdateParameters: ClusterPatchParameters = {
+    secretArchive: {
+      keyVaultId:
+        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.KeyVault/vaults/keyVaultName",
+      useKeyVault: "True",
+    },
+    tags: { key1: "myvalue1", key2: "myvalue2" },
+  };
+  const options: ClustersUpdateOptionalParams = { clusterUpdateParameters };
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkCloud(credential, subscriptionId);
+  const result = await client.clusters.beginUpdateAndWait(
+    resourceGroupName,
+    clusterName,
+    options,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ *
+ * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_UpdateStrategy.json
+ */
+async function patchUpdateStrategy() {
+  const subscriptionId =
+    process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
+    "123e4567-e89b-12d3-a456-426655440000";
+  const resourceGroupName =
+    process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
+  const clusterName = "clusterName";
+  const clusterUpdateParameters: ClusterPatchParameters = {
+    tags: { key1: "myvalue1", key2: "myvalue2" },
+    updateStrategy: {
+      maxUnavailable: 4,
+      strategyType: "Rack",
+      thresholdType: "CountSuccess",
+      thresholdValue: 4,
+      waitTimeMinutes: 10,
+    },
+  };
+  const options: ClustersUpdateOptionalParams = { clusterUpdateParameters };
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkCloud(credential, subscriptionId);
+  const result = await client.clusters.beginUpdateAndWait(
+    resourceGroupName,
+    clusterName,
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  patchClusterAggregatorOrSingleRackDefinition();
-  patchClusterLocation();
+  await patchClusterAggregatorOrSingleRackDefinition();
+  await patchClusterCommandOutput();
+  await patchClusterLocation();
+  await patchRuntimeProtectionConfiguration();
+  await patchSecretArchive();
+  await patchUpdateStrategy();
 }
 
 main().catch(console.error);

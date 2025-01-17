@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes an existing Managed CCF.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes an existing Managed CCF.
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Delete.json
  */
-async function confidentialLedgerDelete() {
+async function confidentialLedgerDelete(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
@@ -37,7 +35,7 @@ async function confidentialLedgerDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   confidentialLedgerDelete();
 }
 

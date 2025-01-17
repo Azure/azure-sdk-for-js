@@ -65,7 +65,7 @@ async function createALiveEvent() {
 }
 
 async function main() {
-  createALiveEvent();
+  await createALiveEvent();
 }
 
 main().catch(console.error);

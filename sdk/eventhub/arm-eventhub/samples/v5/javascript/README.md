@@ -102,7 +102,7 @@ node applicationGroupCreateOrUpdateApplicationGroupSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env EVENTHUB_SUBSCRIPTION_ID="<eventhub subscription id>" EVENTHUB_RESOURCE_GROUP="<eventhub resource group>" node applicationGroupCreateOrUpdateApplicationGroupSample.js
+npx dev-tool run vendored cross-env EVENTHUB_SUBSCRIPTION_ID="<eventhub subscription id>" EVENTHUB_RESOURCE_GROUP="<eventhub resource group>" node applicationGroupCreateOrUpdateApplicationGroupSample.js
 ```
 
 ## Next Steps
@@ -175,6 +175,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [schemaregistrydeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/arm-eventhub/samples/v5/javascript/schemaRegistryDeleteSample.js
 [schemaregistrygetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/arm-eventhub/samples/v5/javascript/schemaRegistryGetSample.js
 [schemaregistrylistbynamespacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/arm-eventhub/samples/v5/javascript/schemaRegistryListByNamespaceSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-eventhub?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-eventhub?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/arm-eventhub/README.md

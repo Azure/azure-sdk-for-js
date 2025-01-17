@@ -36,7 +36,7 @@ async function getsTheAsyncOperationStatusOfRestartingHost() {
 }
 
 async function main() {
-  getsTheAsyncOperationStatusOfRestartingHost();
+  await getsTheAsyncOperationStatusOfRestartingHost();
 }
 
 main().catch(console.error);

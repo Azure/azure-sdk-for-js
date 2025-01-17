@@ -42,7 +42,7 @@ async function linkedStorageAccountsGet() {
 }
 
 async function main() {
-  linkedStorageAccountsGet();
+  await linkedStorageAccountsGet();
 }
 
 main().catch(console.error);

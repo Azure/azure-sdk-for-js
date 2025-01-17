@@ -39,7 +39,7 @@ async function resetTrigger() {
 }
 
 async function main() {
-  resetTrigger();
+  await resetTrigger();
 }
 
 main().catch(console.error);

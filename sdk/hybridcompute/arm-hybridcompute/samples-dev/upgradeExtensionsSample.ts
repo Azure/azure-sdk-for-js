@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to Upgrade Machine Extensions.
  *
  * @summary The operation to Upgrade Machine Extensions.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/extension/Extensions_Upgrade.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/extension/Extensions_Upgrade.json
  */
 async function upgradeMachineExtensions() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function upgradeMachineExtensions() {
 }
 
 async function main() {
-  upgradeMachineExtensions();
+  await upgradeMachineExtensions();
 }
 
 main().catch(console.error);

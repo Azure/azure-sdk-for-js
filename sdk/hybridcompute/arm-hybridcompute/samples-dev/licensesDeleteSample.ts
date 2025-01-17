@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete a license.
  *
  * @summary The operation to delete a license.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/license/License_Delete.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/license/License_Delete.json
  */
 async function deleteALicense() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function deleteALicense() {
 }
 
 async function main() {
-  deleteALicense();
+  await deleteALicense();
 }
 
 main().catch(console.error);

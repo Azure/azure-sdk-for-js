@@ -11,7 +11,7 @@
 import {
   CloudServicesNetworkPatchParameters,
   CloudServicesNetworksUpdateOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update properties of the provided cloud services network, or update the tags associated with it. Properties and tag updates can be done independently.
  *
  * @summary Update properties of the provided cloud services network, or update the tags associated with it. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/CloudServicesNetworks_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/CloudServicesNetworks_Patch.json
  */
 async function patchCloudServicesNetwork() {
   const subscriptionId =
@@ -31,36 +31,34 @@ async function patchCloudServicesNetwork() {
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const cloudServicesNetworkName = "cloudServicesNetworkName";
-  const cloudServicesNetworkUpdateParameters: CloudServicesNetworkPatchParameters = {
-    additionalEgressEndpoints: [
-      {
-        category: "azure-resource-management",
-        endpoints: [
-          {
-            domainName: "https://storageaccountex.blob.core.windows.net",
-            port: 443
-          }
-        ]
-      }
-    ],
-    enableDefaultEgressEndpoints: "False",
-    tags: { key1: "myvalue1", key2: "myvalue2" }
-  };
+  const cloudServicesNetworkUpdateParameters: CloudServicesNetworkPatchParameters =
+    {
+      additionalEgressEndpoints: [
+        {
+          category: "azure-resource-management",
+          endpoints: [
+            { domainName: "storageaccountex.blob.core.windows.net", port: 443 },
+          ],
+        },
+      ],
+      enableDefaultEgressEndpoints: "False",
+      tags: { key1: "myvalue1", key2: "myvalue2" },
+    };
   const options: CloudServicesNetworksUpdateOptionalParams = {
-    cloudServicesNetworkUpdateParameters
+    cloudServicesNetworkUpdateParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.cloudServicesNetworks.beginUpdateAndWait(
     resourceGroupName,
     cloudServicesNetworkName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  patchCloudServicesNetwork();
+  await patchCloudServicesNetwork();
 }
 
 main().catch(console.error);

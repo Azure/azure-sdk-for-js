@@ -44,7 +44,7 @@ async function importJobsUpdate() {
 }
 
 async function main() {
-  importJobsUpdate();
+  await importJobsUpdate();
 }
 
 main().catch(console.error);

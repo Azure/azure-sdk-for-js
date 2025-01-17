@@ -11,7 +11,7 @@
 import {
   ClusterManagerPatchParameters,
   ClusterManagersUpdateOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Patch properties of the provided cluster manager, or update the tags assigned to the cluster manager. Properties and tag updates can be done independently.
  *
  * @summary Patch properties of the provided cluster manager, or update the tags assigned to the cluster manager. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/ClusterManagers_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/ClusterManagers_Patch.json
  */
 async function patchClusterManager() {
   const subscriptionId =
@@ -32,23 +32,32 @@ async function patchClusterManager() {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const clusterManagerName = "clusterManagerName";
   const clusterManagerUpdateParameters: ClusterManagerPatchParameters = {
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/123e4567E89b12d3A456426655440000/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/userIdentity1":
+          {},
+        "/subscriptions/123e4567E89b12d3A456426655440000/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/userIdentity2":
+          {},
+      },
+    },
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const options: ClusterManagersUpdateOptionalParams = {
-    clusterManagerUpdateParameters
+    clusterManagerUpdateParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusterManagers.update(
     resourceGroupName,
     clusterManagerName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  patchClusterManager();
+  await patchClusterManager();
 }
 
 main().catch(console.error);

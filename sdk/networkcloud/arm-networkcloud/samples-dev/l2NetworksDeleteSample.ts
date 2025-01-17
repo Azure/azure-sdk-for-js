@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the provided layer 2 (L2) network.
  *
  * @summary Delete the provided layer 2 (L2) network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/L2Networks_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/L2Networks_Delete.json
  */
 async function deleteL2Network() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function deleteL2Network() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.l2Networks.beginDeleteAndWait(
     resourceGroupName,
-    l2NetworkName
+    l2NetworkName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteL2Network();
+  await deleteL2Network();
 }
 
 main().catch(console.error);

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Rotates the service account signing keys of a managed cluster.
  *
  * @summary Rotates the service account signing keys of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-08-01/examples/ManagedClustersRotateServiceAccountSigningKeys.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersRotateServiceAccountSigningKeys.json
  */
-async function rotateClusterServiceAccountSigningKeys() {
+async function rotateClusterServiceAccountSigningKeys(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function rotateClusterServiceAccountSigningKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   rotateClusterServiceAccountSigningKeys();
 }
 

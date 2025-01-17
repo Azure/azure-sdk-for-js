@@ -63,8 +63,8 @@ async function getAnExpansionEntityQuery() {
 }
 
 async function main() {
-  getAnActivityEntityQuery();
-  getAnExpansionEntityQuery();
+  await getAnActivityEntityQuery();
+  await getAnExpansionEntityQuery();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function listDpmOrAzureBackupServerOrLajollaBackupEngines() {
 }
 
 async function main() {
-  listDpmOrAzureBackupServerOrLajollaBackupEngines();
+  await listDpmOrAzureBackupServerOrLajollaBackupEngines();
 }
 
 main().catch(console.error);

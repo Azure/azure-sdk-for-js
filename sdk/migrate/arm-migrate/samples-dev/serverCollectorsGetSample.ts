@@ -39,7 +39,7 @@ async function serverCollectorsGet() {
 }
 
 async function main() {
-  serverCollectorsGet();
+  await serverCollectorsGet();
 }
 
 main().catch(console.error);

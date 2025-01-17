@@ -36,7 +36,7 @@ async function deleteJitRequest() {
 }
 
 async function main() {
-  deleteJitRequest();
+  await deleteJitRequest();
 }
 
 main().catch(console.error);

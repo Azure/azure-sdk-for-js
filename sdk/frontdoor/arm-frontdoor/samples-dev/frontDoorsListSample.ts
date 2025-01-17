@@ -32,7 +32,7 @@ async function listAllFrontDoors() {
 }
 
 async function main() {
-  listAllFrontDoors();
+  await listAllFrontDoors();
 }
 
 main().catch(console.error);

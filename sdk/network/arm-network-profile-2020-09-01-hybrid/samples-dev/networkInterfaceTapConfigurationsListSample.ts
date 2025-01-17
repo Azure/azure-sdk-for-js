@@ -37,7 +37,7 @@ async function listVirtualNetworkTapConfigurations() {
 }
 
 async function main() {
-  listVirtualNetworkTapConfigurations();
+  await listVirtualNetworkTapConfigurations();
 }
 
 main().catch(console.error);

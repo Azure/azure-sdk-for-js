@@ -134,9 +134,9 @@ async function storageTargetsCreateOrUpdateNoJunctions() {
 }
 
 async function main() {
-  storageTargetsCreateOrUpdate();
-  storageTargetsCreateOrUpdateBlobNfs();
-  storageTargetsCreateOrUpdateNoJunctions();
+  await storageTargetsCreateOrUpdate();
+  await storageTargetsCreateOrUpdateBlobNfs();
+  await storageTargetsCreateOrUpdateNoJunctions();
 }
 
 main().catch(console.error);

@@ -11,7 +11,7 @@
 import {
   ClusterDeployParameters,
   ClustersDeployOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -19,10 +19,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deploy the cluster to the provided rack.
+ * This sample demonstrates how to Deploy the cluster using the rack configuration provided during creation.
  *
- * @summary Deploy the cluster to the provided rack.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Clusters_Deploy.json
+ * @summary Deploy the cluster using the rack configuration provided during creation.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Deploy.json
  */
 async function deployCluster() {
   const subscriptionId =
@@ -38,16 +38,16 @@ async function deployCluster() {
   const result = await client.clusters.beginDeployAndWait(
     resourceGroupName,
     clusterName,
-    options
+    options,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Deploy the cluster to the provided rack.
+ * This sample demonstrates how to Deploy the cluster using the rack configuration provided during creation.
  *
- * @summary Deploy the cluster to the provided rack.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Clusters_Deploy_SkipValidation.json
+ * @summary Deploy the cluster using the rack configuration provided during creation.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Deploy_SkipValidation.json
  */
 async function deployClusterSkippingValidation() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function deployClusterSkippingValidation() {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const clusterName = "clusterName";
   const clusterDeployParameters: ClusterDeployParameters = {
-    skipValidationsForMachines: ["bmmName1"]
+    skipValidationsForMachines: ["bmmName1"],
   };
   const options: ClustersDeployOptionalParams = { clusterDeployParameters };
   const credential = new DefaultAzureCredential();
@@ -65,14 +65,14 @@ async function deployClusterSkippingValidation() {
   const result = await client.clusters.beginDeployAndWait(
     resourceGroupName,
     clusterName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  deployCluster();
-  deployClusterSkippingValidation();
+  await deployCluster();
+  await deployClusterSkippingValidation();
 }
 
 main().catch(console.error);

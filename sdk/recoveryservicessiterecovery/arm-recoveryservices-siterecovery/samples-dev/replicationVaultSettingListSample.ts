@@ -41,7 +41,7 @@ async function getsTheListOfVaultSetting() {
 }
 
 async function main() {
-  getsTheListOfVaultSetting();
+  await getsTheListOfVaultSetting();
 }
 
 main().catch(console.error);

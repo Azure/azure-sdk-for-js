@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all Service Fabric cluster resources created or in the process of being created in the resource group.
  *
  * @summary Gets all Service Fabric cluster resources created or in the process of being created in the resource group.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ManagedClusterListByResourceGroupOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ManagedClusterListByResourceGroupOperation_example.json
  */
 async function listClusterByResourceGroup() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function listClusterByResourceGroup() {
 }
 
 async function main() {
-  listClusterByResourceGroup();
+  await listClusterByResourceGroup();
 }
 
 main().catch(console.error);

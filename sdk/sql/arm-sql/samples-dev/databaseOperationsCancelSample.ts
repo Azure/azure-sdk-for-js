@@ -41,7 +41,7 @@ async function cancelTheDatabaseManagementOperation() {
 }
 
 async function main() {
-  cancelTheDatabaseManagementOperation();
+  await cancelTheDatabaseManagementOperation();
 }
 
 main().catch(console.error);

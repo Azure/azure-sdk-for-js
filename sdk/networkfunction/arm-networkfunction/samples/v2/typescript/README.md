@@ -60,7 +60,7 @@ node dist/azureTrafficCollectorsByResourceGroupListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/azureTrafficCollectorsByResourceGroupListSample.js
+npx dev-tool run vendored cross-env  node dist/azureTrafficCollectorsByResourceGroupListSample.js
 ```
 
 ## Next Steps
@@ -79,7 +79,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [collectorpolicieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkfunction/arm-networkfunction/samples/v2/typescript/src/collectorPoliciesListSample.ts
 [collectorpoliciesupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkfunction/arm-networkfunction/samples/v2/typescript/src/collectorPoliciesUpdateTagsSample.ts
 [networkfunctionlistoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkfunction/arm-networkfunction/samples/v2/typescript/src/networkFunctionListOperationsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-networkfunction?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-networkfunction?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkfunction/arm-networkfunction/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

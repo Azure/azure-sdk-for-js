@@ -43,7 +43,7 @@ async function listServices() {
 }
 
 async function main() {
-  listServices();
+  await listServices();
 }
 
 main().catch(console.error);

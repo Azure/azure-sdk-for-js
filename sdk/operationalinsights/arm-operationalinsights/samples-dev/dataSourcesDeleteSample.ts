@@ -42,7 +42,7 @@ async function dataSourcesDelete() {
 }
 
 async function main() {
-  dataSourcesDelete();
+  await dataSourcesDelete();
 }
 
 main().catch(console.error);

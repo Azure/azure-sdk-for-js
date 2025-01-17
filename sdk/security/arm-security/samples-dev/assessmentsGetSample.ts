@@ -56,8 +56,8 @@ async function getSecurityRecommendationTaskFromSecurityDataLocationWithExpandPa
 }
 
 async function main() {
-  getSecurityRecommendationTaskFromSecurityDataLocation();
-  getSecurityRecommendationTaskFromSecurityDataLocationWithExpandParameter();
+  await getSecurityRecommendationTaskFromSecurityDataLocation();
+  await getSecurityRecommendationTaskFromSecurityDataLocationWithExpandParameter();
 }
 
 main().catch(console.error);

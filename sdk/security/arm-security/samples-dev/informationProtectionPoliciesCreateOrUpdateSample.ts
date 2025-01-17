@@ -77,7 +77,7 @@ async function createOrUpdateAnInformationProtectionPolicyForAManagementGroup() 
 }
 
 async function main() {
-  createOrUpdateAnInformationProtectionPolicyForAManagementGroup();
+  await createOrUpdateAnInformationProtectionPolicyForAManagementGroup();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Restart the provided bare metal machine.
  *
  * @summary Restart the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachines_Restart.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_Restart.json
  */
 async function restartBareMetalMachine() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function restartBareMetalMachine() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginRestartAndWait(
     resourceGroupName,
-    bareMetalMachineName
+    bareMetalMachineName,
   );
   console.log(result);
 }
 
 async function main() {
-  restartBareMetalMachine();
+  await restartBareMetalMachine();
 }
 
 main().catch(console.error);

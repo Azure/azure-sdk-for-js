@@ -73,8 +73,8 @@ async function localRulestacksListAdvancedSecurityObjectsMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksListAdvancedSecurityObjectsMaximumSetGen();
-  localRulestacksListAdvancedSecurityObjectsMinimumSetGen();
+  await localRulestacksListAdvancedSecurityObjectsMaximumSetGen();
+  await localRulestacksListAdvancedSecurityObjectsMinimumSetGen();
 }
 
 main().catch(console.error);

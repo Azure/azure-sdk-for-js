@@ -44,7 +44,7 @@ async function updateAPrivateLinkHub() {
 }
 
 async function main() {
-  updateAPrivateLinkHub();
+  await updateAPrivateLinkHub();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update a license.
  *
  * @summary The operation to update a license.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/license/License_Update.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/license/License_Update.json
  */
 async function updateALicense() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function updateALicense() {
 }
 
 async function main() {
-  updateALicense();
+  await updateALicense();
 }
 
 main().catch(console.error);

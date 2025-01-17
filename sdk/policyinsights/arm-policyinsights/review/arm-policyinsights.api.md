@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Attestation extends Resource {
@@ -40,11 +40,11 @@ export interface AttestationListResult {
 
 // @public
 export interface Attestations {
-    beginCreateOrUpdateAtResource(resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams): Promise<PollerLike<PollOperationState<AttestationsCreateOrUpdateAtResourceResponse>, AttestationsCreateOrUpdateAtResourceResponse>>;
+    beginCreateOrUpdateAtResource(resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtResourceResponse>, AttestationsCreateOrUpdateAtResourceResponse>>;
     beginCreateOrUpdateAtResourceAndWait(resourceId: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceOptionalParams): Promise<AttestationsCreateOrUpdateAtResourceResponse>;
-    beginCreateOrUpdateAtResourceGroup(resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<PollerLike<PollOperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>, AttestationsCreateOrUpdateAtResourceGroupResponse>>;
+    beginCreateOrUpdateAtResourceGroup(resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>, AttestationsCreateOrUpdateAtResourceGroupResponse>>;
     beginCreateOrUpdateAtResourceGroupAndWait(resourceGroupName: string, attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams): Promise<AttestationsCreateOrUpdateAtResourceGroupResponse>;
-    beginCreateOrUpdateAtSubscription(attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<PollerLike<PollOperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>, AttestationsCreateOrUpdateAtSubscriptionResponse>>;
+    beginCreateOrUpdateAtSubscription(attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>, AttestationsCreateOrUpdateAtSubscriptionResponse>>;
     beginCreateOrUpdateAtSubscriptionAndWait(attestationName: string, parameters: Attestation, options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams): Promise<AttestationsCreateOrUpdateAtSubscriptionResponse>;
     deleteAtResource(resourceId: string, attestationName: string, options?: AttestationsDeleteAtResourceOptionalParams): Promise<void>;
     deleteAtResourceGroup(resourceGroupName: string, attestationName: string, options?: AttestationsDeleteAtResourceGroupOptionalParams): Promise<void>;
@@ -169,7 +169,15 @@ export interface CheckManagementGroupRestrictionsRequest {
 }
 
 // @public
+export interface CheckRestrictionEvaluationDetails {
+    evaluatedExpressions?: ExpressionEvaluationDetails[];
+    ifNotExistsDetails?: IfNotExistsEvaluationDetails;
+    readonly reason?: string;
+}
+
+// @public
 export interface CheckRestrictionsRequest {
+    includeAuditEffect?: boolean;
     pendingFields?: PendingField[];
     resourceDetails: CheckRestrictionsResourceDetails;
 }
@@ -442,6 +450,8 @@ export interface ExpressionEvaluationDetails {
 export interface FieldRestriction {
     readonly defaultValue?: string;
     readonly policy?: PolicyReference;
+    readonly policyEffect?: string;
+    readonly reason?: string;
     readonly result?: FieldRestrictionResult;
     readonly values?: string[];
 }
@@ -486,6 +496,7 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownFieldRestrictionResult {
+    Audit = "Audit",
     Deny = "Deny",
     Removed = "Removed",
     Required = "Required"
@@ -586,6 +597,11 @@ export interface PolicyDetails {
 }
 
 // @public
+export interface PolicyEffectDetails {
+    readonly policyEffect?: string;
+}
+
+// @public
 export interface PolicyEvaluationDetails {
     evaluatedExpressions?: ExpressionEvaluationDetails[];
     ifNotExistsDetails?: IfNotExistsEvaluationDetails;
@@ -593,7 +609,8 @@ export interface PolicyEvaluationDetails {
 
 // @public
 export interface PolicyEvaluationResult {
-    readonly evaluationDetails?: PolicyEvaluationDetails;
+    readonly effectDetails?: PolicyEffectDetails;
+    readonly evaluationDetails?: CheckRestrictionEvaluationDetails;
     readonly evaluationResult?: string;
     readonly policyInfo?: PolicyReference;
 }
@@ -788,6 +805,7 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyInsightsClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PolicyInsightsClientOptionalParams);
     // (undocumented)
     attestations: Attestations;
     // (undocumented)
@@ -807,7 +825,7 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
     // (undocumented)
     remediations: Remediations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -958,9 +976,9 @@ export interface PolicyState {
 
 // @public
 export interface PolicyStates {
-    beginTriggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTriggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerResourceGroupEvaluationAndWait(subscriptionId: string, resourceGroupName: string, options?: PolicyStatesTriggerResourceGroupEvaluationOptionalParams): Promise<void>;
-    beginTriggerSubscriptionEvaluation(subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTriggerSubscriptionEvaluation(subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerSubscriptionEvaluationAndWait(subscriptionId: string, options?: PolicyStatesTriggerSubscriptionEvaluationOptionalParams): Promise<void>;
     listQueryResultsForManagementGroup(policyStatesResource: PolicyStatesResource, managementGroupName: string, options?: PolicyStatesListQueryResultsForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyState>;
     listQueryResultsForPolicyDefinition(policyStatesResource: PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options?: PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams): PagedAsyncIterableIterator<PolicyState>;
@@ -1348,6 +1366,7 @@ export interface RemediationDeploymentSummary {
 // @public
 export interface RemediationFilters {
     locations?: string[];
+    resourceIds?: string[];
 }
 
 // @public

@@ -50,7 +50,7 @@ async function updateVaultEncryptionConfiguration() {
 }
 
 async function main() {
-  updateVaultEncryptionConfiguration();
+  await updateVaultEncryptionConfiguration();
 }
 
 main().catch(console.error);

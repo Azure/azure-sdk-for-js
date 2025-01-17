@@ -72,7 +72,7 @@ async function patchACluster() {
 }
 
 async function main() {
-  patchACluster();
+  await patchACluster();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function vMwareCollectorsGet() {
 }
 
 async function main() {
-  vMwareCollectorsGet();
+  await vMwareCollectorsGet();
 }
 
 main().catch(console.error);

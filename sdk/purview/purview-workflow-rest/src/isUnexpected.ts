@@ -30,7 +30,7 @@ import type {
   ReassignWorkflowTaskDefaultResponse,
   UpdateTaskStatus200Response,
   UpdateTaskStatusDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /workflows": ["200"],

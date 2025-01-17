@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information of a configuration for coordinator.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets information of a configuration for coordinator.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationGetCoordinator.json
  */
-async function getConfigurationDetailsForCoordinator() {
+async function getConfigurationDetailsForCoordinator(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -38,7 +36,7 @@ async function getConfigurationDetailsForCoordinator() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getConfigurationDetailsForCoordinator();
 }
 

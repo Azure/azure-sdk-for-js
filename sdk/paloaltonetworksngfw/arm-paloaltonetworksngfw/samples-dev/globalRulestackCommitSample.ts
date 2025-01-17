@@ -47,8 +47,8 @@ async function globalRulestackCommitMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackCommitMaximumSetGen();
-  globalRulestackCommitMinimumSetGen();
+  await globalRulestackCommitMaximumSetGen();
+  await globalRulestackCommitMinimumSetGen();
 }
 
 main().catch(console.error);

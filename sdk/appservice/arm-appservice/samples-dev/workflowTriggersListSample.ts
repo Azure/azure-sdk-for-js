@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of workflow triggers.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of workflow triggers.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowTriggers_List.json
  */
-async function listWorkflowTriggers() {
+async function listWorkflowTriggers(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -41,7 +39,7 @@ async function listWorkflowTriggers() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listWorkflowTriggers();
 }
 

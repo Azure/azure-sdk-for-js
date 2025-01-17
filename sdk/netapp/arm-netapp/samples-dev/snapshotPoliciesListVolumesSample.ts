@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get volumes associated with snapshot policy
  *
  * @summary Get volumes associated with snapshot policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/SnapshotPolicies_ListVolumes.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/SnapshotPolicies_ListVolumes.json
  */
 async function snapshotPoliciesListVolumes() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function snapshotPoliciesListVolumes() {
 }
 
 async function main() {
-  snapshotPoliciesListVolumes();
+  await snapshotPoliciesListVolumes();
 }
 
 main().catch(console.error);

@@ -656,7 +656,7 @@ describe("Cross partition GROUP BY", () => {
     );
   });
 
-  it.skip("with MakeSet", async () => {
+  it("with MakeSet", async () => {
     const queryIterator = container.items.query(
       "SELECT c.name, MakeSet(c.age) AS ages FROM c GROUP BY c.name",
       options,

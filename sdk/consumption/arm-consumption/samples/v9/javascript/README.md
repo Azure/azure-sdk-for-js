@@ -65,7 +65,7 @@ node aggregatedCostGetByManagementGroupSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONSUMPTION_SUBSCRIPTION_ID="<consumption subscription id>" node aggregatedCostGetByManagementGroupSample.js
+npx dev-tool run vendored cross-env CONSUMPTION_SUBSCRIPTION_ID="<consumption subscription id>" node aggregatedCostGetByManagementGroupSample.js
 ```
 
 ## Next Steps
@@ -101,6 +101,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [reservationssummarieslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/consumption/arm-consumption/samples/v9/javascript/reservationsSummariesListSample.js
 [tagsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/consumption/arm-consumption/samples/v9/javascript/tagsGetSample.js
 [usagedetailslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/consumption/arm-consumption/samples/v9/javascript/usageDetailsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-consumption?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-consumption?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/consumption/arm-consumption/README.md

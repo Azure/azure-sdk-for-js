@@ -41,7 +41,7 @@ async function listVirtualMachineTemplates() {
 }
 
 async function main() {
-  listVirtualMachineTemplates();
+  await listVirtualMachineTemplates();
 }
 
 main().catch(console.error);

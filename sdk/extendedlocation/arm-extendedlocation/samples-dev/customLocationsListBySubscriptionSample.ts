@@ -37,7 +37,7 @@ async function listCustomLocationsBySubscription() {
 }
 
 async function main() {
-  listCustomLocationsBySubscription();
+  await listCustomLocationsBySubscription();
 }
 
 main().catch(console.error);

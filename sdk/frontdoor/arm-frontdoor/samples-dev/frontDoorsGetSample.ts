@@ -31,7 +31,7 @@ async function getFrontDoor() {
 }
 
 async function main() {
-  getFrontDoor();
+  await getFrontDoor();
 }
 
 main().catch(console.error);

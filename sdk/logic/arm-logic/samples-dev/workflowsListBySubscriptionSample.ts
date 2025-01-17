@@ -34,7 +34,7 @@ async function listAllWorkflowsInASubscription() {
 }
 
 async function main() {
-  listAllWorkflowsInASubscription();
+  await listAllWorkflowsInASubscription();
 }
 
 main().catch(console.error);

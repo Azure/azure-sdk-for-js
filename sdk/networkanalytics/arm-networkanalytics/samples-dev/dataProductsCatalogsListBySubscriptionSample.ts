@@ -53,8 +53,8 @@ async function dataProductsCatalogsListBySubscriptionMinimumSetGen() {
 }
 
 async function main() {
-  dataProductsCatalogsListBySubscriptionMaximumSetGen();
-  dataProductsCatalogsListBySubscriptionMinimumSetGen();
+  await dataProductsCatalogsListBySubscriptionMaximumSetGen();
+  await dataProductsCatalogsListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

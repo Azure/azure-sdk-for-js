@@ -39,7 +39,7 @@ async function disconnectAnApiPollingDataConnector() {
 }
 
 async function main() {
-  disconnectAnApiPollingDataConnector();
+  await disconnectAnApiPollingDataConnector();
 }
 
 main().catch(console.error);

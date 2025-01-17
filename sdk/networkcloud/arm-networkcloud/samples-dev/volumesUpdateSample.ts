@@ -11,7 +11,7 @@
 import {
   VolumePatchParameters,
   VolumesUpdateOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update tags associated with the provided volume.
  *
  * @summary Update tags associated with the provided volume.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Volumes_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Volumes_Patch.json
  */
 async function patchVolume() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function patchVolume() {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const volumeName = "volumeName";
   const volumeUpdateParameters: VolumePatchParameters = {
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const options: VolumesUpdateOptionalParams = { volumeUpdateParameters };
   const credential = new DefaultAzureCredential();
@@ -40,13 +40,13 @@ async function patchVolume() {
   const result = await client.volumes.update(
     resourceGroupName,
     volumeName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  patchVolume();
+  await patchVolume();
 }
 
 main().catch(console.error);

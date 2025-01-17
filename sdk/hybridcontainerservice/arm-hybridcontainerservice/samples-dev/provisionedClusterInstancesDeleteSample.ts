@@ -32,7 +32,7 @@ async function deleteProvisionedClusterInstance() {
 }
 
 async function main() {
-  deleteProvisionedClusterInstance();
+  await deleteProvisionedClusterInstance();
 }
 
 main().catch(console.error);

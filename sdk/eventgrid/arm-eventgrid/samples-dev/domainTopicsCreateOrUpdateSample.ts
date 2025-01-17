@@ -39,7 +39,7 @@ async function domainTopicsCreateOrUpdate() {
 }
 
 async function main() {
-  domainTopicsCreateOrUpdate();
+  await domainTopicsCreateOrUpdate();
 }
 
 main().catch(console.error);

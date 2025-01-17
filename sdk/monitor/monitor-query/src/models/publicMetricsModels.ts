@@ -9,8 +9,8 @@ import type {
   MetricValue,
   NamespaceClassification,
   ResultType,
-} from "..";
-import type { QueryTimeInterval } from "./timeInterval";
+} from "../index.js";
+import type { QueryTimeInterval } from "./timeInterval.js";
 
 /**
  * Options used when querying metrics.

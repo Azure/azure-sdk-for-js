@@ -34,7 +34,7 @@ async function deleteASecurityAssessmentMetadataForSubscription() {
 }
 
 async function main() {
-  deleteASecurityAssessmentMetadataForSubscription();
+  await deleteASecurityAssessmentMetadataForSubscription();
 }
 
 main().catch(console.error);

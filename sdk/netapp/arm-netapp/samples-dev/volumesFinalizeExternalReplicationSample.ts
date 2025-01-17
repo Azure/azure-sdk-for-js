@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Finalizes the migration of an external volume by releasing the replication and breaking the external cluster peering if no other migration is active.
  *
  * @summary Finalizes the migration of an external volume by releasing the replication and breaking the external cluster peering if no other migration is active.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Volumes_FinalizeExternalReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_FinalizeExternalReplication.json
  */
 async function volumesFinalizeExternalReplication() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function volumesFinalizeExternalReplication() {
 }
 
 async function main() {
-  volumesFinalizeExternalReplication();
+  await volumesFinalizeExternalReplication();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of the provided cloud services network.
  *
  * @summary Get properties of the provided cloud services network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/CloudServicesNetworks_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/CloudServicesNetworks_Get.json
  */
 async function getCloudServicesNetwork() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function getCloudServicesNetwork() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.cloudServicesNetworks.get(
     resourceGroupName,
-    cloudServicesNetworkName
+    cloudServicesNetworkName,
   );
   console.log(result);
 }
 
 async function main() {
-  getCloudServicesNetwork();
+  await getCloudServicesNetwork();
 }
 
 main().catch(console.error);

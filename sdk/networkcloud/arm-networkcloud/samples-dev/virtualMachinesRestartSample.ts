@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Restart the provided virtual machine.
  *
  * @summary Restart the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/VirtualMachines_Restart.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/VirtualMachines_Restart.json
  */
 async function restartVirtualMachine() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function restartVirtualMachine() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.virtualMachines.beginRestartAndWait(
     resourceGroupName,
-    virtualMachineName
+    virtualMachineName,
   );
   console.log(result);
 }
 
 async function main() {
-  restartVirtualMachine();
+  await restartVirtualMachine();
 }
 
 main().catch(console.error);

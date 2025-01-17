@@ -81,8 +81,8 @@ async function dataProductsUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSe
 }
 
 async function main() {
-  dataProductsUpdateMaximumSetGen();
-  dataProductsUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsUpdateMaximumSetGen();
+  await dataProductsUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

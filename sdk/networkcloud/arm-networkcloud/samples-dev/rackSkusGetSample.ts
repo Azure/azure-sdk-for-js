@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of the provided rack SKU.
  *
  * @summary Get the properties of the provided rack SKU.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/RackSkus_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/RackSkus_Get.json
  */
 async function getRackSkuResource() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getRackSkuResource() {
 }
 
 async function main() {
-  getRackSkuResource();
+  await getRackSkuResource();
 }
 
 main().catch(console.error);

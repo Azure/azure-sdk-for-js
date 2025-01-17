@@ -2,9 +2,9 @@
 
 [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) detects harmful user-generated and AI-generated content in applications and services. Content Safety includes text and image APIs that allow you to detect material that is harmful.
 
-* Text Analysis API: Scans text for sexual content, violence, hate, and self-harm with multi-severity levels.
-* Image Analysis API: Scans images for sexual content, violence, hate, and self-harm with multi-severity levels.
-* Text Blocklist Management APIs: The default AI classifiers are sufficient for most content safety needs; however, you might need to screen for terms that are specific to your use case. You can create blocklists of terms to use with the Text API.
+- Text Analysis API: Scans text for sexual content, violence, hate, and self-harm with multi-severity levels.
+- Image Analysis API: Scans images for sexual content, violence, hate, and self-harm with multi-severity levels.
+- Text Blocklist Management APIs: The default AI classifiers are sufficient for most content safety needs; however, you might need to screen for terms that are specific to your use case. You can create blocklists of terms to use with the Text API.
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
@@ -12,7 +12,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-content-safety)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest/samples)
 
 ## Getting started
@@ -37,6 +37,7 @@ npm install @azure-rest/ai-content-safety
 ### Create and authenticate a `ContentSafetyClient`
 
 #### Get the endpoint
+
 You can find the endpoint for your Azure AI Content Safety service resource using the [Azure Portal](https://ms.portal.azure.com/#home) or [Azure CLI](https://learn.microsoft.com/cli/azure/cognitiveservices/account?view=azure-cli-latest#az-cognitiveservices-account-show):
 
 ```bash
@@ -74,11 +75,12 @@ const client = ContentSafetyClient(endpoint, credential);
   Please refer to this Cognitive Services authentication document [Authenticate with Microsoft Entra ID](https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id). for the steps to enable AAD for your resource.
 
   The main steps are:
-    - Create resource with a custom subdomain.
-    - Create Service Principal and assign Cognitive Services User role to it.
+
+  - Create resource with a custom subdomain.
+  - Create Service Principal and assign Cognitive Services User role to it.
 
 - Step 2: Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
-AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+  AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity). After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
@@ -95,6 +97,7 @@ const client = ContentSafetyClient(endpoint, new DefaultAzureCredential());
 ## Key concepts
 
 ### Available features
+
 There are different types of analysis available from this service. The following table describes the currently available APIs.
 
 | Feature                        | Description                                                                                                                                                                                                           |
@@ -104,6 +107,7 @@ There are different types of analysis available from this service. The following
 | Text Blocklist Management APIs | The default AI classifiers are sufficient for most content safety needs. However, you might need to screen for terms that are specific to your use case. You can create blocklists of terms to use with the Text API. |
 
 ### Harm categories
+
 Content Safety recognizes four distinct categories of objectionable content.
 
 | Category  | Description                                                                                                                                                                                                                                                                                                                                                                                         |
@@ -134,7 +138,9 @@ Every harm category the service applies also comes with a severity level rating.
 - [6,7] -> 6
 
 ### Text blocklist management
+
 Following operations are supported to manage your text blocklist:
+
 - Create or modify a blocklist
 - List all blocklists
 - Get a blocklist by blocklistName
@@ -161,7 +167,7 @@ The following section provides several code snippets covering some of the most c
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 async function main() {
@@ -183,7 +189,11 @@ async function main() {
 
   for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
     const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
-    console.log(textCategoriesAnalysisOutput.category, " severity: ", textCategoriesAnalysisOutput.severity)
+    console.log(
+      textCategoriesAnalysisOutput.category,
+      " severity: ",
+      textCategoriesAnalysisOutput.severity,
+    );
   }
 }
 
@@ -221,7 +231,7 @@ async function main() {
     console.log(
       textCategoriesAnalysisOutput.category,
       " severity: ",
-      textCategoriesAnalysisOutput.severity
+      textCategoriesAnalysisOutput.severity,
     );
   }
 }
@@ -236,7 +246,10 @@ main().catch((err) => {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, {
+  CreateOrUpdateTextBlocklistParameters,
+  isUnexpected,
+} from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
@@ -252,16 +265,23 @@ async function createOrUpdateTextBlocklist() {
     contentType: "application/merge-patch+json",
     body: {
       description: blocklistDescription,
-    }
-  }
+    },
+  };
 
-  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).patch(createOrUpdateTextBlocklistParameters);
+  const result = await client
+    .path("/text/blocklists/{blocklistName}", blocklistName)
+    .patch(createOrUpdateTextBlocklistParameters);
 
   if (isUnexpected(result)) {
     throw result;
   }
 
-  console.log("Blocklist created or updated: Name", result.body.blocklistName, ", Description: ", result.body.description);
+  console.log(
+    "Blocklist created or updated: Name",
+    result.body.blocklistName,
+    ", Description: ",
+    result.body.description,
+  );
 }
 
 async function addBlockItems() {
@@ -273,17 +293,19 @@ async function addBlockItems() {
       blocklistItems: [
         {
           description: "Test block item 1",
-          text: blockItemText1
+          text: blockItemText1,
         },
         {
           description: "Test block item 2",
-          text: blockItemText2
-        }
-      ]
-    }
+          text: blockItemText2,
+        },
+      ],
+    },
   };
 
-  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+  const result = await client
+    .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
+    .post(addOrUpdateBlocklistItemsParameters);
 
   if (isUnexpected(result)) {
     throw result;
@@ -292,7 +314,14 @@ async function addBlockItems() {
   console.log("Block items added: ");
   if (result.body.blocklistItems) {
     for (const blockItem of result.body.blocklistItems) {
-      console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+      console.log(
+        "BlockItemId: ",
+        blockItem.blocklistItemId,
+        ", Text: ",
+        blockItem.text,
+        ", Description: ",
+        blockItem.description,
+      );
     }
   }
 }
@@ -304,8 +333,8 @@ async function analyzeTextWithBlocklists() {
     body: {
       text: inputText,
       blocklistNames: [blocklistName],
-      haltOnBlocklistHit: false
-    }
+      haltOnBlocklistHit: false,
+    },
   };
 
   const result = await client.path("/text:analyze").post(analyzeTextParameters);
@@ -317,7 +346,14 @@ async function analyzeTextWithBlocklists() {
   console.log("Blocklist match results: ");
   if (result.body.blocklistsMatch) {
     for (const blocklistMatchResult of result.body.blocklistsMatch) {
-      console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blocklistItemId, ", BlockItemText: ", blocklistMatchResult.blocklistItemText);
+      console.log(
+        "BlocklistName: ",
+        blocklistMatchResult.blocklistName,
+        ", BlockItemId: ",
+        blocklistMatchResult.blocklistItemId,
+        ", BlockItemText: ",
+        blocklistMatchResult.blocklistItemText,
+      );
     }
   }
 }
@@ -366,7 +402,7 @@ async function createOrUpdateTextBlocklist() {
     "Blocklist created or updated: Name",
     result.body.blocklistName,
     ", Description: ",
-    result.body.description
+    result.body.description,
   );
 }
 
@@ -406,7 +442,7 @@ async function addBlockItems() {
         ", Text: ",
         blockItem.text,
         ", Description: ",
-        blockItem.description
+        blockItem.description,
       );
     }
   }
@@ -438,7 +474,7 @@ async function analyzeTextWithBlocklists() {
         ", BlockItemId: ",
         blocklistMatchResult.blocklistItemId,
         ", BlockItemText: ",
-        blocklistMatchResult.blocklistItemText
+        blocklistMatchResult.blocklistItemText,
       );
     }
   }
@@ -458,7 +494,7 @@ async function analyzeTextWithBlocklists() {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 import fs from "fs";
 import path from "path";
@@ -485,7 +521,11 @@ async function main() {
 
   for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
     const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
-    console.log(imageCategoriesAnalysisOutput.category, " severity: ", imageCategoriesAnalysisOutput.severity)
+    console.log(
+      imageCategoriesAnalysisOutput.category,
+      " severity: ",
+      imageCategoriesAnalysisOutput.severity,
+    );
   }
 }
 
@@ -528,7 +568,7 @@ async function main() {
     console.log(
       imageCategoriesAnalysisOutput.category,
       " severity: ",
-      imageCategoriesAnalysisOutput.severity
+      imageCategoriesAnalysisOutput.severity,
     );
   }
 }
@@ -545,9 +585,12 @@ main().catch((err) => {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, {
+  CreateOrUpdateTextBlocklistParameters,
+  isUnexpected,
+} from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
-  
+
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
 const key = "<api_key>";
 
@@ -561,16 +604,23 @@ async function createOrUpdateTextBlocklist() {
     contentType: "application/merge-patch+json",
     body: {
       description: blocklistDescription,
-    }
-  }
+    },
+  };
 
-  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).patch(createOrUpdateTextBlocklistParameters);
+  const result = await client
+    .path("/text/blocklists/{blocklistName}", blocklistName)
+    .patch(createOrUpdateTextBlocklistParameters);
 
   if (isUnexpected(result)) {
     throw result;
   }
 
-  console.log("Blocklist created or updated: Name", result.body.blocklistName, ", Description: ", result.body.description);
+  console.log(
+    "Blocklist created or updated: Name",
+    result.body.blocklistName,
+    ", Description: ",
+    result.body.description,
+  );
 }
 
 (async () => {
@@ -615,7 +665,7 @@ async function createOrUpdateTextBlocklist() {
     "Blocklist created or updated: Name",
     result.body.blocklistName,
     ", Description: ",
-    result.body.description
+    result.body.description,
   );
 }
 
@@ -631,9 +681,9 @@ async function createOrUpdateTextBlocklist() {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
-  
+
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
 const key = "<api_key>";
 
@@ -650,7 +700,12 @@ async function listTextBlocklists() {
   console.log("List blocklists: ");
   if (result.body.value) {
     for (const blocklist of result.body.value) {
-      console.log("BlocklistName: ", blocklist.blocklistName, ", Description: ", blocklist.description);
+      console.log(
+        "BlocklistName: ",
+        blocklist.blocklistName,
+        ", Description: ",
+        blocklist.description,
+      );
     }
   }
 }
@@ -689,7 +744,7 @@ async function listTextBlocklists() {
         "BlocklistName: ",
         blocklist.blocklistName,
         ", Description: ",
-        blocklist.description
+        blocklist.description,
       );
     }
   }
@@ -707,7 +762,7 @@ async function listTextBlocklists() {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
@@ -774,7 +829,7 @@ async function getTextBlocklist() {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
@@ -839,7 +894,10 @@ async function deleteBlocklist() {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, {
+  CreateOrUpdateTextBlocklistParameters,
+  isUnexpected,
+} from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
@@ -855,16 +913,23 @@ async function createOrUpdateTextBlocklist() {
     contentType: "application/merge-patch+json",
     body: {
       description: blocklistDescription,
-    }
-  }
+    },
+  };
 
-  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).patch(createOrUpdateTextBlocklistParameters);
+  const result = await client
+    .path("/text/blocklists/{blocklistName}", blocklistName)
+    .patch(createOrUpdateTextBlocklistParameters);
 
   if (isUnexpected(result)) {
     throw result;
   }
 
-  console.log("Blocklist created or updated: Name", result.body.blocklistName, ", Description: ", result.body.description);
+  console.log(
+    "Blocklist created or updated: Name",
+    result.body.blocklistName,
+    ", Description: ",
+    result.body.description,
+  );
 }
 
 async function addBlockItems() {
@@ -876,17 +941,19 @@ async function addBlockItems() {
       blocklistItems: [
         {
           description: "Test block item 1",
-          text: blockItemText1
+          text: blockItemText1,
         },
         {
           description: "Test block item 2",
-          text: blockItemText2
-        }
-      ]
-    }
+          text: blockItemText2,
+        },
+      ],
+    },
   };
 
-  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+  const result = await client
+    .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
+    .post(addOrUpdateBlocklistItemsParameters);
 
   if (isUnexpected(result)) {
     throw result;
@@ -895,7 +962,14 @@ async function addBlockItems() {
   console.log("Block items added: ");
   if (result.body.blocklistItems) {
     for (const blockItem of result.body.blocklistItems) {
-      console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+      console.log(
+        "BlockItemId: ",
+        blockItem.blocklistItemId,
+        ", Text: ",
+        blockItem.text,
+        ", Description: ",
+        blockItem.description,
+      );
     }
   }
 }
@@ -943,7 +1017,7 @@ async function createOrUpdateTextBlocklist() {
     "Blocklist created or updated: Name",
     result.body.blocklistName,
     ", Description: ",
-    result.body.description
+    result.body.description,
   );
 }
 
@@ -983,7 +1057,7 @@ async function addBlockItems() {
         ", Text: ",
         blockItem.text,
         ", Description: ",
-        blockItem.description
+        blockItem.description,
       );
     }
   }
@@ -1002,7 +1076,7 @@ async function addBlockItems() {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
@@ -1014,7 +1088,9 @@ const client = ContentSafetyClient(endpoint, credential);
 async function listBlockItems() {
   const blocklistName = "TestBlocklist";
 
-  const result = await client.path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName).get();
+  const result = await client
+    .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
+    .get();
 
   if (isUnexpected(result)) {
     throw result;
@@ -1023,7 +1099,14 @@ async function listBlockItems() {
   console.log("List block items: ");
   if (result.body.value) {
     for (const blockItem of result.body.value) {
-      console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+      console.log(
+        "BlockItemId: ",
+        blockItem.blocklistItemId,
+        ", Text: ",
+        blockItem.text,
+        ", Description: ",
+        blockItem.description,
+      );
     }
   }
 }
@@ -1068,7 +1151,7 @@ async function listBlockItems() {
         ", Text: ",
         blockItem.text,
         ", Description: ",
-        blockItem.description
+        blockItem.description,
       );
     }
   }
@@ -1086,7 +1169,7 @@ async function listBlockItems() {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
@@ -1103,25 +1186,40 @@ async function getBlockItem() {
       blocklistItems: [
         {
           description: "Test block item 1",
-          text: blockItemText
-        }
-      ]
-    }
+          text: blockItemText,
+        },
+      ],
+    },
   };
-  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+  const result = await client
+    .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
+    .post(addOrUpdateBlocklistItemsParameters);
   if (isUnexpected(result) || result.body.blocklistItems === undefined) {
     throw new Error("Block item not added.");
   }
   const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-  const blockItem = await client.path("/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName, blockItemId).get();
+  const blockItem = await client
+    .path(
+      "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
+      blocklistName,
+      blockItemId,
+    )
+    .get();
 
   if (isUnexpected(blockItem)) {
     throw blockItem;
   }
 
   console.log("Get blockitem: ");
-  console.log("BlockItemId: ", blockItem.body.blocklistItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
+  console.log(
+    "BlockItemId: ",
+    blockItem.body.blocklistItemId,
+    ", Text: ",
+    blockItem.body.text,
+    ", Description: ",
+    blockItem.body.description,
+  );
 }
 
 (async () => {
@@ -1169,7 +1267,7 @@ async function getBlockItem() {
     .path(
       "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
       blocklistName,
-      blockItemId
+      blockItemId,
     )
     .get();
 
@@ -1184,7 +1282,7 @@ async function getBlockItem() {
     ", Text: ",
     blockItem.body.text,
     ", Description: ",
-    blockItem.body.description
+    blockItem.body.description,
   );
 }
 
@@ -1200,7 +1298,7 @@ async function getBlockItem() {
 TypeScript
 
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
@@ -1217,12 +1315,14 @@ async function removeBlockItems() {
       blocklistItems: [
         {
           description: "Test block item 1",
-          text: blockItemText
-        }
-      ]
-    }
+          text: blockItemText,
+        },
+      ],
+    },
   };
-  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+  const result = await client
+    .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
+    .post(addOrUpdateBlocklistItemsParameters);
   if (isUnexpected(result) || result.body.blocklistItems === undefined) {
     throw new Error("Block item not added.");
   }
@@ -1230,10 +1330,12 @@ async function removeBlockItems() {
 
   const removeBlocklistItemsParameters = {
     body: {
-      blocklistItemIds: [blockItemId]
-    }
+      blocklistItemIds: [blockItemId],
+    },
   };
-  const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName).post(removeBlocklistItemsParameters);
+  const removeBlockItem = await client
+    .path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName)
+    .post(removeBlocklistItemsParameters);
 
   if (isUnexpected(removeBlockItem)) {
     throw removeBlockItem;
@@ -1312,7 +1414,7 @@ async function removeBlockItems() {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
@@ -1324,7 +1426,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ### Additional documentation
 
-For more extensive documentation on Azure Content Safety, see the [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) on docs.microsoft.com.
+For more extensive documentation on Azure Content Safety, see the [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) on learn.microsoft.com.
 
 ## Contributing
 

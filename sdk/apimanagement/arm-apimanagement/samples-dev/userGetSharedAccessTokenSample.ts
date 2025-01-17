@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  UserTokenParameters,
-  ApiManagementClient
+  ApiManagementClient,
+  UserTokenParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the Shared Access Authorization Token for the User.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets the Shared Access Authorization Token for the User.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUserToken.json
  */
-async function apiManagementUserToken() {
+async function apiManagementUserToken(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -45,7 +43,7 @@ async function apiManagementUserToken() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUserToken();
 }
 

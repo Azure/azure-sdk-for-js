@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of layer 2 (L2) networks in the provided resource group.
  *
  * @summary Get a list of layer 2 (L2) networks in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/L2Networks_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/L2Networks_ListByResourceGroup.json
  */
 async function listL2NetworksForResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listL2NetworksForResourceGroup() {
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.l2Networks.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function listL2NetworksForResourceGroup() {
 }
 
 async function main() {
-  listL2NetworksForResourceGroup();
+  await listL2NetworksForResourceGroup();
 }
 
 main().catch(console.error);

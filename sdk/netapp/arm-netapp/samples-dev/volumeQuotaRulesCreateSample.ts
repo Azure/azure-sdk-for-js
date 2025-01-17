@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create the specified quota rule within the given volume
  *
  * @summary Create the specified quota rule within the given volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/VolumeQuotaRules_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeQuotaRules_Create.json
  */
 async function volumeQuotaRulesCreate() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function volumeQuotaRulesCreate() {
 }
 
 async function main() {
-  volumeQuotaRulesCreate();
+  await volumeQuotaRulesCreate();
 }
 
 main().catch(console.error);

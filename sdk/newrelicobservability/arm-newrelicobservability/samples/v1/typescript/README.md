@@ -78,7 +78,7 @@ node dist/accountsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env NEWRELICOBSERVABILITY_SUBSCRIPTION_ID="<newrelicobservability subscription id>" node dist/accountsListSample.js
+npx dev-tool run vendored cross-env NEWRELICOBSERVABILITY_SUBSCRIPTION_ID="<newrelicobservability subscription id>" node dist/accountsListSample.js
 ```
 
 ## Next Steps
@@ -115,7 +115,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tagrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/newrelicobservability/arm-newrelicobservability/samples/v1/typescript/src/tagRulesGetSample.ts
 [tagruleslistbynewrelicmonitorresourcesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/newrelicobservability/arm-newrelicobservability/samples/v1/typescript/src/tagRulesListByNewRelicMonitorResourceSample.ts
 [tagrulesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/newrelicobservability/arm-newrelicobservability/samples/v1/typescript/src/tagRulesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-newrelicobservability?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-newrelicobservability?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/newrelicobservability/arm-newrelicobservability/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

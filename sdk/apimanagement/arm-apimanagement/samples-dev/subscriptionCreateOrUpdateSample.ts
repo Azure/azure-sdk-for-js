@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  SubscriptionCreateParameters,
-  ApiManagementClient
+  ApiManagementClient,
+  SubscriptionCreateParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the subscription of specified user to the specified product.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates the subscription of specified user to the specified product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateSubscription.json
  */
-async function apiManagementCreateSubscription() {
+async function apiManagementCreateSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -48,7 +46,7 @@ async function apiManagementCreateSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateSubscription();
 }
 

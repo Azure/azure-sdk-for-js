@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Starts peering the external cluster for this migration volume
  *
  * @summary Starts peering the external cluster for this migration volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Volumes_PeerExternalCluster.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_PeerExternalCluster.json
  */
 async function volumesPeerExternalCluster() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function volumesPeerExternalCluster() {
 }
 
 async function main() {
-  volumesPeerExternalCluster();
+  await volumesPeerExternalCluster();
 }
 
 main().catch(console.error);

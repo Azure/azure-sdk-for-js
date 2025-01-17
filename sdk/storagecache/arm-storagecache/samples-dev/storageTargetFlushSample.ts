@@ -39,7 +39,7 @@ async function storageTargetsFlush() {
 }
 
 async function main() {
-  storageTargetsFlush();
+  await storageTargetsFlush();
 }
 
 main().catch(console.error);

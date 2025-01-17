@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { VirtualMachines } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { VirtualMachines } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualMachine,
   VirtualMachinesListByLocationNextOptionalParams,
@@ -73,7 +73,7 @@ import {
   VirtualMachinesListByLocationNextResponse,
   VirtualMachinesListNextResponse,
   VirtualMachinesListAllNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualMachines operations. */
@@ -977,7 +977,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
-   * same provisioned resources. You are still charged for this virtual machine.
+   * same provisioned resources. You are still charged for this virtual machine. NOTE: This operation is
+   * not allowed on a virtual machine that is being deallocated or has already been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
@@ -1040,7 +1041,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
-   * same provisioned resources. You are still charged for this virtual machine.
+   * same provisioned resources. You are still charged for this virtual machine. NOTE: This operation is
+   * not allowed on a virtual machine that is being deallocated or has already been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List network managers in a resource group.
  *
  * @summary List network managers in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerList.json
  */
 async function listNetworkManager() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function listNetworkManager() {
 }
 
 async function main() {
-  listNetworkManager();
+  await listNetworkManager();
 }
 
 main().catch(console.error);

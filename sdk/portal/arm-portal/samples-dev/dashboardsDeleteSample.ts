@@ -36,7 +36,7 @@ async function deleteADashboard() {
 }
 
 async function main() {
-  deleteADashboard();
+  await deleteADashboard();
 }
 
 main().catch(console.error);

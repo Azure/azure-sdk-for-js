@@ -44,7 +44,7 @@ async function failoverAnDatabase() {
 }
 
 async function main() {
-  failoverAnDatabase();
+  await failoverAnDatabase();
 }
 
 main().catch(console.error);

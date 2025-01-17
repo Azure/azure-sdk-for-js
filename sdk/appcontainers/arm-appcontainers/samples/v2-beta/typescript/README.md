@@ -216,7 +216,7 @@ node dist/appResiliencyCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONTAINERS_SUBSCRIPTION_ID="<appcontainers subscription id>" APPCONTAINERS_RESOURCE_GROUP="<appcontainers resource group>" node dist/appResiliencyCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env APPCONTAINERS_SUBSCRIPTION_ID="<appcontainers subscription id>" APPCONTAINERS_RESOURCE_GROUP="<appcontainers resource group>" node dist/appResiliencyCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -391,7 +391,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [namespaceschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcontainers/arm-appcontainers/samples/v2-beta/typescript/src/namespacesCheckNameAvailabilitySample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcontainers/arm-appcontainers/samples/v2-beta/typescript/src/operationsListSample.ts
 [usageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcontainers/arm-appcontainers/samples/v2-beta/typescript/src/usagesListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

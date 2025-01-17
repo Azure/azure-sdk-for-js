@@ -10,9 +10,9 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { OperationOptions } from "@azure/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { GeneratedClient } from "./generated/generatedClient";
-import type { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
-import { createMetricsAdvisorKeyCredentialPolicy } from "./metricsAdvisorKeyCredentialPolicy";
+import { GeneratedClient } from "./generated/generatedClient.js";
+import type { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy.js";
+import { createMetricsAdvisorKeyCredentialPolicy } from "./metricsAdvisorKeyCredentialPolicy.js";
 import type {
   AlertQueryTimeMode,
   AlertsPageResponse,
@@ -32,20 +32,20 @@ import type {
   MetricFeedbackUnion,
   MetricSeriesDefinition,
   MetricSeriesPageResponse,
-} from "./models";
+} from "./models.js";
 import type {
   FeedbackQueryTimeMode,
   FeedbackType,
   SeverityFilterCondition,
-} from "./generated/models";
-import { fromServiceMetricFeedbackUnion, toServiceMetricFeedbackUnion } from "./transforms";
+} from "./generated/models/index.js";
+import { fromServiceMetricFeedbackUnion, toServiceMetricFeedbackUnion } from "./transforms.js";
 import {
   DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
   MetricsAdvisorLoggingAllowedQueryParameters,
-} from "./constants";
-import { logger } from "./logger";
-import { tracingClient } from "./tracing";
+} from "./constants.js";
+import { logger } from "./logger.js";
+import { tracingClient } from "./tracing.js";
 
 /**
  * Client options used to configure Metrics Advisor API requests.
@@ -1413,7 +1413,6 @@ export class MetricsAdvisorClient {
   public async getIncidentRootCauses(
     detectionConfigId: string,
     incidentId: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<GetIncidentRootCauseResponse> {
     return tracingClient.withSpan(
@@ -1449,7 +1448,6 @@ export class MetricsAdvisorClient {
    */
   public async addFeedback(
     feedback: MetricFeedbackUnion,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<MetricFeedbackUnion> {
     return tracingClient.withSpan(
@@ -1475,7 +1473,6 @@ export class MetricsAdvisorClient {
    */
   public async getFeedback(
     id: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<MetricFeedbackUnion> {
     return tracingClient.withSpan(

@@ -11,7 +11,7 @@
 import {
   VirtualMachinePatchParameters,
   VirtualMachinesUpdateOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Patch the properties of the provided virtual machine, or update the tags associated with the virtual machine. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided virtual machine, or update the tags associated with the virtual machine. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/VirtualMachines_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/VirtualMachines_Patch.json
  */
 async function patchVirtualMachine() {
   const subscriptionId =
@@ -36,24 +36,24 @@ async function patchVirtualMachine() {
     vmImageRepositoryCredentials: {
       password: "{password}",
       registryUrl: "myacr.azurecr.io",
-      username: "myuser"
-    }
+      username: "myuser",
+    },
   };
   const options: VirtualMachinesUpdateOptionalParams = {
-    virtualMachineUpdateParameters
+    virtualMachineUpdateParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.virtualMachines.beginUpdateAndWait(
     resourceGroupName,
     virtualMachineName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  patchVirtualMachine();
+  await patchVirtualMachine();
 }
 
 main().catch(console.error);

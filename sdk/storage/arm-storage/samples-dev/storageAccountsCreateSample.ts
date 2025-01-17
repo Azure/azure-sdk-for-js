@@ -571,18 +571,18 @@ async function storageAccountCreateWithImmutabilityPolicy() {
 }
 
 async function main() {
-  nfsV3AccountCreate();
-  storageAccountCreate();
-  storageAccountCreateAllowedCopyScopeToAad();
-  storageAccountCreateAllowedCopyScopeToPrivateLink();
-  storageAccountCreateDisallowPublicNetworkAccess();
-  storageAccountCreateDnsEndpointTypeToAzureDnsZone();
-  storageAccountCreateDnsEndpointTypeToStandard();
-  storageAccountCreateEnablePublicNetworkAccess();
-  storageAccountCreatePremiumBlockBlobStorage();
-  storageAccountCreateUserAssignedEncryptionIdentityWithCmk();
-  storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId();
-  storageAccountCreateWithImmutabilityPolicy();
+  await nfsV3AccountCreate();
+  await storageAccountCreate();
+  await storageAccountCreateAllowedCopyScopeToAad();
+  await storageAccountCreateAllowedCopyScopeToPrivateLink();
+  await storageAccountCreateDisallowPublicNetworkAccess();
+  await storageAccountCreateDnsEndpointTypeToAzureDnsZone();
+  await storageAccountCreateDnsEndpointTypeToStandard();
+  await storageAccountCreateEnablePublicNetworkAccess();
+  await storageAccountCreatePremiumBlockBlobStorage();
+  await storageAccountCreateUserAssignedEncryptionIdentityWithCmk();
+  await storageAccountCreateUserAssignedIdentityWithFederatedIdentityClientId();
+  await storageAccountCreateWithImmutabilityPolicy();
 }
 
 main().catch(console.error);

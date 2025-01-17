@@ -80,8 +80,8 @@ async function globalRulestackCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackCreateOrUpdateMaximumSetGen();
-  globalRulestackCreateOrUpdateMinimumSetGen();
+  await globalRulestackCreateOrUpdateMaximumSetGen();
+  await globalRulestackCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

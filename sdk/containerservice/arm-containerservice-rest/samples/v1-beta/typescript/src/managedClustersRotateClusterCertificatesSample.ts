@@ -14,9 +14,9 @@ import ContainerServiceManagementClient, {
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
+ * This sample demonstrates how to See [Certificate rotation](https://learn.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  *
- * @summary See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
+ * @summary See [Certificate rotation](https://learn.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersRotateClusterCertificates.json
  */
 async function rotateClusterCertificates() {
@@ -30,10 +30,10 @@ async function rotateClusterCertificates() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .post();
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = poller.pollUntilDone();
   console.log(result);
 }

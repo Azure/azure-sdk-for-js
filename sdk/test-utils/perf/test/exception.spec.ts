@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfTest } from "../src";
+import { PerfTest } from "../src/index.js";
 
 /**
  * Exception is designed to test the response speed of the Perf test framework

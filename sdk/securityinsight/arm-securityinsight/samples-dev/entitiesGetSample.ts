@@ -495,26 +495,26 @@ async function getAnIPEntity() {
 }
 
 async function main() {
-  getACloudApplicationEntity();
-  getADnsEntity();
-  getAFileEntity();
-  getAFileHashEntity();
-  getAHostEntity();
-  getAMailClusterEntity();
-  getAMailMessageEntity();
-  getAMailboxEntity();
-  getAMalwareEntity();
-  getAProcessEntity();
-  getARegistryKeyEntity();
-  getARegistryValueEntity();
-  getASecurityAlertEntity();
-  getASecurityGroupEntity();
-  getASubmissionMailEntity();
-  getAUrlEntity();
-  getAnIoTDeviceEntity();
-  getAnAccountEntity();
-  getAnAzureResourceEntity();
-  getAnIPEntity();
+  await getACloudApplicationEntity();
+  await getADnsEntity();
+  await getAFileEntity();
+  await getAFileHashEntity();
+  await getAHostEntity();
+  await getAMailClusterEntity();
+  await getAMailMessageEntity();
+  await getAMailboxEntity();
+  await getAMalwareEntity();
+  await getAProcessEntity();
+  await getARegistryKeyEntity();
+  await getARegistryValueEntity();
+  await getASecurityAlertEntity();
+  await getASecurityGroupEntity();
+  await getASubmissionMailEntity();
+  await getAUrlEntity();
+  await getAnIoTDeviceEntity();
+  await getAnAccountEntity();
+  await getAnAzureResourceEntity();
+  await getAnIPEntity();
 }
 
 main().catch(console.error);

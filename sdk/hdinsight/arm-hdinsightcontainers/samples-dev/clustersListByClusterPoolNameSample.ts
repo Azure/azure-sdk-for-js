@@ -43,7 +43,7 @@ async function hdInsightClustersListByClusterPoolName() {
 }
 
 async function main() {
-  hdInsightClustersListByClusterPoolName();
+  await hdInsightClustersListByClusterPoolName();
 }
 
 main().catch(console.error);

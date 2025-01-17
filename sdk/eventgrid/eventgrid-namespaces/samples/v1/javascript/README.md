@@ -51,7 +51,7 @@ node namespaceActivities.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env EVENT_GRID_NAMESPACES_ENDPOINT="<event grid namespaces endpoint>" EVENT_GRID_NAMESPACES_KEY="<event grid namespaces key>" EVENT_SUBSCRIPTION_NAME="<event subscription name>" TOPIC_NAME="<topic name>" node namespaceActivities.js
+npx dev-tool run vendored cross-env EVENT_GRID_NAMESPACES_ENDPOINT="<event grid namespaces endpoint>" EVENT_GRID_NAMESPACES_KEY="<event grid namespaces key>" EVENT_SUBSCRIPTION_NAME="<event subscription name>" TOPIC_NAME="<topic name>" node namespaceActivities.js
 ```
 
 ## Next Steps
@@ -59,9 +59,9 @@ npx cross-env EVENT_GRID_NAMESPACES_ENDPOINT="<event grid namespaces endpoint>" 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [namespaceactivities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/samples/v1/javascript/namespaceActivities.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/eventgrid-namespaces
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureeventgridcustomtopic,configuredtousetheeventgridschema]: https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
-[createinstance_azureeventgridcustomtopic,configuredtousethecloudevent1.0schema]: https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
-[createinstance_azureservicebusqueue]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal
+[createinstance_azureeventgridcustomtopic,configuredtousetheeventgridschema]: https://learn.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
+[createinstance_azureeventgridcustomtopic,configuredtousethecloudevent1.0schema]: https://learn.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
+[createinstance_azureservicebusqueue]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/README.md

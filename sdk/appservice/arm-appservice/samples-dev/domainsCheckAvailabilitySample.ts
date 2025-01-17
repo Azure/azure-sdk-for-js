@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NameIdentifier, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Check if a domain is available for registration.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Description for Check if a domain is available for registration.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/CheckDomainAvailability.json
  */
-async function checkDomainAvailability() {
+async function checkDomainAvailability(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,7 +29,7 @@ async function checkDomainAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkDomainAvailability();
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all available server variables.
  *
  * @summary Lists all available server variables.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/ApplicationGatewayAvailableServerVariablesGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ApplicationGatewayAvailableServerVariablesGet.json
  */
 async function getAvailableServerVariables() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getAvailableServerVariables() {
 }
 
 async function main() {
-  getAvailableServerVariables();
+  await getAvailableServerVariables();
 }
 
 main().catch(console.error);

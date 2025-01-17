@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all network manager security configuration admin rules.
  *
  * @summary List all network manager security configuration admin rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerAdminRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerAdminRuleList.json
  */
 async function listSecurityAdminRules() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function listSecurityAdminRules() {
 }
 
 async function main() {
-  listSecurityAdminRules();
+  await listSecurityAdminRules();
 }
 
 main().catch(console.error);

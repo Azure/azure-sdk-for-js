@@ -32,7 +32,7 @@ async function deleteKubernetesVersions() {
 }
 
 async function main() {
-  deleteKubernetesVersions();
+  await deleteKubernetesVersions();
 }
 
 main().catch(console.error);

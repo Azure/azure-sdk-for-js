@@ -6,7 +6,6 @@ extends:
       PackageName: "@azure/keyvault-certificates"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
-      SupportedClouds: 'Public,UsGov,China'
       AdditionalMatrixConfigs:
          - Name: Keyvault_live_test_base
            Path: sdk/keyvault/keyvault-certificates/platform-matrix.json

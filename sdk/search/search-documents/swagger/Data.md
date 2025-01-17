@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4b7fbd8b842b509a0330f20260821dd844328dff/specification/search/data-plane/Azure.Search/preview/2024-09-01-preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/14531a7cf6101c1dd57e7c1c83103a047bb8f5bb/specification/search/data-plane/Azure.Search/preview/2024-11-01-preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
   "@autorest/typescript": "6.0.27"
 core-http-compat-mode: true
-package-version: 12.2.0-beta.1
+package-version: 12.2.0-beta.2
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -145,6 +145,15 @@ directive:
     transform: $["x-ms-client-name"] = "QueryCaptionResult";
 ```
 
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchDocumentsResult.properties
+    transform: > 
+      $["@search.debug"] = $["@search.debugInfo"];
+      delete $["@search.debugInfo"];
+```
+
 ### Fix incorrect type of SearchRequest.hybridSearch
 
 ```yaml
@@ -152,7 +161,18 @@ directive:
   - from: swagger-document
     where: $.definitions.SearchRequest.properties.hybridSearch
     transform: >
-      delete $["type"];
+      delete $.type;
       delete $.items;
       $["$ref"] = "#/definitions/HybridSearch";
+```
+
+### Fix `SearchResult["@search.documentDebugInfo"]`
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchResult.properties["@search.documentDebugInfo"]
+    transform: >
+      $["$ref"] = $.items["$ref"];
+      delete $.type;
+      delete $.items;
 ```

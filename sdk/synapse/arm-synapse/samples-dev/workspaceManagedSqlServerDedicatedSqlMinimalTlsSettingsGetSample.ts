@@ -39,7 +39,7 @@ async function getWorkspaceManagedSqlServerDedicatedSqlMinimalTlsSettings() {
 }
 
 async function main() {
-  getWorkspaceManagedSqlServerDedicatedSqlMinimalTlsSettings();
+  await getWorkspaceManagedSqlServerDedicatedSqlMinimalTlsSettings();
 }
 
 main().catch(console.error);

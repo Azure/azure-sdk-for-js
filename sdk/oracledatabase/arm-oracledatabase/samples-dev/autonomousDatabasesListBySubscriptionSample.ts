@@ -34,7 +34,7 @@ async function listAutonomousDatabaseBySubscription() {
 }
 
 async function main() {
-  listAutonomousDatabaseBySubscription();
+  await listAutonomousDatabaseBySubscription();
 }
 
 main().catch(console.error);

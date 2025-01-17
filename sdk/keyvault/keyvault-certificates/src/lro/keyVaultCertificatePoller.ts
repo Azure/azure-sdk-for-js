@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { delay } from "@azure/core-util";
 import type { PollOperation, PollOperationState } from "@azure/core-lro";
 import { Poller } from "@azure/core-lro";
@@ -33,7 +33,6 @@ export interface KeyVaultCertificatePollOperationState<TResult>
 /**
  * Generates a version of the state with only public properties. At least those common for all of the Key Vault Certificates pollers.
  */
-// eslint-disable-next-line no-use-before-define
 export function cleanState<TState extends KeyVaultCertificatePollOperationState<TResult>, TResult>(
   state: TState,
 ): KeyVaultCertificatePollOperationState<TResult> {

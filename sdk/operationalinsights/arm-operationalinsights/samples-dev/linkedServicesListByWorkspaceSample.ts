@@ -43,7 +43,7 @@ async function linkedServicesListByWorkspace() {
 }
 
 async function main() {
-  linkedServicesListByWorkspace();
+  await linkedServicesListByWorkspace();
 }
 
 main().catch(console.error);

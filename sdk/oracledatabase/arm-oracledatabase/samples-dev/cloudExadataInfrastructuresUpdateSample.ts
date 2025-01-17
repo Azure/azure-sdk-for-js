@@ -42,7 +42,7 @@ async function patchExadataInfrastructure() {
 }
 
 async function main() {
-  patchExadataInfrastructure();
+  await patchExadataInfrastructure();
 }
 
 main().catch(console.error);

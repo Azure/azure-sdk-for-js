@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Patch a backup policy for Netapp Account
  *
  * @summary Patch a backup policy for Netapp Account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/BackupPolicies_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupPolicies_Update.json
  */
 async function backupPoliciesUpdate() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function backupPoliciesUpdate() {
 }
 
 async function main() {
-  backupPoliciesUpdate();
+  await backupPoliciesUpdate();
 }
 
 main().catch(console.error);

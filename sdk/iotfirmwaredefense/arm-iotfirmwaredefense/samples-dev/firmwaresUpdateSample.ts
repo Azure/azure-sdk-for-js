@@ -83,8 +83,8 @@ async function firmwaresUpdateMinimumSetGen() {
 }
 
 async function main() {
-  firmwaresUpdateMaximumSetGen();
-  firmwaresUpdateMinimumSetGen();
+  await firmwaresUpdateMaximumSetGen();
+  await firmwaresUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

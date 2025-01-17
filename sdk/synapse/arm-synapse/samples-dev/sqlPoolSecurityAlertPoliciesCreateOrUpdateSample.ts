@@ -83,8 +83,8 @@ async function updateASqlPoolThreatDetectionPolicyWithMinimalParameters() {
 }
 
 async function main() {
-  updateASqlPoolThreatDetectionPolicyWithAllParameters();
-  updateASqlPoolThreatDetectionPolicyWithMinimalParameters();
+  await updateASqlPoolThreatDetectionPolicyWithAllParameters();
+  await updateASqlPoolThreatDetectionPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

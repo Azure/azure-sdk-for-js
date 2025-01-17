@@ -32,6 +32,13 @@ var networkAcls = {
   ipRules: []
   defaultAction: 'Allow'
 }
+var managedIdentityName = '${baseName}-managedIdentity'
+var managedIdentityId = managedIdentity.id
+
+resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = if (enableHsm) {
+  name: managedIdentityName
+  location: location
+}
 
 resource keyVault 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {
   name: kvName
@@ -66,6 +73,12 @@ resource managedHsm 'Microsoft.KeyVault/managedHSMs@2024-04-01-preview' = if (en
     family: 'B'
     name: 'Standard_B1'
   }
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${managedIdentityId}': {}
+    }
+  }
   properties: {
     publicNetworkAccess: 'Enabled'
     networkAcls: networkAcls
@@ -89,6 +102,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     supportsHttpsTrafficOnly: true
     encryption: encryption
     accessTier: 'Hot'
+    allowSharedKeyAccess: false
   }
 }
 
@@ -111,6 +125,19 @@ resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/container
     publicAccess: 'None'
   }
   parent: blobService
+}
+
+resource managedIdentityRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (enableHsm) {
+  name: guid(resourceGroup().id, 'StorageBlobContributor', managedIdentityId)
+  properties: {
+    roleDefinitionId: subscriptionResourceId(
+      'Microsoft.Authorization/roleDefinitions',
+      'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+    )
+    principalId: managedIdentity.properties.principalId
+    scope: resourceGroup().id
+    principalType: 'ServicePrincipal'
+  }
 }
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
@@ -151,3 +178,4 @@ output CLIENT_OBJECT_ID string = testApplicationOid
 output BLOB_STORAGE_URI string = storageAccount.properties.primaryEndpoints.blob
 output BLOB_CONTAINER_NAME string = blobContainerName
 output AZURE_KEYVAULT_ATTESTATION_URI string = 'https://${webApp.properties.defaultHostName}/'
+output MANAGED_IDENTITY_ID string = managedIdentityId

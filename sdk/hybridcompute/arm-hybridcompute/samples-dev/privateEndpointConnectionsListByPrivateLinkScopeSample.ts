@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all private endpoint connections on a private link scope.
  *
  * @summary Gets all private endpoint connections on a private link scope.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/privateEndpoint/PrivateEndpointConnection_List.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateEndpoint/PrivateEndpointConnection_List.json
  */
 async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope() {
 }
 
 async function main() {
-  getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope();
+  await getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope();
 }
 
 main().catch(console.error);

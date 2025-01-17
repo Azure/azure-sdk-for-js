@@ -82,7 +82,7 @@ node dist/customizationPoliciesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env VMWARECLOUDSIMPLE_SUBSCRIPTION_ID="<vmwarecloudsimple subscription id>" node dist/customizationPoliciesGetSample.js
+npx dev-tool run vendored cross-env VMWARECLOUDSIMPLE_SUBSCRIPTION_ID="<vmwarecloudsimple subscription id>" node dist/customizationPoliciesGetSample.js
 ```
 
 ## Next Steps
@@ -123,7 +123,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualmachinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/samples/v3/typescript/src/virtualMachinesUpdateSample.ts
 [virtualnetworksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/samples/v3/typescript/src/virtualNetworksGetSample.ts
 [virtualnetworkslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/samples/v3/typescript/src/virtualNetworksListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-vmwarecloudsimple?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-vmwarecloudsimple?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

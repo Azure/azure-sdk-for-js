@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List and describe all Backup Vaults in the NetApp account.
  *
  * @summary List and describe all Backup Vaults in the NetApp account.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/BackupVaults_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupVaults_List.json
  */
 async function backupVaultsList() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function backupVaultsList() {
 }
 
 async function main() {
-  backupVaultsList();
+  await backupVaultsList();
 }
 
 main().catch(console.error);

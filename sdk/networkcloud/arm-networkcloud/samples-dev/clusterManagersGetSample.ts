@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of the provided cluster manager.
  *
  * @summary Get the properties of the provided cluster manager.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/ClusterManagers_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/ClusterManagers_Get.json
  */
 async function getClusterManager() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function getClusterManager() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.clusterManagers.get(
     resourceGroupName,
-    clusterManagerName
+    clusterManagerName,
   );
   console.log(result);
 }
 
 async function main() {
-  getClusterManager();
+  await getClusterManager();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This method gets the unencrypted secrets related to the job.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary This method gets the unencrypted secrets related to the job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsListCredentials.json
  */
-async function jobsListCredentials() {
+async function jobsListCredentials(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function jobsListCredentials() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsListCredentials();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Download compliance needs from snapshot, like: Compliance Report, Resource List.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Download compliance needs from snapshot, like: Compliance Report, Resource List.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Snapshot_Download_Snapshot_Download_Compliance_Detailed_Pdf_Report.json
  */
-async function snapshotDownloadComplianceDetailedPdfReport() {
+async function snapshotDownloadComplianceDetailedPdfReport(): Promise<void> {
   const reportName = "testReportName";
   const snapshotName = "testSnapshotName";
   const credential = new DefaultAzureCredential();
@@ -43,7 +41,7 @@ async function snapshotDownloadComplianceDetailedPdfReport() {
  * @summary Download compliance needs from snapshot, like: Compliance Report, Resource List.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Snapshot_Download_Snapshot_Download_Compliance_Pdf_Report.json
  */
-async function snapshotDownloadCompliancePdfReport() {
+async function snapshotDownloadCompliancePdfReport(): Promise<void> {
   const reportName = "testReportName";
   const snapshotName = "testSnapshotName";
   const credential = new DefaultAzureCredential();
@@ -66,7 +64,7 @@ async function snapshotDownloadCompliancePdfReport() {
  * @summary Download compliance needs from snapshot, like: Compliance Report, Resource List.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Snapshot_Download_Snapshot_Download_Compliance_Report.json
  */
-async function snapshotDownloadComplianceReport() {
+async function snapshotDownloadComplianceReport(): Promise<void> {
   const reportName = "testReportName";
   const snapshotName = "testSnapshotName";
   const credential = new DefaultAzureCredential();
@@ -89,7 +87,7 @@ async function snapshotDownloadComplianceReport() {
  * @summary Download compliance needs from snapshot, like: Compliance Report, Resource List.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Snapshot_Download_Snapshot_Download_Resource_List.json
  */
-async function snapshotDownloadResourceList() {
+async function snapshotDownloadResourceList(): Promise<void> {
   const reportName = "testReportName";
   const snapshotName = "testSnapshotName";
   const credential = new DefaultAzureCredential();
@@ -106,7 +104,7 @@ async function snapshotDownloadResourceList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   snapshotDownloadComplianceDetailedPdfReport();
   snapshotDownloadCompliancePdfReport();
   snapshotDownloadComplianceReport();

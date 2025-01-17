@@ -53,7 +53,7 @@ async function createOrUpdateRegistryModelContainer() {
 }
 
 async function main() {
-  createOrUpdateRegistryModelContainer();
+  await createOrUpdateRegistryModelContainer();
 }
 
 main().catch(console.error);

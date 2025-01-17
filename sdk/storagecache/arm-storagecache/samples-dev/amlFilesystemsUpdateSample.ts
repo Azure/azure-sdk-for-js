@@ -60,7 +60,7 @@ async function amlFilesystemsUpdate() {
 }
 
 async function main() {
-  amlFilesystemsUpdate();
+  await amlFilesystemsUpdate();
 }
 
 main().catch(console.error);

@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { MsalClient } from "../msal/nodeFlows/msalClient";
-import { createMsalClient } from "../msal/nodeFlows/msalClient";
+import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../util/tenantIdUtils.js";
 
-import type { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
-import { credentialLogger } from "../util/logging";
-import { tracingClient } from "../util/tracing";
+import type { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions.js";
+import { CredentialUnavailableError } from "../errors.js";
+import { credentialLogger } from "../util/logging.js";
+import { tracingClient } from "../util/tracing.js";
 
 const logger = credentialLogger("ClientAssertionCredential");
 

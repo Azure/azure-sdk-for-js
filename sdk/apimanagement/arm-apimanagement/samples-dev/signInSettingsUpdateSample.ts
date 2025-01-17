@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  PortalSigninSettings,
-  ApiManagementClient
+  ApiManagementClient,
+  PortalSigninSettings
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update Sign-In settings.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update Sign-In settings.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalSettingsUpdateSignIn.json
  */
-async function apiManagementPortalSettingsUpdateSignIn() {
+async function apiManagementPortalSettingsUpdateSignIn(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -42,7 +40,7 @@ async function apiManagementPortalSettingsUpdateSignIn() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementPortalSettingsUpdateSignIn();
 }
 

@@ -41,7 +41,7 @@ async function ipCommunitiesListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  ipCommunitiesListByResourceGroupMaximumSetGen();
+  await ipCommunitiesListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

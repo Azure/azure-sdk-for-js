@@ -61,8 +61,8 @@ async function organizationsListByResourceGroupMin() {
 }
 
 async function main() {
-  organizationsListByResourceGroup();
-  organizationsListByResourceGroupMin();
+  await organizationsListByResourceGroup();
+  await organizationsListByResourceGroupMin();
 }
 
 main().catch(console.error);

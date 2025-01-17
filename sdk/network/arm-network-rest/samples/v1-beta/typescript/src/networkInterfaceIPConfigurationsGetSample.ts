@@ -4,12 +4,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkInterfaceIPConfigurationsGetParameters
+  NetworkInterfaceIPConfigurationsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified network interface ip configuration.
@@ -25,7 +23,7 @@ async function networkInterfaceIPConfigurationGet() {
   const networkInterfaceName = "mynic";
   const ipConfigurationName = "ipconfig1";
   const options: NetworkInterfaceIPConfigurationsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +31,7 @@ async function networkInterfaceIPConfigurationGet() {
       subscriptionId,
       resourceGroupName,
       networkInterfaceName,
-      ipConfigurationName
+      ipConfigurationName,
     )
     .get(options);
   console.log(result);

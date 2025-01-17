@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the provided virtual machine console.
  *
  * @summary Delete the provided virtual machine console.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Consoles_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Consoles_Delete.json
  */
 async function deleteVirtualMachineConsole() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function deleteVirtualMachineConsole() {
   const result = await client.consoles.beginDeleteAndWait(
     resourceGroupName,
     virtualMachineName,
-    consoleName
+    consoleName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteVirtualMachineConsole();
+  await deleteVirtualMachineConsole();
 }
 
 main().catch(console.error);

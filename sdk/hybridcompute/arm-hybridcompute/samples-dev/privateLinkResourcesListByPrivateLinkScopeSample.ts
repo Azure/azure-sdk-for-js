@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
  *
  * @summary Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/privateLinkScope/PrivateLinkScopePrivateLinkResource_ListGet.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopePrivateLinkResource_ListGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function getsPrivateEndpointConnection() {
 }
 
 async function main() {
-  getsPrivateEndpointConnection();
+  await getsPrivateEndpointConnection();
 }
 
 main().catch(console.error);

@@ -65,8 +65,8 @@ async function monitorsListMonitoredResourcesMinimumSetGen() {
 }
 
 async function main() {
-  monitorsListMonitoredResourcesMaximumSetGen();
-  monitorsListMonitoredResourcesMinimumSetGen();
+  await monitorsListMonitoredResourcesMaximumSetGen();
+  await monitorsListMonitoredResourcesMinimumSetGen();
 }
 
 main().catch(console.error);

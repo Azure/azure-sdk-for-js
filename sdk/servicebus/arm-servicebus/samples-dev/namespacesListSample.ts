@@ -34,7 +34,7 @@ async function nameSpaceList() {
 }
 
 async function main() {
-  nameSpaceList();
+  await nameSpaceList();
 }
 
 main().catch(console.error);

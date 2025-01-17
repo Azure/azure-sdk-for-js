@@ -42,7 +42,7 @@ async function redisEnterpriseDatabasesDelete() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesDelete();
+  await redisEnterpriseDatabasesDelete();
 }
 
 main().catch(console.error);

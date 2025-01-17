@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the subscriptions for an enrollment account. The operation is supported for billing accounts with agreement type Enterprise Agreement.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the subscriptions for an enrollment account. The operation is supported for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionsListByEnrollmentAccount.json
  */
-async function billingSubscriptionsListByEnrollmentAccount() {
+async function billingSubscriptionsListByEnrollmentAccount(): Promise<void> {
   const billingAccountName = "6564892";
   const enrollmentAccountName = "172988";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function billingSubscriptionsListByEnrollmentAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionsListByEnrollmentAccount();
 }
 

@@ -59,8 +59,8 @@ async function elasticSansListByResourceGroupMinimumSetGen() {
 }
 
 async function main() {
-  elasticSansListByResourceGroupMaximumSetGen();
-  elasticSansListByResourceGroupMinimumSetGen();
+  await elasticSansListByResourceGroupMaximumSetGen();
+  await elasticSansListByResourceGroupMinimumSetGen();
 }
 
 main().catch(console.error);

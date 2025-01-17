@@ -49,7 +49,7 @@ async function queryList() {
 }
 
 async function main() {
-  queryList();
+  await queryList();
 }
 
 main().catch(console.error);

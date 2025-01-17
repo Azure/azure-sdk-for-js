@@ -59,7 +59,7 @@ node dist/applicationTypesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/applicationTypesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node dist/applicationTypesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -77,7 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [clusterslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric-rest/samples/v1-beta/typescript/src/clustersListSample.ts
 [clusterslistupgradableversionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric-rest/samples/v1-beta/typescript/src/clustersListUpgradableVersionsSample.ts
 [clustersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric-rest/samples/v1-beta/typescript/src/clustersUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/arm-servicefabric-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

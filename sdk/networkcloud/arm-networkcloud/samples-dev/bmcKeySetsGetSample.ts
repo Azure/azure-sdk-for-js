@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get baseboard management controller key set of the provided cluster.
  *
  * @summary Get baseboard management controller key set of the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BmcKeySets_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BmcKeySets_Get.json
  */
 async function getBaseboardManagementControllerKeySetOfCluster() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function getBaseboardManagementControllerKeySetOfCluster() {
   const result = await client.bmcKeySets.get(
     resourceGroupName,
     clusterName,
-    bmcKeySetName
+    bmcKeySetName,
   );
   console.log(result);
 }
 
 async function main() {
-  getBaseboardManagementControllerKeySetOfCluster();
+  await getBaseboardManagementControllerKeySetOfCluster();
 }
 
 main().catch(console.error);

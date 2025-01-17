@@ -42,7 +42,7 @@ async function tablesSearchCancel() {
 }
 
 async function main() {
-  tablesSearchCancel();
+  await tablesSearchCancel();
 }
 
 main().catch(console.error);

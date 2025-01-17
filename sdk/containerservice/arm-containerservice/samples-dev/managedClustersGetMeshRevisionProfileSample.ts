@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades
  *
  * @summary Contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-08-01/examples/ManagedClustersGet_MeshRevisionProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersGet_MeshRevisionProfile.json
  */
-async function getAMeshRevisionProfileForAMeshMode() {
+async function getAMeshRevisionProfileForAMeshMode(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +33,7 @@ async function getAMeshRevisionProfileForAMeshMode() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAMeshRevisionProfileForAMeshMode();
 }
 

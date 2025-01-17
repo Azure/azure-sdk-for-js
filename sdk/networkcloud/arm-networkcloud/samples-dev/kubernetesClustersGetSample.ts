@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of the provided the Kubernetes cluster.
  *
  * @summary Get properties of the provided the Kubernetes cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/KubernetesClusters_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/KubernetesClusters_Get.json
  */
 async function getKubernetesCluster() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function getKubernetesCluster() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.kubernetesClusters.get(
     resourceGroupName,
-    kubernetesClusterName
+    kubernetesClusterName,
   );
   console.log(result);
 }
 
 async function main() {
-  getKubernetesCluster();
+  await getKubernetesCluster();
 }
 
 main().catch(console.error);

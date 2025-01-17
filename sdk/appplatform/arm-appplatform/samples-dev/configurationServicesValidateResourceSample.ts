@@ -13,9 +13,7 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check if the Application Configuration Service resource is valid.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Check if the Application Configuration Service resource is valid.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ConfigurationServices_ValidateResource.json
  */
-async function configurationServicesValidateResource() {
+async function configurationServicesValidateResource(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -58,7 +56,7 @@ async function configurationServicesValidateResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   configurationServicesValidateResource();
 }
 

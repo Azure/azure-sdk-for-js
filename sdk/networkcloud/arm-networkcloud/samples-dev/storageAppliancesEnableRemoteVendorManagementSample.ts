@@ -11,7 +11,7 @@
 import {
   StorageApplianceEnableRemoteVendorManagementParameters,
   StorageAppliancesEnableRemoteVendorManagementOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Enable remote vendor management of the provided storage appliance.
  *
  * @summary Enable remote vendor management of the provided storage appliance.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/StorageAppliances_EnableRemoteVendorManagement.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/StorageAppliances_EnableRemoteVendorManagement.json
  */
 async function turnOnRemoteVendorManagementForStorageAppliance() {
   const subscriptionId =
@@ -31,24 +31,24 @@ async function turnOnRemoteVendorManagementForStorageAppliance() {
   const resourceGroupName =
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const storageApplianceName = "storageApplianceName";
-  const storageApplianceEnableRemoteVendorManagementParameters: StorageApplianceEnableRemoteVendorManagementParameters = {
-    supportEndpoints: ["10.0.0.0/24"]
-  };
+  const storageApplianceEnableRemoteVendorManagementParameters: StorageApplianceEnableRemoteVendorManagementParameters =
+    { supportEndpoints: ["10.0.0.0/24"] };
   const options: StorageAppliancesEnableRemoteVendorManagementOptionalParams = {
-    storageApplianceEnableRemoteVendorManagementParameters
+    storageApplianceEnableRemoteVendorManagementParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
-  const result = await client.storageAppliances.beginEnableRemoteVendorManagementAndWait(
-    resourceGroupName,
-    storageApplianceName,
-    options
-  );
+  const result =
+    await client.storageAppliances.beginEnableRemoteVendorManagementAndWait(
+      resourceGroupName,
+      storageApplianceName,
+      options,
+    );
   console.log(result);
 }
 
 async function main() {
-  turnOnRemoteVendorManagementForStorageAppliance();
+  await turnOnRemoteVendorManagementForStorageAppliance();
 }
 
 main().catch(console.error);

@@ -53,8 +53,8 @@ async function operationsListMin() {
 }
 
 async function main() {
-  operationsList();
-  operationsListMin();
+  await operationsList();
+  await operationsListMin();
 }
 
 main().catch(console.error);

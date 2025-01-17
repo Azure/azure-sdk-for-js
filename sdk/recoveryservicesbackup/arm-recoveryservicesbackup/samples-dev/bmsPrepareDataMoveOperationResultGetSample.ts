@@ -39,7 +39,7 @@ async function getOperationResultForPrepareDataMove() {
 }
 
 async function main() {
-  getOperationResultForPrepareDataMove();
+  await getOperationResultForPrepareDataMove();
 }
 
 main().catch(console.error);

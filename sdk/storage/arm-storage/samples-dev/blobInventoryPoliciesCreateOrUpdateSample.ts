@@ -302,9 +302,9 @@ async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForN
 }
 
 async function main() {
-  storageAccountSetBlobInventoryPolicy();
-  storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount();
-  storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount();
+  await storageAccountSetBlobInventoryPolicy();
+  await storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount();
+  await storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount();
 }
 
 main().catch(console.error);

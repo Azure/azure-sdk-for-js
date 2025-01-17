@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the provided layer 3 (L3) network.
  *
  * @summary Delete the provided layer 3 (L3) network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/L3Networks_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/L3Networks_Delete.json
  */
 async function deleteL3Network() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function deleteL3Network() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.l3Networks.beginDeleteAndWait(
     resourceGroupName,
-    l3NetworkName
+    l3NetworkName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteL3Network();
+  await deleteL3Network();
 }
 
 main().catch(console.error);

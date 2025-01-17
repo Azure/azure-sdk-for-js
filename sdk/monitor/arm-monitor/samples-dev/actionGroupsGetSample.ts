@@ -37,7 +37,7 @@ async function getAnActionGroup() {
 }
 
 async function main() {
-  getAnActionGroup();
+  await getAnActionGroup();
 }
 
 main().catch(console.error);

@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the properties of the specified replica.
  *
  * @summary Gets the properties of the specified replica.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresGetReplica.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresGetReplica.json
  */
 async function replicasGet() {
   const subscriptionId =
@@ -31,12 +29,12 @@ async function replicasGet() {
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.replicas.get(
     resourceGroupName,
     configStoreName,
-    replicaName
+    replicaName,
   );
   console.log(result);
 }

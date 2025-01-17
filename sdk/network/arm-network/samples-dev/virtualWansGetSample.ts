@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of a VirtualWAN.
  *
  * @summary Retrieves the details of a VirtualWAN.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VirtualWANGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualWANGet.json
  */
 async function virtualWanGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function virtualWanGet() {
 }
 
 async function main() {
-  virtualWanGet();
+  await virtualWanGet();
 }
 
 main().catch(console.error);

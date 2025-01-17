@@ -36,7 +36,7 @@ async function redisCacheFlush() {
 }
 
 async function main() {
-  redisCacheFlush();
+  await redisCacheFlush();
 }
 
 main().catch(console.error);

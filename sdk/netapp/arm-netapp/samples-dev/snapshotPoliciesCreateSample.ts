@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a snapshot policy
  *
  * @summary Create a snapshot policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/SnapshotPolicies_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/SnapshotPolicies_Create.json
  */
 async function snapshotPoliciesCreate() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function snapshotPoliciesCreate() {
 }
 
 async function main() {
-  snapshotPoliciesCreate();
+  await snapshotPoliciesCreate();
 }
 
 main().catch(console.error);

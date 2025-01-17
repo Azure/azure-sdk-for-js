@@ -66,7 +66,7 @@ node applicationTypeVersionsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICEFABRIC_SUBSCRIPTION_ID="<servicefabric subscription id>" SERVICEFABRIC_RESOURCE_GROUP="<servicefabric resource group>" node applicationTypeVersionsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env SERVICEFABRIC_SUBSCRIPTION_ID="<servicefabric subscription id>" SERVICEFABRIC_RESOURCE_GROUP="<servicefabric resource group>" node applicationTypeVersionsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -103,6 +103,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [servicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric/samples/v3/javascript/servicesGetSample.js
 [serviceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric/samples/v3/javascript/servicesListSample.js
 [servicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric/samples/v3/javascript/servicesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-servicefabric?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicefabric?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/arm-servicefabric/README.md

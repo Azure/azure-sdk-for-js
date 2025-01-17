@@ -41,7 +41,7 @@ async function relayNameSpaceAuthorizationRuleCreate() {
 }
 
 async function main() {
-  relayNameSpaceAuthorizationRuleCreate();
+  await relayNameSpaceAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

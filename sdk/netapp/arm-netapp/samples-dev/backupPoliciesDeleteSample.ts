@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete backup policy
  *
  * @summary Delete backup policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/BackupPolicies_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupPolicies_Delete.json
  */
 async function backupPoliciesDelete() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function backupPoliciesDelete() {
 }
 
 async function main() {
-  backupPoliciesDelete();
+  await backupPoliciesDelete();
 }
 
 main().catch(console.error);

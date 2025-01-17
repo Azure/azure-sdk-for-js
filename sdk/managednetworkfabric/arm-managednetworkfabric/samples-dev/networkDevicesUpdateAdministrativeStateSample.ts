@@ -48,7 +48,7 @@ async function networkDevicesUpdateAdministrativeStateMaximumSetGen() {
 }
 
 async function main() {
-  networkDevicesUpdateAdministrativeStateMaximumSetGen();
+  await networkDevicesUpdateAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

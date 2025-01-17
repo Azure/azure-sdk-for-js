@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of layer 3 (L3) networks in the provided resource group.
  *
  * @summary Get a list of layer 3 (L3) networks in the provided resource group.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/L3Networks_ListByResourceGroup.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/L3Networks_ListByResourceGroup.json
  */
 async function listL3NetworksForResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listL3NetworksForResourceGroup() {
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.l3Networks.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function listL3NetworksForResourceGroup() {
 }
 
 async function main() {
-  listL3NetworksForResourceGroup();
+  await listL3NetworksForResourceGroup();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function domainTopicEventSubscriptionsDelete() {
 }
 
 async function main() {
-  domainTopicEventSubscriptionsDelete();
+  await domainTopicEventSubscriptionsDelete();
 }
 
 main().catch(console.error);

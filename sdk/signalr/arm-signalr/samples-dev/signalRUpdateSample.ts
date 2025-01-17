@@ -85,7 +85,7 @@ async function signalRUpdate() {
 }
 
 async function main() {
-  signalRUpdate();
+  await signalRUpdate();
 }
 
 main().catch(console.error);

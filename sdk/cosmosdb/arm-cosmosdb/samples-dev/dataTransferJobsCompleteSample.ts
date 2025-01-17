@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Completes a Data Transfer Online Job.
  *
  * @summary Completes a Data Transfer Online Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/data-transfer-service/CosmosDBDataTransferJobComplete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/data-transfer-service/CosmosDBDataTransferJobComplete.json
  */
-async function cosmosDbDataTransferJobComplete() {
+async function cosmosDbDataTransferJobComplete(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "e35cc6eb-c8e3-447b-8de6-b83328cd0098";
@@ -37,7 +35,7 @@ async function cosmosDbDataTransferJobComplete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbDataTransferJobComplete();
 }
 

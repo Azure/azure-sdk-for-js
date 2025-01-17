@@ -75,7 +75,7 @@ node dist/accountsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DEVICEUPDATE_SUBSCRIPTION_ID="<deviceupdate subscription id>" DEVICEUPDATE_RESOURCE_GROUP="<deviceupdate resource group>" node dist/accountsCreateSample.js
+npx dev-tool run vendored cross-env DEVICEUPDATE_SUBSCRIPTION_ID="<deviceupdate subscription id>" DEVICEUPDATE_RESOURCE_GROUP="<deviceupdate resource group>" node dist/accountsCreateSample.js
 ```
 
 ## Next Steps
@@ -109,7 +109,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionslistbyaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/arm-deviceupdate/samples/v1/typescript/src/privateEndpointConnectionsListByAccountSample.ts
 [privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/arm-deviceupdate/samples/v1/typescript/src/privateLinkResourcesGetSample.ts
 [privatelinkresourceslistbyaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/arm-deviceupdate/samples/v1/typescript/src/privateLinkResourcesListByAccountSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-deviceupdate?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-deviceupdate?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/arm-deviceupdate/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

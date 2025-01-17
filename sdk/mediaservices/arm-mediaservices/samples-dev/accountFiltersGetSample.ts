@@ -39,7 +39,7 @@ async function getAnAccountFilterByName() {
 }
 
 async function main() {
-  getAnAccountFilterByName();
+  await getAnAccountFilterByName();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List what values of endpoint services are available for use.
  *
  * @summary List what values of endpoint services are available for use.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/EndpointServicesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/EndpointServicesList.json
  */
 async function endpointServicesList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function endpointServicesList() {
 }
 
 async function main() {
-  endpointServicesList();
+  await endpointServicesList();
 }
 
 main().catch(console.error);

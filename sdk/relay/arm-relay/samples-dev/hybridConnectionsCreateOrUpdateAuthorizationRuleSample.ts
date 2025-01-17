@@ -43,7 +43,7 @@ async function relayHybridConnectionAuthorizationRuleCreate() {
 }
 
 async function main() {
-  relayHybridConnectionAuthorizationRuleCreate();
+  await relayHybridConnectionAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

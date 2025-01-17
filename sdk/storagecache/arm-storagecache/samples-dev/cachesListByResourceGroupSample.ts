@@ -36,7 +36,7 @@ async function cachesListByResourceGroup() {
 }
 
 async function main() {
-  cachesListByResourceGroup();
+  await cachesListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -93,7 +93,7 @@ node dist/apiDefinitionsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APICENTER_SUBSCRIPTION_ID="<apicenter subscription id>" APICENTER_RESOURCE_GROUP="<apicenter resource group>" node dist/apiDefinitionsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env APICENTER_SUBSCRIPTION_ID="<apicenter subscription id>" APICENTER_RESOURCE_GROUP="<apicenter resource group>" node dist/apiDefinitionsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -145,7 +145,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apicenter/arm-apicenter/samples/v1/typescript/src/workspacesGetSample.ts
 [workspacesheadsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apicenter/arm-apicenter/samples/v1/typescript/src/workspacesHeadSample.ts
 [workspaceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apicenter/arm-apicenter/samples/v1/typescript/src/workspacesListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-apicenter?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-apicenter?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apicenter/arm-apicenter/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

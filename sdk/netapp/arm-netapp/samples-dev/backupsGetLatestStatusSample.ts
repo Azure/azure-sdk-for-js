@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the latest status of the backup for a volume
  *
  * @summary Get the latest status of the backup for a volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Volumes_LatestBackupStatus.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_LatestBackupStatus.json
  */
 async function volumesBackupStatus() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function volumesBackupStatus() {
 }
 
 async function main() {
-  volumesBackupStatus();
+  await volumesBackupStatus();
 }
 
 main().catch(console.error);

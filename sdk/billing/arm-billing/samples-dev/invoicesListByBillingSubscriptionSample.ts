@@ -13,9 +13,7 @@ import {
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the invoices for a subscription. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the invoices for a subscription. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesListByBillingSubscription.json
  */
-async function invoicesListByBillingSubscription() {
+async function invoicesListByBillingSubscription(): Promise<void> {
   const subscriptionId =
     process.env["BILLING_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -42,7 +40,7 @@ async function invoicesListByBillingSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoicesListByBillingSubscription();
 }
 

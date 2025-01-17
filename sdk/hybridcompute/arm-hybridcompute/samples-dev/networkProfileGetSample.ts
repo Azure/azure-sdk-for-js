@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get network information of hybrid machine
  *
  * @summary The operation to get network information of hybrid machine
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/NetworkProfile_Get.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/NetworkProfile_Get.json
  */
 async function getNetworkProfile() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function getNetworkProfile() {
 }
 
 async function main() {
-  getNetworkProfile();
+  await getNetworkProfile();
 }
 
 main().catch(console.error);

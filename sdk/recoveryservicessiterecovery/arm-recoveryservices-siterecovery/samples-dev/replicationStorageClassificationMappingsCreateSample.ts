@@ -56,7 +56,7 @@ async function createStorageClassificationMapping() {
 }
 
 async function main() {
-  createStorageClassificationMapping();
+  await createStorageClassificationMapping();
 }
 
 main().catch(console.error);

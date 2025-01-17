@@ -102,7 +102,7 @@ node authorizationPoliciesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node authorizationPoliciesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node authorizationPoliciesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -175,6 +175,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [viewslistbyhubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/customer-insights/arm-customerinsights/samples/v4/javascript/viewsListByHubSample.js
 [widgettypesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/customer-insights/arm-customerinsights/samples/v4/javascript/widgetTypesGetSample.js
 [widgettypeslistbyhubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/customer-insights/arm-customerinsights/samples/v4/javascript/widgetTypesListByHubSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-customerinsights?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-customerinsights?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/customer-insights/arm-customerinsights/README.md

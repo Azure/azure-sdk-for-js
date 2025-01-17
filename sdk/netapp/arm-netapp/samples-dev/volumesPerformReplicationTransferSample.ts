@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Performs an adhoc replication transfer on a volume with volumeType Migration
  *
  * @summary Performs an adhoc replication transfer on a volume with volumeType Migration
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Volumes_PerformReplicationTransfer.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_PerformReplicationTransfer.json
  */
 async function volumesPerformReplicationTransfer() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function volumesPerformReplicationTransfer() {
 }
 
 async function main() {
-  volumesPerformReplicationTransfer();
+  await volumesPerformReplicationTransfer();
 }
 
 main().catch(console.error);

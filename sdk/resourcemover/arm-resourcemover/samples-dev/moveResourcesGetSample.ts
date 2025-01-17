@@ -38,7 +38,7 @@ async function moveResourcesGet() {
 }
 
 async function main() {
-  moveResourcesGet();
+  await moveResourcesGet();
 }
 
 main().catch(console.error);

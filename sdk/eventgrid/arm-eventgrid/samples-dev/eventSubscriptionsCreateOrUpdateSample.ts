@@ -400,17 +400,17 @@ async function eventSubscriptionsCreateOrUpdateForSubscription() {
 }
 
 async function main() {
-  eventSubscriptionsCreateOrUpdateForCustomTopic();
-  eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination();
-  eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination();
-  eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination();
-  eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination();
-  eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination();
-  eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination();
-  eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination();
-  eventSubscriptionsCreateOrUpdateForResource();
-  eventSubscriptionsCreateOrUpdateForResourceGroup();
-  eventSubscriptionsCreateOrUpdateForSubscription();
+  await eventSubscriptionsCreateOrUpdateForCustomTopic();
+  await eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination();
+  await eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination();
+  await eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination();
+  await eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination();
+  await eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination();
+  await eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination();
+  await eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination();
+  await eventSubscriptionsCreateOrUpdateForResource();
+  await eventSubscriptionsCreateOrUpdateForResourceGroup();
+  await eventSubscriptionsCreateOrUpdateForSubscription();
 }
 
 main().catch(console.error);

@@ -75,7 +75,7 @@ node dist/adminKeysGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SEARCH_SUBSCRIPTION_ID="<search subscription id>" SEARCH_RESOURCE_GROUP="<search resource group>" node dist/adminKeysGetSample.js
+npx dev-tool run vendored cross-env SEARCH_SUBSCRIPTION_ID="<search subscription id>" SEARCH_RESOURCE_GROUP="<search resource group>" node dist/adminKeysGetSample.js
 ```
 
 ## Next Steps
@@ -109,7 +109,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sharedprivatelinkresourceslistbyservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/typescript/src/sharedPrivateLinkResourcesListByServiceSample.ts
 [usagebysubscriptionskusample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/typescript/src/usageBySubscriptionSkuSample.ts
 [usageslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/typescript/src/usagesListBySubscriptionSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-search?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-search?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/arm-search/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

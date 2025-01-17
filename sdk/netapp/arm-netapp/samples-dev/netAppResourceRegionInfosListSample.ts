@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Provides region specific information.
  *
  * @summary Provides region specific information.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/RegionInfos_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/RegionInfos_List.json
  */
 async function regionInfosList() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function regionInfosList() {
 }
 
 async function main() {
-  regionInfosList();
+  await regionInfosList();
 }
 
 main().catch(console.error);

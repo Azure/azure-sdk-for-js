@@ -81,7 +81,7 @@ node catalogsCountDevicesSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SPHERE_SUBSCRIPTION_ID="<sphere subscription id>" SPHERE_RESOURCE_GROUP="<sphere resource group>" node catalogsCountDevicesSample.js
+npx dev-tool run vendored cross-env SPHERE_SUBSCRIPTION_ID="<sphere subscription id>" SPHERE_RESOURCE_GROUP="<sphere resource group>" node catalogsCountDevicesSample.js
 ```
 
 ## Next Steps
@@ -133,6 +133,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [productsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sphere/arm-sphere/samples/v1/javascript/productsGetSample.js
 [productslistbycatalogsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sphere/arm-sphere/samples/v1/javascript/productsListByCatalogSample.js
 [productsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sphere/arm-sphere/samples/v1/javascript/productsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-sphere?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-sphere?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sphere/arm-sphere/README.md

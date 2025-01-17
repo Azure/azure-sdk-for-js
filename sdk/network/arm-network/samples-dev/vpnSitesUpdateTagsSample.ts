@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates VpnSite tags.
  *
  * @summary Updates VpnSite tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VpnSiteUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnSiteUpdateTags.json
  */
 async function vpnSiteUpdate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -38,7 +38,7 @@ async function vpnSiteUpdate() {
 }
 
 async function main() {
-  vpnSiteUpdate();
+  await vpnSiteUpdate();
 }
 
 main().catch(console.error);

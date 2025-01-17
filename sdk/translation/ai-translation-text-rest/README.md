@@ -110,7 +110,7 @@ if (languages.transliteration) {
   for (const key in languages.transliteration) {
     const transliterationLanguage = languages.transliteration[key];
     console.log(
-      `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`
+      `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`,
     );
   }
 }
@@ -120,7 +120,7 @@ if (languages.dictionary) {
   for (const key in languages.dictionary) {
     const dictionaryLanguage = languages.dictionary[key];
     console.log(
-      `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`
+      `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
     );
   }
 }
@@ -150,7 +150,7 @@ if (isUnexpected(translateResponse)) {
 const translations = translateResponse.body;
 for (const translation of translations) {
   console.log(
-    `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`
+    `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
   );
 }
 ```
@@ -180,7 +180,7 @@ if (isUnexpected(transliterateResponse)) {
 const translations = transliterateResponse.body;
 for (const transliteration of translations) {
   console.log(
-    `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`
+    `Input text was transliterated to '${transliteration?.script}' script. Transliterated text: '${transliteration?.text}'.`,
   );
 }
 ```
@@ -236,10 +236,10 @@ if (isUnexpected(dictionaryResponse)) {
 const dictionaryEntries = dictionaryResponse.body;
 for (const dictionaryEntry of dictionaryEntries) {
   console.log(
-    `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`
+    `For the given input ${dictionaryEntry?.translations?.length} entries were found in the dictionary.`,
   );
   console.log(
-    `First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`
+    `First entry: '${dictionaryEntry?.translations[0]?.displayTarget}', confidence: ${dictionaryEntry?.translations[0]?.confidence}.`,
   );
 }
 ```
@@ -268,11 +268,11 @@ if (isUnexpected(dictionaryResponse)) {
 const dictionaryExamples = dictionaryResponse.body;
 for (const dictionaryExample of dictionaryExamples) {
   console.log(
-    `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`
+    `For the given input ${dictionaryExample?.examples?.length} examples were found in the dictionary.`,
   );
   const firstExample = dictionaryExample?.examples[0];
   console.log(
-    `Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`
+    `Example: '${firstExample.targetPrefix + firstExample.targetTerm + firstExample.targetSuffix}'.`,
   );
 }
 ```
@@ -291,7 +291,7 @@ You can find the different error codes returned by the service in the [Service D
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
@@ -299,7 +299,7 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com
 [translator_resource_create]: https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource
 [translator_auth]: https://learn.microsoft.com/azure/cognitive-services/translator/reference/v3-0-reference#authentication

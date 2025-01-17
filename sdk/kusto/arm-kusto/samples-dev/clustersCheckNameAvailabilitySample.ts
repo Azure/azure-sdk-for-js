@@ -42,7 +42,7 @@ async function kustoClustersCheckNameAvailability() {
 }
 
 async function main() {
-  kustoClustersCheckNameAvailability();
+  await kustoClustersCheckNameAvailability();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function listAllDeviceSecurityGroupsForTheSpecifiedIoTHubResource() {
 }
 
 async function main() {
-  listAllDeviceSecurityGroupsForTheSpecifiedIoTHubResource();
+  await listAllDeviceSecurityGroupsForTheSpecifiedIoTHubResource();
 }
 
 main().catch(console.error);

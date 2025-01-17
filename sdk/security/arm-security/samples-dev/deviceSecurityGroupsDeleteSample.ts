@@ -34,7 +34,7 @@ async function deleteADeviceSecurityGroupForTheSpecifiedIoTHubResource() {
 }
 
 async function main() {
-  deleteADeviceSecurityGroupForTheSpecifiedIoTHubResource();
+  await deleteADeviceSecurityGroupForTheSpecifiedIoTHubResource();
 }
 
 main().catch(console.error);

@@ -11,7 +11,7 @@
 import {
   BareMetalMachineCordonParameters,
   BareMetalMachinesCordonOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Cordon the provided bare metal machine's Kubernetes node.
  *
  * @summary Cordon the provided bare metal machine's Kubernetes node.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachines_Cordon.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_Cordon.json
  */
 async function cordonBareMetalMachine() {
   const subscriptionId =
@@ -32,23 +32,23 @@ async function cordonBareMetalMachine() {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
   const bareMetalMachineCordonParameters: BareMetalMachineCordonParameters = {
-    evacuate: "True"
+    evacuate: "True",
   };
   const options: BareMetalMachinesCordonOptionalParams = {
-    bareMetalMachineCordonParameters
+    bareMetalMachineCordonParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginCordonAndWait(
     resourceGroupName,
     bareMetalMachineName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  cordonBareMetalMachine();
+  await cordonBareMetalMachine();
 }
 
 main().catch(console.error);

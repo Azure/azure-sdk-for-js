@@ -37,7 +37,7 @@ async function regenerateLocalUserPassword() {
 }
 
 async function main() {
-  regenerateLocalUserPassword();
+  await regenerateLocalUserPassword();
 }
 
 main().catch(console.error);

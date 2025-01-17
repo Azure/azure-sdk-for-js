@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all Extension versions based on location, publisher, extensionType
  *
  * @summary Gets all Extension versions based on location, publisher, extensionType
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/extension/ExtensionMetadata_List.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/extension/ExtensionMetadata_List.json
  */
 async function getAListOfExtensions() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function getAListOfExtensions() {
 }
 
 async function main() {
-  getAListOfExtensions();
+  await getAListOfExtensions();
 }
 
 main().catch(console.error);

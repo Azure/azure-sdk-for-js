@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patch a subvolume
  *
  * @summary Patch a subvolume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Subvolumes_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Subvolumes_Update.json
  */
 async function subvolumesUpdate() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function subvolumesUpdate() {
 }
 
 async function main() {
-  subvolumesUpdate();
+  await subvolumesUpdate();
 }
 
 main().catch(console.error);

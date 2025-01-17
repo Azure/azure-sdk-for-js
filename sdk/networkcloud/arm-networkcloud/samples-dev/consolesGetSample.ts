@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of the provided virtual machine console.
  *
  * @summary Get properties of the provided virtual machine console.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Consoles_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Consoles_Get.json
  */
 async function getVirtualMachineConsole() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function getVirtualMachineConsole() {
   const result = await client.consoles.get(
     resourceGroupName,
     virtualMachineName,
-    consoleName
+    consoleName,
   );
   console.log(result);
 }
 
 async function main() {
-  getVirtualMachineConsole();
+  await getVirtualMachineConsole();
 }
 
 main().catch(console.error);

@@ -123,9 +123,9 @@ async function createOrUpdateFirstPartyConfigurationGroupValue() {
 }
 
 async function main() {
-  createOrUpdateConfigurationGroupValue();
-  createOrUpdateConfigurationGroupValueWithSecrets();
-  createOrUpdateFirstPartyConfigurationGroupValue();
+  await createOrUpdateConfigurationGroupValue();
+  await createOrUpdateConfigurationGroupValueWithSecrets();
+  await createOrUpdateFirstPartyConfigurationGroupValue();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists a collection of authorization access policy defined within a authorization.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists a collection of authorization access policy defined within a authorization.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListAuthorizationAccessPolicies.json
  */
-async function apiManagementListAuthorizationAccessPolicies() {
+async function apiManagementListAuthorizationAccessPolicies(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -42,7 +40,7 @@ async function apiManagementListAuthorizationAccessPolicies() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListAuthorizationAccessPolicies();
 }
 

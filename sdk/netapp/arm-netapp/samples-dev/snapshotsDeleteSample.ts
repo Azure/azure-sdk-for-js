@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete snapshot
  *
  * @summary Delete snapshot
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Snapshots_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Snapshots_Delete.json
  */
 async function snapshotsDelete() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function snapshotsDelete() {
 }
 
 async function main() {
-  snapshotsDelete();
+  await snapshotsDelete();
 }
 
 main().catch(console.error);

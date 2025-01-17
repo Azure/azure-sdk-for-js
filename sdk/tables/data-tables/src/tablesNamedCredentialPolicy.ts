@@ -7,9 +7,9 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { HeaderConstants } from "./utils/constants";
+import { HeaderConstants } from "./utils/constants.js";
 import type { NamedKeyCredential } from "@azure/core-auth";
-import { computeHMACSHA256 } from "./utils/computeHMACSHA256";
+import { computeHMACSHA256 } from "./utils/computeHMACSHA256.js";
 
 /**
  * The programmatic identifier of the tablesNamedKeyCredentialPolicy.
@@ -76,7 +76,7 @@ function getCanonicalizedResourceString(
   request: PipelineRequest,
   credential: NamedKeyCredential,
 ): string {
-  // https://docs.microsoft.com/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
+  // https://learn.microsoft.com/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
   const url = new URL(request.url);
   const path = url.pathname || "/";
   let canonicalizedResourceString = "/" + credential.name + path;

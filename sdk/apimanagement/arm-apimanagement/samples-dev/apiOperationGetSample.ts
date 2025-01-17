@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the details of the API Operation specified by its identifier.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the details of the API Operation specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiOperation.json
  */
-async function apiManagementGetApiOperation() {
+async function apiManagementGetApiOperation(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -45,7 +43,7 @@ async function apiManagementGetApiOperation() {
  * @summary Gets the details of the API Operation specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiOperationPetStore.json
  */
-async function apiManagementGetApiOperationPetStore() {
+async function apiManagementGetApiOperationPetStore(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -64,7 +62,7 @@ async function apiManagementGetApiOperationPetStore() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetApiOperation();
   apiManagementGetApiOperationPetStore();
 }

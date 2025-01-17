@@ -59,8 +59,8 @@ async function springbootappsListBySubscriptionMinimumSetGen() {
 }
 
 async function main() {
-  springbootappsListBySubscriptionMaximumSetGen();
-  springbootappsListBySubscriptionMinimumSetGen();
+  await springbootappsListBySubscriptionMaximumSetGen();
+  await springbootappsListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

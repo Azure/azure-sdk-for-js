@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ApiVersionSetUpdateParameters,
-  ApiManagementClient
+  ApiManagementClient,
+  ApiVersionSetUpdateParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the details of the Api VersionSet specified by its identifier.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the details of the Api VersionSet specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateApiVersionSet.json
  */
-async function apiManagementUpdateApiVersionSet() {
+async function apiManagementUpdateApiVersionSet(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -48,7 +46,7 @@ async function apiManagementUpdateApiVersionSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementUpdateApiVersionSet();
 }
 

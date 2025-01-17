@@ -8,26 +8,27 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CommandPostBody, CosmosDBManagementClient } from "@azure/arm-cosmosdb";
+import {
+  CommandAsyncPostBody,
+  CosmosDBManagementClient,
+} from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Invoke a command like nodetool for cassandra maintenance asynchronously
  *
  * @summary Invoke a command like nodetool for cassandra maintenance asynchronously
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/CosmosDBManagedCassandraCommandAsync.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraCommandAsync.json
  */
-async function cosmosDbManagedCassandraCommandAsync() {
+async function cosmosDbManagedCassandraCommandAsync(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
   const clusterName = "cassandra-prod";
-  const body: CommandPostBody = {
+  const body: CommandAsyncPostBody = {
     arguments: { status: "" },
     command: "nodetool",
     host: "10.0.1.12",
@@ -42,7 +43,7 @@ async function cosmosDbManagedCassandraCommandAsync() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraCommandAsync();
 }
 

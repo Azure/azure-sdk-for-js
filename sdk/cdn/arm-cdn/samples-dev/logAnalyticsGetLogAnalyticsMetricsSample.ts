@@ -13,9 +13,7 @@ import {
   CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get log report for AFD profile
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get log report for AFD profile
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/LogAnalytics_GetLogAnalyticsMetrics.json
  */
-async function logAnalyticsGetLogAnalyticsMetrics() {
+async function logAnalyticsGetLogAnalyticsMetrics(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -54,7 +52,7 @@ async function logAnalyticsGetLogAnalyticsMetrics() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   logAnalyticsGetLogAnalyticsMetrics();
 }
 

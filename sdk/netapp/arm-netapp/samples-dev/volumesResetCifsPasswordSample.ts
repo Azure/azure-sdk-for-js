@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Reset cifs password from volume
  *
  * @summary Reset cifs password from volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Volumes_ResetCifsPassword.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_ResetCifsPassword.json
  */
 async function volumesResetCifsPassword() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function volumesResetCifsPassword() {
 }
 
 async function main() {
-  volumesResetCifsPassword();
+  await volumesResetCifsPassword();
 }
 
 main().catch(console.error);

@@ -11,7 +11,7 @@
 import {
   BareMetalMachineReplaceParameters,
   BareMetalMachinesReplaceOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Replace the provided bare metal machine.
  *
  * @summary Replace the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/BareMetalMachines_Replace.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_Replace.json
  */
 async function replaceBareMetalMachine() {
   const subscriptionId =
@@ -36,23 +36,23 @@ async function replaceBareMetalMachine() {
     bmcMacAddress: "00:00:4f:00:57:ad",
     bootMacAddress: "00:00:4e:00:58:af",
     machineName: "name",
-    serialNumber: "BM1219XXX"
+    serialNumber: "BM1219XXX",
   };
   const options: BareMetalMachinesReplaceOptionalParams = {
-    bareMetalMachineReplaceParameters
+    bareMetalMachineReplaceParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginReplaceAndWait(
     resourceGroupName,
     bareMetalMachineName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  replaceBareMetalMachine();
+  await replaceBareMetalMachine();
 }
 
 main().catch(console.error);

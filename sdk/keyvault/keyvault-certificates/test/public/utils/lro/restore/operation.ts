@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { PollOperationState, PollOperation } from "@azure/core-lro";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type { KeyVaultCertificate, CertificatePollerOptions } from "../../../../../src/index.js";
 
 /**
@@ -93,7 +93,6 @@ async function cancel(this: RestoreCertificateBackupPollOperation): Promise<neve
 /**
  * Serializes the create certificate's poll operation
  */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 function toString(this: RestoreCertificateBackupPollOperation): string {
   return JSON.stringify({
     state: this.state,

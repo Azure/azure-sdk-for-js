@@ -39,7 +39,7 @@ async function getDpmOrAzureBackupServerOrLajollaBackupEngineDetails() {
 }
 
 async function main() {
-  getDpmOrAzureBackupServerOrLajollaBackupEngineDetails();
+  await getDpmOrAzureBackupServerOrLajollaBackupEngineDetails();
 }
 
 main().catch(console.error);

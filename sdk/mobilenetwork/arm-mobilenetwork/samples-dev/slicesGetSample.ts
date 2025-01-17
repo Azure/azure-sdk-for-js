@@ -39,7 +39,7 @@ async function getNetworkSlice() {
 }
 
 async function main() {
-  getNetworkSlice();
+  await getNetworkSlice();
 }
 
 main().catch(console.error);

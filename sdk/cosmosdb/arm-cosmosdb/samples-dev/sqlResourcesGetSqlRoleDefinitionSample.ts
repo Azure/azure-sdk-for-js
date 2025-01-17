@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
  *
  * @summary Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/CosmosDBSqlRoleDefinitionGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlRoleDefinitionGet.json
  */
-async function cosmosDbSqlRoleDefinitionGet() {
+async function cosmosDbSqlRoleDefinitionGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const roleDefinitionId = "myRoleDefinitionId";
@@ -37,7 +35,7 @@ async function cosmosDbSqlRoleDefinitionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlRoleDefinitionGet();
 }
 

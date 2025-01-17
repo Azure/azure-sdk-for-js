@@ -38,7 +38,7 @@ async function getAFhirService() {
 }
 
 async function main() {
-  getAFhirService();
+  await getAFhirService();
 }
 
 main().catch(console.error);

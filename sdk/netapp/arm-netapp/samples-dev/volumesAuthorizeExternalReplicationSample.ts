@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM have been peered a SnapMirror will be created
  *
  * @summary Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM have been peered a SnapMirror will be created
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Volumes_AuthorizeExternalReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_AuthorizeExternalReplication.json
  */
 async function volumesAuthorizeExternalReplication() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function volumesAuthorizeExternalReplication() {
 }
 
 async function main() {
-  volumesAuthorizeExternalReplication();
+  await volumesAuthorizeExternalReplication();
 }
 
 main().catch(console.error);

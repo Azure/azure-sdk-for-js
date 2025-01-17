@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified custom IP prefix in a specified resource group.
  *
  * @summary Gets the specified custom IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/CustomIpPrefixGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/CustomIpPrefixGet.json
  */
 async function getCustomIPPrefix() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function getCustomIPPrefix() {
 }
 
 async function main() {
-  getCustomIPPrefix();
+  await getCustomIPPrefix();
 }
 
 main().catch(console.error);

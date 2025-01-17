@@ -53,8 +53,8 @@ async function cloudsListBySubscriptionMinimumSet() {
 }
 
 async function main() {
-  cloudsListBySubscriptionMaximumSet();
-  cloudsListBySubscriptionMinimumSet();
+  await cloudsListBySubscriptionMaximumSet();
+  await cloudsListBySubscriptionMinimumSet();
 }
 
 main().catch(console.error);

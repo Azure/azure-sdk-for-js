@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/extension/Extension_Delete.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/extension/Extension_Delete.json
  */
 async function deleteAMachineExtension() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function deleteAMachineExtension() {
 }
 
 async function main() {
-  deleteAMachineExtension();
+  await deleteAMachineExtension();
 }
 
 main().catch(console.error);

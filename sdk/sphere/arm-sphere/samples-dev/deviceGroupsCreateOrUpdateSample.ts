@@ -49,7 +49,7 @@ async function deviceGroupsCreateOrUpdate() {
 }
 
 async function main() {
-  deviceGroupsCreateOrUpdate();
+  await deviceGroupsCreateOrUpdate();
 }
 
 main().catch(console.error);

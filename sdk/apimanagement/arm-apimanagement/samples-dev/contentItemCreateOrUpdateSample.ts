@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ContentItemContract,
-  ApiManagementClient
+  ApiManagementClient,
+  ContentItemContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new developer portal's content item specified by the provided content type.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a new developer portal's content item specified by the provided content type.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateContentTypeContentItem.json
  */
-async function apiManagementCreateContentTypeContentItem() {
+async function apiManagementCreateContentTypeContentItem(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -55,7 +53,7 @@ async function apiManagementCreateContentTypeContentItem() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateContentTypeContentItem();
 }
 

@@ -21,7 +21,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "type": "module",
   "keywords": [
@@ -58,9 +59,9 @@
       "disableDocsMs": true,
       "productName": "Health Deidentification Service",
       "productSlugs": [],
-      "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+      "apiRefLink": "https://learn.microsoft.com/javascript/api/",
       "requiredResources": {
-        "De-identification Service": "https://docs.microsoft.com/javascript/api/"
+        "De-identification Service": "https://learn.microsoft.com/javascript/api/"
       }
     }
   },
@@ -88,7 +89,7 @@
     "eslint": "^9.9.0",
     "loupe": "~3.1.1",
     "playwright": "^1.41.2",
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "vitest": "^2.0.5"
   },
   "scripts": {

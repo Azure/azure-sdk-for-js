@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete subvolume
  *
  * @summary Delete subvolume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/Subvolumes_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Subvolumes_Delete.json
  */
 async function subvolumesDelete() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function subvolumesDelete() {
 }
 
 async function main() {
-  subvolumesDelete();
+  await subvolumesDelete();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of layer 2 (L2) networks in the provided subscription.
  *
  * @summary Get a list of layer 2 (L2) networks in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/L2Networks_ListBySubscription.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/L2Networks_ListBySubscription.json
  */
 async function listL2NetworksForSubscription() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function listL2NetworksForSubscription() {
 }
 
 async function main() {
-  listL2NetworksForSubscription();
+  await listL2NetworksForSubscription();
 }
 
 main().catch(console.error);

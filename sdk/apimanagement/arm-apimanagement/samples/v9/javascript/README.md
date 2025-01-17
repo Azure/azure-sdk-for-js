@@ -435,7 +435,7 @@ node apiCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APIMANAGEMENT_SUBSCRIPTION_ID="<apimanagement subscription id>" APIMANAGEMENT_RESOURCE_GROUP="<apimanagement resource group>" node apiCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env APIMANAGEMENT_SUBSCRIPTION_ID="<apimanagement subscription id>" APIMANAGEMENT_RESOURCE_GROUP="<apimanagement resource group>" node apiCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -841,6 +841,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [usersubscriptiongetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/arm-apimanagement/samples/v9/javascript/userSubscriptionGetSample.js
 [usersubscriptionlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/arm-apimanagement/samples/v9/javascript/userSubscriptionListSample.js
 [userupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/arm-apimanagement/samples/v9/javascript/userUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-apimanagement?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-apimanagement?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apimanagement/arm-apimanagement/README.md

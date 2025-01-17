@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Query trigger runs.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Query trigger runs.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/TriggerRuns_QueryByFactory.json
  */
-async function triggerRunsQueryByFactory() {
+async function triggerRunsQueryByFactory(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -51,8 +49,8 @@ async function triggerRunsQueryByFactory() {
   console.log(result);
 }
 
-async function main() {
-  triggerRunsQueryByFactory();
+async function main(): Promise<void> {
+  await triggerRunsQueryByFactory();
 }
 
 main().catch(console.error);

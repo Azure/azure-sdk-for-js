@@ -63,7 +63,7 @@ async function neighborGroupsCreateMaximumSetGen() {
 }
 
 async function main() {
-  neighborGroupsCreateMaximumSetGen();
+  await neighborGroupsCreateMaximumSetGen();
 }
 
 main().catch(console.error);

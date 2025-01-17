@@ -9,13 +9,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  ApiManagementServiceBackupRestoreParameters,
-  ApiManagementClient
+  ApiManagementClient,
+  ApiManagementServiceBackupRestoreParameters
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a backup of the API Management service to the given Azure Storage Account. This is long running operation and could take several minutes to complete.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a backup of the API Management service to the given Azure Storage Account. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementBackupWithAccessKey.json
  */
-async function apiManagementBackupWithAccessKey() {
+async function apiManagementBackupWithAccessKey(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -52,7 +50,7 @@ async function apiManagementBackupWithAccessKey() {
  * @summary Creates a backup of the API Management service to the given Azure Storage Account. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementBackupWithSystemManagedIdentity.json
  */
-async function apiManagementBackupWithSystemManagedIdentity() {
+async function apiManagementBackupWithSystemManagedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -80,7 +78,7 @@ async function apiManagementBackupWithSystemManagedIdentity() {
  * @summary Creates a backup of the API Management service to the given Azure Storage Account. This is long running operation and could take several minutes to complete.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementBackupWithUserAssignedManagedIdentity.json
  */
-async function apiManagementBackupWithUserAssignedManagedIdentity() {
+async function apiManagementBackupWithUserAssignedManagedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -103,7 +101,7 @@ async function apiManagementBackupWithUserAssignedManagedIdentity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementBackupWithAccessKey();
   apiManagementBackupWithSystemManagedIdentity();
   apiManagementBackupWithUserAssignedManagedIdentity();

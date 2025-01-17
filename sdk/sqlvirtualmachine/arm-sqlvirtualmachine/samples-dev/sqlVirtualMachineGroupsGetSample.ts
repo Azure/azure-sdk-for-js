@@ -40,7 +40,7 @@ async function getsASqlVirtualMachineGroup() {
 }
 
 async function main() {
-  getsASqlVirtualMachineGroup();
+  await getsASqlVirtualMachineGroup();
 }
 
 main().catch(console.error);

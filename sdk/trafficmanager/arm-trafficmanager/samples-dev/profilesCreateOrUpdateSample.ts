@@ -298,12 +298,12 @@ async function profilePutWithNestedEndpoints() {
 }
 
 async function main() {
-  profilePutMultiValue();
-  profilePutNoEndpoints();
-  profilePutWithAliasing();
-  profilePutWithCustomHeaders();
-  profilePutWithEndpoints();
-  profilePutWithNestedEndpoints();
+  await profilePutMultiValue();
+  await profilePutNoEndpoints();
+  await profilePutWithAliasing();
+  await profilePutWithCustomHeaders();
+  await profilePutWithEndpoints();
+  await profilePutWithNestedEndpoints();
 }
 
 main().catch(console.error);

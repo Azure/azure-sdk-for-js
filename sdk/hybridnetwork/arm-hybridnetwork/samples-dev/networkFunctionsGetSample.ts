@@ -75,9 +75,9 @@ async function getVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
 }
 
 async function main() {
-  getNetworkFunctionResource();
-  getVirtualNetworkFunctionResourceOnAzureCore();
-  getVirtualNetworkFunctionResourceOnAzureOperatorNexus();
+  await getNetworkFunctionResource();
+  await getVirtualNetworkFunctionResourceOnAzureCore();
+  await getVirtualNetworkFunctionResourceOnAzureOperatorNexus();
 }
 
 main().catch(console.error);

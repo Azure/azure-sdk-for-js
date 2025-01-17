@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get details about a specified command that was run asynchronously.
  *
  * @summary Get details about a specified command that was run asynchronously.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/CosmosDBManagedCassandraCommandResult.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraCommandResult.json
  */
-async function cosmosDbManagedCassandraCommandResult() {
+async function cosmosDbManagedCassandraCommandResult(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function cosmosDbManagedCassandraCommandResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraCommandResult();
 }
 

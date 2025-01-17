@@ -13,9 +13,7 @@ import {
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides a list of check access response objects for an enrollment account.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Provides a list of check access response objects for an enrollment account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/checkAccessByEnrollmentAccount.json
  */
-async function checkAccessByEnrollmentAccount() {
+async function checkAccessByEnrollmentAccount(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const enrollmentAccountName = "123456";
@@ -43,7 +41,7 @@ async function checkAccessByEnrollmentAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkAccessByEnrollmentAccount();
 }
 

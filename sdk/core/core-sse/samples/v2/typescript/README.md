@@ -49,7 +49,7 @@ node dist/createSseStream.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/createSseStream.js
+npx dev-tool run vendored cross-env  node dist/createSseStream.js
 ```
 
 ## Next Steps
@@ -57,7 +57,7 @@ npx cross-env  node dist/createSseStream.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [createssestream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-sse/samples/v2/typescript/src/createSseStream.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/core-sse
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/core-sse
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-sse/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

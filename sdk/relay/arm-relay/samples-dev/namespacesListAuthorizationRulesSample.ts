@@ -40,7 +40,7 @@ async function relayNameSpaceAutorizationRuleListAll() {
 }
 
 async function main() {
-  relayNameSpaceAutorizationRuleListAll();
+  await relayNameSpaceAutorizationRuleListAll();
 }
 
 main().catch(console.error);

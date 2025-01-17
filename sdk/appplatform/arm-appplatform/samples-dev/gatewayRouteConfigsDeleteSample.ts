@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the Spring Cloud Gateway route config.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete the Spring Cloud Gateway route config.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/GatewayRouteConfigs_Delete.json
  */
-async function gatewayRouteConfigsDelete() {
+async function gatewayRouteConfigsDelete(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +38,7 @@ async function gatewayRouteConfigsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   gatewayRouteConfigsDelete();
 }
 

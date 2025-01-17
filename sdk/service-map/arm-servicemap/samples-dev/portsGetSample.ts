@@ -45,7 +45,7 @@ async function smMachinesPortsGet() {
 }
 
 async function main() {
-  smMachinesPortsGet();
+  await smMachinesPortsGet();
 }
 
 main().catch(console.error);

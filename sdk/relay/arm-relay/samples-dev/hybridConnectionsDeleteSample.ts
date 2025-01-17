@@ -39,7 +39,7 @@ async function relayHybridconnectionDelete() {
 }
 
 async function main() {
-  relayHybridconnectionDelete();
+  await relayHybridconnectionDelete();
 }
 
 main().catch(console.error);

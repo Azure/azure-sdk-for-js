@@ -15,7 +15,7 @@ import {
   ConfigurationProfile as ConfigurationProfileMapper,
   ConfigurationProfileUpdate as ConfigurationProfileUpdateMapper,
   ConfigurationProfileAssignment as ConfigurationProfileAssignmentMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -36,7 +36,7 @@ async function getsTheIntegrationServiceEnvironmentNetworkHealth() {
 }
 
 async function main() {
-  getsTheIntegrationServiceEnvironmentNetworkHealth();
+  await getsTheIntegrationServiceEnvironmentNetworkHealth();
 }
 
 main().catch(console.error);

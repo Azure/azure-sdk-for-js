@@ -40,7 +40,7 @@ async function systemTopicEventSubscriptionsListBySystemTopic() {
 }
 
 async function main() {
-  systemTopicEventSubscriptionsListBySystemTopic();
+  await systemTopicEventSubscriptionsListBySystemTopic();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function assessmentsGet() {
 }
 
 async function main() {
-  assessmentsGet();
+  await assessmentsGet();
 }
 
 main().catch(console.error);

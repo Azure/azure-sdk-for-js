@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all scope connections created by this network manager.
  *
  * @summary List all scope connections created by this network manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerScopeConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerScopeConnectionList.json
  */
 async function listNetworkManagerScopeConnection() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function listNetworkManagerScopeConnection() {
 }
 
 async function main() {
-  listNetworkManagerScopeConnection();
+  await listNetworkManagerScopeConnection();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getDbServerByParent() {
 }
 
 async function main() {
-  getDbServerByParent();
+  await getDbServerByParent();
 }
 
 main().catch(console.error);

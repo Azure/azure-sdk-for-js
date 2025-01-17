@@ -65,8 +65,8 @@ async function firmwaresGenerateDownloadUrlMinimumSetGen() {
 }
 
 async function main() {
-  firmwaresGenerateDownloadUrlMaximumSetGen();
-  firmwaresGenerateDownloadUrlMinimumSetGen();
+  await firmwaresGenerateDownloadUrlMaximumSetGen();
+  await firmwaresGenerateDownloadUrlMinimumSetGen();
 }
 
 main().catch(console.error);

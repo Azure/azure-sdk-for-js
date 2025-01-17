@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import type { CommunicationTokenCredential } from "@azure/communication-common";
 import {
   createCommunicationAuthPolicy,
@@ -18,8 +17,8 @@ import type {
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
   JobRouterAdministrationListQueuesOptionalParams,
-} from "./generated/src";
-import { JobRouterApiClient } from "./generated/src";
+} from "./generated/src/index.js";
+import { JobRouterApiClient } from "./generated/src/index.js";
 import type {
   ClassificationPolicyItem,
   DistributionPolicyItem,
@@ -29,7 +28,7 @@ import type {
   ExceptionPolicy,
   RouterQueue,
   ClassificationPolicy,
-} from "./models";
+} from "./models.js";
 import type {
   CreateClassificationPolicyOptions,
   CreateDistributionPolicyOptions,
@@ -44,15 +43,15 @@ import type {
   UpdateDistributionPolicyOptions,
   UpdateExceptionPolicyOptions,
   UpdateQueueOptions,
-} from "./options";
+} from "./options.js";
 import type {
   ClassificationPolicyResponse,
   DistributionPolicyResponse,
   ExceptionPolicyResponse,
   RouterQueueResponse,
-} from "./responses";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
+} from "./responses.js";
+import { SDK_VERSION } from "./constants.js";
+import { logger } from "./logger.js";
 
 /**
  * Checks whether a value is of type {@link JobRouterAdministrationClientOptions}.

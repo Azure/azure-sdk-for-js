@@ -47,7 +47,7 @@ node featuresGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node featuresGetSample.js
+npx dev-tool run vendored cross-env  node featuresGetSample.js
 ```
 
 ## Next Steps
@@ -65,6 +65,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [subscriptionfeatureregistrationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/features/arm-features/samples/v3/javascript/subscriptionFeatureRegistrationsGetSample.js
 [subscriptionfeatureregistrationslistallbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/features/arm-features/samples/v3/javascript/subscriptionFeatureRegistrationsListAllBySubscriptionSample.js
 [subscriptionfeatureregistrationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/features/arm-features/samples/v3/javascript/subscriptionFeatureRegistrationsListBySubscriptionSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-features?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-features?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/features/arm-features/README.md

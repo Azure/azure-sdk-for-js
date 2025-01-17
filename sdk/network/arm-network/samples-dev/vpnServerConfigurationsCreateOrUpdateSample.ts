@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration.
  *
  * @summary Creates a VpnServerConfiguration resource if it doesn't exist else updates the existing VpnServerConfiguration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VpnServerConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnServerConfigurationPut.json
  */
 async function vpnServerConfigurationCreate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -117,7 +117,7 @@ async function vpnServerConfigurationCreate() {
 }
 
 async function main() {
-  vpnServerConfigurationCreate();
+  await vpnServerConfigurationCreate();
 }
 
 main().catch(console.error);

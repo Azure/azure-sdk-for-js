@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve a list of activities in the module identified by module name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieve a list of activities in the module identified by module name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listActivitiesByModule.json
  */
-async function listActivitiesByAModule() {
+async function listActivitiesByAModule(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -38,7 +36,7 @@ async function listActivitiesByAModule() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listActivitiesByAModule();
 }
 

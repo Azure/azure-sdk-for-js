@@ -104,8 +104,8 @@ async function kustoDataConnectionValidation() {
 }
 
 async function main() {
-  kustoDataConnectionEventGridValidation();
-  kustoDataConnectionValidation();
+  await kustoDataConnectionEventGridValidation();
+  await kustoDataConnectionValidation();
 }
 
 main().catch(console.error);

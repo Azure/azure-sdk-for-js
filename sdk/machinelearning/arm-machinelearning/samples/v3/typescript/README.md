@@ -260,7 +260,7 @@ node dist/batchDeploymentsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MACHINELEARNING_SUBSCRIPTION_ID="<machinelearning subscription id>" MACHINELEARNING_RESOURCE_GROUP="<machinelearning resource group>" node dist/batchDeploymentsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env MACHINELEARNING_SUBSCRIPTION_ID="<machinelearning subscription id>" MACHINELEARNING_RESOURCE_GROUP="<machinelearning resource group>" node dist/batchDeploymentsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -479,7 +479,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspacespreparenotebooksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-machinelearning/samples/v3/typescript/src/workspacesPrepareNotebookSample.ts
 [workspacesresynckeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-machinelearning/samples/v3/typescript/src/workspacesResyncKeysSample.ts
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-machinelearning/samples/v3/typescript/src/workspacesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

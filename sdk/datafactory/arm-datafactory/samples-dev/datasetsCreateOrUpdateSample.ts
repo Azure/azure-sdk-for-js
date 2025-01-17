@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a dataset.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a dataset.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Create.json
  */
-async function datasetsCreate() {
+async function datasetsCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -64,7 +62,7 @@ async function datasetsCreate() {
  * @summary Creates or updates a dataset.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Update.json
  */
-async function datasetsUpdate() {
+async function datasetsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -100,9 +98,9 @@ async function datasetsUpdate() {
   console.log(result);
 }
 
-async function main() {
-  datasetsCreate();
-  datasetsUpdate();
+async function main(): Promise<void> {
+  await datasetsCreate();
+  await datasetsUpdate();
 }
 
 main().catch(console.error);

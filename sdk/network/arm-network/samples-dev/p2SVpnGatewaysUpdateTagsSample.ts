@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates virtual wan p2s vpn gateway tags.
  *
  * @summary Updates virtual wan p2s vpn gateway tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/P2SVpnGatewayUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/P2SVpnGatewayUpdateTags.json
  */
 async function p2SVpnGatewayUpdate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -38,7 +38,7 @@ async function p2SVpnGatewayUpdate() {
 }
 
 async function main() {
-  p2SVpnGatewayUpdate();
+  await p2SVpnGatewayUpdate();
 }
 
 main().catch(console.error);

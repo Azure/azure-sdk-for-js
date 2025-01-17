@@ -39,7 +39,7 @@ async function openAiGet() {
 }
 
 async function main() {
-  openAiGet();
+  await openAiGet();
 }
 
 main().catch(console.error);

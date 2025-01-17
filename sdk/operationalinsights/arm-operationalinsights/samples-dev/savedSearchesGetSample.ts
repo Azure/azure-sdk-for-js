@@ -42,7 +42,7 @@ async function savedSearchesGet() {
 }
 
 async function main() {
-  savedSearchesGet();
+  await savedSearchesGet();
 }
 
 main().catch(console.error);

@@ -51,7 +51,7 @@ async function kustoDatabasePrincipalAssignmentsCreateOrUpdate() {
 }
 
 async function main() {
-  kustoDatabasePrincipalAssignmentsCreateOrUpdate();
+  await kustoDatabasePrincipalAssignmentsCreateOrUpdate();
 }
 
 main().catch(console.error);

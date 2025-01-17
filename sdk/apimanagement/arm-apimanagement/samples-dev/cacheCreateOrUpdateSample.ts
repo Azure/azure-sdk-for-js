@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CacheContract, ApiManagementClient } from "@azure/arm-apimanagement";
+import { ApiManagementClient, CacheContract } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an External Cache to be used in Api Management instance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an External Cache to be used in Api Management instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateCache.json
  */
-async function apiManagementCreateCache() {
+async function apiManagementCreateCache(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -46,7 +44,7 @@ async function apiManagementCreateCache() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateCache();
 }
 

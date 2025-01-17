@@ -67,7 +67,7 @@ node applicationDefinitionsCreateOrUpdateByIdSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MANAGEDAPPLICATIONS_SUBSCRIPTION_ID="<managedapplications subscription id>" MANAGEDAPPLICATIONS_RESOURCE_GROUP="<managedapplications resource group>" node applicationDefinitionsCreateOrUpdateByIdSample.js
+npx dev-tool run vendored cross-env MANAGEDAPPLICATIONS_SUBSCRIPTION_ID="<managedapplications subscription id>" MANAGEDAPPLICATIONS_RESOURCE_GROUP="<managedapplications resource group>" node applicationDefinitionsCreateOrUpdateByIdSample.js
 ```
 
 ## Next Steps
@@ -105,6 +105,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [jitrequestslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managedapplications/arm-managedapplications/samples/v3/javascript/jitRequestsListBySubscriptionSample.js
 [jitrequestsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managedapplications/arm-managedapplications/samples/v3/javascript/jitRequestsUpdateSample.js
 [listoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managedapplications/arm-managedapplications/samples/v3/javascript/listOperationsSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-managedapplications?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-managedapplications?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managedapplications/arm-managedapplications/README.md

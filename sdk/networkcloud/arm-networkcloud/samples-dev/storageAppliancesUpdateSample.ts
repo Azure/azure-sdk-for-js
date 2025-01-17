@@ -11,7 +11,7 @@
 import {
   StorageAppliancePatchParameters,
   StorageAppliancesUpdateOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update properties of the provided storage appliance, or update tags associated with the storage appliance Properties and tag updates can be done independently.
  *
  * @summary Update properties of the provided storage appliance, or update tags associated with the storage appliance Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/StorageAppliances_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/StorageAppliances_Patch.json
  */
 async function patchStorageAppliance() {
   const subscriptionId =
@@ -33,23 +33,23 @@ async function patchStorageAppliance() {
   const storageApplianceName = "storageApplianceName";
   const storageApplianceUpdateParameters: StorageAppliancePatchParameters = {
     serialNumber: "BM1219XXX",
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const options: StorageAppliancesUpdateOptionalParams = {
-    storageApplianceUpdateParameters
+    storageApplianceUpdateParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.storageAppliances.beginUpdateAndWait(
     resourceGroupName,
     storageApplianceName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  patchStorageAppliance();
+  await patchStorageAppliance();
 }
 
 main().catch(console.error);

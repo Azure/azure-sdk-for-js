@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Cluster resources by PrivateCloud
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List Cluster resources by PrivateCloud
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Clusters_List.json
  */
-async function clustersList() {
+async function clustersList(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function clustersList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clustersList();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceUpdate, AzureAPICenter } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates existing service.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates existing service.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_Update.json
  */
-async function servicesUpdate() {
+async function servicesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function servicesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesUpdate();
 }
 

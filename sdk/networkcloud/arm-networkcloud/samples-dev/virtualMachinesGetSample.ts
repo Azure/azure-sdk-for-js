@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of the provided virtual machine.
  *
  * @summary Get properties of the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/VirtualMachines_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/VirtualMachines_Get.json
  */
 async function getVirtualMachine() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function getVirtualMachine() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.virtualMachines.get(
     resourceGroupName,
-    virtualMachineName
+    virtualMachineName,
   );
   console.log(result);
 }
 
 async function main() {
-  getVirtualMachine();
+  await getVirtualMachine();
 }
 
 main().catch(console.error);

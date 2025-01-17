@@ -62,7 +62,7 @@ node dist/operationsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/operationsListSample.js
+npx dev-tool run vendored cross-env  node dist/operationsListSample.js
 ```
 
 ## Next Steps
@@ -83,7 +83,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [savingsplanupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanUpdateSample.ts
 [savingsplanvalidateupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/savingsPlanValidateUpdateSample.ts
 [validatepurchasesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billingbenefits/arm-billingbenefits/samples/v1/typescript/src/validatePurchaseSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-billingbenefits?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-billingbenefits?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billingbenefits/arm-billingbenefits/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

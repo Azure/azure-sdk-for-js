@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Trigger quick evaluation for the given subscriptions.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Trigger quick evaluation for the given subscriptions.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/TriggerEvaluation.json
  */
-async function triggerEvaluation() {
+async function triggerEvaluation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const result = await client.providerActions.beginTriggerEvaluationAndWait({
@@ -31,7 +29,7 @@ async function triggerEvaluation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggerEvaluation();
 }
 

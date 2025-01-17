@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   ConfigurationStoreUpdateParameters,
-  AppConfigurationManagementClient
+  AppConfigurationManagementClient,
 } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a configuration store with the specified parameters.
  *
  * @summary Updates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresUpdate.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdate.json
  */
-async function configurationStoresUpdate() {
+async function configurationStoresUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -32,17 +30,17 @@ async function configurationStoresUpdate() {
   const configStoreName = "contoso";
   const configStoreUpdateParameters: ConfigurationStoreUpdateParameters = {
     sku: { name: "Standard" },
-    tags: { category: "Marketing" }
+    tags: { category: "Marketing" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,
-    configStoreUpdateParameters
+    configStoreUpdateParameters,
   );
   console.log(result);
 }
@@ -51,9 +49,9 @@ async function configurationStoresUpdate() {
  * This sample demonstrates how to Updates a configuration store with the specified parameters.
  *
  * @summary Updates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresUpdateDisableLocalAuth.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdateDisableLocalAuth.json
  */
-async function configurationStoresUpdateDisableLocalAuth() {
+async function configurationStoresUpdateDisableLocalAuth(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -62,17 +60,17 @@ async function configurationStoresUpdateDisableLocalAuth() {
   const configStoreName = "contoso";
   const configStoreUpdateParameters: ConfigurationStoreUpdateParameters = {
     disableLocalAuth: true,
-    sku: { name: "Standard" }
+    sku: { name: "Standard" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,
-    configStoreUpdateParameters
+    configStoreUpdateParameters,
   );
   console.log(result);
 }
@@ -81,9 +79,9 @@ async function configurationStoresUpdateDisableLocalAuth() {
  * This sample demonstrates how to Updates a configuration store with the specified parameters.
  *
  * @summary Updates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresUpdateWithIdentity.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdateWithIdentity.json
  */
-async function configurationStoresUpdateWithIdentity() {
+async function configurationStoresUpdateWithIdentity(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -94,26 +92,27 @@ async function configurationStoresUpdateWithIdentity() {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/c80fb759C9654c6a91109b2b2d038882/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2": {}
-      }
+        "/subscriptions/c80fb759C9654c6a91109b2b2d038882/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2":
+          {},
+      },
     },
     sku: { name: "Standard" },
-    tags: { category: "Marketing" }
+    tags: { category: "Marketing" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurationStores.beginUpdateAndWait(
     resourceGroupName,
     configStoreName,
-    configStoreUpdateParameters
+    configStoreUpdateParameters,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   configurationStoresUpdate();
   configurationStoresUpdateDisableLocalAuth();
   configurationStoresUpdateWithIdentity();

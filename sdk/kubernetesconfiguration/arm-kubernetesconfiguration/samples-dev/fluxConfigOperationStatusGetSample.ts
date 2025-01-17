@@ -47,7 +47,7 @@ async function fluxConfigurationAsyncOperationStatusGet() {
 }
 
 async function main() {
-  fluxConfigurationAsyncOperationStatusGet();
+  await fluxConfigurationAsyncOperationStatusGet();
 }
 
 main().catch(console.error);

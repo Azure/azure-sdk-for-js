@@ -43,7 +43,7 @@ async function jobRunsGet() {
 }
 
 async function main() {
-  jobRunsGet();
+  await jobRunsGet();
 }
 
 main().catch(console.error);

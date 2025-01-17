@@ -55,7 +55,7 @@ node dist/schemaRegistryJsonSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SCHEMA_REGISTRY_ENDPOINT="<schema registry endpoint>" SCHEMA_REGISTRY_GROUP="<schema registry group>" node dist/schemaRegistryJsonSample.js
+npx dev-tool run vendored cross-env SCHEMA_REGISTRY_ENDPOINT="<schema registry endpoint>" SCHEMA_REGISTRY_GROUP="<schema registry group>" node dist/schemaRegistryJsonSample.js
 ```
 
 ## Next Steps
@@ -67,7 +67,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsBufferedProducerClient.ts
 [witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsConsumerClient.ts
 [witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/samples/v1-beta/typescript/src/withEventHubsProducerClient.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/schema-registry-json
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/schema-registry-json
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureschemaregistryresource]: https://aka.ms/schemaregistry
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/README.md

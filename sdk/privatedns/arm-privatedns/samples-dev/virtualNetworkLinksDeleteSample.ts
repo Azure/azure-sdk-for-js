@@ -38,7 +38,7 @@ async function deletePrivateDnsZoneVirtualNetworkLink() {
 }
 
 async function main() {
-  deletePrivateDnsZoneVirtualNetworkLink();
+  await deletePrivateDnsZoneVirtualNetworkLink();
 }
 
 main().catch(console.error);

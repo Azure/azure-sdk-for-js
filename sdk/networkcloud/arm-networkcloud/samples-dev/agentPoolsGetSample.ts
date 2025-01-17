@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of the provided Kubernetes cluster agent pool.
  *
  * @summary Get properties of the provided Kubernetes cluster agent pool.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/AgentPools_Get.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/AgentPools_Get.json
  */
 async function getKubernetesClusterAgentPool() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function getKubernetesClusterAgentPool() {
   const result = await client.agentPools.get(
     resourceGroupName,
     kubernetesClusterName,
-    agentPoolName
+    agentPoolName,
   );
   console.log(result);
 }
 
 async function main() {
-  getKubernetesClusterAgentPool();
+  await getKubernetesClusterAgentPool();
 }
 
 main().catch(console.error);

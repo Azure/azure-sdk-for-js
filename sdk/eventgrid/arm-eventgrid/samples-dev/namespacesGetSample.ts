@@ -34,7 +34,7 @@ async function namespacesGet() {
 }
 
 async function main() {
-  namespacesGet();
+  await namespacesGet();
 }
 
 main().catch(console.error);

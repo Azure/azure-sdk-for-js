@@ -37,7 +37,7 @@ async function storageMoversDelete() {
 }
 
 async function main() {
-  storageMoversDelete();
+  await storageMoversDelete();
 }
 
 main().catch(console.error);

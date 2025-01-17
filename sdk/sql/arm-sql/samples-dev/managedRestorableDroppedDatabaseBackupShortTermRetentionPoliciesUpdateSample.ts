@@ -49,7 +49,7 @@ async function updateTheShortTermRetentionPolicyForTheRestorableDroppedDatabase(
 }
 
 async function main() {
-  updateTheShortTermRetentionPolicyForTheRestorableDroppedDatabase();
+  await updateTheShortTermRetentionPolicyForTheRestorableDroppedDatabase();
 }
 
 main().catch(console.error);

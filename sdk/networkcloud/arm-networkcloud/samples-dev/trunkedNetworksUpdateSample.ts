@@ -11,7 +11,7 @@
 import {
   TrunkedNetworkPatchParameters,
   TrunkedNetworksUpdateOptionalParams,
-  NetworkCloud
+  NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update tags associated with the provided trunked network.
  *
  * @summary Update tags associated with the provided trunked network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/TrunkedNetworks_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/TrunkedNetworks_Patch.json
  */
 async function patchTrunkedNetwork() {
   const subscriptionId =
@@ -32,23 +32,23 @@ async function patchTrunkedNetwork() {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const trunkedNetworkName = "trunkedNetworkName";
   const trunkedNetworkUpdateParameters: TrunkedNetworkPatchParameters = {
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const options: TrunkedNetworksUpdateOptionalParams = {
-    trunkedNetworkUpdateParameters
+    trunkedNetworkUpdateParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.trunkedNetworks.update(
     resourceGroupName,
     trunkedNetworkName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  patchTrunkedNetwork();
+  await patchTrunkedNetwork();
 }
 
 main().catch(console.error);

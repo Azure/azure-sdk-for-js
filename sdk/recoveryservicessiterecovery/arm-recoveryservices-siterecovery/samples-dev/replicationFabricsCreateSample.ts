@@ -49,7 +49,7 @@ async function createsAnAzureSiteRecoveryFabric() {
 }
 
 async function main() {
-  createsAnAzureSiteRecoveryFabric();
+  await createsAnAzureSiteRecoveryFabric();
 }
 
 main().catch(console.error);

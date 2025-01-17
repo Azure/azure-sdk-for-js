@@ -39,7 +39,7 @@ async function deleteAWorkspaceKey() {
 }
 
 async function main() {
-  deleteAWorkspaceKey();
+  await deleteAWorkspaceKey();
 }
 
 main().catch(console.error);

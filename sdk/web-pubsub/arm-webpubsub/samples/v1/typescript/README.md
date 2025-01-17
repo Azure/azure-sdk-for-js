@@ -92,7 +92,7 @@ node dist/operationsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WEB-PUBSUB_SUBSCRIPTION_ID="<web-pubsub subscription id>" node dist/operationsListSample.js
+npx dev-tool run vendored cross-env WEB-PUBSUB_SUBSCRIPTION_ID="<web-pubsub subscription id>" node dist/operationsListSample.js
 ```
 
 ## Next Steps
@@ -143,7 +143,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [webpubsubsharedprivatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/arm-webpubsub/samples/v1/typescript/src/webPubSubSharedPrivateLinkResourcesGetSample.ts
 [webpubsubsharedprivatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/arm-webpubsub/samples/v1/typescript/src/webPubSubSharedPrivateLinkResourcesListSample.ts
 [webpubsubupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/arm-webpubsub/samples/v1/typescript/src/webPubSubUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-webpubsub?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-webpubsub?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/arm-webpubsub/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -41,7 +41,7 @@ async function listArtifactsUnderAnArtifactStore() {
 }
 
 async function main() {
-  listArtifactsUnderAnArtifactStore();
+  await listArtifactsUnderAnArtifactStore();
 }
 
 main().catch(console.error);

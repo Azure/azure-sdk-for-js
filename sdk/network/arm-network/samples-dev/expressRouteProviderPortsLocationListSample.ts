@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves all the ExpressRouteProviderPorts in a subscription.
  *
  * @summary Retrieves all the ExpressRouteProviderPorts in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/expressRouteProviderPortList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/expressRouteProviderPortList.json
  */
 async function expressRouteProviderPortList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function expressRouteProviderPortList() {
 }
 
 async function main() {
-  expressRouteProviderPortList();
+  await expressRouteProviderPortList();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a volume group along with specified volumes
  *
  * @summary Create a volume group along with specified volumes
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/VolumeGroups_Create_Oracle.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeGroups_Create_Oracle.json
  */
 async function volumeGroupsCreateOracle() {
   const subscriptionId =
@@ -460,7 +460,7 @@ async function volumeGroupsCreateOracle() {
  * This sample demonstrates how to Create a volume group along with specified volumes
  *
  * @summary Create a volume group along with specified volumes
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/VolumeGroups_Create_SapHana.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeGroups_Create_SapHana.json
  */
 async function volumeGroupsCreateSapHana() {
   const subscriptionId =
@@ -666,8 +666,8 @@ async function volumeGroupsCreateSapHana() {
 }
 
 async function main() {
-  volumeGroupsCreateOracle();
-  volumeGroupsCreateSapHana();
+  await volumeGroupsCreateOracle();
+  await volumeGroupsCreateSapHana();
 }
 
 main().catch(console.error);

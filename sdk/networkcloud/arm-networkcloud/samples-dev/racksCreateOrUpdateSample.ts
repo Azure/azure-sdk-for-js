@@ -20,7 +20,7 @@ All customer initiated requests will be rejected as the life cycle of this resou
  *
  * @summary Create a new rack or update properties of the existing one.
 All customer initiated requests will be rejected as the life cycle of this resource is managed by the system.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Racks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Racks_Create.json
  */
 async function createOrUpdateRack() {
   const subscriptionId =
@@ -32,28 +32,28 @@ async function createOrUpdateRack() {
   const rackParameters: Rack = {
     availabilityZone: "1",
     extendedLocation: {
-      name:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
-      type: "CustomLocation"
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+      type: "CustomLocation",
     },
     location: "location",
     rackLocation: "Rack 28",
     rackSerialNumber: "RACK_SERIAL_NUMBER",
-    rackSkuId: "RACK-TYPE-1",
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    rackSkuId:
+      "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/rackSkus/rackSkuName",
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.racks.beginCreateOrUpdateAndWait(
     resourceGroupName,
     rackName,
-    rackParameters
+    rackParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateRack();
+  await createOrUpdateRack();
 }
 
 main().catch(console.error);

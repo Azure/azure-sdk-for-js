@@ -34,7 +34,7 @@ async function monitorsUpdate() {
 }
 
 async function main() {
-  monitorsUpdate();
+  await monitorsUpdate();
 }
 
 main().catch(console.error);

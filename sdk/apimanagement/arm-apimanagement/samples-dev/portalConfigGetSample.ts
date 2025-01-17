@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the developer portal configuration.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the developer portal configuration.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalConfig.json
  */
-async function apiManagementPortalConfig() {
+async function apiManagementPortalConfig(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function apiManagementPortalConfig() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementPortalConfig();
 }
 

@@ -40,7 +40,7 @@ async function kustoClustersListResourceSkus() {
 }
 
 async function main() {
-  kustoClustersListResourceSkus();
+  await kustoClustersListResourceSkus();
 }
 
 main().catch(console.error);

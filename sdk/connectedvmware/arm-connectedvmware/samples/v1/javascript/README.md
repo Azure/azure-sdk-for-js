@@ -97,7 +97,7 @@ node clustersCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONNECTEDVMWARE_SUBSCRIPTION_ID="<connectedvmware subscription id>" CONNECTEDVMWARE_RESOURCE_GROUP="<connectedvmware resource group>" node clustersCreateSample.js
+npx dev-tool run vendored cross-env CONNECTEDVMWARE_SUBSCRIPTION_ID="<connectedvmware subscription id>" CONNECTEDVMWARE_RESOURCE_GROUP="<connectedvmware resource group>" node clustersCreateSample.js
 ```
 
 ## Next Steps
@@ -165,6 +165,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [vminstanceguestagentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedvmware/arm-connectedvmware/samples/v1/javascript/vmInstanceGuestAgentsListSample.js
 [vminstancehybrididentitymetadatagetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedvmware/arm-connectedvmware/samples/v1/javascript/vmInstanceHybridIdentityMetadataGetSample.js
 [vminstancehybrididentitymetadatalistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/connectedvmware/arm-connectedvmware/samples/v1/javascript/vmInstanceHybridIdentityMetadataListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-connectedvmware?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-connectedvmware?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/connectedvmware/arm-connectedvmware/README.md

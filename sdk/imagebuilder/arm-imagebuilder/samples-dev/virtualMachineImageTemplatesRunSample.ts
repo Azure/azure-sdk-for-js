@@ -36,7 +36,7 @@ async function createImageSFromExistingImageTemplate() {
 }
 
 async function main() {
-  createImageSFromExistingImageTemplate();
+  await createImageSFromExistingImageTemplate();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listNspConfigsBySearchService() {
 }
 
 async function main() {
-  listNspConfigsBySearchService();
+  await listNspConfigsBySearchService();
 }
 
 main().catch(console.error);

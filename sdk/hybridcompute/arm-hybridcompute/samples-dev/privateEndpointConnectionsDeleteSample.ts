@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a private endpoint connection with a given name.
  *
  * @summary Deletes a private endpoint connection with a given name.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/privateEndpoint/PrivateEndpointConnection_Delete.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateEndpoint/PrivateEndpointConnection_Delete.json
  */
 async function deletesAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function deletesAPrivateEndpointConnectionWithAGivenName() {
 }
 
 async function main() {
-  deletesAPrivateEndpointConnectionWithAGivenName();
+  await deletesAPrivateEndpointConnectionWithAGivenName();
 }
 
 main().catch(console.error);

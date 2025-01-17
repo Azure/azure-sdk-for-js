@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an Extension Metadata based on location, publisher, extensionType and version
  *
  * @summary Gets an Extension Metadata based on location, publisher, extensionType and version
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/extension/ExtensionMetadata_Get.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/extension/ExtensionMetadata_Get.json
  */
 async function getAnExtensionsMetadata() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function getAnExtensionsMetadata() {
 }
 
 async function main() {
-  getAnExtensionsMetadata();
+  await getAnExtensionsMetadata();
 }
 
 main().catch(console.error);

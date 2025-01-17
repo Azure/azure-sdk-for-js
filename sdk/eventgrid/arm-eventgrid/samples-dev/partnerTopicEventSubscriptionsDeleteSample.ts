@@ -39,7 +39,7 @@ async function partnerTopicEventSubscriptionsDelete() {
 }
 
 async function main() {
-  partnerTopicEventSubscriptionsDelete();
+  await partnerTopicEventSubscriptionsDelete();
 }
 
 main().catch(console.error);

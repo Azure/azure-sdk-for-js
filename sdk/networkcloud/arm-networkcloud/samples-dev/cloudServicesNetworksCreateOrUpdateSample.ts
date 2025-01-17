@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new cloud services network or update the properties of the existing cloud services network.
  *
  * @summary Create a new cloud services network or update the properties of the existing cloud services network.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/CloudServicesNetworks_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/CloudServicesNetworks_Create.json
  */
 async function createOrUpdateCloudServicesNetwork() {
   const subscriptionId =
@@ -32,34 +32,30 @@ async function createOrUpdateCloudServicesNetwork() {
       {
         category: "azure-resource-management",
         endpoints: [
-          {
-            domainName: "https://storageaccountex.blob.core.windows.net",
-            port: 443
-          }
-        ]
-      }
+          { domainName: "storageaccountex.blob.core.windows.net", port: 443 },
+        ],
+      },
     ],
     enableDefaultEgressEndpoints: "False",
     extendedLocation: {
-      name:
-        "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
-      type: "CustomLocation"
+      name: "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+      type: "CustomLocation",
     },
     location: "location",
-    tags: { key1: "myvalue1", key2: "myvalue2" }
+    tags: { key1: "myvalue1", key2: "myvalue2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.cloudServicesNetworks.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServicesNetworkName,
-    cloudServicesNetworkParameters
+    cloudServicesNetworkParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateCloudServicesNetwork();
+  await createOrUpdateCloudServicesNetwork();
 }
 
 main().catch(console.error);

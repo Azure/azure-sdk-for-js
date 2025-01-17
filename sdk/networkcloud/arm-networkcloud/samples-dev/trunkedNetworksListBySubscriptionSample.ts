@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of trunked networks in the provided subscription.
  *
  * @summary Get a list of trunked networks in the provided subscription.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/TrunkedNetworks_ListBySubscription.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/TrunkedNetworks_ListBySubscription.json
  */
 async function listTrunkedNetworksForSubscription() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function listTrunkedNetworksForSubscription() {
 }
 
 async function main() {
-  listTrunkedNetworksForSubscription();
+  await listTrunkedNetworksForSubscription();
 }
 
 main().catch(console.error);

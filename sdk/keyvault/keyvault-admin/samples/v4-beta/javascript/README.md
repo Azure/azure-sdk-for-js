@@ -56,7 +56,7 @@ node accessControlHelloWorld.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" CLIENT_OBJECT_ID="<client object id>" node accessControlHelloWorld.js
+npx dev-tool run vendored cross-env AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" CLIENT_OBJECT_ID="<client object id>" node accessControlHelloWorld.js
 ```
 
 ## Next Steps
@@ -67,7 +67,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4-beta/javascript/backupRestoreHelloWorld.js
 [backupselectivekeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4-beta/javascript/backupSelectiveKeyRestore.js
 [updatesettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4-beta/javascript/updateSettings.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/keyvault-admin
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
+[createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/README.md

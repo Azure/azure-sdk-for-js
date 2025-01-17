@@ -43,7 +43,7 @@ async function replicationExtensionDelete() {
 }
 
 async function main() {
-  replicationExtensionDelete();
+  await replicationExtensionDelete();
 }
 
 main().catch(console.error);

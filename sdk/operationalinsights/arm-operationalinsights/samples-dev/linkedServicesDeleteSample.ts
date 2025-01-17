@@ -42,7 +42,7 @@ async function linkedServicesDelete() {
 }
 
 async function main() {
-  linkedServicesDelete();
+  await linkedServicesDelete();
 }
 
 main().catch(console.error);

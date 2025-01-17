@@ -47,7 +47,7 @@ async function networkInterfacesCreateMaximumSetGen() {
 }
 
 async function main() {
-  networkInterfacesCreateMaximumSetGen();
+  await networkInterfacesCreateMaximumSetGen();
 }
 
 main().catch(console.error);

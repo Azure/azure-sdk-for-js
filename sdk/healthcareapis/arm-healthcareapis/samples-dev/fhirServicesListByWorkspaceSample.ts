@@ -39,7 +39,7 @@ async function listFhirservices() {
 }
 
 async function main() {
-  listFhirservices();
+  await listFhirservices();
 }
 
 main().catch(console.error);

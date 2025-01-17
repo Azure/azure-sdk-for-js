@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create or update a license.
  *
  * @summary The operation to create or update a license.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/license/License_CreateOrUpdate.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/license/License_CreateOrUpdate.json
  */
 async function createOrUpdateALicense() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function createOrUpdateALicense() {
 }
 
 async function main() {
-  createOrUpdateALicense();
+  await createOrUpdateALicense();
 }
 
 main().catch(console.error);

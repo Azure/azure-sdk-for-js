@@ -13,9 +13,7 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to update an exiting App.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Operation to update an exiting App.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apps_Update.json
  */
-async function appsUpdate() {
+async function appsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -84,7 +82,7 @@ async function appsUpdate() {
  * @summary Operation to update an exiting App.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apps_Update_VNetInjection.json
  */
-async function appsUpdateVNetInjection() {
+async function appsUpdateVNetInjection(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -140,7 +138,7 @@ async function appsUpdateVNetInjection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   appsUpdate();
   appsUpdateVNetInjection();
 }

@@ -126,9 +126,9 @@ async function storageAccountUpdate() {
 }
 
 async function main() {
-  storageAccountEnableAd();
-  storageAccountEnableCmk();
-  storageAccountUpdate();
+  await storageAccountEnableAd();
+  await storageAccountEnableCmk();
+  await storageAccountUpdate();
 }
 
 main().catch(console.error);

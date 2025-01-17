@@ -39,7 +39,7 @@ async function deleteASyncAgent() {
 }
 
 async function main() {
-  deleteASyncAgent();
+  await deleteASyncAgent();
 }
 
 main().catch(console.error);

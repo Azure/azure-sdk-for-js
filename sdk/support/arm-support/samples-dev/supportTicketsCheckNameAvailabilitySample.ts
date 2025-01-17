@@ -40,7 +40,7 @@ async function checksWhetherNameIsAvailableForASubscriptionSupportTicketResource
 }
 
 async function main() {
-  checksWhetherNameIsAvailableForASubscriptionSupportTicketResource();
+  await checksWhetherNameIsAvailableForASubscriptionSupportTicketResource();
 }
 
 main().catch(console.error);

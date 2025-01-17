@@ -89,8 +89,8 @@ async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters() 
 }
 
 async function main() {
-  createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters();
-  createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters();
+  await createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters();
+  await createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

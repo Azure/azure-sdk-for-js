@@ -39,7 +39,7 @@ async function getsAAzureActiveDirectoryAdministrator() {
 }
 
 async function main() {
-  getsAAzureActiveDirectoryAdministrator();
+  await getsAAzureActiveDirectoryAdministrator();
 }
 
 main().catch(console.error);

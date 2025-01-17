@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update a license profile.
  *
  * @summary The operation to update a license profile.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/licenseProfile/LicenseProfile_Update.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/licenseProfile/LicenseProfile_Update.json
  */
 async function updateALicenseProfile() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function updateALicenseProfile() {
 }
 
 async function main() {
-  updateALicenseProfile();
+  await updateALicenseProfile();
 }
 
 main().catch(console.error);

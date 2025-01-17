@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Provides storage to network proximity and logical zone mapping information.
  *
  * @summary Provides storage to network proximity and logical zone mapping information.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/RegionInfos_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/RegionInfos_Get.json
  */
 async function regionInfosGet() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function regionInfosGet() {
 }
 
 async function main() {
-  regionInfosGet();
+  await regionInfosGet();
 }
 
 main().catch(console.error);

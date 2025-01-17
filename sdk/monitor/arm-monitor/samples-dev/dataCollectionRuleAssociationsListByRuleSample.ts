@@ -40,7 +40,7 @@ async function listAssociationsForSpecifiedDataCollectionRule() {
 }
 
 async function main() {
-  listAssociationsForSpecifiedDataCollectionRule();
+  await listAssociationsForSpecifiedDataCollectionRule();
 }
 
 main().catch(console.error);

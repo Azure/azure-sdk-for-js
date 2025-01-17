@@ -42,7 +42,7 @@ async function kustoPoolsListResourceSkus() {
 }
 
 async function main() {
-  kustoPoolsListResourceSkus();
+  await kustoPoolsListResourceSkus();
 }
 
 main().catch(console.error);

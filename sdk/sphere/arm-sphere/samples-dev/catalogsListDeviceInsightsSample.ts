@@ -46,7 +46,7 @@ async function catalogsListDeviceInsights() {
 }
 
 async function main() {
-  catalogsListDeviceInsights();
+  await catalogsListDeviceInsights();
 }
 
 main().catch(console.error);

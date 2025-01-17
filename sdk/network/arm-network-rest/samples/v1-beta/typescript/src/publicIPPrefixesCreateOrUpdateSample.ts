@@ -5,12 +5,10 @@
 // Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPPrefixesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a static or dynamic public IP prefix.
@@ -28,16 +26,16 @@ async function createPublicIPPrefixAllocationMethod() {
     body: {
       location: "westus",
       properties: { prefixLength: 30, publicIPAddressVersion: "IPv4" },
-      sku: { name: "Standard", tier: "Regional" }
+      sku: { name: "Standard", tier: "Regional" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       subscriptionId,
       resourceGroupName,
-      publicIpPrefixName
+      publicIpPrefixName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -62,16 +60,16 @@ async function createPublicIPPrefixDefaults() {
     body: {
       location: "westus",
       properties: { prefixLength: 30 },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       subscriptionId,
       resourceGroupName,
-      publicIpPrefixName
+      publicIpPrefixName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

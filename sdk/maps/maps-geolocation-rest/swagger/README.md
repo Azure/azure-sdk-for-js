@@ -8,6 +8,8 @@ The configuration is following the [RLC quick start guide](https://github.com/Az
 For the configuration property, please refer to [Index of AutoRestFlag](https://github.com/Azure/autorest/blob/main/docs/generate/flags.md).
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
 package-name: "@azure-rest/maps-geolocation"
 title: MapsGeolocationClient
 description: Azure Maps Geolocation Client
@@ -32,7 +34,7 @@ rest-level-client: true
 security: AzureKey
 security-header-name: subscription-key
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.3"
+  "@autorest/typescript": "latest"
 ```
 
 ## Customization for Track 2 Generator

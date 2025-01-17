@@ -31,7 +31,7 @@ async function verifiedPartnersList() {
 }
 
 async function main() {
-  verifiedPartnersList();
+  await verifiedPartnersList();
 }
 
 main().catch(console.error);

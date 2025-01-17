@@ -110,9 +110,9 @@ async function startAStreamingJobWithLastOutputEventTimeOutputStartMode() {
 }
 
 async function main() {
-  startAStreamingJobWithCustomTimeOutputStartMode();
-  startAStreamingJobWithJobStartTimeOutputStartMode();
-  startAStreamingJobWithLastOutputEventTimeOutputStartMode();
+  await startAStreamingJobWithCustomTimeOutputStartMode();
+  await startAStreamingJobWithJobStartTimeOutputStartMode();
+  await startAStreamingJobWithLastOutputEventTimeOutputStartMode();
 }
 
 main().catch(console.error);

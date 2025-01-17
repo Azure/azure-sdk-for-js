@@ -95,7 +95,7 @@ async function iotHubResourceCreateOrUpdate() {
 }
 
 async function main() {
-  iotHubResourceCreateOrUpdate();
+  await iotHubResourceCreateOrUpdate();
 }
 
 main().catch(console.error);

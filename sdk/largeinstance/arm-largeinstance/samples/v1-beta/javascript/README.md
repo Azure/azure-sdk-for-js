@@ -48,7 +48,7 @@ node azureLargeInstanceGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LARGEINSTANCE_SUBSCRIPTION_ID="<largeinstance subscription id>" LARGEINSTANCE_RESOURCE_GROUP="<largeinstance resource group>" node azureLargeInstanceGetSample.js
+npx dev-tool run vendored cross-env LARGEINSTANCE_SUBSCRIPTION_ID="<largeinstance subscription id>" LARGEINSTANCE_RESOURCE_GROUP="<largeinstance resource group>" node azureLargeInstanceGetSample.js
 ```
 
 ## Next Steps
@@ -67,6 +67,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [azurelargestorageinstancelistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/largeinstance/arm-largeinstance/samples/v1-beta/javascript/azureLargeStorageInstanceListBySubscriptionSample.js
 [azurelargestorageinstanceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/largeinstance/arm-largeinstance/samples/v1-beta/javascript/azureLargeStorageInstanceUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/largeinstance/arm-largeinstance/samples/v1-beta/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-largeinstance?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-largeinstance?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/largeinstance/arm-largeinstance/README.md

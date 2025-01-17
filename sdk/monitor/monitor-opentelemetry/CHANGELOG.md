@@ -1,5 +1,18 @@
 # Release History
 
+## 1.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Should not use reserved 7th bit for statsbeat instrumentations.
+- Fix incorrectly setting the cloud role name and role instance to undefined on standard metrics in AKS environments.
+
+### Other Changes
+
 ## 1.8.0 (2024-10-23)
 
 ### Features Added

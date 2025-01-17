@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete the provided volume.
  *
  * @summary Delete the provided volume.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Volumes_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Volumes_Delete.json
  */
 async function deleteVolume() {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function deleteVolume() {
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.volumes.beginDeleteAndWait(
     resourceGroupName,
-    volumeName
+    volumeName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteVolume();
+  await deleteVolume();
 }
 
 main().catch(console.error);

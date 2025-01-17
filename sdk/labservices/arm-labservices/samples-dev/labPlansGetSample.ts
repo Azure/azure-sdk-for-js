@@ -34,7 +34,7 @@ async function getLabPlan() {
 }
 
 async function main() {
-  getLabPlan();
+  await getLabPlan();
 }
 
 main().catch(console.error);

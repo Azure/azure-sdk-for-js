@@ -57,8 +57,8 @@ async function elasticSansDeleteMinimumSetGen() {
 }
 
 async function main() {
-  elasticSansDeleteMaximumSetGen();
-  elasticSansDeleteMinimumSetGen();
+  await elasticSansDeleteMaximumSetGen();
+  await elasticSansDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

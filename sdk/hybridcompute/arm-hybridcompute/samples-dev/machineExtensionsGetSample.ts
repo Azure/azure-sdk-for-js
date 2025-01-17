@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get the extension.
  *
  * @summary The operation to get the extension.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2024-07-10/examples/extension/Extension_Get.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/extension/Extension_Get.json
  */
 async function getMachineExtension() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getMachineExtension() {
 }
 
 async function main() {
-  getMachineExtension();
+  await getMachineExtension();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function updateIntegrationRuntimeNode() {
 }
 
 async function main() {
-  updateIntegrationRuntimeNode();
+  await updateIntegrationRuntimeNode();
 }
 
 main().catch(console.error);

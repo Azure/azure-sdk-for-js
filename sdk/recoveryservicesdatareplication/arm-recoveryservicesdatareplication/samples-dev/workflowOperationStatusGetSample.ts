@@ -45,7 +45,7 @@ async function workflowOperationStatusGet() {
 }
 
 async function main() {
-  workflowOperationStatusGet();
+  await workflowOperationStatusGet();
 }
 
 main().catch(console.error);

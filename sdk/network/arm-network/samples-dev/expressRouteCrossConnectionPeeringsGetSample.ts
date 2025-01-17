@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified peering for the ExpressRouteCrossConnection.
  *
  * @summary Gets the specified peering for the ExpressRouteCrossConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/ExpressRouteCrossConnectionBgpPeeringGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ExpressRouteCrossConnectionBgpPeeringGet.json
  */
 async function getExpressRouteCrossConnectionBgpPeering() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -37,7 +37,7 @@ async function getExpressRouteCrossConnectionBgpPeering() {
 }
 
 async function main() {
-  getExpressRouteCrossConnectionBgpPeering();
+  await getExpressRouteCrossConnectionBgpPeering();
 }
 
 main().catch(console.error);
