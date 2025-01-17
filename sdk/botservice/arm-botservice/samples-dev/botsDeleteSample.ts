@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a Bot Service from the resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a Bot Service from the resource group.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DeleteBot.json
  */
-async function deleteBot() {
+async function deleteBot(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -32,7 +30,7 @@ async function deleteBot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteBot();
 }
 

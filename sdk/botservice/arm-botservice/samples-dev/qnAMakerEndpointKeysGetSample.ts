@@ -13,9 +13,7 @@ import {
   AzureBotService
 } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the QnA Maker endpoint keys
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the QnA Maker endpoint keys
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListQnAMakerEndpointKeys.json
  */
-async function listQnAMakerEndpointKeys() {
+async function listQnAMakerEndpointKeys(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const parameters: QnAMakerEndpointKeysRequestBody = {
@@ -36,7 +34,7 @@ async function listQnAMakerEndpointKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listQnAMakerEndpointKeys();
 }
 

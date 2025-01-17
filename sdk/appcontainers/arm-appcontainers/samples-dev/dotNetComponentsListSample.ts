@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the .NET Components for a managed environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the .NET Components for a managed environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_List.json
  */
-async function listNetComponents() {
+async function listNetComponents(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -45,7 +43,7 @@ async function listNetComponents() {
  * @summary Get the .NET Components for a managed environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_List_ServiceBind.json
  */
-async function listNetComponentsWithServiceBinds() {
+async function listNetComponentsWithServiceBinds(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -64,7 +62,7 @@ async function listNetComponentsWithServiceBinds() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listNetComponents();
   listNetComponentsWithServiceBinds();
 }

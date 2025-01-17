@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerates the auth token for the notebook workspace
  *
  * @summary Regenerates the auth token for the notebook workspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-11-15/examples/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
  */
-async function cosmosDbNotebookWorkspaceRegenerateAuthToken() {
+async function cosmosDbNotebookWorkspaceRegenerateAuthToken(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -36,7 +34,7 @@ async function cosmosDbNotebookWorkspaceRegenerateAuthToken() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbNotebookWorkspaceRegenerateAuthToken();
 }
 

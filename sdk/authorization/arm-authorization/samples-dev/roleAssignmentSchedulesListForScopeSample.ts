@@ -13,9 +13,7 @@ import {
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets role assignment schedules for a resource scope.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Gets role assignment schedules for a resource scope.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/GetRoleAssignmentSchedulesByScope.json
  */
-async function getRoleAssignmentSchedulesByScope() {
+async function getRoleAssignmentSchedulesByScope(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const filter = "assignedTo('a3bb8764-cb92-4276-9d2a-ca1e895e55ea')";
@@ -40,7 +38,7 @@ async function getRoleAssignmentSchedulesByScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRoleAssignmentSchedulesByScope();
 }
 

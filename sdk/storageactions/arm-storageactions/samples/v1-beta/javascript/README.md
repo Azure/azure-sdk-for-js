@@ -63,6 +63,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storagetaskspreviewactionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storageactions/arm-storageactions/samples/v1-beta/javascript/storageTasksPreviewActionsSample.js
 [storagetasksreportlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storageactions/arm-storageactions/samples/v1-beta/javascript/storageTasksReportListSample.js
 [storagetasksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storageactions/arm-storageactions/samples/v1-beta/javascript/storageTasksUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-storageactions?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storageactions?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions/README.md

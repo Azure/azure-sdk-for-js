@@ -10,25 +10,24 @@
 // Licensed under the MIT License.
 import { CommandPostBody, CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Invoke a command like nodetool for cassandra maintenance
  *
  * @summary Invoke a command like nodetool for cassandra maintenance
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-11-15/examples/CosmosDBManagedCassandraCommand.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraCommand.json
  */
-async function cosmosDbManagedCassandraCommand() {
+async function cosmosDbManagedCassandraCommand(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
   const clusterName = "cassandra-prod";
   const body: CommandPostBody = {
-    command: "nodetool status",
+    arguments: { status: "" },
+    command: "nodetool",
     host: "10.0.1.12",
   };
   const credential = new DefaultAzureCredential();
@@ -41,7 +40,7 @@ async function cosmosDbManagedCassandraCommand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraCommand();
 }
 

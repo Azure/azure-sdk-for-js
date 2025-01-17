@@ -108,6 +108,60 @@ for (const sendResult of sendResults) {
 }
 ```
 
+## Check if a list of recipients is in the Opt Out list
+To check if the recipients are in the Opt Out list, call the `check` function from the `SmsClient.optOuts` with a list of recipient phone numbers.
+
+```typescript
+  const optOutCheckResults = await client.optOuts.check(
+    "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
+  );
+
+  for (const optOutCheckResult of optOutCheckResults) {
+    if (optOutCheckResult.httpStatusCode === 200) {
+      console.log("Success: ", optOutCheckResult);
+    } else {
+      console.error("Something went wrong when trying to send opt out check request: ", optOutCheckResult);
+    }
+  }
+```
+
+## Add a list of recipients to Opt Out list
+To add the list of recipients to Opt Out list, call the `add` function from the `SmsClient.pptOuts` with a list of recipient phone numbers.
+
+```typescript
+  const optOutAddResults = await client.optOuts.add(
+    "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
+  );
+
+  for (const optOutAddResult of optOutAddResults) {
+    if (optOutAddResult.httpStatusCode === 200) {
+      console.log("Success: ", optOutAddResult);
+    } else {
+      console.error("Something went wrong when trying to send opt out add request: ", optOutAddResult);
+    }
+  }
+```
+
+## Remove a list of recipients from Opt Out list
+To remove the list of recipients to Opt Out list, call the `remove` function from the `SmsClient.optOuts.` with a list of recipient phone numbers.
+
+```typescript
+  const optOutRemoveResults = await client.optOuts.remove(
+    "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    ["<to-phone-number-1>", "<to-phone-number-2>"], // E.164 formatted recipient phone numbers
+  );
+
+  for (const optOutRemoveResult of optOutRemoveResults) {
+    if (optOutRemoveResult.httpStatusCode === 200) {
+      console.log("Success: ", optOutRemoveResult);
+    } else {
+      console.error("Something went wrong when trying to send opt out remove request: ", optOutRemoveResult);
+    }
+  }
+```
+
 ## Troubleshooting
 
 SMS operations will throw an exception if the request to the server fails.

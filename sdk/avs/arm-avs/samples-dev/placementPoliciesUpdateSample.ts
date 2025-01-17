@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PlacementPolicyUpdate, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a PlacementPolicy
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Update a PlacementPolicy
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PlacementPolicies_Update.json
  */
-async function placementPoliciesUpdate() {
+async function placementPoliciesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -54,7 +52,7 @@ async function placementPoliciesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   placementPoliciesUpdate();
 }
 

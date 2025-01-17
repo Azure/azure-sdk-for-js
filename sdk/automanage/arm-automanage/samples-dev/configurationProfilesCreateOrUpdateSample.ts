@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConfigurationProfile, AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a configuration profile
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a configuration profile
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfile.json
  */
-async function createOrUpdateConfigurationProfile() {
+async function createOrUpdateConfigurationProfile(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
@@ -53,7 +51,7 @@ async function createOrUpdateConfigurationProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateConfigurationProfile();
 }
 

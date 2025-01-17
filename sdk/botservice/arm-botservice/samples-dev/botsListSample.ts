@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns all the resources of a particular type belonging to a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns all the resources of a particular type belonging to a subscription.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListBotsBySubscription.json
  */
-async function listBotsBySubscription() {
+async function listBotsBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function listBotsBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listBotsBySubscription();
 }
 

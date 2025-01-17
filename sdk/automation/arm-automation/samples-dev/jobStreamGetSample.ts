@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve the job stream identified by job stream id.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieve the job stream identified by job stream id.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/job/getJobStream.json
  */
-async function getJobStream() {
+async function getJobStream(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -41,7 +39,7 @@ async function getJobStream() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getJobStream();
 }
 

@@ -45,7 +45,7 @@ import {
   ApplicationAcceleratorsImpl,
   CustomizedAcceleratorsImpl,
   PredefinedAcceleratorsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Services,
   Apms,
@@ -77,8 +77,8 @@ import {
   ApplicationAccelerators,
   CustomizedAccelerators,
   PredefinedAccelerators
-} from "./operationsInterfaces";
-import { AppPlatformManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AppPlatformManagementClientOptionalParams } from "./models/index.js";
 
 export class AppPlatformManagementClient extends coreClient.ServiceClient {
   $host: string;

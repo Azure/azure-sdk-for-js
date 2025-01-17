@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusters";
-export * from "./servers";
-export * from "./configurations";
-export * from "./firewallRules";
-export * from "./roles";
-export * from "./operations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
+export * from "./clusters.js";
+export * from "./servers.js";
+export * from "./configurations.js";
+export * from "./firewallRules.js";
+export * from "./roles.js";
+export * from "./operations.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";

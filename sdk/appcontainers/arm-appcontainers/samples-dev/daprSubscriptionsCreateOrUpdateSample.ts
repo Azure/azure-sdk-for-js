@@ -13,9 +13,7 @@ import {
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Dapr subscription in a Managed Environment.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a Dapr subscription in a Managed Environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_CreateOrUpdate_BulkSubscribeAndScopes.json
  */
-async function createOrUpdateDaprSubscriptionWithBulkSubscribeConfigurationAndScopes() {
+async function createOrUpdateDaprSubscriptionWithBulkSubscribeConfigurationAndScopes(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -59,7 +57,7 @@ async function createOrUpdateDaprSubscriptionWithBulkSubscribeConfigurationAndSc
  * @summary Creates or updates a Dapr subscription in a Managed Environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_CreateOrUpdate_DefaultRoute.json
  */
-async function createOrUpdateDaprSubscriptionWithDefaultRouteOnly() {
+async function createOrUpdateDaprSubscriptionWithDefaultRouteOnly(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -89,7 +87,7 @@ async function createOrUpdateDaprSubscriptionWithDefaultRouteOnly() {
  * @summary Creates or updates a Dapr subscription in a Managed Environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_CreateOrUpdate_RouteRulesAndMetadata.json
  */
-async function createOrUpdateDaprSubscriptionWithRouteRulesAndMetadata() {
+async function createOrUpdateDaprSubscriptionWithRouteRulesAndMetadata(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -120,7 +118,7 @@ async function createOrUpdateDaprSubscriptionWithRouteRulesAndMetadata() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateDaprSubscriptionWithBulkSubscribeConfigurationAndScopes();
   createOrUpdateDaprSubscriptionWithDefaultRouteOnly();
   createOrUpdateDaprSubscriptionWithRouteRulesAndMetadata();

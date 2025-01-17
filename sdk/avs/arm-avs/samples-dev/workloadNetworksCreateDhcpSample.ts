@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WorkloadNetworkDhcp, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a WorkloadNetworkDhcp
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a WorkloadNetworkDhcp
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_CreateDhcp.json
  */
-async function workloadNetworksCreateDhcp() {
+async function workloadNetworksCreateDhcp(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function workloadNetworksCreateDhcp() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workloadNetworksCreateDhcp();
 }
 

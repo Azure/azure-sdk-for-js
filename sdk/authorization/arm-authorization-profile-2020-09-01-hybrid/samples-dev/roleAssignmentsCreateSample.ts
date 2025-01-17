@@ -13,9 +13,7 @@ import {
   AuthorizationManagementClient
 } from "@azure/arm-authorization-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a role assignment.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a role assignment.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/PutRoleAssignment.json
  */
-async function createRoleAssignment() {
+async function createRoleAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,7 +44,7 @@ async function createRoleAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createRoleAssignment();
 }
 

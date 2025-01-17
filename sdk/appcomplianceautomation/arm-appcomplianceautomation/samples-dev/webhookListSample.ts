@@ -13,9 +13,7 @@ import {
   AppComplianceAutomationToolForMicrosoft365,
 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the AppComplianceAutomation webhook list.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get the AppComplianceAutomation webhook list.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Webhook_List.json
  */
-async function webhookList() {
+async function webhookList(): Promise<void> {
   const skipToken = "1";
   const top = 100;
   const reportName = "testReportName";
@@ -37,7 +35,7 @@ async function webhookList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   webhookList();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the Domains resource and its properties.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the Domains resource and its properties.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/get.json
  */
-async function getDomainsResource() {
+async function getDomainsResource(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -41,7 +39,7 @@ async function getDomainsResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDomainsResource();
 }
 

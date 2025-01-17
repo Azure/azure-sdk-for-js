@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the private link resources that need to be created for a configuration store.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the private link resources that need to be created for a configuration store.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/PrivateLinkResourcesListByConfigurationStore.json
  */
-async function privateLinkResourcesListGroupIds() {
+async function privateLinkResourcesListGroupIds(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -42,7 +40,7 @@ async function privateLinkResourcesListGroupIds() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateLinkResourcesListGroupIds();
 }
 

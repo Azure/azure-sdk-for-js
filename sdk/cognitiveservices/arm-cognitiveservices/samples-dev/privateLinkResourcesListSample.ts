@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the private link resources that need to be created for a Cognitive Services account.
  *
  * @summary Gets the private link resources that need to be created for a Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/ListPrivateLinkResources.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListPrivateLinkResources.json
  */
-async function listPrivateLinkResources() {
+async function listPrivateLinkResources(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -29,16 +27,16 @@ async function listPrivateLinkResources() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.privateLinkResources.list(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPrivateLinkResources();
 }
 

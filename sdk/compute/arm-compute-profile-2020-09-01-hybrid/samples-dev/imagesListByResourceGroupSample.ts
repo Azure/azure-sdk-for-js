@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of images under a resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the list of images under a resource group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/ListImagesInAResourceGroup.json
  */
-async function listAllVirtualMachineImagesInAResourceGroup() {
+async function listAllVirtualMachineImagesInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -34,7 +32,7 @@ async function listAllVirtualMachineImagesInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllVirtualMachineImagesInAResourceGroup();
 }
 

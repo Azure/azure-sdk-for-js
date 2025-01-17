@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: arm
 package-name: "@azure-rest/arm-appservice"
 title: WebSiteManagementClient
 description: App Service Client
@@ -20,5 +22,5 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: "https://management.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.20"
+  "@autorest/typescript": "latest"
 ```

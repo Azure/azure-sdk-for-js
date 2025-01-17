@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes an application package record and its associated binary file.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes an application package record and its associated binary file.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationPackageDelete.json
  */
-async function applicationPackageDelete() {
+async function applicationPackageDelete(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -38,7 +36,7 @@ async function applicationPackageDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   applicationPackageDelete();
 }
 

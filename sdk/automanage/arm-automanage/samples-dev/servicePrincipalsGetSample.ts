@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the Automanage AAD first party Application Service Principal details for the subscription id.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the Automanage AAD first party Application Service Principal details for the subscription id.
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getServicePrincipal.json
  */
-async function getServicePrincipal() {
+async function getServicePrincipal(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getServicePrincipal() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getServicePrincipal();
 }
 

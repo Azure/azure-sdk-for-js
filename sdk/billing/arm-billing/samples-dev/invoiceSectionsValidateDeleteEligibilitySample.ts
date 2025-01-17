@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoiceSectionsValidateDeleteEligibilityFailure.json
  */
-async function invoiceSectionsValidateDeleteEligibilityFailure() {
+async function invoiceSectionsValidateDeleteEligibilityFailure(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -41,7 +39,7 @@ async function invoiceSectionsValidateDeleteEligibilityFailure() {
  * @summary Validates if the invoice section can be deleted. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoiceSectionsValidateDeleteEligibilitySuccess.json
  */
-async function invoiceSectionsValidateDeleteEligibilitySuccess() {
+async function invoiceSectionsValidateDeleteEligibilitySuccess(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -56,7 +54,7 @@ async function invoiceSectionsValidateDeleteEligibilitySuccess() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoiceSectionsValidateDeleteEligibilityFailure();
   invoiceSectionsValidateDeleteEligibilitySuccess();
 }

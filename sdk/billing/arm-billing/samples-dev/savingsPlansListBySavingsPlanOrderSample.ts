@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List savings plans in an order by billing account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List savings plans in an order by billing account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/savingsPlansListBySavingsPlanOrders.json
  */
-async function savingsPlansInOrderList() {
+async function savingsPlansInOrderList(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function savingsPlansInOrderList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   savingsPlansInOrderList();
 }
 

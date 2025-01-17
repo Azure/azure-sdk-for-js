@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a paginated list of evidences for a specified report.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a paginated list of evidences for a specified report.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Evidence_ListByReport.json
  */
-async function evidenceListByReport() {
+async function evidenceListByReport(): Promise<void> {
   const reportName = "reportName";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -31,7 +29,7 @@ async function evidenceListByReport() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   evidenceListByReport();
 }
 

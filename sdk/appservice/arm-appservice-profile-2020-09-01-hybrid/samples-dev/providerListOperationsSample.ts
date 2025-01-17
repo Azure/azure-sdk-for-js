@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2018-02-01/examples/ListOperations.json
  */
-async function listOperations() {
+async function listOperations(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function listOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listOperations();
 }
 

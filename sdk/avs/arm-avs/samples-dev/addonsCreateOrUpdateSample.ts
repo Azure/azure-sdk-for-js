@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Addon, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a Addon
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a Addon
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Addons_CreateOrUpdate_ArcReg.json
  */
-async function addonsCreateOrUpdateArcReg() {
+async function addonsCreateOrUpdateArcReg(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +49,7 @@ async function addonsCreateOrUpdateArcReg() {
  * @summary Create a Addon
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Addons_CreateOrUpdate_HCX.json
  */
-async function addonsCreateOrUpdateHcx() {
+async function addonsCreateOrUpdateHcx(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -81,7 +79,7 @@ async function addonsCreateOrUpdateHcx() {
  * @summary Create a Addon
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Addons_CreateOrUpdate_SRM.json
  */
-async function addonsCreateOrUpdateSrm() {
+async function addonsCreateOrUpdateSrm(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -111,7 +109,7 @@ async function addonsCreateOrUpdateSrm() {
  * @summary Create a Addon
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Addons_CreateOrUpdate_VR.json
  */
-async function addonsCreateOrUpdateVr() {
+async function addonsCreateOrUpdateVr(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -130,7 +128,7 @@ async function addonsCreateOrUpdateVr() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   addonsCreateOrUpdateArcReg();
   addonsCreateOrUpdateHcx();
   addonsCreateOrUpdateSrm();

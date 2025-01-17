@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all role definitions that are applicable at scope and above.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all role definitions that are applicable at scope and above.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-05-01-preview/examples/GetRoleDefinitionAtScope.json
  */
-async function listRoleDefinitionsForScope() {
+async function listRoleDefinitionsForScope(): Promise<void> {
   const scope = "scope";
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
@@ -31,7 +29,7 @@ async function listRoleDefinitionsForScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRoleDefinitionsForScope();
 }
 

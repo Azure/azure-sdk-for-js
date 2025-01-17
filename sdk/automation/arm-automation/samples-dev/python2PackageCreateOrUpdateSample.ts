@@ -13,9 +13,7 @@ import {
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update the python 2 package identified by package name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or Update the python 2 package identified by package name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/createOrUpdatePython2Package.json
  */
-async function createOrUpdateAPython2Package() {
+async function createOrUpdateAPython2Package(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -52,7 +50,7 @@ async function createOrUpdateAPython2Package() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAPython2Package();
 }
 

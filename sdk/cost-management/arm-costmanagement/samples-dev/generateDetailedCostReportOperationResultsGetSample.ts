@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the result of the specified operation. The link with this operationId is provided as a response header of the initial request.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the result of the specified operation. The link with this operationId is provided as a response header of the initial request.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateDetailedCostReportOperationResultsBySubscriptionScope.json
  */
-async function getDetailsOfTheOperationResult() {
+async function getDetailsOfTheOperationResult(): Promise<void> {
   const operationId = "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function getDetailsOfTheOperationResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDetailsOfTheOperationResult();
 }
 

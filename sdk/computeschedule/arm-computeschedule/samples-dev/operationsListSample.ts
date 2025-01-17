@@ -10,12 +10,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-08-15-preview/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaxGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
+async function operationsListMaxGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -28,21 +28,21 @@ async function operationsListMaxGeneratedByMaximumSetRuleGeneratedByMaximumSetRu
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-08-15-preview/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMaxGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
+async function operationsListMaxGeneratedByMaximumSetRuleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  operationsListMaxGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  operationsListMaxGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+async function main(): Promise<void> {
+  await operationsListMaxGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await operationsListMaxGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataProtectionClient } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Triggers export of jobs and returns an OperationID to track.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Triggers export of jobs and returns an OperationID to track.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/JobCRUD/TriggerExportJobs.json
  */
-async function triggerExportJobs() {
+async function triggerExportJobs(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function triggerExportJobs() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggerExportJobs();
 }
 

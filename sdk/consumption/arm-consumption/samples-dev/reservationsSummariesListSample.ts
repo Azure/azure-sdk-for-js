@@ -13,9 +13,7 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the reservations summaries for the defined scope daily or monthly grain.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the reservations summaries for the defined scope daily or monthly grain.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDailyWithBillingAccountId.json
  */
-async function reservationSummariesDailyWithBillingAccountId() {
+async function reservationSummariesDailyWithBillingAccountId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +49,7 @@ async function reservationSummariesDailyWithBillingAccountId() {
  * @summary Lists the reservations summaries for the defined scope daily or monthly grain.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDailyWithBillingProfileId.json
  */
-async function reservationSummariesDailyWithBillingProfileId() {
+async function reservationSummariesDailyWithBillingProfileId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -83,7 +81,7 @@ async function reservationSummariesDailyWithBillingProfileId() {
  * @summary Lists the reservations summaries for the defined scope daily or monthly grain.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthlyWithBillingAccountId.json
  */
-async function reservationSummariesMonthlyWithBillingAccountId() {
+async function reservationSummariesMonthlyWithBillingAccountId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -104,7 +102,7 @@ async function reservationSummariesMonthlyWithBillingAccountId() {
  * @summary Lists the reservations summaries for the defined scope daily or monthly grain.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthlyWithBillingProfileId.json
  */
-async function reservationSummariesMonthlyWithBillingProfileId() {
+async function reservationSummariesMonthlyWithBillingProfileId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -126,7 +124,7 @@ async function reservationSummariesMonthlyWithBillingProfileId() {
  * @summary Lists the reservations summaries for the defined scope daily or monthly grain.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthlyWithBillingProfileIdReservationId.json
  */
-async function reservationSummariesMonthlyWithBillingProfileIdReservationId() {
+async function reservationSummariesMonthlyWithBillingProfileIdReservationId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -152,7 +150,7 @@ async function reservationSummariesMonthlyWithBillingProfileIdReservationId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationSummariesDailyWithBillingAccountId();
   reservationSummariesDailyWithBillingProfileId();
   reservationSummariesMonthlyWithBillingAccountId();

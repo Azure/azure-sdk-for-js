@@ -13,9 +13,7 @@ import {
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a role eligibility schedule request.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a role eligibility schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/PutRoleEligibilityScheduleRequest.json
  */
-async function putRoleEligibilityScheduleRequest() {
+async function putRoleEligibilityScheduleRequest(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleEligibilityScheduleRequestName =
@@ -55,7 +53,7 @@ async function putRoleEligibilityScheduleRequest() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putRoleEligibilityScheduleRequest();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve a hybrid runbook worker group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieve a hybrid runbook worker group.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/getHybridRunbookWorkerGroup.json
  */
-async function getAHybridWorkerGroup() {
+async function getAHybridWorkerGroup(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "testaccount";
@@ -35,7 +33,7 @@ async function getAHybridWorkerGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAHybridWorkerGroup();
 }
 

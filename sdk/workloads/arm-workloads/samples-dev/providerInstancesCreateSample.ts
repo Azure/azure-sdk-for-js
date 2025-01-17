@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ProviderInstance, WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/Db2ProviderInstances_Create.json
  */
-async function createADb2Provider() {
+async function createADb2Provider(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -60,7 +58,7 @@ async function createADb2Provider() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/Db2ProviderInstances_Create_Root_Certificate.json
  */
-async function createADb2ProviderWithRootCertificate() {
+async function createADb2ProviderWithRootCertificate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -98,7 +96,7 @@ async function createADb2ProviderWithRootCertificate() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/MsSqlServerProviderInstance_Create.json
  */
-async function createAMSSqlServerProvider() {
+async function createAMSSqlServerProvider(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -137,7 +135,7 @@ async function createAMSSqlServerProvider() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/MsSqlServerProviderInstance_Create_Root_Certificate.json
  */
-async function createAMSSqlServerProviderWithRootCertificate() {
+async function createAMSSqlServerProviderWithRootCertificate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -174,7 +172,7 @@ async function createAMSSqlServerProviderWithRootCertificate() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/PrometheusOSProviderInstances_Create.json
  */
-async function createAOSProvider() {
+async function createAOSProvider(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -209,7 +207,7 @@ async function createAOSProvider() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/PrometheusOSProviderInstances_Create_Root_Certificate.json
  */
-async function createAOSProviderWithRootCertificate() {
+async function createAOSProviderWithRootCertificate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -242,7 +240,7 @@ async function createAOSProviderWithRootCertificate() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create.json
  */
-async function createAPrometheusHaClusterProvider() {
+async function createAPrometheusHaClusterProvider(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -279,7 +277,7 @@ async function createAPrometheusHaClusterProvider() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/PrometheusHaClusterProviderInstances_Create_Root_Certificate.json
  */
-async function createAPrometheusHaClusterProviderWithRootCertificate() {
+async function createAPrometheusHaClusterProviderWithRootCertificate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -314,7 +312,7 @@ async function createAPrometheusHaClusterProviderWithRootCertificate() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/ProviderInstances_Create.json
  */
-async function createASapMonitorHanaProvider() {
+async function createASapMonitorHanaProvider(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -356,7 +354,7 @@ async function createASapMonitorHanaProvider() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/ProviderInstances_Create_Root_Certificate.json
  */
-async function createASapMonitorHanaProviderWithRootCertificate() {
+async function createASapMonitorHanaProviderWithRootCertificate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -396,7 +394,7 @@ async function createASapMonitorHanaProviderWithRootCertificate() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/NetWeaverProviderInstances_Create.json
  */
-async function createASapMonitorNetWeaverProvider() {
+async function createASapMonitorNetWeaverProvider(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -438,7 +436,7 @@ async function createASapMonitorNetWeaverProvider() {
  * @summary Creates a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/NetWeaverProviderInstances_Create_Root_Certificate.json
  */
-async function createASapMonitorNetWeaverProviderWithRootCertificate() {
+async function createASapMonitorNetWeaverProviderWithRootCertificate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -472,7 +470,7 @@ async function createASapMonitorNetWeaverProviderWithRootCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createADb2Provider();
   createADb2ProviderWithRootCertificate();
   createAMSSqlServerProvider();

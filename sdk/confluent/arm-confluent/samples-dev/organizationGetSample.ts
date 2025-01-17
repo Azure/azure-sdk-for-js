@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the properties of a specific Organization resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the properties of a specific Organization resource.
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_Get.json
  */
-async function organizationGet() {
+async function organizationGet(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function organizationGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationGet();
 }
 
