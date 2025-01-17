@@ -182,10 +182,10 @@ export enum RecognizeInputType {
 export interface CallInvite {
   /** The Target's PhoneNumberIdentifier, CommunicationUserIdentifier, MicrosoftTeamsUserIdentifier or MicrosoftTeamsAppIdentifier. */
   readonly targetParticipant:
-    | PhoneNumberIdentifier
-    | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier
-    | MicrosoftTeamsAppIdentifier;
+  | PhoneNumberIdentifier
+  | CommunicationUserIdentifier
+  | MicrosoftTeamsUserIdentifier
+  | MicrosoftTeamsAppIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
@@ -257,4 +257,6 @@ export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustom
 export interface CallIntelligenceOptions {
   /** The identifier of the Cognitive Service resource assigned to this call. */
   cognitiveServicesEndpoint?: string;
+  /** A backup identifier of the Cognitive Service resource assigned to this call. */
+  backupCognitiveServicesEndpoint?: string;
 }
