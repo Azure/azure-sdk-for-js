@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Creates or updates the artifacts for the logic app
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/LogicApps_DeleteDeployWorkflowArtifacts.json
  */
-async function deleteWorkflowArtifacts() {
+async function deleteWorkflowArtifacts(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -53,7 +53,7 @@ async function deleteWorkflowArtifacts() {
  * @summary Creates or updates the artifacts for the logic app
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/LogicApps_PostDeployWorkflowArtifacts.json
  */
-async function deploysWorkflowArtifacts() {
+async function deploysWorkflowArtifacts(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -119,7 +119,7 @@ async function deploysWorkflowArtifacts() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteWorkflowArtifacts();
   deploysWorkflowArtifacts();
 }

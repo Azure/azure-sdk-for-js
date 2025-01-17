@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AppPlatformManagementClient } from "../src/appPlatformManagementClient.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
@@ -20,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -44,96 +40,111 @@ describe("AppPlatform test", () => {
   let serviceName: string;
   let appName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AppPlatformManagementClient(credential, subscriptionId, recorder.configureClientOptions({}) as any);
+    client = new AppPlatformManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}) as any,
+    );
     location = "east us";
     resourceGroup = "myjstest";
     serviceName = "myservicexxx12";
     appName = "myappxxx";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("services create test", async function () {
-    const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup, serviceName, {
-      sku: {
-        name: "B0",
-        tier: "Basic"
+  it("services create test", async () => {
+    const res = await client.services.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      serviceName,
+      {
+        sku: {
+          name: "B0",
+          tier: "Basic",
+        },
+        tags: {
+          key1: "value1",
+        },
+        location: location,
       },
-      tags: {
-        key1: "value1"
-      },
-      location: location
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, serviceName);
   });
 
-  it("apps create test", async function () {
-    const res = await client.apps.beginCreateOrUpdateAndWait(resourceGroup, serviceName, appName, {
-      properties: {
-        public: true,
-        // activeDeploymentName: "mydeployment1",
-        fqdn: "myapp.mydomain.com",
-        httpsOnly: false,
-        temporaryDisk: {
-          sizeInGB: 2,
-          mountPath: "/mytemporarydisk"
+  it("apps create test", async () => {
+    const res = await client.apps.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      serviceName,
+      appName,
+      {
+        properties: {
+          public: true,
+          // activeDeploymentName: "mydeployment1",
+          fqdn: "myapp.mydomain.com",
+          httpsOnly: false,
+          temporaryDisk: {
+            sizeInGB: 2,
+            mountPath: "/mytemporarydisk",
+          },
+          persistentDisk: {
+            sizeInGB: 1,
+            mountPath: "/mypersistentdisk",
+          },
         },
-        persistentDisk: {
-          sizeInGB: 1,
-          mountPath: "/mypersistentdisk"
-        }
-      }
-    }, testPollingOptions);
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, appName);
   });
 
-  it("services get test", async function () {
+  it("services get test", async () => {
     const res = await client.services.get(resourceGroup, serviceName);
     assert.equal(res.name, serviceName);
   });
 
-  it("apps get test", async function () {
+  it("apps get test", async () => {
     const res = await client.apps.get(resourceGroup, serviceName, appName);
     assert.equal(res.name, appName);
   });
 
-  it("apps list test", async function () {
+  it("apps list test", async () => {
     const resArray = new Array();
-    for await (let item of client.apps.list(resourceGroup, serviceName)) {
+    for await (const item of client.apps.list(resourceGroup, serviceName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("services list test", async function () {
+  it("services list test", async () => {
     const resArray = new Array();
-    for await (let item of client.services.list(resourceGroup)) {
+    for await (const item of client.services.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.isTrue(resArray.length >= 1);
   });
 
-  it("apps delete test", async function () {
+  it("apps delete test", async () => {
     await client.apps.beginDeleteAndWait(resourceGroup, serviceName, appName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.apps.list(resourceGroup, serviceName)) {
+    for await (const item of client.apps.list(resourceGroup, serviceName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("services delete test", async function () {
+  it("services delete test", async () => {
     await client.services.beginDeleteAndWait(resourceGroup, serviceName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.services.list(resourceGroup)) {
+    for await (const item of client.services.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

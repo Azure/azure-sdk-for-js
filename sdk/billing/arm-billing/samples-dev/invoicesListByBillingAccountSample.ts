@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists the invoices for a billing account for a given start date and end date. The operation is supported for all billing account types.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesListByBillingAccount.json
  */
-async function invoicesListByBillingAccount() {
+async function invoicesListByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const periodStartDate = new Date("2023-01-01");
@@ -42,7 +42,7 @@ async function invoicesListByBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoicesListByBillingAccount();
 }
 

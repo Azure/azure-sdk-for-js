@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Deletes a web, mobile, or API app, or one of the deployment slots.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DeleteWebApp.json
  */
-async function deleteWebApp() {
+async function deleteWebApp(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,7 +31,7 @@ async function deleteWebApp() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteWebApp();
 }
 

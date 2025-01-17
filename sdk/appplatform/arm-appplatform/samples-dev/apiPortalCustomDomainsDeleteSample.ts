@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete the API portal custom domain.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ApiPortalCustomDomains_Delete.json
  */
-async function apiPortalCustomDomainsDelete() {
+async function apiPortalCustomDomainsDelete(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function apiPortalCustomDomainsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiPortalCustomDomainsDelete();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the Automanage AAD first party Application Service Principal details for the subscription id.
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getServicePrincipal.json
  */
-async function getServicePrincipal() {
+async function getServicePrincipal(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getServicePrincipal() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getServicePrincipal();
 }
 

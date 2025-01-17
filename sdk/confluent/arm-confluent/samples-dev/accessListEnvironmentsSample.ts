@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Environment list of an organization
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_EnvironmentList.json
  */
-async function accessEnvironmentList() {
+async function accessEnvironmentList(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +41,7 @@ async function accessEnvironmentList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   accessEnvironmentList();
 }
 

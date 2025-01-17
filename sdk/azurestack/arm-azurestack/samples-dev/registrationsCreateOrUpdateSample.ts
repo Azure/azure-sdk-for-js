@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or update an Azure Stack registration.
  * x-ms-original-file: specification/azurestack/resource-manager/Microsoft.AzureStack/preview/2020-06-01-preview/examples/Registration/Put.json
  */
-async function createOrUpdateAnAzureStackRegistration() {
+async function createOrUpdateAnAzureStackRegistration(): Promise<void> {
   const subscriptionId = "dd8597b4-8739-4467-8b10-f8679f62bfbf";
   const resourceGroup = "azurestack";
   const registrationName = "testregistration";

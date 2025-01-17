@@ -13,9 +13,7 @@ import {
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the state of specified commitmentPlans associated with the Cognitive Services account.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update the state of specified commitmentPlans associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/PutCommitmentPlan.json
  */
-async function putCommitmentPlan() {
+async function putCommitmentPlan(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -52,7 +50,7 @@ async function putCommitmentPlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putCommitmentPlan();
 }
 

@@ -13,9 +13,7 @@ import {
   CostManagementClient
 } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks availability and correctness of the name for a scheduled action.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Checks availability and correctness of the name for a scheduled action.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/checkNameAvailability-private-scheduledAction.json
  */
-async function scheduledActionCheckNameAvailability() {
+async function scheduledActionCheckNameAvailability(): Promise<void> {
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "testName",
     type: "Microsoft.CostManagement/ScheduledActions"
@@ -36,7 +34,7 @@ async function scheduledActionCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   scheduledActionCheckNameAvailability();
 }
 

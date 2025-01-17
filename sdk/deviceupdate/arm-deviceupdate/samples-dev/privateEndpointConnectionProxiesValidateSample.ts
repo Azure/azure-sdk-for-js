@@ -13,9 +13,7 @@ import {
   DeviceUpdate
 } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to (INTERNAL - DO NOT USE) Validates a private endpoint connection proxy object.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary (INTERNAL - DO NOT USE) Validates a private endpoint connection proxy object.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Validate.json
  */
-async function privateEndpointConnectionProxyValidate() {
+async function privateEndpointConnectionProxyValidate(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -66,7 +64,7 @@ async function privateEndpointConnectionProxyValidate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionProxyValidate();
 }
 

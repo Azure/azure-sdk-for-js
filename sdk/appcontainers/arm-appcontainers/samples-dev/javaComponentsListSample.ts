@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the Java Components for a managed environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_List.json
  */
-async function listJavaComponents() {
+async function listJavaComponents(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -43,7 +43,7 @@ async function listJavaComponents() {
  * @summary Get the Java Components for a managed environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_List_ServiceBind.json
  */
-async function listJavaComponentsWithServiceBinds() {
+async function listJavaComponentsWithServiceBinds(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -62,7 +62,7 @@ async function listJavaComponentsWithServiceBinds() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listJavaComponents();
   listJavaComponentsWithServiceBinds();
 }

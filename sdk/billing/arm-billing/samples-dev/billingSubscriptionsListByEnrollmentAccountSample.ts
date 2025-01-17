@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the subscriptions for an enrollment account. The operation is supported for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionsListByEnrollmentAccount.json
  */
-async function billingSubscriptionsListByEnrollmentAccount() {
+async function billingSubscriptionsListByEnrollmentAccount(): Promise<void> {
   const billingAccountName = "6564892";
   const enrollmentAccountName = "172988";
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function billingSubscriptionsListByEnrollmentAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionsListByEnrollmentAccount();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the specified alert incident.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-08-01-preview/examples/GetAlertIncidentById.json
  */
-async function getAlertIncidentById() {
+async function getAlertIncidentById(): Promise<void> {
   const scope = "subscriptions/afa2a084-766f-4003-8ae1-c4aeb893a99f";
   const alertId = "TooManyOwnersAssignedToResource";
   const alertIncidentId = "5cf9ee65-d22e-4784-8b17-3de1c3b7bdcc";
@@ -32,7 +32,7 @@ async function getAlertIncidentById() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAlertIncidentById();
 }
 

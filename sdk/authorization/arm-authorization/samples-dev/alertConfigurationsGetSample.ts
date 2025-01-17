@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the specified alert configuration.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-08-01-preview/examples/GetAlertConfigurationById.json
  */
-async function getAlertConfigurationById() {
+async function getAlertConfigurationById(): Promise<void> {
   const scope = "subscriptions/afa2a084-766f-4003-8ae1-c4aeb893a99f";
   const alertId = "TooManyOwnersAssignedToResource";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getAlertConfigurationById() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAlertConfigurationById();
 }
 

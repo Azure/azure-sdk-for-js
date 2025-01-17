@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Return a list of database and collection combo that exist on the account at the given timestamp and location. This helps in scenarios to validate what resources exist at given timestamp and location. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBRestorableMongodbResourceList.json
  */
-async function cosmosDbRestorableMongodbResourceList() {
+async function cosmosDbRestorableMongodbResourceList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "2296c272-5d55-40d9-bc05-4d56dc2d7588";
@@ -46,7 +46,7 @@ async function cosmosDbRestorableMongodbResourceList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbRestorableMongodbResourceList();
 }
 

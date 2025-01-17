@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the specified role management policy assignment for a resource scope
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/GetRoleManagementPolicyAssignmentByName.json
  */
-async function getConfigurations() {
+async function getConfigurations(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/129ff972-28f8-46b8-a726-e497be039368";
   const roleManagementPolicyAssignmentName =
@@ -32,7 +32,7 @@ async function getConfigurations() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getConfigurations();
 }
 

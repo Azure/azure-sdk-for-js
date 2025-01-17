@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the billing permissions the caller has on a billing profile.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPermissionsListByBillingProfile.json
  */
-async function billingPermissionsListByBillingProfile() {
+async function billingPermissionsListByBillingProfile(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "xxxx-xxxx-xxx-xxx";
@@ -34,7 +34,7 @@ async function billingPermissionsListByBillingProfile() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingPermissionsListByBillingProfile();
 }
 

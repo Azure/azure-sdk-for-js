@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List the changes of a resource within the specified time range. Customer data will be masked if the user doesn't have access.
  * x-ms-original-file: specification/changeanalysis/resource-manager/Microsoft.ChangeAnalysis/stable/2021-04-01/examples/ResourceChangesList.json
  */
-async function resourceChangesList() {
+async function resourceChangesList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/4d962866-1e3f-47f2-bd18-450c08f914c1/resourceGroups/MyResourceGroup/providers/Microsoft.Web/sites/mysite";
