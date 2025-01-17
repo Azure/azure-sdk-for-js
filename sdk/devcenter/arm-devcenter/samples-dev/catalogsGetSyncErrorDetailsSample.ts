@@ -36,7 +36,7 @@ async function catalogsGetSyncErrorDetails(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  catalogsGetSyncErrorDetails();
+  await catalogsGetSyncErrorDetails();
 }
 
 main().catch(console.error);

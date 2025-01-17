@@ -39,7 +39,7 @@ async function getASourceControl() {
 }
 
 async function main() {
-  getASourceControl();
+  await getASourceControl();
 }
 
 main().catch(console.error);

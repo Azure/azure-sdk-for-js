@@ -54,7 +54,7 @@ async function createOrUpdateStorageAppliance() {
 }
 
 async function main() {
-  createOrUpdateStorageAppliance();
+  await createOrUpdateStorageAppliance();
 }
 
 main().catch(console.error);

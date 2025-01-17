@@ -34,7 +34,7 @@ async function relayOperationsList() {
 }
 
 async function main() {
-  relayOperationsList();
+  await relayOperationsList();
 }
 
 main().catch(console.error);

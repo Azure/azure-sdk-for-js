@@ -47,7 +47,7 @@ async function createOrUpdateVolume() {
 }
 
 async function main() {
-  createOrUpdateVolume();
+  await createOrUpdateVolume();
 }
 
 main().catch(console.error);

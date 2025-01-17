@@ -37,7 +37,7 @@ async function ipPrefixesListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  ipPrefixesListBySubscriptionMaximumSetGen();
+  await ipPrefixesListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

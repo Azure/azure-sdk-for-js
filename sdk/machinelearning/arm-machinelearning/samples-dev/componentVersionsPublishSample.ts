@@ -53,7 +53,7 @@ async function publishWorkspaceComponentVersion() {
 }
 
 async function main() {
-  publishWorkspaceComponentVersion();
+  await publishWorkspaceComponentVersion();
 }
 
 main().catch(console.error);

@@ -133,10 +133,10 @@ async function listsTheTransformsFilterByName() {
 }
 
 async function main() {
-  listsTheTransforms();
-  listsTheTransformsFilterByCreated();
-  listsTheTransformsFilterByLastmodified();
-  listsTheTransformsFilterByName();
+  await listsTheTransforms();
+  await listsTheTransformsFilterByCreated();
+  await listsTheTransformsFilterByLastmodified();
+  await listsTheTransformsFilterByName();
 }
 
 main().catch(console.error);

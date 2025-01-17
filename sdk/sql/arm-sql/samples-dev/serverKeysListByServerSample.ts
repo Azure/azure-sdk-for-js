@@ -40,7 +40,7 @@ async function listTheServerKeysByServer() {
 }
 
 async function main() {
-  listTheServerKeysByServer();
+  await listTheServerKeysByServer();
 }
 
 main().catch(console.error);

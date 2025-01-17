@@ -101,8 +101,8 @@ async function createExtensionWithPlan() {
 }
 
 async function main() {
-  createExtension();
-  createExtensionWithPlan();
+  await createExtension();
+  await createExtensionWithPlan();
 }
 
 main().catch(console.error);

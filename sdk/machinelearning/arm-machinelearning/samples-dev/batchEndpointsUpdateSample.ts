@@ -53,7 +53,7 @@ async function updateWorkspaceBatchEndpoint() {
 }
 
 async function main() {
-  updateWorkspaceBatchEndpoint();
+  await updateWorkspaceBatchEndpoint();
 }
 
 main().catch(console.error);

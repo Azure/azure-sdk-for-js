@@ -36,7 +36,7 @@ async function workspaces(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspaces();
+  await workspaces();
 }
 
 main().catch(console.error);

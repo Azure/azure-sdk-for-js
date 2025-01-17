@@ -32,7 +32,7 @@ async function publicMaintenanceConfigurationsGetForResource() {
 }
 
 async function main() {
-  publicMaintenanceConfigurationsGetForResource();
+  await publicMaintenanceConfigurationsGetForResource();
 }
 
 main().catch(console.error);

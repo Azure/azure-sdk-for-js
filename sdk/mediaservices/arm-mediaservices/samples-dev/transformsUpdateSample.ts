@@ -52,7 +52,7 @@ async function updateATransform() {
 }
 
 async function main() {
-  updateATransform();
+  await updateATransform();
 }
 
 main().catch(console.error);

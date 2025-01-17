@@ -41,7 +41,7 @@ async function relayAutorizationRuleDelete() {
 }
 
 async function main() {
-  relayAutorizationRuleDelete();
+  await relayAutorizationRuleDelete();
 }
 
 main().catch(console.error);

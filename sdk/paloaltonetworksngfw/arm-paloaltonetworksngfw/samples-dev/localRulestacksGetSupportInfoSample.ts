@@ -65,8 +65,8 @@ async function localRulestacksGetSupportInfoMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksGetSupportInfoMaximumSetGen();
-  localRulestacksGetSupportInfoMinimumSetGen();
+  await localRulestacksGetSupportInfoMaximumSetGen();
+  await localRulestacksGetSupportInfoMinimumSetGen();
 }
 
 main().catch(console.error);

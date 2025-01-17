@@ -41,7 +41,7 @@ async function productsUpdate() {
 }
 
 async function main() {
-  productsUpdate();
+  await productsUpdate();
 }
 
 main().catch(console.error);

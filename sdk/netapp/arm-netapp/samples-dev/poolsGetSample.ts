@@ -61,8 +61,8 @@ async function poolsGetCustomThroughput() {
 }
 
 async function main() {
-  poolsGet();
-  poolsGetCustomThroughput();
+  await poolsGet();
+  await poolsGetCustomThroughput();
 }
 
 main().catch(console.error);

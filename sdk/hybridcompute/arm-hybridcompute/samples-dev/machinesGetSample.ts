@@ -60,8 +60,8 @@ async function getMachineWithLicenseProfileInstanceView() {
 }
 
 async function main() {
-  getMachine();
-  getMachineWithLicenseProfileInstanceView();
+  await getMachine();
+  await getMachineWithLicenseProfileInstanceView();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function integrationRuntimesCreateLinkedIntegrationRuntime(): Promise<void
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesCreateLinkedIntegrationRuntime();
+  await integrationRuntimesCreateLinkedIntegrationRuntime();
 }
 
 main().catch(console.error);

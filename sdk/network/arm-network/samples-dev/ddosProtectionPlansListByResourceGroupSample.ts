@@ -35,7 +35,7 @@ async function listDDoSProtectionPlansInResourceGroup() {
 }
 
 async function main() {
-  listDDoSProtectionPlansInResourceGroup();
+  await listDDoSProtectionPlansInResourceGroup();
 }
 
 main().catch(console.error);

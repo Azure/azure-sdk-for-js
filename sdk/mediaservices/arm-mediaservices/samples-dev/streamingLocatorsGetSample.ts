@@ -39,7 +39,7 @@ async function getAStreamingLocatorByName() {
 }
 
 async function main() {
-  getAStreamingLocatorByName();
+  await getAStreamingLocatorByName();
 }
 
 main().catch(console.error);

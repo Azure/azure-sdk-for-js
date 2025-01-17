@@ -51,7 +51,7 @@ async function updateAccessForApplication() {
 }
 
 async function main() {
-  updateAccessForApplication();
+  await updateAccessForApplication();
 }
 
 main().catch(console.error);

@@ -145,7 +145,7 @@ async function createOrUpdateSpecificFrontDoor() {
 }
 
 async function main() {
-  createOrUpdateSpecificFrontDoor();
+  await createOrUpdateSpecificFrontDoor();
 }
 
 main().catch(console.error);

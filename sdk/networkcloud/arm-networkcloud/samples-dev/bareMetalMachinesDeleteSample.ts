@@ -39,7 +39,7 @@ async function deleteBareMetalMachine() {
 }
 
 async function main() {
-  deleteBareMetalMachine();
+  await deleteBareMetalMachine();
 }
 
 main().catch(console.error);

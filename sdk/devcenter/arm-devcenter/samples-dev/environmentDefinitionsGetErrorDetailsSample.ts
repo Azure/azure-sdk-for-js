@@ -38,7 +38,7 @@ async function environmentDefinitionsGetErrorDetails(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentDefinitionsGetErrorDetails();
+  await environmentDefinitionsGetErrorDetails();
 }
 
 main().catch(console.error);

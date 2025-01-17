@@ -42,7 +42,7 @@ async function createOrUpdateAnIntegrationAccount() {
 }
 
 async function main() {
-  createOrUpdateAnIntegrationAccount();
+  await createOrUpdateAnIntegrationAccount();
 }
 
 main().catch(console.error);

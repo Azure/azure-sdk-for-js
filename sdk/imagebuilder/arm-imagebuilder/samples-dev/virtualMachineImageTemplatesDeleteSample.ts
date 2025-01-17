@@ -36,7 +36,7 @@ async function deleteAnImageTemplate() {
 }
 
 async function main() {
-  deleteAnImageTemplate();
+  await deleteAnImageTemplate();
 }
 
 main().catch(console.error);

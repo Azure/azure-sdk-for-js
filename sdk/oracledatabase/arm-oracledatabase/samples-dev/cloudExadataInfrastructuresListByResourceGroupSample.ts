@@ -38,7 +38,7 @@ async function listExadataInfrastructureByResourceGroup() {
 }
 
 async function main() {
-  listExadataInfrastructureByResourceGroup();
+  await listExadataInfrastructureByResourceGroup();
 }
 
 main().catch(console.error);

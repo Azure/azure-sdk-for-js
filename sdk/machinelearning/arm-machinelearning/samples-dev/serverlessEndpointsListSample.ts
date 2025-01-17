@@ -43,7 +43,7 @@ async function listWorkspaceServerlessEndpoint() {
 }
 
 async function main() {
-  listWorkspaceServerlessEndpoint();
+  await listWorkspaceServerlessEndpoint();
 }
 
 main().catch(console.error);

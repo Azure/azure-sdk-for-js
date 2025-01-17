@@ -58,7 +58,7 @@ async function createOrUpdateRegistryComponentVersion() {
 }
 
 async function main() {
-  createOrUpdateRegistryComponentVersion();
+  await createOrUpdateRegistryComponentVersion();
 }
 
 main().catch(console.error);

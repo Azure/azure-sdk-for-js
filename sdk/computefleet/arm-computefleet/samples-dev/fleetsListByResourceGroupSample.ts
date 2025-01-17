@@ -23,7 +23,7 @@ async function fleetsListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsListByResourceGroup();
+  await fleetsListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -67,9 +67,9 @@ async function listGovernanceRulesBySubscriptionScope() {
 }
 
 async function main() {
-  listGovernanceRulesByManagementGroupScope();
-  listGovernanceRulesBySecurityConnectorScope();
-  listGovernanceRulesBySubscriptionScope();
+  await listGovernanceRulesByManagementGroupScope();
+  await listGovernanceRulesBySecurityConnectorScope();
+  await listGovernanceRulesBySubscriptionScope();
 }
 
 main().catch(console.error);

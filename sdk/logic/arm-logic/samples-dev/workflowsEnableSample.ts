@@ -34,7 +34,7 @@ async function enableAWorkflow() {
 }
 
 async function main() {
-  enableAWorkflow();
+  await enableAWorkflow();
 }
 
 main().catch(console.error);

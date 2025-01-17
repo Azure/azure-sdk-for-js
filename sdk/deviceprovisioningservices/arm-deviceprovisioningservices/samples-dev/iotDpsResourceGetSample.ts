@@ -36,7 +36,7 @@ async function dpsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsGet();
+  await dpsGet();
 }
 
 main().catch(console.error);

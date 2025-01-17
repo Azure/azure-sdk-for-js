@@ -36,7 +36,7 @@ async function getResourceNavigationLinks() {
 }
 
 async function main() {
-  getResourceNavigationLinks();
+  await getResourceNavigationLinks();
 }
 
 main().catch(console.error);

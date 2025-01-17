@@ -37,7 +37,7 @@ async function deleteApplicationGatewayPrivateEndpointConnection() {
 }
 
 async function main() {
-  deleteApplicationGatewayPrivateEndpointConnection();
+  await deleteApplicationGatewayPrivateEndpointConnection();
 }
 
 main().catch(console.error);

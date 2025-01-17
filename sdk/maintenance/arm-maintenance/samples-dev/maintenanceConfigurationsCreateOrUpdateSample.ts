@@ -52,7 +52,7 @@ async function maintenanceConfigurationsCreateOrUpdateForResource() {
 }
 
 async function main() {
-  maintenanceConfigurationsCreateOrUpdateForResource();
+  await maintenanceConfigurationsCreateOrUpdateForResource();
 }
 
 main().catch(console.error);

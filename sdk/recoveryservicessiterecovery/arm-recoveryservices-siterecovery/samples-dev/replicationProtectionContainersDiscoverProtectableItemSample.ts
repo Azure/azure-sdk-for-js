@@ -53,7 +53,7 @@ async function addsAProtectableItemToTheReplicationProtectionContainer() {
 }
 
 async function main() {
-  addsAProtectableItemToTheReplicationProtectionContainer();
+  await addsAProtectableItemToTheReplicationProtectionContainer();
 }
 
 main().catch(console.error);

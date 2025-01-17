@@ -43,7 +43,7 @@ async function msixImageExpand(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  msixImageExpand();
+  await msixImageExpand();
 }
 
 main().catch(console.error);

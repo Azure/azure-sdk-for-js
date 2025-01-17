@@ -37,7 +37,7 @@ async function listAllNetworkSites() {
 }
 
 async function main() {
-  listAllNetworkSites();
+  await listAllNetworkSites();
 }
 
 main().catch(console.error);

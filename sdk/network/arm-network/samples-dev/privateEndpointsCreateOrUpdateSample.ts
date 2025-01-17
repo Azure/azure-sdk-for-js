@@ -140,9 +140,9 @@ async function createPrivateEndpointWithManualApprovalConnection() {
 }
 
 async function main() {
-  createPrivateEndpoint();
-  createPrivateEndpointWithApplicationSecurityGroups();
-  createPrivateEndpointWithManualApprovalConnection();
+  await createPrivateEndpoint();
+  await createPrivateEndpointWithApplicationSecurityGroups();
+  await createPrivateEndpointWithManualApprovalConnection();
 }
 
 main().catch(console.error);

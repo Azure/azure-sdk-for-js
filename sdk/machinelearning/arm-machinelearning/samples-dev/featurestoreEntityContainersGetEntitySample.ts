@@ -42,7 +42,7 @@ async function getEntityWorkspaceFeaturestoreEntityContainer() {
 }
 
 async function main() {
-  getEntityWorkspaceFeaturestoreEntityContainer();
+  await getEntityWorkspaceFeaturestoreEntityContainer();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function devCentersDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devCentersDelete();
+  await devCentersDelete();
 }
 
 main().catch(console.error);

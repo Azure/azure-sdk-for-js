@@ -41,7 +41,7 @@ async function namespaceTopicEventSubscriptionsGet() {
 }
 
 async function main() {
-  namespaceTopicEventSubscriptionsGet();
+  await namespaceTopicEventSubscriptionsGet();
 }
 
 main().catch(console.error);

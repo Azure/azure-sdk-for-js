@@ -42,7 +42,7 @@ async function listGeoBackupPolicies() {
 }
 
 async function main() {
-  listGeoBackupPolicies();
+  await listGeoBackupPolicies();
 }
 
 main().catch(console.error);

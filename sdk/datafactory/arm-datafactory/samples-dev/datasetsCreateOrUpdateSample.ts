@@ -99,8 +99,8 @@ async function datasetsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  datasetsCreate();
-  datasetsUpdate();
+  await datasetsCreate();
+  await datasetsUpdate();
 }
 
 main().catch(console.error);

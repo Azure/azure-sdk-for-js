@@ -33,7 +33,7 @@ async function listNetworkInterfacesInResourceGroup() {
 }
 
 async function main() {
-  listNetworkInterfacesInResourceGroup();
+  await listNetworkInterfacesInResourceGroup();
 }
 
 main().catch(console.error);

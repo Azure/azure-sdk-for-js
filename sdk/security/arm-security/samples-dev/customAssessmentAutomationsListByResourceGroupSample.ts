@@ -38,7 +38,7 @@ async function listCustomAssessmentAutomationsInASubscriptionAndAResourceGroup()
 }
 
 async function main() {
-  listCustomAssessmentAutomationsInASubscriptionAndAResourceGroup();
+  await listCustomAssessmentAutomationsInASubscriptionAndAResourceGroup();
 }
 
 main().catch(console.error);

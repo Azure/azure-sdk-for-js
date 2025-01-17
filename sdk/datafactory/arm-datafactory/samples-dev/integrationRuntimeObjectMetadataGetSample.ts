@@ -48,7 +48,7 @@ async function integrationRuntimeObjectMetadataGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimeObjectMetadataGet();
+  await integrationRuntimeObjectMetadataGet();
 }
 
 main().catch(console.error);

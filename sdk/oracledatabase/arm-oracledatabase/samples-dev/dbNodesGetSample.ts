@@ -39,7 +39,7 @@ async function getDbNode() {
 }
 
 async function main() {
-  getDbNode();
+  await getDbNode();
 }
 
 main().catch(console.error);

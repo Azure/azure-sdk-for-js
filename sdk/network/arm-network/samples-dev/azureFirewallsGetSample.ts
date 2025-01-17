@@ -110,11 +110,11 @@ async function getAzureFirewallWithManagementSubnet() {
 }
 
 async function main() {
-  getAzureFirewall();
-  getAzureFirewallWithAdditionalProperties();
-  getAzureFirewallWithIPGroups();
-  getAzureFirewallWithZones();
-  getAzureFirewallWithManagementSubnet();
+  await getAzureFirewall();
+  await getAzureFirewallWithAdditionalProperties();
+  await getAzureFirewallWithIPGroups();
+  await getAzureFirewallWithZones();
+  await getAzureFirewallWithManagementSubnet();
 }
 
 main().catch(console.error);

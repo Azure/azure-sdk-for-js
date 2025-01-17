@@ -29,7 +29,7 @@ async function listGitHubOAuth(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listGitHubOAuth();
+  await listGitHubOAuth();
 }
 
 main().catch(console.error);

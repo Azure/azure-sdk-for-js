@@ -39,7 +39,7 @@ async function listAllGuestConfigurationAssignmentsForVmss() {
 }
 
 async function main() {
-  listAllGuestConfigurationAssignmentsForVmss();
+  await listAllGuestConfigurationAssignmentsForVmss();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function marketplaceAgreementsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  marketplaceAgreementsList();
+  await marketplaceAgreementsList();
 }
 
 main().catch(console.error);

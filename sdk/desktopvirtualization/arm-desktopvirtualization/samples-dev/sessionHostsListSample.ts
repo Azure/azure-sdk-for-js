@@ -50,7 +50,7 @@ async function sessionHostList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sessionHostList();
+  await sessionHostList();
 }
 
 main().catch(console.error);

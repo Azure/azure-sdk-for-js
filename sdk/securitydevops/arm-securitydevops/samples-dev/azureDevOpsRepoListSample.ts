@@ -44,7 +44,7 @@ async function azureDevOpsRepoList() {
 }
 
 async function main() {
-  azureDevOpsRepoList();
+  await azureDevOpsRepoList();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function dpsListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsListBySubscription();
+  await dpsListBySubscription();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function deleteWorkspaceActiveDirectoryAdmin() {
 }
 
 async function main() {
-  deleteWorkspaceActiveDirectoryAdmin();
+  await deleteWorkspaceActiveDirectoryAdmin();
 }
 
 main().catch(console.error);

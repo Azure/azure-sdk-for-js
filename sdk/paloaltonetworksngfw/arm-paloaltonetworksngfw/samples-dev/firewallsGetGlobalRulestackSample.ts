@@ -59,8 +59,8 @@ async function firewallsGetGlobalRulestackMinimumSetGen() {
 }
 
 async function main() {
-  firewallsGetGlobalRulestackMaximumSetGen();
-  firewallsGetGlobalRulestackMinimumSetGen();
+  await firewallsGetGlobalRulestackMaximumSetGen();
+  await firewallsGetGlobalRulestackMinimumSetGen();
 }
 
 main().catch(console.error);

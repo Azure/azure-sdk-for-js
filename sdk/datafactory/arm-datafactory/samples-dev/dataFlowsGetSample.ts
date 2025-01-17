@@ -37,7 +37,7 @@ async function dataFlowsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataFlowsGet();
+  await dataFlowsGet();
 }
 
 main().catch(console.error);

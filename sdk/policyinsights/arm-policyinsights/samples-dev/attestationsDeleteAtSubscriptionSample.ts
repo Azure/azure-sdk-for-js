@@ -31,7 +31,7 @@ async function deleteAttestationAtSubscriptionScope() {
 }
 
 async function main() {
-  deleteAttestationAtSubscriptionScope();
+  await deleteAttestationAtSubscriptionScope();
 }
 
 main().catch(console.error);

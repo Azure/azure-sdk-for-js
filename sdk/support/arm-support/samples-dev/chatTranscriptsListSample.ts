@@ -35,7 +35,7 @@ async function listChatTranscriptsForASubscriptionSupportTicket() {
 }
 
 async function main() {
-  listChatTranscriptsForASubscriptionSupportTicket();
+  await listChatTranscriptsForASubscriptionSupportTicket();
 }
 
 main().catch(console.error);

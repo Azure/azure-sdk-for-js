@@ -41,7 +41,7 @@ async function approveOrRejectAOutboundFirewallRuleWithAGivenName() {
 }
 
 async function main() {
-  approveOrRejectAOutboundFirewallRuleWithAGivenName();
+  await approveOrRejectAOutboundFirewallRuleWithAGivenName();
 }
 
 main().catch(console.error);

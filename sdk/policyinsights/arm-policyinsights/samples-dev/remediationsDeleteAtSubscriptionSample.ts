@@ -31,7 +31,7 @@ async function deleteRemediationAtSubscriptionScope() {
 }
 
 async function main() {
-  deleteRemediationAtSubscriptionScope();
+  await deleteRemediationAtSubscriptionScope();
 }
 
 main().catch(console.error);

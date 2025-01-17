@@ -41,7 +41,7 @@ async function cancelJobOperationResult() {
 }
 
 async function main() {
-  cancelJobOperationResult();
+  await cancelJobOperationResult();
 }
 
 main().catch(console.error);

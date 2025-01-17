@@ -37,7 +37,7 @@ async function clusterPoolsListBySubscription() {
 }
 
 async function main() {
-  clusterPoolsListBySubscription();
+  await clusterPoolsListBySubscription();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function deleteJob() {
 }
 
 async function main() {
-  deleteJob();
+  await deleteJob();
 }
 
 main().catch(console.error);

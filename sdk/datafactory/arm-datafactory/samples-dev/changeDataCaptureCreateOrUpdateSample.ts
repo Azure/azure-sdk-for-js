@@ -83,8 +83,8 @@ async function changeDataCaptureUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  changeDataCaptureCreate();
-  changeDataCaptureUpdate();
+  await changeDataCaptureCreate();
+  await changeDataCaptureUpdate();
 }
 
 main().catch(console.error);

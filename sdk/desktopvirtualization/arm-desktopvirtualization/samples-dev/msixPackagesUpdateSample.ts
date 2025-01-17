@@ -48,7 +48,7 @@ async function msixPackageUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  msixPackageUpdate();
+  await msixPackageUpdate();
 }
 
 main().catch(console.error);

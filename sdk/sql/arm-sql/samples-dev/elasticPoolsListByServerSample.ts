@@ -40,7 +40,7 @@ async function getAllElasticPoolsInAServer() {
 }
 
 async function main() {
-  getAllElasticPoolsInAServer();
+  await getAllElasticPoolsInAServer();
 }
 
 main().catch(console.error);

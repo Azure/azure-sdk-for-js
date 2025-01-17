@@ -119,9 +119,9 @@ async function devCentersCreateWithUserIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devCentersCreate();
-  devCentersCreateWithEncryption();
-  devCentersCreateWithUserIdentity();
+  await devCentersCreate();
+  await devCentersCreateWithEncryption();
+  await devCentersCreateWithUserIdentity();
 }
 
 main().catch(console.error);

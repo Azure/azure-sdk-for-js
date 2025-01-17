@@ -36,7 +36,7 @@ async function devBoxDefinitionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devBoxDefinitionsDelete();
+  await devBoxDefinitionsDelete();
 }
 
 main().catch(console.error);

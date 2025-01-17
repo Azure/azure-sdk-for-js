@@ -37,7 +37,7 @@ async function getExternalSecuritySolutionsOnASubscriptionFromSecurityDataLocati
 }
 
 async function main() {
-  getExternalSecuritySolutionsOnASubscriptionFromSecurityDataLocation();
+  await getExternalSecuritySolutionsOnASubscriptionFromSecurityDataLocation();
 }
 
 main().catch(console.error);

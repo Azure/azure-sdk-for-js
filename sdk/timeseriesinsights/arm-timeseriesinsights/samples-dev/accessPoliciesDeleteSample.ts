@@ -38,7 +38,7 @@ async function accessPoliciesDelete() {
 }
 
 async function main() {
-  accessPoliciesDelete();
+  await accessPoliciesDelete();
 }
 
 main().catch(console.error);

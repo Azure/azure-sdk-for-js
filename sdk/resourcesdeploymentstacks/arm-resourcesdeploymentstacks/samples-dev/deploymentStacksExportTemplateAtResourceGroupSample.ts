@@ -38,7 +38,7 @@ async function deploymentStacksResourceGroupExportTemplate() {
 }
 
 async function main() {
-  deploymentStacksResourceGroupExportTemplate();
+  await deploymentStacksResourceGroupExportTemplate();
 }
 
 main().catch(console.error);

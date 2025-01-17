@@ -87,8 +87,8 @@ async function linkedServicesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkedServicesCreate();
-  linkedServicesUpdate();
+  await linkedServicesCreate();
+  await linkedServicesUpdate();
 }
 
 main().catch(console.error);

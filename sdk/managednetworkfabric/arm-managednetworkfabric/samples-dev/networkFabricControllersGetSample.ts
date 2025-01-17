@@ -40,7 +40,7 @@ async function networkFabricControllersGetMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricControllersGetMaximumSetGen();
+  await networkFabricControllersGetMaximumSetGen();
 }
 
 main().catch(console.error);

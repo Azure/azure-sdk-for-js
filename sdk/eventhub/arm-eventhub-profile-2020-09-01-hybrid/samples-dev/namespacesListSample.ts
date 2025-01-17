@@ -34,7 +34,7 @@ async function namespacesListBySubscription() {
 }
 
 async function main() {
-  namespacesListBySubscription();
+  await namespacesListBySubscription();
 }
 
 main().catch(console.error);

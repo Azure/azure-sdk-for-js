@@ -123,10 +123,10 @@ async function getAnComputeInstance() {
 }
 
 async function main() {
-  getAAksCompute();
-  getAAmlCompute();
-  getAKubernetesCompute();
-  getAnComputeInstance();
+  await getAAksCompute();
+  await getAAmlCompute();
+  await getAKubernetesCompute();
+  await getAnComputeInstance();
 }
 
 main().catch(console.error);

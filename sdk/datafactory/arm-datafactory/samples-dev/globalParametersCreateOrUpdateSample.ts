@@ -72,8 +72,8 @@ async function globalParametersUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  globalParametersCreate();
-  globalParametersUpdate();
+  await globalParametersCreate();
+  await globalParametersUpdate();
 }
 
 main().catch(console.error);

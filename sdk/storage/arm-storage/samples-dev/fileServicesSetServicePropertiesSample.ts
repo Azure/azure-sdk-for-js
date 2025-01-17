@@ -132,9 +132,9 @@ async function putFileServicesEnableSecureSmbFeatures() {
 }
 
 async function main() {
-  putFileServices();
-  putFileServicesEnableSmbMultichannel();
-  putFileServicesEnableSecureSmbFeatures();
+  await putFileServices();
+  await putFileServicesEnableSmbMultichannel();
+  await putFileServicesEnableSecureSmbFeatures();
 }
 
 main().catch(console.error);

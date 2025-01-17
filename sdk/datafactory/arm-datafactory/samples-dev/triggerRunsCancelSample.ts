@@ -39,7 +39,7 @@ async function triggersCancel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersCancel();
+  await triggersCancel();
 }
 
 main().catch(console.error);

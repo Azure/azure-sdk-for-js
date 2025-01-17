@@ -83,8 +83,8 @@ async function listAllJobExecutionsInAJobAgent() {
 }
 
 async function main() {
-  listAllJobExecutionsInAJobAgentWithFiltering();
-  listAllJobExecutionsInAJobAgent();
+  await listAllJobExecutionsInAJobAgentWithFiltering();
+  await listAllJobExecutionsInAJobAgent();
 }
 
 main().catch(console.error);

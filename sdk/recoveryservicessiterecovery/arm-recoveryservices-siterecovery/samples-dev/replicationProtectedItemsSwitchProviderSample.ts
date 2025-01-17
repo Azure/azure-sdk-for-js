@@ -62,7 +62,7 @@ async function executeSwitchProvider() {
 }
 
 async function main() {
-  executeSwitchProvider();
+  await executeSwitchProvider();
 }
 
 main().catch(console.error);

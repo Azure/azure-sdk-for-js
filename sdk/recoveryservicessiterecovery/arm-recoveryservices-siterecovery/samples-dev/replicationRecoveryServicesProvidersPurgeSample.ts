@@ -43,7 +43,7 @@ async function purgesRecoveryServiceProviderFromFabric() {
 }
 
 async function main() {
-  purgesRecoveryServiceProviderFromFabric();
+  await purgesRecoveryServiceProviderFromFabric();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function updateNetworkSiteTags() {
 }
 
 async function main() {
-  updateNetworkSiteTags();
+  await updateNetworkSiteTags();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getImage() {
 }
 
 async function main() {
-  getImage();
+  await getImage();
 }
 
 main().catch(console.error);

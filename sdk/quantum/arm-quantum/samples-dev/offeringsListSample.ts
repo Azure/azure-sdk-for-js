@@ -35,7 +35,7 @@ async function offeringsList() {
 }
 
 async function main() {
-  offeringsList();
+  await offeringsList();
 }
 
 main().catch(console.error);

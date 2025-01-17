@@ -36,7 +36,7 @@ async function listJobsInAResourceGroup() {
 }
 
 async function main() {
-  listJobsInAResourceGroup();
+  await listJobsInAResourceGroup();
 }
 
 main().catch(console.error);

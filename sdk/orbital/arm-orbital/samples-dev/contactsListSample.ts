@@ -40,7 +40,7 @@ async function listOfSpacecraft() {
 }
 
 async function main() {
-  listOfSpacecraft();
+  await listOfSpacecraft();
 }
 
 main().catch(console.error);

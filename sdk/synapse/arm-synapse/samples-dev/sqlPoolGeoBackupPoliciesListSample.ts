@@ -42,7 +42,7 @@ async function getSqlPoolGeoBackupPolicy() {
 }
 
 async function main() {
-  getSqlPoolGeoBackupPolicy();
+  await getSqlPoolGeoBackupPolicy();
 }
 
 main().catch(console.error);

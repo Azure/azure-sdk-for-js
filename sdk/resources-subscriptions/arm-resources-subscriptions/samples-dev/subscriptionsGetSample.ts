@@ -29,7 +29,7 @@ async function getASingleSubscription() {
 }
 
 async function main() {
-  getASingleSubscription();
+  await getASingleSubscription();
 }
 
 main().catch(console.error);

@@ -72,7 +72,7 @@ async function createAMediaServicesAccount() {
 }
 
 async function main() {
-  createAMediaServicesAccount();
+  await createAMediaServicesAccount();
 }
 
 main().catch(console.error);

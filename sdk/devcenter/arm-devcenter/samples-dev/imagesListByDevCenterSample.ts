@@ -37,7 +37,7 @@ async function imagesListByDevCenter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  imagesListByDevCenter();
+  await imagesListByDevCenter();
 }
 
 main().catch(console.error);

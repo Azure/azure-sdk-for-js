@@ -40,7 +40,7 @@ async function azureLargeInstanceListByResourceGroup() {
 }
 
 async function main() {
-  azureLargeInstanceListByResourceGroup();
+  await azureLargeInstanceListByResourceGroup();
 }
 
 main().catch(console.error);

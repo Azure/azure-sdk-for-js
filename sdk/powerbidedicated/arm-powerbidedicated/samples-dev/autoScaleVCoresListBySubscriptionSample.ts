@@ -34,7 +34,7 @@ async function listAutoScaleVCoresInSubscription() {
 }
 
 async function main() {
-  listAutoScaleVCoresInSubscription();
+  await listAutoScaleVCoresInSubscription();
 }
 
 main().catch(console.error);

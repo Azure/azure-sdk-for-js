@@ -43,7 +43,7 @@ async function kustoPoolDataConnectionsGet() {
 }
 
 async function main() {
-  kustoPoolDataConnectionsGet();
+  await kustoPoolDataConnectionsGet();
 }
 
 main().catch(console.error);

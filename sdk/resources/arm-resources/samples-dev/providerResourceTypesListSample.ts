@@ -34,7 +34,7 @@ async function getProviderResourceTypes() {
 }
 
 async function main() {
-  getProviderResourceTypes();
+  await getProviderResourceTypes();
 }
 
 main().catch(console.error);

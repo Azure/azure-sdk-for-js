@@ -42,7 +42,7 @@ async function listKeyVersionsInTheVault() {
 }
 
 async function main() {
-  listKeyVersionsInTheVault();
+  await listKeyVersionsInTheVault();
 }
 
 main().catch(console.error);

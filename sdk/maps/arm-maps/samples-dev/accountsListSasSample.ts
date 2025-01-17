@@ -57,7 +57,7 @@ async function listAccountSas() {
 }
 
 async function main() {
-  listAccountSas();
+  await listAccountSas();
 }
 
 main().catch(console.error);

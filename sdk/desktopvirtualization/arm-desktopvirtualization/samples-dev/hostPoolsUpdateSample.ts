@@ -69,7 +69,7 @@ async function hostPoolUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hostPoolUpdate();
+  await hostPoolUpdate();
 }
 
 main().catch(console.error);

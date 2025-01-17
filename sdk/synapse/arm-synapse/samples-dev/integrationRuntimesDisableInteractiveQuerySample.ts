@@ -39,7 +39,7 @@ async function stopIntegrationRuntime() {
 }
 
 async function main() {
-  stopIntegrationRuntime();
+  await stopIntegrationRuntime();
 }
 
 main().catch(console.error);

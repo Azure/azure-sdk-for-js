@@ -38,7 +38,7 @@ async function listClusterManagersForResourceGroup() {
 }
 
 async function main() {
-  listClusterManagersForResourceGroup();
+  await listClusterManagersForResourceGroup();
 }
 
 main().catch(console.error);

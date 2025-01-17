@@ -44,7 +44,7 @@ async function patchALogProfile() {
 }
 
 async function main() {
-  patchALogProfile();
+  await patchALogProfile();
 }
 
 main().catch(console.error);

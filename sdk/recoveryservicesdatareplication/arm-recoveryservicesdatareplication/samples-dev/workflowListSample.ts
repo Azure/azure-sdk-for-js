@@ -51,7 +51,7 @@ async function workflowList() {
 }
 
 async function main() {
-  workflowList();
+  await workflowList();
 }
 
 main().catch(console.error);

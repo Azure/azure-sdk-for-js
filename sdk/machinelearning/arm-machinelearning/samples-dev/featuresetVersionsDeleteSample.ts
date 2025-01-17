@@ -44,7 +44,7 @@ async function deleteWorkspaceFeaturesetVersion() {
 }
 
 async function main() {
-  deleteWorkspaceFeaturesetVersion();
+  await deleteWorkspaceFeaturesetVersion();
 }
 
 main().catch(console.error);

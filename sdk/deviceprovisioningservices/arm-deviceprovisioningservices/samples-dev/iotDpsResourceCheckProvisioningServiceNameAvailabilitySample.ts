@@ -35,7 +35,7 @@ async function dpsCheckName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsCheckName();
+  await dpsCheckName();
 }
 
 main().catch(console.error);

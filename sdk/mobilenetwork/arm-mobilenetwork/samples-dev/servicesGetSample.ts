@@ -39,7 +39,7 @@ async function getService() {
 }
 
 async function main() {
-  getService();
+  await getService();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function endpointServicesList() {
 }
 
 async function main() {
-  endpointServicesList();
+  await endpointServicesList();
 }
 
 main().catch(console.error);

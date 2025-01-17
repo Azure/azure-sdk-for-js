@@ -32,7 +32,7 @@ async function listAllVirtualRoutersForAGivenSubscription() {
 }
 
 async function main() {
-  listAllVirtualRoutersForAGivenSubscription();
+  await listAllVirtualRoutersForAGivenSubscription();
 }
 
 main().catch(console.error);

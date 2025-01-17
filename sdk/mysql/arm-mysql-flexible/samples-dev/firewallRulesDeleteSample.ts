@@ -41,7 +41,7 @@ async function deleteAFirewallRule() {
 }
 
 async function main() {
-  deleteAFirewallRule();
+  await deleteAFirewallRule();
 }
 
 main().catch(console.error);

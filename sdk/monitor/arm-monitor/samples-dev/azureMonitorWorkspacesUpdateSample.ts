@@ -47,7 +47,7 @@ async function updateAnAzureMonitorWorkspace() {
 }
 
 async function main() {
-  updateAnAzureMonitorWorkspace();
+  await updateAnAzureMonitorWorkspace();
 }
 
 main().catch(console.error);

@@ -55,7 +55,7 @@ async function virtualNetworkGatewayStopSiteFailoverSimulation() {
 }
 
 async function main() {
-  virtualNetworkGatewayStopSiteFailoverSimulation();
+  await virtualNetworkGatewayStopSiteFailoverSimulation();
 }
 
 main().catch(console.error);

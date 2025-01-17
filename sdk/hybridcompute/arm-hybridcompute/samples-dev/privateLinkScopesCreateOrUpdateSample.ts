@@ -69,8 +69,8 @@ async function privateLinkScopeUpdate() {
 }
 
 async function main() {
-  privateLinkScopeCreate();
-  privateLinkScopeUpdate();
+  await privateLinkScopeCreate();
+  await privateLinkScopeUpdate();
 }
 
 main().catch(console.error);

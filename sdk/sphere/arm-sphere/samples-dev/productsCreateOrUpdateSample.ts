@@ -41,7 +41,7 @@ async function productsCreateOrUpdate() {
 }
 
 async function main() {
-  productsCreateOrUpdate();
+  await productsCreateOrUpdate();
 }
 
 main().catch(console.error);

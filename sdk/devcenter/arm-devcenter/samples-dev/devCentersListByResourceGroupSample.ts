@@ -35,7 +35,7 @@ async function devCentersListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devCentersListByResourceGroup();
+  await devCentersListByResourceGroup();
 }
 
 main().catch(console.error);

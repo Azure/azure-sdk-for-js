@@ -42,7 +42,7 @@ async function addCommunicationToSubscriptionTicket() {
 }
 
 async function main() {
-  addCommunicationToSubscriptionTicket();
+  await addCommunicationToSubscriptionTicket();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function quantumWorkspacesListBySubscription() {
 }
 
 async function main() {
-  quantumWorkspacesListBySubscription();
+  await quantumWorkspacesListBySubscription();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function deleteAnAzureAdAdministrator() {
 }
 
 async function main() {
-  deleteAnAzureAdAdministrator();
+  await deleteAnAzureAdAdministrator();
 }
 
 main().catch(console.error);

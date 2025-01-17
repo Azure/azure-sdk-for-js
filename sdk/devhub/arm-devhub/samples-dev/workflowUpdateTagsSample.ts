@@ -38,7 +38,7 @@ async function updateManagedClusterTags(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateManagedClusterTags();
+  await updateManagedClusterTags();
 }
 
 main().catch(console.error);

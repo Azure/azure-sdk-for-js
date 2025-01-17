@@ -50,7 +50,7 @@ async function factoriesConfigureFactoryRepo(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesConfigureFactoryRepo();
+  await factoriesConfigureFactoryRepo();
 }
 
 main().catch(console.error);

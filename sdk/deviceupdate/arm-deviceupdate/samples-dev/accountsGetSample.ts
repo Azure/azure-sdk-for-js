@@ -32,7 +32,7 @@ async function getsAccountDetails(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsAccountDetails();
+  await getsAccountDetails();
 }
 
 main().catch(console.error);

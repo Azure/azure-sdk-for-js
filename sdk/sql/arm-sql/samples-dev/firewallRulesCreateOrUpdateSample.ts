@@ -73,8 +73,8 @@ async function updateAFirewallRuleMaxOrMin() {
 }
 
 async function main() {
-  createAFirewallRuleMaxOrMin();
-  updateAFirewallRuleMaxOrMin();
+  await createAFirewallRuleMaxOrMin();
+  await updateAFirewallRuleMaxOrMin();
 }
 
 main().catch(console.error);

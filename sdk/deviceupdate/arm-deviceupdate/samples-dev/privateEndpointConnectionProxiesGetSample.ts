@@ -37,7 +37,7 @@ async function privateEndpointConnectionProxyGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionProxyGet();
+  await privateEndpointConnectionProxyGet();
 }
 
 main().catch(console.error);

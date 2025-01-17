@@ -39,7 +39,7 @@ async function getABatchConfiguration() {
 }
 
 async function main() {
-  getABatchConfiguration();
+  await getABatchConfiguration();
 }
 
 main().catch(console.error);

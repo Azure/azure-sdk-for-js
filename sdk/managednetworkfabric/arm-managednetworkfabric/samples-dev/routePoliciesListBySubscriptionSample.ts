@@ -37,7 +37,7 @@ async function routePoliciesListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  routePoliciesListBySubscriptionMaximumSetGen();
+  await routePoliciesListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

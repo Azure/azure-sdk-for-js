@@ -60,8 +60,8 @@ async function availabilitySetsDeleteMinimumSet() {
 }
 
 async function main() {
-  availabilitySetsDeleteMaximumSet();
-  availabilitySetsDeleteMinimumSet();
+  await availabilitySetsDeleteMaximumSet();
+  await availabilitySetsDeleteMinimumSet();
 }
 
 main().catch(console.error);

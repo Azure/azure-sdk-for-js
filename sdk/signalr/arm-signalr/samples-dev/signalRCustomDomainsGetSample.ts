@@ -39,7 +39,7 @@ async function signalRCustomDomainsGet() {
 }
 
 async function main() {
-  signalRCustomDomainsGet();
+  await signalRCustomDomainsGet();
 }
 
 main().catch(console.error);

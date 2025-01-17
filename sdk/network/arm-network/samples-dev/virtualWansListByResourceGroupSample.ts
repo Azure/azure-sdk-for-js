@@ -35,7 +35,7 @@ async function virtualWanListByResourceGroup() {
 }
 
 async function main() {
-  virtualWanListByResourceGroup();
+  await virtualWanListByResourceGroup();
 }
 
 main().catch(console.error);

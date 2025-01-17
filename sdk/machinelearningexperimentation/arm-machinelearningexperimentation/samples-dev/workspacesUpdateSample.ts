@@ -45,7 +45,7 @@ async function workspaceUpdate() {
 }
 
 async function main() {
-  workspaceUpdate();
+  await workspaceUpdate();
 }
 
 main().catch(console.error);

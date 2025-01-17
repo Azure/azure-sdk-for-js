@@ -45,7 +45,7 @@ async function kustoSandboxCustomImagesUpdate() {
 }
 
 async function main() {
-  kustoSandboxCustomImagesUpdate();
+  await kustoSandboxCustomImagesUpdate();
 }
 
 main().catch(console.error);

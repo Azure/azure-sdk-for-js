@@ -34,7 +34,7 @@ async function deleteWorkflow(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteWorkflow();
+  await deleteWorkflow();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listDbSystemShapesByLocation() {
 }
 
 async function main() {
-  listDbSystemShapesByLocation();
+  await listDbSystemShapesByLocation();
 }
 
 main().catch(console.error);

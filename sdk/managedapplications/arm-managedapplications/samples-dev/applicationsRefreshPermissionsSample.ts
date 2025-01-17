@@ -36,7 +36,7 @@ async function refreshManagedApplicationPermissions() {
 }
 
 async function main() {
-  refreshManagedApplicationPermissions();
+  await refreshManagedApplicationPermissions();
 }
 
 main().catch(console.error);

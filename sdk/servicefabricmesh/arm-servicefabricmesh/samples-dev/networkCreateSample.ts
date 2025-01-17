@@ -53,7 +53,7 @@ async function createOrUpdateNetwork() {
 }
 
 async function main() {
-  createOrUpdateNetwork();
+  await createOrUpdateNetwork();
 }
 
 main().catch(console.error);

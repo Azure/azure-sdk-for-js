@@ -53,8 +53,8 @@ async function regionsListBySkuStandard() {
 }
 
 async function main() {
-  regionsListBySkuBasic();
-  regionsListBySkuStandard();
+  await regionsListBySkuBasic();
+  await regionsListBySkuStandard();
 }
 
 main().catch(console.error);

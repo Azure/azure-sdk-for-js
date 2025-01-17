@@ -36,7 +36,7 @@ async function listAllPublisherResourcesInAResourceGroup() {
 }
 
 async function main() {
-  listAllPublisherResourcesInAResourceGroup();
+  await listAllPublisherResourcesInAResourceGroup();
 }
 
 main().catch(console.error);

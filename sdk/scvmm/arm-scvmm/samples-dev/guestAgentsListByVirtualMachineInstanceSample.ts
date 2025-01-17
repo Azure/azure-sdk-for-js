@@ -53,8 +53,8 @@ async function guestAgentsListByVirtualMachineInstanceMinimumSet() {
 }
 
 async function main() {
-  guestAgentsListByVirtualMachineInstanceMaximumSet();
-  guestAgentsListByVirtualMachineInstanceMinimumSet();
+  await guestAgentsListByVirtualMachineInstanceMaximumSet();
+  await guestAgentsListByVirtualMachineInstanceMinimumSet();
 }
 
 main().catch(console.error);

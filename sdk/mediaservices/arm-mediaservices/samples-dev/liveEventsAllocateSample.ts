@@ -39,7 +39,7 @@ async function allocateALiveEvent() {
 }
 
 async function main() {
-  allocateALiveEvent();
+  await allocateALiveEvent();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function getLicenseProfile() {
 }
 
 async function main() {
-  getLicenseProfile();
+  await getLicenseProfile();
 }
 
 main().catch(console.error);

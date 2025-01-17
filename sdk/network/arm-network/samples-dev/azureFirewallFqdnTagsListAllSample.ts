@@ -32,7 +32,7 @@ async function listAllAzureFirewallFqdnTagsForAGivenSubscription() {
 }
 
 async function main() {
-  listAllAzureFirewallFqdnTagsForAGivenSubscription();
+  await listAllAzureFirewallFqdnTagsForAGivenSubscription();
 }
 
 main().catch(console.error);

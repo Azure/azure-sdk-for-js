@@ -41,7 +41,7 @@ async function environmentTypesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentTypesUpdate();
+  await environmentTypesUpdate();
 }
 
 main().catch(console.error);

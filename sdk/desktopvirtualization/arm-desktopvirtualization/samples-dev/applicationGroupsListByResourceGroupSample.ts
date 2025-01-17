@@ -50,7 +50,7 @@ async function applicationGroupListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationGroupListByResourceGroup();
+  await applicationGroupListByResourceGroup();
 }
 
 main().catch(console.error);

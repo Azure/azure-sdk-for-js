@@ -666,8 +666,8 @@ async function volumeGroupsCreateSapHana() {
 }
 
 async function main() {
-  volumeGroupsCreateOracle();
-  volumeGroupsCreateSapHana();
+  await volumeGroupsCreateOracle();
+  await volumeGroupsCreateSapHana();
 }
 
 main().catch(console.error);

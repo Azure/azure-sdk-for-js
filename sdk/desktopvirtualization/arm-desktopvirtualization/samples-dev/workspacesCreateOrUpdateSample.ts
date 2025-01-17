@@ -45,7 +45,7 @@ async function workspaceCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspaceCreate();
+  await workspaceCreate();
 }
 
 main().catch(console.error);

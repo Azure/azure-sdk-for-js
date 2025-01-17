@@ -40,7 +40,7 @@ async function getPrivateEndpointConnectionPropertiesForTheGivenPrivateEndpoint(
 }
 
 async function main(): Promise<void> {
-  getPrivateEndpointConnectionPropertiesForTheGivenPrivateEndpoint();
+  await getPrivateEndpointConnectionPropertiesForTheGivenPrivateEndpoint();
 }
 
 main().catch(console.error);

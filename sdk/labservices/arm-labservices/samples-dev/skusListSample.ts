@@ -34,7 +34,7 @@ async function listSkus() {
 }
 
 async function main() {
-  listSkus();
+  await listSkus();
 }
 
 main().catch(console.error);

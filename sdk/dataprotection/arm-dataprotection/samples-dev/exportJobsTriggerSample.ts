@@ -35,7 +35,7 @@ async function triggerExportJobs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerExportJobs();
+  await triggerExportJobs();
 }
 
 main().catch(console.error);

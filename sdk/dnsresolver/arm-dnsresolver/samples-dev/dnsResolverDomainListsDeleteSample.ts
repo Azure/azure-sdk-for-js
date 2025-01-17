@@ -37,7 +37,7 @@ async function deleteDnsResolverDomainList() {
 }
 
 async function main() {
-  deleteDnsResolverDomainList();
+  await deleteDnsResolverDomainList();
 }
 
 main().catch(console.error);

@@ -50,8 +50,8 @@ async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
 }
 
 async function main() {
-  getCollectionOfPolicyMetadataResources();
-  getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter();
+  await getCollectionOfPolicyMetadataResources();
+  await getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter();
 }
 
 main().catch(console.error);

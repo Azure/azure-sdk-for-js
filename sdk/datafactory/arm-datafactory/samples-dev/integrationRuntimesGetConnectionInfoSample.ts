@@ -37,7 +37,7 @@ async function integrationRuntimesGetConnectionInfo(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesGetConnectionInfo();
+  await integrationRuntimesGetConnectionInfo();
 }
 
 main().catch(console.error);

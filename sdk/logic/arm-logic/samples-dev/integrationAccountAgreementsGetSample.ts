@@ -39,7 +39,7 @@ async function getAgreementByName() {
 }
 
 async function main() {
-  getAgreementByName();
+  await getAgreementByName();
 }
 
 main().catch(console.error);

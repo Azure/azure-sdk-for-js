@@ -38,7 +38,7 @@ async function createOrUpdateTenantConfiguration() {
 }
 
 async function main() {
-  createOrUpdateTenantConfiguration();
+  await createOrUpdateTenantConfiguration();
 }
 
 main().catch(console.error);

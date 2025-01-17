@@ -43,7 +43,7 @@ async function createResourceGuard(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createResourceGuard();
+  await createResourceGuard();
 }
 
 main().catch(console.error);

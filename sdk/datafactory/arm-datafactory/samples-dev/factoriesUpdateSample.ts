@@ -42,7 +42,7 @@ async function factoriesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesUpdate();
+  await factoriesUpdate();
 }
 
 main().catch(console.error);

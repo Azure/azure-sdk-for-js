@@ -57,7 +57,7 @@ async function createSimGroup() {
 }
 
 async function main() {
-  createSimGroup();
+  await createSimGroup();
 }
 
 main().catch(console.error);

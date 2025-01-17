@@ -43,7 +43,7 @@ async function listSecurityUserRules() {
 }
 
 async function main() {
-  listSecurityUserRules();
+  await listSecurityUserRules();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function environmentTypesListByDevCenter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentTypesListByDevCenter();
+  await environmentTypesListByDevCenter();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function getsTheListOfProtectableItems() {
 }
 
 async function main() {
-  getsTheListOfProtectableItems();
+  await getsTheListOfProtectableItems();
 }
 
 main().catch(console.error);

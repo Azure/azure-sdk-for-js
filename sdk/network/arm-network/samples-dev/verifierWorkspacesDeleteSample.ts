@@ -38,7 +38,7 @@ async function verifierWorkspaceDelete() {
 }
 
 async function main() {
-  verifierWorkspaceDelete();
+  await verifierWorkspaceDelete();
 }
 
 main().catch(console.error);

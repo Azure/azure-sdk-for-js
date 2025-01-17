@@ -37,7 +37,7 @@ async function attachedNetworksListByProject(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  attachedNetworksListByProject();
+  await attachedNetworksListByProject();
 }
 
 main().catch(console.error);

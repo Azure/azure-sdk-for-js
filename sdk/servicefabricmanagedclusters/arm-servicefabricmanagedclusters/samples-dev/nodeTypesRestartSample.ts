@@ -47,7 +47,7 @@ async function restartNodes() {
 }
 
 async function main() {
-  restartNodes();
+  await restartNodes();
 }
 
 main().catch(console.error);

@@ -67,8 +67,8 @@ async function firmwaresListByWorkspaceMinimumSetGen() {
 }
 
 async function main() {
-  firmwaresListByWorkspaceMaximumSetGen();
-  firmwaresListByWorkspaceMinimumSetGen();
+  await firmwaresListByWorkspaceMaximumSetGen();
+  await firmwaresListByWorkspaceMinimumSetGen();
 }
 
 main().catch(console.error);

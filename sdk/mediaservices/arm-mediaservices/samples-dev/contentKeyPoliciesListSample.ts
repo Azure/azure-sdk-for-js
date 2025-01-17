@@ -100,9 +100,9 @@ async function listsAllContentKeyPolicies() {
 }
 
 async function main() {
-  listsContentKeyPoliciesOrderedByLastModified();
-  listsContentKeyPoliciesWithCreatedAndLastModifiedFilters();
-  listsAllContentKeyPolicies();
+  await listsContentKeyPoliciesOrderedByLastModified();
+  await listsContentKeyPoliciesWithCreatedAndLastModifiedFilters();
+  await listsAllContentKeyPolicies();
 }
 
 main().catch(console.error);

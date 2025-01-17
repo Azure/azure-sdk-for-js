@@ -40,7 +40,7 @@ async function patchResourceGuard(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchResourceGuard();
+  await patchResourceGuard();
 }
 
 main().catch(console.error);

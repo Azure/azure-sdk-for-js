@@ -45,7 +45,7 @@ async function replicasGetAll() {
 }
 
 async function main() {
-  replicasGetAll();
+  await replicasGetAll();
 }
 
 main().catch(console.error);

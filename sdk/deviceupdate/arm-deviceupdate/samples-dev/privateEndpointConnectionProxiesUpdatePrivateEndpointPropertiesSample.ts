@@ -47,7 +47,7 @@ async function privateEndpointConnectionProxyPrivateEndpointUpdate(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionProxyPrivateEndpointUpdate();
+  await privateEndpointConnectionProxyPrivateEndpointUpdate();
 }
 
 main().catch(console.error);

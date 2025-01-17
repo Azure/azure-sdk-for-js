@@ -179,11 +179,11 @@ async function updateToGen2Account() {
 }
 
 async function main() {
-  updateAccountEncryption();
-  updateAccountManagedIdentities();
-  updateAccountTags();
-  updateToGen1Account();
-  updateToGen2Account();
+  await updateAccountEncryption();
+  await updateAccountManagedIdentities();
+  await updateAccountTags();
+  await updateToGen1Account();
+  await updateToGen2Account();
 }
 
 main().catch(console.error);

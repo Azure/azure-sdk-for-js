@@ -39,7 +39,7 @@ async function deleteSchedule() {
 }
 
 async function main() {
-  deleteSchedule();
+  await deleteSchedule();
 }
 
 main().catch(console.error);

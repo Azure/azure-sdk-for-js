@@ -44,7 +44,7 @@ async function namespaceTopicsRegenerateKey() {
 }
 
 async function main() {
-  namespaceTopicsRegenerateKey();
+  await namespaceTopicsRegenerateKey();
 }
 
 main().catch(console.error);

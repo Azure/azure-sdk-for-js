@@ -42,7 +42,7 @@ async function listTheElasticPoolManagementOperations() {
 }
 
 async function main() {
-  listTheElasticPoolManagementOperations();
+  await listTheElasticPoolManagementOperations();
 }
 
 main().catch(console.error);

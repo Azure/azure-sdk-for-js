@@ -41,7 +41,7 @@ async function relayHybridConnectionAuthorizationRuleListKey() {
 }
 
 async function main() {
-  relayHybridConnectionAuthorizationRuleListKey();
+  await relayHybridConnectionAuthorizationRuleListKey();
 }
 
 main().catch(console.error);

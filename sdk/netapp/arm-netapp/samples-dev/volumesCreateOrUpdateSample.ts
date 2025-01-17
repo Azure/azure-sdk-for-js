@@ -49,7 +49,7 @@ async function volumesCreateOrUpdate() {
 }
 
 async function main() {
-  volumesCreateOrUpdate();
+  await volumesCreateOrUpdate();
 }
 
 main().catch(console.error);

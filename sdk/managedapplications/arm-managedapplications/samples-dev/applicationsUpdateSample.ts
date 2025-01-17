@@ -48,7 +48,7 @@ async function updatesManagedApplication() {
 }
 
 async function main() {
-  updatesManagedApplication();
+  await updatesManagedApplication();
 }
 
 main().catch(console.error);

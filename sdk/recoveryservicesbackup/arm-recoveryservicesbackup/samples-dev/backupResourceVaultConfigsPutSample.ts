@@ -47,7 +47,7 @@ async function updateVaultSecurityConfig() {
 }
 
 async function main() {
-  updateVaultSecurityConfig();
+  await updateVaultSecurityConfig();
 }
 
 main().catch(console.error);

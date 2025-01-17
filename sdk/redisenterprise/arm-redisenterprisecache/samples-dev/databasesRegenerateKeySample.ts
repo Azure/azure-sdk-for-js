@@ -47,7 +47,7 @@ async function redisEnterpriseDatabasesRegenerateKey() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesRegenerateKey();
+  await redisEnterpriseDatabasesRegenerateKey();
 }
 
 main().catch(console.error);

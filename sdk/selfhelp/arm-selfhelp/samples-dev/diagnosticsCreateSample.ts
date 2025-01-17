@@ -34,7 +34,7 @@ async function createsADiagnosticForAKeyVaultResource() {
 }
 
 async function main() {
-  createsADiagnosticForAKeyVaultResource();
+  await createsADiagnosticForAKeyVaultResource();
 }
 
 main().catch(console.error);

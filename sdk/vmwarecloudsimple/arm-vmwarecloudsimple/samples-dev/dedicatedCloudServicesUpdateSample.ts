@@ -40,7 +40,7 @@ async function patchDedicatedService() {
 }
 
 async function main() {
-  patchDedicatedService();
+  await patchDedicatedService();
 }
 
 main().catch(console.error);

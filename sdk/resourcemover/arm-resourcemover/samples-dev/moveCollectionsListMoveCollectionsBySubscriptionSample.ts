@@ -33,7 +33,7 @@ async function moveCollectionsListMoveCollectionsBySubscription() {
 }
 
 async function main() {
-  moveCollectionsListMoveCollectionsBySubscription();
+  await moveCollectionsListMoveCollectionsBySubscription();
 }
 
 main().catch(console.error);

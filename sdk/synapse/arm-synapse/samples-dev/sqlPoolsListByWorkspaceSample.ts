@@ -65,8 +65,8 @@ async function listSqlAnalyticsPoolsInAWorkspaceWithFilter() {
 }
 
 async function main() {
-  listSqlAnalyticsPoolsInAWorkspace();
-  listSqlAnalyticsPoolsInAWorkspaceWithFilter();
+  await listSqlAnalyticsPoolsInAWorkspace();
+  await listSqlAnalyticsPoolsInAWorkspaceWithFilter();
 }
 
 main().catch(console.error);

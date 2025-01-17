@@ -76,8 +76,8 @@ async function updateADatabaseAdvancedThreatProtectionSettingsWithMinimalParamet
 }
 
 async function main() {
-  updateADatabaseAdvancedThreatProtectionSettingsWithAllParameters();
-  updateADatabaseAdvancedThreatProtectionSettingsWithMinimalParameters();
+  await updateADatabaseAdvancedThreatProtectionSettingsWithAllParameters();
+  await updateADatabaseAdvancedThreatProtectionSettingsWithMinimalParameters();
 }
 
 main().catch(console.error);

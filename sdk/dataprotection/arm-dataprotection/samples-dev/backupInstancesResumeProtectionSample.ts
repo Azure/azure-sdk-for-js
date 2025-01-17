@@ -37,7 +37,7 @@ async function resumeProtection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resumeProtection();
+  await resumeProtection();
 }
 
 main().catch(console.error);

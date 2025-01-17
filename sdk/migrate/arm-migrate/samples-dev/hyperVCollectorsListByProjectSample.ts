@@ -40,7 +40,7 @@ async function hyperVCollectorsListByProject() {
 }
 
 async function main() {
-  hyperVCollectorsListByProject();
+  await hyperVCollectorsListByProject();
 }
 
 main().catch(console.error);

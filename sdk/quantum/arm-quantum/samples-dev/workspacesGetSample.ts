@@ -34,7 +34,7 @@ async function quantumWorkspacesGet() {
 }
 
 async function main() {
-  quantumWorkspacesGet();
+  await quantumWorkspacesGet();
 }
 
 main().catch(console.error);

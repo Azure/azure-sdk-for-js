@@ -52,7 +52,7 @@ async function resolveHealthErrors() {
 }
 
 async function main() {
-  resolveHealthErrors();
+  await resolveHealthErrors();
 }
 
 main().catch(console.error);

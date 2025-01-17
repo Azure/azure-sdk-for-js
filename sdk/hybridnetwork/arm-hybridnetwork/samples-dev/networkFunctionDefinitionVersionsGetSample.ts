@@ -90,9 +90,9 @@ async function getNetworkFunctionDefinitionVersionResourceForAzureOperatorNexusV
 }
 
 async function main() {
-  getANetworkFunctionDefinitionVersionResource();
-  getNetworkFunctionDefinitionVersionResourceForAzureCoreVnf();
-  getNetworkFunctionDefinitionVersionResourceForAzureOperatorNexusVnf();
+  await getANetworkFunctionDefinitionVersionResource();
+  await getNetworkFunctionDefinitionVersionResourceForAzureCoreVnf();
+  await getNetworkFunctionDefinitionVersionResourceForAzureOperatorNexusVnf();
 }
 
 main().catch(console.error);

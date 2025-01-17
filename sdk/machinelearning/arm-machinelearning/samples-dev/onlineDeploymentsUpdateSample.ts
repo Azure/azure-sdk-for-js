@@ -98,8 +98,8 @@ async function updateManagedOnlineDeployment() {
 }
 
 async function main() {
-  updateKubernetesOnlineDeployment();
-  updateManagedOnlineDeployment();
+  await updateKubernetesOnlineDeployment();
+  await updateManagedOnlineDeployment();
 }
 
 main().catch(console.error);

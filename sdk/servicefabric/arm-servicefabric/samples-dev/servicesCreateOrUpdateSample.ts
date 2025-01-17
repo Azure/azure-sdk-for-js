@@ -93,8 +93,8 @@ async function putAServiceWithMinimumParameters() {
 }
 
 async function main() {
-  putAServiceWithMaximumParameters();
-  putAServiceWithMinimumParameters();
+  await putAServiceWithMaximumParameters();
+  await putAServiceWithMinimumParameters();
 }
 
 main().catch(console.error);

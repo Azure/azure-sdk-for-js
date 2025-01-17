@@ -63,7 +63,7 @@ async function monitorsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsCreate();
+  await monitorsCreate();
 }
 
 main().catch(console.error);

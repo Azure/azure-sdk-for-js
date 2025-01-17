@@ -39,7 +39,7 @@ async function sandboxCustomImagesDelete() {
 }
 
 async function main() {
-  sandboxCustomImagesDelete();
+  await sandboxCustomImagesDelete();
 }
 
 main().catch(console.error);

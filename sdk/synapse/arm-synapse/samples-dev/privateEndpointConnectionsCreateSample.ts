@@ -49,7 +49,7 @@ async function approvePrivateEndpointConnection() {
 }
 
 async function main() {
-  approvePrivateEndpointConnection();
+  await approvePrivateEndpointConnection();
 }
 
 main().catch(console.error);

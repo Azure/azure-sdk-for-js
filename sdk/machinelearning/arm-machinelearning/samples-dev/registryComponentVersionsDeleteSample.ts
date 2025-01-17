@@ -44,7 +44,7 @@ async function deleteRegistryComponentVersion() {
 }
 
 async function main() {
-  deleteRegistryComponentVersion();
+  await deleteRegistryComponentVersion();
 }
 
 main().catch(console.error);

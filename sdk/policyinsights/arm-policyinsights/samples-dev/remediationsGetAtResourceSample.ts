@@ -32,7 +32,7 @@ async function getRemediationAtIndividualResourceScope() {
 }
 
 async function main() {
-  getRemediationAtIndividualResourceScope();
+  await getRemediationAtIndividualResourceScope();
 }
 
 main().catch(console.error);

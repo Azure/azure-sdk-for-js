@@ -39,7 +39,7 @@ async function kustoManagedPrivateEndpointsGet() {
 }
 
 async function main() {
-  kustoManagedPrivateEndpointsGet();
+  await kustoManagedPrivateEndpointsGet();
 }
 
 main().catch(console.error);

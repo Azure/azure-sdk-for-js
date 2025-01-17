@@ -37,7 +37,7 @@ async function listUser() {
 }
 
 async function main() {
-  listUser();
+  await listUser();
 }
 
 main().catch(console.error);

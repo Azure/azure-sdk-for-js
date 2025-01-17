@@ -40,7 +40,7 @@ async function availableServiceTiers() {
 }
 
 async function main() {
-  availableServiceTiers();
+  await availableServiceTiers();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function generateVirtualNetworkGatewayVpnProfile() {
 }
 
 async function main() {
-  generateVirtualNetworkGatewayVpnProfile();
+  await generateVirtualNetworkGatewayVpnProfile();
 }
 
 main().catch(console.error);

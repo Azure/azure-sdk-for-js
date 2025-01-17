@@ -34,7 +34,7 @@ async function getADeviceSecurityGroupForTheSpecifiedIoTHubResource() {
 }
 
 async function main() {
-  getADeviceSecurityGroupForTheSpecifiedIoTHubResource();
+  await getADeviceSecurityGroupForTheSpecifiedIoTHubResource();
 }
 
 main().catch(console.error);

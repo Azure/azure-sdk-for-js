@@ -43,7 +43,7 @@ async function enableHttpConnectivity() {
 }
 
 async function main() {
-  enableHttpConnectivity();
+  await enableHttpConnectivity();
 }
 
 main().catch(console.error);

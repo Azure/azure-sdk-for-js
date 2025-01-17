@@ -60,7 +60,7 @@ async function configurationAssignmentsForResourceGroupCreateOrUpdate() {
 }
 
 async function main() {
-  configurationAssignmentsForResourceGroupCreateOrUpdate();
+  await configurationAssignmentsForResourceGroupCreateOrUpdate();
 }
 
 main().catch(console.error);

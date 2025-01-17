@@ -39,7 +39,7 @@ async function getDigitalTwinsInstanceResourcesByResourceGroup(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  getDigitalTwinsInstanceResourcesByResourceGroup();
+  await getDigitalTwinsInstanceResourcesByResourceGroup();
 }
 
 main().catch(console.error);

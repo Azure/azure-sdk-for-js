@@ -52,7 +52,7 @@ async function listWorkspaceComponentVersion() {
 }
 
 async function main() {
-  listWorkspaceComponentVersion();
+  await listWorkspaceComponentVersion();
 }
 
 main().catch(console.error);

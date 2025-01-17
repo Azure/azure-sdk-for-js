@@ -40,7 +40,7 @@ async function listIntegrationAccountAssemblies() {
 }
 
 async function main() {
-  listIntegrationAccountAssemblies();
+  await listIntegrationAccountAssemblies();
 }
 
 main().catch(console.error);

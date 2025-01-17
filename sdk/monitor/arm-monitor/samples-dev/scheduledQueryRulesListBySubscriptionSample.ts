@@ -34,7 +34,7 @@ async function listScheduledQueryRulesBySubscription() {
 }
 
 async function main() {
-  listScheduledQueryRulesBySubscription();
+  await listScheduledQueryRulesBySubscription();
 }
 
 main().catch(console.error);

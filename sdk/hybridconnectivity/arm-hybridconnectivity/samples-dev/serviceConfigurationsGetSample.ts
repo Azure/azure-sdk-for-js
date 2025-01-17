@@ -57,8 +57,8 @@ async function hybridConnectivityEndpointsServiceconfigurationsGetWac() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsServiceconfigurationsGetSsh();
-  hybridConnectivityEndpointsServiceconfigurationsGetWac();
+  await hybridConnectivityEndpointsServiceconfigurationsGetSsh();
+  await hybridConnectivityEndpointsServiceconfigurationsGetWac();
 }
 
 main().catch(console.error);

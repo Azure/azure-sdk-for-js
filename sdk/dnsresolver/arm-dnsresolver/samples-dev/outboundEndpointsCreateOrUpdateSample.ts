@@ -50,7 +50,7 @@ async function upsertOutboundEndpointForDnsResolver() {
 }
 
 async function main() {
-  upsertOutboundEndpointForDnsResolver();
+  await upsertOutboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

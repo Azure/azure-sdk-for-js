@@ -47,7 +47,7 @@ async function createSecurityPartnerProvider() {
 }
 
 async function main() {
-  createSecurityPartnerProvider();
+  await createSecurityPartnerProvider();
 }
 
 main().catch(console.error);

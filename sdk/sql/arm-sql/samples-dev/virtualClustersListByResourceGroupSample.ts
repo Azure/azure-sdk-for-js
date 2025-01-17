@@ -37,7 +37,7 @@ async function listVirtualClustersByResourceGroup() {
 }
 
 async function main() {
-  listVirtualClustersByResourceGroup();
+  await listVirtualClustersByResourceGroup();
 }
 
 main().catch(console.error);

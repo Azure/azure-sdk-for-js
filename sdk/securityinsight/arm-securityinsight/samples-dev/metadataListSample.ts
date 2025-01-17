@@ -65,8 +65,8 @@ async function getAllMetadata() {
 }
 
 async function main() {
-  getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop();
-  getAllMetadata();
+  await getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop();
+  await getAllMetadata();
 }
 
 main().catch(console.error);

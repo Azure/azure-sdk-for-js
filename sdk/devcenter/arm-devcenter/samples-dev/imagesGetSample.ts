@@ -38,7 +38,7 @@ async function imagesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  imagesGet();
+  await imagesGet();
 }
 
 main().catch(console.error);

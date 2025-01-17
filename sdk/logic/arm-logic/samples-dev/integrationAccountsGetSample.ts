@@ -37,7 +37,7 @@ async function getIntegrationAccountByName() {
 }
 
 async function main() {
-  getIntegrationAccountByName();
+  await getIntegrationAccountByName();
 }
 
 main().catch(console.error);

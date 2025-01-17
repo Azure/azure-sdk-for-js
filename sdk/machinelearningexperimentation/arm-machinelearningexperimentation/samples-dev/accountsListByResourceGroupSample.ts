@@ -39,7 +39,7 @@ async function accountListByResourceGroup() {
 }
 
 async function main() {
-  accountListByResourceGroup();
+  await accountListByResourceGroup();
 }
 
 main().catch(console.error);

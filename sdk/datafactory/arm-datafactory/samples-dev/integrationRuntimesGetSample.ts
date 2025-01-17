@@ -37,7 +37,7 @@ async function integrationRuntimesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesGet();
+  await integrationRuntimesGet();
 }
 
 main().catch(console.error);

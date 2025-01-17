@@ -40,7 +40,7 @@ async function getTheSpecifiedPrivateLinkResourceForTheGivenDigitalTwin(): Promi
 }
 
 async function main(): Promise<void> {
-  getTheSpecifiedPrivateLinkResourceForTheGivenDigitalTwin();
+  await getTheSpecifiedPrivateLinkResourceForTheGivenDigitalTwin();
 }
 
 main().catch(console.error);

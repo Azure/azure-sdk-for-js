@@ -32,7 +32,7 @@ async function expressRoutePortList() {
 }
 
 async function main() {
-  expressRoutePortList();
+  await expressRoutePortList();
 }
 
 main().catch(console.error);

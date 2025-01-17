@@ -38,7 +38,7 @@ async function nameSpaceListByResourceGroup() {
 }
 
 async function main() {
-  nameSpaceListByResourceGroup();
+  await nameSpaceListByResourceGroup();
 }
 
 main().catch(console.error);

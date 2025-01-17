@@ -34,7 +34,7 @@ async function signalRGet() {
 }
 
 async function main() {
-  signalRGet();
+  await signalRGet();
 }
 
 main().catch(console.error);

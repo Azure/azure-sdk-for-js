@@ -65,8 +65,8 @@ async function getShares() {
 }
 
 async function main() {
-  getShareStats();
-  getShares();
+  await getShareStats();
+  await getShares();
 }
 
 main().catch(console.error);

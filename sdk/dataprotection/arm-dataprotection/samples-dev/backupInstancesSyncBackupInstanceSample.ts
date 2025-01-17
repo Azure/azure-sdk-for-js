@@ -44,7 +44,7 @@ async function syncBackupInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  syncBackupInstance();
+  await syncBackupInstance();
 }
 
 main().catch(console.error);

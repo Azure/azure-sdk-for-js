@@ -42,7 +42,7 @@ async function howToUpgradeYourDatabaseRedisVersion() {
 }
 
 async function main() {
-  howToUpgradeYourDatabaseRedisVersion();
+  await howToUpgradeYourDatabaseRedisVersion();
 }
 
 main().catch(console.error);

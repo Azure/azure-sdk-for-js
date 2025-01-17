@@ -37,7 +37,7 @@ async function cachesUpgradeFirmware() {
 }
 
 async function main() {
-  cachesUpgradeFirmware();
+  await cachesUpgradeFirmware();
 }
 
 main().catch(console.error);

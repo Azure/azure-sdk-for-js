@@ -78,8 +78,8 @@ async function applyUpdatesCreateOrUpdateOrCancel() {
 }
 
 async function main() {
-  applyUpdatesCreateOrUpdateOnlyNoCancellation();
-  applyUpdatesCreateOrUpdateOrCancel();
+  await applyUpdatesCreateOrUpdateOnlyNoCancellation();
+  await applyUpdatesCreateOrUpdateOrCancel();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function getWorkspaceFeaturestoreEntityVersion() {
 }
 
 async function main() {
-  getWorkspaceFeaturestoreEntityVersion();
+  await getWorkspaceFeaturestoreEntityVersion();
 }
 
 main().catch(console.error);

@@ -57,8 +57,8 @@ async function postRulesGetCountersMinimumSetGen() {
 }
 
 async function main() {
-  postRulesGetCountersMaximumSetGen();
-  postRulesGetCountersMinimumSetGen();
+  await postRulesGetCountersMaximumSetGen();
+  await postRulesGetCountersMinimumSetGen();
 }
 
 main().catch(console.error);

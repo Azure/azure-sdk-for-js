@@ -40,7 +40,7 @@ async function listKeysInWorkspace() {
 }
 
 async function main() {
-  listKeysInWorkspace();
+  await listKeysInWorkspace();
 }
 
 main().catch(console.error);

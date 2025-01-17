@@ -41,7 +41,7 @@ async function eventHubAuthorizationRuleDelete() {
 }
 
 async function main() {
-  eventHubAuthorizationRuleDelete();
+  await eventHubAuthorizationRuleDelete();
 }
 
 main().catch(console.error);

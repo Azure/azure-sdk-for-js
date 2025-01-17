@@ -76,7 +76,7 @@ async function validateForBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateForBackup();
+  await validateForBackup();
 }
 
 main().catch(console.error);

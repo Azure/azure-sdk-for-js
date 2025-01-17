@@ -39,7 +39,7 @@ async function deleteContact() {
 }
 
 async function main() {
-  deleteContact();
+  await deleteContact();
 }
 
 main().catch(console.error);

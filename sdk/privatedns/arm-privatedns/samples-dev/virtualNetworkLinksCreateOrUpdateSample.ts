@@ -50,7 +50,7 @@ async function putPrivateDnsZoneVirtualNetworkLink() {
 }
 
 async function main() {
-  putPrivateDnsZoneVirtualNetworkLink();
+  await putPrivateDnsZoneVirtualNetworkLink();
 }
 
 main().catch(console.error);

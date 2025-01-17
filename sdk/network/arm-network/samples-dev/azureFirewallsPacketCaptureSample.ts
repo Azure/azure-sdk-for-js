@@ -58,7 +58,7 @@ async function azureFirewallPacketCapture() {
 }
 
 async function main() {
-  azureFirewallPacketCapture();
+  await azureFirewallPacketCapture();
 }
 
 main().catch(console.error);

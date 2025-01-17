@@ -36,7 +36,7 @@ async function environmentTypesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentTypesDelete();
+  await environmentTypesDelete();
 }
 
 main().catch(console.error);

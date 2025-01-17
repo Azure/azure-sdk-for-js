@@ -36,7 +36,7 @@ async function getAnAlertRuleStatus() {
 }
 
 async function main() {
-  getAnAlertRuleStatus();
+  await getAnAlertRuleStatus();
 }
 
 main().catch(console.error);

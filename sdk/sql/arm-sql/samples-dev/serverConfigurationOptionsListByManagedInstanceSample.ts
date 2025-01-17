@@ -39,7 +39,7 @@ async function getsAListOfManagedInstanceServerConfigurationOptions() {
 }
 
 async function main() {
-  getsAListOfManagedInstanceServerConfigurationOptions();
+  await getsAListOfManagedInstanceServerConfigurationOptions();
 }
 
 main().catch(console.error);

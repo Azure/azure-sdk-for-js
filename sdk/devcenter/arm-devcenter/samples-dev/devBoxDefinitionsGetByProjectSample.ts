@@ -36,7 +36,7 @@ async function devBoxDefinitionsGetByProject(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devBoxDefinitionsGetByProject();
+  await devBoxDefinitionsGetByProject();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getTopology() {
 }
 
 async function main() {
-  getTopology();
+  await getTopology();
 }
 
 main().catch(console.error);

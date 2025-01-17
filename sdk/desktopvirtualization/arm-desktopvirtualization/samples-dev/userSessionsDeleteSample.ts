@@ -45,7 +45,7 @@ async function userSessionDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  userSessionDelete();
+  await userSessionDelete();
 }
 
 main().catch(console.error);

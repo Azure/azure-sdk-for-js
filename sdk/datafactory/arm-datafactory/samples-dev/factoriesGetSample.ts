@@ -32,7 +32,7 @@ async function factoriesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesGet();
+  await factoriesGet();
 }
 
 main().catch(console.error);

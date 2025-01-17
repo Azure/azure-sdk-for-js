@@ -39,7 +39,7 @@ async function getBlobAuditingPolicyOfASqlAnalyticsPool() {
 }
 
 async function main() {
-  getBlobAuditingPolicyOfASqlAnalyticsPool();
+  await getBlobAuditingPolicyOfASqlAnalyticsPool();
 }
 
 main().catch(console.error);

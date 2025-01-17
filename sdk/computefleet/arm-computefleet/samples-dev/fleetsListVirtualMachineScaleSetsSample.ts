@@ -23,7 +23,7 @@ async function fleetsListVirtualMachineScaleSets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsListVirtualMachineScaleSets();
+  await fleetsListVirtualMachineScaleSets();
 }
 
 main().catch(console.error);

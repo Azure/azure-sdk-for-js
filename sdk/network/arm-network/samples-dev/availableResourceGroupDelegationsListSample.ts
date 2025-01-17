@@ -37,7 +37,7 @@ async function getAvailableDelegationsInTheResourceGroup() {
 }
 
 async function main() {
-  getAvailableDelegationsInTheResourceGroup();
+  await getAvailableDelegationsInTheResourceGroup();
 }
 
 main().catch(console.error);

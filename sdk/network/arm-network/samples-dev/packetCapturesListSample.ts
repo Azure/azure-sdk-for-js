@@ -37,7 +37,7 @@ async function listPacketCaptures() {
 }
 
 async function main() {
-  listPacketCaptures();
+  await listPacketCaptures();
 }
 
 main().catch(console.error);

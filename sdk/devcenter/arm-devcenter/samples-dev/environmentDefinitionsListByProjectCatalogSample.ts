@@ -39,7 +39,7 @@ async function environmentDefinitionsListByProjectCatalog(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentDefinitionsListByProjectCatalog();
+  await environmentDefinitionsListByProjectCatalog();
 }
 
 main().catch(console.error);

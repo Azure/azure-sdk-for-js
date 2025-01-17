@@ -51,7 +51,7 @@ async function simulateSecurityAlertsOnASubscription() {
 }
 
 async function main() {
-  simulateSecurityAlertsOnASubscription();
+  await simulateSecurityAlertsOnASubscription();
 }
 
 main().catch(console.error);

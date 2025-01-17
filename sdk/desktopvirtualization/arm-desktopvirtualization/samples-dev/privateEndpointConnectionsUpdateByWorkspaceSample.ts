@@ -49,7 +49,7 @@ async function privateEndpointConnectionUpdateByWorkspace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionUpdateByWorkspace();
+  await privateEndpointConnectionUpdateByWorkspace();
 }
 
 main().catch(console.error);

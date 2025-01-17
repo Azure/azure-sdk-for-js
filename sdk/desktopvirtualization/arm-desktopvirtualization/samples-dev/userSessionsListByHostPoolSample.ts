@@ -53,7 +53,7 @@ async function userSessionListByHostPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  userSessionListByHostPool();
+  await userSessionListByHostPool();
 }
 
 main().catch(console.error);

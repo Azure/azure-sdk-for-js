@@ -40,7 +40,7 @@ async function volumesReplicationStatus() {
 }
 
 async function main() {
-  volumesReplicationStatus();
+  await volumesReplicationStatus();
 }
 
 main().catch(console.error);

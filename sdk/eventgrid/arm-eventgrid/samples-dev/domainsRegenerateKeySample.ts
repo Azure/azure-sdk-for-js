@@ -42,7 +42,7 @@ async function domainsRegenerateKey() {
 }
 
 async function main() {
-  domainsRegenerateKey();
+  await domainsRegenerateKey();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function triggersListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersListByFactory();
+  await triggersListByFactory();
 }
 
 main().catch(console.error);

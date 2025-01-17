@@ -59,7 +59,7 @@ async function createOrUpdateWorkspaceFeaturestoreEntityVersion() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceFeaturestoreEntityVersion();
+  await createOrUpdateWorkspaceFeaturestoreEntityVersion();
 }
 
 main().catch(console.error);

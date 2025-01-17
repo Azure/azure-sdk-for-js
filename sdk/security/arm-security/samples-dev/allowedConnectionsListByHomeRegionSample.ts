@@ -37,7 +37,7 @@ async function getAllowedConnectionsOnASubscriptionFromSecurityDataLocation() {
 }
 
 async function main() {
-  getAllowedConnectionsOnASubscriptionFromSecurityDataLocation();
+  await getAllowedConnectionsOnASubscriptionFromSecurityDataLocation();
 }
 
 main().catch(console.error);

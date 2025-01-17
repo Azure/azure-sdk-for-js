@@ -46,7 +46,7 @@ async function partnerTopicsCreateOrUpdate() {
 }
 
 async function main() {
-  partnerTopicsCreateOrUpdate();
+  await partnerTopicsCreateOrUpdate();
 }
 
 main().catch(console.error);

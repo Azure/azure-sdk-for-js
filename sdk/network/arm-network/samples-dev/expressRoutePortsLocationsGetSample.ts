@@ -30,7 +30,7 @@ async function expressRoutePortsLocationGet() {
 }
 
 async function main() {
-  expressRoutePortsLocationGet();
+  await expressRoutePortsLocationGet();
 }
 
 main().catch(console.error);

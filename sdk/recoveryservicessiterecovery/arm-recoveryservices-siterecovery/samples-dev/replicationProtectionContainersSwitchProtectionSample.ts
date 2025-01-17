@@ -52,7 +52,7 @@ async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProvid
 }
 
 async function main() {
-  switchesProtectionFromOneContainerToAnotherOrOneReplicationProviderToAnother();
+  await switchesProtectionFromOneContainerToAnotherOrOneReplicationProviderToAnother();
 }
 
 main().catch(console.error);

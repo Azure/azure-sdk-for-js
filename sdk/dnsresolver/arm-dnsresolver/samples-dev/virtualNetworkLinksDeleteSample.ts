@@ -39,7 +39,7 @@ async function deleteVirtualNetworkLinkToADnsForwardingRuleset() {
 }
 
 async function main() {
-  deleteVirtualNetworkLinkToADnsForwardingRuleset();
+  await deleteVirtualNetworkLinkToADnsForwardingRuleset();
 }
 
 main().catch(console.error);

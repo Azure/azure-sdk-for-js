@@ -42,7 +42,7 @@ async function listTheUsagesOfASqlAnalyticsPool() {
 }
 
 async function main() {
-  listTheUsagesOfASqlAnalyticsPool();
+  await listTheUsagesOfASqlAnalyticsPool();
 }
 
 main().catch(console.error);

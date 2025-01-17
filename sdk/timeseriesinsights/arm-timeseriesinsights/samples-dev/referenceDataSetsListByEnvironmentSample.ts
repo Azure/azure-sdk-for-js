@@ -36,7 +36,7 @@ async function referenceDataSetsListByEnvironment() {
 }
 
 async function main() {
-  referenceDataSetsListByEnvironment();
+  await referenceDataSetsListByEnvironment();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function deleteKubernetesCluster() {
 }
 
 async function main() {
-  deleteKubernetesCluster();
+  await deleteKubernetesCluster();
 }
 
 main().catch(console.error);

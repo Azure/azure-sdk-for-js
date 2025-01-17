@@ -40,7 +40,7 @@ async function networkDevicesDeleteMaximumSetGen() {
 }
 
 async function main() {
-  networkDevicesDeleteMaximumSetGen();
+  await networkDevicesDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

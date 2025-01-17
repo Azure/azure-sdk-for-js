@@ -90,8 +90,8 @@ async function volumeGroupsCreateMinimumSetGen() {
 }
 
 async function main() {
-  volumeGroupsCreateMaximumSetGen();
-  volumeGroupsCreateMinimumSetGen();
+  await volumeGroupsCreateMaximumSetGen();
+  await volumeGroupsCreateMinimumSetGen();
 }
 
 main().catch(console.error);

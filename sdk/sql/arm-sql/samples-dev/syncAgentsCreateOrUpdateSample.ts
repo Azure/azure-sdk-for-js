@@ -73,8 +73,8 @@ async function updateASyncAgent() {
 }
 
 async function main() {
-  createANewSyncAgent();
-  updateASyncAgent();
+  await createANewSyncAgent();
+  await updateASyncAgent();
 }
 
 main().catch(console.error);

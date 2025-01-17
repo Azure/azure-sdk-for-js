@@ -38,7 +38,7 @@ async function privateEndpointConnectionDeleteByWorkspace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionDeleteByWorkspace();
+  await privateEndpointConnectionDeleteByWorkspace();
 }
 
 main().catch(console.error);

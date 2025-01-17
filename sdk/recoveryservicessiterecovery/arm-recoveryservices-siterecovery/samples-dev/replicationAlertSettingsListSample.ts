@@ -41,7 +41,7 @@ async function getsTheListOfConfiguredEmailNotificationAlertConfigurations() {
 }
 
 async function main() {
-  getsTheListOfConfiguredEmailNotificationAlertConfigurations();
+  await getsTheListOfConfiguredEmailNotificationAlertConfigurations();
 }
 
 main().catch(console.error);

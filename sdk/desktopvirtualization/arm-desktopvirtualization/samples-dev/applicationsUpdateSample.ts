@@ -56,7 +56,7 @@ async function applicationUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationUpdate();
+  await applicationUpdate();
 }
 
 main().catch(console.error);

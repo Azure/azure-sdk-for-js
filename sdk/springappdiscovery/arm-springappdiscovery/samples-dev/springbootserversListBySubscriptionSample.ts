@@ -63,8 +63,8 @@ async function springbootserversListBySubscriptionMinimumSetGen() {
 }
 
 async function main() {
-  springbootserversListBySubscriptionMaximumSetGen();
-  springbootserversListBySubscriptionMinimumSetGen();
+  await springbootserversListBySubscriptionMaximumSetGen();
+  await springbootserversListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

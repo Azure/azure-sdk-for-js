@@ -86,8 +86,8 @@ async function clustersUpgradeHotfix() {
 }
 
 async function main() {
-  clustersUpgradeAksPatchVersion();
-  clustersUpgradeHotfix();
+  await clustersUpgradeAksPatchVersion();
+  await clustersUpgradeHotfix();
 }
 
 main().catch(console.error);

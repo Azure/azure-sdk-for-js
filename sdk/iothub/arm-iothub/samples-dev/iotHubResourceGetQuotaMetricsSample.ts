@@ -40,7 +40,7 @@ async function iotHubResourceGetQuotaMetrics() {
 }
 
 async function main() {
-  iotHubResourceGetQuotaMetrics();
+  await iotHubResourceGetQuotaMetrics();
 }
 
 main().catch(console.error);

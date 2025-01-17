@@ -40,7 +40,7 @@ async function workspacesDelete() {
 }
 
 async function main() {
-  workspacesDelete();
+  await workspacesDelete();
 }
 
 main().catch(console.error);

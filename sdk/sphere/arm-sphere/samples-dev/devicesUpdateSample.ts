@@ -46,7 +46,7 @@ async function devicesUpdate() {
 }
 
 async function main() {
-  devicesUpdate();
+  await devicesUpdate();
 }
 
 main().catch(console.error);

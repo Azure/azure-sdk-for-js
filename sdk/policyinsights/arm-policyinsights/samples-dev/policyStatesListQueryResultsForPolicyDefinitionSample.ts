@@ -66,8 +66,8 @@ async function queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink()
 }
 
 async function main() {
-  queryLatestAtSubscriptionLevelPolicyDefinitionScope();
-  queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink();
+  await queryLatestAtSubscriptionLevelPolicyDefinitionScope();
+  await queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink();
 }
 
 main().catch(console.error);

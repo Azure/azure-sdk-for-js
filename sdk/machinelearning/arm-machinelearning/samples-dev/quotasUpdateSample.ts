@@ -54,7 +54,7 @@ async function updateQuotas() {
 }
 
 async function main() {
-  updateQuotas();
+  await updateQuotas();
 }
 
 main().catch(console.error);

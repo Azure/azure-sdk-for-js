@@ -35,7 +35,7 @@ async function tagRulesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tagRulesList();
+  await tagRulesList();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function privateLinkScopeUpdateTagsOnly() {
 }
 
 async function main() {
-  privateLinkScopeUpdateTagsOnly();
+  await privateLinkScopeUpdateTagsOnly();
 }
 
 main().catch(console.error);

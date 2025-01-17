@@ -76,8 +76,8 @@ async function createServiceEndpointPolicyWithDefinition() {
 }
 
 async function main() {
-  createServiceEndpointPolicy();
-  createServiceEndpointPolicyWithDefinition();
+  await createServiceEndpointPolicy();
+  await createServiceEndpointPolicyWithDefinition();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listVolumeForSubscription() {
 }
 
 async function main() {
-  listVolumeForSubscription();
+  await listVolumeForSubscription();
 }
 
 main().catch(console.error);

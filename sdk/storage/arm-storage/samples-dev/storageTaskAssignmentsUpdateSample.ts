@@ -56,7 +56,7 @@ async function patchStorageTaskAssignment() {
 }
 
 async function main() {
-  patchStorageTaskAssignment();
+  await patchStorageTaskAssignment();
 }
 
 main().catch(console.error);

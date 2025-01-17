@@ -38,7 +38,7 @@ async function monitorsListHosts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsListHosts();
+  await monitorsListHosts();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getsSecurityUserRuleCollection() {
 }
 
 async function main() {
-  getsSecurityUserRuleCollection();
+  await getsSecurityUserRuleCollection();
 }
 
 main().catch(console.error);

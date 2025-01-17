@@ -42,7 +42,7 @@ async function getSchedule() {
 }
 
 async function main() {
-  getSchedule();
+  await getSchedule();
 }
 
 main().catch(console.error);

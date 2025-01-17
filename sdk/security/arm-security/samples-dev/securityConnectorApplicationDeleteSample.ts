@@ -39,7 +39,7 @@ async function deleteSecurityApplication() {
 }
 
 async function main() {
-  deleteSecurityApplication();
+  await deleteSecurityApplication();
 }
 
 main().catch(console.error);

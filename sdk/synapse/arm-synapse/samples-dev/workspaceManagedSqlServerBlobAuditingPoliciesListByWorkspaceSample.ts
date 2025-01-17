@@ -39,7 +39,7 @@ async function getBlobAuditingPolicyOfWorkspaceMangedSqlServer() {
 }
 
 async function main() {
-  getBlobAuditingPolicyOfWorkspaceMangedSqlServer();
+  await getBlobAuditingPolicyOfWorkspaceMangedSqlServer();
 }
 
 main().catch(console.error);

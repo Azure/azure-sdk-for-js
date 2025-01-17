@@ -42,7 +42,7 @@ async function createGeoBackupPolicy() {
 }
 
 async function main() {
-  createGeoBackupPolicy();
+  await createGeoBackupPolicy();
 }
 
 main().catch(console.error);

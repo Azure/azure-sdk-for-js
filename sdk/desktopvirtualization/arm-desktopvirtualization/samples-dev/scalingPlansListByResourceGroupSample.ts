@@ -48,7 +48,7 @@ async function scalingPlansListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlansListByResourceGroup();
+  await scalingPlansListByResourceGroup();
 }
 
 main().catch(console.error);

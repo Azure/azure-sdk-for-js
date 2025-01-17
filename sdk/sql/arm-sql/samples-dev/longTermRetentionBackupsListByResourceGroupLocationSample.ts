@@ -40,7 +40,7 @@ async function getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGrou
 }
 
 async function main() {
-  getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGroup();
+  await getAllLongTermRetentionBackupsUnderTheLocationBasedOnResourceGroup();
 }
 
 main().catch(console.error);

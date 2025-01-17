@@ -32,7 +32,7 @@ async function topicTypesListEventTypes() {
 }
 
 async function main() {
-  topicTypesListEventTypes();
+  await topicTypesListEventTypes();
 }
 
 main().catch(console.error);

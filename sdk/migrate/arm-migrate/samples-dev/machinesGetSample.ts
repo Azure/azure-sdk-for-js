@@ -39,7 +39,7 @@ async function machinesGet() {
 }
 
 async function main() {
-  machinesGet();
+  await machinesGet();
 }
 
 main().catch(console.error);

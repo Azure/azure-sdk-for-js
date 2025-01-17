@@ -114,9 +114,9 @@ async function smMapsGenerateSingleMachineDependencyPost() {
 }
 
 async function main() {
-  smMapsGenerateMachineGroupDependencyPost();
-  smMapsGenerateMachineListDependencyPost();
-  smMapsGenerateSingleMachineDependencyPost();
+  await smMapsGenerateMachineGroupDependencyPost();
+  await smMapsGenerateMachineListDependencyPost();
+  await smMapsGenerateSingleMachineDependencyPost();
 }
 
 main().catch(console.error);

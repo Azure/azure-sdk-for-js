@@ -33,7 +33,7 @@ async function accountsGet() {
 }
 
 async function main() {
-  accountsGet();
+  await accountsGet();
 }
 
 main().catch(console.error);

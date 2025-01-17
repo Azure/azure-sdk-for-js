@@ -40,7 +40,7 @@ async function getsASqlVirtualMachine() {
 }
 
 async function main() {
-  getsASqlVirtualMachine();
+  await getsASqlVirtualMachine();
 }
 
 main().catch(console.error);

@@ -55,7 +55,7 @@ async function topicEventSubscriptionsCreateOrUpdate() {
 }
 
 async function main() {
-  topicEventSubscriptionsCreateOrUpdate();
+  await topicEventSubscriptionsCreateOrUpdate();
 }
 
 main().catch(console.error);

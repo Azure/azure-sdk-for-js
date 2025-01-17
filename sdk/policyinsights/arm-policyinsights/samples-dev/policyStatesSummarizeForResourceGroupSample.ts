@@ -34,7 +34,7 @@ async function summarizeAtResourceGroupScope() {
 }
 
 async function main() {
-  summarizeAtResourceGroupScope();
+  await summarizeAtResourceGroupScope();
 }
 
 main().catch(console.error);

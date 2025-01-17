@@ -45,7 +45,7 @@ async function purgeProtectionContainerMapping() {
 }
 
 async function main() {
-  purgeProtectionContainerMapping();
+  await purgeProtectionContainerMapping();
 }
 
 main().catch(console.error);

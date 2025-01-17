@@ -36,7 +36,7 @@ async function azureLargeStorageInstanceListBySubscription() {
 }
 
 async function main() {
-  azureLargeStorageInstanceListBySubscription();
+  await azureLargeStorageInstanceListBySubscription();
 }
 
 main().catch(console.error);

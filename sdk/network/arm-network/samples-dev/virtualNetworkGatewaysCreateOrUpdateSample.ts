@@ -163,8 +163,8 @@ async function updateVirtualNetworkScalableGateway() {
 }
 
 async function main() {
-  updateVirtualNetworkGateway();
-  updateVirtualNetworkScalableGateway();
+  await updateVirtualNetworkGateway();
+  await updateVirtualNetworkScalableGateway();
 }
 
 main().catch(console.error);

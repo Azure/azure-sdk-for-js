@@ -40,7 +40,7 @@ async function getKustoClusterOutboundNetworkDependencies() {
 }
 
 async function main() {
-  getKustoClusterOutboundNetworkDependencies();
+  await getKustoClusterOutboundNetworkDependencies();
 }
 
 main().catch(console.error);

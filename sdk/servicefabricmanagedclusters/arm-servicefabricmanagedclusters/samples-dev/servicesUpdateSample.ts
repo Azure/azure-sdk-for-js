@@ -49,7 +49,7 @@ async function patchAService() {
 }
 
 async function main() {
-  patchAService();
+  await patchAService();
 }
 
 main().catch(console.error);

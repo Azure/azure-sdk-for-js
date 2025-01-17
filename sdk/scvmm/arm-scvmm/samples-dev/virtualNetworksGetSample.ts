@@ -57,8 +57,8 @@ async function virtualNetworksGetMinimumSet() {
 }
 
 async function main() {
-  virtualNetworksGetMaximumSet();
-  virtualNetworksGetMinimumSet();
+  await virtualNetworksGetMaximumSet();
+  await virtualNetworksGetMinimumSet();
 }
 
 main().catch(console.error);

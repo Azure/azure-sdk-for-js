@@ -40,7 +40,7 @@ async function subscriptionGet() {
 }
 
 async function main() {
-  subscriptionGet();
+  await subscriptionGet();
 }
 
 main().catch(console.error);

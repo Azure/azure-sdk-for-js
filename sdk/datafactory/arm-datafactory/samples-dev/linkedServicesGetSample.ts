@@ -37,7 +37,7 @@ async function linkedServicesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkedServicesGet();
+  await linkedServicesGet();
 }
 
 main().catch(console.error);

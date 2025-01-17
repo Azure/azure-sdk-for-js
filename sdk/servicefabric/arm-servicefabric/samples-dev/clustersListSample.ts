@@ -34,7 +34,7 @@ async function listClusters() {
 }
 
 async function main() {
-  listClusters();
+  await listClusters();
 }
 
 main().catch(console.error);

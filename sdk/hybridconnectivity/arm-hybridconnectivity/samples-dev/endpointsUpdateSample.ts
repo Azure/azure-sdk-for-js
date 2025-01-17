@@ -41,7 +41,7 @@ async function hybridConnectivityEndpointsPatchDefault() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsPatchDefault();
+  await hybridConnectivityEndpointsPatchDefault();
 }
 
 main().catch(console.error);

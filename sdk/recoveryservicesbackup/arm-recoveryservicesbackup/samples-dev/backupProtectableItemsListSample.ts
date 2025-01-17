@@ -48,7 +48,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM()
 }
 
 async function main() {
-  listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM();
+  await listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM();
 }
 
 main().catch(console.error);

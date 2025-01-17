@@ -40,7 +40,7 @@ async function listAlertRuleIncidents() {
 }
 
 async function main() {
-  listAlertRuleIncidents();
+  await listAlertRuleIncidents();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function deletesTheManagedApplication() {
 }
 
 async function main() {
-  deletesTheManagedApplication();
+  await deletesTheManagedApplication();
 }
 
 main().catch(console.error);

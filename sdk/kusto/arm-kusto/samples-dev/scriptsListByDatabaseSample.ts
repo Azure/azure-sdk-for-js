@@ -42,7 +42,7 @@ async function kustoScriptsList() {
 }
 
 async function main() {
-  kustoScriptsList();
+  await kustoScriptsList();
 }
 
 main().catch(console.error);

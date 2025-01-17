@@ -40,7 +40,7 @@ async function deletePrivateEndpointConnectionWithTheSpecifiedName(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  deletePrivateEndpointConnectionWithTheSpecifiedName();
+  await deletePrivateEndpointConnectionWithTheSpecifiedName();
 }
 
 main().catch(console.error);

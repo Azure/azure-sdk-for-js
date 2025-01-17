@@ -65,8 +65,8 @@ async function forceDeleteAllTheVirtualMachinesInAResourceGroup() {
 }
 
 async function main() {
-  forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup();
-  forceDeleteAllTheVirtualMachinesInAResourceGroup();
+  await forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup();
+  await forceDeleteAllTheVirtualMachinesInAResourceGroup();
 }
 
 main().catch(console.error);

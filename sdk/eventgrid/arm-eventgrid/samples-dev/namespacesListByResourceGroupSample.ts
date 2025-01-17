@@ -38,7 +38,7 @@ async function namespacesListByResourceGroup() {
 }
 
 async function main() {
-  namespacesListByResourceGroup();
+  await namespacesListByResourceGroup();
 }
 
 main().catch(console.error);

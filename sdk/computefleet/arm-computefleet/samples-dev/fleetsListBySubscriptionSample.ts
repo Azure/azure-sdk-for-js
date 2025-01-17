@@ -23,7 +23,7 @@ async function fleetsListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsListBySubscription();
+  await fleetsListBySubscription();
 }
 
 main().catch(console.error);

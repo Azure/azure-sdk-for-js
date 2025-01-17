@@ -37,7 +37,7 @@ async function factoriesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesCreateOrUpdate();
+  await factoriesCreateOrUpdate();
 }
 
 main().catch(console.error);

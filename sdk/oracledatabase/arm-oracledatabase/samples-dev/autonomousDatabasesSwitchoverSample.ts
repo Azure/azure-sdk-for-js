@@ -66,8 +66,8 @@ async function performSwitchoverActionOnAutonomousDatabase() {
 }
 
 async function main() {
-  autonomousDatabasesSwitchover();
-  performSwitchoverActionOnAutonomousDatabase();
+  await autonomousDatabasesSwitchover();
+  await performSwitchoverActionOnAutonomousDatabase();
 }
 
 main().catch(console.error);

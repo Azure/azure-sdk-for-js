@@ -41,7 +41,7 @@ async function catalogsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  catalogsUpdate();
+  await catalogsUpdate();
 }
 
 main().catch(console.error);

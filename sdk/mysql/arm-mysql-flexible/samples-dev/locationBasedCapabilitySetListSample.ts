@@ -38,7 +38,7 @@ async function capabilitySetsResult() {
 }
 
 async function main() {
-  capabilitySetsResult();
+  await capabilitySetsResult();
 }
 
 main().catch(console.error);
