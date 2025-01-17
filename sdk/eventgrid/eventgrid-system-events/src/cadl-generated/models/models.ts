@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionAdded event. */
 export interface ApiCenterApiDefinitionAddedEventData {
@@ -359,13 +359,13 @@ export enum KnownCommunicationIdentifierModelKind {
 }
 
 /**
- * Communication model identifier kind \
+ * Communication model identifier kind
  * {@link KnownCommunicationIdentifierModelKind} can be used interchangeably with CommunicationIdentifierModelKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **unknown** \
- * **communicationUser** \
- * **phoneNumber** \
+ * **unknown**
+ * **communicationUser**
+ * **phoneNumber**
  * **microsoftTeamsUser**
  */
 export type CommunicationIdentifierModelKind = string;
@@ -403,12 +403,12 @@ export enum KnownCommunicationCloudEnvironmentModel {
 }
 
 /**
- * Communication cloud environment model. \
+ * Communication cloud environment model.
  * {@link KnownCommunicationCloudEnvironmentModel} can be used interchangeably with CommunicationCloudEnvironmentModel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **public** \
- * **dod** \
+ * **public**
+ * **dod**
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
@@ -777,11 +777,11 @@ export enum KnownRecordingContentType {
 }
 
 /**
- * Recording content type \
+ * Recording content type
  * {@link KnownRecordingContentType} can be used interchangeably with RecordingContentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AudioVideo** \
+ * **AudioVideo**
  * **Audio**
  */
 export type RecordingContentType = string;
@@ -795,11 +795,11 @@ export enum KnownRecordingChannelType {
 }
 
 /**
- * Recording channel type \
+ * Recording channel type
  * {@link KnownRecordingChannelType} can be used interchangeably with RecordingChannelType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Mixed** \
+ * **Mixed**
  * **Unmixed**
  */
 export type RecordingChannelType = string;
@@ -815,12 +815,12 @@ export enum KnownRecordingFormatType {
 }
 
 /**
- * Recording format type \
+ * Recording format type
  * {@link KnownRecordingFormatType} can be used interchangeably with RecordingFormatType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Wav** \
- * **Mp3** \
+ * **Wav**
+ * **Mp3**
  * **Mp4**
  */
 export type RecordingFormatType = string;
@@ -860,15 +860,15 @@ export enum KnownAcsEmailDeliveryReportStatus {
 }
 
 /**
- * The status of the email. Any value other than Delivered is considered failed. \
+ * The status of the email. Any value other than Delivered is considered failed.
  * {@link KnownAcsEmailDeliveryReportStatus} can be used interchangeably with AcsEmailDeliveryReportStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Bounced** \
- * **Delivered** \
- * **Failed** \
- * **FilteredSpam** \
- * **Quarantined** \
+ * **Bounced**
+ * **Delivered**
+ * **Failed**
+ * **FilteredSpam**
+ * **Quarantined**
  * **Suppressed**
  */
 export type AcsEmailDeliveryReportStatus = string;
@@ -908,11 +908,11 @@ export enum KnownAcsUserEngagement {
 }
 
 /**
- * The type of engagement user have with email. \
+ * The type of engagement user have with email.
  * {@link KnownAcsUserEngagement} can be used interchangeably with AcsUserEngagement,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **view** \
+ * **view**
  * **click**
  */
 export type AcsUserEngagement = string;
@@ -1023,15 +1023,15 @@ export enum KnownAcsRouterLabelOperator {
 }
 
 /**
- * Router Job Worker Selector Label Operator \
+ * Router Job Worker Selector Label Operator
  * {@link KnownAcsRouterLabelOperator} can be used interchangeably with AcsRouterLabelOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Equal** \
- * **NotEqual** \
- * **Greater** \
- * **Less** \
- * **GreaterThanOrEqual** \
+ * **Equal**
+ * **NotEqual**
+ * **Greater**
+ * **Less**
+ * **GreaterThanOrEqual**
  * **LessThanOrEqual**
  */
 export type AcsRouterLabelOperator = string;
@@ -1045,11 +1045,11 @@ export enum KnownAcsRouterWorkerSelectorState {
 }
 
 /**
- * Router Worker Selector State \
+ * Router Worker Selector State
  * {@link KnownAcsRouterWorkerSelectorState} can be used interchangeably with AcsRouterWorkerSelectorState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **active** \
+ * **active**
  * **expired**
  */
 export type AcsRouterWorkerSelectorState = string;
@@ -1139,21 +1139,21 @@ export enum KnownAcsRouterJobStatus {
 }
 
 /**
- * Acs Router Job Status \
+ * Acs Router Job Status
  * {@link KnownAcsRouterJobStatus} can be used interchangeably with AcsRouterJobStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PendingClassification** \
- * **Queued** \
- * **Assigned** \
- * **Completed** \
- * **Closed** \
- * **Cancelled** \
- * **ClassificationFailed** \
- * **Created** \
- * **PendingSchedule** \
- * **Scheduled** \
- * **ScheduleFailed** \
+ * **PendingClassification**
+ * **Queued**
+ * **Assigned**
+ * **Completed**
+ * **Closed**
+ * **Cancelled**
+ * **ClassificationFailed**
+ * **Created**
+ * **PendingSchedule**
+ * **Scheduled**
+ * **ScheduleFailed**
  * **WaitingForActivation**
  */
 export type AcsRouterJobStatus = string;
@@ -1353,15 +1353,15 @@ export enum KnownAcsRouterUpdatedWorkerProperty {
 }
 
 /**
- * Worker properties that can be updated \
+ * Worker properties that can be updated
  * {@link KnownAcsRouterUpdatedWorkerProperty} can be used interchangeably with AcsRouterUpdatedWorkerProperty,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AvailableForOffers** \
- * **TotalCapacity** \
- * **QueueAssignments** \
- * **Labels** \
- * **Tags** \
+ * **AvailableForOffers**
+ * **TotalCapacity**
+ * **QueueAssignments**
+ * **Labels**
+ * **Tags**
  * **ChannelConfigurations**
  */
 export type AcsRouterUpdatedWorkerProperty = string;
@@ -1414,15 +1414,15 @@ export enum KnownAcsMessageDeliveryStatus {
 }
 
 /**
- * Message delivery status \
+ * Message delivery status
  * {@link KnownAcsMessageDeliveryStatus} can be used interchangeably with AcsMessageDeliveryStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **read** \
- * **delivered** \
- * **failed** \
- * **sent** \
- * **warning** \
+ * **read**
+ * **delivered**
+ * **failed**
+ * **sent**
+ * **warning**
  * **unknown**
  */
 export type AcsMessageDeliveryStatus = string;
@@ -1434,7 +1434,7 @@ export enum KnownAcsMessageChannelKind {
 }
 
 /**
- * Message channel kind \
+ * Message channel kind
  * {@link KnownAcsMessageChannelKind} can be used interchangeably with AcsMessageChannelKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -1507,12 +1507,12 @@ export enum KnownAcsInteractiveReplyKind {
 }
 
 /**
- * Interactive reply kind \
+ * Interactive reply kind
  * {@link KnownAcsInteractiveReplyKind} can be used interchangeably with AcsInteractiveReplyKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **buttonReply** \
- * **listReply** \
+ * **buttonReply**
+ * **listReply**
  * **unknown**
  */
 export type AcsInteractiveReplyKind = string;
@@ -1724,12 +1724,12 @@ export enum KnownDataBoxStageName {
 }
 
 /**
- * Schema of DataBox Stage Name enumeration. \
+ * Schema of DataBox Stage Name enumeration.
  * {@link KnownDataBoxStageName} can be used interchangeably with DataBoxStageName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **CopyStarted** \
- * **CopyCompleted** \
+ * **CopyStarted**
+ * **CopyCompleted**
  * **OrderCompleted**
  */
 export type DataBoxStageName = string;
@@ -2263,170 +2263,170 @@ export enum KnownHealthcareFhirResourceType {
 }
 
 /**
- * Schema of FHIR resource type enumeration. \
+ * Schema of FHIR resource type enumeration.
  * {@link KnownHealthcareFhirResourceType} can be used interchangeably with HealthcareFhirResourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Account** \
- * **ActivityDefinition** \
- * **AdverseEvent** \
- * **AllergyIntolerance** \
- * **Appointment** \
- * **AppointmentResponse** \
- * **AuditEvent** \
- * **Basic** \
- * **Binary** \
- * **BiologicallyDerivedProduct** \
- * **BodySite** \
- * **BodyStructure** \
- * **Bundle** \
- * **CapabilityStatement** \
- * **CarePlan** \
- * **CareTeam** \
- * **CatalogEntry** \
- * **ChargeItem** \
- * **ChargeItemDefinition** \
- * **Claim** \
- * **ClaimResponse** \
- * **ClinicalImpression** \
- * **CodeSystem** \
- * **Communication** \
- * **CommunicationRequest** \
- * **CompartmentDefinition** \
- * **Composition** \
- * **ConceptMap** \
- * **Condition** \
- * **Consent** \
- * **Contract** \
- * **Coverage** \
- * **CoverageEligibilityRequest** \
- * **CoverageEligibilityResponse** \
- * **DataElement** \
- * **DetectedIssue** \
- * **Device** \
- * **DeviceComponent** \
- * **DeviceDefinition** \
- * **DeviceMetric** \
- * **DeviceRequest** \
- * **DeviceUseStatement** \
- * **DiagnosticReport** \
- * **DocumentManifest** \
- * **DocumentReference** \
- * **DomainResource** \
- * **EffectEvidenceSynthesis** \
- * **EligibilityRequest** \
- * **EligibilityResponse** \
- * **Encounter** \
- * **Endpoint** \
- * **EnrollmentRequest** \
- * **EnrollmentResponse** \
- * **EpisodeOfCare** \
- * **EventDefinition** \
- * **Evidence** \
- * **EvidenceVariable** \
- * **ExampleScenario** \
- * **ExpansionProfile** \
- * **ExplanationOfBenefit** \
- * **FamilyMemberHistory** \
- * **Flag** \
- * **Goal** \
- * **GraphDefinition** \
- * **Group** \
- * **GuidanceResponse** \
- * **HealthcareService** \
- * **ImagingManifest** \
- * **ImagingStudy** \
- * **Immunization** \
- * **ImmunizationEvaluation** \
- * **ImmunizationRecommendation** \
- * **ImplementationGuide** \
- * **InsurancePlan** \
- * **Invoice** \
- * **Library** \
- * **Linkage** \
- * **List** \
- * **Location** \
- * **Measure** \
- * **MeasureReport** \
- * **Media** \
- * **Medication** \
- * **MedicationAdministration** \
- * **MedicationDispense** \
- * **MedicationKnowledge** \
- * **MedicationRequest** \
- * **MedicationStatement** \
- * **MedicinalProduct** \
- * **MedicinalProductAuthorization** \
- * **MedicinalProductContraindication** \
- * **MedicinalProductIndication** \
- * **MedicinalProductIngredient** \
- * **MedicinalProductInteraction** \
- * **MedicinalProductManufactured** \
- * **MedicinalProductPackaged** \
- * **MedicinalProductPharmaceutical** \
- * **MedicinalProductUndesirableEffect** \
- * **MessageDefinition** \
- * **MessageHeader** \
- * **MolecularSequence** \
- * **NamingSystem** \
- * **NutritionOrder** \
- * **Observation** \
- * **ObservationDefinition** \
- * **OperationDefinition** \
- * **OperationOutcome** \
- * **Organization** \
- * **OrganizationAffiliation** \
- * **Parameters** \
- * **Patient** \
- * **PaymentNotice** \
- * **PaymentReconciliation** \
- * **Person** \
- * **PlanDefinition** \
- * **Practitioner** \
- * **PractitionerRole** \
- * **Procedure** \
- * **ProcedureRequest** \
- * **ProcessRequest** \
- * **ProcessResponse** \
- * **Provenance** \
- * **Questionnaire** \
- * **QuestionnaireResponse** \
- * **ReferralRequest** \
- * **RelatedPerson** \
- * **RequestGroup** \
- * **ResearchDefinition** \
- * **ResearchElementDefinition** \
- * **ResearchStudy** \
- * **ResearchSubject** \
- * **Resource** \
- * **RiskAssessment** \
- * **RiskEvidenceSynthesis** \
- * **Schedule** \
- * **SearchParameter** \
- * **Sequence** \
- * **ServiceDefinition** \
- * **ServiceRequest** \
- * **Slot** \
- * **Specimen** \
- * **SpecimenDefinition** \
- * **StructureDefinition** \
- * **StructureMap** \
- * **Subscription** \
- * **Substance** \
- * **SubstanceNucleicAcid** \
- * **SubstancePolymer** \
- * **SubstanceProtein** \
- * **SubstanceReferenceInformation** \
- * **SubstanceSourceMaterial** \
- * **SubstanceSpecification** \
- * **SupplyDelivery** \
- * **SupplyRequest** \
- * **Task** \
- * **TerminologyCapabilities** \
- * **TestReport** \
- * **TestScript** \
- * **ValueSet** \
- * **VerificationResult** \
+ * **Account**
+ * **ActivityDefinition**
+ * **AdverseEvent**
+ * **AllergyIntolerance**
+ * **Appointment**
+ * **AppointmentResponse**
+ * **AuditEvent**
+ * **Basic**
+ * **Binary**
+ * **BiologicallyDerivedProduct**
+ * **BodySite**
+ * **BodyStructure**
+ * **Bundle**
+ * **CapabilityStatement**
+ * **CarePlan**
+ * **CareTeam**
+ * **CatalogEntry**
+ * **ChargeItem**
+ * **ChargeItemDefinition**
+ * **Claim**
+ * **ClaimResponse**
+ * **ClinicalImpression**
+ * **CodeSystem**
+ * **Communication**
+ * **CommunicationRequest**
+ * **CompartmentDefinition**
+ * **Composition**
+ * **ConceptMap**
+ * **Condition**
+ * **Consent**
+ * **Contract**
+ * **Coverage**
+ * **CoverageEligibilityRequest**
+ * **CoverageEligibilityResponse**
+ * **DataElement**
+ * **DetectedIssue**
+ * **Device**
+ * **DeviceComponent**
+ * **DeviceDefinition**
+ * **DeviceMetric**
+ * **DeviceRequest**
+ * **DeviceUseStatement**
+ * **DiagnosticReport**
+ * **DocumentManifest**
+ * **DocumentReference**
+ * **DomainResource**
+ * **EffectEvidenceSynthesis**
+ * **EligibilityRequest**
+ * **EligibilityResponse**
+ * **Encounter**
+ * **Endpoint**
+ * **EnrollmentRequest**
+ * **EnrollmentResponse**
+ * **EpisodeOfCare**
+ * **EventDefinition**
+ * **Evidence**
+ * **EvidenceVariable**
+ * **ExampleScenario**
+ * **ExpansionProfile**
+ * **ExplanationOfBenefit**
+ * **FamilyMemberHistory**
+ * **Flag**
+ * **Goal**
+ * **GraphDefinition**
+ * **Group**
+ * **GuidanceResponse**
+ * **HealthcareService**
+ * **ImagingManifest**
+ * **ImagingStudy**
+ * **Immunization**
+ * **ImmunizationEvaluation**
+ * **ImmunizationRecommendation**
+ * **ImplementationGuide**
+ * **InsurancePlan**
+ * **Invoice**
+ * **Library**
+ * **Linkage**
+ * **List**
+ * **Location**
+ * **Measure**
+ * **MeasureReport**
+ * **Media**
+ * **Medication**
+ * **MedicationAdministration**
+ * **MedicationDispense**
+ * **MedicationKnowledge**
+ * **MedicationRequest**
+ * **MedicationStatement**
+ * **MedicinalProduct**
+ * **MedicinalProductAuthorization**
+ * **MedicinalProductContraindication**
+ * **MedicinalProductIndication**
+ * **MedicinalProductIngredient**
+ * **MedicinalProductInteraction**
+ * **MedicinalProductManufactured**
+ * **MedicinalProductPackaged**
+ * **MedicinalProductPharmaceutical**
+ * **MedicinalProductUndesirableEffect**
+ * **MessageDefinition**
+ * **MessageHeader**
+ * **MolecularSequence**
+ * **NamingSystem**
+ * **NutritionOrder**
+ * **Observation**
+ * **ObservationDefinition**
+ * **OperationDefinition**
+ * **OperationOutcome**
+ * **Organization**
+ * **OrganizationAffiliation**
+ * **Parameters**
+ * **Patient**
+ * **PaymentNotice**
+ * **PaymentReconciliation**
+ * **Person**
+ * **PlanDefinition**
+ * **Practitioner**
+ * **PractitionerRole**
+ * **Procedure**
+ * **ProcedureRequest**
+ * **ProcessRequest**
+ * **ProcessResponse**
+ * **Provenance**
+ * **Questionnaire**
+ * **QuestionnaireResponse**
+ * **ReferralRequest**
+ * **RelatedPerson**
+ * **RequestGroup**
+ * **ResearchDefinition**
+ * **ResearchElementDefinition**
+ * **ResearchStudy**
+ * **ResearchSubject**
+ * **Resource**
+ * **RiskAssessment**
+ * **RiskEvidenceSynthesis**
+ * **Schedule**
+ * **SearchParameter**
+ * **Sequence**
+ * **ServiceDefinition**
+ * **ServiceRequest**
+ * **Slot**
+ * **Specimen**
+ * **SpecimenDefinition**
+ * **StructureDefinition**
+ * **StructureMap**
+ * **Subscription**
+ * **Substance**
+ * **SubstanceNucleicAcid**
+ * **SubstancePolymer**
+ * **SubstanceProtein**
+ * **SubstanceReferenceInformation**
+ * **SubstanceSourceMaterial**
+ * **SubstanceSpecification**
+ * **SupplyDelivery**
+ * **SupplyRequest**
+ * **Task**
+ * **TerminologyCapabilities**
+ * **TestReport**
+ * **TestScript**
+ * **ValueSet**
+ * **VerificationResult**
  * **VisionPrescription**
  */
 export type HealthcareFhirResourceType = string;
@@ -3248,14 +3248,14 @@ export enum KnownStorageBlobAccessTier {
 }
 
 /**
- * The access tier of the blob. \
+ * The access tier of the blob.
  * {@link KnownStorageBlobAccessTier} can be used interchangeably with StorageBlobAccessTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Hot** \
- * **Cool** \
- * **Cold** \
- * **Archive** \
+ * **Hot**
+ * **Cool**
+ * **Cold**
+ * **Archive**
  * **Default**
  */
 export type StorageBlobAccessTier = string;
@@ -3395,12 +3395,12 @@ export enum KnownStorageLifecycleCompletionStatus {
 }
 
 /**
- * The status for a LCM policy. \
+ * The status for a LCM policy.
  * {@link KnownStorageLifecycleCompletionStatus} can be used interchangeably with StorageLifecycleCompletionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Completed** \
- * **CompletedWithError** \
+ * **Completed**
+ * **CompletedWithError**
  * **Incomplete**
  */
 export type StorageLifecycleCompletionStatus = string;
@@ -3508,11 +3508,11 @@ export enum KnownStorageTaskCompletedStatus {
 }
 
 /**
- * The status for a storage task. \
+ * The status for a storage task.
  * {@link KnownStorageTaskCompletedStatus} can be used interchangeably with StorageTaskCompletedStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
+ * **Succeeded**
  * **Failed**
  */
 export type StorageTaskCompletedStatus = string;
@@ -3556,11 +3556,11 @@ export enum KnownStorageTaskAssignmentCompletedStatus {
 }
 
 /**
- * The status for a storage task. \
+ * The status for a storage task.
  * {@link KnownStorageTaskAssignmentCompletedStatus} can be used interchangeably with StorageTaskAssignmentCompletedStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
+ * **Succeeded**
  * **Failed**
  */
 export type StorageTaskAssignmentCompletedStatus = string;
@@ -3588,15 +3588,15 @@ export enum KnownAppAction {
 }
 
 /**
- * Type of action of the operation \
+ * Type of action of the operation
  * {@link KnownAppAction} can be used interchangeably with AppAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Restarted** \
- * **Stopped** \
- * **ChangedAppSettings** \
- * **Started** \
- * **Completed** \
+ * **Restarted**
+ * **Stopped**
+ * **ChangedAppSettings**
+ * **Started**
+ * **Completed**
  * **Failed**
  */
 export type AppAction = string;
@@ -3858,12 +3858,12 @@ export enum KnownStampKind {
 }
 
 /**
- * Kind of environment where app service plan is. \
+ * Kind of environment where app service plan is.
  * {@link KnownStampKind} can be used interchangeably with StampKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Public** \
- * **AseV1** \
+ * **Public**
+ * **AseV1**
  * **AseV2**
  */
 export type StampKind = string;
@@ -3875,7 +3875,7 @@ export enum KnownAppServicePlanAction {
 }
 
 /**
- * Type of action on the app service plan. \
+ * Type of action on the app service plan.
  * {@link KnownAppServicePlanAction} can be used interchangeably with AppServicePlanAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -3894,12 +3894,12 @@ export enum KnownAsyncStatus {
 }
 
 /**
- * Asynchronous operation status of the operation on the app service plan. \
+ * Asynchronous operation status of the operation on the app service plan.
  * {@link KnownAsyncStatus} can be used interchangeably with AsyncStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Started** \
- * **Completed** \
+ * **Started**
+ * **Completed**
  * **Failed**
  */
 export type AsyncStatus = string;
@@ -3994,11 +3994,11 @@ export enum KnownEventGridMqttClientState {
 }
 
 /**
- * EventGrid MQTT Client State \
+ * EventGrid MQTT Client State
  * {@link KnownEventGridMqttClientState} can be used interchangeably with EventGridMqttClientState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
+ * **Enabled**
  * **Disabled**
  */
 export type EventGridMqttClientState = string;
@@ -4071,20 +4071,20 @@ export enum KnownEventGridMqttClientDisconnectionReason {
 }
 
 /**
- * EventGrid MQTT Client Disconnection Reason \
+ * EventGrid MQTT Client Disconnection Reason
  * {@link KnownEventGridMqttClientDisconnectionReason} can be used interchangeably with EventGridMqttClientDisconnectionReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ClientAuthenticationError** \
- * **ClientAuthorizationError** \
- * **ClientError** \
- * **ClientInitiatedDisconnect** \
- * **ConnectionLost** \
- * **IpForbidden** \
- * **QuotaExceeded** \
- * **ServerError** \
- * **ServerInitiatedDisconnect** \
- * **SessionOverflow** \
+ * **ClientAuthenticationError**
+ * **ClientAuthorizationError**
+ * **ClientError**
+ * **ClientInitiatedDisconnect**
+ * **ConnectionLost**
+ * **IpForbidden**
+ * **QuotaExceeded**
+ * **ServerError**
+ * **ServerInitiatedDisconnect**
+ * **SessionOverflow**
  * **SessionTakenOver**
  */
 export type EventGridMqttClientDisconnectionReason = string;
