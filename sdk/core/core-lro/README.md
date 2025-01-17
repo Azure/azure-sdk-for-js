@@ -63,6 +63,8 @@ A function that returns an object of type `SimplePollerLike`. This poller behave
 
 Examples can be found in the `samples` folder.
 
+Something not to be merged
+
 ## Troubleshooting
 
 ### Logging
