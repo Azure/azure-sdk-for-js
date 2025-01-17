@@ -283,6 +283,13 @@ export interface LifetimeAction {
 export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 /**
+ * The action that will be executed.
+ * @deprecated Use {@link CertificatePolicyAction} instead.
+ */
+// Re-exported for backwards compatibility, at some point both ActionType and CertificatePolicyAction were exported in the public API.
+export type ActionType = CertificatePolicyAction;
+
+/**
  * An interface representing a certificate's policy (without the subject properties).
  */
 export interface CertificatePolicyProperties {

@@ -14,6 +14,9 @@ import { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
+// @public @deprecated
+export type ActionType = CertificatePolicyAction;
+
 // @public
 export interface AdministratorContact {
     email?: string;
@@ -150,9 +153,7 @@ export interface CertificateOperationState extends KeyVaultCertificatePollOperat
 export type CertificatePolicy = CertificatePolicyProperties & RequireAtLeastOne<PolicySubjectProperties>;
 
 // @public
-type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
-export { CertificatePolicyAction as ActionType }
-export { CertificatePolicyAction }
+export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 // @public
 export interface CertificatePolicyProperties {

@@ -59,6 +59,7 @@ import {
   CertificatePollerOptions,
   IssuerProperties,
   CertificateContactAll,
+  ActionType,
   CertificatePolicyAction,
   LifetimeAction,
   RequireAtLeastOne,
@@ -145,8 +146,8 @@ export {
   CertificateOperationError,
   CertificatePolicy,
   ImportCertificatePolicy,
+  ActionType,
   CertificatePolicyAction,
-  CertificatePolicyAction as ActionType, // TOOD: why is this duplicated?
   CertificatePolicyProperties,
   PolicySubjectProperties,
   CertificateTags,
