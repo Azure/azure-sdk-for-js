@@ -1090,18 +1090,19 @@
         "contentType": {
           "description": "Type of user content",
           "enum": [
-            "TwoFactorAuthentication",
             "AccountNotification",
             "CustomerCare",
             "DeliveryNotification",
             "FraudAlert",
             "HigherEducation",
             "LowVolume",
+            "MachineToMachine",
             "Marketing",
             "Mixed",
             "PollingVoting",
             "PublicServiceAnnouncement",
-            "SecurityAlert"
+            "SecurityAlert",
+            "TwoFactorAuthentication"
           ],
           "type": "string",
           "x-ms-enum": {
