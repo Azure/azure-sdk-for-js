@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import type { SystemEventsContext } from "../rest/index.js";
+import { ClientOptions } from "@azure-rest/core-client";
+import { SystemEventsContext } from "../rest/index.js";
 import getClient from "../rest/index.js";
 
 /** Optional parameters for the client. */
@@ -16,7 +16,9 @@ export function createSystemEvents(
   options: SystemEventsClientOptionalParams = {},
 ): SystemEventsContext {
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
+  const userAgentPrefix = prefixFromOptions
+    ? `${prefixFromOptions} azsdk-js-api`
+    : "azsdk-js-api";
 
   const clientContext = getClient(endpoint, {
     ...options,
