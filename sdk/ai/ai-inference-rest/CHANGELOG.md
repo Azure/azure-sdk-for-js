@@ -3,7 +3,7 @@
 ## 1.0.0-beta.5 (2025-01-22)
 
 ### Breaking Changes
-- Change class name to ChatCompletionsResponseFormatJsonObject.
+- Change ChatCompletionsResponseFormatJSON class name to ChatCompletionsResponseFormatJsonObject.
 
 ### Features Added
 - Adds samples and tests for image embeddings.
