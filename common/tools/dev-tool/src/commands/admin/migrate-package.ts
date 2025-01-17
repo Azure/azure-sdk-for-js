@@ -418,6 +418,11 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
+  packageJson.devDependencies["vitest"] = "^2.1.8";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^2.1.8";
+  if (options.browser) {
+    packageJson.devDependencies["@vitest/browser"] = "^2.1.8";
+  }
   const packagesToUpdate = [
     { package: "@azure-tools/test-credential", version: "^2.0.0" },
     { package: "@azure-tools/test-recorder", version: "^4.1.0" },
