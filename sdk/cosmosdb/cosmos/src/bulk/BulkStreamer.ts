@@ -43,6 +43,9 @@ export class BulkStreamer {
   private operationPromises: Promise<BulkOperationResult>[] = [];
   private operationIndex: number = 0;
 
+  /**
+   * @internal
+   */
   constructor(
     container: Container,
     clientContext: ClientContext,
@@ -59,7 +62,7 @@ export class BulkStreamer {
   }
   /**
    *
-   * @hidden
+   * @internal
    */
   initializeBulk(options: RequestOptions): void {
     this.orderedResponse = [];
@@ -74,7 +77,7 @@ export class BulkStreamer {
   }
 
   /** add an operation or a list of operations to Bulk Streamer */
-  addBulkOperations(operationInput: OperationInput | OperationInput[]): void {
+  addOperations(operationInput: OperationInput | OperationInput[]): void {
     if (Array.isArray(operationInput)) {
       operationInput.forEach((operation) => {
         const operationPromise = this.addOperation(operation);
@@ -98,8 +101,8 @@ export class BulkStreamer {
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
-  // TODO: come with better name
-  async finishBulk(): Promise<BulkStreamerResponse> {
+
+  async endStream(): Promise<BulkStreamerResponse> {
     let orderedOperationsResult: BulkOperationResult[];
 
     try {
@@ -216,9 +219,7 @@ export class BulkStreamer {
         } catch (error) {
           resolve(BulkResponse.fromResponseMessage(error, operations));
         } finally {
-          if (limiter.current() > 0) {
-            limiter.leave();
-          }
+          limiter.leave();
         }
       });
     });

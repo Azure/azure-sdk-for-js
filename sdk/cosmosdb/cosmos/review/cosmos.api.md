@@ -79,16 +79,15 @@ export type BulkPatchOperation = OperationBase & {
 
 // @public
 export class BulkStreamer {
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyRangeCache" needs to be exported by the entry point index.d.ts
-    constructor(container: Container, clientContext: ClientContext, partitionKeyRangeCache: PartitionKeyRangeCache);
-    addBulkOperations(operationInput: OperationInput | OperationInput[]): void;
-    // Warning: (ae-forgotten-export) The symbol "BulkStreamerResponse" needs to be exported by the entry point index.d.ts
-    //
+    addOperations(operationInput: OperationInput | OperationInput[]): void;
     // (undocumented)
-    finishBulk(): Promise<BulkStreamerResponse>;
-    // (undocumented)
-    initializeBulk(options: RequestOptions, bulkOptions: BulkOptions): void;
+    endStream(): Promise<BulkStreamerResponse>;
 }
+
+// @public (undocumented)
+export type BulkStreamerResponse = BulkOperationResult[] & {
+    diagnostics: CosmosDiagnostics;
+};
 
 // @public
 export class ChangeFeedIterator<T> {
@@ -1316,7 +1315,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    getBulkStreamer(options?: RequestOptions, bulkOptions?: BulkOptions): BulkStreamer;
+    getBulkStreamer(options?: RequestOptions): BulkStreamer;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;

@@ -10,9 +10,9 @@ import { calculateObjectSizeInBytes, isSuccessStatusCode } from "../utils/batch"
 import type { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 import type { BulkOperationResult } from "./BulkOperationResult";
-import { BulkPartitionMetric } from "./BulkPartitionMetric";
+import type { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { getCurrentTimestampInMs } from "../utils/time";
-import { Limiter } from "./Limiter";
+import type { Limiter } from "./Limiter";
 
 /**
  * Maintains a batch of operations and dispatches it as a unit of work.
@@ -95,6 +95,9 @@ export class BulkBatcher {
         this.options,
         this.diagnosticNode,
       );
+      if (response.statusCode === 0) {
+        return;
+      }
       const numThrottle = response.results.some(
         (result) => result.statusCode === StatusCodes.TooManyRequests,
       )

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import semaphore from "semaphore";
+import { Constants } from "../common/constants";
 /**
  * Semaphores and locks for execution of Bulk
  * @hidden
@@ -12,6 +13,10 @@ export class Limiter {
 
   constructor(capacity: number) {
     this.limiter = semaphore(capacity);
+    // start with current degree of concurrency as 1
+    for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; i++) {
+      this.limiter.take(() => {});
+    }
     this.readWriteLock = new ReadWriteLock();
   }
 

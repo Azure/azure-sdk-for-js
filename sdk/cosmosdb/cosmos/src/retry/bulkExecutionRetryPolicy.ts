@@ -68,9 +68,12 @@ export class BulkExecutionRetryPolicy implements RetryPolicy {
     ) {
       return true;
     }
-
     // check for 429 error
-    const shouldRetryForThrottle = this.nextRetryPolicy.shouldRetry(err, diagnosticNode);
+    let shouldRetryForThrottle = false;
+    if (err.code === StatusCodes.TooManyRequests) {
+      const retryResult = await this.nextRetryPolicy.shouldRetry(err, diagnosticNode);
+      shouldRetryForThrottle = Array.isArray(retryResult) ? retryResult[0] : retryResult;
+    }
     if (shouldRetryForThrottle) {
       await sleep(this.nextRetryPolicy.retryAfterInMs);
     }

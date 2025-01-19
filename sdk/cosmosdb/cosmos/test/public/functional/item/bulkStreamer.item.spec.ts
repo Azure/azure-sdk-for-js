@@ -17,6 +17,7 @@ import {
   PluginOn,
   StatusCodes,
   ErrorResponse,
+  ResourceType,
 } from "../../../../src";
 import {
   addEntropy,
@@ -32,7 +33,7 @@ import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
-import { SubStatusCodes } from "../../../../src/common";
+import type { Response } from "../../../../src/request/Response";
 
 describe("new streamer bulk operations", async function () {
   describe("Check size based splitting of batches", function () {
@@ -60,8 +61,8 @@ describe("new streamer bulk operations", async function () {
           }) as any,
       );
       const bulkStreamer = container.items.getBulkStreamer();
-      operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-      const response = await bulkStreamer.finishBulk();
+      operations.forEach((operation) => bulkStreamer.addOperations(operation));
+      const response = await bulkStreamer.endStream();
       // Create
       response.forEach((res, index) =>
         assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
@@ -78,8 +79,8 @@ describe("new streamer bulk operations", async function () {
           }) as any,
       );
       const bulkStreamer = container.items.getBulkStreamer();
-      operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-      const response = await bulkStreamer.finishBulk();
+      operations.forEach((operation) => bulkStreamer.addOperations(operation));
+      const response = await bulkStreamer.endStream();
       // Create
       response.forEach((res, index) =>
         assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
@@ -97,8 +98,8 @@ describe("new streamer bulk operations", async function () {
           }) as any,
       );
       const bulkStreamer = container.items.getBulkStreamer();
-      operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-      const response = await bulkStreamer.finishBulk();
+      operations.forEach((operation) => bulkStreamer.addOperations(operation));
+      const response = await bulkStreamer.endStream();
       // Create
       response.forEach((res, index) =>
         assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
@@ -173,8 +174,8 @@ describe("new streamer bulk operations", async function () {
           },
         ];
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-        const response = await bulkStreamer.finishBulk();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
         assert.equal(response[0].statusCode, 201);
@@ -198,8 +199,8 @@ describe("new streamer bulk operations", async function () {
             }) as any,
         );
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-        const response = await bulkStreamer.finishBulk();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
         // Create
         response.forEach((res, index) =>
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
@@ -216,8 +217,8 @@ describe("new streamer bulk operations", async function () {
             }) as any,
         );
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-        const response = await bulkStreamer.finishBulk();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
         // Create
         response.forEach((res, index) =>
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
@@ -235,8 +236,8 @@ describe("new streamer bulk operations", async function () {
             }) as any,
         );
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-        const response = await bulkStreamer.finishBulk();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
         // Create
         response.forEach((res, index) =>
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
@@ -278,8 +279,8 @@ describe("new streamer bulk operations", async function () {
         };
 
         const bulkStreamer = container.items.getBulkStreamer();
-        bulkStreamer.addBulkOperations(operation);
-        const deleteResponse = await bulkStreamer.finishBulk();
+        bulkStreamer.addOperations(operation);
+        const deleteResponse = await bulkStreamer.endStream();
         assert.equal(deleteResponse[0].statusCode, 204);
       });
       it("read operation with default partition", async function () {
@@ -289,8 +290,8 @@ describe("new streamer bulk operations", async function () {
         };
 
         const bulkStreamer = container.items.getBulkStreamer();
-        bulkStreamer.addBulkOperations(operation);
-        const readResponse = await bulkStreamer.finishBulk();
+        bulkStreamer.addOperations(operation);
+        const readResponse = await bulkStreamer.endStream();
         assert.strictEqual(readResponse[0].statusCode, 200);
         assert.strictEqual(
           readResponse[0].resourceBody.id,
@@ -314,15 +315,15 @@ describe("new streamer bulk operations", async function () {
         };
 
         const bulkStreamer = container.items.getBulkStreamer();
-        bulkStreamer.addBulkOperations(createOp);
-        bulkStreamer.addBulkOperations(readOp);
-        const readResponse = await bulkStreamer.finishBulk();
+        bulkStreamer.addOperations(createOp);
+        bulkStreamer.addOperations(readOp);
+        const readResponse = await bulkStreamer.endStream();
         assert.strictEqual(readResponse[0].statusCode, 201);
         assert.strictEqual(readResponse[0].resourceBody.id, id, "Created item's id should match");
         assert.strictEqual(readResponse[1].statusCode, 200);
         assert.strictEqual(readResponse[1].resourceBody.id, id, "Read item's id should match");
       });
-      it.skip("read operation with partition split", async function () {
+      it("read operation with partition split", async function () {
         // using plugins generate split response from backend
         const splitContainer = await getSplitContainer();
         await splitContainer.items.create({
@@ -336,8 +337,8 @@ describe("new streamer bulk operations", async function () {
           partitionKey: "B",
         };
         const bulkStreamer = splitContainer.items.getBulkStreamer();
-        bulkStreamer.addBulkOperations(operation);
-        const readResponse = await bulkStreamer.finishBulk();
+        bulkStreamer.addOperations(operation);
+        const readResponse = await bulkStreamer.endStream();
 
         assert.strictEqual(readResponse[0].statusCode, 200);
         assert.strictEqual(
@@ -351,7 +352,7 @@ describe("new streamer bulk operations", async function () {
         }
       });
 
-      it.skip("container handles Create, Read, Upsert, Delete opertion with partition split", async function () {
+      it("container handles Create, Read, Upsert, Delete opertion with partition split", async function () {
         const operations = [
           {
             operationType: BulkOperationType.Create,
@@ -392,8 +393,8 @@ describe("new streamer bulk operations", async function () {
         });
 
         const bulkStreamer = splitContainer.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-        const response = await bulkStreamer.finishBulk();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
 
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
@@ -414,17 +415,33 @@ describe("new streamer bulk operations", async function () {
       });
 
       async function getSplitContainer(): Promise<Container> {
-        let responseIndex = 0;
+        let numpkRangeRequests = 0;
         const plugins: PluginConfig[] = [
           {
             on: PluginOn.request,
             plugin: async (context, _diagNode, next) => {
-              if (context.operationType === "batch" && responseIndex < 1) {
-                const error = new ErrorResponse();
-                error.code = StatusCodes.Gone;
-                error.substatus = SubStatusCodes.PartitionKeyRangeGone;
-                responseIndex++;
-                throw error;
+              if (context.resourceType === ResourceType.pkranges) {
+                let response: Response<any>;
+                if (numpkRangeRequests === 0) {
+                  response = {
+                    headers: {},
+                    result: {
+                      PartitionKeyRanges: [
+                        {
+                          _rid: "RRsbAKHytdECAAAAAAAAUA==",
+                          id: "1",
+                          _etag: '"00000000-0000-0000-683c-819a242201db"',
+                          minInclusive: "",
+                          maxExclusive: "FF",
+                        },
+                      ],
+                    },
+                  };
+                  response.code = 200;
+                  numpkRangeRequests++;
+                  return response;
+                }
+                numpkRangeRequests++;
               }
               const res = await next(context);
               return res;
@@ -505,9 +522,9 @@ describe("new streamer bulk operations", async function () {
           }
           const bulkStreamer = container.items.getBulkStreamer({});
           dataset.operations.forEach((operation) =>
-            bulkStreamer.addBulkOperations(operation.operation),
+            bulkStreamer.addOperations(operation.operation),
           );
-          const response = await bulkStreamer.finishBulk();
+          const response = await bulkStreamer.endStream();
           dataset.operations.forEach(({ description, expectedOutput }, index) => {
             if (expectedOutput) {
               assert.strictEqual(
@@ -1084,8 +1101,8 @@ describe("new streamer bulk operations", async function () {
           };
         });
         const bulkStreamer = testcontainer.items.getBulkStreamer();
-        bulkStreamer.addBulkOperations(operations);
-        const response = await bulkStreamer.finishBulk();
+        bulkStreamer.addOperations(operations);
+        const response = await bulkStreamer.endStream();
         assert.strictEqual(response.length, 10);
         response.forEach((res, index) => {
           assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`);
@@ -1111,8 +1128,8 @@ describe("new streamer bulk operations", async function () {
           };
         });
         const bulkStreamer = testcontainer.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-        const response = await bulkStreamer.finishBulk();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
         const expectedOrder = operations.map((op) => op.resourceBody.id);
         const actualOrder = response.map((res) => res.resourceBody.id);
         assert.deepStrictEqual(actualOrder, expectedOrder);
@@ -1162,29 +1179,43 @@ describe("new streamer bulk operations", async function () {
           },
         ];
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-        const createResponse = await bulkStreamer.finishBulk();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const createResponse = await bulkStreamer.endStream();
         assert.equal(createResponse[0].statusCode, 201);
       });
     });
-    describe.skip("multi partitioned container with many items handle partition split", async function () {
+    describe("multi partitioned container with many items handle partition split", async function () {
       let container: Container;
       before(async function () {
-        let responseIndex = 0;
-        // On every 50th request, return a 410 error
+        let numpkRangeRequests = 0;
         const plugins: PluginConfig[] = [
           {
             on: PluginOn.request,
             plugin: async (context, _diagNode, next) => {
-              if (context.operationType === "batch" && responseIndex % 3 === 0) {
-                const error = new ErrorResponse();
-                error.code = StatusCodes.Gone;
-                error.substatus = SubStatusCodes.PartitionKeyRangeGone;
-                responseIndex++;
-                throw error;
+              if (context.resourceType === ResourceType.pkranges) {
+                let response: Response<any>;
+                if (numpkRangeRequests === 0) {
+                  response = {
+                    headers: {},
+                    result: {
+                      PartitionKeyRanges: [
+                        {
+                          _rid: "RRsbAKHytdECAAAAAAAAUA==",
+                          id: "7",
+                          _etag: '"00000000-0000-0000-683c-819a242201db"',
+                          minInclusive: "",
+                          maxExclusive: "FF",
+                        },
+                      ],
+                    },
+                  };
+                  response.code = 200;
+                  numpkRangeRequests++;
+                  return response;
+                }
+                numpkRangeRequests++;
               }
               const res = await next(context);
-              responseIndex++;
               return res;
             },
           },
@@ -1211,7 +1242,7 @@ describe("new streamer bulk operations", async function () {
           });
         }
       });
-      it.skip("check multiple partition splits during bulk", async function () {
+      it("check partition splits during bulk", async function () {
         const operations: OperationInput[] = [];
         for (let i = 0; i < 300; i++) {
           operations.push({
@@ -1222,8 +1253,8 @@ describe("new streamer bulk operations", async function () {
         }
 
         const bulkStreamer = container.items.getBulkStreamer();
-        operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-        const response = await bulkStreamer.finishBulk();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
 
         response.forEach((res, index) => {
           assert.strictEqual(res.statusCode, 200, `Status should be 200 for operation ${index}`);
@@ -1306,8 +1337,8 @@ describe("new streamer bulk operations", async function () {
       await testForDiagnostics(
         async () => {
           const bulkStreamer = container.items.getBulkStreamer();
-          operations.forEach((operation) => bulkStreamer.addBulkOperations(operation));
-          return bulkStreamer.finishBulk();
+          operations.forEach((operation) => bulkStreamer.addOperations(operation));
+          return bulkStreamer.endStream();
         },
         {
           requestStartTimeUTCInMsLowerLimit: startTimestamp,
