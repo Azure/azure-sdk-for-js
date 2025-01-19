@@ -266,9 +266,9 @@ export interface OperatorInformation {
 export interface OperatorDetails {
   /** Name of the phone operator */
   name?: string;
-  /** Mobile Network Code */
+  /** ISO 2 Mobile Network Code */
   mobileNetworkCode?: string;
-  /** Mobile Country Code */
+  /** ISO 2 Mobile Country Code */
   mobileCountryCode?: string;
 }
 
