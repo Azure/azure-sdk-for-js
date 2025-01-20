@@ -88,7 +88,7 @@ export class TenDlcClient {
 
   /**
    * Upserts a US brand with the given brand ID.
-   * 
+   *
    * @param brandId - The unique identifier for the brand.
    * @param options - Optional parameters for upserting the US brand.
    * @returns The upserted US brand.
