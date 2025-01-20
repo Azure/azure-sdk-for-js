@@ -64,7 +64,7 @@ export class BulkCongestionAlgorithm {
     );
     // block permits
     for (let i = 0; i < decreaseCount; i++) {
-      this.limiter.take(() => {});
+      this.limiter.take(() => { });
     }
 
     currentDegreeOfConcurrency -= decreaseCount;
@@ -83,6 +83,8 @@ export class BulkCongestionAlgorithm {
       }
       currentDegreeOfConcurrency += this.congestionIncreaseFactor;
     }
+    // reset the wait time as there is no throttling.
+    this.congestionWaitTimeInMs = 1000;
     return currentDegreeOfConcurrency;
   }
 }
