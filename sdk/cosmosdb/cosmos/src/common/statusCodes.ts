@@ -100,6 +100,9 @@ export interface SubStatusCodesType {
   // 403: Forbidden Substatus
   WriteForbidden: 3;
   DatabaseAccountNotFound: 1008;
+
+  // 413: Request Entity Too Large Substatus
+  ResponseSizeExceeded: 3402;
 }
 
 /**
@@ -123,4 +126,7 @@ export const SubStatusCodes: SubStatusCodesType = {
   // 403: Forbidden Substatus
   WriteForbidden: 3,
   DatabaseAccountNotFound: 1008,
+
+  // 413: Request Entity Too Large Substatus
+  ResponseSizeExceeded: 3402,
 };
