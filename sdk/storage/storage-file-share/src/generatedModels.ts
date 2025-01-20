@@ -533,7 +533,7 @@ export interface FileDownloadHeaders {
 }
 
 /** Contains response data for the download operation. */
-export type FileDownloadResponse = FileDownloadHeaders & {
+export type RawFileDownloadResponse = FileDownloadHeaders & {
   /**
    * BROWSER ONLY
    *
@@ -549,8 +549,6 @@ export type FileDownloadResponse = FileDownloadHeaders & {
    */
   readableStreamBody?: NodeJS.ReadableStream;
 };
-
-export type RawFileDownloadResponse = FileDownloadResponse;
 
 /** Contains response data for the download operation. */
 export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, FileDownloadHeaders>;
@@ -582,7 +580,7 @@ export type FileGetRangeListDiffResponse = WithResponse<
 >;
 
 /** Defines headers for File_setHttpHeaders operation. */
-export interface FileSetHttpHeadersHeaders {
+export interface FileSetHTTPHeadersHeaders {
   /** The ETag contains a value which represents the version of the file, in quotes. */
   etag?: string;
   /** Returns the date and time the directory was last modified. Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory. */
@@ -621,12 +619,10 @@ export interface FileSetHttpHeadersHeaders {
   errorCode?: string;
 }
 
-export type FileSetHTTPHeadersHeaders = FileSetHttpHeadersHeaders;
-
 /** Contains response data for the setHttpHeaders operation. */
 export type FileSetHTTPHeadersResponse = WithResponse<
-  FileSetHttpHeadersHeaders,
-  FileSetHttpHeadersHeaders
+  FileSetHTTPHeadersHeaders,
+  FileSetHTTPHeadersHeaders
 >;
 
 /** Contains response data for the rename operation. */

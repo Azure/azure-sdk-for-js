@@ -781,12 +781,16 @@ export function asSharePermission(value: string | SharePermission): SharePermiss
   };
 }
 
+/**
+ * @param input - A 4-digit octal string representation of a File Mode.
+ * @returns a {@link NfsFileMode} from the octal string representation.
+ */
 export function parseOctalFileMode(input?: string): NfsFileMode | undefined {
   if (input === undefined) {
     return undefined;
   }
 
-  if (input?.length !== 9) {
+  if (input?.length !== 4) {
     throw new Error("Invalid format of input string");
   }
 
@@ -872,15 +876,15 @@ export function toSymbolicFileMode(input?: NfsFileMode): string | undefined {
   return ownerPermissions + groupPermissions + otherPermissions;
 }
 
-export function ParseSymbolicFileMode(input?: string): NfsFileMode | undefined {
+export function parseSymbolicFileMode(input?: string): NfsFileMode | undefined {
   if (input === undefined) return undefined;
 
   if (input?.length !== 9) {
     throw new Error("Invalid format of input string");
   }
   const ownerPermissions = parseSymbolicRolePermissions(input.substring(0, 3));
-  const groupPermissions = parseSymbolicRolePermissions(input.substring(3, 3));
-  const otherPermissions = parseSymbolicRolePermissions(input.substring(6, 3));
+  const groupPermissions = parseSymbolicRolePermissions(input.substring(3, 6));
+  const otherPermissions = parseSymbolicRolePermissions(input.substring(6, 9));
   const nfsFileMode: NfsFileMode = {
     owner: ownerPermissions.rolePermissions,
     group: groupPermissions.rolePermissions,
