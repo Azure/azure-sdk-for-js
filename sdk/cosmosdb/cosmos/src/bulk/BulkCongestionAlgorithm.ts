@@ -64,7 +64,7 @@ export class BulkCongestionAlgorithm {
     );
     // block permits
     for (let i = 0; i < decreaseCount; i++) {
-      this.limiter.take(() => { });
+      this.limiter.take(() => {});
     }
 
     currentDegreeOfConcurrency -= decreaseCount;

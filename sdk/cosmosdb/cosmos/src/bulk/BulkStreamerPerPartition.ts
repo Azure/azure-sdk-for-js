@@ -34,8 +34,6 @@ export class BulkStreamerPerPartition {
 
   private readonly oldPartitionMetric: BulkPartitionMetric;
   private readonly partitionMetric: BulkPartitionMetric;
-  private congestionControlTimer: NodeJS.Timeout;
-  private congestionControlDelayInMs: number = 100;
   private congestionDegreeOfConcurrency = 1;
   private congestionControlAlgorithm: BulkCongestionAlgorithm;
 
@@ -53,7 +51,6 @@ export class BulkStreamerPerPartition {
     this.options = options;
     this.diagnosticNode = diagnosticNode;
     this.orderedResponse = orderedResponse;
-    this.currentBatcher = this.createBulkBatcher();
     this.oldPartitionMetric = new BulkPartitionMetric();
     this.partitionMetric = new BulkPartitionMetric();
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
@@ -61,10 +58,10 @@ export class BulkStreamerPerPartition {
       this.partitionMetric,
       this.oldPartitionMetric,
     );
+    this.currentBatcher = this.createBulkBatcher();
 
     this.lock = semaphore(1);
     this.runDispatchTimer();
-    this.runCongestionControlTimer();
   }
 
   /**
@@ -108,6 +105,13 @@ export class BulkStreamerPerPartition {
       this.options,
       this.diagnosticNode,
       this.orderedResponse,
+      // getDegreeOfConcurrency
+      () => this.congestionDegreeOfConcurrency,
+      // setDegreeOfConcurrency
+      (updatedConcurrency: number) => {
+        this.congestionDegreeOfConcurrency = updatedConcurrency;
+      },
+      this.congestionControlAlgorithm.run.bind(this.congestionControlAlgorithm),
     );
   }
 
@@ -130,23 +134,12 @@ export class BulkStreamerPerPartition {
     }, Constants.BulkTimeoutInMs);
   }
 
-  private runCongestionControlTimer(): void {
-    this.congestionControlTimer = setInterval(() => {
-      this.congestionDegreeOfConcurrency = this.congestionControlAlgorithm.run(
-        this.congestionDegreeOfConcurrency,
-      );
-    }, this.congestionControlDelayInMs);
-  }
-
   /**
    * Dispose the active timers after bulk is complete.
    */
   disposeTimers(): void {
     if (this.dispatchTimer) {
       clearInterval(this.dispatchTimer);
-    }
-    if (this.congestionControlTimer) {
-      clearInterval(this.congestionControlTimer);
     }
   }
 }

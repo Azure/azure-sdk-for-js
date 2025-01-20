@@ -29,6 +29,9 @@ export class BulkBatcher {
   private readonly options: RequestOptions;
   private readonly diagnosticNode: DiagnosticNodeInternal;
   private readonly orderedResponse: BulkOperationResult[];
+  private runCongestionAlgo: (currentDegreeOfConcurrency: number) => number;
+  private getDegreeOfConcurrency: () => number;
+  private setDegreeOfConcurrency: (degreeOfConcurrency: number) => void;
 
   constructor(
     private limiter: Limiter,
@@ -37,6 +40,9 @@ export class BulkBatcher {
     options: RequestOptions,
     diagnosticNode: DiagnosticNodeInternal,
     orderedResponse: BulkOperationResult[],
+    getDegreeOfConcurrency: () => number,
+    setDegreeOfConcurrency: (degreeOfConcurrency: number) => void,
+    runCongestionAlgo: (currentDegreeOfConcurrency: number) => number,
   ) {
     this.batchOperationsList = [];
     this.executor = executor;
@@ -46,6 +52,9 @@ export class BulkBatcher {
     this.orderedResponse = orderedResponse;
     this.currentSize = 0;
     this.toBeDispatched = false;
+    this.runCongestionAlgo = runCongestionAlgo;
+    this.getDegreeOfConcurrency = getDegreeOfConcurrency;
+    this.setDegreeOfConcurrency = setDegreeOfConcurrency;
   }
 
   /**
@@ -114,6 +123,8 @@ export class BulkBatcher {
         getCurrentTimestampInMs() - startTime,
         numThrottle,
       );
+      const currentDegreeOfConcurrency = this.getDegreeOfConcurrency();
+      this.setDegreeOfConcurrency(this.runCongestionAlgo(currentDegreeOfConcurrency));
 
       for (let i = 0; i < response.operations.length; i++) {
         const operation = response.operations[i];
