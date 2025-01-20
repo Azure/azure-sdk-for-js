@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List container app resiliency policies.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List container app resiliency policies.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AppResiliency_List.json
  */
-async function listAppResiliency() {
+async function listAppResiliency(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,7 +36,7 @@ async function listAppResiliency() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAppResiliency();
 }
 

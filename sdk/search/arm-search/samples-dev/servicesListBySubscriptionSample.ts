@@ -32,7 +32,7 @@ async function searchListServicesBySubscription() {
 }
 
 async function main() {
-  searchListServicesBySubscription();
+  await searchListServicesBySubscription();
 }
 
 main().catch(console.error);

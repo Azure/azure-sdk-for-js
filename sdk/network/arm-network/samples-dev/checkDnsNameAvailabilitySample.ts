@@ -34,7 +34,7 @@ async function checkDnsNameAvailability() {
 }
 
 async function main() {
-  checkDnsNameAvailability();
+  await checkDnsNameAvailability();
 }
 
 main().catch(console.error);

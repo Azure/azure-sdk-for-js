@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a BuildResource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a BuildResource
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_Get.json
  */
-async function buildsGet0() {
+async function buildsGet0(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function buildsGet0() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   buildsGet0();
 }
 

@@ -32,7 +32,7 @@ async function getProvider() {
 }
 
 async function main() {
-  getProvider();
+  await getProvider();
 }
 
 main().catch(console.error);

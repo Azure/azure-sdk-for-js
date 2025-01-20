@@ -41,7 +41,7 @@ async function getsTheListOfMigrationItemsInTheVault() {
 }
 
 async function main() {
-  getsTheListOfMigrationItemsInTheVault();
+  await getsTheListOfMigrationItemsInTheVault();
 }
 
 main().catch(console.error);

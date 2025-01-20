@@ -39,7 +39,7 @@ async function domainTopicsGet() {
 }
 
 async function main() {
-  domainTopicsGet();
+  await domainTopicsGet();
 }
 
 main().catch(console.error);

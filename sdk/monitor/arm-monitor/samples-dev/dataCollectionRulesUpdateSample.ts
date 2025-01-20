@@ -44,7 +44,7 @@ async function updateDataCollectionRule() {
 }
 
 async function main() {
-  updateDataCollectionRule();
+  await updateDataCollectionRule();
 }
 
 main().catch(console.error);

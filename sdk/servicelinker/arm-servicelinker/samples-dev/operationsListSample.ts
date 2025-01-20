@@ -31,7 +31,7 @@ async function getConfiguration() {
 }
 
 async function main() {
-  getConfiguration();
+  await getConfiguration();
 }
 
 main().catch(console.error);

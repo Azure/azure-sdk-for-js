@@ -41,7 +41,7 @@ async function createAccountResource() {
 }
 
 async function main() {
-  createAccountResource();
+  await createAccountResource();
 }
 
 main().catch(console.error);

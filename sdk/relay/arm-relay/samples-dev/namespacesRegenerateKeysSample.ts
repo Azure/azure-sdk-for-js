@@ -41,7 +41,7 @@ async function relayNameSpaceAuthorizationRuleRegenrateKey() {
 }
 
 async function main() {
-  relayNameSpaceAuthorizationRuleRegenrateKey();
+  await relayNameSpaceAuthorizationRuleRegenrateKey();
 }
 
 main().catch(console.error);

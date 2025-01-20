@@ -47,7 +47,7 @@ async function updateDnsSecurityRuleForDnsResolverPolicy() {
 }
 
 async function main() {
-  updateDnsSecurityRuleForDnsResolverPolicy();
+  await updateDnsSecurityRuleForDnsResolverPolicy();
 }
 
 main().catch(console.error);

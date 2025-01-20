@@ -46,7 +46,7 @@ async function upsertDnsResolverDomainList() {
 }
 
 async function main() {
-  upsertDnsResolverDomainList();
+  await upsertDnsResolverDomainList();
 }
 
 main().catch(console.error);

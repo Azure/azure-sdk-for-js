@@ -37,7 +37,7 @@ async function getAvailableServiceAliasesInTheResourceGroup() {
 }
 
 async function main() {
-  getAvailableServiceAliasesInTheResourceGroup();
+  await getAvailableServiceAliasesInTheResourceGroup();
 }
 
 main().catch(console.error);

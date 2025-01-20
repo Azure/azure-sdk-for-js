@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve all the job streams for the compilation Job.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieve all the job streams for the compilation Job.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/compilationJobStreamList.json
  */
-async function listDscCompilationJobStreams() {
+async function listDscCompilationJobStreams(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -35,7 +33,7 @@ async function listDscCompilationJobStreams() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDscCompilationJobStreams();
 }
 

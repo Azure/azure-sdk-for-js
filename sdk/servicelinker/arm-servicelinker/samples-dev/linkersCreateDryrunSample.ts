@@ -52,7 +52,7 @@ async function putDryrun() {
 }
 
 async function main() {
-  putDryrun();
+  await putDryrun();
 }
 
 main().catch(console.error);

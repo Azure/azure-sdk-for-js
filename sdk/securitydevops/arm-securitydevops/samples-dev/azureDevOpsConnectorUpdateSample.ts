@@ -49,7 +49,7 @@ async function azureDevOpsConnectorUpdate() {
 }
 
 async function main() {
-  azureDevOpsConnectorUpdate();
+  await azureDevOpsConnectorUpdate();
 }
 
 main().catch(console.error);

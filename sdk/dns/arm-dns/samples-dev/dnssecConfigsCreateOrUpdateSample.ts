@@ -34,7 +34,7 @@ async function createDnssecConfig() {
 }
 
 async function main() {
-  createDnssecConfig();
+  await createDnssecConfig();
 }
 
 main().catch(console.error);

@@ -51,7 +51,7 @@ async function settingsUpdate() {
 }
 
 async function main() {
-  settingsUpdate();
+  await settingsUpdate();
 }
 
 main().catch(console.error);

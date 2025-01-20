@@ -41,7 +41,7 @@ async function jobDefinitionsStopJob() {
 }
 
 async function main() {
-  jobDefinitionsStopJob();
+  await jobDefinitionsStopJob();
 }
 
 main().catch(console.error);

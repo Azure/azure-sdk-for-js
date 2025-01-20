@@ -39,7 +39,7 @@ async function relayNameSpaceAutorizationRuleDelete() {
 }
 
 async function main() {
-  relayNameSpaceAutorizationRuleDelete();
+  await relayNameSpaceAutorizationRuleDelete();
 }
 
 main().catch(console.error);

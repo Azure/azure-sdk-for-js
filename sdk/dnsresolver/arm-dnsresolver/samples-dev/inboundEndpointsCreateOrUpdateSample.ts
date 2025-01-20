@@ -55,7 +55,7 @@ async function upsertInboundEndpointForDnsResolver() {
 }
 
 async function main() {
-  upsertInboundEndpointForDnsResolver();
+  await upsertInboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

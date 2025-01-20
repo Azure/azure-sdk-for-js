@@ -39,7 +39,7 @@ async function listsTheManagedInstanceStartOrStopSchedules() {
 }
 
 async function main() {
-  listsTheManagedInstanceStartOrStopSchedules();
+  await listsTheManagedInstanceStartOrStopSchedules();
 }
 
 main().catch(console.error);

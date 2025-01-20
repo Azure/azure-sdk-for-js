@@ -54,7 +54,7 @@ async function fabricCreate() {
 }
 
 async function main() {
-  fabricCreate();
+  await fabricCreate();
 }
 
 main().catch(console.error);

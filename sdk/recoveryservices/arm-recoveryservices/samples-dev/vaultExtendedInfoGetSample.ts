@@ -38,7 +38,7 @@ async function getExtendedInfoOfResource() {
 }
 
 async function main() {
-  getExtendedInfoOfResource();
+  await getExtendedInfoOfResource();
 }
 
 main().catch(console.error);

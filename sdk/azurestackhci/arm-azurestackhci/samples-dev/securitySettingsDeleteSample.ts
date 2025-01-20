@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureStackHCIClient } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a SecuritySetting
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a SecuritySetting
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/DeleteSecuritySettings.json
  */
-async function deleteSecuritySettings() {
+async function deleteSecuritySettings(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -38,7 +36,7 @@ async function deleteSecuritySettings() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteSecuritySettings();
 }
 

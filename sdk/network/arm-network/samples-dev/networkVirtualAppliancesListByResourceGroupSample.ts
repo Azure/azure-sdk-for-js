@@ -35,7 +35,7 @@ async function listAllNetworkVirtualApplianceForAGivenResourceGroup() {
 }
 
 async function main() {
-  listAllNetworkVirtualApplianceForAGivenResourceGroup();
+  await listAllNetworkVirtualApplianceForAGivenResourceGroup();
 }
 
 main().catch(console.error);

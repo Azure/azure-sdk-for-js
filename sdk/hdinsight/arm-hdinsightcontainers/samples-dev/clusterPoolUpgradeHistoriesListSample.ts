@@ -43,7 +43,7 @@ async function clusterPoolUpgradeHistoriesListResult() {
 }
 
 async function main() {
-  clusterPoolUpgradeHistoriesListResult();
+  await clusterPoolUpgradeHistoriesListResult();
 }
 
 main().catch(console.error);

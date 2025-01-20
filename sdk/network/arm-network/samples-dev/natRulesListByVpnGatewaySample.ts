@@ -37,7 +37,7 @@ async function natRuleList() {
 }
 
 async function main() {
-  natRuleList();
+  await natRuleList();
 }
 
 main().catch(console.error);

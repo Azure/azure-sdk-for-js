@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the roles in a given cluster.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all the roles in a given cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/RoleListByCluster.json
  */
-async function roleList() {
+async function roleList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -39,7 +37,7 @@ async function roleList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   roleList();
 }
 

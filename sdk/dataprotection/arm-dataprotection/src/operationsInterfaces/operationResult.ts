@@ -9,7 +9,7 @@
 import {
   OperationResultGetOptionalParams,
   OperationResultGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a OperationResult. */
 export interface OperationResult {

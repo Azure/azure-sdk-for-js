@@ -37,7 +37,7 @@ async function networkTapsListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  networkTapsListBySubscriptionMaximumSetGen();
+  await networkTapsListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

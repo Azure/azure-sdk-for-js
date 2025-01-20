@@ -39,7 +39,7 @@ async function getAnIntegrationAccountAssembly() {
 }
 
 async function main() {
-  getAnIntegrationAccountAssembly();
+  await getAnIntegrationAccountAssembly();
 }
 
 main().catch(console.error);

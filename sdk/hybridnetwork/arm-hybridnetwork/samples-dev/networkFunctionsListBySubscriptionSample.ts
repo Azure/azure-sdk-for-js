@@ -33,7 +33,7 @@ async function listAllNetworkFunctionResourcesInSubscription() {
 }
 
 async function main() {
-  listAllNetworkFunctionResourcesInSubscription();
+  await listAllNetworkFunctionResourcesInSubscription();
 }
 
 main().catch(console.error);

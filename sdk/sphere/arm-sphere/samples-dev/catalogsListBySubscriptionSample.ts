@@ -34,7 +34,7 @@ async function catalogsListBySubscription() {
 }
 
 async function main() {
-  catalogsListBySubscription();
+  await catalogsListBySubscription();
 }
 
 main().catch(console.error);

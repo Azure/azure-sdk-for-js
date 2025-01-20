@@ -43,7 +43,7 @@ async function outboundRoutesForTheVirtualHubOnAParticularConnection() {
 }
 
 async function main() {
-  outboundRoutesForTheVirtualHubOnAParticularConnection();
+  await outboundRoutesForTheVirtualHubOnAParticularConnection();
 }
 
 main().catch(console.error);

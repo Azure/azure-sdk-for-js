@@ -31,7 +31,7 @@ async function deleteOracleSubscription() {
 }
 
 async function main() {
-  deleteOracleSubscription();
+  await deleteOracleSubscription();
 }
 
 main().catch(console.error);

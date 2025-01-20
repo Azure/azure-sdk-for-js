@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates existing service.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_Update.json
  */
-async function servicesUpdate() {
+async function servicesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +45,7 @@ async function servicesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesUpdate();
 }
 

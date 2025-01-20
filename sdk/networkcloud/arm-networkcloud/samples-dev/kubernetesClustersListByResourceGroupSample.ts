@@ -38,7 +38,7 @@ async function listKubernetesClustersForResourceGroup() {
 }
 
 async function main() {
-  listKubernetesClustersForResourceGroup();
+  await listKubernetesClustersForResourceGroup();
 }
 
 main().catch(console.error);

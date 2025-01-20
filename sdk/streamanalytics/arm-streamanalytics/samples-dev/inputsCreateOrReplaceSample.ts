@@ -320,13 +320,13 @@ async function createAnEventGridInput() {
 }
 
 async function main() {
-  createAGatewayMessageBusInput();
-  createAReferenceBlobInputWithCsvSerialization();
-  createAReferenceFileInput();
-  createAStreamEventHubInputWithJsonSerialization();
-  createAStreamIoTHubInputWithAvroSerialization();
-  createAStreamBlobInputWithCsvSerialization();
-  createAnEventGridInput();
+  await createAGatewayMessageBusInput();
+  await createAReferenceBlobInputWithCsvSerialization();
+  await createAReferenceFileInput();
+  await createAStreamEventHubInputWithJsonSerialization();
+  await createAStreamIoTHubInputWithAvroSerialization();
+  await createAStreamBlobInputWithCsvSerialization();
+  await createAnEventGridInput();
 }
 
 main().catch(console.error);

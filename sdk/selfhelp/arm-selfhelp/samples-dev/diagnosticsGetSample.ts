@@ -31,7 +31,7 @@ async function getsADiagnosticForAKeyVaultResource() {
 }
 
 async function main() {
-  getsADiagnosticForAKeyVaultResource();
+  await getsADiagnosticForAKeyVaultResource();
 }
 
 main().catch(console.error);

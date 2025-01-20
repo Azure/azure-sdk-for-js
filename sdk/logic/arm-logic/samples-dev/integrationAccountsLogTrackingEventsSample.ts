@@ -75,7 +75,7 @@ async function logATrackedEvent() {
 }
 
 async function main() {
-  logATrackedEvent();
+  await logATrackedEvent();
 }
 
 main().catch(console.error);

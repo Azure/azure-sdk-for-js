@@ -41,7 +41,7 @@ async function namespaceTopicEventSubscriptionsGetFullUrl() {
 }
 
 async function main() {
-  namespaceTopicEventSubscriptionsGetFullUrl();
+  await namespaceTopicEventSubscriptionsGetFullUrl();
 }
 
 main().catch(console.error);

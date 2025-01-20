@@ -40,7 +40,7 @@ async function volumesBackupStatus() {
 }
 
 async function main() {
-  volumesBackupStatus();
+  await volumesBackupStatus();
 }
 
 main().catch(console.error);

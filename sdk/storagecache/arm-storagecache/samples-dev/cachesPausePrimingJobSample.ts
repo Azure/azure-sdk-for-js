@@ -46,7 +46,7 @@ async function pausePrimingJob() {
 }
 
 async function main() {
-  pausePrimingJob();
+  await pausePrimingJob();
 }
 
 main().catch(console.error);

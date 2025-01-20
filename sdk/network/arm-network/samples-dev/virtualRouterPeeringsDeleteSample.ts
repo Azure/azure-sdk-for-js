@@ -36,7 +36,7 @@ async function deleteVirtualRouterPeering() {
 }
 
 async function main() {
-  deleteVirtualRouterPeering();
+  await deleteVirtualRouterPeering();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function importCollectorsGet() {
 }
 
 async function main() {
-  importCollectorsGet();
+  await importCollectorsGet();
 }
 
 main().catch(console.error);

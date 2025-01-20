@@ -41,7 +41,7 @@ async function scheduledEventsAcknowledge() {
 }
 
 async function main() {
-  scheduledEventsAcknowledge();
+  await scheduledEventsAcknowledge();
 }
 
 main().catch(console.error);

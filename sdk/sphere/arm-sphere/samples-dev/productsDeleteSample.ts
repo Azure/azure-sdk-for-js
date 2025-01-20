@@ -39,7 +39,7 @@ async function productsDelete() {
 }
 
 async function main() {
-  productsDelete();
+  await productsDelete();
 }
 
 main().catch(console.error);

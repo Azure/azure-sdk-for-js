@@ -48,7 +48,7 @@ async function volumesReestablishReplication() {
 }
 
 async function main() {
-  volumesReestablishReplication();
+  await volumesReestablishReplication();
 }
 
 main().catch(console.error);

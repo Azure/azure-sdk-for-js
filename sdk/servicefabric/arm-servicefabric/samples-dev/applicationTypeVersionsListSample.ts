@@ -42,7 +42,7 @@ async function getAListOfApplicationTypeVersionResources() {
 }
 
 async function main() {
-  getAListOfApplicationTypeVersionResources();
+  await getAListOfApplicationTypeVersionResources();
 }
 
 main().catch(console.error);

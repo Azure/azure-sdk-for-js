@@ -13,9 +13,7 @@ import {
   CosmosDBForPostgreSQL,
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new cluster with servers.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a new cluster with servers.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreatePITR.json
  */
-async function createANewClusterAsAPointInTimeRestore() {
+async function createANewClusterAsAPointInTimeRestore(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -53,7 +51,7 @@ async function createANewClusterAsAPointInTimeRestore() {
  * @summary Creates a new cluster with servers.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateReadReplica.json
  */
-async function createANewClusterAsAReadReplica() {
+async function createANewClusterAsAReadReplica(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -82,7 +80,7 @@ async function createANewClusterAsAReadReplica() {
  * @summary Creates a new cluster with servers.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateMultiNode.json
  */
-async function createANewMultiNodeCluster() {
+async function createANewMultiNodeCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -124,7 +122,7 @@ async function createANewMultiNodeCluster() {
  * @summary Creates a new cluster with servers.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateBurstablev1.json
  */
-async function createANewSingleNodeBurstable1VCoreCluster() {
+async function createANewSingleNodeBurstable1VCoreCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -162,7 +160,7 @@ async function createANewSingleNodeBurstable1VCoreCluster() {
  * @summary Creates a new cluster with servers.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateBurstablev2.json
  */
-async function createANewSingleNodeBurstable2VCoresCluster() {
+async function createANewSingleNodeBurstable2VCoresCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -200,7 +198,7 @@ async function createANewSingleNodeBurstable2VCoresCluster() {
  * @summary Creates a new cluster with servers.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterCreateSingleNode.json
  */
-async function createANewSingleNodeCluster() {
+async function createANewSingleNodeCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -232,7 +230,7 @@ async function createANewSingleNodeCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createANewClusterAsAPointInTimeRestore();
   createANewClusterAsAReadReplica();
   createANewMultiNodeCluster();

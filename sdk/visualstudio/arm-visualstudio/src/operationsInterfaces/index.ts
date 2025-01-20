@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./accounts";
-export * from "./extensions";
-export * from "./projects";
+export * from "./operations.js";
+export * from "./accounts.js";
+export * from "./extensions.js";
+export * from "./projects.js";

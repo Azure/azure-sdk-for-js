@@ -39,7 +39,7 @@ async function getsAllIncidentRelatedEntities() {
 }
 
 async function main() {
-  getsAllIncidentRelatedEntities();
+  await getsAllIncidentRelatedEntities();
 }
 
 main().catch(console.error);

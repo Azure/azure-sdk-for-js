@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Regenerates secondary key of existing subscription of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementSubscriptionRegenerateSecondaryKey.json
  */
-async function apiManagementSubscriptionRegenerateSecondaryKey() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const sid = "testsub";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.subscription.regenerateSecondaryKey(
-        resourceGroupName,
-        serviceName,
-        sid
-    );
-    console.log(result);
+async function apiManagementSubscriptionRegenerateSecondaryKey(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const sid = "testsub";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.subscription.regenerateSecondaryKey(
+    resourceGroupName,
+    serviceName,
+    sid
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementSubscriptionRegenerateSecondaryKey();
+async function main(): Promise<void> {
+  apiManagementSubscriptionRegenerateSecondaryKey();
 }
 
 main().catch(console.error);

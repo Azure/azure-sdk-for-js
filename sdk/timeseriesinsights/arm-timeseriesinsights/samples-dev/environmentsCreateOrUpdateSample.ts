@@ -47,7 +47,7 @@ async function environmentsCreate() {
 }
 
 async function main() {
-  environmentsCreate();
+  await environmentsCreate();
 }
 
 main().catch(console.error);

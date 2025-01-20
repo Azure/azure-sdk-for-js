@@ -57,7 +57,7 @@ async function createOrUpdateABigDataPool() {
 }
 
 async function main() {
-  createOrUpdateABigDataPool();
+  await createOrUpdateABigDataPool();
 }
 
 main().catch(console.error);

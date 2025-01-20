@@ -39,7 +39,7 @@ async function getAArtifactManifestResource() {
 }
 
 async function main() {
-  getAArtifactManifestResource();
+  await getAArtifactManifestResource();
 }
 
 main().catch(console.error);

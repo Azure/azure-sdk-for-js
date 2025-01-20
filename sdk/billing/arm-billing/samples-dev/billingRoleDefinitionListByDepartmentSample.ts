@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the definition for a department. The operation is supported for billing accounts with agreement type Enterprise Agreement.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List the definition for a department. The operation is supported for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleDefinitionListByDepartment.json
  */
-async function billingRoleDefinitionListByDepartment() {
+async function billingRoleDefinitionListByDepartment(): Promise<void> {
   const billingAccountName = "123456";
   const departmentName = "7368531";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function billingRoleDefinitionListByDepartment() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingRoleDefinitionListByDepartment();
 }
 

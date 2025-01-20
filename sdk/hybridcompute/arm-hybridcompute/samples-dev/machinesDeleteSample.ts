@@ -33,7 +33,7 @@ async function deleteAMachine() {
 }
 
 async function main() {
-  deleteAMachine();
+  await deleteAMachine();
 }
 
 main().catch(console.error);

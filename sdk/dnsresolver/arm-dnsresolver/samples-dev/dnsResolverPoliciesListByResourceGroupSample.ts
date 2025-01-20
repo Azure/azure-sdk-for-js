@@ -38,7 +38,7 @@ async function listDnsResolverPoliciesByResourceGroup() {
 }
 
 async function main() {
-  listDnsResolverPoliciesByResourceGroup();
+  await listDnsResolverPoliciesByResourceGroup();
 }
 
 main().catch(console.error);

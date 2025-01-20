@@ -55,7 +55,7 @@ async function partnerTopicEventSubscriptionsUpdate() {
 }
 
 async function main() {
-  partnerTopicEventSubscriptionsUpdate();
+  await partnerTopicEventSubscriptionsUpdate();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getSecurityRecommendationsTasks() {
 }
 
 async function main() {
-  getSecurityRecommendationsTasks();
+  await getSecurityRecommendationsTasks();
 }
 
 main().catch(console.error);

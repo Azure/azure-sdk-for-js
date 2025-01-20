@@ -53,8 +53,8 @@ async function localRulestacksListBySubscriptionMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksListBySubscriptionMaximumSetGen();
-  localRulestacksListBySubscriptionMinimumSetGen();
+  await localRulestacksListBySubscriptionMaximumSetGen();
+  await localRulestacksListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

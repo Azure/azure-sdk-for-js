@@ -32,7 +32,7 @@ async function listClusterUserCredentials() {
 }
 
 async function main() {
-  listClusterUserCredentials();
+  await listClusterUserCredentials();
 }
 
 main().catch(console.error);

@@ -79,8 +79,8 @@ async function monitorsSwitchBillingMinimumSetGen() {
 }
 
 async function main() {
-  monitorsSwitchBillingMaximumSetGen();
-  monitorsSwitchBillingMinimumSetGen();
+  await monitorsSwitchBillingMaximumSetGen();
+  await monitorsSwitchBillingMinimumSetGen();
 }
 
 main().catch(console.error);

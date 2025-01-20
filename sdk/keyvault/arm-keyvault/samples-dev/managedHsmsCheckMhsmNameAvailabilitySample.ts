@@ -35,7 +35,7 @@ async function validateAManagedHsmName() {
 }
 
 async function main() {
-  validateAManagedHsmName();
+  await validateAManagedHsmName();
 }
 
 main().catch(console.error);

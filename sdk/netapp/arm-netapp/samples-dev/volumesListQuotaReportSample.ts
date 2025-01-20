@@ -40,7 +40,7 @@ async function listQuotaReport() {
 }
 
 async function main() {
-  listQuotaReport();
+  await listQuotaReport();
 }
 
 main().catch(console.error);

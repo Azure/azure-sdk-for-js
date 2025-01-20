@@ -40,7 +40,7 @@ async function getAllEntities() {
 }
 
 async function main() {
-  getAllEntities();
+  await getAllEntities();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function dataSourcesListByWorkspace() {
 }
 
 async function main() {
-  dataSourcesListByWorkspace();
+  await dataSourcesListByWorkspace();
 }
 
 main().catch(console.error);

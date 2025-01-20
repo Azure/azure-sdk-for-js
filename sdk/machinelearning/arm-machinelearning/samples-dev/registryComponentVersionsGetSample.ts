@@ -44,7 +44,7 @@ async function getRegistryComponentVersion() {
 }
 
 async function main() {
-  getRegistryComponentVersion();
+  await getRegistryComponentVersion();
 }
 
 main().catch(console.error);

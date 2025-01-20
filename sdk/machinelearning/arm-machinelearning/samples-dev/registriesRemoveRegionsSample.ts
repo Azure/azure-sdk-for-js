@@ -105,7 +105,7 @@ async function removeRegionsFromRegistry() {
 }
 
 async function main() {
-  removeRegionsFromRegistry();
+  await removeRegionsFromRegistry();
 }
 
 main().catch(console.error);

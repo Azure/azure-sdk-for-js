@@ -43,7 +43,7 @@ async function protectedItemGet() {
 }
 
 async function main() {
-  protectedItemGet();
+  await protectedItemGet();
 }
 
 main().catch(console.error);

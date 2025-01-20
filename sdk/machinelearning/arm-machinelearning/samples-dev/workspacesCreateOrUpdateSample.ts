@@ -89,7 +89,7 @@ async function createWorkspace() {
 }
 
 async function main() {
-  createWorkspace();
+  await createWorkspace();
 }
 
 main().catch(console.error);

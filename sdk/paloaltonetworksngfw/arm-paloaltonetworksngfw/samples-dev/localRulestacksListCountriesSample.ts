@@ -66,8 +66,8 @@ async function localRulestacksListCountriesMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksListCountriesMaximumSetGen();
-  localRulestacksListCountriesMinimumSetGen();
+  await localRulestacksListCountriesMaximumSetGen();
+  await localRulestacksListCountriesMinimumSetGen();
 }
 
 main().catch(console.error);

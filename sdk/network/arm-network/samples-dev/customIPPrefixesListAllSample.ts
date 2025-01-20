@@ -32,7 +32,7 @@ async function listAllCustomIPPrefixes() {
 }
 
 async function main() {
-  listAllCustomIPPrefixes();
+  await listAllCustomIPPrefixes();
 }
 
 main().catch(console.error);

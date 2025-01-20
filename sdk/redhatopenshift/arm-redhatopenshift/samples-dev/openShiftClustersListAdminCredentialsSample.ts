@@ -36,7 +36,7 @@ async function listsAdminKubeconfigOfAnOpenShiftClusterWithTheSpecifiedSubscript
 }
 
 async function main() {
-  listsAdminKubeconfigOfAnOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await listsAdminKubeconfigOfAnOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

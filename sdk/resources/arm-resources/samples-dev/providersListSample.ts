@@ -34,7 +34,7 @@ async function getProviders() {
 }
 
 async function main() {
-  getProviders();
+  await getProviders();
 }
 
 main().catch(console.error);

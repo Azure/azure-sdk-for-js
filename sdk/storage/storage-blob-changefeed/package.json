@@ -31,7 +31,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/storage-blob-changefeed/test/**/*.spec.js'",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/storage-blob-changefeed/test/**/*.spec.js\"",
     "lint": "eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix",
     "pack": "npm pack 2>&1",
@@ -121,7 +121,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^11.0.2",
     "nyc": "^17.0.0",
-    "puppeteer": "^23.0.2",
+    "puppeteer": "^24.0.0",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
@@ -136,7 +136,7 @@
       "azure-storage"
     ],
     "requiredResources": {
-      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+      "Azure Storage Account": "https://learn.microsoft.com/azure/storage/common/storage-account-overview"
     }
   }
 }

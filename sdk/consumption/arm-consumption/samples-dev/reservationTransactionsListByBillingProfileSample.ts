@@ -13,9 +13,7 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of transactions for reserved instances on billing account scope
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List of transactions for reserved instances on billing account scope
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationTransactionsListByBillingProfileId.json
  */
-async function reservationTransactionsByBillingProfileId() {
+async function reservationTransactionsByBillingProfileId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -48,7 +46,7 @@ async function reservationTransactionsByBillingProfileId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationTransactionsByBillingProfileId();
 }
 

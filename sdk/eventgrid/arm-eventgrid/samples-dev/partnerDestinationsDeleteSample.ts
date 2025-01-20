@@ -37,7 +37,7 @@ async function partnerDestinationsDelete() {
 }
 
 async function main() {
-  partnerDestinationsDelete();
+  await partnerDestinationsDelete();
 }
 
 main().catch(console.error);

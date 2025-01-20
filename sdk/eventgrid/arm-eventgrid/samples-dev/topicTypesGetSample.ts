@@ -29,7 +29,7 @@ async function topicTypesGet() {
 }
 
 async function main() {
-  topicTypesGet();
+  await topicTypesGet();
 }
 
 main().catch(console.error);

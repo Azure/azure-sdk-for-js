@@ -73,8 +73,8 @@ async function listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryPara
 }
 
 async function main() {
-  listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQueryParameter();
-  listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions();
+  await listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQueryParameter();
+  await listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions();
 }
 
 main().catch(console.error);

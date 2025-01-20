@@ -55,7 +55,7 @@ async function createOrUpdateManagedNetworkSettingsRule() {
 }
 
 async function main() {
-  createOrUpdateManagedNetworkSettingsRule();
+  await createOrUpdateManagedNetworkSettingsRule();
 }
 
 main().catch(console.error);

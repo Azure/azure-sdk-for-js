@@ -39,7 +39,7 @@ async function groupQuotaLimitsRequestsCreateOrUpdate() {
 }
 
 async function main() {
-  groupQuotaLimitsRequestsCreateOrUpdate();
+  await groupQuotaLimitsRequestsCreateOrUpdate();
 }
 
 main().catch(console.error);

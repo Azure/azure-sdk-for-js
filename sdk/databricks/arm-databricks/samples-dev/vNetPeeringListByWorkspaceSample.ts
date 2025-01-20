@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the workspace vNet Peerings.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the workspace vNet Peerings.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceVirtualNetPeeringList.json
  */
-async function listAllVNetPeeringsForTheWorkspace() {
+async function listAllVNetPeeringsForTheWorkspace(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -39,7 +37,7 @@ async function listAllVNetPeeringsForTheWorkspace() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllVNetPeeringsForTheWorkspace();
 }
 

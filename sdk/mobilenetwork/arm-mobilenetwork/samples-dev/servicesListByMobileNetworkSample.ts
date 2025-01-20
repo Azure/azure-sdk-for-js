@@ -40,7 +40,7 @@ async function listServicesInAMobileNetwork() {
 }
 
 async function main() {
-  listServicesInAMobileNetwork();
+  await listServicesInAMobileNetwork();
 }
 
 main().catch(console.error);

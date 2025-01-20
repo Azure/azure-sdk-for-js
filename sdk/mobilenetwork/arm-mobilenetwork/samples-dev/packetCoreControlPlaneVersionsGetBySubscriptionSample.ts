@@ -33,7 +33,7 @@ async function getPacketCoreControlPlaneVersionBySubscription() {
 }
 
 async function main() {
-  getPacketCoreControlPlaneVersionBySubscription();
+  await getPacketCoreControlPlaneVersionBySubscription();
 }
 
 main().catch(console.error);

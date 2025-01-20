@@ -35,7 +35,7 @@ async function getSecuritySolutionsFromASecurityDataLocation() {
 }
 
 async function main() {
-  getSecuritySolutionsFromASecurityDataLocation();
+  await getSecuritySolutionsFromASecurityDataLocation();
 }
 
 main().catch(console.error);

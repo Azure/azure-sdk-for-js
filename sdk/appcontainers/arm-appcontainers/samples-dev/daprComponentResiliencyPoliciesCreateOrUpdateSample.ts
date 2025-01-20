@@ -13,9 +13,7 @@ import {
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a resiliency policy for a Dapr component.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a resiliency policy for a Dapr component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_AllOptions.json
  */
-async function createOrUpdateDaprComponentResiliencyPolicyWithAllOptions() {
+async function createOrUpdateDaprComponentResiliencyPolicyWithAllOptions(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -82,7 +80,7 @@ async function createOrUpdateDaprComponentResiliencyPolicyWithAllOptions() {
  * @summary Creates or updates a resiliency policy for a Dapr component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_OutboundOnly.json
  */
-async function createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly() {
+async function createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -126,7 +124,7 @@ async function createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly
  * @summary Creates or updates a resiliency policy for a Dapr component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_SparseOptions.json
  */
-async function createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions() {
+async function createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -160,7 +158,7 @@ async function createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateDaprComponentResiliencyPolicyWithAllOptions();
   createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly();
   createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions();

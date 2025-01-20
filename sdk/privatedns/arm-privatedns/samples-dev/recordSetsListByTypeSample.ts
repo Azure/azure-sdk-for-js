@@ -223,14 +223,14 @@ async function getPrivateDnsZoneTxtRecordSets() {
 }
 
 async function main() {
-  getPrivateDnsZoneARecordSets();
-  getPrivateDnsZoneAaaaRecordSets();
-  getPrivateDnsZoneCnameRecordSets();
-  getPrivateDnsZoneMxRecordSets();
-  getPrivateDnsZonePtrRecordSets();
-  getPrivateDnsZoneSoaRecordSets();
-  getPrivateDnsZoneSrvRecordSets();
-  getPrivateDnsZoneTxtRecordSets();
+  await getPrivateDnsZoneARecordSets();
+  await getPrivateDnsZoneAaaaRecordSets();
+  await getPrivateDnsZoneCnameRecordSets();
+  await getPrivateDnsZoneMxRecordSets();
+  await getPrivateDnsZonePtrRecordSets();
+  await getPrivateDnsZoneSoaRecordSets();
+  await getPrivateDnsZoneSrvRecordSets();
+  await getPrivateDnsZoneTxtRecordSets();
 }
 
 main().catch(console.error);

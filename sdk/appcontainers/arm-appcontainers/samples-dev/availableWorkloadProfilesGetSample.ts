@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all available workload profiles for a location.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all available workload profiles for a location.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AvailableWorkloadProfiles_Get.json
  */
-async function billingMetersGet() {
+async function billingMetersGet(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,7 +32,7 @@ async function billingMetersGet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingMetersGet();
 }
 

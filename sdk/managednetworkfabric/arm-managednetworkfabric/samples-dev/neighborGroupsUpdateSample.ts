@@ -62,7 +62,7 @@ async function neighborGroupsUpdateMaximumSetGen() {
 }
 
 async function main() {
-  neighborGroupsUpdateMaximumSetGen();
+  await neighborGroupsUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

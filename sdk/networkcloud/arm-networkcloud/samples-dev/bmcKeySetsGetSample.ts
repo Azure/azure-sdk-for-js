@@ -39,7 +39,7 @@ async function getBaseboardManagementControllerKeySetOfCluster() {
 }
 
 async function main() {
-  getBaseboardManagementControllerKeySetOfCluster();
+  await getBaseboardManagementControllerKeySetOfCluster();
 }
 
 main().catch(console.error);

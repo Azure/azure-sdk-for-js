@@ -46,7 +46,7 @@ async function getsTheSensitivityLabelOfAGivenColumn() {
 }
 
 async function main() {
-  getsTheSensitivityLabelOfAGivenColumn();
+  await getsTheSensitivityLabelOfAGivenColumn();
 }
 
 main().catch(console.error);

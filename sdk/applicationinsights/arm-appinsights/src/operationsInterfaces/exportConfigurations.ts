@@ -18,7 +18,7 @@ import {
   ExportConfigurationsGetResponse,
   ExportConfigurationsUpdateOptionalParams,
   ExportConfigurationsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ExportConfigurations. */
 export interface ExportConfigurations {

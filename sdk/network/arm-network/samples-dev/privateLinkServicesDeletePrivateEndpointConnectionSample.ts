@@ -37,7 +37,7 @@ async function deletePrivateEndPointConnectionForAPrivateLinkService() {
 }
 
 async function main() {
-  deletePrivateEndPointConnectionForAPrivateLinkService();
+  await deletePrivateEndPointConnectionForAPrivateLinkService();
 }
 
 main().catch(console.error);

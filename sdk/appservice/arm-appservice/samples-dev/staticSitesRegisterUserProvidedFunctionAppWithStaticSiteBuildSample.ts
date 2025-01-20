@@ -14,9 +14,7 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Register a user provided function app with a static site build
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Description for Register a user provided function app with a static site build
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/RegisterUserProvidedFunctionAppWithStaticSiteBuild.json
  */
-async function registerAUserProvidedFunctionAppWithAStaticSiteBuild() {
+async function registerAUserProvidedFunctionAppWithAStaticSiteBuild(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,11 +32,11 @@ async function registerAUserProvidedFunctionAppWithAStaticSiteBuild() {
   const functionAppName = "testFunctionApp";
   const isForced = true;
   const staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource =
-    {
-      functionAppRegion: "West US 2",
-      functionAppResourceId:
-        "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/functionRG/providers/Microsoft.Web/sites/testFunctionApp",
-    };
+  {
+    functionAppRegion: "West US 2",
+    functionAppResourceId:
+      "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/functionRG/providers/Microsoft.Web/sites/testFunctionApp",
+  };
   const options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams =
     { isForced };
   const credential = new DefaultAzureCredential();
@@ -55,7 +53,7 @@ async function registerAUserProvidedFunctionAppWithAStaticSiteBuild() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   registerAUserProvidedFunctionAppWithAStaticSiteBuild();
 }
 

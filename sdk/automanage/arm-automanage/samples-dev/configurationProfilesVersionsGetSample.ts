@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get information about a configuration profile version
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get information about a configuration profile version
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getConfigurationProfileVersion.json
  */
-async function getAConfigurationProfileVersion() {
+async function getAConfigurationProfileVersion(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
@@ -37,7 +35,7 @@ async function getAConfigurationProfileVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAConfigurationProfileVersion();
 }
 

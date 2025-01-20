@@ -60,8 +60,8 @@ async function virtualNetworksDeleteMinimumSet() {
 }
 
 async function main() {
-  virtualNetworksDeleteMaximumSet();
-  virtualNetworksDeleteMinimumSet();
+  await virtualNetworksDeleteMaximumSet();
+  await virtualNetworksDeleteMinimumSet();
 }
 
 main().catch(console.error);

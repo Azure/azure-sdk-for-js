@@ -10,12 +10,10 @@
 // Licensed under the MIT License.
 import {
   PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Queries policy tracked resources under the resource group.
@@ -35,7 +33,7 @@ async function queryAtResourceGroupScope() {
   const resArray = new Array();
   for await (let item of client.policyTrackedResources.listQueryResultsForResourceGroup(
     resourceGroupName,
-    policyTrackedResourcesResource
+    policyTrackedResourcesResource,
   )) {
     resArray.push(item);
   }
@@ -58,16 +56,15 @@ async function queryAtResourceGroupScopeUsingQueryParameters() {
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Authorization/policyAssignments/myPolicyAssignment' AND TrackedResourceId eq '/subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/myResource/nestedResourceType/TrackedResource1'";
-  const options: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams = {
-    queryOptions: { top: top, filter: filter }
-  };
+  const options: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams =
+    { top, filter };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyTrackedResources.listQueryResultsForResourceGroup(
     resourceGroupName,
     policyTrackedResourcesResource,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -75,8 +72,8 @@ async function queryAtResourceGroupScopeUsingQueryParameters() {
 }
 
 async function main() {
-  queryAtResourceGroupScope();
-  queryAtResourceGroupScopeUsingQueryParameters();
+  await queryAtResourceGroupScope();
+  await queryAtResourceGroupScopeUsingQueryParameters();
 }
 
 main().catch(console.error);

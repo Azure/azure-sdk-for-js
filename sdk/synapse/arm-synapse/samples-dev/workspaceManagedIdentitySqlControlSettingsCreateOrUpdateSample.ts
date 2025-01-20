@@ -44,7 +44,7 @@ async function createOrUpdateManagedIdentitySqlControlSettings() {
 }
 
 async function main() {
-  createOrUpdateManagedIdentitySqlControlSettings();
+  await createOrUpdateManagedIdentitySqlControlSettings();
 }
 
 main().catch(console.error);

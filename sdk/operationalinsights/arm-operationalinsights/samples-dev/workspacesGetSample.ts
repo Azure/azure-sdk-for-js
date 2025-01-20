@@ -37,7 +37,7 @@ async function workspaceGet() {
 }
 
 async function main() {
-  workspaceGet();
+  await workspaceGet();
 }
 
 main().catch(console.error);

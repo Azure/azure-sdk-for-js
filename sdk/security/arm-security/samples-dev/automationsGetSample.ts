@@ -37,7 +37,7 @@ async function retrieveASecurityAutomation() {
 }
 
 async function main() {
-  retrieveASecurityAutomation();
+  await retrieveASecurityAutomation();
 }
 
 main().catch(console.error);

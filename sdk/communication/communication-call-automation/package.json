@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-call-automation",
-  "version": "1.3.0-beta.1",
+  "version": "1.4.0-beta.2",
   "description": "Azure client library for Azure Communication Call Automation services",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -66,7 +66,7 @@
     ],
     "disableDocsMs": true,
     "requiredResources": {
-      "Azure Communication Services Resource": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
+      "Azure Communication Services Resource": "https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     }
   },
   "dependencies": {
@@ -102,6 +102,22 @@
     "playwright": "^1.48.2",
     "typescript": "~5.7.2",
     "vitest": "^2.1.5"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/models/constants.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/src/callAutomationApiClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
   },
   "type": "module",
   "tshy": {

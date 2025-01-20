@@ -42,7 +42,7 @@ async function internalNetworksDeleteMaximumSetGen() {
 }
 
 async function main() {
-  internalNetworksDeleteMaximumSetGen();
+  await internalNetworksDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

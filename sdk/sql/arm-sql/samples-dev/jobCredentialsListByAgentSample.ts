@@ -41,7 +41,7 @@ async function listCredentialsInAJobAgent() {
 }
 
 async function main() {
-  listCredentialsInAJobAgent();
+  await listCredentialsInAJobAgent();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function getAnApplicationTypeVersion() {
 }
 
 async function main() {
-  getAnApplicationTypeVersion();
+  await getAnApplicationTypeVersion();
 }
 
 main().catch(console.error);

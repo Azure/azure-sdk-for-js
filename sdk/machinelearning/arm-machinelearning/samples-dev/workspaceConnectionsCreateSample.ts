@@ -53,7 +53,7 @@ async function createWorkspaceConnection() {
 }
 
 async function main() {
-  createWorkspaceConnection();
+  await createWorkspaceConnection();
 }
 
 main().catch(console.error);

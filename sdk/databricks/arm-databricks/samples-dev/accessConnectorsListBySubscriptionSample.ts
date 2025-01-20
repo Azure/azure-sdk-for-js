@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the azure databricks accessConnectors within a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all the azure databricks accessConnectors within a subscription.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorsListBySubscriptionId.json
  */
-async function listsAllTheAzureDatabricksAccessConnectorsWithinASubscription() {
+async function listsAllTheAzureDatabricksAccessConnectorsWithinASubscription(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new AzureDatabricksManagementClient(
@@ -34,7 +32,7 @@ async function listsAllTheAzureDatabricksAccessConnectorsWithinASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsAllTheAzureDatabricksAccessConnectorsWithinASubscription();
 }
 

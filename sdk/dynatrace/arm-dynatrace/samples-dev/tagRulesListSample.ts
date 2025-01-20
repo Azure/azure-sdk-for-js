@@ -59,8 +59,8 @@ async function tagRulesListMinimumSetGen() {
 }
 
 async function main() {
-  tagRulesListMaximumSetGen();
-  tagRulesListMinimumSetGen();
+  await tagRulesListMaximumSetGen();
+  await tagRulesListMinimumSetGen();
 }
 
 main().catch(console.error);

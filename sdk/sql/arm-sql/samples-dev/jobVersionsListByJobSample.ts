@@ -43,7 +43,7 @@ async function getAllVersionsOfAJob() {
 }
 
 async function main() {
-  getAllVersionsOfAJob();
+  await getAllVersionsOfAJob();
 }
 
 main().catch(console.error);

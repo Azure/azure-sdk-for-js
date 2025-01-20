@@ -40,7 +40,7 @@ async function stopAStreamingJob() {
 }
 
 async function main() {
-  stopAStreamingJob();
+  await stopAStreamingJob();
 }
 
 main().catch(console.error);

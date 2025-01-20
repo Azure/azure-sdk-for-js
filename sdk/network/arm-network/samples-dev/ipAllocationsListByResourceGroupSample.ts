@@ -35,7 +35,7 @@ async function listIPAllocationsInResourceGroup() {
 }
 
 async function main() {
-  listIPAllocationsInResourceGroup();
+  await listIPAllocationsInResourceGroup();
 }
 
 main().catch(console.error);

@@ -74,8 +74,8 @@ async function virtualNetworksCreateOrUpdateMinimumSet() {
 }
 
 async function main() {
-  virtualNetworksCreateOrUpdateMaximumSet();
-  virtualNetworksCreateOrUpdateMinimumSet();
+  await virtualNetworksCreateOrUpdateMaximumSet();
+  await virtualNetworksCreateOrUpdateMinimumSet();
 }
 
 main().catch(console.error);

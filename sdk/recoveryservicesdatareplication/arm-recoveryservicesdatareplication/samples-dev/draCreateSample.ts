@@ -70,7 +70,7 @@ async function draCreate() {
 }
 
 async function main() {
-  draCreate();
+  await draCreate();
 }
 
 main().catch(console.error);

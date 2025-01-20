@@ -50,7 +50,7 @@ async function externalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSet
 }
 
 async function main() {
-  externalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSetGen();
+  await externalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

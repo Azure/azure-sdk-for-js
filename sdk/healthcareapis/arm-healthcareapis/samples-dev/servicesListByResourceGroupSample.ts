@@ -37,7 +37,7 @@ async function listAllServicesInResourceGroup() {
 }
 
 async function main() {
-  listAllServicesInResourceGroup();
+  await listAllServicesInResourceGroup();
 }
 
 main().catch(console.error);

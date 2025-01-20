@@ -62,7 +62,7 @@ async function createOrUpdateRuleCollectionGroupDraft() {
 }
 
 async function main() {
-  createOrUpdateRuleCollectionGroupDraft();
+  await createOrUpdateRuleCollectionGroupDraft();
 }
 
 main().catch(console.error);

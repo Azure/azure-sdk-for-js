@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the available Service Providers for creating Connection Settings
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the available Service Providers for creating Connection Settings
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListServiceProviders.json
  */
-async function listAuthServiceProviders() {
+async function listAuthServiceProviders(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listAuthServiceProviders() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAuthServiceProviders();
 }
 

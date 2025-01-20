@@ -32,7 +32,7 @@ async function listAllNetworkSecurityGroups() {
 }
 
 async function main() {
-  listAllNetworkSecurityGroups();
+  await listAllNetworkSecurityGroups();
 }
 
 main().catch(console.error);

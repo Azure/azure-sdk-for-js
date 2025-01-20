@@ -44,7 +44,7 @@ async function createOrUpdateNetworkManagerScopeConnection() {
 }
 
 async function main() {
-  createOrUpdateNetworkManagerScopeConnection();
+  await createOrUpdateNetworkManagerScopeConnection();
 }
 
 main().catch(console.error);

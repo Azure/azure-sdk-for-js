@@ -45,7 +45,7 @@ async function deleteSourceControlConfiguration() {
 }
 
 async function main() {
-  deleteSourceControlConfiguration();
+  await deleteSourceControlConfiguration();
 }
 
 main().catch(console.error);

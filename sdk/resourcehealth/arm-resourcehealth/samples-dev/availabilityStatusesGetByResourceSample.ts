@@ -37,7 +37,7 @@ async function getCurrentHealthByResource() {
 }
 
 async function main() {
-  getCurrentHealthByResource();
+  await getCurrentHealthByResource();
 }
 
 main().catch(console.error);

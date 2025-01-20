@@ -39,7 +39,7 @@ async function managedHsmGetPrivateEndpointConnection() {
 }
 
 async function main() {
-  managedHsmGetPrivateEndpointConnection();
+  await managedHsmGetPrivateEndpointConnection();
 }
 
 main().catch(console.error);

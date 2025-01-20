@@ -36,7 +36,7 @@ async function deleteNetworkSite() {
 }
 
 async function main() {
-  deleteNetworkSite();
+  await deleteNetworkSite();
 }
 
 main().catch(console.error);

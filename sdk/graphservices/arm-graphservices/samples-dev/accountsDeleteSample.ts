@@ -34,7 +34,7 @@ async function deleteAccountResource() {
 }
 
 async function main() {
-  deleteAccountResource();
+  await deleteAccountResource();
 }
 
 main().catch(console.error);

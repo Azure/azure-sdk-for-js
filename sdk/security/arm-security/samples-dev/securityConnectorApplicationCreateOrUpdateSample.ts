@@ -52,7 +52,7 @@ async function createApplication() {
 }
 
 async function main() {
-  createApplication();
+  await createApplication();
 }
 
 main().catch(console.error);

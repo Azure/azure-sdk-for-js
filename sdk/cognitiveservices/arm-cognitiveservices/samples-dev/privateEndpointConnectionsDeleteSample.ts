@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Cognitive Services account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the specified private endpoint connection associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeletePrivateEndpointConnection.json
  */
-async function deletePrivateEndpointConnection() {
+async function deletePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -40,7 +38,7 @@ async function deletePrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletePrivateEndpointConnection();
 }
 

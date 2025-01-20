@@ -141,11 +141,11 @@ async function getsADatabase() {
 }
 
 async function main() {
-  getsADatabaseConfiguredWithDefaultEnclaveType();
-  getsADatabaseConfiguredWithVbsEnclaveType();
-  getsADatabaseWithAvailabilityZoneSpecified();
-  getsADatabaseWithDatabaseLevelKeysExpanded();
-  getsADatabase();
+  await getsADatabaseConfiguredWithDefaultEnclaveType();
+  await getsADatabaseConfiguredWithVbsEnclaveType();
+  await getsADatabaseWithAvailabilityZoneSpecified();
+  await getsADatabaseWithDatabaseLevelKeysExpanded();
+  await getsADatabase();
 }
 
 main().catch(console.error);

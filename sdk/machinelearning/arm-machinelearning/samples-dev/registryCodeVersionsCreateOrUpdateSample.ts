@@ -57,7 +57,7 @@ async function createOrUpdateRegistryCodeVersion() {
 }
 
 async function main() {
-  createOrUpdateRegistryCodeVersion();
+  await createOrUpdateRegistryCodeVersion();
 }
 
 main().catch(console.error);

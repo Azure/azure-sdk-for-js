@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all role assignments that apply to a scope.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all role assignments that apply to a scope.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_ListForScope.json
  */
-async function listRoleAssignmentsForScope() {
+async function listRoleAssignmentsForScope(): Promise<void> {
   const scope = "subscriptions/a925f2f7-5c63-4b7b-8799-25a5f97bc3b2";
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
@@ -31,7 +29,7 @@ async function listRoleAssignmentsForScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRoleAssignmentsForScope();
 }
 

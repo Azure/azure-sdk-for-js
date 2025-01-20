@@ -39,7 +39,7 @@ async function fetchTieringCostOperationStatus() {
 }
 
 async function main() {
-  fetchTieringCostOperationStatus();
+  await fetchTieringCostOperationStatus();
 }
 
 main().catch(console.error);

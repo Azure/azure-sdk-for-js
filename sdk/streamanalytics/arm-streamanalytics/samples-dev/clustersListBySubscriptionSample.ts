@@ -37,7 +37,7 @@ async function listTheClustersInASubscription() {
 }
 
 async function main() {
-  listTheClustersInASubscription();
+  await listTheClustersInASubscription();
 }
 
 main().catch(console.error);

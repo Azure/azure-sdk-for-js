@@ -40,7 +40,7 @@ async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
 }
 
 async function main() {
-  listOutboundNetworkDependenciesEndpointsByManagedCluster();
+  await listOutboundNetworkDependenciesEndpointsByManagedCluster();
 }
 
 main().catch(console.error);

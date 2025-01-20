@@ -39,7 +39,7 @@ async function cloudHsmClusterGetBackupStatusMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterGetBackupStatusMaximumSetGen();
+  await cloudHsmClusterGetBackupStatusMaximumSetGen();
 }
 
 main().catch(console.error);

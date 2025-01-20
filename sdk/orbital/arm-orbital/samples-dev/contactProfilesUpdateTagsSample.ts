@@ -39,7 +39,7 @@ async function updateContactProfileTags() {
 }
 
 async function main() {
-  updateContactProfileTags();
+  await updateContactProfileTags();
 }
 
 main().catch(console.error);

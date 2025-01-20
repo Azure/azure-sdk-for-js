@@ -32,7 +32,7 @@ async function getSecurityComplianceDataOverTime() {
 }
 
 async function main() {
-  getSecurityComplianceDataOverTime();
+  await getSecurityComplianceDataOverTime();
 }
 
 main().catch(console.error);

@@ -59,7 +59,7 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
 }
 
 async function main() {
-  updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress();
+  await updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress();
 }
 
 main().catch(console.error);

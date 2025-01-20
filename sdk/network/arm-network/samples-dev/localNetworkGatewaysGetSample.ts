@@ -34,7 +34,7 @@ async function getLocalNetworkGateway() {
 }
 
 async function main() {
-  getLocalNetworkGateway();
+  await getLocalNetworkGateway();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function reservationListAll() {
 }
 
 async function main() {
-  reservationListAll();
+  await reservationListAll();
 }
 
 main().catch(console.error);

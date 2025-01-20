@@ -32,7 +32,7 @@ async function deleteVMSkus() {
 }
 
 async function main() {
-  deleteVMSkus();
+  await deleteVMSkus();
 }
 
 main().catch(console.error);

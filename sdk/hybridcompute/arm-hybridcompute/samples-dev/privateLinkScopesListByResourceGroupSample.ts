@@ -38,7 +38,7 @@ async function privateLinkScopeListByResourceGroup() {
 }
 
 async function main() {
-  privateLinkScopeListByResourceGroup();
+  await privateLinkScopeListByResourceGroup();
 }
 
 main().catch(console.error);

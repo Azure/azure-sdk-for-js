@@ -34,7 +34,7 @@ async function getVirtualNetworkGatewayBgpPeerStatus() {
 }
 
 async function main() {
-  getVirtualNetworkGatewayBgpPeerStatus();
+  await getVirtualNetworkGatewayBgpPeerStatus();
 }
 
 main().catch(console.error);

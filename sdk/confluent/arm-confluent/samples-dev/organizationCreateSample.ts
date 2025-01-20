@@ -14,9 +14,7 @@ import {
   ConfluentManagementClient,
 } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create Organization resource
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Create Organization resource
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_Create.json
  */
-async function organizationCreate() {
+async function organizationCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -63,7 +61,7 @@ async function organizationCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationCreate();
 }
 

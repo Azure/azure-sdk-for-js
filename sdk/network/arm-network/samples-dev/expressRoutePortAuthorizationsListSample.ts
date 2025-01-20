@@ -37,7 +37,7 @@ async function listExpressRoutePortAuthorization() {
 }
 
 async function main() {
-  listExpressRoutePortAuthorization();
+  await listExpressRoutePortAuthorization();
 }
 
 main().catch(console.error);

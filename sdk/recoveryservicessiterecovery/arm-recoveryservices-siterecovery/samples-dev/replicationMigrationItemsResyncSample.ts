@@ -56,7 +56,7 @@ async function resynchronizesReplication() {
 }
 
 async function main() {
-  resynchronizesReplication();
+  await resynchronizesReplication();
 }
 
 main().catch(console.error);

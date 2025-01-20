@@ -34,7 +34,7 @@ async function listSecurityContactData() {
 }
 
 async function main() {
-  listSecurityContactData();
+  await listSecurityContactData();
 }
 
 main().catch(console.error);

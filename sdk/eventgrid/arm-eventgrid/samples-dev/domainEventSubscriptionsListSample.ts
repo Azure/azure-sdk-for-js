@@ -40,7 +40,7 @@ async function domainEventSubscriptionsList() {
 }
 
 async function main() {
-  domainEventSubscriptionsList();
+  await domainEventSubscriptionsList();
 }
 
 main().catch(console.error);

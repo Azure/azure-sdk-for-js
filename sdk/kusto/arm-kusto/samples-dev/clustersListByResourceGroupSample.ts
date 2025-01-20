@@ -38,7 +38,7 @@ async function kustoClustersListByResourceGroup() {
 }
 
 async function main() {
-  kustoClustersListByResourceGroup();
+  await kustoClustersListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -14,9 +14,7 @@ import {
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update a Certificate.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Create or Update a Certificate.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Certificate_CreateOrUpdate.json
  */
-async function createOrUpdateCertificate() {
+async function createOrUpdateCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -60,7 +58,7 @@ async function createOrUpdateCertificate() {
  * @summary Create or Update a Certificate.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Certificate_CreateOrUpdate_FromKeyVault.json
  */
-async function createOrUpdateCertificateUsingManagedIdentity() {
+async function createOrUpdateCertificateUsingManagedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -93,7 +91,7 @@ async function createOrUpdateCertificateUsingManagedIdentity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateCertificate();
   createOrUpdateCertificateUsingManagedIdentity();
 }

@@ -59,8 +59,8 @@ async function availabilitySetsListByResourceGroupMinimumSet() {
 }
 
 async function main() {
-  availabilitySetsListByResourceGroupMaximumSet();
-  availabilitySetsListByResourceGroupMinimumSet();
+  await availabilitySetsListByResourceGroupMaximumSet();
+  await availabilitySetsListByResourceGroupMinimumSet();
 }
 
 main().catch(console.error);

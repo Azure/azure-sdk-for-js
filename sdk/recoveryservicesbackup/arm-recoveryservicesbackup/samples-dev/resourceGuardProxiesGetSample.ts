@@ -41,7 +41,7 @@ async function getVaultGuardProxies() {
 }
 
 async function main() {
-  getVaultGuardProxies();
+  await getVaultGuardProxies();
 }
 
 main().catch(console.error);

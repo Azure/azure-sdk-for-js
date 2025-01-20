@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List the backups of this cluster that are available to restore.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraBackupsList.json
  */
-async function cosmosDbManagedCassandraBackupsList() {
+async function cosmosDbManagedCassandraBackupsList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function cosmosDbManagedCassandraBackupsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraBackupsList();
 }
 

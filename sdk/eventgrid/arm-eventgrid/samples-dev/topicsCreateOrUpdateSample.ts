@@ -80,8 +80,8 @@ async function topicsCreateOrUpdateForAzureArc() {
 }
 
 async function main() {
-  topicsCreateOrUpdate();
-  topicsCreateOrUpdateForAzureArc();
+  await topicsCreateOrUpdate();
+  await topicsCreateOrUpdateForAzureArc();
 }
 
 main().catch(console.error);

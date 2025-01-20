@@ -39,7 +39,7 @@ async function forcedFailoverOfAFailoverGroupAllowingDataLoss() {
 }
 
 async function main() {
-  forcedFailoverOfAFailoverGroupAllowingDataLoss();
+  await forcedFailoverOfAFailoverGroupAllowingDataLoss();
 }
 
 main().catch(console.error);

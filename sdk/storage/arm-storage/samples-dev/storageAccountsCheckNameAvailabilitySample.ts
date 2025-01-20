@@ -38,7 +38,7 @@ async function storageAccountCheckNameAvailability() {
 }
 
 async function main() {
-  storageAccountCheckNameAvailability();
+  await storageAccountCheckNameAvailability();
 }
 
 main().catch(console.error);

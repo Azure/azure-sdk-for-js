@@ -100,7 +100,7 @@ async function createOrUpdateVirtualMachine() {
 }
 
 async function main() {
-  createOrUpdateVirtualMachine();
+  await createOrUpdateVirtualMachine();
 }
 
 main().catch(console.error);

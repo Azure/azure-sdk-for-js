@@ -38,7 +38,7 @@ async function createManagementLockAtSubscriptionLevel() {
 }
 
 async function main() {
-  createManagementLockAtSubscriptionLevel();
+  await createManagementLockAtSubscriptionLevel();
 }
 
 main().catch(console.error);

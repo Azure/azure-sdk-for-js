@@ -54,7 +54,7 @@ async function smMachinesProcessesListAcceptingPortsGet() {
 }
 
 async function main() {
-  smMachinesProcessesListAcceptingPortsGet();
+  await smMachinesProcessesListAcceptingPortsGet();
 }
 
 main().catch(console.error);

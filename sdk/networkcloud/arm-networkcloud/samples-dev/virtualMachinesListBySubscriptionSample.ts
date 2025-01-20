@@ -34,7 +34,7 @@ async function listVirtualMachinesForSubscription() {
 }
 
 async function main() {
-  listVirtualMachinesForSubscription();
+  await listVirtualMachinesForSubscription();
 }
 
 main().catch(console.error);

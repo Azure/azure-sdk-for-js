@@ -42,7 +42,7 @@ async function startAnApplicationUpgradeRollback() {
 }
 
 async function main() {
-  startAnApplicationUpgradeRollback();
+  await startAnApplicationUpgradeRollback();
 }
 
 main().catch(console.error);

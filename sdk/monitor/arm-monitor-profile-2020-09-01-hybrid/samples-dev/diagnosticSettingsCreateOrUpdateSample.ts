@@ -61,7 +61,7 @@ async function createsOrUpdatesTheDiagnosticSetting() {
 }
 
 async function main() {
-  createsOrUpdatesTheDiagnosticSetting();
+  await createsOrUpdatesTheDiagnosticSetting();
 }
 
 main().catch(console.error);

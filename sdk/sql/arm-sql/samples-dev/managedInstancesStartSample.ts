@@ -36,7 +36,7 @@ async function startsTheManagedInstance() {
 }
 
 async function main() {
-  startsTheManagedInstance();
+  await startsTheManagedInstance();
 }
 
 main().catch(console.error);

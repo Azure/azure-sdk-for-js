@@ -10,25 +10,20 @@
 // Licensed under the MIT License.
 import {
   PolicyMetadataListOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of the policy metadata resources.
  *
  * @summary Get a list of the policy metadata resources.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyMetadata_List.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyMetadata_List.json
  */
 async function getCollectionOfPolicyMetadataResources() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyMetadataOperations.list()) {
     resArray.push(item);
@@ -40,16 +35,13 @@ async function getCollectionOfPolicyMetadataResources() {
  * This sample demonstrates how to Get a list of the policy metadata resources.
  *
  * @summary Get a list of the policy metadata resources.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyMetadata_List_WithTop.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyMetadata_List_WithTop.json
  */
 async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const top = 1;
-  const options: PolicyMetadataListOptionalParams = { queryOptions: { top: top } };
+  const options: PolicyMetadataListOptionalParams = { top };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyMetadataOperations.list(options)) {
     resArray.push(item);
@@ -58,8 +50,8 @@ async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
 }
 
 async function main() {
-  getCollectionOfPolicyMetadataResources();
-  getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter();
+  await getCollectionOfPolicyMetadataResources();
+  await getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter();
 }
 
 main().catch(console.error);

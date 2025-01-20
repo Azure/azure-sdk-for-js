@@ -35,7 +35,7 @@ async function getKeysForAFluidRelayServer() {
 }
 
 async function main() {
-  getKeysForAFluidRelayServer();
+  await getKeysForAFluidRelayServer();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function catalogsListDevices() {
 }
 
 async function main() {
-  catalogsListDevices();
+  await catalogsListDevices();
 }
 
 main().catch(console.error);

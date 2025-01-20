@@ -54,8 +54,8 @@ async function globalRulestackListCountriesMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackListCountriesMaximumSetGen();
-  globalRulestackListCountriesMinimumSetGen();
+  await globalRulestackListCountriesMaximumSetGen();
+  await globalRulestackListCountriesMinimumSetGen();
 }
 
 main().catch(console.error);

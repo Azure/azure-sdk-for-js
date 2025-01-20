@@ -53,7 +53,7 @@ async function executeTestFailoverOfTheRecoveryPlan() {
 }
 
 async function main() {
-  executeTestFailoverOfTheRecoveryPlan();
+  await executeTestFailoverOfTheRecoveryPlan();
 }
 
 main().catch(console.error);

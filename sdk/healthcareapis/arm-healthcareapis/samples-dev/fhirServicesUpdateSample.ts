@@ -45,7 +45,7 @@ async function updateAFhirService() {
 }
 
 async function main() {
-  updateAFhirService();
+  await updateAFhirService();
 }
 
 main().catch(console.error);

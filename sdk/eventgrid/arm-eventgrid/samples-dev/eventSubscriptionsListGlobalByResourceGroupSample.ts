@@ -38,7 +38,7 @@ async function eventSubscriptionsListGlobalByResourceGroup() {
 }
 
 async function main() {
-  eventSubscriptionsListGlobalByResourceGroup();
+  await eventSubscriptionsListGlobalByResourceGroup();
 }
 
 main().catch(console.error);

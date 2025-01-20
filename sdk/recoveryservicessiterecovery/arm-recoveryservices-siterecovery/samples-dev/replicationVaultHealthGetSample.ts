@@ -38,7 +38,7 @@ async function getsTheHealthSummaryForTheVault() {
 }
 
 async function main() {
-  getsTheHealthSummaryForTheVault();
+  await getsTheHealthSummaryForTheVault();
 }
 
 main().catch(console.error);

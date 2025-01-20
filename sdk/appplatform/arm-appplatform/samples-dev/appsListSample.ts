@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Handles requests to list all resources in a Service.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Handles requests to list all resources in a Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apps_List.json
  */
-async function appsList() {
+async function appsList(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function appsList() {
  * @summary Handles requests to list all resources in a Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apps_List_VNetInjection.json
  */
-async function appsListVNetInjection() {
+async function appsListVNetInjection(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -58,7 +56,7 @@ async function appsListVNetInjection() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   appsList();
   appsListVNetInjection();
 }

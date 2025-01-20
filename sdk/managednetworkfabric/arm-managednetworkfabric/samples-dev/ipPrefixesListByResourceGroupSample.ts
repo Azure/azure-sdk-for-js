@@ -41,7 +41,7 @@ async function ipPrefixesListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  ipPrefixesListByResourceGroupMaximumSetGen();
+  await ipPrefixesListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

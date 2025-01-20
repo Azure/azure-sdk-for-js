@@ -43,7 +43,7 @@ async function listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup() {
 }
 
 async function main() {
-  listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup();
+  await listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function getCoreSiteSettings() {
 }
 
 async function main() {
-  getCoreSiteSettings();
+  await getCoreSiteSettings();
 }
 
 main().catch(console.error);

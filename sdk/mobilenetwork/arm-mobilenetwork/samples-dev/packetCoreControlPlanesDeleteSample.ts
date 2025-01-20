@@ -37,7 +37,7 @@ async function deletePacketCoreControlPlane() {
 }
 
 async function main() {
-  deletePacketCoreControlPlane();
+  await deletePacketCoreControlPlane();
 }
 
 main().catch(console.error);

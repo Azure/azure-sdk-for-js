@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Pool, BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new pool inside the specified account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_SharedImageGallery.json
  */
-async function createPoolCustomImage() {
+async function createPoolCustomImage(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -54,7 +52,7 @@ async function createPoolCustomImage() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_VirtualMachineConfiguration.json
  */
-async function createPoolFullVirtualMachineConfiguration() {
+async function createPoolFullVirtualMachineConfiguration(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -143,7 +141,7 @@ async function createPoolFullVirtualMachineConfiguration() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_MinimalVirtualMachineConfiguration.json
  */
-async function createPoolMinimalVirtualMachineConfiguration() {
+async function createPoolMinimalVirtualMachineConfiguration(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -186,7 +184,7 @@ async function createPoolMinimalVirtualMachineConfiguration() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_NoPublicIPAddresses.json
  */
-async function createPoolNoPublicIP() {
+async function createPoolNoPublicIP(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -225,7 +223,7 @@ async function createPoolNoPublicIP() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_PublicIPs.json
  */
-async function createPoolPublicIPs() {
+async function createPoolPublicIPs(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -269,7 +267,7 @@ async function createPoolPublicIPs() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_ResourceTags.json
  */
-async function createPoolResourceTags() {
+async function createPoolResourceTags(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -310,7 +308,7 @@ async function createPoolResourceTags() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_SecurityProfile.json
  */
-async function createPoolSecurityProfile() {
+async function createPoolSecurityProfile(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -355,7 +353,7 @@ async function createPoolSecurityProfile() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_Tags.json
  */
-async function createPoolTags() {
+async function createPoolTags(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -396,7 +394,7 @@ async function createPoolTags() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_UpgradePolicy.json
  */
-async function createPoolUpgradePolicy() {
+async function createPoolUpgradePolicy(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -456,7 +454,7 @@ async function createPoolUpgradePolicy() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_UserAssignedIdentities.json
  */
-async function createPoolUserAssignedIdentities() {
+async function createPoolUserAssignedIdentities(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -508,7 +506,7 @@ async function createPoolUserAssignedIdentities() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_VirtualMachineConfiguration_Extensions.json
  */
-async function createPoolVirtualMachineConfigurationExtensions() {
+async function createPoolVirtualMachineConfigurationExtensions(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -565,7 +563,7 @@ async function createPoolVirtualMachineConfigurationExtensions() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_VirtualMachineConfiguration_ManagedOSDisk.json
  */
-async function createPoolVirtualMachineConfigurationOSDisk() {
+async function createPoolVirtualMachineConfigurationOSDisk(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -610,7 +608,7 @@ async function createPoolVirtualMachineConfigurationOSDisk() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_VirtualMachineConfiguration_ServiceArtifactReference.json
  */
-async function createPoolVirtualMachineConfigurationServiceArtifactReference() {
+async function createPoolVirtualMachineConfigurationServiceArtifactReference(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -658,7 +656,7 @@ async function createPoolVirtualMachineConfigurationServiceArtifactReference() {
  * @summary Creates a new pool inside the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolCreate_AcceleratedNetworking.json
  */
-async function createPoolAcceleratedNetworking() {
+async function createPoolAcceleratedNetworking(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -697,7 +695,7 @@ async function createPoolAcceleratedNetworking() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createPoolCustomImage();
   createPoolFullVirtualMachineConfiguration();
   createPoolMinimalVirtualMachineConfiguration();

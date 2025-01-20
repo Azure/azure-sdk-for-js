@@ -79,7 +79,7 @@ async function associateManagedClusterWithCapacityReservationGroup() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -138,7 +138,7 @@ async function createManagedClusterUsingAManagedClusterSnapshot() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -213,7 +213,7 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -282,7 +282,7 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -352,7 +352,7 @@ async function createManagedClusterWithCustomCaTrustEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -423,7 +423,7 @@ async function createManagedClusterWithDedicatedHostGroup() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -493,7 +493,7 @@ async function createManagedClusterWithEncryptionAtHostEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -564,7 +564,7 @@ async function createManagedClusterWithFipsEnabledOS() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -640,7 +640,7 @@ async function createManagedClusterWithGpumig() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -716,7 +716,7 @@ async function createManagedClusterWithHttpProxyConfigured() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -788,7 +788,7 @@ async function createManagedClusterWithNodePublicIPPrefix() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -865,7 +865,7 @@ async function createManagedClusterWithOssku() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -936,7 +936,7 @@ async function createManagedClusterWithPpg() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1007,7 +1007,7 @@ async function createManagedClusterWithPodIdentityEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1077,7 +1077,7 @@ async function createManagedClusterWithRunCommandDisabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1142,7 +1142,7 @@ async function createManagedClusterWithSecurityProfileConfigured() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1213,7 +1213,7 @@ async function createManagedClusterWithUltraSsdEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1280,7 +1280,7 @@ async function createManagedClusterWithWebAppRoutingIngressProfileConfigured() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1349,7 +1349,7 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1422,7 +1422,7 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1496,7 +1496,7 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1567,7 +1567,7 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1653,7 +1653,7 @@ async function createOrUpdateManagedCluster() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1733,7 +1733,7 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1805,7 +1805,7 @@ async function createOrUpdateManagedClusterWithEnableNamespaceResources() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1883,7 +1883,7 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1970,7 +1970,7 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

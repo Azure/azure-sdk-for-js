@@ -37,7 +37,7 @@ async function deleteVirtualMachine() {
 }
 
 async function main() {
-  deleteVirtualMachine();
+  await deleteVirtualMachine();
 }
 
 main().catch(console.error);

@@ -53,7 +53,7 @@ async function createOrUpdateARoutingRuleCollection() {
 }
 
 async function main() {
-  createOrUpdateARoutingRuleCollection();
+  await createOrUpdateARoutingRuleCollection();
 }
 
 main().catch(console.error);

@@ -60,7 +60,7 @@ async function createsOrUpdatesASqlVirtualMachineGroup() {
 }
 
 async function main() {
-  createsOrUpdatesASqlVirtualMachineGroup();
+  await createsOrUpdatesASqlVirtualMachineGroup();
 }
 
 main().catch(console.error);

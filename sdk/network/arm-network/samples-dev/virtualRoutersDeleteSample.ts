@@ -34,7 +34,7 @@ async function deleteVirtualRouter() {
 }
 
 async function main() {
-  deleteVirtualRouter();
+  await deleteVirtualRouter();
 }
 
 main().catch(console.error);

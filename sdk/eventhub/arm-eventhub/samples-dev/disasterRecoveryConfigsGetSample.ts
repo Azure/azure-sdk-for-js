@@ -38,7 +38,7 @@ async function ehAliasGet() {
 }
 
 async function main() {
-  ehAliasGet();
+  await ehAliasGet();
 }
 
 main().catch(console.error);

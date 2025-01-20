@@ -34,7 +34,7 @@ async function partnerRegistrationsListBySubscription() {
 }
 
 async function main() {
-  partnerRegistrationsListBySubscription();
+  await partnerRegistrationsListBySubscription();
 }
 
 main().catch(console.error);

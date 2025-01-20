@@ -47,7 +47,7 @@ async function patchPrivateDnsZoneVirtualNetworkLink() {
 }
 
 async function main() {
-  patchPrivateDnsZoneVirtualNetworkLink();
+  await patchPrivateDnsZoneVirtualNetworkLink();
 }
 
 main().catch(console.error);

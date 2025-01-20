@@ -55,7 +55,7 @@ async function profilePatchMonitorConfig() {
 }
 
 async function main() {
-  profilePatchMonitorConfig();
+  await profilePatchMonitorConfig();
 }
 
 main().catch(console.error);

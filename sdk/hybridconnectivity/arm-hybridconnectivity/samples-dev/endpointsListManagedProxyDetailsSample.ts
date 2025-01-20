@@ -43,7 +43,7 @@ async function hybridConnectivityEndpointsPostListManagedProxyDetails() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsPostListManagedProxyDetails();
+  await hybridConnectivityEndpointsPostListManagedProxyDetails();
 }
 
 main().catch(console.error);

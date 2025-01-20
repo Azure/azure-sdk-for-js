@@ -53,8 +53,8 @@ async function availabilitySetsListBySubscriptionMinimumSet() {
 }
 
 async function main() {
-  availabilitySetsListBySubscriptionMaximumSet();
-  availabilitySetsListBySubscriptionMinimumSet();
+  await availabilitySetsListBySubscriptionMaximumSet();
+  await availabilitySetsListBySubscriptionMinimumSet();
 }
 
 main().catch(console.error);

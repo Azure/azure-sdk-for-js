@@ -93,8 +93,8 @@ async function updateASyncMember() {
 }
 
 async function main() {
-  createANewSyncMember();
-  updateASyncMember();
+  await createANewSyncMember();
+  await updateASyncMember();
 }
 
 main().catch(console.error);

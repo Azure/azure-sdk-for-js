@@ -55,8 +55,8 @@ async function virtualMachineInstancesDeleteCheckpointMinimumSet() {
 }
 
 async function main() {
-  virtualMachineInstancesDeleteCheckpointMaximumSet();
-  virtualMachineInstancesDeleteCheckpointMinimumSet();
+  await virtualMachineInstancesDeleteCheckpointMaximumSet();
+  await virtualMachineInstancesDeleteCheckpointMinimumSet();
 }
 
 main().catch(console.error);

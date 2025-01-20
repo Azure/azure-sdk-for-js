@@ -1,6 +1,6 @@
 # Release History
 
-## 4.5.1 (Unreleased)
+## 4.6.1 (Unreleased)
 
 ### Features Added
 
@@ -11,12 +11,19 @@
 ### Bugs Fixed
 
 - Fixed the logic to return authority without the scheme and tenant ID [#31540](https://github.com/Azure/azure-sdk-for-js/pull/31540)
+- Fixed an issue where an incorrect tenant ID was presented in multi-tenant authentication errors [#32505](https://github.com/Azure/azure-sdk-for-js/pull/32505)
 
 ### Other Changes
 
 - Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021. [#31519](https://github.com/Azure/azure-sdk-for-js/pull/31519)
 
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
+
+## 4.6.0 (2025-01-16)
+
+### Other Changes
+
+- Update `@azure/msal-browser` to 4.x [#32565](https://github.com/Azure/azure-sdk-for-js/pull/32565)
 
 ## 4.5.0 (2024-10-15)
 
@@ -487,7 +494,7 @@ Identity v2 provides a top-level `useIdentityPlugin` function, which allows usin
   - If the `@azure/identity-vscode` plugin isn't used through the `useIdentityPlugin` function, the `VisualStudioCodeCredential` exposed by Identity v2 will throw a `CredentialUnavailableError`.
 - [@azure/identity-cache-persistence](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching.
 
-Most credentials on Identity v2 now support the persistent token caching feature. Such credentials include the property [tokenCachePersistenceOptions](https://docs.microsoft.com/javascript/api/@azure/identity/tokencachepersistenceoptions) in the constructor options which can be used to enable this feature.
+Most credentials on Identity v2 now support the persistent token caching feature. Such credentials include the property [tokenCachePersistenceOptions](https://learn.microsoft.com/javascript/api/@azure/identity/tokencachepersistenceoptions) in the constructor options which can be used to enable this feature.
 
 The following example showcases how to enable persistence caching by first enabling the `@azure/identity-cache-persistence` plugin with `useIdentityPlugin(cachePersistencePlugin)`, and then passing the `tokenCachePersistenceOptions` through the constructor of the `DeviceCodeCredential`:
 
@@ -523,7 +530,7 @@ Identity v2 enables:
 - Support for multi-tenant authentication on all credentials except `ManagedIdentityCredential`.
   - At the moment, applications needing multi-tenancy support will need to call to the credentials' `getToken` directly, sending the new `tenantId` property.
   - A sample with more context will be provided in a future date.
-  - To disable it, set the environment variable `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH`. For more about multitenancy, see [Identity management in multitenant apps](https://docs.microsoft.com/azure/architecture/multitenant-identity/).
+  - To disable it, set the environment variable `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH`. For more about multitenancy, see [Identity management in multitenant apps](https://learn.microsoft.com/azure/architecture/multitenant-identity/).
 
 #### New features in InteractiveBrowserCredential and DeviceCodeCredential
 

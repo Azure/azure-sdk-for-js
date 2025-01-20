@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Stop the deployment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Stop the deployment.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Deployments_Stop.json
  */
-async function deploymentsStop() {
+async function deploymentsStop(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +38,7 @@ async function deploymentsStop() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploymentsStop();
 }
 

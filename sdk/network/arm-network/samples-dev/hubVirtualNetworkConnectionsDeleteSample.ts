@@ -36,7 +36,7 @@ async function hubVirtualNetworkConnectionDelete() {
 }
 
 async function main() {
-  hubVirtualNetworkConnectionDelete();
+  await hubVirtualNetworkConnectionDelete();
 }
 
 main().catch(console.error);

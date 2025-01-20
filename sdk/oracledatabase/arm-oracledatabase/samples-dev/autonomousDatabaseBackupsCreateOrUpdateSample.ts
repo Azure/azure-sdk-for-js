@@ -84,8 +84,8 @@ async function createAutonomousDatabaseBackup() {
 }
 
 async function main() {
-  autonomousDatabaseBackupsCreateOrUpdate();
-  createAutonomousDatabaseBackup();
+  await autonomousDatabaseBackupsCreateOrUpdate();
+  await createAutonomousDatabaseBackup();
 }
 
 main().catch(console.error);

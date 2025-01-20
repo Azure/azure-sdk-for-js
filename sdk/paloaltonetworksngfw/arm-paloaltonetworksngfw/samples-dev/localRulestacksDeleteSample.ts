@@ -59,8 +59,8 @@ async function localRulestacksDeleteMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksDeleteMaximumSetGen();
-  localRulestacksDeleteMinimumSetGen();
+  await localRulestacksDeleteMaximumSetGen();
+  await localRulestacksDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

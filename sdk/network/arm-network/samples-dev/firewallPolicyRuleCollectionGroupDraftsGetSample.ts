@@ -36,7 +36,7 @@ async function getRuleCollectionGroupDraft() {
 }
 
 async function main() {
-  getRuleCollectionGroupDraft();
+  await getRuleCollectionGroupDraft();
 }
 
 main().catch(console.error);

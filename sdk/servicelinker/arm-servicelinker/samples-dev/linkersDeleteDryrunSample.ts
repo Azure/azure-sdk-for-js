@@ -31,7 +31,7 @@ async function deleteDryrun() {
 }
 
 async function main() {
-  deleteDryrun();
+  await deleteDryrun();
 }
 
 main().catch(console.error);

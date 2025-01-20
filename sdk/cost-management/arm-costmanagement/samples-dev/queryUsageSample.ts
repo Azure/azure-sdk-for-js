@@ -13,9 +13,7 @@ import {
   CostManagementClient
 } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Query the usage data for scope defined.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountQuery.json
  */
-async function billingAccountQueryLegacy() {
+async function billingAccountQueryLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/70664866";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -73,7 +71,7 @@ async function billingAccountQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingAccountQuery.json
  */
-async function billingAccountQueryMca() {
+async function billingAccountQueryMca(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -123,7 +121,7 @@ async function billingAccountQueryMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountQueryGrouping.json
  */
-async function billingAccountQueryGroupingLegacy() {
+async function billingAccountQueryGroupingLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/70664866";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -146,7 +144,7 @@ async function billingAccountQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingAccountQueryGrouping.json
  */
-async function billingAccountQueryGroupingMca() {
+async function billingAccountQueryGroupingMca(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -169,7 +167,7 @@ async function billingAccountQueryGroupingMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingProfileQuery.json
  */
-async function billingProfileQueryMca() {
+async function billingProfileQueryMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const parameters: QueryDefinition = {
@@ -220,7 +218,7 @@ async function billingProfileQueryMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingProfileQueryGrouping.json
  */
-async function billingProfileQueryGroupingMca() {
+async function billingProfileQueryGroupingMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const parameters: QueryDefinition = {
@@ -244,7 +242,7 @@ async function billingProfileQueryGroupingMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCACustomerQuery.json
  */
-async function customerQueryMca() {
+async function customerQueryMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
   const parameters: QueryDefinition = {
@@ -295,7 +293,7 @@ async function customerQueryMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCACustomerQueryGrouping.json
  */
-async function customerQueryGroupingMca() {
+async function customerQueryGroupingMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
   const parameters: QueryDefinition = {
@@ -319,7 +317,7 @@ async function customerQueryGroupingMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentQuery.json
  */
-async function departmentQueryLegacy() {
+async function departmentQueryLegacy(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/100/departments/123";
   const parameters: QueryDefinition = {
@@ -370,7 +368,7 @@ async function departmentQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentQueryGrouping.json
  */
-async function departmentQueryGroupingLegacy() {
+async function departmentQueryGroupingLegacy(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/100/departments/123";
   const parameters: QueryDefinition = {
@@ -394,7 +392,7 @@ async function departmentQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountQuery.json
  */
-async function enrollmentAccountQueryLegacy() {
+async function enrollmentAccountQueryLegacy(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const parameters: QueryDefinition = {
@@ -445,7 +443,7 @@ async function enrollmentAccountQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountQueryGrouping.json
  */
-async function enrollmentAccountQueryGroupingLegacy() {
+async function enrollmentAccountQueryGroupingLegacy(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const parameters: QueryDefinition = {
@@ -469,7 +467,7 @@ async function enrollmentAccountQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCAInvoiceSectionQuery.json
  */
-async function invoiceSectionQueryMca() {
+async function invoiceSectionQueryMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const parameters: QueryDefinition = {
@@ -520,7 +518,7 @@ async function invoiceSectionQueryMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCAInvoiceSectionQueryGrouping.json
  */
-async function invoiceSectionQueryGroupingMca() {
+async function invoiceSectionQueryGroupingMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const parameters: QueryDefinition = {
@@ -544,7 +542,7 @@ async function invoiceSectionQueryGroupingMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ManagementGroupQuery.json
  */
-async function managementGroupQueryLegacy() {
+async function managementGroupQueryLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/MyMgId";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -594,7 +592,7 @@ async function managementGroupQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ManagementGroupQueryGrouping.json
  */
-async function managementGroupQueryGroupingLegacy() {
+async function managementGroupQueryGroupingLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/MyMgId";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -617,7 +615,7 @@ async function managementGroupQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ResourceGroupQuery.json
  */
-async function resourceGroupQueryLegacy() {
+async function resourceGroupQueryLegacy(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer";
   const parameters: QueryDefinition = {
@@ -668,7 +666,7 @@ async function resourceGroupQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ResourceGroupQueryGrouping.json
  */
-async function resourceGroupQueryGroupingLegacy() {
+async function resourceGroupQueryGroupingLegacy(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer";
   const parameters: QueryDefinition = {
@@ -692,7 +690,7 @@ async function resourceGroupQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/SubscriptionQuery.json
  */
-async function subscriptionQueryLegacy() {
+async function subscriptionQueryLegacy(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -742,7 +740,7 @@ async function subscriptionQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/SubscriptionQueryGrouping.json
  */
-async function subscriptionQueryGroupingLegacy() {
+async function subscriptionQueryGroupingLegacy(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -759,7 +757,7 @@ async function subscriptionQueryGroupingLegacy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingAccountQueryLegacy();
   billingAccountQueryMca();
   billingAccountQueryGroupingLegacy();

@@ -34,7 +34,7 @@ async function solutionUpdate() {
 }
 
 async function main() {
-  solutionUpdate();
+  await solutionUpdate();
 }
 
 main().catch(console.error);

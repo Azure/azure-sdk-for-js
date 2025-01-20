@@ -41,7 +41,7 @@ async function createAMonitoringExtensionOnHadoopLinuxCluster() {
 }
 
 async function main() {
-  createAMonitoringExtensionOnHadoopLinuxCluster();
+  await createAMonitoringExtensionOnHadoopLinuxCluster();
 }
 
 main().catch(console.error);

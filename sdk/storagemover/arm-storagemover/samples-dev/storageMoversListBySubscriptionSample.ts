@@ -34,7 +34,7 @@ async function storageMoversList() {
 }
 
 async function main() {
-  storageMoversList();
+  await storageMoversList();
 }
 
 main().catch(console.error);

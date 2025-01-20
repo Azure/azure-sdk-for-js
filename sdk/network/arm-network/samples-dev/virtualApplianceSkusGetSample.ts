@@ -30,7 +30,7 @@ async function networkVirtualApplianceSkuGet() {
 }
 
 async function main() {
-  networkVirtualApplianceSkuGet();
+  await networkVirtualApplianceSkuGet();
 }
 
 main().catch(console.error);

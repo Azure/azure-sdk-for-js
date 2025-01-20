@@ -43,7 +43,7 @@ async function removesAProtectionContainer() {
 }
 
 async function main() {
-  removesAProtectionContainer();
+  await removesAProtectionContainer();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function deleteAnActionOfAlertRule() {
 }
 
 async function main() {
-  deleteAnActionOfAlertRule();
+  await deleteAnActionOfAlertRule();
 }
 
 main().catch(console.error);

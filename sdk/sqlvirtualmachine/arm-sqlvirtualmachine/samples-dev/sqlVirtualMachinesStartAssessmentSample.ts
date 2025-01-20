@@ -40,7 +40,7 @@ async function startsSqlBestPracticesAssessmentOnSqlVirtualMachine() {
 }
 
 async function main() {
-  startsSqlBestPracticesAssessmentOnSqlVirtualMachine();
+  await startsSqlBestPracticesAssessmentOnSqlVirtualMachine();
 }
 
 main().catch(console.error);

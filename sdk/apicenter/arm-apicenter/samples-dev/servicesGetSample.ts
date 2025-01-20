@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns details of the service.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_Get.json
  */
-async function servicesGet() {
+async function servicesGet(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function servicesGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   servicesGet();
 }
 

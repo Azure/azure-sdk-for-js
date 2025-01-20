@@ -52,7 +52,7 @@ async function networkRacksCreateMaximumSetGen() {
 }
 
 async function main() {
-  networkRacksCreateMaximumSetGen();
+  await networkRacksCreateMaximumSetGen();
 }
 
 main().catch(console.error);

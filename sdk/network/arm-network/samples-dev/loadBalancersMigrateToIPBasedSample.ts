@@ -43,7 +43,7 @@ async function migrateLoadBalancerToIPBased() {
 }
 
 async function main() {
-  migrateLoadBalancerToIPBased();
+  await migrateLoadBalancerToIPBased();
 }
 
 main().catch(console.error);

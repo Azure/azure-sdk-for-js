@@ -63,7 +63,7 @@ async function hyperVCollectorsCreate() {
 }
 
 async function main() {
-  hyperVCollectorsCreate();
+  await hyperVCollectorsCreate();
 }
 
 main().catch(console.error);

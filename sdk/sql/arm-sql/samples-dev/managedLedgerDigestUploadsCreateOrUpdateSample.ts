@@ -48,7 +48,7 @@ async function enablesManagedLedgerDigestUploadConfigurationForADatabase() {
 }
 
 async function main() {
-  enablesManagedLedgerDigestUploadConfigurationForADatabase();
+  await enablesManagedLedgerDigestUploadConfigurationForADatabase();
 }
 
 main().catch(console.error);

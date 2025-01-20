@@ -78,8 +78,8 @@ async function reimageNodes() {
 }
 
 async function main() {
-  reimageAllNodesByUpgradeDomain();
-  reimageNodes();
+  await reimageAllNodesByUpgradeDomain();
+  await reimageNodes();
 }
 
 main().catch(console.error);

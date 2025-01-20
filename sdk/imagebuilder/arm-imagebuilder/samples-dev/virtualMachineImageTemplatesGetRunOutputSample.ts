@@ -38,7 +38,7 @@ async function retrieveSingleRunOutput() {
 }
 
 async function main() {
-  retrieveSingleRunOutput();
+  await retrieveSingleRunOutput();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function relayNamespaceCreate() {
 }
 
 async function main() {
-  relayNamespaceCreate();
+  await relayNamespaceCreate();
 }
 
 main().catch(console.error);

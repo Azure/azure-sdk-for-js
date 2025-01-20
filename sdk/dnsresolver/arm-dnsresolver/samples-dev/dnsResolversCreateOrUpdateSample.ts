@@ -48,7 +48,7 @@ async function upsertDnsResolver() {
 }
 
 async function main() {
-  upsertDnsResolver();
+  await upsertDnsResolver();
 }
 
 main().catch(console.error);

@@ -68,7 +68,7 @@ async function networkVirtualApplianceConnectionPut() {
 }
 
 async function main() {
-  networkVirtualApplianceConnectionPut();
+  await networkVirtualApplianceConnectionPut();
 }
 
 main().catch(console.error);

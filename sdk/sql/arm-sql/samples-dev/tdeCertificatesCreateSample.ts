@@ -38,7 +38,7 @@ async function uploadATdeCertificate() {
 }
 
 async function main() {
-  uploadATdeCertificate();
+  await uploadATdeCertificate();
 }
 
 main().catch(console.error);

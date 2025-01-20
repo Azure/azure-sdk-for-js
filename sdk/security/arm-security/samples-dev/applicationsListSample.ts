@@ -34,7 +34,7 @@ async function listApplicationsSecurityBySubscriptionLevelScope() {
 }
 
 async function main() {
-  listApplicationsSecurityBySubscriptionLevelScope();
+  await listApplicationsSecurityBySubscriptionLevelScope();
 }
 
 main().catch(console.error);

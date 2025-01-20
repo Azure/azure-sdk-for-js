@@ -37,7 +37,7 @@ async function azureDevOpsConnectorGet() {
 }
 
 async function main() {
-  azureDevOpsConnectorGet();
+  await azureDevOpsConnectorGet();
 }
 
 main().catch(console.error);

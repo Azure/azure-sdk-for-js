@@ -61,7 +61,7 @@ async function deploymentStacksResourceGroupCreateOrUpdate() {
 }
 
 async function main() {
-  deploymentStacksResourceGroupCreateOrUpdate();
+  await deploymentStacksResourceGroupCreateOrUpdate();
 }
 
 main().catch(console.error);

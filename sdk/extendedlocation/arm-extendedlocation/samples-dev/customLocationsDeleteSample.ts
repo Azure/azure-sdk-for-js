@@ -40,7 +40,7 @@ async function deleteCustomLocation() {
 }
 
 async function main() {
-  deleteCustomLocation();
+  await deleteCustomLocation();
 }
 
 main().catch(console.error);

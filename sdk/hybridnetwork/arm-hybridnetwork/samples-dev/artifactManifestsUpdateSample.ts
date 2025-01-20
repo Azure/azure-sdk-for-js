@@ -44,7 +44,7 @@ async function updateAArtifactManifestResourceTags() {
 }
 
 async function main() {
-  updateAArtifactManifestResourceTags();
+  await updateAArtifactManifestResourceTags();
 }
 
 main().catch(console.error);

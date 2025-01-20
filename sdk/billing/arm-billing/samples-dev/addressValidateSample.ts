@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AddressDetails, BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates an address. Use the operation to validate an address before using it as soldTo or a billTo address.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Validates an address. Use the operation to validate an address before using it as soldTo or a billTo address.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/addressValidateInvalid.json
  */
-async function addressValidateInvalid() {
+async function addressValidateInvalid(): Promise<void> {
   const parameters: AddressDetails = {
     addressLine1: "1 Test",
     city: "bellevue",
@@ -40,7 +38,7 @@ async function addressValidateInvalid() {
  * @summary Validates an address. Use the operation to validate an address before using it as soldTo or a billTo address.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/addressValidateValid.json
  */
-async function addressValidateValid() {
+async function addressValidateValid(): Promise<void> {
   const parameters: AddressDetails = {
     addressLine1: "1 Test",
     city: "bellevue",
@@ -54,7 +52,7 @@ async function addressValidateValid() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   addressValidateInvalid();
   addressValidateValid();
 }

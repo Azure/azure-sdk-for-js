@@ -49,7 +49,7 @@ async function createADatabase() {
 }
 
 async function main() {
-  createADatabase();
+  await createADatabase();
 }
 
 main().catch(console.error);

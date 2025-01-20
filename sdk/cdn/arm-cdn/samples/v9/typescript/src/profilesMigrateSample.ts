@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MigrationParameters, CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be committed after this.

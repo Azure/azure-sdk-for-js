@@ -49,7 +49,7 @@ async function kustoScriptsUpdate() {
 }
 
 async function main() {
-  kustoScriptsUpdate();
+  await kustoScriptsUpdate();
 }
 
 main().catch(console.error);

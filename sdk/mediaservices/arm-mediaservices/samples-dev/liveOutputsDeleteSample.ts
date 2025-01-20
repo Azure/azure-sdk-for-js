@@ -41,7 +41,7 @@ async function deleteALiveOutput() {
 }
 
 async function main() {
-  deleteALiveOutput();
+  await deleteALiveOutput();
 }
 
 main().catch(console.error);

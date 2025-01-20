@@ -47,7 +47,7 @@ async function clustersQuotasConfigurationPatch() {
 }
 
 async function main() {
-  clustersQuotasConfigurationPatch();
+  await clustersQuotasConfigurationPatch();
 }
 
 main().catch(console.error);

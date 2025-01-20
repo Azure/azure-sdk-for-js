@@ -59,8 +59,8 @@ async function deploymentsGetAutoScale() {
 }
 
 async function main() {
-  deploymentsGet();
-  deploymentsGetAutoScale();
+  await deploymentsGet();
+  await deploymentsGetAutoScale();
 }
 
 main().catch(console.error);

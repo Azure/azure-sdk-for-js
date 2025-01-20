@@ -41,7 +41,7 @@ async function eventHubAuthorizationRuleGet() {
 }
 
 async function main() {
-  eventHubAuthorizationRuleGet();
+  await eventHubAuthorizationRuleGet();
 }
 
 main().catch(console.error);

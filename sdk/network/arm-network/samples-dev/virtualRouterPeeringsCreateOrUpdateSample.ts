@@ -44,7 +44,7 @@ async function createVirtualRouterPeering() {
 }
 
 async function main() {
-  createVirtualRouterPeering();
+  await createVirtualRouterPeering();
 }
 
 main().catch(console.error);

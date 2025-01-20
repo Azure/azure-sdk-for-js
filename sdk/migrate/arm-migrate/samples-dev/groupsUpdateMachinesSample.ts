@@ -39,7 +39,7 @@ async function groupsUpdateMachines() {
 }
 
 async function main() {
-  groupsUpdateMachines();
+  await groupsUpdateMachines();
 }
 
 main().catch(console.error);

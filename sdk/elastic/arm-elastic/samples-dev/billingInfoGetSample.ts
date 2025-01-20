@@ -34,7 +34,7 @@ async function billingInfoGet() {
 }
 
 async function main() {
-  billingInfoGet();
+  await billingInfoGet();
 }
 
 main().catch(console.error);

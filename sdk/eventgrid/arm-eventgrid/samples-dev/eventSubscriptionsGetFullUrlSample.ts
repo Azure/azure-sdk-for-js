@@ -90,10 +90,10 @@ async function eventSubscriptionsGetFullUrlForSubscription() {
 }
 
 async function main() {
-  eventSubscriptionsGetFullUrlForCustomTopic();
-  eventSubscriptionsGetFullUrlForResource();
-  eventSubscriptionsGetFullUrlForResourceGroup();
-  eventSubscriptionsGetFullUrlForSubscription();
+  await eventSubscriptionsGetFullUrlForCustomTopic();
+  await eventSubscriptionsGetFullUrlForResource();
+  await eventSubscriptionsGetFullUrlForResourceGroup();
+  await eventSubscriptionsGetFullUrlForSubscription();
 }
 
 main().catch(console.error);

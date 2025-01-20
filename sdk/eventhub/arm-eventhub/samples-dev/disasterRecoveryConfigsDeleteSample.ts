@@ -38,7 +38,7 @@ async function ehAliasDelete() {
 }
 
 async function main() {
-  ehAliasDelete();
+  await ehAliasDelete();
 }
 
 main().catch(console.error);

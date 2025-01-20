@@ -35,7 +35,7 @@ async function p2SVpnGatewayGetConnectionHealth() {
 }
 
 async function main() {
-  p2SVpnGatewayGetConnectionHealth();
+  await p2SVpnGatewayGetConnectionHealth();
 }
 
 main().catch(console.error);

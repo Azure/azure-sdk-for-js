@@ -38,7 +38,7 @@ async function getGitLabGroups() {
 }
 
 async function main() {
-  getGitLabGroups();
+  await getGitLabGroups();
 }
 
 main().catch(console.error);

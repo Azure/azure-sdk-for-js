@@ -70,8 +70,8 @@ async function getUpgradePath() {
 }
 
 async function main() {
-  getMinimumAndMaximumCodeVersions();
-  getUpgradePath();
+  await getMinimumAndMaximumCodeVersions();
+  await getUpgradePath();
 }
 
 main().catch(console.error);

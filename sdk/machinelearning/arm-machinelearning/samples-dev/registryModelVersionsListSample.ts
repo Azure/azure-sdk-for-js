@@ -63,7 +63,7 @@ async function listRegistryModelVersion() {
 }
 
 async function main() {
-  listRegistryModelVersion();
+  await listRegistryModelVersion();
 }
 
 main().catch(console.error);

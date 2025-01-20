@@ -78,9 +78,9 @@ async function getStorageCacheMetricDefinitionsWithMetricClass() {
 }
 
 async function main() {
-  getApplicationInsightsMetricDefinitionsWithoutFilter();
-  getMetricDefinitionsWithoutFilter();
-  getStorageCacheMetricDefinitionsWithMetricClass();
+  await getApplicationInsightsMetricDefinitionsWithoutFilter();
+  await getMetricDefinitionsWithoutFilter();
+  await getStorageCacheMetricDefinitionsWithMetricClass();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function vmHostList() {
 }
 
 async function main() {
-  vmHostList();
+  await vmHostList();
 }
 
 main().catch(console.error);

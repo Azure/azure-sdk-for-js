@@ -42,7 +42,7 @@ async function deleteSecretValue() {
 }
 
 async function main() {
-  deleteSecretValue();
+  await deleteSecretValue();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function updateLoadBalancerTags() {
 }
 
 async function main() {
-  updateLoadBalancerTags();
+  await updateLoadBalancerTags();
 }
 
 main().catch(console.error);

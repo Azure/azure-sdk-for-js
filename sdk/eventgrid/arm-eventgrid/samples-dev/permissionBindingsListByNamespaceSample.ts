@@ -40,7 +40,7 @@ async function permissionBindingsListByNamespace() {
 }
 
 async function main() {
-  permissionBindingsListByNamespace();
+  await permissionBindingsListByNamespace();
 }
 
 main().catch(console.error);

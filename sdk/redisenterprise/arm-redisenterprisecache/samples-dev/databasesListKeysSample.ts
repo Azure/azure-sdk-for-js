@@ -42,7 +42,7 @@ async function redisEnterpriseDatabasesListKeys() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesListKeys();
+  await redisEnterpriseDatabasesListKeys();
 }
 
 main().catch(console.error);

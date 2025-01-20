@@ -37,7 +37,7 @@ async function getJitNetworkAccessPoliciesOnASubscriptionFromASecurityDataLocati
 }
 
 async function main() {
-  getJitNetworkAccessPoliciesOnASubscriptionFromASecurityDataLocation();
+  await getJitNetworkAccessPoliciesOnASubscriptionFromASecurityDataLocation();
 }
 
 main().catch(console.error);

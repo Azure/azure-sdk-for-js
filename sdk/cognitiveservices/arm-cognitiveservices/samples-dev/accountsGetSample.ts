@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a Cognitive Services account specified by the parameters.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a Cognitive Services account specified by the parameters.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetAccount.json
  */
-async function getAccount() {
+async function getAccount(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -36,7 +34,7 @@ async function getAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAccount();
 }
 

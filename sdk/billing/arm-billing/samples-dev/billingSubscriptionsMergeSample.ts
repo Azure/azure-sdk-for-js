@@ -13,9 +13,7 @@ import {
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Merges the billing subscription provided in the request with a target billing subscription.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Merges the billing subscription provided in the request with a target billing subscription.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionsMerge.json
  */
-async function billingSubscriptionsMerge() {
+async function billingSubscriptionsMerge(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingSubscriptionName = "11111111-1111-1111-1111-111111111111";
@@ -41,7 +39,7 @@ async function billingSubscriptionsMerge() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionsMerge();
 }
 

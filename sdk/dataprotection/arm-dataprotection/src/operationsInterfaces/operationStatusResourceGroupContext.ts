@@ -9,7 +9,7 @@
 import {
   OperationStatusResourceGroupContextGetOptionalParams,
   OperationStatusResourceGroupContextGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a OperationStatusResourceGroupContext. */
 export interface OperationStatusResourceGroupContext {

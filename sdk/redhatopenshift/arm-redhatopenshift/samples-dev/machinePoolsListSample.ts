@@ -39,7 +39,7 @@ async function listsMachinePoolsThatBelongToThatAzureRedHatOpenShiftCluster() {
 }
 
 async function main() {
-  listsMachinePoolsThatBelongToThatAzureRedHatOpenShiftCluster();
+  await listsMachinePoolsThatBelongToThatAzureRedHatOpenShiftCluster();
 }
 
 main().catch(console.error);

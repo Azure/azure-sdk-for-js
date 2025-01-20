@@ -44,7 +44,7 @@ async function updateABigDataPool() {
 }
 
 async function main() {
-  updateABigDataPool();
+  await updateABigDataPool();
 }
 
 main().catch(console.error);

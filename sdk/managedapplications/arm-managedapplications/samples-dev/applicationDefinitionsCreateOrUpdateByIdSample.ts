@@ -49,7 +49,7 @@ async function createOrUpdateManagedApplicationDefinition() {
 }
 
 async function main() {
-  createOrUpdateManagedApplicationDefinition();
+  await createOrUpdateManagedApplicationDefinition();
 }
 
 main().catch(console.error);

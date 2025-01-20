@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AstroManagementClient } from "@azure/arm-astro";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List OrganizationResource resources by subscription ID
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List OrganizationResource resources by subscription ID
  * x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_ListBySubscription_MaximumSet_Gen.json
  */
-async function organizationsListBySubscriptionGeneratedByMaximumSetRule() {
+async function organizationsListBySubscriptionGeneratedByMaximumSetRule(): Promise<void> {
   const subscriptionId =
     process.env["ASTRO_SUBSCRIPTION_ID"] ||
     "43454B17-172A-40FE-80FA-549EA23D12B3";
@@ -33,7 +31,7 @@ async function organizationsListBySubscriptionGeneratedByMaximumSetRule() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationsListBySubscriptionGeneratedByMaximumSetRule();
 }
 

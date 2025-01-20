@@ -41,7 +41,7 @@ async function eventByTenantIdAndTrackingId() {
 }
 
 async function main() {
-  eventByTenantIdAndTrackingId();
+  await eventByTenantIdAndTrackingId();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function retrieveVirtualNetworkLinkToADnsForwardingRuleset() {
 }
 
 async function main() {
-  retrieveVirtualNetworkLinkToADnsForwardingRuleset();
+  await retrieveVirtualNetworkLinkToADnsForwardingRuleset();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function storageAccountPostMigration() {
 }
 
 async function main() {
-  storageAccountPostMigration();
+  await storageAccountPostMigration();
 }
 
 main().catch(console.error);

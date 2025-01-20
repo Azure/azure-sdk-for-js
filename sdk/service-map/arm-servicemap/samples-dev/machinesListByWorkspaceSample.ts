@@ -47,7 +47,7 @@ async function smMachinesListByWorkspaceGet() {
 }
 
 async function main() {
-  smMachinesListByWorkspaceGet();
+  await smMachinesListByWorkspaceGet();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function deleteSecret() {
 }
 
 async function main() {
-  deleteSecret();
+  await deleteSecret();
 }
 
 main().catch(console.error);

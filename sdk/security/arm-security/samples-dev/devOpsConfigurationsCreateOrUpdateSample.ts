@@ -100,9 +100,9 @@ async function createOrUpdateDevOpsConfigurationsOnboardSelected() {
 }
 
 async function main() {
-  createOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture();
-  createOrUpdateDevOpsConfigurationsOnboardCurrentOnly();
-  createOrUpdateDevOpsConfigurationsOnboardSelected();
+  await createOrUpdateDevOpsConfigurationsOnboardCurrentAndFuture();
+  await createOrUpdateDevOpsConfigurationsOnboardCurrentOnly();
+  await createOrUpdateDevOpsConfigurationsOnboardSelected();
 }
 
 main().catch(console.error);

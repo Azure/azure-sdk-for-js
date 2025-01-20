@@ -61,8 +61,8 @@ async function globalRulestackListAdvancedSecurityObjectsMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackListAdvancedSecurityObjectsMaximumSetGen();
-  globalRulestackListAdvancedSecurityObjectsMinimumSetGen();
+  await globalRulestackListAdvancedSecurityObjectsMaximumSetGen();
+  await globalRulestackListAdvancedSecurityObjectsMinimumSetGen();
 }
 
 main().catch(console.error);

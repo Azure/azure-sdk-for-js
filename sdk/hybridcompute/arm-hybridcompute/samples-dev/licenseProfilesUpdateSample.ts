@@ -47,7 +47,7 @@ async function updateALicenseProfile() {
 }
 
 async function main() {
-  updateALicenseProfile();
+  await updateALicenseProfile();
 }
 
 main().catch(console.error);

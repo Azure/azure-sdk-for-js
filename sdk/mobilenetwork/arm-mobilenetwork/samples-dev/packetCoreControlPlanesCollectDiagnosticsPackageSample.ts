@@ -46,7 +46,7 @@ async function collectDiagnosticsPackageFromPacketCoreControlPlane() {
 }
 
 async function main() {
-  collectDiagnosticsPackageFromPacketCoreControlPlane();
+  await collectDiagnosticsPackageFromPacketCoreControlPlane();
 }
 
 main().catch(console.error);

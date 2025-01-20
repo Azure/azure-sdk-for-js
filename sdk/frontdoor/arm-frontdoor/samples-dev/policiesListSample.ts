@@ -33,7 +33,7 @@ async function getAllPoliciesInAResourceGroup() {
 }
 
 async function main() {
-  getAllPoliciesInAResourceGroup();
+  await getAllPoliciesInAResourceGroup();
 }
 
 main().catch(console.error);

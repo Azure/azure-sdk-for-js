@@ -47,7 +47,7 @@ async function createVirtualNetworkAddress() {
 }
 
 async function main() {
-  createVirtualNetworkAddress();
+  await createVirtualNetworkAddress();
 }
 
 main().catch(console.error);

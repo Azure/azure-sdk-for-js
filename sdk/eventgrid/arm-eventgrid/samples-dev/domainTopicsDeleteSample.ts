@@ -39,7 +39,7 @@ async function domainTopicsDelete() {
 }
 
 async function main() {
-  domainTopicsDelete();
+  await domainTopicsDelete();
 }
 
 main().catch(console.error);

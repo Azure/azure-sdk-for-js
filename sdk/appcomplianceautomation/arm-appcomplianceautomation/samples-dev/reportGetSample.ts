@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the AppComplianceAutomation report and its properties.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the AppComplianceAutomation report and its properties.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_Get.json
  */
-async function reportGet() {
+async function reportGet(): Promise<void> {
   const reportName = "testReport";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -28,7 +26,7 @@ async function reportGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reportGet();
 }
 

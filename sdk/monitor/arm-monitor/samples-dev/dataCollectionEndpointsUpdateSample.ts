@@ -44,7 +44,7 @@ async function updateDataCollectionEndpoint() {
 }
 
 async function main() {
-  updateDataCollectionEndpoint();
+  await updateDataCollectionEndpoint();
 }
 
 main().catch(console.error);

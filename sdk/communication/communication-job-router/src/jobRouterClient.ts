@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import type { CommunicationTokenCredential } from "@azure/communication-common";
 import {
   createCommunicationAuthPolicy,

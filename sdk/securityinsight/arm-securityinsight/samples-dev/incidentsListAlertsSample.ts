@@ -39,7 +39,7 @@ async function getAllIncidentAlerts() {
 }
 
 async function main() {
-  getAllIncidentAlerts();
+  await getAllIncidentAlerts();
 }
 
 main().catch(console.error);

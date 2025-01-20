@@ -34,7 +34,7 @@ async function listWorkspacesInSubscription() {
 }
 
 async function main() {
-  listWorkspacesInSubscription();
+  await listWorkspacesInSubscription();
 }
 
 main().catch(console.error);

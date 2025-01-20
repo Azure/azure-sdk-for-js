@@ -93,8 +93,8 @@ async function localRulestacksUpdateMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksUpdateMaximumSetGen();
-  localRulestacksUpdateMinimumSetGen();
+  await localRulestacksUpdateMaximumSetGen();
+  await localRulestacksUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

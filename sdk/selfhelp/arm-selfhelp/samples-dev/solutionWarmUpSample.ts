@@ -31,7 +31,7 @@ async function solutionWarmUp() {
 }
 
 async function main() {
-  solutionWarmUp();
+  await solutionWarmUp();
 }
 
 main().catch(console.error);

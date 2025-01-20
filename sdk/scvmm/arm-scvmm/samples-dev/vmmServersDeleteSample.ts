@@ -60,8 +60,8 @@ async function vmmServersDeleteMinimumSet() {
 }
 
 async function main() {
-  vmmServersDeleteMaximumSet();
-  vmmServersDeleteMinimumSet();
+  await vmmServersDeleteMaximumSet();
+  await vmmServersDeleteMinimumSet();
 }
 
 main().catch(console.error);

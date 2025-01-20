@@ -13,9 +13,7 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the Monitoring Setting.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update the Monitoring Setting.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/MonitoringSettings_UpdatePatch.json
  */
-async function monitoringSettingsUpdatePatch() {
+async function monitoringSettingsUpdatePatch(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function monitoringSettingsUpdatePatch() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitoringSettingsUpdatePatch();
 }
 

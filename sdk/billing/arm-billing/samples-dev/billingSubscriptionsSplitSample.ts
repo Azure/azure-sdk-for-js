@@ -13,9 +13,7 @@ import {
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Splits a subscription into a new subscription with quantity less than current subscription quantity and not equal to 0.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Splits a subscription into a new subscription with quantity less than current subscription quantity and not equal to 0.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionsSplit.json
  */
-async function billingSubscriptionsSplit() {
+async function billingSubscriptionsSplit(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingSubscriptionName = "11111111-1111-1111-1111-111111111111";
@@ -44,7 +42,7 @@ async function billingSubscriptionsSplit() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionsSplit();
 }
 

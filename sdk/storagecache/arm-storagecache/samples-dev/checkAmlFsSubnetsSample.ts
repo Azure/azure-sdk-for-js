@@ -42,7 +42,7 @@ async function checkAmlFsSubnets() {
 }
 
 async function main() {
-  checkAmlFsSubnets();
+  await checkAmlFsSubnets();
 }
 
 main().catch(console.error);

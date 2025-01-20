@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the resource overview status.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the resource overview status.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_GetOverviewStatus.json
  */
-async function reportGetOverviewStatus() {
+async function reportGetOverviewStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const result = await client.providerActions.getOverviewStatus({
@@ -29,7 +27,7 @@ async function reportGetOverviewStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reportGetOverviewStatus();
 }
 

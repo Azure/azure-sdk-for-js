@@ -364,13 +364,13 @@ async function createsAStreamingPolicyWithSecureStreaming() {
 }
 
 async function main() {
-  createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCbcs();
-  createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCenc();
-  createsAStreamingPolicyWithClearStreaming();
-  createsAStreamingPolicyWithCommonEncryptionCbcsOnly();
-  createsAStreamingPolicyWithCommonEncryptionCencOnly();
-  createsAStreamingPolicyWithEnvelopeEncryptionOnly();
-  createsAStreamingPolicyWithSecureStreaming();
+  await createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCbcs();
+  await createsAStreamingPolicyWithClearKeyEncryptionInCommonEncryptionCenc();
+  await createsAStreamingPolicyWithClearStreaming();
+  await createsAStreamingPolicyWithCommonEncryptionCbcsOnly();
+  await createsAStreamingPolicyWithCommonEncryptionCencOnly();
+  await createsAStreamingPolicyWithEnvelopeEncryptionOnly();
+  await createsAStreamingPolicyWithSecureStreaming();
 }
 
 main().catch(console.error);

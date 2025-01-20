@@ -39,7 +39,7 @@ async function getASqlAnalyticsPool() {
 }
 
 async function main() {
-  getASqlAnalyticsPool();
+  await getASqlAnalyticsPool();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function backendAddressPoolDelete() {
 }
 
 async function main() {
-  backendAddressPoolDelete();
+  await backendAddressPoolDelete();
 }
 
 main().catch(console.error);

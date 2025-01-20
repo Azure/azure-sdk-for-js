@@ -45,7 +45,7 @@ async function createSecurityContactData() {
 }
 
 async function main() {
-  createSecurityContactData();
+  await createSecurityContactData();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about the specified private link resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets information about the specified private link resource.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PrivateLinkResourceGet.json
  */
-async function getPrivateLinkResource() {
+async function getPrivateLinkResource(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -36,7 +34,7 @@ async function getPrivateLinkResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateLinkResource();
 }
 

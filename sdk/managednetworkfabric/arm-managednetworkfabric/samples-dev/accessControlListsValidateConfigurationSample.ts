@@ -40,7 +40,7 @@ async function accessControlListsValidateConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  accessControlListsValidateConfigurationMaximumSetGen();
+  await accessControlListsValidateConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

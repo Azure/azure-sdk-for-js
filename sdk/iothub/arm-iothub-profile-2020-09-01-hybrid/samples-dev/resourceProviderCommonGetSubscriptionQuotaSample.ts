@@ -31,7 +31,7 @@ async function resourceProviderCommonGetSubscriptionQuota() {
 }
 
 async function main() {
-  resourceProviderCommonGetSubscriptionQuota();
+  await resourceProviderCommonGetSubscriptionQuota();
 }
 
 main().catch(console.error);

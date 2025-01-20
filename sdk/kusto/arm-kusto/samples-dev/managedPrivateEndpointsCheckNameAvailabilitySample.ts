@@ -45,7 +45,7 @@ async function kustoManagedPrivateEndpointsCheckNameAvailability() {
 }
 
 async function main() {
-  kustoManagedPrivateEndpointsCheckNameAvailability();
+  await kustoManagedPrivateEndpointsCheckNameAvailability();
 }
 
 main().catch(console.error);

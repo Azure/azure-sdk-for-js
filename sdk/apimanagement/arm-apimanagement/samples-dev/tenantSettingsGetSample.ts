@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Get tenant settings.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetTenantSettings.json
  */
-async function apiManagementGetTenantSettings() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const settingsType = "public";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.tenantSettings.get(
-        resourceGroupName,
-        serviceName,
-        settingsType
-    );
-    console.log(result);
+async function apiManagementGetTenantSettings(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const settingsType = "public";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.tenantSettings.get(
+    resourceGroupName,
+    serviceName,
+    settingsType
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetTenantSettings();
+async function main(): Promise<void> {
+  apiManagementGetTenantSettings();
 }
 
 main().catch(console.error);

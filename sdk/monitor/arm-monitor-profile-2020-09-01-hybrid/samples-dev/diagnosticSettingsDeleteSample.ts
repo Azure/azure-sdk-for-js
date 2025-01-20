@@ -31,7 +31,7 @@ async function deletesTheDiagnosticSetting() {
 }
 
 async function main() {
-  deletesTheDiagnosticSetting();
+  await deletesTheDiagnosticSetting();
 }
 
 main().catch(console.error);

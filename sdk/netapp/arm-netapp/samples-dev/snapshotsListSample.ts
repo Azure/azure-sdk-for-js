@@ -43,7 +43,7 @@ async function snapshotsList() {
 }
 
 async function main() {
-  snapshotsList();
+  await snapshotsList();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function deleteEyesOnSettings() {
 }
 
 async function main() {
-  deleteEyesOnSettings();
+  await deleteEyesOnSettings();
 }
 
 main().catch(console.error);

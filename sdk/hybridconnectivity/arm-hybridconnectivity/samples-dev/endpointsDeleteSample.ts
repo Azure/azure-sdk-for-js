@@ -31,7 +31,7 @@ async function hybridConnectivityEndpointsDeleteDefault() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsDeleteDefault();
+  await hybridConnectivityEndpointsDeleteDefault();
 }
 
 main().catch(console.error);

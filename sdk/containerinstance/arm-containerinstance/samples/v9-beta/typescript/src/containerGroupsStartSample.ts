@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts all containers in a container group. Compute resources will be allocated and billing will start.

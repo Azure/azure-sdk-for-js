@@ -40,7 +40,7 @@ async function listTheServerAdvancedThreatProtectionSettings() {
 }
 
 async function main() {
-  listTheServerAdvancedThreatProtectionSettings();
+  await listTheServerAdvancedThreatProtectionSettings();
 }
 
 main().catch(console.error);

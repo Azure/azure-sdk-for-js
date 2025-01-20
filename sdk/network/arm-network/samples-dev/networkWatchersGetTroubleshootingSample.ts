@@ -45,7 +45,7 @@ async function getTroubleshooting() {
 }
 
 async function main() {
-  getTroubleshooting();
+  await getTroubleshooting();
 }
 
 main().catch(console.error);

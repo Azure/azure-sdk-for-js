@@ -46,7 +46,7 @@ async function deleteAStorageClassificationMapping() {
 }
 
 async function main() {
-  deleteAStorageClassificationMapping();
+  await deleteAStorageClassificationMapping();
 }
 
 main().catch(console.error);

@@ -151,7 +151,7 @@ async function createOrUpdateAnActionGroup() {
 }
 
 async function main() {
-  createOrUpdateAnActionGroup();
+  await createOrUpdateAnActionGroup();
 }
 
 main().catch(console.error);

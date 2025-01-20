@@ -44,7 +44,7 @@ async function devicesGet() {
 }
 
 async function main() {
-  devicesGet();
+  await devicesGet();
 }
 
 main().catch(console.error);

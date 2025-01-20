@@ -37,7 +37,7 @@ async function hubVirtualNetworkConnectionList() {
 }
 
 async function main() {
-  hubVirtualNetworkConnectionList();
+  await hubVirtualNetworkConnectionList();
 }
 
 main().catch(console.error);

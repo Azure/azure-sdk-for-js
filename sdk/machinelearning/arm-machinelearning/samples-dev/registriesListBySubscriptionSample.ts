@@ -37,7 +37,7 @@ async function listRegistriesBySubscription() {
 }
 
 async function main() {
-  listRegistriesBySubscription();
+  await listRegistriesBySubscription();
 }
 
 main().catch(console.error);
