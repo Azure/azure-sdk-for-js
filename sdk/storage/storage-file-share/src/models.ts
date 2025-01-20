@@ -10,42 +10,57 @@ export interface Metadata {
   [propertyName: string]: string;
 }
 
+/**
+ * Represents file permissions for a specific role.
+ */
 export interface PosixRolePermissions {
-  read: boolean;
-  write: boolean;
+  /**
+   * The execute permission.
+   */
   execute: boolean;
+  /**
+   * The write permission.
+   */
+  write: boolean;
+  /**
+   * The read permission.
+   */
+  read: boolean;
 }
 
+/**
+ * The mode permissions of the file or directory.
+ */
 export interface NfsFileMode {
-  /// <summary>
-  /// Permissions the owner has over the file or directory.
-  /// </summary>
+  /**
+   * Permissions the owner has over the file or directory.
+   */
   owner: PosixRolePermissions;
 
-  /// <summary>
-  /// Permissions the group has over the file or directory.
-  /// </summary>
+  /**
+   * Permissions the group has over the file or directory.
+   */
   group: PosixRolePermissions;
 
-  /// <summary>
-  /// Permissions other have over the file or directory.
-  /// </summary>
+  /**
+   * Permissions other have over the file or directory.
+   */
   other: PosixRolePermissions;
 
-  /// <summary>
-  /// Set effective user ID (setuid) on the file or directory.
-  /// </summary>
+  /**
+   * Set effective user ID (setuid) on the file or directory.
+   */
   effectiveUserIdentity: boolean;
 
-  /// <summary>
-  /// Set effective group ID (setgid) on the file or directory.
-  /// </summary>
+  /**
+   * Set effective group ID (setgid) on the file or directory.
+   */
   effectiveGroupIdentity: boolean;
 
-  /// <summary>
-  /// The sticky bit may be set on directories.  The files in that
-  /// directory may only be renamed or deleted by the file's owner, the directory's owner, or the root user.
-  /// </summary>
+  /**
+   * The sticky bit may be set on directories.  The files in that
+   * directory may only be renamed or deleted by the file's owner, the directory's owner, or the root user.
+   */
   stickyBit: boolean;
 }
 

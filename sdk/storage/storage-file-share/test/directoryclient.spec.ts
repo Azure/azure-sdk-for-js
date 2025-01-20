@@ -2495,7 +2495,6 @@ describe("DirectoryClient - NFS", () => {
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create({
       protocols: {
-        smbEnabled: true,
         nfsEnabled: true,
       },
     });

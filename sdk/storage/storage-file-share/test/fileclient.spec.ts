@@ -9,6 +9,7 @@ import { assert } from "@azure-tools/test-utils";
 import type {
   FilePosixProperties,
   FileStartCopyOptions,
+  NfsFileMode,
   ShareClient,
   ShareDirectoryClient,
   ShareServiceClient,
@@ -17,6 +18,7 @@ import { ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import type { DirectoryCreateResponse } from "../src/generatedModels";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
+import { parseOctalFileMode } from "../src/index";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import {
   bodyToString,
@@ -2975,7 +2977,6 @@ describe("FileClient - NFS", () => {
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create({
       protocols: {
-        smbEnabled: true,
         nfsEnabled: true,
       },
     });
@@ -3271,13 +3272,33 @@ describe("FileClient - NFS", () => {
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
+    const expectedDefaultFileMode: NfsFileMode = {
+      owner: {
+        read: true,
+        write: true,
+        execute: false,
+      },
+      group: {
+        read: true,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: true,
+        write: false,
+        execute: false,
+      },
+      effectiveUserIdentity: false,
+      effectiveGroupIdentity: false,
+      stickyBit: false,
+    };
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
 
     const properties = await newFileClient.getProperties();
     assert.deepEqual(properties.owner, "0");
     assert.deepEqual(properties.group, "0");
-    assert.ok(properties.fileMode);
+    assert.deepEqual(properties.fileMode, expectedDefaultFileMode);
     assert.deepEqual(properties.linkCount, 1);
   });
 
@@ -3354,7 +3375,7 @@ describe("FileClient - NFS", () => {
           execute: true,
         },
         effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
+        effectiveGroupIdentity: true,
         stickyBit: false,
       },
       fileType: "Regular",
@@ -3376,10 +3397,89 @@ describe("FileClient - NFS", () => {
     assert.ok(getResp.fileParentId);
   });
 
-  // it.only("deleteShares", async function () {
-  //       for await (const share of serviceClient.listShares()) {
-  //         const shareClient = serviceClient.getShareClient(share.name);
-  //         await shareClient.delete();
-  //       }
-  // });
+  it("file mode test", async function () {
+    const posixProperties = {
+      fileMode: parseOctalFileMode("2755"),
+    };
+    const expectedPosixProperties: FilePosixProperties = {
+      fileMode: {
+        owner: {
+          read: true,
+          write: true,
+          execute: true,
+        },
+        group: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+        other: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+        effectiveUserIdentity: false,
+        effectiveGroupIdentity: true,
+        stickyBit: false,
+      },
+    };
+    const resp = await fileClient.create(1024, { posixProperties: posixProperties });
+    assert.deepEqual(resp.fileMode, expectedPosixProperties.fileMode);
+
+    const posixProperties1 = {
+      fileMode: parseOctalFileMode("7644"),
+    };
+    const expectedPosixProperties1: FilePosixProperties = {
+      fileMode: {
+        owner: {
+          read: true,
+          write: true,
+          execute: false,
+        },
+        group: {
+          read: true,
+          write: false,
+          execute: false,
+        },
+        other: {
+          read: true,
+          write: false,
+          execute: false,
+        },
+        effectiveUserIdentity: true,
+        effectiveGroupIdentity: true,
+        stickyBit: true,
+      },
+    };
+    const setResp1 = await fileClient.setProperties({ posixProperties: posixProperties1 });
+    assert.deepEqual(setResp1.fileMode, expectedPosixProperties1.fileMode);
+
+    const posixProperties2 = {
+      fileMode: parseOctalFileMode("1522"),
+    };
+    const expectedPosixProperties2: FilePosixProperties = {
+      fileMode: {
+        owner: {
+          read: true,
+          write: false,
+          execute: true,
+        },
+        group: {
+          read: false,
+          write: true,
+          execute: false,
+        },
+        other: {
+          read: false,
+          write: true,
+          execute: false,
+        },
+        effectiveUserIdentity: false,
+        effectiveGroupIdentity: false,
+        stickyBit: true,
+      },
+    };
+    const setResp2 = await fileClient.setProperties({ posixProperties: posixProperties2 });
+    assert.deepEqual(setResp2.fileMode, expectedPosixProperties2.fileMode);
+  });
 });

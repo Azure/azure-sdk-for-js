@@ -661,12 +661,6 @@ export interface FileDownloadOptions extends CommonOptions {
 }
 
 // @public
-export type FileDownloadResponse = FileDownloadHeaders & {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
 export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, FileDownloadHeaders>;
 
 // @public
@@ -974,11 +968,8 @@ export interface FileServiceProperties {
     protocol?: ShareProtocolSettings;
 }
 
-// @public (undocumented)
-export type FileSetHTTPHeadersHeaders = FileSetHttpHeadersHeaders;
-
 // @public
-export interface FileSetHttpHeadersHeaders {
+export interface FileSetHTTPHeadersHeaders {
     date?: Date;
     errorCode?: string;
     etag?: string;
@@ -1006,7 +997,7 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
 }
 
 // @public
-export type FileSetHTTPHeadersResponse = WithResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>;
+export type FileSetHTTPHeadersResponse = WithResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>;
 
 // @public
 export interface FileSetMetadataHeaders {
@@ -1323,19 +1314,13 @@ export type ModeCopyMode = "source" | "override";
 // @public
 export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
-// @public (undocumented)
+// @public
 export interface NfsFileMode {
-    // (undocumented)
     effectiveGroupIdentity: boolean;
-    // (undocumented)
     effectiveUserIdentity: boolean;
-    // (undocumented)
     group: PosixRolePermissions;
-    // (undocumented)
     other: PosixRolePermissions;
-    // (undocumented)
     owner: PosixRolePermissions;
-    // (undocumented)
     stickyBit: boolean;
 }
 
@@ -1344,6 +1329,9 @@ export type NfsFileType = string;
 
 // @public
 export type OwnerCopyMode = "source" | "override";
+
+// @public (undocumented)
+export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
 
 // @public
 export type PermissionCopyModeType = "source" | "override";
@@ -1369,13 +1357,10 @@ export interface PipelineOptions {
     shareTokenIntent?: ShareTokenIntent;
 }
 
-// @public (undocumented)
+// @public
 export interface PosixRolePermissions {
-    // (undocumented)
     execute: boolean;
-    // (undocumented)
     read: boolean;
-    // (undocumented)
     write: boolean;
 }
 
@@ -1392,8 +1377,11 @@ export interface RangeModel {
     start: number;
 }
 
-// @public (undocumented)
-export type RawFileDownloadResponse = FileDownloadResponse;
+// @public
+export type RawFileDownloadResponse = FileDownloadHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
 
 export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
@@ -1751,7 +1739,6 @@ export class ShareFileClient extends StorageClient {
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
-    // (undocumented)
     createHardLink(targetFile: string, options?: FileForceCloseHandlesOptions): Promise<FileCreateHardLinkResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;

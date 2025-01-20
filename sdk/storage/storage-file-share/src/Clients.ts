@@ -5221,6 +5221,12 @@ export class ShareFileClient extends StorageClient {
     );
   }
 
+  /**
+   * NFS only.  Creates a hard link to the file file specified by path.
+   * @param targetFile - Path of the file to create the hard link to, not including the share.
+   *  For example: "targetDirectory/targetSubDirectory/.../targetFile"
+   * @param options - Options to create hard link operation.
+   */
   public async createHardLink(
     targetFile: string,
     options: FileForceCloseHandlesOptions = {},

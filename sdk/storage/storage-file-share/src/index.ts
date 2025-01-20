@@ -11,6 +11,7 @@ export {
   generateAccountSASQueryParameters,
 } from "./AccountSASSignatureValues";
 export * from "./FileSASPermissions";
+export { parseOctalFileMode } from "./utils/utils.common";
 export { FileSASSignatureValues, generateFileSASQueryParameters } from "./FileSASSignatureValues";
 export * from "./Clients";
 export * from "./ShareSASPermissions";
