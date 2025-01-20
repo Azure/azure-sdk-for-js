@@ -2733,11 +2733,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid@file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-BRIK5ZH2ELXs6VzT9EiCUzSwvfVl95kQ5q6LP7ifFXFKj+h6jsP7US+0tTomlxVW6f1hWprP+21VdXTdzC13KQ==, tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-qbHpCPlW9aqZSg/D4IXUr+J/YAzvAgD8ujq5FQ80VPHUnw9ywUqNwf/Zh4AGuGA/AIMqeTJU6uP062YAGekT8w==, tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-commerce@file:projects/arm-commerce.tgz':
-    resolution: {integrity: sha512-StrevIYD6b6YFSAEKAkBfEtLexT8qfn3UIO1c8sfaIkZY73ol85Y7ZlqGJaJqwJABD8J/O4Vm3+PCtxDLCMlSg==, tarball: file:projects/arm-commerce.tgz}
+    resolution: {integrity: sha512-G/zUXO95sa7K8wDXohSMN63cj70gNPlC6bcDXLN2m3wQzpcZZuuAR0gc/SidkjtekjjsNAWLIxeMHxvoALVzwQ==, tarball: file:projects/arm-commerce.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-commitmentplans@file:projects/arm-commitmentplans.tgz':
@@ -8458,7 +8458,7 @@ snapshots:
       '@azure/core-auth': 1.9.0
       '@azure/core-util': 1.11.0
       '@azure/identity': 4.5.0
-      tslib: 2.8.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8473,7 +8473,7 @@ snapshots:
 
   '@azure/abort-controller@1.1.0':
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
 
   '@azure/abort-controller@2.1.2':
     dependencies:
@@ -8503,7 +8503,7 @@ snapshots:
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
       '@azure/core-rest-pipeline': 1.17.0
-      tslib: 2.8.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8539,7 +8539,7 @@ snapshots:
       '@azure/core-lro': 2.7.2
       '@azure/core-paging': 1.6.2
       '@azure/core-rest-pipeline': 1.17.0
-      tslib: 2.8.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8678,7 +8678,7 @@ snapshots:
       jws: 4.0.0
       open: 8.4.2
       stoppable: 1.1.0
-      tslib: 2.8.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8691,7 +8691,7 @@ snapshots:
       '@azure/core-tracing': 1.2.0
       '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
-      tslib: 2.8.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8708,7 +8708,7 @@ snapshots:
       '@azure/core-util': 1.11.0
       '@azure/keyvault-common': 2.0.0
       '@azure/logger': 1.1.4
-      tslib: 2.8.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8785,7 +8785,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.27.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.0)
-      tslib: 2.8.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8834,7 +8834,7 @@ snapshots:
       '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
       buffer: 6.0.3
-      tslib: 2.8.0
+      tslib: 2.8.1
       ws: 7.5.10
     transitivePeerDependencies:
       - bufferutil
@@ -9322,21 +9322,21 @@ snapshots:
     dependencies:
       lodash: 4.17.21
 
-  '@jsonjoy.com/base64@1.1.2(tslib@2.8.0)':
+  '@jsonjoy.com/base64@1.1.2(tslib@2.8.1)':
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
 
-  '@jsonjoy.com/json-pack@1.1.1(tslib@2.8.0)':
+  '@jsonjoy.com/json-pack@1.1.1(tslib@2.8.1)':
     dependencies:
-      '@jsonjoy.com/base64': 1.1.2(tslib@2.8.0)
-      '@jsonjoy.com/util': 1.5.0(tslib@2.8.0)
+      '@jsonjoy.com/base64': 1.1.2(tslib@2.8.1)
+      '@jsonjoy.com/util': 1.5.0(tslib@2.8.1)
       hyperdyperid: 1.2.0
-      thingies: 1.21.0(tslib@2.8.0)
-      tslib: 2.8.0
+      thingies: 1.21.0(tslib@2.8.1)
+      tslib: 2.8.1
 
-  '@jsonjoy.com/util@1.5.0(tslib@2.8.0)':
+  '@jsonjoy.com/util@1.5.0(tslib@2.8.1)':
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
 
   '@microsoft/api-extractor-model@7.29.8(@types/node@18.19.61)':
     dependencies:
@@ -11680,7 +11680,7 @@ snapshots:
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8(@types/node@18.19.61)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3)))
       dotenv: 16.4.5
       playwright: 1.49.1
-      tslib: 2.8.0
+      tslib: 2.8.1
       typescript: 5.7.3
       vitest: 2.1.8(@types/node@18.19.61)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
@@ -11709,7 +11709,7 @@ snapshots:
       '@vitest/browser': 2.1.8(@types/node@18.19.61)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.10(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8(@types/node@18.19.61)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3)))
       playwright: 1.49.1
-      tslib: 2.8.0
+      tslib: 2.8.1
       typescript: 5.7.3
       vitest: 2.1.8(@types/node@18.19.61)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
@@ -22008,7 +22008,7 @@ snapshots:
 
   ast-types@0.13.4:
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
 
   asynckit@0.4.0: {}
 
@@ -24010,10 +24010,10 @@ snapshots:
 
   memfs@4.17.0:
     dependencies:
-      '@jsonjoy.com/json-pack': 1.1.1(tslib@2.8.0)
-      '@jsonjoy.com/util': 1.5.0(tslib@2.8.0)
-      tree-dump: 1.0.2(tslib@2.8.0)
-      tslib: 2.8.0
+      '@jsonjoy.com/json-pack': 1.1.1(tslib@2.8.1)
+      '@jsonjoy.com/util': 1.5.0(tslib@2.8.1)
+      tree-dump: 1.0.2(tslib@2.8.1)
+      tslib: 2.8.1
 
   meow@10.1.5:
     dependencies:
@@ -24995,7 +24995,7 @@ snapshots:
     dependencies:
       debug: 4.3.7(supports-color@8.1.1)
       rhea: 3.0.3
-      tslib: 2.8.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -25069,7 +25069,7 @@ snapshots:
 
   rxjs@7.8.1:
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
 
   safe-buffer@5.1.2: {}
 
@@ -25463,9 +25463,9 @@ snapshots:
     dependencies:
       any-promise: 1.3.0
 
-  thingies@1.21.0(tslib@2.8.0):
+  thingies@1.21.0(tslib@2.8.1):
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
 
   through2@2.0.5:
     dependencies:
@@ -25507,9 +25507,9 @@ snapshots:
 
   tr46@0.0.3: {}
 
-  tree-dump@1.0.2(tslib@2.8.0):
+  tree-dump@1.0.2(tslib@2.8.1):
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
 
   tree-kill@1.2.2: {}
 
