@@ -266,7 +266,7 @@ class MPTReporter implements Reporter {
       const testResultObject: MPTTestResult = this.reporterUtils.getTestResultObject(
         test,
         result,
-        this.ciInfo.jobId!,
+        this.ciInfo.jobName!,
       );
       this.testResultBatch.add(testResultObject);
       // Store test attachments in array
