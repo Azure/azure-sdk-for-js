@@ -331,8 +331,7 @@ function setScriptsSection(
   scripts: PackageJson["scripts"],
   options: { browser: boolean; isArm: boolean },
 ): void {
-  scripts["build"] =
-    "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api";
+  scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   if (options.browser) {
     scripts["unit-test:browser"] =
