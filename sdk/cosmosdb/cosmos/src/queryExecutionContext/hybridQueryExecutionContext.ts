@@ -165,7 +165,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       while (this.globalStatisticsExecutionContext.hasMoreResults()) {
         const result = await this.globalStatisticsExecutionContext.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, result.headers);
-        if (result.result) {
+        if (result && result.result) {
           for (const item of result.result) {
             const globalStatistics: GlobalStatistics = item;
             if (globalStatistics) {
@@ -387,13 +387,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           mergeHeaders(fetchMoreRespHeaders, result.headers);
           if (response) {
             response.forEach((item: any) => {
-              this.hybridSearchResult.push(HybridSearchQueryResult.create(item).data);
+              this.hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }
         }
         if (!componentExecutionContext.hasMoreResults()) {
           this.state = HybridQueryExecutionContextBaseStates.draining;
-          this.hybridSearchResult.forEach((item) => this.buffer.push(item));
+          this.hybridSearchResult.forEach((item) => this.buffer.push(item.data));
           this.applySkipAndTakeToBuffer();
           this.state = HybridQueryExecutionContextBaseStates.draining;
         }
