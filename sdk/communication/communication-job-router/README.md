@@ -78,14 +78,14 @@ First we need to construct a `jobRouterAdministrationClient` and a `jobRouterCli
 ```ts snippet:ReadmeSampleCreateClient
 import { JobRouterClient, JobRouterAdministrationClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 
 // Create router client
-const jobRouterClient = new JobRouterClient(acsConnectionString);
+const jobRouterClient = new JobRouterClient(connectionString);
 
 // Create router administration client
-const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
 ```
 
 ### Create a Distribution Policy
@@ -95,9 +95,9 @@ This policy determines which workers will receive job offers as jobs are distrib
 ```ts snippet:ReadmeSampleCreateDistributionPolicy
 import { JobRouterAdministrationClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
 
 const distributionPolicy = await jobRouterAdministrationClient.createDistributionPolicy(
   "default-distribution-policy-id",
@@ -122,9 +122,9 @@ This policy classifies jobs upon creation.
 ```ts snippet:ReadmeSampleCreateClassificationPolicy
 import { JobRouterAdministrationClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
 
 const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy(
   "default-classification-policy-id",
@@ -159,9 +159,9 @@ This queue offers jobs to workers according to our previously created distributi
 ```ts snippet:ReadmeSampleCreateQueue
 import { JobRouterAdministrationClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
 
 const salesQueueResponse = await jobRouterAdministrationClient.createQueue("sales-queue-id", {
   name: "Sales",
@@ -182,10 +182,10 @@ These workers are assigned to our previously created "Sales" queue and have some
 ```ts snippet:ReadmeSampleCreateWorkers
 import { JobRouterClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 
-const jobRouterClient = new JobRouterClient(acsConnectionString);
+const jobRouterClient = new JobRouterClient(connectionString);
 
 // Create worker "Alice".
 const salesQueueResponseIdAlice = "sales-queue-id";
@@ -227,10 +227,10 @@ This job is enqueued on our previously created "Sales" queue.
 ```ts snippet:ReadmeSampleCreateJob
 import { JobRouterClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 
-const jobRouterClient = new JobRouterClient(acsConnectionString);
+const jobRouterClient = new JobRouterClient(connectionString);
 
 const job = await jobRouterClient.createJob("job-id", {
   // e.g. callId or chat threadId
@@ -248,10 +248,10 @@ This job will be classified with our previously created classification policy. I
 ```ts snippet:ReadmeSampleCreateJobWithClassificationPolicy
 import { JobRouterClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 
-const jobRouterClient = new JobRouterClient(acsConnectionString);
+const jobRouterClient = new JobRouterClient(connectionString);
 
 const classificationJob = await jobRouterClient.createJob("classification-job-id", {
   // e.g. callId or chat threadId
@@ -328,10 +328,10 @@ Once you receive a `RouterWorkerOfferIssued` event you can accept or decline the
 ```ts snippet:ReadmeSampleAcceptOrDeclineJobOffer
 import { JobRouterClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 
-const jobRouterClient = new JobRouterClient(acsConnectionString);
+const jobRouterClient = new JobRouterClient(connectionString);
 
 const workerId = "773accfb-476e-42f9-a202-b211b41a4ea4";
 const offerId = "offer-id";
@@ -348,10 +348,10 @@ The `assignmentId` received from the previous step's response is required to com
 ```ts snippet:ReadmeSampleCompleteJob
 import { JobRouterClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 
-const jobRouterClient = new JobRouterClient(acsConnectionString);
+const jobRouterClient = new JobRouterClient(connectionString);
 
 const jobId = "job-id";
 const assignmentId = "assignment-id";
@@ -367,10 +367,10 @@ Once the worker has completed the wrap-up phase of the job the `jobRouterClient`
 ```ts snippet:ReadmeSampleCloseJob
 import { JobRouterClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 
-const jobRouterClient = new JobRouterClient(acsConnectionString);
+const jobRouterClient = new JobRouterClient(connectionString);
 
 const jobId = "job-id";
 const assignmentId = "assignment-id";

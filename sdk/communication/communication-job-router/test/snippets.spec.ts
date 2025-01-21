@@ -7,20 +7,20 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
     // @ts-preserve-whitespace
     // Create router client
-    const jobRouterClient = new JobRouterClient(acsConnectionString);
+    const jobRouterClient = new JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     // Create router administration client
-    const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+    const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
   });
 
   it("ReadmeSampleCreateDistributionPolicy", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+    const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
     // @ts-preserve-whitespace
     const distributionPolicy = await jobRouterAdministrationClient.createDistributionPolicy(
       "default-distribution-policy-id",
@@ -37,9 +37,9 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateClassificationPolicy", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+    const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
     // @ts-preserve-whitespace
     const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy(
       "default-classification-policy-id",
@@ -68,9 +68,9 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateQueue", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-    const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+    const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
     // @ts-preserve-whitespace
     const salesQueueResponse = await jobRouterAdministrationClient.createQueue("sales-queue-id", {
       name: "Sales",
@@ -82,10 +82,10 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateWorkers", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
     // @ts-preserve-whitespace
-    const jobRouterClient = new JobRouterClient(acsConnectionString);
+    const jobRouterClient = new JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     // Create worker "Alice".
     const salesQueueResponseIdAlice = "sales-queue-id";
@@ -117,10 +117,10 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateJob", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
     // @ts-preserve-whitespace
-    const jobRouterClient = new JobRouterClient(acsConnectionString);
+    const jobRouterClient = new JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     const job = await jobRouterClient.createJob("job-id", {
       // e.g. callId or chat threadId
@@ -132,10 +132,10 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateJobWithClassificationPolicy", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
     // @ts-preserve-whitespace
-    const jobRouterClient = new JobRouterClient(acsConnectionString);
+    const jobRouterClient = new JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     const classificationJob = await jobRouterClient.createJob("classification-job-id", {
       // e.g. callId or chat threadId
@@ -149,10 +149,10 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleAcceptOrDeclineJobOffer", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
     // @ts-preserve-whitespace
-    const jobRouterClient = new JobRouterClient(acsConnectionString);
+    const jobRouterClient = new JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     const workerId = "773accfb-476e-42f9-a202-b211b41a4ea4";
     const offerId = "offer-id";
@@ -163,10 +163,10 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCompleteJob", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
     // @ts-preserve-whitespace
-    const jobRouterClient = new JobRouterClient(acsConnectionString);
+    const jobRouterClient = new JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     const jobId = "job-id";
     const assignmentId = "assignment-id";
@@ -176,10 +176,10 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCloseJob", async () => {
-    const acsConnectionString =
+    const connectionString =
       "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
     // @ts-preserve-whitespace
-    const jobRouterClient = new JobRouterClient(acsConnectionString);
+    const jobRouterClient = new JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     const jobId = "job-id";
     const assignmentId = "assignment-id";
