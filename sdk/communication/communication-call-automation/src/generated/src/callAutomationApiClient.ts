@@ -23,7 +23,7 @@ import {
   CallMedia,
   CallDialog,
   CallRecording,
-} from "./operationsInterfaces/index.js"
+} from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
 import {
