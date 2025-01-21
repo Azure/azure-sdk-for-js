@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionKeyStoreProvider } from "../EncryptionKeyStoreProvider";
+import type { EncryptionKeyStoreProvider } from "../EncryptionKeyStoreProvider";
 import { KeyEncryptionKey } from "../KeyEncryptionKey";
 
 export class KeyEncryptionKeyCache {
@@ -18,18 +18,18 @@ export class KeyEncryptionKeyCache {
     keyStoreProvider: EncryptionKeyStoreProvider,
   ): KeyEncryptionKey {
     const key = JSON.stringify([name, path]);
-    let keyEncryptionKey = this.getKeyEncryptionKey(key);
+    let keyEncryptionKey = this.get(key);
     if (!keyEncryptionKey) {
       keyEncryptionKey = new KeyEncryptionKey(name, path, keyStoreProvider);
-      this.setKeyEncryptionKey(key, keyEncryptionKey);
+      this.set(key, keyEncryptionKey);
     }
     return keyEncryptionKey;
   }
 
-  private getKeyEncryptionKey(key: string): KeyEncryptionKey | undefined {
+  private get(key: string): KeyEncryptionKey | undefined {
     return this.keyEncryptionKeyCache.get(key);
   }
-  private setKeyEncryptionKey(key: string, keyEncryptionKey: KeyEncryptionKey): void {
+  private set(key: string, keyEncryptionKey: KeyEncryptionKey): void {
     this.keyEncryptionKeyCache.set(key, keyEncryptionKey);
   }
 }

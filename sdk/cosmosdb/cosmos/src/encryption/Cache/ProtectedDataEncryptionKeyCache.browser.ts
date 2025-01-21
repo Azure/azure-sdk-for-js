@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// TODO: add support for browser environment in phase 2
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class ProtectedDataEncryptionKeyCache {
   constructor(_cacheTimeToLive: number) {

@@ -87,7 +87,7 @@ describe("Client Side Encryption", function (this: Suite) {
       enableEncryption: true,
       keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
     });
     database = (await encryptionClient.databases.createIfNotExists({ id: randomUUID() })).database;
     const revokedKekMetadata = new EncryptionKeyWrapMetadata(
@@ -442,7 +442,7 @@ describe("Client Side Encryption", function (this: Suite) {
       enableEncryption: true,
       keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
     });
     let metadata = new EncryptionKeyWrapMetadata(
       EncryptionKeyResolverName.AzureKeyVault,
@@ -523,7 +523,7 @@ describe("Client Side Encryption", function (this: Suite) {
       enableEncryption: true,
       keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
     });
     const testdatabase = client.database(database.id);
     const testcontainer = testdatabase.container(encryptionContainer.id);
@@ -1843,7 +1843,7 @@ describe("Client Side Encryption", function (this: Suite) {
       enableEncryption: true,
       keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
     });
     const otherDatabase = otherClient.database(mainDatabase.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
@@ -2200,7 +2200,7 @@ describe("Client Side Encryption", function (this: Suite) {
       key: masterKey,
       enableEncryption: true,
       keyEncryptionKeyResolver: keyEncryptionKeyResolver,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
       encryptionKeyResolverName: testKeyVault,
     });
     const testdatabase = encryptionTestClient.database(database.id);
@@ -2310,7 +2310,7 @@ describe("Client Side Encryption", function (this: Suite) {
       enableEncryption: true,
       keyEncryptionKeyResolver: testKeyResolver1,
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
     });
     let newDatabase = newClient.database(database.id);
     let newContainer = newDatabase.container(encryptionContainer.id);

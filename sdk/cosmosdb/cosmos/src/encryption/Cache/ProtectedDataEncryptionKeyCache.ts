@@ -3,7 +3,7 @@
 
 import { randomBytes } from "crypto";
 import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey";
-import { KeyEncryptionKey } from "../KeyEncryptionKey";
+import type { KeyEncryptionKey } from "../KeyEncryptionKey";
 import { Constants } from "../../common";
 
 export class ProtectedDataEncryptionKeyCache {
@@ -17,17 +17,14 @@ export class ProtectedDataEncryptionKeyCache {
     this.clearCacheOnTtlExpiry();
   }
 
-  public getProtectedDataEncryptionKey(key: string): ProtectedDataEncryptionKey | undefined {
+  public get(key: string): ProtectedDataEncryptionKey | undefined {
     if (!this.protectedDataEncryptionKeyCache.has(key)) {
       return undefined;
     }
     return this.protectedDataEncryptionKeyCache.get(key)[1];
   }
 
-  private setProtectedDataEncryptionKey(
-    key: string,
-    protectedDataEncryptionKey: ProtectedDataEncryptionKey,
-  ): void {
+  private set(key: string, protectedDataEncryptionKey: ProtectedDataEncryptionKey): void {
     if (this.cacheTimeToLive === 0) {
       return;
     }
@@ -70,7 +67,7 @@ export class ProtectedDataEncryptionKeyCache {
         keyEncryptionKey.path,
         encryptedKey.toString("hex"),
       ]);
-      this.setProtectedDataEncryptionKey(key, newKey);
+      this.set(key, newKey);
     }
     return newKey;
   }
@@ -91,7 +88,7 @@ export class ProtectedDataEncryptionKeyCache {
         keyEncryptionKey.path,
         encryptedValue.toString("hex"),
       ]);
-      const protectedDataEncryptionKey = this.getProtectedDataEncryptionKey(key);
+      const protectedDataEncryptionKey = this.get(key);
       if (protectedDataEncryptionKey) {
         return protectedDataEncryptionKey;
       }

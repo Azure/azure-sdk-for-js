@@ -1113,7 +1113,7 @@ export class EncryptionQueryBuilder {
 export class EncryptionTimeToLive {
     static FromHours(hours: number): number;
     static FromMinutes(minutes: number): number;
-    static NoTtl(): number;
+    static NoTTL(): number;
 }
 
 // @public

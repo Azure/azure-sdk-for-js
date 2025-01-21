@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionSettings } from "./EncryptionSettings";
-import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
-import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
-import { ContainerDefinition, Database, ItemDefinition } from "../client";
-import { PartitionKeyInternal } from "../documents";
-import { TypeMarker } from "./enums/TypeMarker";
-import { ClientContext } from "../ClientContext";
-import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { EncryptionSettings } from "./EncryptionSettings";
+import type { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
+import type { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
+import type { ContainerDefinition, Database, ItemDefinition } from "../client";
+import type { PartitionKeyInternal } from "../documents";
+import type { TypeMarker } from "./enums/TypeMarker";
+import type { ClientContext } from "../ClientContext";
+import type { ClientEncryptionKeyRequest } from "./ClientEncryptionKey";
+import { ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import {
   Constants,
   ResourceType,
@@ -18,10 +19,11 @@ import {
   createSerializer,
   extractPath,
 } from "../common";
-import { ErrorResponse, RequestOptions } from "../request";
+import type { RequestOptions } from "../request";
+import { ErrorResponse } from "../request";
 import { withDiagnostics } from "../utils/diagnostics";
-import { EncryptionManager } from "./EncryptionManager";
-import { JSONValue } from "../queryExecutionContext";
+import type { EncryptionManager } from "./EncryptionManager";
+import type { JSONValue } from "../queryExecutionContext";
 
 export class EncryptionProcessor {
   constructor(
@@ -314,8 +316,7 @@ export class EncryptionProcessor {
 
   async getEncryptionSetting(forceRefresh?: boolean): Promise<EncryptionSettings> {
     const key = this.database._rid + "/" + this.containerRid;
-    const encryptionSetting =
-      this.encryptionManager.encryptionSettingsCache.getEncryptionSettings(key);
+    const encryptionSetting = this.encryptionManager.encryptionSettingsCache.get(key);
     if (forceRefresh || !encryptionSetting) {
       return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const path = `/dbs/${this.database.id}/colls/${this.containerId}`;
@@ -347,9 +348,7 @@ export class EncryptionProcessor {
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
     const key = `${this.database._rid}/${propertySetting.encryptionKeyId}`;
     let clientEncryptionKeyProperties =
-      this.encryptionManager.clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(
-        key,
-      );
+      this.encryptionManager.clientEncryptionKeyPropertiesCache.get(key);
     if (!clientEncryptionKeyProperties) {
       clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
         propertySetting.encryptionKeyId,
@@ -428,7 +427,7 @@ export class EncryptionProcessor {
         response.result.keyWrapMetadata,
       );
       const key = this.database._rid + "/" + cekId;
-      this.encryptionManager.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
+      this.encryptionManager.clientEncryptionKeyPropertiesCache.set(
         key,
         clientEncryptionKeyProperties,
       );

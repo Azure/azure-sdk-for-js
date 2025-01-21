@@ -33,10 +33,10 @@ describe("EncryptionSettingsCache", function () {
     assert.equal(encryptionSettings.partitionKeyPaths, partitionKeyPaths);
     assert.equal(encryptionSettings.pathsToEncrypt.length, 1);
     assert.equal(encryptionSettings.pathsToEncrypt[0], "/mockPath");
-    assert.equal(encryptionSettingsCache.getEncryptionSettings(id), encryptionSettings);
+    assert.equal(encryptionSettingsCache.get(id), encryptionSettings);
   });
 
-  it("should return null when client encryption policy is not provided", async function () {
+  it("should return undefined when client encryption policy is not provided", async function () {
     const id = "databaseId/containerId";
     const containerRid = "mockContainerRid";
     const partitionKeyPaths = ["/mockPath"];
@@ -49,7 +49,7 @@ describe("EncryptionSettingsCache", function () {
       null,
     );
 
-    assert.strictEqual(encryptionSettings, null);
+    assert.strictEqual(encryptionSettings, undefined);
   });
 
   it("should set and get encryption settings", function () {
@@ -58,8 +58,8 @@ describe("EncryptionSettingsCache", function () {
       "/mockPath",
     ]);
     const encryptionSettingsCache = new EncryptionSettingsCache();
-    encryptionSettingsCache.setEncryptionSettings(key, mockEncryptionSettings);
-    const retrievedSettings = encryptionSettingsCache.getEncryptionSettings(key);
+    encryptionSettingsCache.set(key, mockEncryptionSettings);
+    const retrievedSettings = encryptionSettingsCache.get(key);
     assert.equal(retrievedSettings, mockEncryptionSettings);
   });
 });

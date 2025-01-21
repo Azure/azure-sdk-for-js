@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientEncryptionPolicy } from "../ClientEncryptionPolicy";
+import type { ClientEncryptionPolicy } from "../ClientEncryptionPolicy";
 import { EncryptionSettings } from "../EncryptionSettings";
 import { EncryptionSettingForProperty } from "../EncryptionSettingForProperty";
 /**
@@ -23,22 +23,22 @@ export class EncryptionSettingsCache {
     clientEncryptionPolicy: ClientEncryptionPolicy,
   ): Promise<EncryptionSettings> {
     const encryptionSettings = new EncryptionSettings(id, containerRid, partitionKeyPaths);
-    if (!clientEncryptionPolicy) return null;
+    if (!clientEncryptionPolicy) return;
 
     for (const includedPath of clientEncryptionPolicy.includedPaths) {
       const encryptionSettingForProperty = new EncryptionSettingForProperty(includedPath);
       encryptionSettings.pathsToEncrypt.push(includedPath.path);
       encryptionSettings.setEncryptionProperty(includedPath.path, encryptionSettingForProperty);
     }
-    this.setEncryptionSettings(id, encryptionSettings);
+    this.set(id, encryptionSettings);
     return encryptionSettings;
   }
 
-  public getEncryptionSettings(key: string): EncryptionSettings | undefined {
+  public get(key: string): EncryptionSettings | undefined {
     return this.encryptionSettingsCache.get(key);
   }
 
-  public setEncryptionSettings(key: string, encryptionSettings: EncryptionSettings): void {
+  public set(key: string, encryptionSettings: EncryptionSettings): void {
     this.encryptionSettingsCache.set(key, encryptionSettings);
   }
 }
