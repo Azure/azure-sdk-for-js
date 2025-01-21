@@ -17,10 +17,7 @@ export class SystemEventsClient {
   public readonly pipeline: Pipeline;
 
   /** Azure Messaging EventGrid SystemEvents */
-  constructor(
-    endpoint: string,
-    options: SystemEventsClientOptionalParams = {},
-  ) {
+  constructor(endpoint: string, options: SystemEventsClientOptionalParams = {}) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`

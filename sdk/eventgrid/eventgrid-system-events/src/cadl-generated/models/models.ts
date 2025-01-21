@@ -234,16 +234,13 @@ export interface AvsPrivateCloudEventData {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdating event. */
-export interface AvsPrivateCloudUpdatingEventData
-  extends AvsPrivateCloudEventData {}
+export interface AvsPrivateCloudUpdatingEventData extends AvsPrivateCloudEventData {}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdated event. */
-export interface AvsPrivateCloudUpdatedEventData
-  extends AvsPrivateCloudEventData {}
+export interface AvsPrivateCloudUpdatedEventData extends AvsPrivateCloudEventData {}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudFailed event. */
-export interface AvsPrivateCloudFailedEventData
-  extends AvsPrivateCloudEventData {
+export interface AvsPrivateCloudFailedEventData extends AvsPrivateCloudEventData {
   /** Failure reason of an event. */
   failureMessage?: string;
 }
@@ -289,23 +286,19 @@ export interface AvsScriptExecutionEventData {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionStarted event. */
-export interface AvsScriptExecutionStartedEventData
-  extends AvsScriptExecutionEventData {}
+export interface AvsScriptExecutionStartedEventData extends AvsScriptExecutionEventData {}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFinished event. */
-export interface AvsScriptExecutionFinishedEventData
-  extends AvsScriptExecutionEventData {
+export interface AvsScriptExecutionFinishedEventData extends AvsScriptExecutionEventData {
   /** Named outputs of completed execution, if any. */
   namedOutputs: Record<string, string>;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionCancelled event. */
-export interface AvsScriptExecutionCancelledEventData
-  extends AvsScriptExecutionEventData {}
+export interface AvsScriptExecutionCancelledEventData extends AvsScriptExecutionEventData {}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFailed event. */
-export interface AvsScriptExecutionFailedEventData
-  extends AvsScriptExecutionEventData {
+export interface AvsScriptExecutionFailedEventData extends AvsScriptExecutionEventData {
   /** Failure reason of an event. */
   failureMessage?: string;
 }
@@ -470,8 +463,7 @@ export interface AcsChatMessageEventBase extends AcsChatEventBase {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceived event. */
-export interface AcsChatMessageReceivedEventData
-  extends AcsChatMessageEventBase {
+export interface AcsChatMessageReceivedEventData extends AcsChatMessageEventBase {
   /** The body of the chat message */
   messageBody?: string;
   /** The chat message metadata */
@@ -479,8 +471,7 @@ export interface AcsChatMessageReceivedEventData
 }
 
 /** Schema of common properties of all thread-level chat message events */
-export interface AcsChatMessageEventInThreadBase
-  extends AcsChatEventInThreadBase {
+export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBase {
   /** The chat message id */
   messageId?: string;
   /** The communication identifier of the sender */
@@ -496,8 +487,7 @@ export interface AcsChatMessageEventInThreadBase
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceivedInThread event. */
-export interface AcsChatMessageReceivedInThreadEventData
-  extends AcsChatMessageEventInThreadBase {
+export interface AcsChatMessageReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
   messageBody?: string;
   /** The chat message metadata */
@@ -515,8 +505,7 @@ export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEditedInThread event. */
-export interface AcsChatMessageEditedInThreadEventData
-  extends AcsChatMessageEventInThreadBase {
+export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
   messageBody?: string;
   /** The chat message metadata */
@@ -526,15 +515,13 @@ export interface AcsChatMessageEditedInThreadEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageDeleted event. */
-export interface AcsChatMessageDeletedEventData
-  extends AcsChatMessageEventBase {
+export interface AcsChatMessageDeletedEventData extends AcsChatMessageEventBase {
   /** The time at which the message was deleted */
   deleteTime: Date;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageDeletedInThread event. */
-export interface AcsChatMessageDeletedInThreadEventData
-  extends AcsChatMessageEventInThreadBase {
+export interface AcsChatMessageDeletedInThreadEventData extends AcsChatMessageEventInThreadBase {
   /** The time at which the message was deleted */
   deleteTime: Date;
 }
@@ -548,8 +535,7 @@ export interface AcsChatThreadEventBase extends AcsChatEventBase {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadCreatedWithUser event. */
-export interface AcsChatThreadCreatedWithUserEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEventBase {
   /** The communication identifier of the user who created the thread */
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
@@ -571,8 +557,7 @@ export interface AcsChatThreadParticipant {
 }
 
 /** Schema of common properties of all chat thread events */
-export interface AcsChatThreadEventInThreadBase
-  extends AcsChatEventInThreadBase {
+export interface AcsChatThreadEventInThreadBase extends AcsChatEventInThreadBase {
   /** The original creation time of the thread */
   createTime: Date;
   /** The version of the thread */
@@ -580,8 +565,7 @@ export interface AcsChatThreadEventInThreadBase
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadCreated event. */
-export interface AcsChatThreadCreatedEventData
-  extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who created the thread */
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
@@ -593,8 +577,7 @@ export interface AcsChatThreadCreatedEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadWithUserDeleted event. */
-export interface AcsChatThreadWithUserDeletedEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatThreadWithUserDeletedEventData extends AcsChatThreadEventBase {
   /** The communication identifier of the user who deleted the thread */
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
@@ -602,8 +585,7 @@ export interface AcsChatThreadWithUserDeletedEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadDeleted event. */
-export interface AcsChatThreadDeletedEventData
-  extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadDeletedEventData extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who deleted the thread */
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
@@ -611,8 +593,7 @@ export interface AcsChatThreadDeletedEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser event. */
-export interface AcsChatThreadPropertiesUpdatedPerUserEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatThreadEventBase {
   /** The communication identifier of the user who updated the thread properties */
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
@@ -624,8 +605,7 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdated event. */
-export interface AcsChatThreadPropertiesUpdatedEventData
-  extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who updated the thread properties */
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
@@ -637,8 +617,7 @@ export interface AcsChatThreadPropertiesUpdatedEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatParticipantAddedToThreadWithUser event. */
-export interface AcsChatParticipantAddedToThreadWithUserEventData
-  extends AcsChatThreadEventBase {
+export interface AcsChatParticipantAddedToThreadWithUserEventData extends AcsChatThreadEventBase {
   /** The time at which the user was added to the thread */
   time: Date;
   /** The communication identifier of the user who added the user */
@@ -659,8 +638,7 @@ export interface AcsChatParticipantRemovedFromThreadWithUserEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadParticipantAdded event. */
-export interface AcsChatParticipantAddedToThreadEventData
-  extends AcsChatEventInThreadBase {
+export interface AcsChatParticipantAddedToThreadEventData extends AcsChatEventInThreadBase {
   /** The time at which the user was added to the thread */
   time: Date;
   /** The communication identifier of the user who added the user */
@@ -672,8 +650,7 @@ export interface AcsChatParticipantAddedToThreadEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadParticipantRemoved event. */
-export interface AcsChatParticipantRemovedFromThreadEventData
-  extends AcsChatEventInThreadBase {
+export interface AcsChatParticipantRemovedFromThreadEventData extends AcsChatEventInThreadBase {
   /** The time at which the user was removed to the thread */
   time: Date;
   /** The communication identifier of the user who removed the user */
@@ -946,8 +923,7 @@ export interface AcsRouterJobCancelledEventData extends AcsRouterJobEventData {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClassificationFailed event */
-export interface AcsRouterJobClassificationFailedEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobClassificationFailedEventData extends AcsRouterJobEventData {
   /** Router Job Classification Policy Id */
   classificationPolicyId?: string;
   /** Router Job Classification Failed Errors */
@@ -1076,8 +1052,7 @@ export interface AcsRouterJobCompletedEventData extends AcsRouterJobEventData {
 export interface AcsRouterJobDeletedEventData extends AcsRouterJobEventData {}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobExceptionTriggered event */
-export interface AcsRouterJobExceptionTriggeredEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobExceptionTriggeredEventData extends AcsRouterJobEventData {
   /** Router Job Exception Triggered Rule Key */
   ruleKey?: string;
   /** Router Job Exception Triggered Rule Id */
@@ -1159,8 +1134,7 @@ export enum KnownAcsRouterJobStatus {
 export type AcsRouterJobStatus = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobSchedulingFailed event */
-export interface AcsRouterJobSchedulingFailedEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEventData {
   /** Router Job Priority */
   priority?: number;
   /** Router Job Scheduling Failed Attached Worker Selector Expired */
@@ -1182,8 +1156,7 @@ export interface AcsRouterJobUnassignedEventData extends AcsRouterJobEventData {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobWaitingForActivation event */
-export interface AcsRouterJobWaitingForActivationEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobWaitingForActivationEventData extends AcsRouterJobEventData {
   /** Router Job Waiting For Activation Priority */
   priority?: number;
   /** Router Job Waiting For Activation Worker Selector Expired */
@@ -1197,8 +1170,7 @@ export interface AcsRouterJobWaitingForActivationEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobWorkerSelectorsExpired event */
-export interface AcsRouterJobWorkerSelectorsExpiredEventData
-  extends AcsRouterJobEventData {
+export interface AcsRouterJobWorkerSelectorsExpiredEventData extends AcsRouterJobEventData {
   /** Router Job Worker Selectors Expired Requested Worker Selectors */
   expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Worker Selectors Expired Attached Worker Selectors */
@@ -1212,8 +1184,7 @@ export interface AcsRouterWorkerEventData extends AcsRouterEventData {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerDeleted event */
-export interface AcsRouterWorkerDeletedEventData
-  extends AcsRouterWorkerEventData {}
+export interface AcsRouterWorkerDeletedEventData extends AcsRouterWorkerEventData {}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerDeregistered event */
 export interface AcsRouterWorkerDeregisteredEventData {
@@ -1222,8 +1193,7 @@ export interface AcsRouterWorkerDeregisteredEventData {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferAccepted event */
-export interface AcsRouterWorkerOfferAcceptedEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferAcceptedEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Accepted Queue Id */
   queueId?: string;
   /** Router Worker Offer Accepted Offer Id */
@@ -1243,8 +1213,7 @@ export interface AcsRouterWorkerOfferAcceptedEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferDeclined event */
-export interface AcsRouterWorkerOfferDeclinedEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferDeclinedEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Declined Queue Id */
   queueId?: string;
   /** Router Worker Offer Declined Offer Id */
@@ -1252,8 +1221,7 @@ export interface AcsRouterWorkerOfferDeclinedEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferExpired event */
-export interface AcsRouterWorkerOfferExpiredEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferExpiredEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Expired Queue Id */
   queueId?: string;
   /** Router Worker Offer Expired Offer Id */
@@ -1261,8 +1229,7 @@ export interface AcsRouterWorkerOfferExpiredEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferIssued event */
-export interface AcsRouterWorkerOfferIssuedEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferIssuedEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Issued Queue Id */
   queueId?: string;
   /** Router Worker Offer Issued Offer Id */
@@ -1284,8 +1251,7 @@ export interface AcsRouterWorkerOfferIssuedEventData
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferRevoked event */
-export interface AcsRouterWorkerOfferRevokedEventData
-  extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferRevokedEventData extends AcsRouterWorkerEventData {
   /** Router Worker Offer Revoked Queue Id */
   queueId?: string;
   /** Router Worker Offer Revoked Offer Id */
@@ -1387,8 +1353,7 @@ export interface AcsMessageChannelEventError {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated event. */
-export interface AcsMessageDeliveryStatusUpdatedEventData
-  extends AcsMessageEventData {
+export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEventData {
   /** The message id */
   messageId?: string;
   /** The updated message status */
@@ -1610,12 +1575,10 @@ export interface ContainerRegistryEventConnectedRegistry {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImagePushed event. */
-export interface ContainerRegistryImagePushedEventData
-  extends ContainerRegistryEventData {}
+export interface ContainerRegistryImagePushedEventData extends ContainerRegistryEventData {}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImageDeleted event. */
-export interface ContainerRegistryImageDeletedEventData
-  extends ContainerRegistryEventData {}
+export interface ContainerRegistryImageDeletedEventData extends ContainerRegistryEventData {}
 
 /** The content of the event request message. */
 export interface ContainerRegistryArtifactEventData {
@@ -1652,8 +1615,7 @@ export interface ContainerRegistryArtifactEventTarget {
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ChartPushed event. */
-export interface ContainerRegistryChartPushedEventData
-  extends ContainerRegistryArtifactEventData {}
+export interface ContainerRegistryChartPushedEventData extends ContainerRegistryArtifactEventData {}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ChartDeleted event. */
 export interface ContainerRegistryChartDeletedEventData
@@ -1914,12 +1876,10 @@ export interface IotHubDeviceCreatedEventData extends DeviceLifeCycleEvent {}
 export interface IotHubDeviceDeletedEventData extends DeviceLifeCycleEvent {}
 
 /** Event data for Microsoft.Devices.DeviceConnected event. */
-export interface IotHubDeviceConnectedEventData
-  extends DeviceConnectionStateEvent {}
+export interface IotHubDeviceConnectedEventData extends DeviceConnectionStateEvent {}
 
 /** Event data for Microsoft.Devices.DeviceDisconnected event. */
-export interface IotHubDeviceDisconnectedEventData
-  extends DeviceConnectionStateEvent {}
+export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionStateEvent {}
 
 /** Event data for Microsoft.Devices.DeviceTelemetry event. */
 export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEvent {}
@@ -3969,8 +3929,7 @@ export interface EventGridMqttClientEventData {
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
-export interface EventGridMqttClientCreatedOrUpdatedEventData
-  extends EventGridMqttClientEventData {
+export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridMqttClientEventData {
   /** Configured state of the client. The value could be Enabled or Disabled */
   state: EventGridMqttClientState;
   /** Time the client resource is created based on the provider's UTC time. */
@@ -4004,12 +3963,10 @@ export enum KnownEventGridMqttClientState {
 export type EventGridMqttClientState = string;
 
 /** Event data for Microsoft.EventGrid.MQTTClientDeleted event. */
-export interface EventGridMqttClientDeletedEventData
-  extends EventGridMqttClientEventData {}
+export interface EventGridMqttClientDeletedEventData extends EventGridMqttClientEventData {}
 
 /** Event data for Microsoft.EventGrid.MQTTClientSessionConnected event. */
-export interface EventGridMqttClientSessionConnectedEventData
-  extends EventGridMqttClientEventData {
+export interface EventGridMqttClientSessionConnectedEventData extends EventGridMqttClientEventData {
   /**
    * Unique identifier for the MQTT client's session. This case-sensitive string can
    * be up to 128 characters long, and supports UTF-8 characters.

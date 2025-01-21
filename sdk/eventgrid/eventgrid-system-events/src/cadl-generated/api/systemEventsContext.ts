@@ -16,9 +16,7 @@ export function createSystemEvents(
   options: SystemEventsClientOptionalParams = {},
 ): SystemEventsContext {
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api`
-    : "azsdk-js-api";
+  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
 
   const clientContext = getClient(endpoint, {
     ...options,
