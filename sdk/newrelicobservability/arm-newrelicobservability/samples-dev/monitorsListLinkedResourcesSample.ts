@@ -40,7 +40,7 @@ async function monitorsListLinkedResources() {
 }
 
 async function main() {
-  monitorsListLinkedResources();
+  await monitorsListLinkedResources();
 }
 
 main().catch(console.error);

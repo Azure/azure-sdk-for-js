@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a data flow.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a data flow.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_Get.json
  */
-async function dataFlowsGet() {
+async function dataFlowsGet(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -38,8 +36,8 @@ async function dataFlowsGet() {
   console.log(result);
 }
 
-async function main() {
-  dataFlowsGet();
+async function main(): Promise<void> {
+  await dataFlowsGet();
 }
 
 main().catch(console.error);

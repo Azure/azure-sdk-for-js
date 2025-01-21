@@ -39,7 +39,7 @@ async function deleteAStreamingEndpoint() {
 }
 
 async function main() {
-  deleteAStreamingEndpoint();
+  await deleteAStreamingEndpoint();
 }
 
 main().catch(console.error);

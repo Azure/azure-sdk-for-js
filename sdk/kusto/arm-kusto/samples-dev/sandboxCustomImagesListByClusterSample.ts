@@ -40,7 +40,7 @@ async function kustoSandboxCustomImagesListByCluster() {
 }
 
 async function main() {
-  kustoSandboxCustomImagesListByCluster();
+  await kustoSandboxCustomImagesListByCluster();
 }
 
 main().catch(console.error);

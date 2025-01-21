@@ -43,7 +43,7 @@ async function listRoutingRules() {
 }
 
 async function main() {
-  listRoutingRules();
+  await listRoutingRules();
 }
 
 main().catch(console.error);

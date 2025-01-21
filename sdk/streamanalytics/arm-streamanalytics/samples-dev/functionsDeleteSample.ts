@@ -42,7 +42,7 @@ async function deleteAFunction() {
 }
 
 async function main() {
-  deleteAFunction();
+  await deleteAFunction();
 }
 
 main().catch(console.error);

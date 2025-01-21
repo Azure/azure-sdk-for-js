@@ -34,7 +34,7 @@ async function listAllSecureScoresControls() {
 }
 
 async function main() {
-  listAllSecureScoresControls();
+  await listAllSecureScoresControls();
 }
 
 main().catch(console.error);

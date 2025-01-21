@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A cluster does not accrue charges while it is stopped. See [stopping a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a cluster.

@@ -37,7 +37,7 @@ async function deleteCloudServicesNetwork() {
 }
 
 async function main() {
-  deleteCloudServicesNetwork();
+  await deleteCloudServicesNetwork();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listOracleSubscriptionsBySubscription() {
 }
 
 async function main() {
-  listOracleSubscriptionsBySubscription();
+  await listOracleSubscriptionsBySubscription();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function removeVMSFromVMCluster() {
 }
 
 async function main() {
-  removeVMSFromVMCluster();
+  await removeVMSFromVMCluster();
 }
 
 main().catch(console.error);

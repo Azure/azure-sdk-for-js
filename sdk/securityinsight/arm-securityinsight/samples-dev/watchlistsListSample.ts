@@ -40,7 +40,7 @@ async function getAllWatchlists() {
 }
 
 async function main() {
-  getAllWatchlists();
+  await getAllWatchlists();
 }
 
 main().catch(console.error);

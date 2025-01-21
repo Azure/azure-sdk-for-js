@@ -39,7 +39,7 @@ async function queueGet() {
 }
 
 async function main() {
-  queueGet();
+  await queueGet();
 }
 
 main().catch(console.error);

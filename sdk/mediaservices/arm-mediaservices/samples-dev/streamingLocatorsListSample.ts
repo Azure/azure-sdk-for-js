@@ -40,7 +40,7 @@ async function listsStreamingLocators() {
 }
 
 async function main() {
-  listsStreamingLocators();
+  await listsStreamingLocators();
 }
 
 main().catch(console.error);

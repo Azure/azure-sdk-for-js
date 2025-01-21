@@ -39,7 +39,7 @@ async function getOutboundNetworkDependencyEndpoints() {
 }
 
 async function main() {
-  getOutboundNetworkDependencyEndpoints();
+  await getOutboundNetworkDependencyEndpoints();
 }
 
 main().catch(console.error);

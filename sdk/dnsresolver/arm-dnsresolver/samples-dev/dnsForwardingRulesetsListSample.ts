@@ -34,7 +34,7 @@ async function listDnsForwardingRulesetsBySubscription() {
 }
 
 async function main() {
-  listDnsForwardingRulesetsBySubscription();
+  await listDnsForwardingRulesetsBySubscription();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create the webhook identified by webhook name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2015-10-31/examples/createOrUpdateWebhook.json
  */
-async function createOrUpdateWebhook() {
+async function createOrUpdateWebhook(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -44,7 +44,7 @@ async function createOrUpdateWebhook() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateWebhook();
 }
 

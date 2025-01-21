@@ -40,7 +40,7 @@ async function listOutboundEndpointsByDnsResolver() {
 }
 
 async function main() {
-  listOutboundEndpointsByDnsResolver();
+  await listOutboundEndpointsByDnsResolver();
 }
 
 main().catch(console.error);

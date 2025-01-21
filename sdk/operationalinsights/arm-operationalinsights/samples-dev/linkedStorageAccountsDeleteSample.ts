@@ -42,7 +42,7 @@ async function linkedStorageAccountsDelete() {
 }
 
 async function main() {
-  linkedStorageAccountsDelete();
+  await linkedStorageAccountsDelete();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function capabilitiesForMicrosoftRecoveryServicesOrVaults() {
 }
 
 async function main() {
-  capabilitiesForMicrosoftRecoveryServicesOrVaults();
+  await capabilitiesForMicrosoftRecoveryServicesOrVaults();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function patchLabPlan() {
 }
 
 async function main() {
-  patchLabPlan();
+  await patchLabPlan();
 }
 
 main().catch(console.error);

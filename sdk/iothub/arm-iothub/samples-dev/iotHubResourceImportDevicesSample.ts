@@ -42,7 +42,7 @@ async function iotHubResourceImportDevices() {
 }
 
 async function main() {
-  iotHubResourceImportDevices();
+  await iotHubResourceImportDevices();
 }
 
 main().catch(console.error);

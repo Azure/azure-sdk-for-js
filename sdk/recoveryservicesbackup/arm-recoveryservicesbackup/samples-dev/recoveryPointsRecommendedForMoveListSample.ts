@@ -55,7 +55,7 @@ async function getProtectedAzureVMRecoveryPointsRecommendedForMove() {
 }
 
 async function main() {
-  getProtectedAzureVMRecoveryPointsRecommendedForMove();
+  await getProtectedAzureVMRecoveryPointsRecommendedForMove();
 }
 
 main().catch(console.error);

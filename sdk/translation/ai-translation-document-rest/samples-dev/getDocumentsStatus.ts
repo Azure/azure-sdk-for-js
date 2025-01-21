@@ -56,7 +56,8 @@ export async function main() {
     break;
   }
 
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

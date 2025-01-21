@@ -46,7 +46,7 @@ async function listFluxConfiguration() {
 }
 
 async function main() {
-  listFluxConfiguration();
+  await listFluxConfiguration();
 }
 
 main().catch(console.error);

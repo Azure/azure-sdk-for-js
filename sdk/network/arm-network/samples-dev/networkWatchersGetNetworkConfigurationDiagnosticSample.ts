@@ -52,7 +52,7 @@ async function networkConfigurationDiagnostic() {
 }
 
 async function main() {
-  networkConfigurationDiagnostic();
+  await networkConfigurationDiagnostic();
 }
 
 main().catch(console.error);

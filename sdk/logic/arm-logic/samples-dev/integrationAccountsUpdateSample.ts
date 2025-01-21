@@ -42,7 +42,7 @@ async function patchAnIntegrationAccount() {
 }
 
 async function main() {
-  patchAnIntegrationAccount();
+  await patchAnIntegrationAccount();
 }
 
 main().catch(console.error);

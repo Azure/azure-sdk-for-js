@@ -63,8 +63,8 @@ async function localRulesGetMinimumSetGen() {
 }
 
 async function main() {
-  localRulesGetMaximumSetGen();
-  localRulesGetMinimumSetGen();
+  await localRulesGetMaximumSetGen();
+  await localRulesGetMinimumSetGen();
 }
 
 main().catch(console.error);

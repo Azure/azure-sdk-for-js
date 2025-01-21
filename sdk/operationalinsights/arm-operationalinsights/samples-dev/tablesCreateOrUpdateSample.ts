@@ -54,7 +54,7 @@ async function tablesUpsert() {
 }
 
 async function main() {
-  tablesUpsert();
+  await tablesUpsert();
 }
 
 main().catch(console.error);

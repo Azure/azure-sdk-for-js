@@ -40,7 +40,7 @@ async function listServerCommunicationLinks() {
 }
 
 async function main() {
-  listServerCommunicationLinks();
+  await listServerCommunicationLinks();
 }
 
 main().catch(console.error);

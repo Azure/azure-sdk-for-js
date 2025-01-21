@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the jobs available under the subscription.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsList.json
  */
-async function jobsList() {
+async function jobsList(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function jobsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsList();
 }
 

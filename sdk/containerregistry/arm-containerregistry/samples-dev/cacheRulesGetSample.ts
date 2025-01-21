@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the properties of the specified cache rule resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the properties of the specified cache rule resource.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/CacheRuleGet.json
  */
-async function cacheRuleGet() {
+async function cacheRuleGet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function cacheRuleGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cacheRuleGet();
 }
 

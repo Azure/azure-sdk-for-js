@@ -37,7 +37,7 @@ async function deleteAPrivateLinkHub() {
 }
 
 async function main() {
-  deleteAPrivateLinkHub();
+  await deleteAPrivateLinkHub();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataProtectionClient } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a ResourceGuard resource from the resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a ResourceGuard resource from the resource group.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/DeleteResourceGuard.json
  */
-async function deleteResourceGuard() {
+async function deleteResourceGuard(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -36,8 +34,8 @@ async function deleteResourceGuard() {
   console.log(result);
 }
 
-async function main() {
-  deleteResourceGuard();
+async function main(): Promise<void> {
+  await deleteResourceGuard();
 }
 
 main().catch(console.error);

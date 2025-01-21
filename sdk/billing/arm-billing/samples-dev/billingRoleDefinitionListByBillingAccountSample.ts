@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the role definitions for a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleDefinitionListByBillingAccount.json
  */
-async function billingRoleDefinitionListByBillingAccount() {
+async function billingRoleDefinitionListByBillingAccount(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function billingRoleDefinitionListByBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingRoleDefinitionListByBillingAccount();
 }
 

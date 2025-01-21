@@ -42,7 +42,7 @@ async function getDatastore() {
 }
 
 async function main() {
-  getDatastore();
+  await getDatastore();
 }
 
 main().catch(console.error);

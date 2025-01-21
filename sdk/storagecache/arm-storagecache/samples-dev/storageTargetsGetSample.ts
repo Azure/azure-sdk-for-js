@@ -39,7 +39,7 @@ async function storageTargetsGet() {
 }
 
 async function main() {
-  storageTargetsGet();
+  await storageTargetsGet();
 }
 
 main().catch(console.error);

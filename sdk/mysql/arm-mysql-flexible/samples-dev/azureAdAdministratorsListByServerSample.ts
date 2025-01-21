@@ -42,7 +42,7 @@ async function listAzureAdAdministratorsInAServer() {
 }
 
 async function main() {
-  listAzureAdAdministratorsInAServer();
+  await listAzureAdAdministratorsInAServer();
 }
 
 main().catch(console.error);

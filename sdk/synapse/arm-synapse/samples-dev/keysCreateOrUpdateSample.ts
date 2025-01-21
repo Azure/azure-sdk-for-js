@@ -44,7 +44,7 @@ async function createOrUpdateAWorkspaceKey() {
 }
 
 async function main() {
-  createOrUpdateAWorkspaceKey();
+  await createOrUpdateAWorkspaceKey();
 }
 
 main().catch(console.error);

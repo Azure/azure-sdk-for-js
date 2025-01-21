@@ -37,7 +37,7 @@ async function deleteAnAzureMonitorWorkspace() {
 }
 
 async function main() {
-  deleteAnAzureMonitorWorkspace();
+  await deleteAnAzureMonitorWorkspace();
 }
 
 main().catch(console.error);

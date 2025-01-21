@@ -33,7 +33,7 @@ async function ascOperationsGet() {
 }
 
 async function main() {
-  ascOperationsGet();
+  await ascOperationsGet();
 }
 
 main().catch(console.error);

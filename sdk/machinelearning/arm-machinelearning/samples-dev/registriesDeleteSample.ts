@@ -40,7 +40,7 @@ async function deleteRegistry() {
 }
 
 async function main() {
-  deleteRegistry();
+  await deleteRegistry();
 }
 
 main().catch(console.error);

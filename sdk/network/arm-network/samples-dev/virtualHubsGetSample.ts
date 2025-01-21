@@ -34,7 +34,7 @@ async function virtualHubGet() {
 }
 
 async function main() {
-  virtualHubGet();
+  await virtualHubGet();
 }
 
 main().catch(console.error);

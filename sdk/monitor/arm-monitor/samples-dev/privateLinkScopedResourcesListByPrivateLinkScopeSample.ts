@@ -40,7 +40,7 @@ async function getsListOfScopedResourcesInAPrivateLinkScope() {
 }
 
 async function main() {
-  getsListOfScopedResourcesInAPrivateLinkScope();
+  await getsListOfScopedResourcesInAPrivateLinkScope();
 }
 
 main().catch(console.error);

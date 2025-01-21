@@ -68,7 +68,7 @@ async function createAStreamingEndpoint() {
 }
 
 async function main() {
-  createAStreamingEndpoint();
+  await createAStreamingEndpoint();
 }
 
 main().catch(console.error);

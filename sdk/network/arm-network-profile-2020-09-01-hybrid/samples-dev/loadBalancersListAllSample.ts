@@ -32,7 +32,7 @@ async function listAllLoadBalancers() {
 }
 
 async function main() {
-  listAllLoadBalancers();
+  await listAllLoadBalancers();
 }
 
 main().catch(console.error);

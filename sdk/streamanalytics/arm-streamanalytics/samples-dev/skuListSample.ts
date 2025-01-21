@@ -43,7 +43,7 @@ async function getValidSkUsListForTheSpecifiedStreamingJob() {
 }
 
 async function main() {
-  getValidSkUsListForTheSpecifiedStreamingJob();
+  await getValidSkUsListForTheSpecifiedStreamingJob();
 }
 
 main().catch(console.error);

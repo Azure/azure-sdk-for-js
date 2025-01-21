@@ -49,7 +49,7 @@ async function createResourceForImportBasedInput() {
 }
 
 async function main() {
-  createResourceForImportBasedInput();
+  await createResourceForImportBasedInput();
 }
 
 main().catch(console.error);

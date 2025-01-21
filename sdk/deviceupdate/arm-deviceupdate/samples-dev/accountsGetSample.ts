@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DeviceUpdate } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns account details for the given account name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns account details for the given account name.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Accounts/Accounts_Get.json
  */
-async function getsAccountDetails() {
+async function getsAccountDetails(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,8 +31,8 @@ async function getsAccountDetails() {
   console.log(result);
 }
 
-async function main() {
-  getsAccountDetails();
+async function main(): Promise<void> {
+  await getsAccountDetails();
 }
 
 main().catch(console.error);

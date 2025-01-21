@@ -33,7 +33,7 @@ async function getWorkspacesBySubscription() {
 }
 
 async function main() {
-  getWorkspacesBySubscription();
+  await getWorkspacesBySubscription();
 }
 
 main().catch(console.error);

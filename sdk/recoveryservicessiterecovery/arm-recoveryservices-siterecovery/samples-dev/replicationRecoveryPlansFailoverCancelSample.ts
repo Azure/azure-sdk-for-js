@@ -41,7 +41,7 @@ async function executeCancelFailoverOfTheRecoveryPlan() {
 }
 
 async function main() {
-  executeCancelFailoverOfTheRecoveryPlan();
+  await executeCancelFailoverOfTheRecoveryPlan();
 }
 
 main().catch(console.error);

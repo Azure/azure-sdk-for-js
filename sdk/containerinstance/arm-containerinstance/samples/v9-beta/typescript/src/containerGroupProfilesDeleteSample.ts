@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the specified container group profile in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.

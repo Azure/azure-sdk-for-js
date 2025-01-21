@@ -37,7 +37,7 @@ async function listServiceEndpointDefinitionsInServiceEndPointPolicy() {
 }
 
 async function main() {
-  listServiceEndpointDefinitionsInServiceEndPointPolicy();
+  await listServiceEndpointDefinitionsInServiceEndPointPolicy();
 }
 
 main().catch(console.error);

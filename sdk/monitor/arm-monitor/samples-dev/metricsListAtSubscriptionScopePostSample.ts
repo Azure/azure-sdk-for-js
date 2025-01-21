@@ -125,9 +125,9 @@ async function postRequestForSubscriptionLevelMetricMetadata() {
 }
 
 async function main() {
-  postRequestForSubscriptionLevelMetricData();
-  postRequestForSubscriptionLevelMetricDataUsingBodyParams();
-  postRequestForSubscriptionLevelMetricMetadata();
+  await postRequestForSubscriptionLevelMetricData();
+  await postRequestForSubscriptionLevelMetricDataUsingBodyParams();
+  await postRequestForSubscriptionLevelMetricMetadata();
 }
 
 main().catch(console.error);

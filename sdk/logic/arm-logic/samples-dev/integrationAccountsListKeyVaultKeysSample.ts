@@ -51,7 +51,7 @@ async function getIntegrationAccountCallbackUrl() {
 }
 
 async function main() {
-  getIntegrationAccountCallbackUrl();
+  await getIntegrationAccountCallbackUrl();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function retrieveDnsResolverPolicyVirtualNetworkLink() {
 }
 
 async function main() {
-  retrieveDnsResolverPolicyVirtualNetworkLink();
+  await retrieveDnsResolverPolicyVirtualNetworkLink();
 }
 
 main().catch(console.error);

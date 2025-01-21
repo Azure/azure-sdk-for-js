@@ -41,7 +41,7 @@ async function getALiveOutputByName() {
 }
 
 async function main() {
-  getALiveOutputByName();
+  await getALiveOutputByName();
 }
 
 main().catch(console.error);

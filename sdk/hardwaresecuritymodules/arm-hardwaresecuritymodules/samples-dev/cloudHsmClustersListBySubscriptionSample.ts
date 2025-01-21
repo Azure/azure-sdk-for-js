@@ -34,7 +34,7 @@ async function cloudHsmClusterListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterListBySubscriptionMaximumSetGen();
+  await cloudHsmClusterListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

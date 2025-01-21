@@ -33,7 +33,7 @@ async function kustoOperationResultsGet() {
 }
 
 async function main() {
-  kustoOperationResultsGet();
+  await kustoOperationResultsGet();
 }
 
 main().catch(console.error);

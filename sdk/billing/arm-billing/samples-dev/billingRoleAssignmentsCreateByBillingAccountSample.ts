@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Adds a role assignment on a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleAssignmentCreateByBillingAccount.json
  */
-async function billingRoleAssignmentCreateByBillingAccount() {
+async function billingRoleAssignmentCreateByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2018-09-30";
   const parameters: BillingRoleAssignmentProperties = {
@@ -41,7 +41,7 @@ async function billingRoleAssignmentCreateByBillingAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingRoleAssignmentCreateByBillingAccount();
 }
 

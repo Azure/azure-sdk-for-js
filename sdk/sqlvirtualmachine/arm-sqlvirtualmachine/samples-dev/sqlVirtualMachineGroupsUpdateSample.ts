@@ -45,7 +45,7 @@ async function updatesASqlVirtualMachineGroupTags() {
 }
 
 async function main() {
-  updatesASqlVirtualMachineGroupTags();
+  await updatesASqlVirtualMachineGroupTags();
 }
 
 main().catch(console.error);

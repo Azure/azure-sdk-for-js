@@ -31,7 +31,7 @@ async function listSolutionsOperations() {
 }
 
 async function main() {
-  listSolutionsOperations();
+  await listSolutionsOperations();
 }
 
 main().catch(console.error);

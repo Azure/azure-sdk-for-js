@@ -46,7 +46,7 @@ async function updateNetworkFunctionDefinitionVersionState() {
 }
 
 async function main() {
-  updateNetworkFunctionDefinitionVersionState();
+  await updateNetworkFunctionDefinitionVersionState();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getRecoverableSqlPoolsForTheServer() {
 }
 
 async function main() {
-  getRecoverableSqlPoolsForTheServer();
+  await getRecoverableSqlPoolsForTheServer();
 }
 
 main().catch(console.error);

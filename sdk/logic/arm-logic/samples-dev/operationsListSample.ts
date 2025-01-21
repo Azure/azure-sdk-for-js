@@ -34,7 +34,7 @@ async function listMicrosoftLogicOperations() {
 }
 
 async function main() {
-  listMicrosoftLogicOperations();
+  await listMicrosoftLogicOperations();
 }
 
 main().catch(console.error);

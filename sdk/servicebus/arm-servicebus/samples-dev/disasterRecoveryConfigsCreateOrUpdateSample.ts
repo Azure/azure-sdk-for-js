@@ -47,7 +47,7 @@ async function sbAliasCreate() {
 }
 
 async function main() {
-  sbAliasCreate();
+  await sbAliasCreate();
 }
 
 main().catch(console.error);

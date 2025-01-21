@@ -39,7 +39,7 @@ async function signalRCustomCertificatesDelete() {
 }
 
 async function main() {
-  signalRCustomCertificatesDelete();
+  await signalRCustomCertificatesDelete();
 }
 
 main().catch(console.error);

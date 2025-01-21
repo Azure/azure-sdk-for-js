@@ -45,7 +45,7 @@ async function volumesAuthorizeReplication() {
 }
 
 async function main() {
-  volumesAuthorizeReplication();
+  await volumesAuthorizeReplication();
 }
 
 main().catch(console.error);

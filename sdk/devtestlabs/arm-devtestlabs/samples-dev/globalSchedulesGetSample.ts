@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get schedule.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/GlobalSchedules_Get.json
  */
-async function globalSchedulesGet() {
+async function globalSchedulesGet(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";
   const name = "labvmautostart";

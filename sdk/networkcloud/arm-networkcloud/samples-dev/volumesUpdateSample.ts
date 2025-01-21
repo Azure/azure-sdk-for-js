@@ -46,7 +46,7 @@ async function patchVolume() {
 }
 
 async function main() {
-  patchVolume();
+  await patchVolume();
 }
 
 main().catch(console.error);

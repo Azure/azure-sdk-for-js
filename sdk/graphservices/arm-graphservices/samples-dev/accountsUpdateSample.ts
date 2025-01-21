@@ -41,7 +41,7 @@ async function updateAccountResource() {
 }
 
 async function main() {
-  updateAccountResource();
+  await updateAccountResource();
 }
 
 main().catch(console.error);

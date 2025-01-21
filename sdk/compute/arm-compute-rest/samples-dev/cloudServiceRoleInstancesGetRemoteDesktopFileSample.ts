@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  CloudServiceRoleInstancesGetRemoteDesktopFileParameters,
-} from "@azure-rest/arm-compute";
+import type { CloudServiceRoleInstancesGetRemoteDesktopFileParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Gets a remote desktop file for a role instance in a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceRoleInstance_Get_RemoteDesktopFile.json
  */
-async function getCloudServiceRole() {
+async function getCloudServiceRole(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

@@ -44,7 +44,7 @@ async function listTokensForApplication() {
 }
 
 async function main() {
-  listTokensForApplication();
+  await listTokensForApplication();
 }
 
 main().catch(console.error);

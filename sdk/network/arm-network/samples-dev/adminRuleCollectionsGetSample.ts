@@ -40,7 +40,7 @@ async function getsSecurityAdminRuleCollection() {
 }
 
 async function main() {
-  getsSecurityAdminRuleCollection();
+  await getsSecurityAdminRuleCollection();
 }
 
 main().catch(console.error);

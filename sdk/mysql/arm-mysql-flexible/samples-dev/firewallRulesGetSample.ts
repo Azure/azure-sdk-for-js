@@ -41,7 +41,7 @@ async function getAFirewallRule() {
 }
 
 async function main() {
-  getAFirewallRule();
+  await getAFirewallRule();
 }
 
 main().catch(console.error);

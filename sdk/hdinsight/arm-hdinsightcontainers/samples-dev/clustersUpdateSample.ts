@@ -186,8 +186,8 @@ async function hdInsightRangerClusterPatchTags() {
 }
 
 async function main() {
-  hdInsightClustersPatchTags();
-  hdInsightRangerClusterPatchTags();
+  await hdInsightClustersPatchTags();
+  await hdInsightRangerClusterPatchTags();
 }
 
 main().catch(console.error);

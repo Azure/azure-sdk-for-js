@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineScaleSetVMsDeallocateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineScaleSetVMsDeallocateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Deallocate_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMSDeallocateMaximumSetGen() {
+async function virtualMachineScaleSetVMSDeallocateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -47,7 +43,7 @@ virtualMachineScaleSetVMSDeallocateMaximumSetGen().catch(console.error);
  * @summary Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Deallocate_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMSDeallocateMinimumSetGen() {
+async function virtualMachineScaleSetVMSDeallocateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

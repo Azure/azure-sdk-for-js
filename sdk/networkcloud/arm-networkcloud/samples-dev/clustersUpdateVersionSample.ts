@@ -44,7 +44,7 @@ async function updateClusterVersion() {
 }
 
 async function main() {
-  updateClusterVersion();
+  await updateClusterVersion();
 }
 
 main().catch(console.error);

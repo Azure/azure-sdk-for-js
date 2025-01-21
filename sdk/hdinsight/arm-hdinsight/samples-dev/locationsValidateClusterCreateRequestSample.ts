@@ -125,7 +125,7 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
 }
 
 async function main() {
-  getTheSubscriptionUsagesForSpecificLocation();
+  await getTheSubscriptionUsagesForSpecificLocation();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function importJobsListByAmlFilesystem() {
 }
 
 async function main() {
-  importJobsListByAmlFilesystem();
+  await importJobsListByAmlFilesystem();
 }
 
 main().catch(console.error);

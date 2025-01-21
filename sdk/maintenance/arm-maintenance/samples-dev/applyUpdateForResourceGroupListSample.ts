@@ -38,7 +38,7 @@ async function applyUpdatesResourceGroupList() {
 }
 
 async function main() {
-  applyUpdatesResourceGroupList();
+  await applyUpdatesResourceGroupList();
 }
 
 main().catch(console.error);

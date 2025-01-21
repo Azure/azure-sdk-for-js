@@ -39,7 +39,7 @@ async function requiredForGet() {
 }
 
 async function main() {
-  requiredForGet();
+  await requiredForGet();
 }
 
 main().catch(console.error);

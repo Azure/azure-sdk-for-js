@@ -43,7 +43,7 @@ async function putKubernetesVersions() {
 }
 
 async function main() {
-  putKubernetesVersions();
+  await putKubernetesVersions();
 }
 
 main().catch(console.error);

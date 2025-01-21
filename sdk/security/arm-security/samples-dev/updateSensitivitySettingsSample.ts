@@ -40,7 +40,7 @@ async function updateSensitivitySettings() {
 }
 
 async function main() {
-  updateSensitivitySettings();
+  await updateSensitivitySettings();
 }
 
 main().catch(console.error);

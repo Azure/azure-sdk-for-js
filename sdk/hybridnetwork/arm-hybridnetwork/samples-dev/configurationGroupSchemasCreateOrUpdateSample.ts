@@ -50,7 +50,7 @@ async function createOrUpdateTheNetworkFunctionDefinitionGroup() {
 }
 
 async function main() {
-  createOrUpdateTheNetworkFunctionDefinitionGroup();
+  await createOrUpdateTheNetworkFunctionDefinitionGroup();
 }
 
 main().catch(console.error);

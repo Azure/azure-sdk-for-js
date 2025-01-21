@@ -43,7 +43,7 @@ async function aliasNameAvailability() {
 }
 
 async function main() {
-  aliasNameAvailability();
+  await aliasNameAvailability();
 }
 
 main().catch(console.error);

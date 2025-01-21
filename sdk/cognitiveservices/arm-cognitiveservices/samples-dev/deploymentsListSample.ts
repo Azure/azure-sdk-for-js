@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the deployments associated with the Cognitive Services account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the deployments associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListDeployments.json
  */
-async function listDeployments() {
+async function listDeployments(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -41,7 +39,7 @@ async function listDeployments() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDeployments();
 }
 

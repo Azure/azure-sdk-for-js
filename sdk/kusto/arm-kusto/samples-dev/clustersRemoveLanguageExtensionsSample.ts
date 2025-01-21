@@ -44,7 +44,7 @@ async function kustoClusterRemoveLanguageExtensions() {
 }
 
 async function main() {
-  kustoClusterRemoveLanguageExtensions();
+  await kustoClusterRemoveLanguageExtensions();
 }
 
 main().catch(console.error);

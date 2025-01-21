@@ -43,7 +43,7 @@ async function updateClusterIdentityCertificate() {
 }
 
 async function main() {
-  updateClusterIdentityCertificate();
+  await updateClusterIdentityCertificate();
 }
 
 main().catch(console.error);

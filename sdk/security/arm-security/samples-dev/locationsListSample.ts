@@ -34,7 +34,7 @@ async function getSecurityDataLocations() {
 }
 
 async function main() {
-  getSecurityDataLocations();
+  await getSecurityDataLocations();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listAllCustomResourceProvidersOnTheSubscription() {
 }
 
 async function main() {
-  listAllCustomResourceProvidersOnTheSubscription();
+  await listAllCustomResourceProvidersOnTheSubscription();
 }
 
 main().catch(console.error);

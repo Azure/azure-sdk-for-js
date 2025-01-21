@@ -32,7 +32,7 @@ async function redisCacheList() {
 }
 
 async function main() {
-  redisCacheList();
+  await redisCacheList();
 }
 
 main().catch(console.error);

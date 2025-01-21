@@ -74,8 +74,8 @@ async function springbootserversUpdateMinimumSetGen() {
 }
 
 async function main() {
-  springbootserversUpdateMaximumSetGen();
-  springbootserversUpdateMinimumSetGen();
+  await springbootserversUpdateMaximumSetGen();
+  await springbootserversUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

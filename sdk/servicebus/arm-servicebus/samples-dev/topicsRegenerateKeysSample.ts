@@ -46,7 +46,7 @@ async function topicAuthorizationRuleRegenerateKey() {
 }
 
 async function main() {
-  topicAuthorizationRuleRegenerateKey();
+  await topicAuthorizationRuleRegenerateKey();
 }
 
 main().catch(console.error);

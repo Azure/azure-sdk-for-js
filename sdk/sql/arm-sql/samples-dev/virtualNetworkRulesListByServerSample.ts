@@ -39,7 +39,7 @@ async function listVirtualNetworkRules() {
 }
 
 async function main() {
-  listVirtualNetworkRules();
+  await listVirtualNetworkRules();
 }
 
 main().catch(console.error);

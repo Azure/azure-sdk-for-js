@@ -43,7 +43,7 @@ async function volumesListReplications() {
 }
 
 async function main() {
-  volumesListReplications();
+  await volumesListReplications();
 }
 
 main().catch(console.error);

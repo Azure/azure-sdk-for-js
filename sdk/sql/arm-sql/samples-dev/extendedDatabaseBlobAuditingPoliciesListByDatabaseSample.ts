@@ -42,7 +42,7 @@ async function listExtendedAuditingSettingsOfADatabase() {
 }
 
 async function main() {
-  listExtendedAuditingSettingsOfADatabase();
+  await listExtendedAuditingSettingsOfADatabase();
 }
 
 main().catch(console.error);

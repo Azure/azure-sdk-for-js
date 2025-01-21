@@ -37,7 +37,7 @@ async function deleteAMediaServicesAccount() {
 }
 
 async function main() {
-  deleteAMediaServicesAccount();
+  await deleteAMediaServicesAccount();
 }
 
 main().catch(console.error);

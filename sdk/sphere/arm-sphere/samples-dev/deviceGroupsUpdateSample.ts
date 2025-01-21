@@ -46,7 +46,7 @@ async function deviceGroupsUpdate() {
 }
 
 async function main() {
-  deviceGroupsUpdate();
+  await deviceGroupsUpdate();
 }
 
 main().catch(console.error);

@@ -51,7 +51,7 @@ async function dataExportCreate() {
 }
 
 async function main() {
-  dataExportCreate();
+  await dataExportCreate();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function l3IsolationDomainsListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  l3IsolationDomainsListBySubscriptionMaximumSetGen();
+  await l3IsolationDomainsListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function azureLargeInstanceShutdown() {
 }
 
 async function main() {
-  azureLargeInstanceShutdown();
+  await azureLargeInstanceShutdown();
 }
 
 main().catch(console.error);

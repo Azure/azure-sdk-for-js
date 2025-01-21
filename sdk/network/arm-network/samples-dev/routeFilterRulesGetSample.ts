@@ -36,7 +36,7 @@ async function routeFilterRuleGet() {
 }
 
 async function main() {
-  routeFilterRuleGet();
+  await routeFilterRuleGet();
 }
 
 main().catch(console.error);

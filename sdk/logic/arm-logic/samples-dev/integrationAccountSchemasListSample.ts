@@ -39,7 +39,7 @@ async function getSchemasByIntegrationAccountName() {
 }
 
 async function main() {
-  getSchemasByIntegrationAccountName();
+  await getSchemasByIntegrationAccountName();
 }
 
 main().catch(console.error);

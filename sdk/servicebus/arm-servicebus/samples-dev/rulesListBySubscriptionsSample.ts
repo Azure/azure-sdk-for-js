@@ -44,7 +44,7 @@ async function rulesListBySubscriptions() {
 }
 
 async function main() {
-  rulesListBySubscriptions();
+  await rulesListBySubscriptions();
 }
 
 main().catch(console.error);

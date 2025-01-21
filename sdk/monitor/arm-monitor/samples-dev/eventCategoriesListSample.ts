@@ -31,7 +31,7 @@ async function getEventCategories() {
 }
 
 async function main() {
-  getEventCategories();
+  await getEventCategories();
 }
 
 main().catch(console.error);

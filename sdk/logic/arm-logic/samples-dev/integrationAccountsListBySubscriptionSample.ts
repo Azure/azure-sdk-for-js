@@ -34,7 +34,7 @@ async function listIntegrationAccountsBySubscription() {
 }
 
 async function main() {
-  listIntegrationAccountsBySubscription();
+  await listIntegrationAccountsBySubscription();
 }
 
 main().catch(console.error);

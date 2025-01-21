@@ -41,7 +41,7 @@ async function deleteIntegrationRuntimeNode() {
 }
 
 async function main() {
-  deleteIntegrationRuntimeNode();
+  await deleteIntegrationRuntimeNode();
 }
 
 main().catch(console.error);

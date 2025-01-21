@@ -52,7 +52,7 @@ async function configurationsAnalysis() {
 }
 
 async function main() {
-  configurationsAnalysis();
+  await configurationsAnalysis();
 }
 
 main().catch(console.error);

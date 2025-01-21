@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Deploys zipped content to a specific environment of a static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/StaticSiteBuildZipDeploy.json
  */
-async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild() {
+async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -49,7 +49,7 @@ async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deployASiteFromAZippedPackageToAParticularStaticSiteBuild();
 }
 

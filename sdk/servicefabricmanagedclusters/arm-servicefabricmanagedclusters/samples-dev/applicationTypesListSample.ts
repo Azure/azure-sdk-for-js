@@ -43,7 +43,7 @@ async function getAListOfApplicationTypeNameResources() {
 }
 
 async function main() {
-  getAListOfApplicationTypeNameResources();
+  await getAListOfApplicationTypeNameResources();
 }
 
 main().catch(console.error);

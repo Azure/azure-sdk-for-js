@@ -40,7 +40,7 @@ async function channelsListByPartnerNamespace() {
 }
 
 async function main() {
-  channelsListByPartnerNamespace();
+  await channelsListByPartnerNamespace();
 }
 
 main().catch(console.error);

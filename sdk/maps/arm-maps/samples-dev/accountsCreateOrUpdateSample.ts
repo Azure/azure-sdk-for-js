@@ -196,10 +196,10 @@ async function createGen2Account() {
 }
 
 async function main() {
-  createAccountWithEncryption();
-  createAccountWithManagedIdentities();
-  createGen1Account();
-  createGen2Account();
+  await createAccountWithEncryption();
+  await createAccountWithManagedIdentities();
+  await createGen1Account();
+  await createGen2Account();
 }
 
 main().catch(console.error);

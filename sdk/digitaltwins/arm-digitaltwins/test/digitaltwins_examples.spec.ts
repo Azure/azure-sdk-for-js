@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AzureDigitalTwinsManagementClient } from "../src/azureDigitalTwinsManagementClient";
+import { AzureDigitalTwinsManagementClient } from "../src/azureDigitalTwinsManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,8 +43,8 @@ describe("DigitalTwins test", () => {
   let resourceGroup: string;
   let resourceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -57,7 +55,7 @@ describe("DigitalTwins test", () => {
     resourceName = "myDigitalTwinsService";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -85,7 +83,7 @@ describe("DigitalTwins test", () => {
 
   it("DigitalTwins delete test", async function () {
     const resArray = new Array();
-    const res = await client.digitalTwins.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
+    await client.digitalTwins.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.digitalTwins.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

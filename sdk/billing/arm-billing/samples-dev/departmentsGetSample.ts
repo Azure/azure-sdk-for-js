@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a department by ID. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/departmentGet.json
  */
-async function departmentGet() {
+async function departmentGet(): Promise<void> {
   const billingAccountName = "456598";
   const departmentName = "164821";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function departmentGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   departmentGet();
 }
 

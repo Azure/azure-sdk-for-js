@@ -37,7 +37,7 @@ async function getAContactProfile() {
 }
 
 async function main() {
-  getAContactProfile();
+  await getAContactProfile();
 }
 
 main().catch(console.error);

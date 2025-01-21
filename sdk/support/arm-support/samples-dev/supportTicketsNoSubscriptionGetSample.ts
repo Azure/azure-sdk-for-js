@@ -30,7 +30,7 @@ async function getDetailsOfATicket() {
 }
 
 async function main() {
-  getDetailsOfATicket();
+  await getDetailsOfATicket();
 }
 
 main().catch(console.error);

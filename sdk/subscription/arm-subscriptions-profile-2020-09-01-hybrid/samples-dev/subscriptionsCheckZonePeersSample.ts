@@ -39,7 +39,7 @@ async function getLogicalZoneMapping() {
 }
 
 async function main() {
-  getLogicalZoneMapping();
+  await getLogicalZoneMapping();
 }
 
 main().catch(console.error);

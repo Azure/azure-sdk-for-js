@@ -42,7 +42,7 @@ async function listsAllTracks() {
 }
 
 async function main() {
-  listsAllTracks();
+  await listsAllTracks();
 }
 
 main().catch(console.error);

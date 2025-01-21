@@ -44,7 +44,7 @@ async function deleteBastionShareableLinksForTheRequestVMS() {
 }
 
 async function main() {
-  deleteBastionShareableLinksForTheRequestVMS();
+  await deleteBastionShareableLinksForTheRequestVMS();
 }
 
 main().catch(console.error);

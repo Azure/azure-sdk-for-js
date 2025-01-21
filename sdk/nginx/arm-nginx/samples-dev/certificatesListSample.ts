@@ -40,7 +40,7 @@ async function certificatesList() {
 }
 
 async function main() {
-  certificatesList();
+  await certificatesList();
 }
 
 main().catch(console.error);

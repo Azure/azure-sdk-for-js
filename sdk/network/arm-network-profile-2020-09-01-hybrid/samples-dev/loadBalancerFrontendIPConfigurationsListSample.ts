@@ -37,7 +37,7 @@ async function loadBalancerFrontendIPConfigurationList() {
 }
 
 async function main() {
-  loadBalancerFrontendIPConfigurationList();
+  await loadBalancerFrontendIPConfigurationList();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function cachesDelete() {
 }
 
 async function main() {
-  cachesDelete();
+  await cachesDelete();
 }
 
 main().catch(console.error);

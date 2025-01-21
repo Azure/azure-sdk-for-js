@@ -50,7 +50,7 @@ async function importJobsCreateOrUpdate() {
 }
 
 async function main() {
-  importJobsCreateOrUpdate();
+  await importJobsCreateOrUpdate();
 }
 
 main().catch(console.error);

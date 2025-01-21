@@ -50,7 +50,7 @@ async function changeTheLongTermRetentionBackupStorageAccessTier() {
 }
 
 async function main() {
-  changeTheLongTermRetentionBackupStorageAccessTier();
+  await changeTheLongTermRetentionBackupStorageAccessTier();
 }
 
 main().catch(console.error);

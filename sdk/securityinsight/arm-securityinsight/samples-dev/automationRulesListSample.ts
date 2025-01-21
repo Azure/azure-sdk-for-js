@@ -40,7 +40,7 @@ async function automationRulesList() {
 }
 
 async function main() {
-  automationRulesList();
+  await automationRulesList();
 }
 
 main().catch(console.error);

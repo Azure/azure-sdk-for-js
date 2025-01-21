@@ -46,7 +46,7 @@ async function updateAutoScaleVCoreParameters() {
 }
 
 async function main() {
-  updateAutoScaleVCoreParameters();
+  await updateAutoScaleVCoreParameters();
 }
 
 main().catch(console.error);

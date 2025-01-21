@@ -45,8 +45,8 @@ async function vmInstanceHybridIdentityMetadatasGetMinimumSet() {
 }
 
 async function main() {
-  vmInstanceHybridIdentityMetadatasGetMaximumSet();
-  vmInstanceHybridIdentityMetadatasGetMinimumSet();
+  await vmInstanceHybridIdentityMetadatasGetMaximumSet();
+  await vmInstanceHybridIdentityMetadatasGetMinimumSet();
 }
 
 main().catch(console.error);

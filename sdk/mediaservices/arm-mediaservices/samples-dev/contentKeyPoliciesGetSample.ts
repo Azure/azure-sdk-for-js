@@ -39,7 +39,7 @@ async function getAContentKeyPolicyByName() {
 }
 
 async function main() {
-  getAContentKeyPolicyByName();
+  await getAContentKeyPolicyByName();
 }
 
 main().catch(console.error);

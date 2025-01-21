@@ -39,7 +39,7 @@ async function cachesDnsRefresh() {
 }
 
 async function main() {
-  cachesDnsRefresh();
+  await cachesDnsRefresh();
 }
 
 main().catch(console.error);

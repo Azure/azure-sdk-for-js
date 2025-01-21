@@ -38,7 +38,7 @@ async function listDnsForwardingRulesetsByResourceGroup() {
 }
 
 async function main() {
-  listDnsForwardingRulesetsByResourceGroup();
+  await listDnsForwardingRulesetsByResourceGroup();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function resyncWorkspaceKeys() {
 }
 
 async function main() {
-  resyncWorkspaceKeys();
+  await resyncWorkspaceKeys();
 }
 
 main().catch(console.error);

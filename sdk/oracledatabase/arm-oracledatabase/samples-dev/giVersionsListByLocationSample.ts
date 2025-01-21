@@ -35,7 +35,7 @@ async function listGiVersionsByLocation() {
 }
 
 async function main() {
-  listGiVersionsByLocation();
+  await listGiVersionsByLocation();
 }
 
 main().catch(console.error);

@@ -30,7 +30,7 @@ async function getListOfServiceTags() {
 }
 
 async function main() {
-  getListOfServiceTags();
+  await getListOfServiceTags();
 }
 
 main().catch(console.error);

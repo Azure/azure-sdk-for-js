@@ -69,8 +69,8 @@ async function localRulesRefreshCountersMinimumSetGen() {
 }
 
 async function main() {
-  localRulesRefreshCountersMaximumSetGen();
-  localRulesRefreshCountersMinimumSetGen();
+  await localRulesRefreshCountersMaximumSetGen();
+  await localRulesRefreshCountersMinimumSetGen();
 }
 
 main().catch(console.error);

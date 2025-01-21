@@ -37,7 +37,7 @@ async function redisCachePatchSchedulesList() {
 }
 
 async function main() {
-  redisCachePatchSchedulesList();
+  await redisCachePatchSchedulesList();
 }
 
 main().catch(console.error);

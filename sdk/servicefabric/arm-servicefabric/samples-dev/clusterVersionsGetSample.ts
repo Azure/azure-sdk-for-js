@@ -33,7 +33,7 @@ async function getClusterVersion() {
 }
 
 async function main() {
-  getClusterVersion();
+  await getClusterVersion();
 }
 
 main().catch(console.error);

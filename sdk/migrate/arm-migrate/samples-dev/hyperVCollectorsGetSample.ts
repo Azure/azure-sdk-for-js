@@ -39,7 +39,7 @@ async function hyperVCollectorsGet() {
 }
 
 async function main() {
-  hyperVCollectorsGet();
+  await hyperVCollectorsGet();
 }
 
 main().catch(console.error);

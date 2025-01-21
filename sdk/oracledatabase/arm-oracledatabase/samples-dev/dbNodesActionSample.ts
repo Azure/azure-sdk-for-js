@@ -70,8 +70,8 @@ async function vmActionsOnDbNodesOfVMCluster() {
 }
 
 async function main() {
-  dbNodesAction();
-  vmActionsOnDbNodesOfVMCluster();
+  await dbNodesAction();
+  await vmActionsOnDbNodesOfVMCluster();
 }
 
 main().catch(console.error);

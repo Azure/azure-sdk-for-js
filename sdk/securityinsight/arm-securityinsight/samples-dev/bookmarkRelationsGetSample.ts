@@ -41,7 +41,7 @@ async function getABookmarkRelation() {
 }
 
 async function main() {
-  getABookmarkRelation();
+  await getABookmarkRelation();
 }
 
 main().catch(console.error);

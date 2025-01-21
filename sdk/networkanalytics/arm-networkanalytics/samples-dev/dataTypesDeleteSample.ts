@@ -63,8 +63,8 @@ async function dataTypesDeleteMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGe
 }
 
 async function main() {
-  dataTypesDeleteMaximumSetGen();
-  dataTypesDeleteMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataTypesDeleteMaximumSetGen();
+  await dataTypesDeleteMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

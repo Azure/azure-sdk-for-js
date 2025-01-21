@@ -61,8 +61,8 @@ async function volumeGroupsGetSapHana() {
 }
 
 async function main() {
-  volumeGroupsGetOracle();
-  volumeGroupsGetSapHana();
+  await volumeGroupsGetOracle();
+  await volumeGroupsGetSapHana();
 }
 
 main().catch(console.error);

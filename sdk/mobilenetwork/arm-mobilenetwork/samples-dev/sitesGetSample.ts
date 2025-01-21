@@ -39,7 +39,7 @@ async function getMobileNetworkSite() {
 }
 
 async function main() {
-  getMobileNetworkSite();
+  await getMobileNetworkSite();
 }
 
 main().catch(console.error);

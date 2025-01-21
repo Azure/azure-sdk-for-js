@@ -45,7 +45,7 @@ async function deleteFluxConfiguration() {
 }
 
 async function main() {
-  deleteFluxConfiguration();
+  await deleteFluxConfiguration();
 }
 
 main().catch(console.error);

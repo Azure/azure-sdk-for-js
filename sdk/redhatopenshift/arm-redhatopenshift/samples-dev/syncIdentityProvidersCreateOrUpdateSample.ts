@@ -46,7 +46,7 @@ async function createsOrUpdatesASyncIdentityProviderWithTheSpecifiedSubscription
 }
 
 async function main() {
-  createsOrUpdatesASyncIdentityProviderWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await createsOrUpdatesASyncIdentityProviderWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

@@ -318,10 +318,10 @@ async function createOrUpdateSweepJob() {
 }
 
 async function main() {
-  createOrUpdateAutoMlJob();
-  createOrUpdateCommandJob();
-  createOrUpdatePipelineJob();
-  createOrUpdateSweepJob();
+  await createOrUpdateAutoMlJob();
+  await createOrUpdateCommandJob();
+  await createOrUpdatePipelineJob();
+  await createOrUpdateSweepJob();
 }
 
 main().catch(console.error);

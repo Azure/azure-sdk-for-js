@@ -31,7 +31,7 @@ async function getConfigurationNames() {
 }
 
 async function main() {
-  getConfigurationNames();
+  await getConfigurationNames();
 }
 
 main().catch(console.error);

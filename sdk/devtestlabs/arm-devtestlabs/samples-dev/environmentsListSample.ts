@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List environments in a given user profile.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Environments_List.json
  */
-async function environmentsList() {
+async function environmentsList(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";
   const labName = "{labName}";

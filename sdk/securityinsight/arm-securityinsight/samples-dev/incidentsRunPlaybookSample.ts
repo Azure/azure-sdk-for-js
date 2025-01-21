@@ -39,7 +39,7 @@ async function incidentsRunPlaybook() {
 }
 
 async function main() {
-  incidentsRunPlaybook();
+  await incidentsRunPlaybook();
 }
 
 main().catch(console.error);

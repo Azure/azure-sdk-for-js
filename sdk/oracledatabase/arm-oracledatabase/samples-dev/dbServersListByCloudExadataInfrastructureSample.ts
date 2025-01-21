@@ -40,7 +40,7 @@ async function listDbServersByExadataInfrastructure() {
 }
 
 async function main() {
-  listDbServersByExadataInfrastructure();
+  await listDbServersByExadataInfrastructure();
 }
 
 main().catch(console.error);

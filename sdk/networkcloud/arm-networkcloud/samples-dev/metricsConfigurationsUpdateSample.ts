@@ -53,7 +53,7 @@ async function patchMetricsConfigurationOfCluster() {
 }
 
 async function main() {
-  patchMetricsConfigurationOfCluster();
+  await patchMetricsConfigurationOfCluster();
 }
 
 main().catch(console.error);

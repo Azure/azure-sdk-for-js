@@ -47,7 +47,7 @@ async function kustoScriptsCheckNameAvailability() {
 }
 
 async function main() {
-  kustoScriptsCheckNameAvailability();
+  await kustoScriptsCheckNameAvailability();
 }
 
 main().catch(console.error);

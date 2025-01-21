@@ -39,7 +39,7 @@ async function deletePrivateEndpointConnection() {
 }
 
 async function main() {
-  deletePrivateEndpointConnection();
+  await deletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

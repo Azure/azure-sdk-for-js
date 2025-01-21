@@ -53,8 +53,8 @@ async function getNetworkProfileWithContainerNetworkInterfaces() {
 }
 
 async function main() {
-  getNetworkProfile();
-  getNetworkProfileWithContainerNetworkInterfaces();
+  await getNetworkProfile();
+  await getNetworkProfileWithContainerNetworkInterfaces();
 }
 
 main().catch(console.error);

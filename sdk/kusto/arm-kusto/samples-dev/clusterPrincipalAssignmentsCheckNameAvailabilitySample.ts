@@ -45,7 +45,7 @@ async function kustoClusterPrincipalAssignmentsCheckNameAvailability() {
 }
 
 async function main() {
-  kustoClusterPrincipalAssignmentsCheckNameAvailability();
+  await kustoClusterPrincipalAssignmentsCheckNameAvailability();
 }
 
 main().catch(console.error);

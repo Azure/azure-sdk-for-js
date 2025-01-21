@@ -41,7 +41,7 @@ async function listVirtualNetworks() {
 }
 
 async function main() {
-  listVirtualNetworks();
+  await listVirtualNetworks();
 }
 
 main().catch(console.error);

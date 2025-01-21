@@ -46,7 +46,7 @@ async function resumePrimingJob() {
 }
 
 async function main() {
-  resumePrimingJob();
+  await resumePrimingJob();
 }
 
 main().catch(console.error);

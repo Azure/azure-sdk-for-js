@@ -39,7 +39,7 @@ async function lockImmutabilityPolicy() {
 }
 
 async function main() {
-  lockImmutabilityPolicy();
+  await lockImmutabilityPolicy();
 }
 
 main().catch(console.error);

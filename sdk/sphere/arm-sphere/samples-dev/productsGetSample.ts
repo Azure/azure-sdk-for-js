@@ -39,7 +39,7 @@ async function productsGet() {
 }
 
 async function main() {
-  productsGet();
+  await productsGet();
 }
 
 main().catch(console.error);

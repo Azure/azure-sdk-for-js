@@ -47,7 +47,7 @@ async function deleteNodes() {
 }
 
 async function main() {
-  deleteNodes();
+  await deleteNodes();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function devicesListByDeviceGroup() {
 }
 
 async function main() {
-  devicesListByDeviceGroup();
+  await devicesListByDeviceGroup();
 }
 
 main().catch(console.error);

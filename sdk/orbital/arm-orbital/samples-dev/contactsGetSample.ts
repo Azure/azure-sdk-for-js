@@ -39,7 +39,7 @@ async function getContact() {
 }
 
 async function main() {
-  getContact();
+  await getContact();
 }
 
 main().catch(console.error);

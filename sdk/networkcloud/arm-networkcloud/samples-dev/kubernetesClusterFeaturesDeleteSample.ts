@@ -39,7 +39,7 @@ async function deleteKubernetesClusterFeature() {
 }
 
 async function main() {
-  deleteKubernetesClusterFeature();
+  await deleteKubernetesClusterFeature();
 }
 
 main().catch(console.error);

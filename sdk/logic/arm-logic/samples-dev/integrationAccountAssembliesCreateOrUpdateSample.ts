@@ -48,7 +48,7 @@ async function createOrUpdateAnAccountAssembly() {
 }
 
 async function main() {
-  createOrUpdateAnAccountAssembly();
+  await createOrUpdateAnAccountAssembly();
 }
 
 main().catch(console.error);

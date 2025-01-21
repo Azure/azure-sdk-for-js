@@ -92,8 +92,8 @@ async function importsToAnExistingEmptyDatabase() {
 }
 
 async function main() {
-  importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
-  importsToAnExistingEmptyDatabase();
+  await importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
+  await importsToAnExistingEmptyDatabase();
 }
 
 main().catch(console.error);

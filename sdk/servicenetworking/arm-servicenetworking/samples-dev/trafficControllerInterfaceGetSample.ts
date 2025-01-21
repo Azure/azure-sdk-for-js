@@ -39,7 +39,7 @@ async function getTrafficController() {
 }
 
 async function main() {
-  getTrafficController();
+  await getTrafficController();
 }
 
 main().catch(console.error);

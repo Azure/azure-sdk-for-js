@@ -53,8 +53,8 @@ async function firewallsListBySubscriptionMinimumSetGen() {
 }
 
 async function main() {
-  firewallsListBySubscriptionMaximumSetGen();
-  firewallsListBySubscriptionMinimumSetGen();
+  await firewallsListBySubscriptionMaximumSetGen();
+  await firewallsListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

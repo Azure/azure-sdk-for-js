@@ -40,7 +40,7 @@ async function eventSubscriptionsListGlobalByResourceGroupForTopicType() {
 }
 
 async function main() {
-  eventSubscriptionsListGlobalByResourceGroupForTopicType();
+  await eventSubscriptionsListGlobalByResourceGroupForTopicType();
 }
 
 main().catch(console.error);

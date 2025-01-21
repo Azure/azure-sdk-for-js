@@ -40,7 +40,7 @@ async function listSimPoliciesInAMobileNetwork() {
 }
 
 async function main() {
-  listSimPoliciesInAMobileNetwork();
+  await listSimPoliciesInAMobileNetwork();
 }
 
 main().catch(console.error);

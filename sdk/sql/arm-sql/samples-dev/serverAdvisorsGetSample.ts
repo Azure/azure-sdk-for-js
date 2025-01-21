@@ -39,7 +39,7 @@ async function getServerAdvisor() {
 }
 
 async function main() {
-  getServerAdvisor();
+  await getServerAdvisor();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getWhoisInformationForASingleDomainName() {
 }
 
 async function main() {
-  getWhoisInformationForASingleDomainName();
+  await getWhoisInformationForASingleDomainName();
 }
 
 main().catch(console.error);

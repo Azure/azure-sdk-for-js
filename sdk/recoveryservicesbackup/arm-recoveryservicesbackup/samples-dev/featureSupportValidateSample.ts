@@ -40,7 +40,7 @@ async function checkAzureVMBackupFeatureSupport() {
 }
 
 async function main() {
-  checkAzureVMBackupFeatureSupport();
+  await checkAzureVMBackupFeatureSupport();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function listsAllTheApplicationsWithinASubscription() {
 }
 
 async function main() {
-  listsAllTheApplicationsWithinASubscription();
+  await listsAllTheApplicationsWithinASubscription();
 }
 
 main().catch(console.error);

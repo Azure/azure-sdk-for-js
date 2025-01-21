@@ -37,7 +37,7 @@ async function deleteLocalUser() {
 }
 
 async function main() {
-  deleteLocalUser();
+  await deleteLocalUser();
 }
 
 main().catch(console.error);

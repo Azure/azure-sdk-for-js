@@ -37,7 +37,7 @@ async function privateLinkResourcesListByProject() {
 }
 
 async function main() {
-  privateLinkResourcesListByProject();
+  await privateLinkResourcesListByProject();
 }
 
 main().catch(console.error);

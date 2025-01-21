@@ -41,7 +41,7 @@ async function createVirtualNetworkTap() {
 }
 
 async function main() {
-  createVirtualNetworkTap();
+  await createVirtualNetworkTap();
 }
 
 main().catch(console.error);

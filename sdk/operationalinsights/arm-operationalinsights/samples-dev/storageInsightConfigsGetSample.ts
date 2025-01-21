@@ -42,7 +42,7 @@ async function storageInsightsGet() {
 }
 
 async function main() {
-  storageInsightsGet();
+  await storageInsightsGet();
 }
 
 main().catch(console.error);

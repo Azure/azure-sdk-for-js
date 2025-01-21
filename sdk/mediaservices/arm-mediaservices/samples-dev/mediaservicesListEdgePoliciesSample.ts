@@ -44,7 +44,7 @@ async function listTheMediaEdgePolicies() {
 }
 
 async function main() {
-  listTheMediaEdgePolicies();
+  await listTheMediaEdgePolicies();
 }
 
 main().catch(console.error);

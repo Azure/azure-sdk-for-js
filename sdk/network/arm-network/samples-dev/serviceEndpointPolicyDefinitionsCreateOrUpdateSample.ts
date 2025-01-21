@@ -50,7 +50,7 @@ async function createServiceEndpointPolicyDefinition() {
 }
 
 async function main() {
-  createServiceEndpointPolicyDefinition();
+  await createServiceEndpointPolicyDefinition();
 }
 
 main().catch(console.error);

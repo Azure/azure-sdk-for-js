@@ -89,9 +89,9 @@ async function listWebCommunicationsForASubscriptionSupportTicket() {
 }
 
 async function main() {
-  listCommunicationsForASubscriptionSupportTicket();
-  listWebCommunicationCreatedOnOrAfterASpecificDateForASubscriptionSupportTicket();
-  listWebCommunicationsForASubscriptionSupportTicket();
+  await listCommunicationsForASubscriptionSupportTicket();
+  await listWebCommunicationCreatedOnOrAfterASpecificDateForASubscriptionSupportTicket();
+  await listWebCommunicationsForASubscriptionSupportTicket();
 }
 
 main().catch(console.error);

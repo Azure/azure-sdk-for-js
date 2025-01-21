@@ -65,7 +65,7 @@ async function addDiskSForProtection() {
 }
 
 async function main() {
-  addDiskSForProtection();
+  await addDiskSForProtection();
 }
 
 main().catch(console.error);

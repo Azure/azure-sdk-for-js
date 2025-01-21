@@ -34,7 +34,7 @@ async function getExpressRouteCircuitTrafficStats() {
 }
 
 async function main() {
-  getExpressRouteCircuitTrafficStats();
+  await getExpressRouteCircuitTrafficStats();
 }
 
 main().catch(console.error);

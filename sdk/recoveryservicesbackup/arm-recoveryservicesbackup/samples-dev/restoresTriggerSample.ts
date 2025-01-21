@@ -365,12 +365,12 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest() 
 }
 
 async function main() {
-  restoreDisksWithIaasVMRestoreRequest();
-  restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails();
-  restoreDisksWithIaasVMRestoreWithRehydrationRequest();
-  restoreToNewAzureIaasVMWithIaasVMRestoreRequest();
-  restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails();
-  restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest();
+  await restoreDisksWithIaasVMRestoreRequest();
+  await restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails();
+  await restoreDisksWithIaasVMRestoreWithRehydrationRequest();
+  await restoreToNewAzureIaasVMWithIaasVMRestoreRequest();
+  await restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails();
+  await restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest();
 }
 
 main().catch(console.error);

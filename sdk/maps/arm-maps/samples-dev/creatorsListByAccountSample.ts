@@ -40,7 +40,7 @@ async function listCreatorResourcesByAccount() {
 }
 
 async function main() {
-  listCreatorResourcesByAccount();
+  await listCreatorResourcesByAccount();
 }
 
 main().catch(console.error);

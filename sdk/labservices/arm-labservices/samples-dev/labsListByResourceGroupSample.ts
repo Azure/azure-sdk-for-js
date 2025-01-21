@@ -36,7 +36,7 @@ async function listResourceGroupLabs() {
 }
 
 async function main() {
-  listResourceGroupLabs();
+  await listResourceGroupLabs();
 }
 
 main().catch(console.error);

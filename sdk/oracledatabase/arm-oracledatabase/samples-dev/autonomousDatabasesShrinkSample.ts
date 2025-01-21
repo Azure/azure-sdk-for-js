@@ -37,7 +37,7 @@ async function performShrinkActionOnAutonomousDatabase() {
 }
 
 async function main() {
-  performShrinkActionOnAutonomousDatabase();
+  await performShrinkActionOnAutonomousDatabase();
 }
 
 main().catch(console.error);

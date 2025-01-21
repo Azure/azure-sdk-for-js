@@ -52,7 +52,7 @@ async function getOnlineDeploymentLogs() {
 }
 
 async function main() {
-  getOnlineDeploymentLogs();
+  await getOnlineDeploymentLogs();
 }
 
 main().catch(console.error);

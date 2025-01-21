@@ -43,7 +43,7 @@ async function networkToNetworkInterconnectsListByNetworkFabricMaximumSetGen() {
 }
 
 async function main() {
-  networkToNetworkInterconnectsListByNetworkFabricMaximumSetGen();
+  await networkToNetworkInterconnectsListByNetworkFabricMaximumSetGen();
 }
 
 main().catch(console.error);

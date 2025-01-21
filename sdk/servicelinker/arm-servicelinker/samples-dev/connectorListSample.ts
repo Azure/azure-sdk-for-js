@@ -39,7 +39,7 @@ async function connectorList() {
 }
 
 async function main() {
-  connectorList();
+  await connectorList();
 }
 
 main().catch(console.error);

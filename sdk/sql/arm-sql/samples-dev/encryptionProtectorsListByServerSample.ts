@@ -40,7 +40,7 @@ async function listEncryptionProtectorsByServer() {
 }
 
 async function main() {
-  listEncryptionProtectorsByServer();
+  await listEncryptionProtectorsByServer();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function policyList() {
 }
 
 async function main() {
-  policyList();
+  await policyList();
 }
 
 main().catch(console.error);

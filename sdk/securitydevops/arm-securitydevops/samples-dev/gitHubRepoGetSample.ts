@@ -41,7 +41,7 @@ async function gitHubRepoGet() {
 }
 
 async function main() {
-  gitHubRepoGet();
+  await gitHubRepoGet();
 }
 
 main().catch(console.error);

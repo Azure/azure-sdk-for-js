@@ -36,7 +36,7 @@ async function deletePeering() {
 }
 
 async function main() {
-  deletePeering();
+  await deletePeering();
 }
 
 main().catch(console.error);

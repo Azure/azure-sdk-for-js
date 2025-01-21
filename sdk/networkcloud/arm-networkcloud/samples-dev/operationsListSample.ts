@@ -34,7 +34,7 @@ async function listResourceProviderOperations() {
 }
 
 async function main() {
-  listResourceProviderOperations();
+  await listResourceProviderOperations();
 }
 
 main().catch(console.error);

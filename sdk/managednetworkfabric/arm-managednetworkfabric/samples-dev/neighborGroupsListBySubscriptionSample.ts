@@ -37,7 +37,7 @@ async function neighborGroupsListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  neighborGroupsListBySubscriptionMaximumSetGen();
+  await neighborGroupsListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

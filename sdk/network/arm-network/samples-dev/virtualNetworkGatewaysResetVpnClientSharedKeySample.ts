@@ -35,7 +35,7 @@ async function resetVpnClientSharedKey() {
 }
 
 async function main() {
-  resetVpnClientSharedKey();
+  await resetVpnClientSharedKey();
 }
 
 main().catch(console.error);

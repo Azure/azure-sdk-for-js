@@ -46,7 +46,7 @@ async function queryPackUpdateTagsOnly() {
 }
 
 async function main() {
-  queryPackUpdateTagsOnly();
+  await queryPackUpdateTagsOnly();
 }
 
 main().catch(console.error);

@@ -59,8 +59,8 @@ async function loadBalancerNetworkInterfaceListVmss() {
 }
 
 async function main() {
-  loadBalancerNetworkInterfaceListSimple();
-  loadBalancerNetworkInterfaceListVmss();
+  await loadBalancerNetworkInterfaceListSimple();
+  await loadBalancerNetworkInterfaceListVmss();
 }
 
 main().catch(console.error);

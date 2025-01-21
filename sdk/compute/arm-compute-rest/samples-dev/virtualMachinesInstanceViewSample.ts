@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachinesInstanceViewParameters,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachinesInstanceViewParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Retrieves information about the run-time state of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceView.json
  */
-async function getVirtualMachineInstanceView() {
+async function getVirtualMachineInstanceView(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -42,7 +39,7 @@ getVirtualMachineInstanceView().catch(console.error);
  * @summary Retrieves information about the run-time state of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
  */
-async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

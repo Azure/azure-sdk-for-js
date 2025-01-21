@@ -138,10 +138,10 @@ async function quotasRequestForMachineLearningServicesLowPriorityResource() {
 }
 
 async function main() {
-  quotasPutRequestForNetwork();
-  quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource();
-  quotasPutRequestForCompute();
-  quotasRequestForMachineLearningServicesLowPriorityResource();
+  await quotasPutRequestForNetwork();
+  await quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource();
+  await quotasPutRequestForCompute();
+  await quotasRequestForMachineLearningServicesLowPriorityResource();
 }
 
 main().catch(console.error);

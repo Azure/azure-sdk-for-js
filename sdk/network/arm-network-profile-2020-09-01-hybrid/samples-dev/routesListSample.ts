@@ -37,7 +37,7 @@ async function listRoutes() {
 }
 
 async function main() {
-  listRoutes();
+  await listRoutes();
 }
 
 main().catch(console.error);

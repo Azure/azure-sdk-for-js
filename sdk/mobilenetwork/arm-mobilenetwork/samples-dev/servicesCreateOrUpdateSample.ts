@@ -77,7 +77,7 @@ async function createService() {
 }
 
 async function main() {
-  createService();
+  await createService();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Export, CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByBillingAccount.json
  */
-async function exportCreateOrUpdateByBillingAccount() {
+async function exportCreateOrUpdateByBillingAccount(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const exportName = "TestExport";
   const parameters: Export = {
@@ -74,7 +72,7 @@ async function exportCreateOrUpdateByBillingAccount() {
  * @summary The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByDepartment.json
  */
-async function exportCreateOrUpdateByDepartment() {
+async function exportCreateOrUpdateByDepartment(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
   const exportName = "TestExport";
@@ -129,7 +127,7 @@ async function exportCreateOrUpdateByDepartment() {
  * @summary The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByEnrollmentAccount.json
  */
-async function exportCreateOrUpdateByEnrollmentAccount() {
+async function exportCreateOrUpdateByEnrollmentAccount(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const exportName = "TestExport";
@@ -184,7 +182,7 @@ async function exportCreateOrUpdateByEnrollmentAccount() {
  * @summary The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByManagementGroup.json
  */
-async function exportCreateOrUpdateByManagementGroup() {
+async function exportCreateOrUpdateByManagementGroup(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/TestMG";
   const exportName = "TestExport";
   const parameters: Export = {
@@ -238,7 +236,7 @@ async function exportCreateOrUpdateByManagementGroup() {
  * @summary The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByResourceGroup.json
  */
-async function exportCreateOrUpdateByResourceGroup() {
+async function exportCreateOrUpdateByResourceGroup(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
   const exportName = "TestExport";
@@ -293,7 +291,7 @@ async function exportCreateOrUpdateByResourceGroup() {
  * @summary The operation to create or update a export. Update operation requires latest eTag to be set in the request. You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateBySubscription.json
  */
-async function exportCreateOrUpdateBySubscription() {
+async function exportCreateOrUpdateBySubscription(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const exportName = "TestExport";
   const parameters: Export = {
@@ -341,7 +339,7 @@ async function exportCreateOrUpdateBySubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   exportCreateOrUpdateByBillingAccount();
   exportCreateOrUpdateByDepartment();
   exportCreateOrUpdateByEnrollmentAccount();

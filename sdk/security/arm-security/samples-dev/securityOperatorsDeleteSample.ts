@@ -36,7 +36,7 @@ async function deleteSecurityOperatorOnSubscription() {
 }
 
 async function main() {
-  deleteSecurityOperatorOnSubscription();
+  await deleteSecurityOperatorOnSubscription();
 }
 
 main().catch(console.error);

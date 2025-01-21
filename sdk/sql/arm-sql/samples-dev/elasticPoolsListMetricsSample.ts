@@ -45,7 +45,7 @@ async function listDatabaseUsageMetrics() {
 }
 
 async function main() {
-  listDatabaseUsageMetrics();
+  await listDatabaseUsageMetrics();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function generateVirtualWanVpnServerConfigurationVpnProfile() {
 }
 
 async function main() {
-  generateVirtualWanVpnServerConfigurationVpnProfile();
+  await generateVirtualWanVpnServerConfigurationVpnProfile();
 }
 
 main().catch(console.error);

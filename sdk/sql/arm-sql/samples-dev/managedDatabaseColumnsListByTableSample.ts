@@ -45,7 +45,7 @@ async function listManagedDatabaseColumns() {
 }
 
 async function main() {
-  listManagedDatabaseColumns();
+  await listManagedDatabaseColumns();
 }
 
 main().catch(console.error);

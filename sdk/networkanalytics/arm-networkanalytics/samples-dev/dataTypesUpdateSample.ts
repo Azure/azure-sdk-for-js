@@ -77,8 +77,8 @@ async function dataTypesUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGe
 }
 
 async function main() {
-  dataTypesUpdateMaximumSetGen();
-  dataTypesUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataTypesUpdateMaximumSetGen();
+  await dataTypesUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

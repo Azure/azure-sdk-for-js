@@ -55,7 +55,7 @@ async function accountCreate() {
 }
 
 async function main() {
-  accountCreate();
+  await accountCreate();
 }
 
 main().catch(console.error);

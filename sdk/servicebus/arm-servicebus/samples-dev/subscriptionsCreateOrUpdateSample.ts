@@ -45,7 +45,7 @@ async function subscriptionCreate() {
 }
 
 async function main() {
-  subscriptionCreate();
+  await subscriptionCreate();
 }
 
 main().catch(console.error);

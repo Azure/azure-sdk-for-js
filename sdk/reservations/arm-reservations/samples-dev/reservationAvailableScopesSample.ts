@@ -44,7 +44,7 @@ async function availableScopes() {
 }
 
 async function main() {
-  availableScopes();
+  await availableScopes();
 }
 
 main().catch(console.error);

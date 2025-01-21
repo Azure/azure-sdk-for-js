@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about the deleted configuration stores in a subscription.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/DeletedConfigurationStoresList.json
  */
-async function deletedConfigurationStoresList() {
+async function deletedConfigurationStoresList(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -34,7 +34,7 @@ async function deletedConfigurationStoresList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletedConfigurationStoresList();
 }
 

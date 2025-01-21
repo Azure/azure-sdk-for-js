@@ -36,20 +36,16 @@ import {
   KnownAttestationType,
 } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-
-// Load environment from a .env file if it exists.
-import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers.js";
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils.js";
-
 import { X509 } from "jsrsasign";
-
-dotenv.config();
+// Load environment from a .env file if it exists.
+import "dotenv/config";
 
 /**
  * Sets the OpenEnclave attestation policy using an Unsecured attestation policy.
  */
-async function setOpenEnclaveAttestationPolicyAadUnsecured() {
+async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
   writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
 
   // Use the specified attestion URL.
@@ -102,7 +98,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured() {
   console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
 }
 
-async function setOpenEnclaveAttestationPolicyAadSecured() {
+async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
   writeBanner("Set Open Enclave Attestation Policy - Secured policy");
 
   // Use the specified attestion URL.
@@ -165,7 +161,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
 }
 
-async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
+async function setSgxEnclaveAttestationPolicyIsolatedSecured(): Promise<void> {
   writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
 
   // Use the specified attestion URL.
@@ -254,7 +250,7 @@ export function pemFromBase64(base64: string, pemType: PemType): string {
   return pem;
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await setOpenEnclaveAttestationPolicyAadUnsecured();
   await setOpenEnclaveAttestationPolicyAadSecured();
   await setSgxEnclaveAttestationPolicyIsolatedSecured();

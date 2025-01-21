@@ -47,7 +47,7 @@ async function kustoPoolsCreateOrUpdate() {
 }
 
 async function main() {
-  kustoPoolsCreateOrUpdate();
+  await kustoPoolsCreateOrUpdate();
 }
 
 main().catch(console.error);

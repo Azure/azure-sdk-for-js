@@ -42,7 +42,7 @@ async function privateEndpointConnectionsListByResource() {
 }
 
 async function main() {
-  privateEndpointConnectionsListByResource();
+  await privateEndpointConnectionsListByResource();
 }
 
 main().catch(console.error);

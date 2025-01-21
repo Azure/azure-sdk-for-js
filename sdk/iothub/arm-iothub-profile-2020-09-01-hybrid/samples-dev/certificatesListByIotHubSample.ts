@@ -37,7 +37,7 @@ async function certificatesListByIotHub() {
 }
 
 async function main() {
-  certificatesListByIotHub();
+  await certificatesListByIotHub();
 }
 
 main().catch(console.error);

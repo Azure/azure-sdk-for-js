@@ -65,8 +65,8 @@ async function prefixListLocalRulestackListByLocalRulestacksMinimumSetGen() {
 }
 
 async function main() {
-  prefixListLocalRulestackListByLocalRulestacksMaximumSetGen();
-  prefixListLocalRulestackListByLocalRulestacksMinimumSetGen();
+  await prefixListLocalRulestackListByLocalRulestacksMaximumSetGen();
+  await prefixListLocalRulestackListByLocalRulestacksMinimumSetGen();
 }
 
 main().catch(console.error);

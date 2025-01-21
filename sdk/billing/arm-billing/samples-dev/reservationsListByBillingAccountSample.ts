@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists the reservations in the billing account and the roll up counts of reservations group by provisioning states.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/reservationsListByBillingAccount.json
  */
-async function reservationsListByBillingAccount() {
+async function reservationsListByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const selectedState = "Succeeded";
@@ -40,7 +40,7 @@ async function reservationsListByBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationsListByBillingAccount();
 }
 

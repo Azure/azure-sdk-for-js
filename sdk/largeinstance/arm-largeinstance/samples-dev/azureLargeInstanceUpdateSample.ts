@@ -72,8 +72,8 @@ async function azureLargeInstanceUpdateTag() {
 }
 
 async function main() {
-  azureLargeInstanceDeleteTag();
-  azureLargeInstanceUpdateTag();
+  await azureLargeInstanceDeleteTag();
+  await azureLargeInstanceUpdateTag();
 }
 
 main().catch(console.error);

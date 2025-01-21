@@ -42,7 +42,7 @@ async function tablesDelete() {
 }
 
 async function main() {
-  tablesDelete();
+  await tablesDelete();
 }
 
 main().catch(console.error);

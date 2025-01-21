@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
 import type {
@@ -281,6 +281,13 @@ export interface LifetimeAction {
  * The action that will be executed.
  */
 export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
+
+/**
+ * The action that will be executed.
+ * @deprecated Use {@link CertificatePolicyAction} instead.
+ */
+// Re-exported for backwards compatibility, at some point both ActionType and CertificatePolicyAction were exported in the public API.
+export type ActionType = CertificatePolicyAction;
 
 /**
  * An interface representing a certificate's policy (without the subject properties).

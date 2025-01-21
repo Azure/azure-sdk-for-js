@@ -34,7 +34,7 @@ async function expressRoutePortGet() {
 }
 
 async function main() {
-  expressRoutePortGet();
+  await expressRoutePortGet();
 }
 
 main().catch(console.error);

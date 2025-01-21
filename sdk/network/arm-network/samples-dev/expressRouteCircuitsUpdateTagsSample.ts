@@ -36,7 +36,7 @@ async function updateExpressRouteCircuitTags() {
 }
 
 async function main() {
-  updateExpressRouteCircuitTags();
+  await updateExpressRouteCircuitTags();
 }
 
 main().catch(console.error);

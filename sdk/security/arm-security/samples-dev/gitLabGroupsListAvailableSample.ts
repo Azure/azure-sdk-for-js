@@ -36,7 +36,7 @@ async function listAvailableGitLabGroups() {
 }
 
 async function main() {
-  listAvailableGitLabGroups();
+  await listAvailableGitLabGroups();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getTenantConfiguration() {
 }
 
 async function main() {
-  getTenantConfiguration();
+  await getTenantConfiguration();
 }
 
 main().catch(console.error);

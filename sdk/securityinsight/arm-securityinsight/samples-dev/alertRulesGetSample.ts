@@ -111,10 +111,10 @@ async function getAnNrtAlertRule() {
 }
 
 async function main() {
-  getAFusionAlertRule();
-  getAMicrosoftSecurityIncidentCreationRule();
-  getAScheduledAlertRule();
-  getAnNrtAlertRule();
+  await getAFusionAlertRule();
+  await getAMicrosoftSecurityIncidentCreationRule();
+  await getAScheduledAlertRule();
+  await getAnNrtAlertRule();
 }
 
 main().catch(console.error);

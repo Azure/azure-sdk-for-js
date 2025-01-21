@@ -43,7 +43,7 @@ async function getsListOfLinkedStorageAccountsOnAWorkspace() {
 }
 
 async function main() {
-  getsListOfLinkedStorageAccountsOnAWorkspace();
+  await getsListOfLinkedStorageAccountsOnAWorkspace();
 }
 
 main().catch(console.error);

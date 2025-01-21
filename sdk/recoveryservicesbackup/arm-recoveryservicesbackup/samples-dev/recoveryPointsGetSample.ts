@@ -48,7 +48,7 @@ async function getAzureVMRecoveryPointDetails() {
 }
 
 async function main() {
-  getAzureVMRecoveryPointDetails();
+  await getAzureVMRecoveryPointDetails();
 }
 
 main().catch(console.error);

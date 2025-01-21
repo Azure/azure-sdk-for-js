@@ -36,7 +36,7 @@ async function deletesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroup
 }
 
 async function main() {
-  deletesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await deletesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getAllPrivateLinkResourcesInASpecificHdInsightCluster() {
 }
 
 async function main() {
-  getAllPrivateLinkResourcesInASpecificHdInsightCluster();
+  await getAllPrivateLinkResourcesInASpecificHdInsightCluster();
 }
 
 main().catch(console.error);

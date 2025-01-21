@@ -40,7 +40,7 @@ async function listAuditingSettingsOfAServer() {
 }
 
 async function main() {
-  listAuditingSettingsOfAServer();
+  await listAuditingSettingsOfAServer();
 }
 
 main().catch(console.error);

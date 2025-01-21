@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  GalleryApplicationsCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { GalleryApplicationsCreateOrUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Create or update a gallery Application Definition.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryApplication_Create.json
  */
-async function createOrUpdateASimpleGalleryApplication() {
+async function createOrUpdateASimpleGalleryApplication(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

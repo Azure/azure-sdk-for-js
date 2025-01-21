@@ -41,7 +41,7 @@ async function updateJitRequest() {
 }
 
 async function main() {
-  updateJitRequest();
+  await updateJitRequest();
 }
 
 main().catch(console.error);

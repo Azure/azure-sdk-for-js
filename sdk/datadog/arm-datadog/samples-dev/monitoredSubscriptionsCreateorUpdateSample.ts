@@ -14,9 +14,7 @@ import {
   MicrosoftDatadogClient
 } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Add the subscriptions that should be monitored by the Datadog monitor resource.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Add the subscriptions that should be monitored by the Datadog monitor resource.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/MonitoredSubscriptions_CreateorUpdate.json
  */
-async function monitorsAddMonitoredSubscriptions() {
+async function monitorsAddMonitoredSubscriptions(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -85,8 +83,8 @@ async function monitorsAddMonitoredSubscriptions() {
   console.log(result);
 }
 
-async function main() {
-  monitorsAddMonitoredSubscriptions();
+async function main(): Promise<void> {
+  await monitorsAddMonitoredSubscriptions();
 }
 
 main().catch(console.error);

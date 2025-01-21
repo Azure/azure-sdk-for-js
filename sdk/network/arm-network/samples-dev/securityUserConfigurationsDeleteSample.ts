@@ -44,7 +44,7 @@ async function deleteNetworkManagerSecurityUserConfiguration() {
 }
 
 async function main() {
-  deleteNetworkManagerSecurityUserConfiguration();
+  await deleteNetworkManagerSecurityUserConfiguration();
 }
 
 main().catch(console.error);

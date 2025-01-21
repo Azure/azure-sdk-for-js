@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about the specified application.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationGet.json
  */
-async function applicationGet() {
+async function applicationGet(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -34,7 +34,7 @@ async function applicationGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   applicationGet();
 }
 

@@ -33,7 +33,7 @@ async function getManagementGroupNetworkManagerConnection() {
 }
 
 async function main() {
-  getManagementGroupNetworkManagerConnection();
+  await getManagementGroupNetworkManagerConnection();
 }
 
 main().catch(console.error);

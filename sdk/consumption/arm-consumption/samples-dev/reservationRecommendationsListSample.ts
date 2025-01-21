@@ -13,9 +13,7 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of recommendations for purchasing reserved instances.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByBillingAccount.json
  */
-async function reservationRecommendationsByBillingAccountLegacy() {
+async function reservationRecommendationsByBillingAccountLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +41,7 @@ async function reservationRecommendationsByBillingAccountLegacy() {
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByBillingProfile.json
  */
-async function reservationRecommendationsByBillingProfileModern() {
+async function reservationRecommendationsByBillingProfileModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,7 +62,7 @@ async function reservationRecommendationsByBillingProfileModern() {
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByResourceGroup.json
  */
-async function reservationRecommendationsByResourceGroupLegacy() {
+async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -85,7 +83,7 @@ async function reservationRecommendationsByResourceGroupLegacy() {
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsBySubscription.json
  */
-async function reservationRecommendationsBySubscriptionLegacy() {
+async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -105,7 +103,7 @@ async function reservationRecommendationsBySubscriptionLegacy() {
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsFilterBySubscriptionForScopeLookBackPeriod.json
  */
-async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy() {
+async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -125,7 +123,7 @@ async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPer
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationRecommendationsByBillingAccountLegacy();
   reservationRecommendationsByBillingProfileModern();
   reservationRecommendationsByResourceGroupLegacy();

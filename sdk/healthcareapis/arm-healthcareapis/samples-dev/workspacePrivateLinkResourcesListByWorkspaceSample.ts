@@ -39,7 +39,7 @@ async function workspacePrivateLinkResourcesListGroupIds() {
 }
 
 async function main() {
-  workspacePrivateLinkResourcesListGroupIds();
+  await workspacePrivateLinkResourcesListGroupIds();
 }
 
 main().catch(console.error);

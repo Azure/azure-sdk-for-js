@@ -39,7 +39,7 @@ async function createAFileWorkspace() {
 }
 
 async function main() {
-  createAFileWorkspace();
+  await createAFileWorkspace();
 }
 
 main().catch(console.error);

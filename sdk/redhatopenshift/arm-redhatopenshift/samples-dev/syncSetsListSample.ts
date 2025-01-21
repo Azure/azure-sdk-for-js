@@ -39,7 +39,7 @@ async function listsSyncSetsThatBelongToThatAzureRedHatOpenShiftCluster() {
 }
 
 async function main() {
-  listsSyncSetsThatBelongToThatAzureRedHatOpenShiftCluster();
+  await listsSyncSetsThatBelongToThatAzureRedHatOpenShiftCluster();
 }
 
 main().catch(console.error);

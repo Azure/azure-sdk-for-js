@@ -41,7 +41,7 @@ async function topicCreate() {
 }
 
 async function main() {
-  topicCreate();
+  await topicCreate();
 }
 
 main().catch(console.error);

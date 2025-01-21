@@ -38,7 +38,7 @@ async function expressRouteCircuitConnectionGet() {
 }
 
 async function main() {
-  expressRouteCircuitConnectionGet();
+  await expressRouteCircuitConnectionGet();
 }
 
 main().catch(console.error);

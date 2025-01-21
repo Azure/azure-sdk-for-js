@@ -76,8 +76,8 @@ async function availabilitySetsCreateOrUpdateMinimumSet() {
 }
 
 async function main() {
-  availabilitySetsCreateOrUpdateMaximumSet();
-  availabilitySetsCreateOrUpdateMinimumSet();
+  await availabilitySetsCreateOrUpdateMaximumSet();
+  await availabilitySetsCreateOrUpdateMinimumSet();
 }
 
 main().catch(console.error);

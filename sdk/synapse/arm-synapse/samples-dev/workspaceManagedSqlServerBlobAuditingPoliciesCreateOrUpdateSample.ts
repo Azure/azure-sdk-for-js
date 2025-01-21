@@ -88,8 +88,8 @@ async function createOrUpdateBlobAuditingPolicyOfWorkspaceManagedSqlServerWithMi
 }
 
 async function main() {
-  createOrUpdateBlobAuditingPolicyOfWorkspaceSqlServerWithAllParameters();
-  createOrUpdateBlobAuditingPolicyOfWorkspaceManagedSqlServerWithMinimalParameters();
+  await createOrUpdateBlobAuditingPolicyOfWorkspaceSqlServerWithAllParameters();
+  await createOrUpdateBlobAuditingPolicyOfWorkspaceManagedSqlServerWithMinimalParameters();
 }
 
 main().catch(console.error);

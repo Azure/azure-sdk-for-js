@@ -62,7 +62,7 @@ async function storageAccountCreate() {
 }
 
 async function main() {
-  storageAccountCreate();
+  await storageAccountCreate();
 }
 
 main().catch(console.error);

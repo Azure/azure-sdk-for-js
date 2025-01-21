@@ -41,7 +41,7 @@ async function assessmentsGetReportDownloadUrl() {
 }
 
 async function main() {
-  assessmentsGetReportDownloadUrl();
+  await assessmentsGetReportDownloadUrl();
 }
 
 main().catch(console.error);

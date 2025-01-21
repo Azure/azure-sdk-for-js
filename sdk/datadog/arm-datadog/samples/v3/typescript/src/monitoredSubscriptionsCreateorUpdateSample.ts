@@ -14,9 +14,7 @@ import {
   MicrosoftDatadogClient
 } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Add the subscriptions that should be monitored by the Datadog monitor resource.

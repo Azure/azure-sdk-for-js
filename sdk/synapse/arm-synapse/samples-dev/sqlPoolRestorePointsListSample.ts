@@ -42,7 +42,7 @@ async function getAListOfRestorePointsOfASqlAnalyticsPool() {
 }
 
 async function main() {
-  getAListOfRestorePointsOfASqlAnalyticsPool();
+  await getAListOfRestorePointsOfASqlAnalyticsPool();
 }
 
 main().catch(console.error);

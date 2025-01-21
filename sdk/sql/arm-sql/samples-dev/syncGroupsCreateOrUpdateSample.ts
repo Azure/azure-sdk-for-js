@@ -85,8 +85,8 @@ async function updateASyncGroup() {
 }
 
 async function main() {
-  createASyncGroup();
-  updateASyncGroup();
+  await createASyncGroup();
+  await updateASyncGroup();
 }
 
 main().catch(console.error);

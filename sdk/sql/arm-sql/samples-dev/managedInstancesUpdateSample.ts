@@ -105,9 +105,9 @@ async function updateManagedInstanceWithMinimalProperties() {
 }
 
 async function main() {
-  removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenancePolicy();
-  updateManagedInstanceWithAllProperties();
-  updateManagedInstanceWithMinimalProperties();
+  await removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenancePolicy();
+  await updateManagedInstanceWithAllProperties();
+  await updateManagedInstanceWithMinimalProperties();
 }
 
 main().catch(console.error);
