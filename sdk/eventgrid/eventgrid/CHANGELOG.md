@@ -9,7 +9,7 @@
 - For `AcsSmsReceivedEventData`:
   - Added `segmentCount` property
 
-### Bug fix
+### Bugs Fixed
 
 - For `AcsSmsReceivedEventData`:
   - Made `message` & `receivedTimestamp` properties optional.
