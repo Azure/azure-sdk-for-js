@@ -9,7 +9,7 @@
  *
  */
 
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AIProjectsClient, ToolUtility} from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
@@ -32,6 +32,7 @@ export async function main(): Promise<void> {
 const storageServiceEndpoint = process.env["STORAGE_SERVICE_ENDPOINT"] || "<storage-service-endpoint>";
 
 // [START create_agent_with_azure_function_tool]
+const azureFunctionTool1 = ToolUtility.createAzureFunctionTool({connectionId: connection.id, functionName: "foo" });
 const azureFunctionTool = {
   name: "foo",
   description: "Get answers from the foo bot.",

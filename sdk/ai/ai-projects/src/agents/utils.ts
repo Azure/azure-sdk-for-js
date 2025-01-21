@@ -116,6 +116,31 @@ export class ToolUtility {
   }
 
   /**
+   * Creates an Azure Function tool with input and output queues
+   *
+   * @param functionDefinition - The definition of azure function and its parameters.
+   * @param inputQueue - The input queue configuration.
+   * @param outputQueue - The output queue configuration.
+   *
+   * @returns An object containing the definition and resources for the Azure Function tool.
+   */
+  static createAzureFunctionTool(
+    functionDefinition: FunctionDefinition,
+    inputQueue: { queueName: string; storageServiceEndpoint: string },
+    outputQueue: { queueName: string; storageServiceEndpoint: string },
+  ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
+    return {
+      definition: { type: "azure_function" },
+      resources: {
+        azureFunction: {
+          functionDefinition: functionDefinition,
+          inputQueue: inputQueue,
+          outputQueue: outputQueue,
+        },
+      },
+    };
+  }
+  /**
    * Creates an Azure AI search tool
    *
    * @param indexConnectionId - The connection ID of the Azure AI search index.
