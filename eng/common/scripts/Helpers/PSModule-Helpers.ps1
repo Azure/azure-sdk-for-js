@@ -79,7 +79,6 @@ function moduleIsInstalled([string]$moduleName, [string]$version) {
   if ($version -as [Version]) {
     $modules = $modules.Where({ [Version]$_.Version -ge [Version]$version })
     if ($modules.Count -gt 0) {
-      Write-Host "Using module $($modules[0].Name) with version $($modules[0].Version)."
       return $modules[0]
     }
   }
