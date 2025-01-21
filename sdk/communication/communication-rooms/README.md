@@ -134,7 +134,7 @@ import { RoomsClient, UpdateRoomOptions } from "@azure/communication-rooms";
 const credential = new DefaultAzureCredential();
 const client = new RoomsClient("<endpoint-from-resource>", credential);
 
-const validFrom = new Date(Date.now());
+const validFrom = new Date();
 const validForDays = 60;
 const validUntil = new Date(validFrom.getTime());
 validUntil.setDate(validFrom.getDate() + validForDays);
