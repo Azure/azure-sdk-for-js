@@ -318,6 +318,20 @@ One way to subscribe to Azure Communication Services Job Router events is throug
 
 Refer to our ["subscribe to Job Router events" documentation](https://learn.microsoft.com/azure/communication-services/how-tos/router-sdk/subscribe-events) to better understand subscribing to Job Router events.
 
+```ts snippet:ignore
+app.post('/event', (req, res) => {
+    req.body.forEach(eventGridEvent => {
+        // Deserialize the event data into the appropriate type
+        if (eventGridEvent.eventType === "Microsoft.EventGrid.SubscriptionValidationEvent") {
+            res.send({ validationResponse: eventGridEvent.data.validationCode });
+        } else if (eventGridEvent.eventType === "Microsoft.Azure.CommunicationServices.RouterWorkerOfferIssued") {
+           // RouterWorkerOfferIssued handling logic;
+        } else if ...
+    });
+    ...
+});
+```
+
 ### Accept or Decline the Job Offer
 
 Once you receive a `RouterWorkerOfferIssued` event you can accept or decline the job offer.

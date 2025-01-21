@@ -107,7 +107,7 @@ const result = await routerClient
   .patch({
     contentType: "application/merge-patch+json",
     body: {
-      name: "distribution policy 123",
+      name: "distribution-policy-123",
       mode: {
         kind: "longestIdle",
         minConcurrentOffers: 1,
@@ -332,6 +332,20 @@ One way to subscribe to ACS Job Router events is through the Azure Portal.
 3. Select an appropriate means to receive the event (e.g. Webhook, Azure Functions, Service Bus).
 
 Refer to our ["subscribe to Job Router events" documentation](https://learn.microsoft.com/azure/communication-services/how-tos/router-sdk/subscribe-events) to better understand subscribing to Job Router events.
+
+```ts snippet:ignore
+app.post('/event', (req, res) => {
+    req.body.forEach(eventGridEvent => {
+        // Deserialize the event data into the appropriate type
+        if (eventGridEvent.eventType === "Microsoft.EventGrid.SubscriptionValidationEvent") {
+            res.send({ validationResponse: eventGridEvent.data.validationCode });
+        } else if (eventGridEvent.eventType === "Microsoft.Azure.CommunicationServices.RouterWorkerOfferIssued") {
+           // RouterWorkerOfferIssued handling logic;
+        } else if ...
+    });
+    ...
+});
+```
 
 ### Accept or Decline the Job Offer
 
