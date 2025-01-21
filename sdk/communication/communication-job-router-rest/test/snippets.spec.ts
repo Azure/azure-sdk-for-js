@@ -182,11 +182,7 @@ describe("snippets", () => {
     const assignmentId = "assignment-id";
     // @ts-preserve-whitespace
     const completeJob = await routerClient
-      .path(
-        "/routing/jobs/{jobId}/assignments/{assignmentId}:complete",
-        jobId,
-        assignmentId,
-      )
+      .path("/routing/jobs/{jobId}/assignments/{assignmentId}:complete", jobId, assignmentId)
       .post({
         body: {
           note: `Job has been completed by ${workerId} at ${new Date()}`,
@@ -204,11 +200,7 @@ describe("snippets", () => {
     const assignmentId = "assignment-id";
     // @ts-preserve-whitespace
     const closeJob = await routerClient
-      .path(
-        "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
-        jobId,
-        assignmentId,
-      )
+      .path("/routing/jobs/{jobId}/assignments/{assignmentId}:close", jobId, assignmentId)
       .post({
         body: {
           note: `Job has been closed by ${workerId} at ${new Date()}`,
