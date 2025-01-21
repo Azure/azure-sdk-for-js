@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ContentSafetyClient, { isUnexpected } from "../src/index.js";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
+import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected } from "../src/index.js";
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { readFileSync } from "node:fs";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -357,6 +358,7 @@ describe("snippets", () => {
     const client = ContentSafetyClient(endpoint, credential);
     // @ts-preserve-whitespace
     const blockItemId = "<blockItemId>";
+    const blocklistName = "TestBlocklist";
     // @ts-preserve-whitespace
     const blockItem = await client
       .path(
@@ -387,6 +389,8 @@ describe("snippets", () => {
     const client = ContentSafetyClient(endpoint, credential);
     // @ts-preserve-whitespace
     const blockItemId = "<blockItemId>";
+    const blocklistName = "TestBlocklist";
+    const blockItemText = "sample";
     // @ts-preserve-whitespace
     const removeBlocklistItemsParameters = {
       body: {
