@@ -74,18 +74,6 @@ If you use a key to initialize the client you will also need to provide the appr
 
 ## Usage
 
-### Creating an instance of CommunicationIdentityClient
-
-```ts snippet:ReadmeSampleCreateClient_TokenCredential
-import { DefaultAzureCredential } from "@azure/identity";
-import { CommunicationIdentityClient } from "@azure/communication-identity";
-
-const endpoint = "https://contoso.eastus.communications.azure.net";
-
-const credential = new DefaultAzureCredential();
-const client = new CommunicationIdentityClient(endpoint, credential);
-```
-
 ### Creating a new user
 
 Use the `createUser` method to create a new user.
