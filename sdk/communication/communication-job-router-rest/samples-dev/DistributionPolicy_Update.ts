@@ -23,7 +23,7 @@ async function updateDistributionPolicy(): Promise<void> {
       body: {
         name: "distribution-policy-123",
         mode: {
-          kind: "longest-idle",
+          kind: "longestIdle",
           minConcurrentOffers: 1,
           maxConcurrentOffers: 5,
           bypassSelectors: false,
