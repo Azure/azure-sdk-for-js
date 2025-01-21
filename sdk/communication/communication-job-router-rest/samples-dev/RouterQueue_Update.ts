@@ -20,7 +20,7 @@ async function updateJobQueue(): Promise<void> {
     .patch({
       contentType: "application/merge-patch+json",
       body: {
-        name: "distribution-policy-123",
+        name: "distribution policy 123",
         mode: {
           kind: "longestIdle",
           minConcurrentOffers: 1,
