@@ -103,6 +103,7 @@ describe("CIInfoProvider", () => {
     process.env["SYSTEM_DEFINITIONID"] = "def123";
     process.env["SYSTEM_JOBATTEMPT"] = "1";
     process.env["RELEASE_DEFINITIONID"] = "Rdef123";
+    process.env["SYSTEM_JOBDISPLAYNAME"] = "";
     process.env["RELEASE_DEPLOYMENTID"] = "Rdep123";
 
     const ciInfo = CIInfoProvider.getCIInfo();
