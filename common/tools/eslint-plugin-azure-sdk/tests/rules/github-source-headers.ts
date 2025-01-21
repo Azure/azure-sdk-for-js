@@ -40,6 +40,11 @@ ruleTester.run("github-source-headers", rule, {
       filename: "file.ts",
     },
     {
+      // only the fields we care about
+      code: valid,
+      filename: "file-browser.mts",
+    },
+    {
       // incorrect format but in a file we don't care about
       code: 'console.log("hello")',
       filename: "test.js",
@@ -50,6 +55,17 @@ ruleTester.run("github-source-headers", rule, {
       // no comments
       code: 'console.log("hello")',
       filename: "file.ts",
+      errors: [
+        {
+          message: configError,
+        },
+      ],
+      output: valid,
+    },
+    {
+      // no comments .mts
+      code: 'console.log("hello")',
+      filename: "file-browser.mts",
       errors: [
         {
           message: configError,

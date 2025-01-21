@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.5 (2025-01-21)
+
+### Other Changes
+
+- Added `internetMessageId` property to `AcsEmailDeliveryReportReceivedEventData`.
+- Added `recipientMailServerHostName` property to `AcsEmailDeliveryReportStatusDetails`.
+- For `AcsSmsReceivedEventData`:
+  - Added `segmentCount` property
+- Regenerated SDK with latest commit.
+
 ## 1.0.0-beta.4 (2024-09-23)
 
 ### Other Changes
