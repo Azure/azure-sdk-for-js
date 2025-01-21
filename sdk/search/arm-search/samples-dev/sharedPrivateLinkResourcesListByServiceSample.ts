@@ -37,7 +37,7 @@ async function listSharedPrivateLinkResourcesByService() {
 }
 
 async function main() {
-  listSharedPrivateLinkResourcesByService();
+  await listSharedPrivateLinkResourcesByService();
 }
 
 main().catch(console.error);

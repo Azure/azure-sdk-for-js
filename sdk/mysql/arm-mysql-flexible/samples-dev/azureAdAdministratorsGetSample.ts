@@ -41,7 +41,7 @@ async function getAnAzureAdAdministrator() {
 }
 
 async function main() {
-  getAnAzureAdAdministrator();
+  await getAnAzureAdAdministrator();
 }
 
 main().catch(console.error);

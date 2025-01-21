@@ -35,7 +35,7 @@ async function virtualHubListByResourceGroup() {
 }
 
 async function main() {
-  virtualHubListByResourceGroup();
+  await virtualHubListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function createExpressRoutePortAuthorization() {
 }
 
 async function main() {
-  createExpressRoutePortAuthorization();
+  await createExpressRoutePortAuthorization();
 }
 
 main().catch(console.error);

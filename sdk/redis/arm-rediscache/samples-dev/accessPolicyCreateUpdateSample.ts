@@ -41,7 +41,7 @@ async function redisCacheAccessPolicyCreateUpdate() {
 }
 
 async function main() {
-  redisCacheAccessPolicyCreateUpdate();
+  await redisCacheAccessPolicyCreateUpdate();
 }
 
 main().catch(console.error);

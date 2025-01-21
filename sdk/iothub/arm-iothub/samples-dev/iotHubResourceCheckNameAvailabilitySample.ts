@@ -34,7 +34,7 @@ async function iotHubResourceCheckNameAvailability() {
 }
 
 async function main() {
-  iotHubResourceCheckNameAvailability();
+  await iotHubResourceCheckNameAvailability();
 }
 
 main().catch(console.error);

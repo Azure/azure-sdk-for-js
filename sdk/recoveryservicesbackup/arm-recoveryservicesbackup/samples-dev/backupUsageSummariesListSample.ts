@@ -74,8 +74,8 @@ async function getProtectedItemsUsagesSummary() {
 }
 
 async function main() {
-  getProtectedContainersUsagesSummary();
-  getProtectedItemsUsagesSummary();
+  await getProtectedContainersUsagesSummary();
+  await getProtectedItemsUsagesSummary();
 }
 
 main().catch(console.error);

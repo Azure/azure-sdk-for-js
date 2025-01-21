@@ -36,7 +36,7 @@ async function attachedNetworksGetByProject(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  attachedNetworksGetByProject();
+  await attachedNetworksGetByProject();
 }
 
 main().catch(console.error);

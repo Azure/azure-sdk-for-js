@@ -79,8 +79,8 @@ async function listUserCustomClusterLibraries() {
 }
 
 async function main() {
-  listPredefinedClusterLibraries();
-  listUserCustomClusterLibraries();
+  await listPredefinedClusterLibraries();
+  await listUserCustomClusterLibraries();
 }
 
 main().catch(console.error);

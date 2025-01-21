@@ -40,7 +40,7 @@ async function l2IsolationDomainsDeleteMaximumSetGen() {
 }
 
 async function main() {
-  l2IsolationDomainsDeleteMaximumSetGen();
+  await l2IsolationDomainsDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

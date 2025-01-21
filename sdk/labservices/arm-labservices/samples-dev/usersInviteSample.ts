@@ -41,7 +41,7 @@ async function inviteUser() {
 }
 
 async function main() {
-  inviteUser();
+  await inviteUser();
 }
 
 main().catch(console.error);

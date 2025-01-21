@@ -41,7 +41,7 @@ async function putImage() {
 }
 
 async function main() {
-  putImage();
+  await putImage();
 }
 
 main().catch(console.error);

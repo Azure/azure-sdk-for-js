@@ -39,7 +39,7 @@ async function deleteAnAgreement() {
 }
 
 async function main() {
-  deleteAnAgreement();
+  await deleteAnAgreement();
 }
 
 main().catch(console.error);

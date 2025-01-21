@@ -37,7 +37,7 @@ async function deleteDataCollectionRule() {
 }
 
 async function main() {
-  deleteDataCollectionRule();
+  await deleteDataCollectionRule();
 }
 
 main().catch(console.error);

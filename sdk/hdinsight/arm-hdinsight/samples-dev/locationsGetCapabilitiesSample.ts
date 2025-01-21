@@ -30,7 +30,7 @@ async function getTheSubscriptionCapabilitiesForSpecificLocation() {
 }
 
 async function main() {
-  getTheSubscriptionCapabilitiesForSpecificLocation();
+  await getTheSubscriptionCapabilitiesForSpecificLocation();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function triggersStart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersStart();
+  await triggersStart();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function volumesFinalizeRelocation() {
 }
 
 async function main() {
-  volumesFinalizeRelocation();
+  await volumesFinalizeRelocation();
 }
 
 main().catch(console.error);

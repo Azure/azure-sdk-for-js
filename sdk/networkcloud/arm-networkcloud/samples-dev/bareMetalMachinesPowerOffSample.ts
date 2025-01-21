@@ -47,7 +47,7 @@ async function powerOffBareMetalMachine() {
 }
 
 async function main() {
-  powerOffBareMetalMachine();
+  await powerOffBareMetalMachine();
 }
 
 main().catch(console.error);

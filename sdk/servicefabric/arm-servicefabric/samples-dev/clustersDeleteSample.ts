@@ -34,7 +34,7 @@ async function deleteACluster() {
 }
 
 async function main() {
-  deleteACluster();
+  await deleteACluster();
 }
 
 main().catch(console.error);

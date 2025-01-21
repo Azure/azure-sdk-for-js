@@ -38,7 +38,7 @@ async function projectCatalogsPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectCatalogsPatch();
+  await projectCatalogsPatch();
 }
 
 main().catch(console.error);

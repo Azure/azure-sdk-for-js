@@ -40,7 +40,7 @@ async function getAllAlertRules() {
 }
 
 async function main() {
-  getAllAlertRules();
+  await getAllAlertRules();
 }
 
 main().catch(console.error);

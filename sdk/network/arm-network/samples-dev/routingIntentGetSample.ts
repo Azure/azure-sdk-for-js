@@ -36,7 +36,7 @@ async function routeTableGet() {
 }
 
 async function main() {
-  routeTableGet();
+  await routeTableGet();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function deletesAOutboundFirewallRuleWithAGivenName() {
 }
 
 async function main() {
-  deletesAOutboundFirewallRuleWithAGivenName();
+  await deletesAOutboundFirewallRuleWithAGivenName();
 }
 
 main().catch(console.error);

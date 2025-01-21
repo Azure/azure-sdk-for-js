@@ -34,7 +34,7 @@ async function getDiscoveredSecuritySolutions() {
 }
 
 async function main() {
-  getDiscoveredSecuritySolutions();
+  await getDiscoveredSecuritySolutions();
 }
 
 main().catch(console.error);

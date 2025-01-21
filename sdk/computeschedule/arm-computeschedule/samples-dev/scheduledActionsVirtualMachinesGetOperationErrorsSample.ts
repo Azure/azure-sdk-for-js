@@ -37,8 +37,8 @@ async function csScheduledActionsVirtualMachinesGetOperationErrorsMin(): Promise
 }
 
 async function main(): Promise<void> {
-  csScheduledActionsVirtualMachinesGetOperationErrorsMax();
-  csScheduledActionsVirtualMachinesGetOperationErrorsMin();
+  await csScheduledActionsVirtualMachinesGetOperationErrorsMax();
+  await csScheduledActionsVirtualMachinesGetOperationErrorsMin();
 }
 
 main().catch(console.error);

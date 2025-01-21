@@ -49,7 +49,7 @@ async function setsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool() {
 }
 
 async function main() {
-  setsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool();
+  await setsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool();
 }
 
 main().catch(console.error);

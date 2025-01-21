@@ -53,7 +53,7 @@ async function listWorkspaceFeaturestoreEntityContainer() {
 }
 
 async function main() {
-  listWorkspaceFeaturestoreEntityContainer();
+  await listWorkspaceFeaturestoreEntityContainer();
 }
 
 main().catch(console.error);

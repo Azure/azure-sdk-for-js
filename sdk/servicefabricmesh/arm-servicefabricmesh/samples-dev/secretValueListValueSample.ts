@@ -42,7 +42,7 @@ async function listSecretValue() {
 }
 
 async function main() {
-  listSecretValue();
+  await listSecretValue();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listAllGuestConfigurationAssignmentsForAVirtualMachine() {
 }
 
 async function main() {
-  listAllGuestConfigurationAssignmentsForAVirtualMachine();
+  await listAllGuestConfigurationAssignmentsForAVirtualMachine();
 }
 
 main().catch(console.error);

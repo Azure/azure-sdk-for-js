@@ -39,7 +39,7 @@ async function caCertificatesDelete() {
 }
 
 async function main() {
-  caCertificatesDelete();
+  await caCertificatesDelete();
 }
 
 main().catch(console.error);

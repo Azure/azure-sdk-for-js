@@ -37,7 +37,7 @@ async function listAnAutonomousVersionsByLocation() {
 }
 
 async function main() {
-  listAnAutonomousVersionsByLocation();
+  await listAnAutonomousVersionsByLocation();
 }
 
 main().catch(console.error);

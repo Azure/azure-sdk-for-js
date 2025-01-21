@@ -190,10 +190,10 @@ async function createCloneAutonomousDatabase() {
 }
 
 async function main() {
-  autonomousDatabasesCreateOrUpdate();
-  autonomousDatabasesCreateOrUpdateClone();
-  createAutonomousDatabase();
-  createCloneAutonomousDatabase();
+  await autonomousDatabasesCreateOrUpdate();
+  await autonomousDatabasesCreateOrUpdateClone();
+  await createAutonomousDatabase();
+  await createCloneAutonomousDatabase();
 }
 
 main().catch(console.error);

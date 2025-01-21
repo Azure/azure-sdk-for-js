@@ -40,7 +40,7 @@ async function getsTheVaultSetting() {
 }
 
 async function main() {
-  getsTheVaultSetting();
+  await getsTheVaultSetting();
 }
 
 main().catch(console.error);

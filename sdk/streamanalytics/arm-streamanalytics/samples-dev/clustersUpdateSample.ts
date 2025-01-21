@@ -45,7 +45,7 @@ async function updateACluster() {
 }
 
 async function main() {
-  updateACluster();
+  await updateACluster();
 }
 
 main().catch(console.error);

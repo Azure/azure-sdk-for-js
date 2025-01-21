@@ -43,7 +43,7 @@ async function updateExpressRouteCrossConnection() {
 }
 
 async function main() {
-  updateExpressRouteCrossConnection();
+  await updateExpressRouteCrossConnection();
 }
 
 main().catch(console.error);

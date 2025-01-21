@@ -46,7 +46,7 @@ async function queueAuthorizationRuleCreate() {
 }
 
 async function main() {
-  queueAuthorizationRuleCreate();
+  await queueAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

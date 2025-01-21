@@ -37,7 +37,7 @@ async function listAvailableOperationsForTheStreamAnalyticsResourceProvider() {
 }
 
 async function main() {
-  listAvailableOperationsForTheStreamAnalyticsResourceProvider();
+  await listAvailableOperationsForTheStreamAnalyticsResourceProvider();
 }
 
 main().catch(console.error);

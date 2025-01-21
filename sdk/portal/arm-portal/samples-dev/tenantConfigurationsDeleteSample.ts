@@ -32,7 +32,7 @@ async function deleteTenantConfiguration() {
 }
 
 async function main() {
-  deleteTenantConfiguration();
+  await deleteTenantConfiguration();
 }
 
 main().catch(console.error);

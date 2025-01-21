@@ -34,7 +34,7 @@ async function partnerNamespacesListBySubscription() {
 }
 
 async function main() {
-  partnerNamespacesListBySubscription();
+  await partnerNamespacesListBySubscription();
 }
 
 main().catch(console.error);

@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineImagesListPublishersParameters,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineImagesListPublishersParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListPublishers_MaximumSet_Gen.json
  */
-async function virtualMachineImagesListPublishersMaximumSetGen() {
+async function virtualMachineImagesListPublishersMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -40,7 +37,7 @@ virtualMachineImagesListPublishersMaximumSetGen().catch(console.error);
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListPublishers_MinimumSet_Gen.json
  */
-async function virtualMachineImagesListPublishersMinimumSetGen() {
+async function virtualMachineImagesListPublishersMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

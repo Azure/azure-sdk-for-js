@@ -36,7 +36,7 @@ async function getAIoTSecuritySolution() {
 }
 
 async function main() {
-  getAIoTSecuritySolution();
+  await getAIoTSecuritySolution();
 }
 
 main().catch(console.error);

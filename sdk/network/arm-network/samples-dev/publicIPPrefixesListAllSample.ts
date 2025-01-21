@@ -32,7 +32,7 @@ async function listAllPublicIPPrefixes() {
 }
 
 async function main() {
-  listAllPublicIPPrefixes();
+  await listAllPublicIPPrefixes();
 }
 
 main().catch(console.error);

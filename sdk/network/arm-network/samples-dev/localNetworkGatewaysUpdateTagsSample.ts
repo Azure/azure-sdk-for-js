@@ -36,7 +36,7 @@ async function updateLocalNetworkGatewayTags() {
 }
 
 async function main() {
-  updateLocalNetworkGatewayTags();
+  await updateLocalNetworkGatewayTags();
 }
 
 main().catch(console.error);

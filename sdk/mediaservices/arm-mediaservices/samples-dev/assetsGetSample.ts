@@ -39,7 +39,7 @@ async function getAnAssetByName() {
 }
 
 async function main() {
-  getAnAssetByName();
+  await getAnAssetByName();
 }
 
 main().catch(console.error);

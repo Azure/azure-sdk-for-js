@@ -35,7 +35,7 @@ async function getDigitalTwinsInstanceResourcesBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDigitalTwinsInstanceResourcesBySubscription();
+  await getDigitalTwinsInstanceResourcesBySubscription();
 }
 
 main().catch(console.error);

@@ -52,7 +52,7 @@ async function executeUnplannedFailoverOfTheRecoveryPlan() {
 }
 
 async function main() {
-  executeUnplannedFailoverOfTheRecoveryPlan();
+  await executeUnplannedFailoverOfTheRecoveryPlan();
 }
 
 main().catch(console.error);

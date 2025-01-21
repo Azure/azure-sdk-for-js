@@ -41,7 +41,7 @@ async function environmentTypesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentTypesCreateOrUpdate();
+  await environmentTypesCreateOrUpdate();
 }
 
 main().catch(console.error);

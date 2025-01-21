@@ -37,7 +37,7 @@ async function globalParametersDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  globalParametersDelete();
+  await globalParametersDelete();
 }
 
 main().catch(console.error);

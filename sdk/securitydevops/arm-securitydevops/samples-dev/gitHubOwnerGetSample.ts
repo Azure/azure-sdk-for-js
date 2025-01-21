@@ -39,7 +39,7 @@ async function gitHubOwnerGet() {
 }
 
 async function main() {
-  gitHubOwnerGet();
+  await gitHubOwnerGet();
 }
 
 main().catch(console.error);

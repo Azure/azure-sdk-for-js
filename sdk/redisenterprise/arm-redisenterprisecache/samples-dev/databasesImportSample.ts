@@ -52,7 +52,7 @@ async function redisEnterpriseDatabasesImport() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesImport();
+  await redisEnterpriseDatabasesImport();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function updateMetadata() {
 }
 
 async function main() {
-  updateMetadata();
+  await updateMetadata();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listSimGroupsInAResourceGroup() {
 }
 
 async function main() {
-  listSimGroupsInAResourceGroup();
+  await listSimGroupsInAResourceGroup();
 }
 
 main().catch(console.error);

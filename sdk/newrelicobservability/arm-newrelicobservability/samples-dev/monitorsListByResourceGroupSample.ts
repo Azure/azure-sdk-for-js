@@ -38,7 +38,7 @@ async function monitorsListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  monitorsListByResourceGroupMaximumSetGen();
+  await monitorsListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

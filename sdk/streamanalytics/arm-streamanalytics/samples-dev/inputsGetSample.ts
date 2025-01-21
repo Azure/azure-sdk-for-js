@@ -107,10 +107,10 @@ async function getAStreamBlobInputWithCsvSerialization() {
 }
 
 async function main() {
-  getAReferenceBlobInputWithCsvSerialization();
-  getAStreamEventHubInputWithJsonSerialization();
-  getAStreamIoTHubInputWithAvroSerialization();
-  getAStreamBlobInputWithCsvSerialization();
+  await getAReferenceBlobInputWithCsvSerialization();
+  await getAStreamEventHubInputWithJsonSerialization();
+  await getAStreamIoTHubInputWithAvroSerialization();
+  await getAStreamBlobInputWithCsvSerialization();
 }
 
 main().catch(console.error);

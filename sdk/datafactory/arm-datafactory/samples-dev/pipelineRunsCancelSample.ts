@@ -37,7 +37,7 @@ async function pipelineRunsCancel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelineRunsCancel();
+  await pipelineRunsCancel();
 }
 
 main().catch(console.error);

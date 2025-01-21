@@ -79,8 +79,8 @@ async function projectCatalogsCreateOrUpdateGitHub(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectCatalogsCreateOrUpdateAdo();
-  projectCatalogsCreateOrUpdateGitHub();
+  await projectCatalogsCreateOrUpdateAdo();
+  await projectCatalogsCreateOrUpdateGitHub();
 }
 
 main().catch(console.error);

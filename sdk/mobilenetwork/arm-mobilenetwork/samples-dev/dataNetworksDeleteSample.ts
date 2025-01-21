@@ -39,7 +39,7 @@ async function deleteDataNetwork() {
 }
 
 async function main() {
-  deleteDataNetwork();
+  await deleteDataNetwork();
 }
 
 main().catch(console.error);

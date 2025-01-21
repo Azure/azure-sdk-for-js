@@ -252,8 +252,8 @@ async function putAClusterWithMinimumParameters() {
 }
 
 async function main() {
-  putAClusterWithMaximumParameters();
-  putAClusterWithMinimumParameters();
+  await putAClusterWithMaximumParameters();
+  await putAClusterWithMinimumParameters();
 }
 
 main().catch(console.error);

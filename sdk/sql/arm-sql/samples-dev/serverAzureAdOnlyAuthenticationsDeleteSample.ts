@@ -40,7 +40,7 @@ async function deletesAzureActiveDirectoryOnlyAuthenticationObject() {
 }
 
 async function main() {
-  deletesAzureActiveDirectoryOnlyAuthenticationObject();
+  await deletesAzureActiveDirectoryOnlyAuthenticationObject();
 }
 
 main().catch(console.error);

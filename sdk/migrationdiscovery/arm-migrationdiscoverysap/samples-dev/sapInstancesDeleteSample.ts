@@ -39,7 +39,7 @@ async function deletesTheSapInstanceResource() {
 }
 
 async function main() {
-  deletesTheSapInstanceResource();
+  await deletesTheSapInstanceResource();
 }
 
 main().catch(console.error);

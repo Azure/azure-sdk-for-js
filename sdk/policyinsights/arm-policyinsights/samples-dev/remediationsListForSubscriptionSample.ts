@@ -61,8 +61,8 @@ async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
 }
 
 async function main() {
-  listRemediationsAtSubscriptionScope();
-  listRemediationsAtSubscriptionScopeWithQueryParameters();
+  await listRemediationsAtSubscriptionScope();
+  await listRemediationsAtSubscriptionScopeWithQueryParameters();
 }
 
 main().catch(console.error);

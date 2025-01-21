@@ -53,7 +53,7 @@ async function createOrGetStartPendingUploadRegistryModelVersion() {
 }
 
 async function main() {
-  createOrGetStartPendingUploadRegistryModelVersion();
+  await createOrGetStartPendingUploadRegistryModelVersion();
 }
 
 main().catch(console.error);

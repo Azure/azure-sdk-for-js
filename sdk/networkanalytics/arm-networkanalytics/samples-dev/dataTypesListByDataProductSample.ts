@@ -65,8 +65,8 @@ async function dataTypesListByDataProductMaximumSetGenGeneratedByMinimumSetRuleM
 }
 
 async function main() {
-  dataTypesListByDataProductMaximumSetGen();
-  dataTypesListByDataProductMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataTypesListByDataProductMaximumSetGen();
+  await dataTypesListByDataProductMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

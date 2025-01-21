@@ -37,7 +37,7 @@ async function getSpecificOperationStatus() {
 }
 
 async function main() {
-  getSpecificOperationStatus();
+  await getSpecificOperationStatus();
 }
 
 main().catch(console.error);

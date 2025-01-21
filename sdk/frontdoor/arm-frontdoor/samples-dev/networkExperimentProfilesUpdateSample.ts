@@ -43,7 +43,7 @@ async function updatesAnExperiment() {
 }
 
 async function main() {
-  updatesAnExperiment();
+  await updatesAnExperiment();
 }
 
 main().catch(console.error);

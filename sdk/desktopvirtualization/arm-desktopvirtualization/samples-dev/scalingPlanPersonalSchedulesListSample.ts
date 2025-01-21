@@ -50,7 +50,7 @@ async function scalingPlanPersonalSchedulesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlanPersonalSchedulesList();
+  await scalingPlanPersonalSchedulesList();
 }
 
 main().catch(console.error);

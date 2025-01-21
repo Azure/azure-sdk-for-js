@@ -50,7 +50,7 @@ async function redisEnterpriseDatabasesExport() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesExport();
+  await redisEnterpriseDatabasesExport();
 }
 
 main().catch(console.error);

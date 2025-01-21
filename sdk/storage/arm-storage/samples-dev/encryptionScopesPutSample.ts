@@ -67,8 +67,8 @@ async function storageAccountPutEncryptionScopeWithInfrastructureEncryption() {
 }
 
 async function main() {
-  storageAccountPutEncryptionScope();
-  storageAccountPutEncryptionScopeWithInfrastructureEncryption();
+  await storageAccountPutEncryptionScope();
+  await storageAccountPutEncryptionScopeWithInfrastructureEncryption();
 }
 
 main().catch(console.error);

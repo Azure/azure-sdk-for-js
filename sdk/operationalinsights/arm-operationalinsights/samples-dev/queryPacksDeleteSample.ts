@@ -40,7 +40,7 @@ async function queryPacksDelete() {
 }
 
 async function main() {
-  queryPacksDelete();
+  await queryPacksDelete();
 }
 
 main().catch(console.error);

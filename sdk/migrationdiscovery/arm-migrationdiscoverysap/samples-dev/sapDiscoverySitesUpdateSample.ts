@@ -42,7 +42,7 @@ async function updatesASapMigrationDiscoverySiteResource() {
 }
 
 async function main() {
-  updatesASapMigrationDiscoverySiteResource();
+  await updatesASapMigrationDiscoverySiteResource();
 }
 
 main().catch(console.error);

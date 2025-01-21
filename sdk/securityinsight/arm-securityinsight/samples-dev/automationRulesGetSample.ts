@@ -39,7 +39,7 @@ async function automationRulesGet() {
 }
 
 async function main() {
-  automationRulesGet();
+  await automationRulesGet();
 }
 
 main().catch(console.error);

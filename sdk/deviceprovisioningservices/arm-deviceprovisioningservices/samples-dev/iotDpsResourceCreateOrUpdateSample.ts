@@ -82,8 +82,8 @@ async function dpsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsCreate();
-  dpsUpdate();
+  await dpsCreate();
+  await dpsUpdate();
 }
 
 main().catch(console.error);

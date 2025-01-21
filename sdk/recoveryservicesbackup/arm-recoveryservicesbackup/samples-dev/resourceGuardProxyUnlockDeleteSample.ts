@@ -51,7 +51,7 @@ async function unlockDeleteResourceGuardProxy() {
 }
 
 async function main() {
-  unlockDeleteResourceGuardProxy();
+  await unlockDeleteResourceGuardProxy();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function deleteTheMigrationItem() {
 }
 
 async function main() {
-  deleteTheMigrationItem();
+  await deleteTheMigrationItem();
 }
 
 main().catch(console.error);

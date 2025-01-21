@@ -37,7 +37,7 @@ async function listAppliancesBySubscription() {
 }
 
 async function main() {
-  listAppliancesBySubscription();
+  await listAppliancesBySubscription();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function updatesAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updatesAccount();
+  await updatesAccount();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getAPrivateLinkHub() {
 }
 
 async function main() {
-  getAPrivateLinkHub();
+  await getAPrivateLinkHub();
 }
 
 main().catch(console.error);

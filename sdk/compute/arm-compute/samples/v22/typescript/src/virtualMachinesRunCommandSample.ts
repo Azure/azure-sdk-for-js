@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RunCommandInput, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Run command on the VM.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Run command on the VM.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineRunCommand.json
  */
-async function virtualMachineRunCommand() {
+async function virtualMachineRunCommand(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] ||
     "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
@@ -38,7 +36,7 @@ async function virtualMachineRunCommand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineRunCommand();
 }
 

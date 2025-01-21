@@ -41,7 +41,7 @@ async function kustoPoolPrincipalAssignmentsGet() {
 }
 
 async function main() {
-  kustoPoolPrincipalAssignmentsGet();
+  await kustoPoolPrincipalAssignmentsGet();
 }
 
 main().catch(console.error);

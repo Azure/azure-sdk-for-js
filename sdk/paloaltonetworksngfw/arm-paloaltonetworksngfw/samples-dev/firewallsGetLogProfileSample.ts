@@ -59,8 +59,8 @@ async function firewallsGetLogProfileMinimumSetGen() {
 }
 
 async function main() {
-  firewallsGetLogProfileMaximumSetGen();
-  firewallsGetLogProfileMinimumSetGen();
+  await firewallsGetLogProfileMaximumSetGen();
+  await firewallsGetLogProfileMinimumSetGen();
 }
 
 main().catch(console.error);

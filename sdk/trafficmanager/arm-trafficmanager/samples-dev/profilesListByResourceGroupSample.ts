@@ -38,7 +38,7 @@ async function listProfilesByResourceGroup() {
 }
 
 async function main() {
-  listProfilesByResourceGroup();
+  await listProfilesByResourceGroup();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function userSessionSendMessagePost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  userSessionSendMessagePost();
+  await userSessionSendMessagePost();
 }
 
 main().catch(console.error);

@@ -54,7 +54,7 @@ async function createNetworkInterface() {
 }
 
 async function main() {
-  createNetworkInterface();
+  await createNetworkInterface();
 }
 
 main().catch(console.error);

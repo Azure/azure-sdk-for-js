@@ -38,7 +38,7 @@ async function managedVirtualNetworksListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedVirtualNetworksListByFactory();
+  await managedVirtualNetworksListByFactory();
 }
 
 main().catch(console.error);

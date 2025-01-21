@@ -67,8 +67,8 @@ async function getAzureIaasVMProtectionPolicyDetails() {
 }
 
 async function main() {
-  getAzureIaasVMEnhancedProtectionPolicyDetails();
-  getAzureIaasVMProtectionPolicyDetails();
+  await getAzureIaasVMEnhancedProtectionPolicyDetails();
+  await getAzureIaasVMProtectionPolicyDetails();
 }
 
 main().catch(console.error);

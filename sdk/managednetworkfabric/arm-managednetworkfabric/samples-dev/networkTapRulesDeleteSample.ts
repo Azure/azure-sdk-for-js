@@ -40,7 +40,7 @@ async function networkTapRulesDeleteMaximumSetGen() {
 }
 
 async function main() {
-  networkTapRulesDeleteMaximumSetGen();
+  await networkTapRulesDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

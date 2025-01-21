@@ -47,7 +47,7 @@ async function createACustomEntityStoreAssignment() {
 }
 
 async function main() {
-  createACustomEntityStoreAssignment();
+  await createACustomEntityStoreAssignment();
 }
 
 main().catch(console.error);

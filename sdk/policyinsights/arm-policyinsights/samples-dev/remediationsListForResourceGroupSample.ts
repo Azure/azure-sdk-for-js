@@ -70,8 +70,8 @@ async function listRemediationsAtResourceGroupScopeWithQueryParameters() {
 }
 
 async function main() {
-  listRemediationsAtResourceGroupScope();
-  listRemediationsAtResourceGroupScopeWithQueryParameters();
+  await listRemediationsAtResourceGroupScope();
+  await listRemediationsAtResourceGroupScopeWithQueryParameters();
 }
 
 main().catch(console.error);

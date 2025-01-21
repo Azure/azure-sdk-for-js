@@ -34,7 +34,7 @@ async function queryLatestAtSubscriptionLevelPolicyAssignmentScope() {
 }
 
 async function main() {
-  queryLatestAtSubscriptionLevelPolicyAssignmentScope();
+  await queryLatestAtSubscriptionLevelPolicyAssignmentScope();
 }
 
 main().catch(console.error);

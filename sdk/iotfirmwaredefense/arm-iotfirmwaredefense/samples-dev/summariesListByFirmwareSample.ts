@@ -69,8 +69,8 @@ async function summariesListByFirmwareMinimumSetGen() {
 }
 
 async function main() {
-  summariesListByFirmwareMaximumSetGen();
-  summariesListByFirmwareMinimumSetGen();
+  await summariesListByFirmwareMaximumSetGen();
+  await summariesListByFirmwareMinimumSetGen();
 }
 
 main().catch(console.error);

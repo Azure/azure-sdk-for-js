@@ -41,7 +41,7 @@ async function redisEnterpriseListByResourceGroup() {
 }
 
 async function main() {
-  redisEnterpriseListByResourceGroup();
+  await redisEnterpriseListByResourceGroup();
 }
 
 main().catch(console.error);

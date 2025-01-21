@@ -50,7 +50,7 @@ async function startSqlVirtualMachineTroubleshootingOperation() {
 }
 
 async function main() {
-  startSqlVirtualMachineTroubleshootingOperation();
+  await startSqlVirtualMachineTroubleshootingOperation();
 }
 
 main().catch(console.error);

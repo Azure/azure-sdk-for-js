@@ -63,8 +63,8 @@ async function tagRulesDeleteMinimumSetGen() {
 }
 
 async function main() {
-  tagRulesDeleteMaximumSetGen();
-  tagRulesDeleteMinimumSetGen();
+  await tagRulesDeleteMaximumSetGen();
+  await tagRulesDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

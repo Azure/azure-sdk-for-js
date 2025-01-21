@@ -35,7 +35,7 @@ async function getUser() {
 }
 
 async function main() {
-  getUser();
+  await getUser();
 }
 
 main().catch(console.error);

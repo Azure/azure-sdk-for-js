@@ -32,7 +32,7 @@ async function dpsOperations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsOperations();
+  await dpsOperations();
 }
 
 main().catch(console.error);

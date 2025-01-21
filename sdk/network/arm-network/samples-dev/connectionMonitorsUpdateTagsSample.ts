@@ -38,7 +38,7 @@ async function updateConnectionMonitorTags() {
 }
 
 async function main() {
-  updateConnectionMonitorTags();
+  await updateConnectionMonitorTags();
 }
 
 main().catch(console.error);

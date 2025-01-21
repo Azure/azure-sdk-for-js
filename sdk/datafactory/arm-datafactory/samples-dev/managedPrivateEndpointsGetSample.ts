@@ -39,7 +39,7 @@ async function managedPrivateEndpointsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointsGet();
+  await managedPrivateEndpointsGet();
 }
 
 main().catch(console.error);

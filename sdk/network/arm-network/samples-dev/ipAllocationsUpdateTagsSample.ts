@@ -36,7 +36,7 @@ async function updateVirtualNetworkTags() {
 }
 
 async function main() {
-  updateVirtualNetworkTags();
+  await updateVirtualNetworkTags();
 }
 
 main().catch(console.error);

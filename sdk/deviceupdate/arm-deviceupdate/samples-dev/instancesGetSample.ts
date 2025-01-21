@@ -37,7 +37,7 @@ async function getsListOfInstances(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsListOfInstances();
+  await getsListOfInstances();
 }
 
 main().catch(console.error);

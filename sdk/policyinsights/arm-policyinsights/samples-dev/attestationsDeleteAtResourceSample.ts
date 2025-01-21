@@ -32,7 +32,7 @@ async function deleteAttestationAtIndividualResourceScope() {
 }
 
 async function main() {
-  deleteAttestationAtIndividualResourceScope();
+  await deleteAttestationAtIndividualResourceScope();
 }
 
 main().catch(console.error);

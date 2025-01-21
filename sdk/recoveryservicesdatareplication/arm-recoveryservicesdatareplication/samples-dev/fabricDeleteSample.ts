@@ -41,7 +41,7 @@ async function fabricDelete() {
 }
 
 async function main() {
-  fabricDelete();
+  await fabricDelete();
 }
 
 main().catch(console.error);

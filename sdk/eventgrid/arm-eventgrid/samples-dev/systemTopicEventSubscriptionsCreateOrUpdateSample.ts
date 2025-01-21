@@ -55,7 +55,7 @@ async function systemTopicEventSubscriptionsCreateOrUpdate() {
 }
 
 async function main() {
-  systemTopicEventSubscriptionsCreateOrUpdate();
+  await systemTopicEventSubscriptionsCreateOrUpdate();
 }
 
 main().catch(console.error);

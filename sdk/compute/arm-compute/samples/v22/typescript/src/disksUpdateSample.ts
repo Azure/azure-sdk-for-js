@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DiskUpdate, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a disk.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_CreateOrUpdate_BurstingEnabled.json
  */
-async function createOrUpdateABurstingEnabledManagedDisk() {
+async function createOrUpdateABurstingEnabledManagedDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -43,7 +41,7 @@ async function createOrUpdateABurstingEnabledManagedDisk() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddAcceleratedNetworking.json
  */
-async function updateAManagedDiskToAddAcceleratedNetworking() {
+async function updateAManagedDiskToAddAcceleratedNetworking(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -68,7 +66,7 @@ async function updateAManagedDiskToAddAcceleratedNetworking() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_ToAddArchitecture.json
  */
-async function updateAManagedDiskToAddArchitecture() {
+async function updateAManagedDiskToAddArchitecture(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -91,7 +89,7 @@ async function updateAManagedDiskToAddArchitecture() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddPurchasePlan.json
  */
-async function updateAManagedDiskToAddPurchasePlan() {
+async function updateAManagedDiskToAddPurchasePlan(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -121,7 +119,7 @@ async function updateAManagedDiskToAddPurchasePlan() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddSupportsHibernation.json
  */
-async function updateAManagedDiskToAddSupportsHibernation() {
+async function updateAManagedDiskToAddSupportsHibernation(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -144,7 +142,7 @@ async function updateAManagedDiskToAddSupportsHibernation() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_ChangeTier.json
  */
-async function updateAManagedDiskToChangeTier() {
+async function updateAManagedDiskToChangeTier(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -167,7 +165,7 @@ async function updateAManagedDiskToChangeTier() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_DisableBursting.json
  */
-async function updateAManagedDiskToDisableBursting() {
+async function updateAManagedDiskToDisableBursting(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -190,7 +188,7 @@ async function updateAManagedDiskToDisableBursting() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_DisableOptimizedForFrequentAttach.json
  */
-async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
+async function updateAManagedDiskToDisableOptimizedForFrequentAttach(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -213,7 +211,7 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddDiskControllerTypes.json
  */
-async function updateAManagedDiskWithDiskControllerTypes() {
+async function updateAManagedDiskWithDiskControllerTypes(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -238,7 +236,7 @@ async function updateAManagedDiskWithDiskControllerTypes() {
  * @summary Updates (patches) a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_RemoveDiskAccess.json
  */
-async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
+async function updateManagedDiskToRemoveDiskAccessResourceAssociation(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -255,7 +253,7 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateABurstingEnabledManagedDisk();
   updateAManagedDiskToAddAcceleratedNetworking();
   updateAManagedDiskToAddArchitecture();

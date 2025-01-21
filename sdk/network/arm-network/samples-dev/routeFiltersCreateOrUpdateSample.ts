@@ -47,7 +47,7 @@ async function routeFilterCreate() {
 }
 
 async function main() {
-  routeFilterCreate();
+  await routeFilterCreate();
 }
 
 main().catch(console.error);

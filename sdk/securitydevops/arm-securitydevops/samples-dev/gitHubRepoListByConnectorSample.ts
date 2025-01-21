@@ -40,7 +40,7 @@ async function gitHubRepoListByConnector() {
 }
 
 async function main() {
-  gitHubRepoListByConnector();
+  await gitHubRepoListByConnector();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function cloneListOfSiMSToTargetSimGroup() {
 }
 
 async function main() {
-  cloneListOfSiMSToTargetSimGroup();
+  await cloneListOfSiMSToTargetSimGroup();
 }
 
 main().catch(console.error);

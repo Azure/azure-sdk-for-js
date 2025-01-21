@@ -37,7 +37,7 @@ async function triggersUnsubscribeFromEvents(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersUnsubscribeFromEvents();
+  await triggersUnsubscribeFromEvents();
 }
 
 main().catch(console.error);

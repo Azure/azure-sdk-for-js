@@ -40,7 +40,7 @@ async function reachabilityAnalysisRunGet() {
 }
 
 async function main() {
-  reachabilityAnalysisRunGet();
+  await reachabilityAnalysisRunGet();
 }
 
 main().catch(console.error);

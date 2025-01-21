@@ -44,7 +44,7 @@ async function getRegistryDataVersionBase() {
 }
 
 async function main() {
-  getRegistryDataVersionBase();
+  await getRegistryDataVersionBase();
 }
 
 main().catch(console.error);

@@ -232,10 +232,10 @@ async function createsAContentKeyPolicyWithMultipleOptions() {
 }
 
 async function main() {
-  createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction();
-  createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction();
-  createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction();
-  createsAContentKeyPolicyWithMultipleOptions();
+  await createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction();
+  await createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction();
+  await createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction();
+  await createsAContentKeyPolicyWithMultipleOptions();
 }
 
 main().catch(console.error);

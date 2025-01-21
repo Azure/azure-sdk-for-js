@@ -43,7 +43,7 @@ async function listEffectiveConnectivityConfiguration() {
 }
 
 async function main() {
-  listEffectiveConnectivityConfiguration();
+  await listEffectiveConnectivityConfiguration();
 }
 
 main().catch(console.error);

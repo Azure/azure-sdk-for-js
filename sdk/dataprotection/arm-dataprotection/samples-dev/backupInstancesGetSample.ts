@@ -37,7 +37,7 @@ async function getBackupInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBackupInstance();
+  await getBackupInstance();
 }
 
 main().catch(console.error);

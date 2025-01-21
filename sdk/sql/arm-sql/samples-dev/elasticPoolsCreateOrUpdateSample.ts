@@ -223,13 +223,13 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs()
 }
 
 async function main() {
-  createOrUpdateAnElasticPoolWithAvailabilityZone();
-  createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter();
-  createOrUpdateElasticPoolWithAllParameter();
-  createOrUpdateElasticPoolWithMaintenanceConfigurationParameter();
-  createOrUpdateElasticPoolWithMinimumParameters();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
+  await createOrUpdateAnElasticPoolWithAvailabilityZone();
+  await createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter();
+  await createOrUpdateElasticPoolWithAllParameter();
+  await createOrUpdateElasticPoolWithMaintenanceConfigurationParameter();
+  await createOrUpdateElasticPoolWithMinimumParameters();
+  await createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
+  await createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
 }
 
 main().catch(console.error);

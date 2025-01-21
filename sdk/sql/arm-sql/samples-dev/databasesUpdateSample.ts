@@ -201,12 +201,12 @@ async function updatesADatabase() {
 }
 
 async function main() {
-  assignsMaintenanceWindowToADatabase();
-  createsADatabaseWithVbsEnclaveType();
-  patchADatabaseWithDatabaseLevelCustomerManagedKeys();
-  resetsMaintenanceWindowOfADatabaseToDefault();
-  updatesADatabaseWithDefaultEnclaveType();
-  updatesADatabase();
+  await assignsMaintenanceWindowToADatabase();
+  await createsADatabaseWithVbsEnclaveType();
+  await patchADatabaseWithDatabaseLevelCustomerManagedKeys();
+  await resetsMaintenanceWindowOfADatabaseToDefault();
+  await updatesADatabaseWithDefaultEnclaveType();
+  await updatesADatabase();
 }
 
 main().catch(console.error);

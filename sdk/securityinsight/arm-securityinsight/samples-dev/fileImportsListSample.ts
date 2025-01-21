@@ -47,7 +47,7 @@ async function getAllFileImports() {
 }
 
 async function main() {
-  getAllFileImports();
+  await getAllFileImports();
 }
 
 main().catch(console.error);

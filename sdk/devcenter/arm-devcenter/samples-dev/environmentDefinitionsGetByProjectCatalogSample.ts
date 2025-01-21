@@ -38,7 +38,7 @@ async function environmentDefinitionsGetByProjectCatalog(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentDefinitionsGetByProjectCatalog();
+  await environmentDefinitionsGetByProjectCatalog();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function connectedPartnerResourcesList() {
 }
 
 async function main() {
-  connectedPartnerResourcesList();
+  await connectedPartnerResourcesList();
 }
 
 main().catch(console.error);

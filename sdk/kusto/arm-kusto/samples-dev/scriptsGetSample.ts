@@ -41,7 +41,7 @@ async function kustoScriptsGet() {
 }
 
 async function main() {
-  kustoScriptsGet();
+  await kustoScriptsGet();
 }
 
 main().catch(console.error);

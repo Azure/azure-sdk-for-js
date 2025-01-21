@@ -40,7 +40,7 @@ async function resetVirtualNetworkGatewayConnectionSharedKey() {
 }
 
 async function main() {
-  resetVirtualNetworkGatewayConnectionSharedKey();
+  await resetVirtualNetworkGatewayConnectionSharedKey();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function domainsCreateOrUpdate() {
 }
 
 async function main() {
-  domainsCreateOrUpdate();
+  await domainsCreateOrUpdate();
 }
 
 main().catch(console.error);

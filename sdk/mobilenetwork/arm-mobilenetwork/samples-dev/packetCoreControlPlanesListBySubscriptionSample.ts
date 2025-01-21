@@ -34,7 +34,7 @@ async function listPacketCoreControlPlanesInASubscription() {
 }
 
 async function main() {
-  listPacketCoreControlPlanesInASubscription();
+  await listPacketCoreControlPlanesInASubscription();
 }
 
 main().catch(console.error);

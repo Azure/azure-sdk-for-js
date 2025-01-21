@@ -41,7 +41,7 @@ async function getDataMaskingRule() {
 }
 
 async function main() {
-  getDataMaskingRule();
+  await getDataMaskingRule();
 }
 
 main().catch(console.error);

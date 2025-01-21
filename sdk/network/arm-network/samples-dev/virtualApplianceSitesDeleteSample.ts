@@ -36,7 +36,7 @@ async function deleteNetworkVirtualApplianceSite() {
 }
 
 async function main() {
-  deleteNetworkVirtualApplianceSite();
+  await deleteNetworkVirtualApplianceSite();
 }
 
 main().catch(console.error);

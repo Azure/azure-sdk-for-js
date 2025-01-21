@@ -39,7 +39,7 @@ async function systemTopicEventSubscriptionsGetFullUrl() {
 }
 
 async function main() {
-  systemTopicEventSubscriptionsGetFullUrl();
+  await systemTopicEventSubscriptionsGetFullUrl();
 }
 
 main().catch(console.error);

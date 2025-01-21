@@ -36,7 +36,7 @@ async function getExpressRouteCircuitPeeringTrafficStats() {
 }
 
 async function main() {
-  getExpressRouteCircuitPeeringTrafficStats();
+  await getExpressRouteCircuitPeeringTrafficStats();
 }
 
 main().catch(console.error);

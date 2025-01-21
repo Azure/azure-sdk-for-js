@@ -37,7 +37,7 @@ async function attachedNetworksListByDevCenter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  attachedNetworksListByDevCenter();
+  await attachedNetworksListByDevCenter();
 }
 
 main().catch(console.error);

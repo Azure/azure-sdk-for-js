@@ -68,7 +68,7 @@ async function createOrUpdateWorkspaceBatchEndpoint() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceBatchEndpoint();
+  await createOrUpdateWorkspaceBatchEndpoint();
 }
 
 main().catch(console.error);

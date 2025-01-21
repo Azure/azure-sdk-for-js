@@ -38,7 +38,7 @@ async function credentialsListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  credentialsListByFactory();
+  await credentialsListByFactory();
 }
 
 main().catch(console.error);

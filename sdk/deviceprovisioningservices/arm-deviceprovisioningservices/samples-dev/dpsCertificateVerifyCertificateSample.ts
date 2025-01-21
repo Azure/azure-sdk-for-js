@@ -47,7 +47,7 @@ async function dpsVerifyCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsVerifyCertificate();
+  await dpsVerifyCertificate();
 }
 
 main().catch(console.error);

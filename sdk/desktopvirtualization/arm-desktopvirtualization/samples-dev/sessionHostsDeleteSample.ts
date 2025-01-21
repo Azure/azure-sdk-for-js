@@ -43,7 +43,7 @@ async function sessionHostDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sessionHostDelete();
+  await sessionHostDelete();
 }
 
 main().catch(console.error);

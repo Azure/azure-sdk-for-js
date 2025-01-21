@@ -43,7 +43,7 @@ async function redisEnterpriseListPrivateEndpointConnections() {
 }
 
 async function main() {
-  redisEnterpriseListPrivateEndpointConnections();
+  await redisEnterpriseListPrivateEndpointConnections();
 }
 
 main().catch(console.error);

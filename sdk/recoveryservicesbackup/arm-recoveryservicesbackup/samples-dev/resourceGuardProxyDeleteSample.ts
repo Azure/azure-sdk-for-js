@@ -40,7 +40,7 @@ async function deleteResourceGuardProxy() {
 }
 
 async function main() {
-  deleteResourceGuardProxy();
+  await deleteResourceGuardProxy();
 }
 
 main().catch(console.error);

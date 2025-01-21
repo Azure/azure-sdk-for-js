@@ -48,7 +48,7 @@ async function updateATrack() {
 }
 
 async function main() {
-  updateATrack();
+  await updateATrack();
 }
 
 main().catch(console.error);

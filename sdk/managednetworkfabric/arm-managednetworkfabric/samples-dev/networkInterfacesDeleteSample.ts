@@ -42,7 +42,7 @@ async function networkInterfacesDeleteMaximumSetGen() {
 }
 
 async function main() {
-  networkInterfacesDeleteMaximumSetGen();
+  await networkInterfacesDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

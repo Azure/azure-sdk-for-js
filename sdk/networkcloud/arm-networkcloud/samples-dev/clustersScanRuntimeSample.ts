@@ -48,7 +48,7 @@ async function executeARuntimeProtectionScanOnTheCluster() {
 }
 
 async function main() {
-  executeARuntimeProtectionScanOnTheCluster();
+  await executeARuntimeProtectionScanOnTheCluster();
 }
 
 main().catch(console.error);

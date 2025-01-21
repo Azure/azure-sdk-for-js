@@ -44,7 +44,7 @@ async function devicesDelete() {
 }
 
 async function main() {
-  devicesDelete();
+  await devicesDelete();
 }
 
 main().catch(console.error);

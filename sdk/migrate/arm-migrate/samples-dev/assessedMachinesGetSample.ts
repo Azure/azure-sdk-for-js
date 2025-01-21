@@ -43,7 +43,7 @@ async function assessedMachinesGet() {
 }
 
 async function main() {
-  assessedMachinesGet();
+  await assessedMachinesGet();
 }
 
 main().catch(console.error);

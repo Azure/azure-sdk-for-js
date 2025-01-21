@@ -83,8 +83,8 @@ async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalP
 }
 
 async function main() {
-  updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters();
-  updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalParameters();
+  await updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters();
+  await updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

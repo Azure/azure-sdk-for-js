@@ -75,7 +75,7 @@ async function patchBareMetalMachineKeySetOfCluster() {
 }
 
 async function main() {
-  patchBareMetalMachineKeySetOfCluster();
+  await patchBareMetalMachineKeySetOfCluster();
 }
 
 main().catch(console.error);

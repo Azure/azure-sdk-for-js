@@ -37,7 +37,7 @@ async function integrationRuntimesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesDelete();
+  await integrationRuntimesDelete();
 }
 
 main().catch(console.error);

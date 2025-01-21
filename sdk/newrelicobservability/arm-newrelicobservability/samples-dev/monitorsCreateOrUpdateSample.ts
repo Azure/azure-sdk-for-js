@@ -57,7 +57,7 @@ async function monitorsCreateOrUpdateMaximumSetGen() {
 }
 
 async function main() {
-  monitorsCreateOrUpdateMaximumSetGen();
+  await monitorsCreateOrUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function deleteContainers() {
 }
 
 async function main() {
-  deleteContainers();
+  await deleteContainers();
 }
 
 main().catch(console.error);

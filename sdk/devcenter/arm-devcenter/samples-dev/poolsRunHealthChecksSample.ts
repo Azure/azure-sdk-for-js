@@ -36,7 +36,7 @@ async function poolsRefreshStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  poolsRefreshStatus();
+  await poolsRefreshStatus();
 }
 
 main().catch(console.error);

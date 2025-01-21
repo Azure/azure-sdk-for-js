@@ -34,7 +34,7 @@ async function deleteDDoSCustomPolicy() {
 }
 
 async function main() {
-  deleteDDoSCustomPolicy();
+  await deleteDDoSCustomPolicy();
 }
 
 main().catch(console.error);

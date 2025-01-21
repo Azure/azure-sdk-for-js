@@ -39,7 +39,7 @@ async function backupVaultsList() {
 }
 
 async function main() {
-  backupVaultsList();
+  await backupVaultsList();
 }
 
 main().catch(console.error);

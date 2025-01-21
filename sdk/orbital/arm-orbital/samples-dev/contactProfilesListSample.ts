@@ -36,7 +36,7 @@ async function listOfContactProfilesByResourceGroup() {
 }
 
 async function main() {
-  listOfContactProfilesByResourceGroup();
+  await listOfContactProfilesByResourceGroup();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function listKeysAppliance() {
 }
 
 async function main() {
-  listKeysAppliance();
+  await listKeysAppliance();
 }
 
 main().catch(console.error);

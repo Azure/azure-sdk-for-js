@@ -48,7 +48,7 @@ async function updateAStreamingJob() {
 }
 
 async function main() {
-  updateAStreamingJob();
+  await updateAStreamingJob();
 }
 
 main().catch(console.error);

@@ -88,8 +88,8 @@ async function listManagedOnlineDeploymentSkus() {
 }
 
 async function main() {
-  listKubernetesOnlineDeploymentSkus();
-  listManagedOnlineDeploymentSkus();
+  await listKubernetesOnlineDeploymentSkus();
+  await listManagedOnlineDeploymentSkus();
 }
 
 main().catch(console.error);

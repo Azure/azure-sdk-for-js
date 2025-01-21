@@ -39,7 +39,7 @@ async function getTheCallbackUrlForAnIntegrationAccountAssembly() {
 }
 
 async function main() {
-  getTheCallbackUrlForAnIntegrationAccountAssembly();
+  await getTheCallbackUrlForAnIntegrationAccountAssembly();
 }
 
 main().catch(console.error);

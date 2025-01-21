@@ -40,7 +40,7 @@ async function getApplication() {
 }
 
 async function main() {
-  getApplication();
+  await getApplication();
 }
 
 main().catch(console.error);

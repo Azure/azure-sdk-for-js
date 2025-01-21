@@ -47,7 +47,7 @@ async function getProtectedAzureVMRecoveryPoints() {
 }
 
 async function main() {
-  getProtectedAzureVMRecoveryPoints();
+  await getProtectedAzureVMRecoveryPoints();
 }
 
 main().catch(console.error);

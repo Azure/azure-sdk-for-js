@@ -34,7 +34,7 @@ async function gitHubConnectorListBySubscription() {
 }
 
 async function main() {
-  gitHubConnectorListBySubscription();
+  await gitHubConnectorListBySubscription();
 }
 
 main().catch(console.error);

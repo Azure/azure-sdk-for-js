@@ -31,7 +31,7 @@ async function devCentersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devCentersGet();
+  await devCentersGet();
 }
 
 main().catch(console.error);

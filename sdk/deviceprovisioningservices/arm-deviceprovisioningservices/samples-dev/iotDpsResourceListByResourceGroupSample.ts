@@ -37,7 +37,7 @@ async function dpsListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsListByResourceGroup();
+  await dpsListByResourceGroup();
 }
 
 main().catch(console.error);

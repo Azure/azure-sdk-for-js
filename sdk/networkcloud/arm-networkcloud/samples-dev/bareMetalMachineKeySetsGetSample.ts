@@ -39,7 +39,7 @@ async function getBareMetalMachineKeySetOfCluster() {
 }
 
 async function main() {
-  getBareMetalMachineKeySetOfCluster();
+  await getBareMetalMachineKeySetOfCluster();
 }
 
 main().catch(console.error);

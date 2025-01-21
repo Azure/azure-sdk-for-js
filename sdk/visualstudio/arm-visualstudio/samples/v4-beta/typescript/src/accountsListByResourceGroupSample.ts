@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all Visual Studio Team Services account resources under the resource group linked to the specified Azure subscription.
  * x-ms-original-file: specification/visualstudio/resource-manager/Microsoft.VisualStudio/preview/2014-04-01-preview/examples/GetResources_List.json
  */
-async function getAListOfAccountResourcesInTheResourceGroup() {
+async function getAListOfAccountResourcesInTheResourceGroup(): Promise<void> {
   const subscriptionId = "0de7f055-dbea-498d-8e9e-da287eedca90";
   const resourceGroupName = "VS-Example-Group";
   const credential = new DefaultAzureCredential();

@@ -59,7 +59,7 @@ async function createAttachedDataNetwork() {
 }
 
 async function main() {
-  createAttachedDataNetwork();
+  await createAttachedDataNetwork();
 }
 
 main().catch(console.error);

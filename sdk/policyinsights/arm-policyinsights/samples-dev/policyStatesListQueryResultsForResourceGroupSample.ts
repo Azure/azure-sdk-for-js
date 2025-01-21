@@ -69,8 +69,8 @@ async function queryLatestAtResourceGroupScopeWithNextLink() {
 }
 
 async function main() {
-  queryLatestAtResourceGroupScope();
-  queryLatestAtResourceGroupScopeWithNextLink();
+  await queryLatestAtResourceGroupScope();
+  await queryLatestAtResourceGroupScopeWithNextLink();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function managedPrivateEndpointsListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointsListByFactory();
+  await managedPrivateEndpointsListByFactory();
 }
 
 main().catch(console.error);

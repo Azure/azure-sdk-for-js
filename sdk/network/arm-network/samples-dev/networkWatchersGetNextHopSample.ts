@@ -43,7 +43,7 @@ async function getNextHop() {
 }
 
 async function main() {
-  getNextHop();
+  await getNextHop();
 }
 
 main().catch(console.error);

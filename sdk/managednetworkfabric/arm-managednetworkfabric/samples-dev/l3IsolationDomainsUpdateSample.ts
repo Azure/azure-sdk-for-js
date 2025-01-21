@@ -64,7 +64,7 @@ async function l3IsolationDomainsUpdateMaximumSetGen() {
 }
 
 async function main() {
-  l3IsolationDomainsUpdateMaximumSetGen();
+  await l3IsolationDomainsUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

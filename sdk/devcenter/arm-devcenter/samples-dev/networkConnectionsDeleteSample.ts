@@ -34,7 +34,7 @@ async function networkConnectionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsDelete();
+  await networkConnectionsDelete();
 }
 
 main().catch(console.error);

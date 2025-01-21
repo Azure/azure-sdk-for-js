@@ -38,7 +38,7 @@ async function monitorsListApiKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsListApiKeys();
+  await monitorsListApiKeys();
 }
 
 main().catch(console.error);

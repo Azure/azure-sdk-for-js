@@ -39,7 +39,7 @@ async function getASingleAlertRuleIncident() {
 }
 
 async function main() {
-  getASingleAlertRuleIncident();
+  await getASingleAlertRuleIncident();
 }
 
 main().catch(console.error);

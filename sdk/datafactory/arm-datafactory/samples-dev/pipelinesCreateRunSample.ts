@@ -49,7 +49,7 @@ async function pipelinesCreateRun(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelinesCreateRun();
+  await pipelinesCreateRun();
 }
 
 main().catch(console.error);

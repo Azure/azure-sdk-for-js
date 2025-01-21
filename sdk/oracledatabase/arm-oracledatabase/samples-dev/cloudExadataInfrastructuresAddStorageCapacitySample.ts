@@ -38,7 +38,7 @@ async function performAddStorageCapacityOnExadataInfra() {
 }
 
 async function main() {
-  performAddStorageCapacityOnExadataInfra();
+  await performAddStorageCapacityOnExadataInfra();
 }
 
 main().catch(console.error);

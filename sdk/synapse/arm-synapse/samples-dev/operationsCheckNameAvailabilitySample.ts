@@ -58,8 +58,8 @@ async function checkForAWorkspaceNameThatIsAvailable() {
 }
 
 async function main() {
-  checkForAWorkspaceNameThatAlreadyExists();
-  checkForAWorkspaceNameThatIsAvailable();
+  await checkForAWorkspaceNameThatAlreadyExists();
+  await checkForAWorkspaceNameThatIsAvailable();
 }
 
 main().catch(console.error);

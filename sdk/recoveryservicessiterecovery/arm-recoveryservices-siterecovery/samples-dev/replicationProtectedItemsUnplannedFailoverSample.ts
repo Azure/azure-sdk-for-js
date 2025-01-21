@@ -56,7 +56,7 @@ async function executeUnplannedFailover() {
 }
 
 async function main() {
-  executeUnplannedFailover();
+  await executeUnplannedFailover();
 }
 
 main().catch(console.error);

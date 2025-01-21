@@ -38,7 +38,7 @@ async function validateAVaultName() {
 }
 
 async function main() {
-  validateAVaultName();
+  await validateAVaultName();
 }
 
 main().catch(console.error);

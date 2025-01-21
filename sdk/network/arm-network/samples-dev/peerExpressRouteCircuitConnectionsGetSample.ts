@@ -38,7 +38,7 @@ async function peerExpressRouteCircuitConnectionGet() {
 }
 
 async function main() {
-  peerExpressRouteCircuitConnectionGet();
+  await peerExpressRouteCircuitConnectionGet();
 }
 
 main().catch(console.error);

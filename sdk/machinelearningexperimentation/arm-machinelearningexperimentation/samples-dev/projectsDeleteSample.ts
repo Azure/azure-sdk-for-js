@@ -42,7 +42,7 @@ async function projectDelete() {
 }
 
 async function main() {
-  projectDelete();
+  await projectDelete();
 }
 
 main().catch(console.error);

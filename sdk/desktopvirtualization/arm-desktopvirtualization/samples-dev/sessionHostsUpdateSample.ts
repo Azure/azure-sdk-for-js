@@ -49,7 +49,7 @@ async function sessionHostUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sessionHostUpdate();
+  await sessionHostUpdate();
 }
 
 main().catch(console.error);

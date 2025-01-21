@@ -37,7 +37,7 @@ async function monitorsDeleteMonitoredSubscriptions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsDeleteMonitoredSubscriptions();
+  await monitorsDeleteMonitoredSubscriptions();
 }
 
 main().catch(console.error);

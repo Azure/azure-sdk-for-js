@@ -36,7 +36,7 @@ async function getOperationResult() {
 }
 
 async function main() {
-  getOperationResult();
+  await getOperationResult();
 }
 
 main().catch(console.error);

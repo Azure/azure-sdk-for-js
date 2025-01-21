@@ -38,7 +38,7 @@ async function azureDevOpsConnectorListByResourceGroup() {
 }
 
 async function main() {
-  azureDevOpsConnectorListByResourceGroup();
+  await azureDevOpsConnectorListByResourceGroup();
 }
 
 main().catch(console.error);

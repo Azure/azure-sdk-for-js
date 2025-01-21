@@ -40,7 +40,7 @@ async function restartsTheSpecifiedJob() {
 }
 
 async function main() {
-  restartsTheSpecifiedJob();
+  await restartsTheSpecifiedJob();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getABigDataPool() {
 }
 
 async function main() {
-  getABigDataPool();
+  await getABigDataPool();
 }
 
 main().catch(console.error);

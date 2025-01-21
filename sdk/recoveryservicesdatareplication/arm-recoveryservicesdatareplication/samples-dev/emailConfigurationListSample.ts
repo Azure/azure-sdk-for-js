@@ -44,7 +44,7 @@ async function emailConfigurationList() {
 }
 
 async function main() {
-  emailConfigurationList();
+  await emailConfigurationList();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getTheSwaggerForAWorkflow() {
 }
 
 async function main() {
-  getTheSwaggerForAWorkflow();
+  await getTheSwaggerForAWorkflow();
 }
 
 main().catch(console.error);

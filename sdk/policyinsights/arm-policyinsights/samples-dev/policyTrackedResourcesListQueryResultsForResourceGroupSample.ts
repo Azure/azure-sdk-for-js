@@ -72,8 +72,8 @@ async function queryAtResourceGroupScopeUsingQueryParameters() {
 }
 
 async function main() {
-  queryAtResourceGroupScope();
-  queryAtResourceGroupScopeUsingQueryParameters();
+  await queryAtResourceGroupScope();
+  await queryAtResourceGroupScopeUsingQueryParameters();
 }
 
 main().catch(console.error);

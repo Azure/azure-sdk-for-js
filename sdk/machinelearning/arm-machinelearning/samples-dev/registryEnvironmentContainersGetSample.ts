@@ -42,7 +42,7 @@ async function getRegistryEnvironmentContainer() {
 }
 
 async function main() {
-  getRegistryEnvironmentContainer();
+  await getRegistryEnvironmentContainer();
 }
 
 main().catch(console.error);

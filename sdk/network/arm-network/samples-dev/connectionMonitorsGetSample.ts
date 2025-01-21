@@ -36,7 +36,7 @@ async function getConnectionMonitor() {
 }
 
 async function main() {
-  getConnectionMonitor();
+  await getConnectionMonitor();
 }
 
 main().catch(console.error);

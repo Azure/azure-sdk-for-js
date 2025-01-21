@@ -36,7 +36,7 @@ async function loadBalancerBackendAddressPoolGet() {
 }
 
 async function main() {
-  loadBalancerBackendAddressPoolGet();
+  await loadBalancerBackendAddressPoolGet();
 }
 
 main().catch(console.error);

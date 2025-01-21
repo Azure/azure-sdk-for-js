@@ -61,8 +61,8 @@ async function listServersByResourceGroupWithExpandAdministratorsOrActivedirecto
 }
 
 async function main() {
-  listServersByResourceGroup();
-  listServersByResourceGroupWithExpandAdministratorsOrActivedirectory();
+  await listServersByResourceGroup();
+  await listServersByResourceGroupWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

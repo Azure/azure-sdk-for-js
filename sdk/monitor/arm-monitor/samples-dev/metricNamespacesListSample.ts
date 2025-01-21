@@ -38,7 +38,7 @@ async function getMetricNamespacesWithoutFilter() {
 }
 
 async function main() {
-  getMetricNamespacesWithoutFilter();
+  await getMetricNamespacesWithoutFilter();
 }
 
 main().catch(console.error);

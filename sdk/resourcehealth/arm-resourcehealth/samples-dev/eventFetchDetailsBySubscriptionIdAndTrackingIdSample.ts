@@ -33,7 +33,7 @@ async function eventDetailsBySubscriptionIdAndTrackingId() {
 }
 
 async function main() {
-  eventDetailsBySubscriptionIdAndTrackingId();
+  await eventDetailsBySubscriptionIdAndTrackingId();
 }
 
 main().catch(console.error);

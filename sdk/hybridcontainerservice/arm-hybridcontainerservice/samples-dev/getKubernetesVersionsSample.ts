@@ -30,7 +30,7 @@ async function getKubernetesVersions() {
 }
 
 async function main() {
-  getKubernetesVersions();
+  await getKubernetesVersions();
 }
 
 main().catch(console.error);

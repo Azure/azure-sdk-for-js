@@ -44,7 +44,7 @@ async function systemTopicsUpdate() {
 }
 
 async function main() {
-  systemTopicsUpdate();
+  await systemTopicsUpdate();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function getListOfRestorableDroppedSqlPools() {
 }
 
 async function main() {
-  getListOfRestorableDroppedSqlPools();
+  await getListOfRestorableDroppedSqlPools();
 }
 
 main().catch(console.error);

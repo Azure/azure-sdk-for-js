@@ -49,7 +49,7 @@ async function privateEndpointConnectionUpdateByHostPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionUpdateByHostPool();
+  await privateEndpointConnectionUpdateByHostPool();
 }
 
 main().catch(console.error);

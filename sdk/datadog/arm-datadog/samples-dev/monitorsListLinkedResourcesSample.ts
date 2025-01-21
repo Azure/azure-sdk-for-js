@@ -38,7 +38,7 @@ async function monitorsListLinkedResources(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsListLinkedResources();
+  await monitorsListLinkedResources();
 }
 
 main().catch(console.error);

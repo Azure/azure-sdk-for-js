@@ -37,7 +37,7 @@ async function devBoxDefinitionsListByDevCenter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devBoxDefinitionsListByDevCenter();
+  await devBoxDefinitionsListByDevCenter();
 }
 
 main().catch(console.error);

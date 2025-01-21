@@ -4,13 +4,13 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -18,6 +18,20 @@ export interface ApplicationClaimOutput {
     digest?: ClaimDigestOutput;
     kind: "LedgerEntry" | "ClaimDigest";
     ledgerEntry?: LedgerEntryClaimOutput;
+}
+
+// @public
+export interface Bundle {
+    // (undocumented)
+    metadata: Metadata;
+    modules: Record<string, unknown>;
+}
+
+// @public
+export interface BundleOutput {
+    // (undocumented)
+    metadata: MetadataOutput;
+    modules: Record<string, unknown>;
 }
 
 // @public
@@ -161,6 +175,33 @@ export interface CreateOrUpdateUserMediaTypesParam {
 // @public (undocumented)
 export type CreateOrUpdateUserParameters = CreateOrUpdateUserMediaTypesParam & CreateOrUpdateUserBodyParam & RequestParameters;
 
+// @public
+export interface CreateUserDefinedEndpoint201Response extends HttpResponse {
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface CreateUserDefinedEndpointBodyParam {
+    body: Bundle;
+}
+
+// @public
+export interface CreateUserDefinedEndpointDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface CreateUserDefinedEndpointMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type CreateUserDefinedEndpointParameters = CreateUserDefinedEndpointMediaTypesParam & CreateUserDefinedEndpointBodyParam & RequestParameters;
+
 // @public (undocumented)
 export interface DeleteUser {
     delete(options?: DeleteUserParameters): StreamableMethod<DeleteUser204Response | DeleteUserDefaultResponse>;
@@ -191,6 +232,48 @@ export interface EnclaveQuoteOutput {
     nodeId: string;
     quoteVersion: string;
     raw: string;
+}
+
+// @public (undocumented)
+export interface EndpointProperties {
+    // (undocumented)
+    authn_policies: Array<any>;
+    // (undocumented)
+    forwarding_required: "sometimes" | "always" | "never";
+    // (undocumented)
+    interpreter_reuse?: InterpreterReusePolicy;
+    // (undocumented)
+    js_function?: string;
+    // (undocumented)
+    js_module?: string;
+    // (undocumented)
+    mode?: "readwrite" | "readonly" | "historical";
+    openapi?: any;
+    // (undocumented)
+    openapi_hidden?: boolean;
+    // (undocumented)
+    redirection_strategy?: "none" | "to_primary" | "to_backup";
+}
+
+// @public (undocumented)
+export interface EndpointPropertiesOutput {
+    // (undocumented)
+    authn_policies: Array<any>;
+    // (undocumented)
+    forwarding_required: "sometimes" | "always" | "never";
+    // (undocumented)
+    interpreter_reuse?: InterpreterReusePolicyOutput;
+    // (undocumented)
+    js_function?: string;
+    // (undocumented)
+    js_module?: string;
+    // (undocumented)
+    mode?: "readwrite" | "readonly" | "historical";
+    openapi?: any;
+    // (undocumented)
+    openapi_hidden?: boolean;
+    // (undocumented)
+    redirection_strategy?: "none" | "to_primary" | "to_backup";
 }
 
 // @public
@@ -388,7 +471,44 @@ export interface GetUserDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface GetUserDefinedEndpoint {
+    get(options?: GetUserDefinedEndpointParameters): StreamableMethod<GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse>;
+    put(options: CreateUserDefinedEndpointParameters): StreamableMethod<CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse>;
+}
+
+// @public
+export interface GetUserDefinedEndpoint200Response extends HttpResponse {
+    // (undocumented)
+    body: BundleOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetUserDefinedEndpointParameters = RequestParameters;
+
+// @public (undocumented)
 export type GetUserParameters = RequestParameters;
+
+// @public (undocumented)
+export interface InterpreterReusePolicy {
+    // (undocumented)
+    key: string;
+}
+
+// @public (undocumented)
+export interface InterpreterReusePolicyOutput {
+    // (undocumented)
+    key: string;
+}
 
 // @public (undocumented)
 export function isUnexpected(response: GetConstitution200Response | GetConstitutionDefaultResponse): response is GetConstitutionDefaultResponse;
@@ -597,6 +717,40 @@ export interface ListUsersDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type ListUsersParameters = RequestParameters;
 
+// @public (undocumented)
+export interface Metadata {
+    endpoints: Record<string, MethodToEndpointProperties>;
+}
+
+// @public (undocumented)
+export interface MetadataOutput {
+    endpoints: Record<string, MethodToEndpointPropertiesOutput>;
+}
+
+// @public (undocumented)
+export interface MethodToEndpointProperties {
+    // (undocumented)
+    delete?: EndpointProperties;
+    // (undocumented)
+    get?: EndpointProperties;
+    // (undocumented)
+    patch?: EndpointProperties;
+    // (undocumented)
+    put?: EndpointProperties;
+}
+
+// @public (undocumented)
+export interface MethodToEndpointPropertiesOutput {
+    // (undocumented)
+    delete?: EndpointPropertiesOutput;
+    // (undocumented)
+    get?: EndpointPropertiesOutput;
+    // (undocumented)
+    patch?: EndpointPropertiesOutput;
+    // (undocumented)
+    put?: EndpointPropertiesOutput;
+}
+
 // @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
@@ -712,6 +866,7 @@ export interface Routes {
     (path: "/app/transactions/current"): GetCurrentLedgerEntry;
     (path: "/app/users"): ListUsers;
     (path: "/app/users/{userId}", userId: string): DeleteUser;
+    (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
 }
 
 // @public

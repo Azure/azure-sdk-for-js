@@ -217,8 +217,8 @@ async function cachesUpdateLdapOnly() {
 }
 
 async function main() {
-  cachesUpdate();
-  cachesUpdateLdapOnly();
+  await cachesUpdate();
+  await cachesUpdateLdapOnly();
 }
 
 main().catch(console.error);

@@ -136,9 +136,9 @@ async function createATicketForTechnicalIssueRelatedToASpecificResource() {
 }
 
 async function main() {
-  createATicketForBillingRelatedIssues();
-  createATicketForSubscriptionManagementRelatedIssues();
-  createATicketForTechnicalIssueRelatedToASpecificResource();
+  await createATicketForBillingRelatedIssues();
+  await createATicketForSubscriptionManagementRelatedIssues();
+  await createATicketForTechnicalIssueRelatedToASpecificResource();
 }
 
 main().catch(console.error);

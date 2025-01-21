@@ -40,7 +40,7 @@ async function getTheLongTermRetentionBackupOfAManagedDatabase() {
 }
 
 async function main() {
-  getTheLongTermRetentionBackupOfAManagedDatabase();
+  await getTheLongTermRetentionBackupOfAManagedDatabase();
 }
 
 main().catch(console.error);

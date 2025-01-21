@@ -38,7 +38,7 @@ async function privateEndpointConnectionListByHostPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionListByHostPool();
+  await privateEndpointConnectionListByHostPool();
 }
 
 main().catch(console.error);

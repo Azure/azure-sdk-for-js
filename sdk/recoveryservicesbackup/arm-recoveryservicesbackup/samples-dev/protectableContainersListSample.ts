@@ -49,7 +49,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage(
 }
 
 async function main() {
-  listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage();
+  await listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage();
 }
 
 main().catch(console.error);

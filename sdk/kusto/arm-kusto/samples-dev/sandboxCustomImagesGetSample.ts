@@ -39,7 +39,7 @@ async function kustoSandboxCustomImagesGet() {
 }
 
 async function main() {
-  kustoSandboxCustomImagesGet();
+  await kustoSandboxCustomImagesGet();
 }
 
 main().catch(console.error);

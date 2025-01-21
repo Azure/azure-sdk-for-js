@@ -51,7 +51,7 @@ async function eventList() {
 }
 
 async function main() {
-  eventList();
+  await eventList();
 }
 
 main().catch(console.error);

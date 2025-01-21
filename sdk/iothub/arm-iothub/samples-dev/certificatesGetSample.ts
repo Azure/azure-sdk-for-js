@@ -39,7 +39,7 @@ async function certificatesGet() {
 }
 
 async function main() {
-  certificatesGet();
+  await certificatesGet();
 }
 
 main().catch(console.error);

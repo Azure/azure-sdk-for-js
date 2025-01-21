@@ -49,7 +49,7 @@ async function listWorkspaceBatchEndpoint() {
 }
 
 async function main() {
-  listWorkspaceBatchEndpoint();
+  await listWorkspaceBatchEndpoint();
 }
 
 main().catch(console.error);

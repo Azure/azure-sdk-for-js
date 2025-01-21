@@ -37,7 +37,7 @@ async function privateEndpointConnectionsListByProject() {
 }
 
 async function main() {
-  privateEndpointConnectionsListByProject();
+  await privateEndpointConnectionsListByProject();
 }
 
 main().catch(console.error);

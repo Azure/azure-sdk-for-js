@@ -44,7 +44,7 @@ async function integrationRuntimesRegenerateAuthKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesRegenerateAuthKey();
+  await integrationRuntimesRegenerateAuthKey();
 }
 
 main().catch(console.error);

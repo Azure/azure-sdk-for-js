@@ -37,7 +37,7 @@ async function integrationRuntimesSyncCredentials(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesSyncCredentials();
+  await integrationRuntimesSyncCredentials();
 }
 
 main().catch(console.error);

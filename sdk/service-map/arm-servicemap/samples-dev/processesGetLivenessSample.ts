@@ -48,7 +48,7 @@ async function smMachinesProcessesGetLivenessGet() {
 }
 
 async function main() {
-  smMachinesProcessesGetLivenessGet();
+  await smMachinesProcessesGetLivenessGet();
 }
 
 main().catch(console.error);

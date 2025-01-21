@@ -36,7 +36,7 @@ async function getIntegrationServiceEnvironmentByName() {
 }
 
 async function main() {
-  getIntegrationServiceEnvironmentByName();
+  await getIntegrationServiceEnvironmentByName();
 }
 
 main().catch(console.error);

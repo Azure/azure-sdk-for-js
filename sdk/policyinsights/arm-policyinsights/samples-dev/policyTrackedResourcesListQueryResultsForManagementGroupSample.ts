@@ -64,8 +64,8 @@ async function queryAtManagementGroupScopeUsingQueryParameters() {
 }
 
 async function main() {
-  queryAtManagementGroupScope();
-  queryAtManagementGroupScopeUsingQueryParameters();
+  await queryAtManagementGroupScope();
+  await queryAtManagementGroupScopeUsingQueryParameters();
 }
 
 main().catch(console.error);

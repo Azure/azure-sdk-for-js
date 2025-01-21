@@ -43,7 +43,7 @@ async function listJobStepsForTheLatestVersionOfAJob() {
 }
 
 async function main() {
-  listJobStepsForTheLatestVersionOfAJob();
+  await listJobStepsForTheLatestVersionOfAJob();
 }
 
 main().catch(console.error);

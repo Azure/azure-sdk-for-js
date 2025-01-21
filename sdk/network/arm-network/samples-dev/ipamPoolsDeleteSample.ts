@@ -38,7 +38,7 @@ async function ipamPoolsDelete() {
 }
 
 async function main() {
-  ipamPoolsDelete();
+  await ipamPoolsDelete();
 }
 
 main().catch(console.error);

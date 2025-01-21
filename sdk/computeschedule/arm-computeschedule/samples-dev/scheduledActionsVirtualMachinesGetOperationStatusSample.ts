@@ -42,8 +42,8 @@ async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinim
 }
 
 async function main(): Promise<void> {
-  scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRule();
+  await scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRuleGeneratedByMaximumSetRule();
+  await scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

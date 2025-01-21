@@ -41,7 +41,7 @@ async function dpsPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsPatch();
+  await dpsPatch();
 }
 
 main().catch(console.error);

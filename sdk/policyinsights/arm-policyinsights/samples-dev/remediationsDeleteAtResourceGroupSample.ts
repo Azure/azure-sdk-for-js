@@ -35,7 +35,7 @@ async function deleteRemediationAtResourceGroupScope() {
 }
 
 async function main() {
-  deleteRemediationAtResourceGroupScope();
+  await deleteRemediationAtResourceGroupScope();
 }
 
 main().catch(console.error);

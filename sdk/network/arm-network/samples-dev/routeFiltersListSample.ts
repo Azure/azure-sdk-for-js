@@ -32,7 +32,7 @@ async function routeFilterList() {
 }
 
 async function main() {
-  routeFilterList();
+  await routeFilterList();
 }
 
 main().catch(console.error);

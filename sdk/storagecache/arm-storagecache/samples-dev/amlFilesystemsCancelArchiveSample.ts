@@ -37,7 +37,7 @@ async function amlFilesystemsCancelArchive() {
 }
 
 async function main() {
-  amlFilesystemsCancelArchive();
+  await amlFilesystemsCancelArchive();
 }
 
 main().catch(console.error);

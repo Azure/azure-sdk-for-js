@@ -40,7 +40,7 @@ async function gitHubOwnerList() {
 }
 
 async function main() {
-  gitHubOwnerList();
+  await gitHubOwnerList();
 }
 
 main().catch(console.error);

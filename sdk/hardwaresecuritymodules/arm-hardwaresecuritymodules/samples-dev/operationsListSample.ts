@@ -53,8 +53,8 @@ async function getAListOfPaymentHsmOperations() {
 }
 
 async function main() {
-  getAListOfDedicatedHsmOperations();
-  getAListOfPaymentHsmOperations();
+  await getAListOfDedicatedHsmOperations();
+  await getAListOfPaymentHsmOperations();
 }
 
 main().catch(console.error);

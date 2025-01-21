@@ -50,7 +50,7 @@ async function createATransformation() {
 }
 
 async function main() {
-  createATransformation();
+  await createATransformation();
 }
 
 main().catch(console.error);

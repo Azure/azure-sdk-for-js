@@ -33,7 +33,7 @@ async function getDaprConfigurations() {
 }
 
 async function main() {
-  getDaprConfigurations();
+  await getDaprConfigurations();
 }
 
 main().catch(console.error);

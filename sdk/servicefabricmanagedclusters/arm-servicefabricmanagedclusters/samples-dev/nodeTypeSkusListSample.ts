@@ -45,7 +45,7 @@ async function listANodeTypeSkUs() {
 }
 
 async function main() {
-  listANodeTypeSkUs();
+  await listANodeTypeSkUs();
 }
 
 main().catch(console.error);

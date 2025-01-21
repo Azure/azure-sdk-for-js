@@ -90,8 +90,8 @@ async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured()
 }
 
 async function main() {
-  createNetworkInterface();
-  createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured();
+  await createNetworkInterface();
+  await createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured();
 }
 
 main().catch(console.error);

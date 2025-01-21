@@ -103,9 +103,9 @@ async function patchADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty
 }
 
 async function main(): Promise<void> {
-  patchADigitalTwinsInstanceResource();
-  patchADigitalTwinsInstanceResourceWithIdentity();
-  patchADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty();
+  await patchADigitalTwinsInstanceResource();
+  await patchADigitalTwinsInstanceResourceWithIdentity();
+  await patchADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty();
 }
 
 main().catch(console.error);

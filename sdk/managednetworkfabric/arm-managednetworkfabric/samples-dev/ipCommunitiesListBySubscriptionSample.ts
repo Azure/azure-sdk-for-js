@@ -37,7 +37,7 @@ async function ipCommunitiesListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  ipCommunitiesListBySubscriptionMaximumSetGen();
+  await ipCommunitiesListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

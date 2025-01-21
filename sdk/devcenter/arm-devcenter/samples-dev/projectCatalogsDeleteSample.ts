@@ -36,7 +36,7 @@ async function projectCatalogsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectCatalogsDelete();
+  await projectCatalogsDelete();
 }
 
 main().catch(console.error);

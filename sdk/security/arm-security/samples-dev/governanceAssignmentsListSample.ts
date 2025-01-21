@@ -36,7 +36,7 @@ async function listGovernanceAssignments() {
 }
 
 async function main() {
-  listGovernanceAssignments();
+  await listGovernanceAssignments();
 }
 
 main().catch(console.error);

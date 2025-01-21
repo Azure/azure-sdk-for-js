@@ -38,7 +38,7 @@ async function privateEndpointConnectionGetByWorkspace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionGetByWorkspace();
+  await privateEndpointConnectionGetByWorkspace();
 }
 
 main().catch(console.error);

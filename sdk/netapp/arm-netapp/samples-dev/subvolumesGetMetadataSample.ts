@@ -42,7 +42,7 @@ async function subvolumesMetadata() {
 }
 
 async function main() {
-  subvolumesMetadata();
+  await subvolumesMetadata();
 }
 
 main().catch(console.error);

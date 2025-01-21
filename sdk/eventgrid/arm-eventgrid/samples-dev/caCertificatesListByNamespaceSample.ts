@@ -40,7 +40,7 @@ async function caCertificatesListByNamespace() {
 }
 
 async function main() {
-  caCertificatesListByNamespace();
+  await caCertificatesListByNamespace();
 }
 
 main().catch(console.error);

@@ -56,7 +56,7 @@ async function createOrUpdateABatchConfiguration() {
 }
 
 async function main() {
-  createOrUpdateABatchConfiguration();
+  await createOrUpdateABatchConfiguration();
 }
 
 main().catch(console.error);

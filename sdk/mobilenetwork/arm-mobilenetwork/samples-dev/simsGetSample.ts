@@ -39,7 +39,7 @@ async function getSim() {
 }
 
 async function main() {
-  getSim();
+  await getSim();
 }
 
 main().catch(console.error);

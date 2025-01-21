@@ -40,7 +40,7 @@ async function networkDevicesRefreshConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  networkDevicesRefreshConfigurationMaximumSetGen();
+  await networkDevicesRefreshConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

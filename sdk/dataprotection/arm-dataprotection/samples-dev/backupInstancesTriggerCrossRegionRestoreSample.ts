@@ -86,7 +86,7 @@ async function triggerCrossRegionRestore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerCrossRegionRestore();
+  await triggerCrossRegionRestore();
 }
 
 main().catch(console.error);

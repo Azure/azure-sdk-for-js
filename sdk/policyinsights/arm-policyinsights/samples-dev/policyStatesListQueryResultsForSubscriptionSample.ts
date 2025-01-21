@@ -232,13 +232,13 @@ async function timeRangeSortSelectAndLimit() {
 }
 
 async function main() {
-  filterAndAggregateOnly();
-  filterAndGroupWithAggregate();
-  filterAndGroupWithoutAggregate();
-  filterAndMultipleGroups();
-  queryLatestAtSubscriptionScope();
-  queryLatestAtSubscriptionScopeWithNextLink();
-  timeRangeSortSelectAndLimit();
+  await filterAndAggregateOnly();
+  await filterAndGroupWithAggregate();
+  await filterAndGroupWithoutAggregate();
+  await filterAndMultipleGroups();
+  await queryLatestAtSubscriptionScope();
+  await queryLatestAtSubscriptionScopeWithNextLink();
+  await timeRangeSortSelectAndLimit();
 }
 
 main().catch(console.error);

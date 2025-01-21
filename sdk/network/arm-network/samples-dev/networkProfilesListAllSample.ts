@@ -32,7 +32,7 @@ async function listAllNetworkProfiles() {
 }
 
 async function main() {
-  listAllNetworkProfiles();
+  await listAllNetworkProfiles();
 }
 
 main().catch(console.error);

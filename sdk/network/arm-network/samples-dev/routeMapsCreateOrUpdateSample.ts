@@ -63,7 +63,7 @@ async function routeMapPut() {
 }
 
 async function main() {
-  routeMapPut();
+  await routeMapPut();
 }
 
 main().catch(console.error);

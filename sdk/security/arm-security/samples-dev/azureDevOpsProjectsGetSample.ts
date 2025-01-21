@@ -40,7 +40,7 @@ async function getAzureDevOpsProjects() {
 }
 
 async function main() {
-  getAzureDevOpsProjects();
+  await getAzureDevOpsProjects();
 }
 
 main().catch(console.error);

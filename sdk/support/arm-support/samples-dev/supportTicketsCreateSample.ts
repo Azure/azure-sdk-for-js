@@ -824,23 +824,23 @@ async function createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForABa
 }
 
 async function main() {
-  createATicketForBillingRelatedIssues();
-  createATicketForSubscriptionManagementRelatedIssuesForASubscription();
-  createATicketForTechnicalIssueRelatedToASpecificResourceForASubscription();
-  createATicketToRequestQuotaIncreaseForActiveJobsAndJobSchedulesForABatchAccount();
-  createATicketToRequestQuotaIncreaseForAzureSqlManagedInstance();
-  createATicketToRequestQuotaIncreaseForBatchAccountsForASubscription();
-  createATicketToRequestQuotaIncreaseForComputeVMCores();
-  createATicketToRequestQuotaIncreaseForDtUsForAzureSynapseAnalytics();
-  createATicketToRequestQuotaIncreaseForDtUsForSqlDatabase();
-  createATicketToRequestQuotaIncreaseForLowPriorityCoresForMachineLearningService();
-  createATicketToRequestQuotaIncreaseForLowPriorityCoresForABatchAccount();
-  createATicketToRequestQuotaIncreaseForPoolsForABatchAccount();
-  createATicketToRequestQuotaIncreaseForServersForAzureSynapseAnalytics();
-  createATicketToRequestQuotaIncreaseForServersForSqlDatabase();
-  createATicketToRequestQuotaIncreaseForServicesThatDoNotRequireAdditionalDetailsInTheQuotaTicketDetailsObject();
-  createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForMachineLearningService();
-  createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForABatchAccount();
+  await createATicketForBillingRelatedIssues();
+  await createATicketForSubscriptionManagementRelatedIssuesForASubscription();
+  await createATicketForTechnicalIssueRelatedToASpecificResourceForASubscription();
+  await createATicketToRequestQuotaIncreaseForActiveJobsAndJobSchedulesForABatchAccount();
+  await createATicketToRequestQuotaIncreaseForAzureSqlManagedInstance();
+  await createATicketToRequestQuotaIncreaseForBatchAccountsForASubscription();
+  await createATicketToRequestQuotaIncreaseForComputeVMCores();
+  await createATicketToRequestQuotaIncreaseForDtUsForAzureSynapseAnalytics();
+  await createATicketToRequestQuotaIncreaseForDtUsForSqlDatabase();
+  await createATicketToRequestQuotaIncreaseForLowPriorityCoresForMachineLearningService();
+  await createATicketToRequestQuotaIncreaseForLowPriorityCoresForABatchAccount();
+  await createATicketToRequestQuotaIncreaseForPoolsForABatchAccount();
+  await createATicketToRequestQuotaIncreaseForServersForAzureSynapseAnalytics();
+  await createATicketToRequestQuotaIncreaseForServersForSqlDatabase();
+  await createATicketToRequestQuotaIncreaseForServicesThatDoNotRequireAdditionalDetailsInTheQuotaTicketDetailsObject();
+  await createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForMachineLearningService();
+  await createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForABatchAccount();
 }
 
 main().catch(console.error);

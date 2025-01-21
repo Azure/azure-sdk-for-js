@@ -44,7 +44,7 @@ async function createIPAllocation() {
 }
 
 async function main() {
-  createIPAllocation();
+  await createIPAllocation();
 }
 
 main().catch(console.error);

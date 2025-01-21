@@ -34,7 +34,7 @@ async function getNetworkSecurityGroup() {
 }
 
 async function main() {
-  getNetworkSecurityGroup();
+  await getNetworkSecurityGroup();
 }
 
 main().catch(console.error);

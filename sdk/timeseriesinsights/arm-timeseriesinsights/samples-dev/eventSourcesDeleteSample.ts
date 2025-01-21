@@ -38,7 +38,7 @@ async function deleteEventSource() {
 }
 
 async function main() {
-  deleteEventSource();
+  await deleteEventSource();
 }
 
 main().catch(console.error);

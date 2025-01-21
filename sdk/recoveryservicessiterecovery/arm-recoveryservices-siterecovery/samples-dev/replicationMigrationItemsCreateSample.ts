@@ -76,7 +76,7 @@ async function enablesMigration() {
 }
 
 async function main() {
-  enablesMigration();
+  await enablesMigration();
 }
 
 main().catch(console.error);

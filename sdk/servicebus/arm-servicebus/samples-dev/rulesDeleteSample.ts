@@ -43,7 +43,7 @@ async function rulesDelete() {
 }
 
 async function main() {
-  rulesDelete();
+  await rulesDelete();
 }
 
 main().catch(console.error);

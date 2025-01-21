@@ -32,7 +32,7 @@ async function getAttestationAtIndividualResourceScope() {
 }
 
 async function main() {
-  getAttestationAtIndividualResourceScope();
+  await getAttestationAtIndividualResourceScope();
 }
 
 main().catch(console.error);

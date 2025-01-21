@@ -43,7 +43,7 @@ async function createOrUpdateManagedApplication() {
 }
 
 async function main() {
-  createOrUpdateManagedApplication();
+  await createOrUpdateManagedApplication();
 }
 
 main().catch(console.error);

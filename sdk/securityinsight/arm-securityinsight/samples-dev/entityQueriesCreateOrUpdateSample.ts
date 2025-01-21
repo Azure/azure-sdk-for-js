@@ -65,7 +65,7 @@ async function createsOrUpdatesAnActivityEntityQuery() {
 }
 
 async function main() {
-  createsOrUpdatesAnActivityEntityQuery();
+  await createsOrUpdatesAnActivityEntityQuery();
 }
 
 main().catch(console.error);

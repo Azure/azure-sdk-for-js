@@ -60,8 +60,8 @@ async function guestAgentsCreateMinimumSet() {
 }
 
 async function main() {
-  guestAgentsCreateMaximumSet();
-  guestAgentsCreateMinimumSet();
+  await guestAgentsCreateMaximumSet();
+  await guestAgentsCreateMinimumSet();
 }
 
 main().catch(console.error);

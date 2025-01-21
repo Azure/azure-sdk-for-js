@@ -50,7 +50,7 @@ async function pipelineRunsQueryByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelineRunsQueryByFactory();
+  await pipelineRunsQueryByFactory();
 }
 
 main().catch(console.error);

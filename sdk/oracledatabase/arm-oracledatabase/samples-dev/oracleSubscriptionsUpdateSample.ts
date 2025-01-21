@@ -36,7 +36,7 @@ async function patchOracleSubscription() {
 }
 
 async function main() {
-  patchOracleSubscription();
+  await patchOracleSubscription();
 }
 
 main().catch(console.error);

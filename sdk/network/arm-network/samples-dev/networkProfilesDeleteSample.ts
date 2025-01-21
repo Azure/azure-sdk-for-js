@@ -34,7 +34,7 @@ async function deleteNetworkProfile() {
 }
 
 async function main() {
-  deleteNetworkProfile();
+  await deleteNetworkProfile();
 }
 
 main().catch(console.error);

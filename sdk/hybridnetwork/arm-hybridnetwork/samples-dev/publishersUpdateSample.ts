@@ -42,7 +42,7 @@ async function updateAPublisherTags() {
 }
 
 async function main() {
-  updateAPublisherTags();
+  await updateAPublisherTags();
 }
 
 main().catch(console.error);

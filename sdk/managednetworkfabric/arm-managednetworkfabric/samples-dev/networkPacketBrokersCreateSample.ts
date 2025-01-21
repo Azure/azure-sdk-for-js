@@ -50,7 +50,7 @@ async function networkPacketBrokersCreateMaximumSetGen() {
 }
 
 async function main() {
-  networkPacketBrokersCreateMaximumSetGen();
+  await networkPacketBrokersCreateMaximumSetGen();
 }
 
 main().catch(console.error);

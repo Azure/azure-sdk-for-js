@@ -42,7 +42,7 @@ async function deleteGateways() {
 }
 
 async function main() {
-  deleteGateways();
+  await deleteGateways();
 }
 
 main().catch(console.error);

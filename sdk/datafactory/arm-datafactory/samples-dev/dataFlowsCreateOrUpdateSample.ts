@@ -180,8 +180,8 @@ async function dataFlowsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataFlowsCreate();
-  dataFlowsUpdate();
+  await dataFlowsCreate();
+  await dataFlowsUpdate();
 }
 
 main().catch(console.error);

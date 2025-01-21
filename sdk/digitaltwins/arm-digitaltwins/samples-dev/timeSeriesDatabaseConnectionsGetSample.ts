@@ -40,7 +40,7 @@ async function getTimeSeriesDatabaseConnectionForADigitalTwinsInstance(): Promis
 }
 
 async function main(): Promise<void> {
-  getTimeSeriesDatabaseConnectionForADigitalTwinsInstance();
+  await getTimeSeriesDatabaseConnectionForADigitalTwinsInstance();
 }
 
 main().catch(console.error);

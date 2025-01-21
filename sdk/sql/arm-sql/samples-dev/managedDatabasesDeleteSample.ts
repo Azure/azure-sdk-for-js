@@ -39,7 +39,7 @@ async function deleteManagedDatabase() {
 }
 
 async function main() {
-  deleteManagedDatabase();
+  await deleteManagedDatabase();
 }
 
 main().catch(console.error);

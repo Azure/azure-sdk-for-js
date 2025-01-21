@@ -37,7 +37,7 @@ async function listPrivateEndpointsInResourceGroup() {
 }
 
 async function main() {
-  listPrivateEndpointsInResourceGroup();
+  await listPrivateEndpointsInResourceGroup();
 }
 
 main().catch(console.error);

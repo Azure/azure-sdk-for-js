@@ -37,7 +37,7 @@ async function pipelineRunsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelineRunsGet();
+  await pipelineRunsGet();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function backupsList() {
 }
 
 async function main() {
-  backupsList();
+  await backupsList();
 }
 
 main().catch(console.error);

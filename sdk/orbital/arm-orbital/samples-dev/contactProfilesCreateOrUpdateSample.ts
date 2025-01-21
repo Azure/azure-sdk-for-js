@@ -87,7 +87,7 @@ async function createAContactProfile() {
 }
 
 async function main() {
-  createAContactProfile();
+  await createAContactProfile();
 }
 
 main().catch(console.error);

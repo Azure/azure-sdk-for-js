@@ -133,6 +133,12 @@ describe("KeyVaultBackupClient", () => {
       const operationState = selectiveKeyRestorePoller.getOperationState();
       expect(operationState.isCompleted).toEqual(true);
 
+      // Restore is eventually consistent so while we work
+      // through the retry operations adding a delay here allows
+      // tests to pass the 5s polling delay.
+      if (!isPlaybackMode()) {
+        await delay(5000);
+      }
       await keyClient.getKey(keyName);
     });
 

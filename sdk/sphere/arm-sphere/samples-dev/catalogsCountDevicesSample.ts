@@ -37,7 +37,7 @@ async function catalogsCountDevices() {
 }
 
 async function main() {
-  catalogsCountDevices();
+  await catalogsCountDevices();
 }
 
 main().catch(console.error);

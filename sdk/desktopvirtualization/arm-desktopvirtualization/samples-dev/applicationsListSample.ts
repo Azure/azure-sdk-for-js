@@ -50,7 +50,7 @@ async function applicationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationsList();
+  await applicationsList();
 }
 
 main().catch(console.error);

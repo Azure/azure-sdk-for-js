@@ -58,7 +58,7 @@ async function tagRulesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tagRulesCreateOrUpdate();
+  await tagRulesCreateOrUpdate();
 }
 
 main().catch(console.error);

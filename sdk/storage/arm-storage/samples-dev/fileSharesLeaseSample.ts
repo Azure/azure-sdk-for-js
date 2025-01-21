@@ -81,8 +81,8 @@ async function breakALeaseOnAShare() {
 }
 
 async function main() {
-  acquireALeaseOnAShare();
-  breakALeaseOnAShare();
+  await acquireALeaseOnAShare();
+  await breakALeaseOnAShare();
 }
 
 main().catch(console.error);

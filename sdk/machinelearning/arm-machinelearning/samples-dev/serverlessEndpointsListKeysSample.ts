@@ -42,7 +42,7 @@ async function listKeysWorkspaceServerlessEndpoint() {
 }
 
 async function main() {
-  listKeysWorkspaceServerlessEndpoint();
+  await listKeysWorkspaceServerlessEndpoint();
 }
 
 main().catch(console.error);

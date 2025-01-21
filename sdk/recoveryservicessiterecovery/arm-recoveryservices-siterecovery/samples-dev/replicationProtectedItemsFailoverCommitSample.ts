@@ -45,7 +45,7 @@ async function executeCommitFailover() {
 }
 
 async function main() {
-  executeCommitFailover();
+  await executeCommitFailover();
 }
 
 main().catch(console.error);

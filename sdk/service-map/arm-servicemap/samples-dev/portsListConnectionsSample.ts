@@ -51,7 +51,7 @@ async function smMachinesPortsListConnectionsGet() {
 }
 
 async function main() {
-  smMachinesPortsListConnectionsGet();
+  await smMachinesPortsListConnectionsGet();
 }
 
 main().catch(console.error);

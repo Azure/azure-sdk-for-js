@@ -41,7 +41,7 @@ async function kustoPoolAttachedDatabaseConfigurationsGet() {
 }
 
 async function main() {
-  kustoPoolAttachedDatabaseConfigurationsGet();
+  await kustoPoolAttachedDatabaseConfigurationsGet();
 }
 
 main().catch(console.error);

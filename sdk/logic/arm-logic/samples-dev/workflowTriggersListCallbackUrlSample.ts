@@ -39,7 +39,7 @@ async function getTheCallbackUrlForATrigger() {
 }
 
 async function main() {
-  getTheCallbackUrlForATrigger();
+  await getTheCallbackUrlForATrigger();
 }
 
 main().catch(console.error);

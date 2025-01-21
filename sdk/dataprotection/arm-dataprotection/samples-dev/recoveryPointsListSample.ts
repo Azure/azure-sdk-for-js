@@ -40,7 +40,7 @@ async function listRecoveryPointsInAVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRecoveryPointsInAVault();
+  await listRecoveryPointsInAVault();
 }
 
 main().catch(console.error);

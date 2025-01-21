@@ -37,7 +37,7 @@ async function listAssociatedTrafficFiltersList() {
 }
 
 async function main() {
-  listAssociatedTrafficFiltersList();
+  await listAssociatedTrafficFiltersList();
 }
 
 main().catch(console.error);

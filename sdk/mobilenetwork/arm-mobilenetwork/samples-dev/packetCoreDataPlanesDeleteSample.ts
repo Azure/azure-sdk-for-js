@@ -39,7 +39,7 @@ async function deletePacketCoreDataPlane() {
 }
 
 async function main() {
-  deletePacketCoreDataPlane();
+  await deletePacketCoreDataPlane();
 }
 
 main().catch(console.error);

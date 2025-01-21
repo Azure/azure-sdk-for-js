@@ -74,8 +74,8 @@ async function dataProductsGenerateStorageAccountSasTokenMaximumSetGenGeneratedB
 }
 
 async function main() {
-  dataProductsGenerateStorageAccountSasTokenMaximumSetGen();
-  dataProductsGenerateStorageAccountSasTokenMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsGenerateStorageAccountSasTokenMaximumSetGen();
+  await dataProductsGenerateStorageAccountSasTokenMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

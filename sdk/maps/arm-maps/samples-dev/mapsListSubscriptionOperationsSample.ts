@@ -34,7 +34,7 @@ async function getOperationsBySubscription() {
 }
 
 async function main() {
-  getOperationsBySubscription();
+  await getOperationsBySubscription();
 }
 
 main().catch(console.error);

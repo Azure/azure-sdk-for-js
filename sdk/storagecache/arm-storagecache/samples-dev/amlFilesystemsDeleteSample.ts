@@ -37,7 +37,7 @@ async function amlFilesystemsDelete() {
 }
 
 async function main() {
-  amlFilesystemsDelete();
+  await amlFilesystemsDelete();
 }
 
 main().catch(console.error);

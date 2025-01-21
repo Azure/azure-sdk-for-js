@@ -61,8 +61,8 @@ async function virtualNetworksUpdateMinimumSet() {
 }
 
 async function main() {
-  virtualNetworksUpdateMaximumSet();
-  virtualNetworksUpdateMinimumSet();
+  await virtualNetworksUpdateMaximumSet();
+  await virtualNetworksUpdateMinimumSet();
 }
 
 main().catch(console.error);

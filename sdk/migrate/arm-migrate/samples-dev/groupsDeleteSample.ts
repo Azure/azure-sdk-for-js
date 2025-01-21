@@ -45,7 +45,7 @@ async function groupsDelete() {
 }
 
 async function main() {
-  groupsDelete();
+  await groupsDelete();
 }
 
 main().catch(console.error);

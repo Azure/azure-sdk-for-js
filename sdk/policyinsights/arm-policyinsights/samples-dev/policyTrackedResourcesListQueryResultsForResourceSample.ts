@@ -66,8 +66,8 @@ async function queryAtResourceScopeUsingQueryParameters() {
 }
 
 async function main() {
-  queryAtResourceScope();
-  queryAtResourceScopeUsingQueryParameters();
+  await queryAtResourceScope();
+  await queryAtResourceScopeUsingQueryParameters();
 }
 
 main().catch(console.error);

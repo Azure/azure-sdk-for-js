@@ -38,7 +38,7 @@ async function pipelinesListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelinesListByFactory();
+  await pipelinesListByFactory();
 }
 
 main().catch(console.error);

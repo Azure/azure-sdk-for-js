@@ -37,7 +37,7 @@ async function managedVirtualNetworksGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedVirtualNetworksGet();
+  await managedVirtualNetworksGet();
 }
 
 main().catch(console.error);

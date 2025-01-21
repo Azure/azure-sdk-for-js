@@ -613,21 +613,21 @@ async function createAnEventHubOutputWithJsonSerialization() {
 }
 
 async function main() {
-  createADeltaLakeOutput();
-  createADocumentDbOutput();
-  createAGatewayMessageBusOutput();
-  createAPostgreSqlOutput();
-  createAPowerBiOutput();
-  createAServiceBusQueueOutputWithAvroSerialization();
-  createAServiceBusTopicOutputWithCsvSerialization();
-  createABlobOutputWithCsvSerialization();
-  createAnAzureDataExplorerOutput();
-  createAnAzureDataLakeStoreOutputWithJsonSerialization();
-  createAnAzureDataWarehouseOutput();
-  createAnAzureFunctionOutput();
-  createAnAzureSqlDatabaseOutput();
-  createAnAzureTableOutput();
-  createAnEventHubOutputWithJsonSerialization();
+  await createADeltaLakeOutput();
+  await createADocumentDbOutput();
+  await createAGatewayMessageBusOutput();
+  await createAPostgreSqlOutput();
+  await createAPowerBiOutput();
+  await createAServiceBusQueueOutputWithAvroSerialization();
+  await createAServiceBusTopicOutputWithCsvSerialization();
+  await createABlobOutputWithCsvSerialization();
+  await createAnAzureDataExplorerOutput();
+  await createAnAzureDataLakeStoreOutputWithJsonSerialization();
+  await createAnAzureDataWarehouseOutput();
+  await createAnAzureFunctionOutput();
+  await createAnAzureSqlDatabaseOutput();
+  await createAnAzureTableOutput();
+  await createAnEventHubOutputWithJsonSerialization();
 }
 
 main().catch(console.error);

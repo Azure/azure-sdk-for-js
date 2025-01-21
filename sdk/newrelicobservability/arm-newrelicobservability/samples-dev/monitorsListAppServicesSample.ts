@@ -82,8 +82,8 @@ async function monitorsListAppServicesMinimumSetGen() {
 }
 
 async function main() {
-  monitorsListAppServicesMaximumSetGen();
-  monitorsListAppServicesMinimumSetGen();
+  await monitorsListAppServicesMaximumSetGen();
+  await monitorsListAppServicesMinimumSetGen();
 }
 
 main().catch(console.error);

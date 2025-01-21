@@ -60,7 +60,7 @@ async function updatesApplianceForReplicationProtectedItem() {
 }
 
 async function main() {
-  updatesApplianceForReplicationProtectedItem();
+  await updatesApplianceForReplicationProtectedItem();
 }
 
 main().catch(console.error);

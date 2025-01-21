@@ -45,7 +45,7 @@ async function fabricList() {
 }
 
 async function main() {
-  fabricList();
+  await fabricList();
 }
 
 main().catch(console.error);

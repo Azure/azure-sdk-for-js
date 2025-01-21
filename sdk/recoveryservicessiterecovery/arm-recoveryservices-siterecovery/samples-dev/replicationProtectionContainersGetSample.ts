@@ -42,7 +42,7 @@ async function getsTheProtectionContainerDetails() {
 }
 
 async function main() {
-  getsTheProtectionContainerDetails();
+  await getsTheProtectionContainerDetails();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function migrationConfigurationsDelete() {
 }
 
 async function main() {
-  migrationConfigurationsDelete();
+  await migrationConfigurationsDelete();
 }
 
 main().catch(console.error);

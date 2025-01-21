@@ -50,7 +50,7 @@ async function createALiveOutput() {
 }
 
 async function main() {
-  createALiveOutput();
+  await createALiveOutput();
 }
 
 main().catch(console.error);

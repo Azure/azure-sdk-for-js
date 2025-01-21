@@ -35,7 +35,7 @@ async function deploymentStacksSubscriptionExportTemplate() {
 }
 
 async function main() {
-  deploymentStacksSubscriptionExportTemplate();
+  await deploymentStacksSubscriptionExportTemplate();
 }
 
 main().catch(console.error);

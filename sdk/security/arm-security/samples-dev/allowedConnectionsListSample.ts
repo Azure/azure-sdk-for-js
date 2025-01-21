@@ -34,7 +34,7 @@ async function getAllowedConnectionsOnASubscription() {
 }
 
 async function main() {
-  getAllowedConnectionsOnASubscription();
+  await getAllowedConnectionsOnASubscription();
 }
 
 main().catch(console.error);

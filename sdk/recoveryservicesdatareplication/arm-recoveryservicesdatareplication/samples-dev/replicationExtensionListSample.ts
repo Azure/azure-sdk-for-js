@@ -44,7 +44,7 @@ async function replicationExtensionList() {
 }
 
 async function main() {
-  replicationExtensionList();
+  await replicationExtensionList();
 }
 
 main().catch(console.error);

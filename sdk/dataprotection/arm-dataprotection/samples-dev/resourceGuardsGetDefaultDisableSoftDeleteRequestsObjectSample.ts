@@ -38,7 +38,7 @@ async function getDefaultOperationsRequestObject(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDefaultOperationsRequestObject();
+  await getDefaultOperationsRequestObject();
 }
 
 main().catch(console.error);

@@ -86,9 +86,9 @@ async function getListOfServiceTagsWithTagName() {
 }
 
 async function main() {
-  getListOfServiceTags();
-  getListOfServiceTagsWithNoAddressPrefixes();
-  getListOfServiceTagsWithTagName();
+  await getListOfServiceTags();
+  await getListOfServiceTagsWithNoAddressPrefixes();
+  await getListOfServiceTagsWithTagName();
 }
 
 main().catch(console.error);

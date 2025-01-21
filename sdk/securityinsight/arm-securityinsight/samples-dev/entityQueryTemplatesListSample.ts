@@ -40,7 +40,7 @@ async function getAllEntityQueryTemplates() {
 }
 
 async function main() {
-  getAllEntityQueryTemplates();
+  await getAllEntityQueryTemplates();
 }
 
 main().catch(console.error);

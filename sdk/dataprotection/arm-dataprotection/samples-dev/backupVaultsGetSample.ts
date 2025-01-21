@@ -70,9 +70,9 @@ async function getBackupVaultWithMsi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBackupVault();
-  getBackupVaultWithCmk();
-  getBackupVaultWithMsi();
+  await getBackupVault();
+  await getBackupVaultWithCmk();
+  await getBackupVaultWithMsi();
 }
 
 main().catch(console.error);

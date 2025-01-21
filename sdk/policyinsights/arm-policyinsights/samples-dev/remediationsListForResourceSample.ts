@@ -59,8 +59,8 @@ async function listRemediationsAtIndividualResourceScopeWithQueryParameters() {
 }
 
 async function main() {
-  listRemediationsAtIndividualResourceScope();
-  listRemediationsAtIndividualResourceScopeWithQueryParameters();
+  await listRemediationsAtIndividualResourceScope();
+  await listRemediationsAtIndividualResourceScopeWithQueryParameters();
 }
 
 main().catch(console.error);

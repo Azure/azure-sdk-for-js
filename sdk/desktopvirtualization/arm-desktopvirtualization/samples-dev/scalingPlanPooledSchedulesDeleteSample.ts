@@ -37,7 +37,7 @@ async function scalingPlanPooledSchedulesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlanPooledSchedulesDelete();
+  await scalingPlanPooledSchedulesDelete();
 }
 
 main().catch(console.error);

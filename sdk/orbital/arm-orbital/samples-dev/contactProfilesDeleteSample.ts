@@ -37,7 +37,7 @@ async function deleteContactProfile() {
 }
 
 async function main() {
-  deleteContactProfile();
+  await deleteContactProfile();
 }
 
 main().catch(console.error);

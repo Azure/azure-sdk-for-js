@@ -50,7 +50,7 @@ async function updateAStreamingEndpoint() {
 }
 
 async function main() {
-  updateAStreamingEndpoint();
+  await updateAStreamingEndpoint();
 }
 
 main().catch(console.error);

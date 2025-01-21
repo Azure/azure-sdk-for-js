@@ -35,7 +35,7 @@ async function listVirtualNetworkGatewayConnectionsinResourceGroup() {
 }
 
 async function main() {
-  listVirtualNetworkGatewayConnectionsinResourceGroup();
+  await listVirtualNetworkGatewayConnectionsinResourceGroup();
 }
 
 main().catch(console.error);

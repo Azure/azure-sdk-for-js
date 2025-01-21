@@ -31,7 +31,7 @@ async function getSupportedPacketCoreControlPlaneVersions() {
 }
 
 async function main() {
-  getSupportedPacketCoreControlPlaneVersions();
+  await getSupportedPacketCoreControlPlaneVersions();
 }
 
 main().catch(console.error);

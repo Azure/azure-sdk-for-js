@@ -35,7 +35,7 @@ async function listSubscriptionQuotaInformationInWestUs() {
 }
 
 async function main() {
-  listSubscriptionQuotaInformationInWestUs();
+  await listSubscriptionQuotaInformationInWestUs();
 }
 
 main().catch(console.error);

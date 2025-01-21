@@ -37,7 +37,7 @@ async function getAllPrivateEndpointConnectionsForASpecificHdInsightCluster() {
 }
 
 async function main() {
-  getAllPrivateEndpointConnectionsForASpecificHdInsightCluster();
+  await getAllPrivateEndpointConnectionsForASpecificHdInsightCluster();
 }
 
 main().catch(console.error);

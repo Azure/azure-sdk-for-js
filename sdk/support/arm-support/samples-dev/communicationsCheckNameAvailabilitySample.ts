@@ -42,7 +42,7 @@ async function checksWhetherNameIsAvailableForCommunicationResourceForASubscript
 }
 
 async function main() {
-  checksWhetherNameIsAvailableForCommunicationResourceForASubscriptionSupportTicket();
+  await checksWhetherNameIsAvailableForCommunicationResourceForASubscriptionSupportTicket();
 }
 
 main().catch(console.error);

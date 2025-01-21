@@ -37,7 +37,7 @@ async function pipelinesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelinesDelete();
+  await pipelinesDelete();
 }
 
 main().catch(console.error);

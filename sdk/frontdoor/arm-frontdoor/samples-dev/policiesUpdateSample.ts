@@ -36,7 +36,7 @@ async function patchesSpecificPolicy() {
 }
 
 async function main() {
-  patchesSpecificPolicy();
+  await patchesSpecificPolicy();
 }
 
 main().catch(console.error);

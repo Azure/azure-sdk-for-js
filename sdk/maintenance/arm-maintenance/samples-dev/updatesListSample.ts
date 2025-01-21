@@ -44,7 +44,7 @@ async function updatesList() {
 }
 
 async function main() {
-  updatesList();
+  await updatesList();
 }
 
 main().catch(console.error);

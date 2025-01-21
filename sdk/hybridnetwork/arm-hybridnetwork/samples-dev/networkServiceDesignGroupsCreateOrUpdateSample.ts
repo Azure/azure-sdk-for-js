@@ -42,7 +42,7 @@ async function createOrUpdateTheNetworkServiceDesignGroup() {
 }
 
 async function main() {
-  createOrUpdateTheNetworkServiceDesignGroup();
+  await createOrUpdateTheNetworkServiceDesignGroup();
 }
 
 main().catch(console.error);

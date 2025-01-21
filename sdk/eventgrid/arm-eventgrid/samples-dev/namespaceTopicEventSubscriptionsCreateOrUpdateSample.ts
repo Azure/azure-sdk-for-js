@@ -54,7 +54,7 @@ async function namespaceTopicEventSubscriptionsCreateOrUpdate() {
 }
 
 async function main() {
-  namespaceTopicEventSubscriptionsCreateOrUpdate();
+  await namespaceTopicEventSubscriptionsCreateOrUpdate();
 }
 
 main().catch(console.error);

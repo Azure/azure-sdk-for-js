@@ -34,7 +34,7 @@ async function networkConnectionsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsGet();
+  await networkConnectionsGet();
 }
 
 main().catch(console.error);

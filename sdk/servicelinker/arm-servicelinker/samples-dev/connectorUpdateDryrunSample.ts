@@ -56,7 +56,7 @@ async function connectorDryrunUpdate() {
 }
 
 async function main() {
-  connectorDryrunUpdate();
+  await connectorDryrunUpdate();
 }
 
 main().catch(console.error);

@@ -88,7 +88,7 @@ async function networkToNetworkInterconnectsUpdateMaximumSetGen() {
 }
 
 async function main() {
-  networkToNetworkInterconnectsUpdateMaximumSetGen();
+  await networkToNetworkInterconnectsUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

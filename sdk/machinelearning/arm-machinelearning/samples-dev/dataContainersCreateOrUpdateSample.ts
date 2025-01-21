@@ -54,7 +54,7 @@ async function createOrUpdateWorkspaceDataContainer() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceDataContainer();
+  await createOrUpdateWorkspaceDataContainer();
 }
 
 main().catch(console.error);

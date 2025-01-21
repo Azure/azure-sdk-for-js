@@ -44,7 +44,7 @@ async function stopPacketCaptureOnVpnGateway() {
 }
 
 async function main() {
-  stopPacketCaptureOnVpnGateway();
+  await stopPacketCaptureOnVpnGateway();
 }
 
 main().catch(console.error);

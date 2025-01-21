@@ -32,7 +32,7 @@ async function listSubscriptionCapabilitiesInTheGivenLocation() {
 }
 
 async function main() {
-  listSubscriptionCapabilitiesInTheGivenLocation();
+  await listSubscriptionCapabilitiesInTheGivenLocation();
 }
 
 main().catch(console.error);

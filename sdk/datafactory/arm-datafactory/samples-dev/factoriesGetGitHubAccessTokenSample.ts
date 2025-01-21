@@ -44,7 +44,7 @@ async function factoriesGetGitHubAccessToken(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesGetGitHubAccessToken();
+  await factoriesGetGitHubAccessToken();
 }
 
 main().catch(console.error);

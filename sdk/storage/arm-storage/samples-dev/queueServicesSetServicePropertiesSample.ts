@@ -77,7 +77,7 @@ async function queueServicesPut() {
 }
 
 async function main() {
-  queueServicesPut();
+  await queueServicesPut();
 }
 
 main().catch(console.error);

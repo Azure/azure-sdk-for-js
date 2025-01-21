@@ -39,7 +39,7 @@ async function userSessionGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  userSessionGet();
+  await userSessionGet();
 }
 
 main().catch(console.error);

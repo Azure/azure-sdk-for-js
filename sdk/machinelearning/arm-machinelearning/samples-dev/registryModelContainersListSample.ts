@@ -43,7 +43,7 @@ async function listRegistryModelContainer() {
 }
 
 async function main() {
-  listRegistryModelContainer();
+  await listRegistryModelContainer();
 }
 
 main().catch(console.error);

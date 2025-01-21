@@ -46,7 +46,7 @@ async function createsOrUpdatesAnIncidentRelation() {
 }
 
 async function main() {
-  createsOrUpdatesAnIncidentRelation();
+  await createsOrUpdatesAnIncidentRelation();
 }
 
 main().catch(console.error);

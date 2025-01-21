@@ -40,7 +40,7 @@ async function getMapsByIntegrationAccountName() {
 }
 
 async function main() {
-  getMapsByIntegrationAccountName();
+  await getMapsByIntegrationAccountName();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function signalRCustomDomainsCreateOrUpdate() {
 }
 
 async function main() {
-  signalRCustomDomainsCreateOrUpdate();
+  await signalRCustomDomainsCreateOrUpdate();
 }
 
 main().catch(console.error);

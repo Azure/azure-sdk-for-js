@@ -45,7 +45,7 @@ async function listTheColumnsInATableOfAGivenSchemaInASqlAnalyticsPool() {
 }
 
 async function main() {
-  listTheColumnsInATableOfAGivenSchemaInASqlAnalyticsPool();
+  await listTheColumnsInATableOfAGivenSchemaInASqlAnalyticsPool();
 }
 
 main().catch(console.error);

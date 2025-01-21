@@ -38,7 +38,7 @@ async function dpsGetKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsGetKey();
+  await dpsGetKey();
 }
 
 main().catch(console.error);

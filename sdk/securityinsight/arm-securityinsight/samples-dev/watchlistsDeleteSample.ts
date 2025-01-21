@@ -39,7 +39,7 @@ async function deleteAWatchlist() {
 }
 
 async function main() {
-  deleteAWatchlist();
+  await deleteAWatchlist();
 }
 
 main().catch(console.error);

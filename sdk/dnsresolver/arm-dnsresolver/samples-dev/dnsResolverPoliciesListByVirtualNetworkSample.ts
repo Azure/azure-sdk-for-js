@@ -40,7 +40,7 @@ async function listDnsResolverPoliciesByVirtualNetwork() {
 }
 
 async function main() {
-  listDnsResolverPoliciesByVirtualNetwork();
+  await listDnsResolverPoliciesByVirtualNetwork();
 }
 
 main().catch(console.error);

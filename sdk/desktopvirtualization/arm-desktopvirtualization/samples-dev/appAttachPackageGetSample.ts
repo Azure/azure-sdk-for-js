@@ -35,7 +35,7 @@ async function appAttachPackageGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appAttachPackageGet();
+  await appAttachPackageGet();
 }
 
 main().catch(console.error);

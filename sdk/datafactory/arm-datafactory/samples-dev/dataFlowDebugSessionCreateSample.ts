@@ -56,7 +56,7 @@ async function dataFlowDebugSessionCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataFlowDebugSessionCreate();
+  await dataFlowDebugSessionCreate();
 }
 
 main().catch(console.error);

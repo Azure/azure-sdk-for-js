@@ -37,7 +37,7 @@ async function datasetsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  datasetsGet();
+  await datasetsGet();
 }
 
 main().catch(console.error);

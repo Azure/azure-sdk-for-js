@@ -35,7 +35,7 @@ async function regionInfosList() {
 }
 
 async function main() {
-  regionInfosList();
+  await regionInfosList();
 }
 
 main().catch(console.error);

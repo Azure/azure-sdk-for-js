@@ -63,8 +63,8 @@ async function dataProductsListRolesAssignmentsMaximumSetGenGeneratedByMinimumSe
 }
 
 async function main() {
-  dataProductsListRolesAssignmentsMaximumSetGen();
-  dataProductsListRolesAssignmentsMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsListRolesAssignmentsMaximumSetGen();
+  await dataProductsListRolesAssignmentsMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function getsANetworkWithSpecifiedServerIdAndNetworkName() {
 }
 
 async function main() {
-  getsANetworkWithSpecifiedServerIdAndNetworkName();
+  await getsANetworkWithSpecifiedServerIdAndNetworkName();
 }
 
 main().catch(console.error);

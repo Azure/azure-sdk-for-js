@@ -33,7 +33,7 @@ async function listBackupInstancesAssociatedWithAnAzureResource(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  listBackupInstancesAssociatedWithAnAzureResource();
+  await listBackupInstancesAssociatedWithAnAzureResource();
 }
 
 main().catch(console.error);

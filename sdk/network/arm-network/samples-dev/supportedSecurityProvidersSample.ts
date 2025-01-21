@@ -34,7 +34,7 @@ async function supportedSecurityProviders() {
 }
 
 async function main() {
-  supportedSecurityProviders();
+  await supportedSecurityProviders();
 }
 
 main().catch(console.error);

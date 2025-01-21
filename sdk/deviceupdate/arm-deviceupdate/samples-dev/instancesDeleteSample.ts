@@ -37,7 +37,7 @@ async function deletesInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletesInstance();
+  await deletesInstance();
 }
 
 main().catch(console.error);

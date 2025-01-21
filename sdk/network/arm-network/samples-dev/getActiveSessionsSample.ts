@@ -37,7 +37,7 @@ async function returnsAListOfCurrentlyActiveSessionsOnTheBastion() {
 }
 
 async function main() {
-  returnsAListOfCurrentlyActiveSessionsOnTheBastion();
+  await returnsAListOfCurrentlyActiveSessionsOnTheBastion();
 }
 
 main().catch(console.error);

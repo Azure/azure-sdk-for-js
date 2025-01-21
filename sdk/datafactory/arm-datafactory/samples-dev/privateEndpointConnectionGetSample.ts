@@ -37,7 +37,7 @@ async function getAPrivateEndpointConnectionForADatafactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAPrivateEndpointConnectionForADatafactory();
+  await getAPrivateEndpointConnectionForADatafactory();
 }
 
 main().catch(console.error);

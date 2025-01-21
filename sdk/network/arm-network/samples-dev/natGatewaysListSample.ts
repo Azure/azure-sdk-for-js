@@ -33,7 +33,7 @@ async function listNatGatewaysInResourceGroup() {
 }
 
 async function main() {
-  listNatGatewaysInResourceGroup();
+  await listNatGatewaysInResourceGroup();
 }
 
 main().catch(console.error);

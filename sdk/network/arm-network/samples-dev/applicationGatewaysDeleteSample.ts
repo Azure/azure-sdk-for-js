@@ -34,7 +34,7 @@ async function deleteApplicationGateway() {
 }
 
 async function main() {
-  deleteApplicationGateway();
+  await deleteApplicationGateway();
 }
 
 main().catch(console.error);

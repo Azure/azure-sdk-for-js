@@ -83,8 +83,8 @@ async function kustoReadWriteDatabaseCreateOrUpdate() {
 }
 
 async function main() {
-  kustoReadOnlyDatabaseUpdate();
-  kustoReadWriteDatabaseCreateOrUpdate();
+  await kustoReadOnlyDatabaseUpdate();
+  await kustoReadWriteDatabaseCreateOrUpdate();
 }
 
 main().catch(console.error);

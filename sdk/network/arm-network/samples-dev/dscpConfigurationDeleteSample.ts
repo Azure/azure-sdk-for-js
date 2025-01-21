@@ -34,7 +34,7 @@ async function deleteDscpConfiguration() {
 }
 
 async function main() {
-  deleteDscpConfiguration();
+  await deleteDscpConfiguration();
 }
 
 main().catch(console.error);

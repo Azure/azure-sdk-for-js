@@ -37,7 +37,7 @@ async function getSpacecraft() {
 }
 
 async function main() {
-  getSpacecraft();
+  await getSpacecraft();
 }
 
 main().catch(console.error);

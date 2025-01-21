@@ -36,7 +36,7 @@ async function getsListOfAccounts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsListOfAccounts();
+  await getsListOfAccounts();
 }
 
 main().catch(console.error);

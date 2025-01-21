@@ -38,7 +38,7 @@ async function getWorkspaceManagedSqlServersExtendedBlobAuditingSettings() {
 }
 
 async function main() {
-  getWorkspaceManagedSqlServersExtendedBlobAuditingSettings();
+  await getWorkspaceManagedSqlServersExtendedBlobAuditingSettings();
 }
 
 main().catch(console.error);

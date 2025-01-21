@@ -49,7 +49,7 @@ async function createOrUpdateAppliance() {
 }
 
 async function main() {
-  createOrUpdateAppliance();
+  await createOrUpdateAppliance();
 }
 
 main().catch(console.error);

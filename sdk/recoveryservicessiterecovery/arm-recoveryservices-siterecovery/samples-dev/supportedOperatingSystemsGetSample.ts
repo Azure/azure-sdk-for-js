@@ -38,7 +38,7 @@ async function getsTheDataOfSupportedOperatingSystemsBySrs() {
 }
 
 async function main() {
-  getsTheDataOfSupportedOperatingSystemsBySrs();
+  await getsTheDataOfSupportedOperatingSystemsBySrs();
 }
 
 main().catch(console.error);

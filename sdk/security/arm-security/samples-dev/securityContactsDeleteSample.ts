@@ -32,7 +32,7 @@ async function deletesASecurityContactData() {
 }
 
 async function main() {
-  deletesASecurityContactData();
+  await deletesASecurityContactData();
 }
 
 main().catch(console.error);

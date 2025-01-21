@@ -37,7 +37,7 @@ async function partnerRegistrationsGet() {
 }
 
 async function main() {
-  partnerRegistrationsGet();
+  await partnerRegistrationsGet();
 }
 
 main().catch(console.error);

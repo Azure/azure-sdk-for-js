@@ -60,8 +60,8 @@ async function fileSystemsListByResourceGroupMinimumSetGen() {
 }
 
 async function main() {
-  fileSystemsListByResourceGroup();
-  fileSystemsListByResourceGroupMinimumSetGen();
+  await fileSystemsListByResourceGroup();
+  await fileSystemsListByResourceGroupMinimumSetGen();
 }
 
 main().catch(console.error);

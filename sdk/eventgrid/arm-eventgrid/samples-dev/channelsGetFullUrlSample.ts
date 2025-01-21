@@ -39,7 +39,7 @@ async function channelsGetFullUrl() {
 }
 
 async function main() {
-  channelsGetFullUrl();
+  await channelsGetFullUrl();
 }
 
 main().catch(console.error);

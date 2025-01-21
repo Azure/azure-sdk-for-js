@@ -77,8 +77,8 @@ async function getProtectedVirtualMachineDetails() {
 }
 
 async function main() {
-  getProtectedClassicVirtualMachineDetails();
-  getProtectedVirtualMachineDetails();
+  await getProtectedClassicVirtualMachineDetails();
+  await getProtectedVirtualMachineDetails();
 }
 
 main().catch(console.error);

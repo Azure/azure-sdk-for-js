@@ -34,7 +34,7 @@ async function partnerConfigurationsDelete() {
 }
 
 async function main() {
-  partnerConfigurationsDelete();
+  await partnerConfigurationsDelete();
 }
 
 main().catch(console.error);

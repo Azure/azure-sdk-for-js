@@ -32,7 +32,7 @@ async function operationDescriptionList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  operationDescriptionList();
+  await operationDescriptionList();
 }
 
 main().catch(console.error);

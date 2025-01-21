@@ -68,8 +68,8 @@ async function workspacesGenerateUploadUrlMinimumSetGen() {
 }
 
 async function main() {
-  workspacesGenerateUploadUrlMaximumSetGen();
-  workspacesGenerateUploadUrlMinimumSetGen();
+  await workspacesGenerateUploadUrlMaximumSetGen();
+  await workspacesGenerateUploadUrlMinimumSetGen();
 }
 
 main().catch(console.error);

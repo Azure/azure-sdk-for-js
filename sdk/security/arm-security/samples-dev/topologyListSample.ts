@@ -34,7 +34,7 @@ async function getTopologyOnASubscription() {
 }
 
 async function main() {
-  getTopologyOnASubscription();
+  await getTopologyOnASubscription();
 }
 
 main().catch(console.error);

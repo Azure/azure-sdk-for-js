@@ -47,7 +47,7 @@ async function getsTheListOfRecoveryPointsForAReplicationProtectedItem() {
 }
 
 async function main() {
-  getsTheListOfRecoveryPointsForAReplicationProtectedItem();
+  await getsTheListOfRecoveryPointsForAReplicationProtectedItem();
 }
 
 main().catch(console.error);

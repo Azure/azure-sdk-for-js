@@ -37,7 +37,7 @@ async function applicationGroupList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationGroupList();
+  await applicationGroupList();
 }
 
 main().catch(console.error);

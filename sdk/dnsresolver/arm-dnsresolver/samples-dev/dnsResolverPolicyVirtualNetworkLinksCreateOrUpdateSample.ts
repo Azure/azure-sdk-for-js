@@ -51,7 +51,7 @@ async function upsertDnsResolverPolicyVirtualNetworkLink() {
 }
 
 async function main() {
-  upsertDnsResolverPolicyVirtualNetworkLink();
+  await upsertDnsResolverPolicyVirtualNetworkLink();
 }
 
 main().catch(console.error);

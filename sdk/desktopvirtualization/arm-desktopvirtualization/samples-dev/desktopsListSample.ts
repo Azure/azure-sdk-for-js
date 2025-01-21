@@ -50,7 +50,7 @@ async function desktopList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  desktopList();
+  await desktopList();
 }
 
 main().catch(console.error);
