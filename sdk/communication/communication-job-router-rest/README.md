@@ -109,7 +109,7 @@ const result = await routerClient
     body: {
       name: "distribution-policy-123",
       mode: {
-        kind: "longest-idle",
+        kind: "longestIdle",
         minConcurrentOffers: 1,
         maxConcurrentOffers: 5,
         bypassSelectors: false,
@@ -366,29 +366,17 @@ The `assignmentId` received from the previous step's response is required to com
 
 ```ts snippet:ReadmeSampleCompleteJob
 import JobRouterClient from "@azure-rest/communication-job-router";
-import { isUnexpected } from "../generated/isUnexpected.js";
 
 const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 const routerClient = JobRouterClient(connectionString);
 
 const workerId = "router-worker-123";
-const offerId = "offer-id";
-
-const acceptResponse = await routerClient
-  .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
-  .post();
-
-if (isUnexpected(acceptResponse)) {
-  throw new Error("Unexpected response");
-}
+const jobId = "job-id";
+const assignmentId = "assignment-id";
 
 const completeJob = await routerClient
-  .path(
-    "/routing/jobs/{jobId}/assignments/{assignmentId}:complete",
-    acceptResponse.body.jobId,
-    acceptResponse.body.assignmentId,
-  )
+  .path("/routing/jobs/{jobId}/assignments/{assignmentId}:complete", jobId, assignmentId)
   .post({
     body: {
       note: `Job has been completed by ${workerId} at ${new Date()}`,
@@ -402,29 +390,17 @@ Once the worker has completed the wrap-up phase of the job we can close the job 
 
 ```ts snippet:ReadmeSampleCloseJob
 import JobRouterClient from "@azure-rest/communication-job-router";
-import { isUnexpected } from "../generated/isUnexpected.js";
 
 const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
 const routerClient = JobRouterClient(connectionString);
 
 const workerId = "router-worker-123";
-const offerId = "offer-id";
-
-const acceptResponse = await routerClient
-  .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
-  .post();
-
-if (isUnexpected(acceptResponse)) {
-  throw new Error("Unexpected response");
-}
+const jobId = "job-id";
+const assignmentId = "assignment-id";
 
 const closeJob = await routerClient
-  .path(
-    "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
-    acceptResponse.body.jobId,
-    acceptResponse.body.assignmentId,
-  )
+  .path("/routing/jobs/{jobId}/assignments/{assignmentId}:close", jobId, assignmentId)
   .post({
     body: {
       note: `Job has been closed by ${workerId} at ${new Date()}`,

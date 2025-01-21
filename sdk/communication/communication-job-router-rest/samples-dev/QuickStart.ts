@@ -9,7 +9,7 @@ import type {
   AcceptJobOfferResultOutput,
   RouterJobOutput,
 } from "@azure-rest/communication-job-router";
-import JobRouter from "@azure-rest/communication-job-router";
+import JobRouter, { isUnexpected } from "@azure-rest/communication-job-router";
 import "dotenv/config";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -94,8 +94,8 @@ async function quickStart(): Promise<void> {
   // However, we could also wait a few seconds and then query the worker directly against the Job Router API to see if
   // an offer was issued to it.
   const workerResponse = await routerClient.path("/routing/workers/{workerId}", workerId).get();
-  if (workerResponse.status !== "200") {
-    throw new Error("get works fails");
+  if (isUnexpected(workerResponse)) {
+    throw workerResponse;
   }
   const workerResult = workerResponse.body as RouterWorkerOutput;
 
@@ -114,8 +114,8 @@ async function quickStart(): Promise<void> {
   const acceptJobOfferResponse = await routerClient
     .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
     .post();
-  if (acceptJobOfferResponse.status !== "200") {
-    throw new Error("accept job offer fails");
+  if (isUnexpected(acceptJobOfferResponse)) {
+    throw acceptJobOfferResponse;
   }
   const acceptJobOfferResult = acceptJobOfferResponse.body as AcceptJobOfferResultOutput;
 
@@ -126,8 +126,8 @@ async function quickStart(): Promise<void> {
 
   // verify job assignment is populated when querying job
   let updatedJobResponse = await routerClient.path("/routing/jobs/{jobId}", jobId).get();
-  if (updatedJobResponse.status !== "200") {
-    throw new Error("get job fails");
+  if (isUnexpected(updatedJobResponse)) {
+    throw updatedJobResponse;
   }
   let updatedJob = updatedJobResponse.body as RouterJobOutput;
 
@@ -189,8 +189,8 @@ async function quickStart(): Promise<void> {
   await delay(2000);
 
   updatedJobResponse = await routerClient.path("/routing/jobs/{jobId}", jobId).get();
-  if (updatedJobResponse.status !== "200") {
-    throw new Error("get job fails");
+  if (isUnexpected(updatedJobResponse)) {
+    throw updatedJobResponse;
   }
   updatedJob = updatedJobResponse.body as RouterJobOutput;
 

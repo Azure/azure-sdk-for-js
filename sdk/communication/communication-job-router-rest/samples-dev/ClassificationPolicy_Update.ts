@@ -47,4 +47,4 @@ async function updateClassificationPolicy(): Promise<void> {
   console.log("classification policy: " + result);
 }
 
-void updateClassificationPolicy();
+updateClassificationPolicy().catch(console.error);

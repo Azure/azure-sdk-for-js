@@ -178,21 +178,14 @@ describe("snippets", () => {
     const routerClient = JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     const workerId = "router-worker-123";
-    const offerId = "offer-id";
-    // @ts-preserve-whitespace
-    const acceptResponse = await routerClient
-      .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
-      .post();
-    // @ts-preserve-whitespace
-    if (isUnexpected(acceptResponse)) {
-      throw new Error("Unexpected response");
-    }
+    const jobId = "job-id";
+    const assignmentId = "assignment-id";
     // @ts-preserve-whitespace
     const completeJob = await routerClient
       .path(
         "/routing/jobs/{jobId}/assignments/{assignmentId}:complete",
-        acceptResponse.body.jobId,
-        acceptResponse.body.assignmentId,
+        jobId,
+        assignmentId,
       )
       .post({
         body: {
@@ -207,21 +200,14 @@ describe("snippets", () => {
     const routerClient = JobRouterClient(connectionString);
     // @ts-preserve-whitespace
     const workerId = "router-worker-123";
-    const offerId = "offer-id";
-    // @ts-preserve-whitespace
-    const acceptResponse = await routerClient
-      .path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId)
-      .post();
-    // @ts-preserve-whitespace
-    if (isUnexpected(acceptResponse)) {
-      throw new Error("Unexpected response");
-    }
+    const jobId = "job-id";
+    const assignmentId = "assignment-id";
     // @ts-preserve-whitespace
     const closeJob = await routerClient
       .path(
         "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
-        acceptResponse.body.jobId,
-        acceptResponse.body.assignmentId,
+        jobId,
+        assignmentId,
       )
       .post({
         body: {

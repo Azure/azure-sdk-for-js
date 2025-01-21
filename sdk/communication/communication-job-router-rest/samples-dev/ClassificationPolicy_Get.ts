@@ -25,4 +25,4 @@ async function getClassificationPolicy(): Promise<void> {
   console.log("classification policy: " + result);
 }
 
-void getClassificationPolicy();
+getClassificationPolicy().catch(console.error);
