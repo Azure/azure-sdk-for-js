@@ -41,7 +41,7 @@ async function deleteAzureVMProtectionPolicy() {
 }
 
 async function main() {
-  deleteAzureVMProtectionPolicy();
+  await deleteAzureVMProtectionPolicy();
 }
 
 main().catch(console.error);

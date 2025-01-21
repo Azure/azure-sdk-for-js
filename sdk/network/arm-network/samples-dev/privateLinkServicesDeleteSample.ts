@@ -34,7 +34,7 @@ async function deletePrivateLinkService() {
 }
 
 async function main() {
-  deletePrivateLinkService();
+  await deletePrivateLinkService();
 }
 
 main().catch(console.error);

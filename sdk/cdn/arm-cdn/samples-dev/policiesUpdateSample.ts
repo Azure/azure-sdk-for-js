@@ -13,9 +13,7 @@ import {
   CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the specified subscription and resource group
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the specified subscription and resource group
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafPatchPolicy.json
  */
-async function createsSpecificPolicy() {
+async function createsSpecificPolicy(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "rg1";
   const policyName = "MicrosoftCdnWafPolicy";
@@ -39,7 +37,7 @@ async function createsSpecificPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsSpecificPolicy();
 }
 

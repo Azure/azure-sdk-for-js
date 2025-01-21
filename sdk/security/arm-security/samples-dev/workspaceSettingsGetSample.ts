@@ -32,7 +32,7 @@ async function getAWorkspaceSettingOnSubscription() {
 }
 
 async function main() {
-  getAWorkspaceSettingOnSubscription();
+  await getAWorkspaceSettingOnSubscription();
 }
 
 main().catch(console.error);

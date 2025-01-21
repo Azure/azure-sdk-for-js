@@ -37,7 +37,7 @@ async function listIntegrationServiceEnvironmentsByResourceGroupName() {
 }
 
 async function main() {
-  listIntegrationServiceEnvironmentsByResourceGroupName();
+  await listIntegrationServiceEnvironmentsByResourceGroupName();
 }
 
 main().catch(console.error);

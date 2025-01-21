@@ -36,7 +36,7 @@ async function stopConnectionMonitor() {
 }
 
 async function main() {
-  stopConnectionMonitor();
+  await stopConnectionMonitor();
 }
 
 main().catch(console.error);

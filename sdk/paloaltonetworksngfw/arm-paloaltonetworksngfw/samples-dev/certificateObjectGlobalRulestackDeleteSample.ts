@@ -51,8 +51,8 @@ async function certificateObjectGlobalRulestackDeleteMinimumSetGen() {
 }
 
 async function main() {
-  certificateObjectGlobalRulestackDeleteMaximumSetGen();
-  certificateObjectGlobalRulestackDeleteMinimumSetGen();
+  await certificateObjectGlobalRulestackDeleteMaximumSetGen();
+  await certificateObjectGlobalRulestackDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

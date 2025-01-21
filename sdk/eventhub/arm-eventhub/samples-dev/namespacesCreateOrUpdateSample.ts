@@ -64,7 +64,7 @@ async function namespaceCreate() {
 }
 
 async function main() {
-  namespaceCreate();
+  await namespaceCreate();
 }
 
 main().catch(console.error);

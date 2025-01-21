@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./fleets";
-export * from "./autoUpgradeProfiles";
-export * from "./fleetMembers";
-export * from "./updateRuns";
-export * from "./fleetUpdateStrategies";
+export * from "./operations.js";
+export * from "./fleets.js";
+export * from "./autoUpgradeProfiles.js";
+export * from "./fleetMembers.js";
+export * from "./updateRuns.js";
+export * from "./fleetUpdateStrategies.js";

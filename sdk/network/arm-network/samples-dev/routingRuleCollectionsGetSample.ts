@@ -40,7 +40,7 @@ async function getsRoutingRuleCollection() {
 }
 
 async function main() {
-  getsRoutingRuleCollection();
+  await getsRoutingRuleCollection();
 }
 
 main().catch(console.error);

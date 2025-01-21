@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2023-05-01-preview/Operations_List_MaximumSet_Gen.json
  */
-async function listTheOperationsForTheProviderGeneratedByMaximumSetRule() {
+async function listTheOperationsForTheProviderGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listTheOperationsForTheProviderGeneratedByMaximumSetRule() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listTheOperationsForTheProviderGeneratedByMaximumSetRule();
 }
 

@@ -39,7 +39,7 @@ async function getKubernetesClusterAgentPool() {
 }
 
 async function main() {
-  getKubernetesClusterAgentPool();
+  await getKubernetesClusterAgentPool();
 }
 
 main().catch(console.error);

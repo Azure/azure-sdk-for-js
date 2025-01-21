@@ -34,7 +34,7 @@ async function getDetailsOfAnAutoScaleVCore() {
 }
 
 async function main() {
-  getDetailsOfAnAutoScaleVCore();
+  await getDetailsOfAnAutoScaleVCore();
 }
 
 main().catch(console.error);

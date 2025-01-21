@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the list of diagnostics for a Managed Environment used to host container apps.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the list of diagnostics for a Managed Environment used to host container apps.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentDiagnostics_List.json
  */
-async function getTheListOfAvailableDiagnosticDataForAManagedEnvironments() {
+async function getTheListOfAvailableDiagnosticDataForAManagedEnvironments(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "f07f3711-b45e-40fe-a941-4e6d93f851e6";
@@ -36,7 +34,7 @@ async function getTheListOfAvailableDiagnosticDataForAManagedEnvironments() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheListOfAvailableDiagnosticDataForAManagedEnvironments();
 }
 

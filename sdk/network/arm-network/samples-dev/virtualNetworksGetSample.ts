@@ -72,9 +72,9 @@ async function getVirtualNetworkWithServiceAssociationLinks() {
 }
 
 async function main() {
-  getVirtualNetwork();
-  getVirtualNetworkWithADelegatedSubnet();
-  getVirtualNetworkWithServiceAssociationLinks();
+  await getVirtualNetwork();
+  await getVirtualNetworkWithADelegatedSubnet();
+  await getVirtualNetworkWithServiceAssociationLinks();
 }
 
 main().catch(console.error);

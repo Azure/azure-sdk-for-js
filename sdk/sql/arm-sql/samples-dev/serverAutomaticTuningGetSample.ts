@@ -37,7 +37,7 @@ async function getAServerAutomaticTuningSettings() {
 }
 
 async function main() {
-  getAServerAutomaticTuningSettings();
+  await getAServerAutomaticTuningSettings();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function uncordonBareMetalMachine() {
 }
 
 async function main() {
-  uncordonBareMetalMachine();
+  await uncordonBareMetalMachine();
 }
 
 main().catch(console.error);

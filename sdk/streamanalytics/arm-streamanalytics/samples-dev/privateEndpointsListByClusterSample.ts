@@ -43,7 +43,7 @@ async function getThePrivateEndpointsInACluster() {
 }
 
 async function main() {
-  getThePrivateEndpointsInACluster();
+  await getThePrivateEndpointsInACluster();
 }
 
 main().catch(console.error);

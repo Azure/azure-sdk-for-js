@@ -34,7 +34,7 @@ async function listAllMediaServicesAccounts() {
 }
 
 async function main() {
-  listAllMediaServicesAccounts();
+  await listAllMediaServicesAccounts();
 }
 
 main().catch(console.error);

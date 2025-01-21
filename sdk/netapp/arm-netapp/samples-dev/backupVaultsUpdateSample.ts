@@ -40,7 +40,7 @@ async function backupVaultsUpdate() {
 }
 
 async function main() {
-  backupVaultsUpdate();
+  await backupVaultsUpdate();
 }
 
 main().catch(console.error);

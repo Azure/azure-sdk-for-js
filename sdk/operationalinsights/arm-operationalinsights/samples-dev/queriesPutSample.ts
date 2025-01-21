@@ -54,7 +54,7 @@ async function queryPut() {
 }
 
 async function main() {
-  queryPut();
+  await queryPut();
 }
 
 main().catch(console.error);

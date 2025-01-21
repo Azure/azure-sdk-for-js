@@ -34,7 +34,7 @@ async function solutionGet() {
 }
 
 async function main() {
-  solutionGet();
+  await solutionGet();
 }
 
 main().catch(console.error);

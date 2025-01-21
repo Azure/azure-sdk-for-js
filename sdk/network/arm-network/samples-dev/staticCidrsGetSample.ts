@@ -40,7 +40,7 @@ async function staticCidrsGet() {
 }
 
 async function main() {
-  staticCidrsGet();
+  await staticCidrsGet();
 }
 
 main().catch(console.error);

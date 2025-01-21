@@ -59,7 +59,7 @@ async function listFeature() {
 }
 
 async function main() {
-  listFeature();
+  await listFeature();
 }
 
 main().catch(console.error);

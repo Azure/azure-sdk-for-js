@@ -36,7 +36,7 @@ async function deleteDedicatedCloudService() {
 }
 
 async function main() {
-  deleteDedicatedCloudService();
+  await deleteDedicatedCloudService();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listNetworksBySubscriptionId() {
 }
 
 async function main() {
-  listNetworksBySubscriptionId();
+  await listNetworksBySubscriptionId();
 }
 
 main().catch(console.error);

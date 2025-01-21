@@ -46,7 +46,7 @@ async function namespaceTopicsUpdate() {
 }
 
 async function main() {
-  namespaceTopicsUpdate();
+  await namespaceTopicsUpdate();
 }
 
 main().catch(console.error);

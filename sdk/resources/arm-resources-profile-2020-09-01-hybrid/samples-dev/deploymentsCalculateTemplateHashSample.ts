@@ -46,7 +46,7 @@ async function calculateTemplateHash() {
 }
 
 async function main() {
-  calculateTemplateHash();
+  await calculateTemplateHash();
 }
 
 main().catch(console.error);

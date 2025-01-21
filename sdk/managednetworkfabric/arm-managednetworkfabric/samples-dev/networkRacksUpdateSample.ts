@@ -45,7 +45,7 @@ async function networkRacksUpdateMaximumSetGen() {
 }
 
 async function main() {
-  networkRacksUpdateMaximumSetGen();
+  await networkRacksUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

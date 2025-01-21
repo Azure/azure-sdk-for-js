@@ -66,8 +66,8 @@ async function workspacesUpdateMinimumSetGen() {
 }
 
 async function main() {
-  workspacesUpdateMaximumSetGen();
-  workspacesUpdateMinimumSetGen();
+  await workspacesUpdateMaximumSetGen();
+  await workspacesUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

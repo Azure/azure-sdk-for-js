@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebPubSubManagementClient } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a custom domain.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a custom domain.
  * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubCustomDomains_Get.json
  */
-async function webPubSubCustomDomainsGet() {
+async function webPubSubCustomDomainsGet(): Promise<void> {
   const subscriptionId =
     process.env["WEB-PUBSUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function webPubSubCustomDomainsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   webPubSubCustomDomainsGet();
 }
 

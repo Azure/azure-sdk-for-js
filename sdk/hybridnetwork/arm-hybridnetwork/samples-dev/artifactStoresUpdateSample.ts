@@ -42,7 +42,7 @@ async function updateArtifactStoreResourceTags() {
 }
 
 async function main() {
-  updateArtifactStoreResourceTags();
+  await updateArtifactStoreResourceTags();
 }
 
 main().catch(console.error);

@@ -102,6 +102,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     supportsHttpsTrafficOnly: true
     encryption: encryption
     accessTier: 'Hot'
+    allowSharedKeyAccess: false
   }
 }
 

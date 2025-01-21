@@ -53,7 +53,7 @@ async function putConnector() {
 }
 
 async function main() {
-  putConnector();
+  await putConnector();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function listAllLiveEvents() {
 }
 
 async function main() {
-  listAllLiveEvents();
+  await listAllLiveEvents();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function partnerDestinationsCreateOrUpdate() {
 }
 
 async function main() {
-  partnerDestinationsCreateOrUpdate();
+  await partnerDestinationsCreateOrUpdate();
 }
 
 main().catch(console.error);

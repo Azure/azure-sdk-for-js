@@ -36,7 +36,7 @@ async function listAllowedUpgradePlansForApplication() {
 }
 
 async function main() {
-  listAllowedUpgradePlansForApplication();
+  await listAllowedUpgradePlansForApplication();
 }
 
 main().catch(console.error);

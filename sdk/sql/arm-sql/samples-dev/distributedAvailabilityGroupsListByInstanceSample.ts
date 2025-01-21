@@ -39,7 +39,7 @@ async function listsAllDistributedAvailabilityGroupsInInstance() {
 }
 
 async function main() {
-  listsAllDistributedAvailabilityGroupsInInstance();
+  await listsAllDistributedAvailabilityGroupsInInstance();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function listAzureDevOpsProjects() {
 }
 
 async function main() {
-  listAzureDevOpsProjects();
+  await listAzureDevOpsProjects();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function catalogsGet() {
 }
 
 async function main() {
-  catalogsGet();
+  await catalogsGet();
 }
 
 main().catch(console.error);

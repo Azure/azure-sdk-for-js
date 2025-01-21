@@ -35,7 +35,7 @@ async function listAgentPoolByProvisionedClusterInstance() {
 }
 
 async function main() {
-  listAgentPoolByProvisionedClusterInstance();
+  await listAgentPoolByProvisionedClusterInstance();
 }
 
 main().catch(console.error);

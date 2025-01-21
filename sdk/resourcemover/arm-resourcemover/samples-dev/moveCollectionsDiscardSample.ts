@@ -48,7 +48,7 @@ async function moveCollectionsDiscard() {
 }
 
 async function main() {
-  moveCollectionsDiscard();
+  await moveCollectionsDiscard();
 }
 
 main().catch(console.error);

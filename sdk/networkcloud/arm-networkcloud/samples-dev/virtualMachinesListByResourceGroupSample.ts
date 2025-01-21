@@ -38,7 +38,7 @@ async function listVirtualMachinesForResourceGroup() {
 }
 
 async function main() {
-  listVirtualMachinesForResourceGroup();
+  await listVirtualMachinesForResourceGroup();
 }
 
 main().catch(console.error);

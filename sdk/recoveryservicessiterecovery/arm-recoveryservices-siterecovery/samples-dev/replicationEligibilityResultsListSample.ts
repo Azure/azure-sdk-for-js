@@ -37,7 +37,7 @@ async function getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection() {
 }
 
 async function main() {
-  getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection();
+  await getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection();
 }
 
 main().catch(console.error);

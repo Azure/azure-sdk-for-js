@@ -44,7 +44,7 @@ async function updateSimPolicyTags() {
 }
 
 async function main() {
-  updateSimPolicyTags();
+  await updateSimPolicyTags();
 }
 
 main().catch(console.error);

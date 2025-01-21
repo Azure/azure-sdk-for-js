@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Handle requests to list all predefined accelerators.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Handle requests to list all predefined accelerators.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/PredefinedAccelerators_List.json
  */
-async function predefinedAcceleratorsList() {
+async function predefinedAcceleratorsList(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function predefinedAcceleratorsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   predefinedAcceleratorsList();
 }
 

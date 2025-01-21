@@ -44,7 +44,7 @@ async function getRegistryModelVersion() {
 }
 
 async function main() {
-  getRegistryModelVersion();
+  await getRegistryModelVersion();
 }
 
 main().catch(console.error);

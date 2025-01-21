@@ -31,7 +31,7 @@ async function getAllTenants() {
 }
 
 async function main() {
-  getAllTenants();
+  await getAllTenants();
 }
 
 main().catch(console.error);

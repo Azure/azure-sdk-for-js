@@ -44,7 +44,7 @@ async function deleteCompute() {
 }
 
 async function main() {
-  deleteCompute();
+  await deleteCompute();
 }
 
 main().catch(console.error);

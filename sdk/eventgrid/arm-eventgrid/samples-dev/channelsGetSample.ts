@@ -39,7 +39,7 @@ async function channelsGet() {
 }
 
 async function main() {
-  channelsGet();
+  await channelsGet();
 }
 
 main().catch(console.error);

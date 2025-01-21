@@ -54,7 +54,7 @@ async function iotHubResourceTestRoute() {
 }
 
 async function main() {
-  iotHubResourceTestRoute();
+  await iotHubResourceTestRoute();
 }
 
 main().catch(console.error);

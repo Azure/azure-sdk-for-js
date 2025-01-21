@@ -40,7 +40,7 @@ async function attachedDatabaseConfigurationsDelete() {
 }
 
 async function main() {
-  attachedDatabaseConfigurationsDelete();
+  await attachedDatabaseConfigurationsDelete();
 }
 
 main().catch(console.error);

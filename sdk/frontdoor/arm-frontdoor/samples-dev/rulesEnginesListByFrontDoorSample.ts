@@ -37,7 +37,7 @@ async function listRulesEngineConfigurationsInAFrontDoor() {
 }
 
 async function main() {
-  listRulesEngineConfigurationsInAFrontDoor();
+  await listRulesEngineConfigurationsInAFrontDoor();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getMapByName() {
 }
 
 async function main() {
-  getMapByName();
+  await getMapByName();
 }
 
 main().catch(console.error);

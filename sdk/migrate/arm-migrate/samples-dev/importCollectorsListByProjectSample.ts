@@ -40,7 +40,7 @@ async function importCollectorsListByProject() {
 }
 
 async function main() {
-  importCollectorsListByProject();
+  await importCollectorsListByProject();
 }
 
 main().catch(console.error);

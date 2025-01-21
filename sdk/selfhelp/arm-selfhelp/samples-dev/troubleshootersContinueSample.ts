@@ -52,7 +52,7 @@ async function troubleshooterContinue() {
 }
 
 async function main() {
-  troubleshooterContinue();
+  await troubleshooterContinue();
 }
 
 main().catch(console.error);

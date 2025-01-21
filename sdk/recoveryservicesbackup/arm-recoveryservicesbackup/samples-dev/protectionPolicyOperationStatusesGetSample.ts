@@ -45,7 +45,7 @@ async function getProtectionPolicyOperationStatus() {
 }
 
 async function main() {
-  getProtectionPolicyOperationStatus();
+  await getProtectionPolicyOperationStatus();
 }
 
 main().catch(console.error);

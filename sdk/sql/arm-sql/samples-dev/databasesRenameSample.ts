@@ -43,7 +43,7 @@ async function renamesADatabase() {
 }
 
 async function main() {
-  renamesADatabase();
+  await renamesADatabase();
 }
 
 main().catch(console.error);

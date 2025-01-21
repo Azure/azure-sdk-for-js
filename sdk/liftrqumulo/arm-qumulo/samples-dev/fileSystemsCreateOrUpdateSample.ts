@@ -93,8 +93,8 @@ async function fileSystemsCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  fileSystemsCreateOrUpdate();
-  fileSystemsCreateOrUpdateMinimumSetGen();
+  await fileSystemsCreateOrUpdate();
+  await fileSystemsCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

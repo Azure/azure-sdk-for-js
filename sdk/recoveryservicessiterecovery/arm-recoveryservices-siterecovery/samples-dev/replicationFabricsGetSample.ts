@@ -40,7 +40,7 @@ async function getsTheDetailsOfAnAsrFabric() {
 }
 
 async function main() {
-  getsTheDetailsOfAnAsrFabric();
+  await getsTheDetailsOfAnAsrFabric();
 }
 
 main().catch(console.error);

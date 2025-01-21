@@ -47,7 +47,7 @@ async function moveListOfSiMSToTargetSimGroup() {
 }
 
 async function main() {
-  moveListOfSiMSToTargetSimGroup();
+  await moveListOfSiMSToTargetSimGroup();
 }
 
 main().catch(console.error);

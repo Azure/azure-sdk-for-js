@@ -49,7 +49,7 @@ async function setTriggerState() {
 }
 
 async function main() {
-  setTriggerState();
+  await setTriggerState();
 }
 
 main().catch(console.error);

@@ -13,9 +13,7 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Creates or updates a certificate and associates with key vault secret.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Description for Creates or updates a certificate and associates with key vault secret.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/UpdateAppServiceCertificate.json
  */
-async function updateCertificate() {
+async function updateCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -47,7 +45,7 @@ async function updateCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateCertificate();
 }
 

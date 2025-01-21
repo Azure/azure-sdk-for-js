@@ -55,8 +55,8 @@ async function cloudsListByResourceGroupMinimumSet() {
 }
 
 async function main() {
-  cloudsListByResourceGroupMaximumSet();
-  cloudsListByResourceGroupMinimumSet();
+  await cloudsListByResourceGroupMaximumSet();
+  await cloudsListByResourceGroupMinimumSet();
 }
 
 main().catch(console.error);

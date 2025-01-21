@@ -45,7 +45,7 @@ async function accessPoliciesUpdate() {
 }
 
 async function main() {
-  accessPoliciesUpdate();
+  await accessPoliciesUpdate();
 }
 
 main().catch(console.error);

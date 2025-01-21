@@ -38,7 +38,7 @@ async function getAzureDevOpsOrgs() {
 }
 
 async function main() {
-  getAzureDevOpsOrgs();
+  await getAzureDevOpsOrgs();
 }
 
 main().catch(console.error);

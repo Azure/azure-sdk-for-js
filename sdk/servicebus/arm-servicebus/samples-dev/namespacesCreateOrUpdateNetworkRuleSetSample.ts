@@ -73,7 +73,7 @@ async function nameSpaceNetworkRuleSetCreate() {
 }
 
 async function main() {
-  nameSpaceNetworkRuleSetCreate();
+  await nameSpaceNetworkRuleSetCreate();
 }
 
 main().catch(console.error);

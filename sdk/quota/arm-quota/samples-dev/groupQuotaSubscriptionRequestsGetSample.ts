@@ -35,7 +35,7 @@ async function groupQuotaSubscriptionRequestsGet() {
 }
 
 async function main() {
-  groupQuotaSubscriptionRequestsGet();
+  await groupQuotaSubscriptionRequestsGet();
 }
 
 main().catch(console.error);

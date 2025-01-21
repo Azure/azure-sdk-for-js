@@ -72,8 +72,8 @@ async function azureLargeStorageInstanceUpdateTag() {
 }
 
 async function main() {
-  azureLargeStorageInstanceDeleteTag();
-  azureLargeStorageInstanceUpdateTag();
+  await azureLargeStorageInstanceDeleteTag();
+  await azureLargeStorageInstanceUpdateTag();
 }
 
 main().catch(console.error);

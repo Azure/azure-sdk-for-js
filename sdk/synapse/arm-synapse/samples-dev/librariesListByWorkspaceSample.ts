@@ -40,7 +40,7 @@ async function listLibrariesInAWorkspace() {
 }
 
 async function main() {
-  listLibrariesInAWorkspace();
+  await listLibrariesInAWorkspace();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function reachabilityAnalysisRunList() {
 }
 
 async function main() {
-  reachabilityAnalysisRunList();
+  await reachabilityAnalysisRunList();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the existing custom domains within an endpoint.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the existing custom domains within an endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CustomDomains_ListByEndpoint.json
  */
-async function customDomainsListByEndpoint() {
+async function customDomainsListByEndpoint(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -38,7 +36,7 @@ async function customDomainsListByEndpoint() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   customDomainsListByEndpoint();
 }
 

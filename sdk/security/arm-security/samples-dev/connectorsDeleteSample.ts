@@ -32,7 +32,7 @@ async function deleteACloudAccountConnectorFromASubscription() {
 }
 
 async function main() {
-  deleteACloudAccountConnectorFromASubscription();
+  await deleteACloudAccountConnectorFromASubscription();
 }
 
 main().catch(console.error);

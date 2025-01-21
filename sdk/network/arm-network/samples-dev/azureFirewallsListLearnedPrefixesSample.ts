@@ -34,7 +34,7 @@ async function azureFirewallListLearnedPrefixes() {
 }
 
 async function main() {
-  azureFirewallListLearnedPrefixes();
+  await azureFirewallListLearnedPrefixes();
 }
 
 main().catch(console.error);

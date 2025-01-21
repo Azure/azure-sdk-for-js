@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves metric definitions for the given database.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDatabaseGetMetricDefinitions.json
  */
-async function cosmosDbDatabaseGetMetricDefinitions() {
+async function cosmosDbDatabaseGetMetricDefinitions(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -36,7 +36,7 @@ async function cosmosDbDatabaseGetMetricDefinitions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbDatabaseGetMetricDefinitions();
 }
 

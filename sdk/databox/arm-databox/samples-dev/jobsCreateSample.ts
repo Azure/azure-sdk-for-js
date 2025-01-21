@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { JobResource, DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreate.json
  */
-async function jobsCreate() {
+async function jobsCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -75,7 +73,7 @@ async function jobsCreate() {
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateDevicePassword.json
  */
-async function jobsCreateDevicePassword() {
+async function jobsCreateDevicePassword(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -132,7 +130,7 @@ async function jobsCreateDevicePassword() {
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateDoubleEncryption.json
  */
-async function jobsCreateDoubleEncryption() {
+async function jobsCreateDoubleEncryption(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -188,7 +186,7 @@ async function jobsCreateDoubleEncryption() {
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateExport.json
  */
-async function jobsCreateExport() {
+async function jobsCreateExport(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -253,7 +251,7 @@ async function jobsCreateExport() {
  * @summary Creates a new job with the specified parameters. Existing job cannot be updated with this API and should instead be updated with the Update job API.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateWithUserAssignedIdentity.json
  */
-async function jobsCreateWithUserAssignedIdentity() {
+async function jobsCreateWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -308,7 +306,7 @@ async function jobsCreateWithUserAssignedIdentity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsCreate();
   jobsCreateDevicePassword();
   jobsCreateDoubleEncryption();

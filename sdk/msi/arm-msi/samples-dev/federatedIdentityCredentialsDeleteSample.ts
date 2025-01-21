@@ -38,7 +38,7 @@ async function federatedIdentityCredentialDelete() {
 }
 
 async function main() {
-  federatedIdentityCredentialDelete();
+  await federatedIdentityCredentialDelete();
 }
 
 main().catch(console.error);

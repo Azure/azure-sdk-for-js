@@ -40,7 +40,7 @@ async function getGitLabProjects() {
 }
 
 async function main() {
-  getGitLabProjects();
+  await getGitLabProjects();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function updateVirtualClusterWithTags() {
 }
 
 async function main() {
-  updateVirtualClusterWithTags();
+  await updateVirtualClusterWithTags();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getUpgradeProfileForProvisionedClusterInstance() {
 }
 
 async function main() {
-  getUpgradeProfileForProvisionedClusterInstance();
+  await getUpgradeProfileForProvisionedClusterInstance();
 }
 
 main().catch(console.error);

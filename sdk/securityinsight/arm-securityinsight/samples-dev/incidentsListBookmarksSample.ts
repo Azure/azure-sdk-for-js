@@ -39,7 +39,7 @@ async function getAllIncidentBookmarks() {
 }
 
 async function main() {
-  getAllIncidentBookmarks();
+  await getAllIncidentBookmarks();
 }
 
 main().catch(console.error);

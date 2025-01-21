@@ -46,7 +46,7 @@ async function accountUpdate() {
 }
 
 async function main() {
-  accountUpdate();
+  await accountUpdate();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available Azure Container Registry REST API operations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the available Azure Container Registry REST API operations.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/OperationList.json
  */
-async function operationList() {
+async function operationList(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function operationList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationList();
 }
 

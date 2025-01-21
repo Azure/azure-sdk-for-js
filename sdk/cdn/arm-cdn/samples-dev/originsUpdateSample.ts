@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OriginUpdateParameters, CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing origin within an endpoint.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates an existing origin within an endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Origins_Update.json
  */
-async function originsUpdate() {
+async function originsUpdate(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -48,7 +46,7 @@ async function originsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   originsUpdate();
 }
 

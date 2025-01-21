@@ -50,7 +50,7 @@ async function workspacesCreate() {
 }
 
 async function main() {
-  workspacesCreate();
+  await workspacesCreate();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listVirtualNetworkTapsInResourceGroup() {
 }
 
 async function main() {
-  listVirtualNetworkTapsInResourceGroup();
+  await listVirtualNetworkTapsInResourceGroup();
 }
 
 main().catch(console.error);

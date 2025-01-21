@@ -40,7 +40,7 @@ async function purgesTheSite() {
 }
 
 async function main() {
-  purgesTheSite();
+  await purgesTheSite();
 }
 
 main().catch(console.error);

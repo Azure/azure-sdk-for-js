@@ -42,7 +42,7 @@ async function deleteWorkspaceDataContainer() {
 }
 
 async function main() {
-  deleteWorkspaceDataContainer();
+  await deleteWorkspaceDataContainer();
 }
 
 main().catch(console.error);

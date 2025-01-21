@@ -43,7 +43,7 @@ async function listAzureDevOpsRepos() {
 }
 
 async function main() {
-  listAzureDevOpsRepos();
+  await listAzureDevOpsRepos();
 }
 
 main().catch(console.error);

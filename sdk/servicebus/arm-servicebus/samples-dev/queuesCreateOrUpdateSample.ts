@@ -41,7 +41,7 @@ async function queueCreate() {
 }
 
 async function main() {
-  queueCreate();
+  await queueCreate();
 }
 
 main().catch(console.error);

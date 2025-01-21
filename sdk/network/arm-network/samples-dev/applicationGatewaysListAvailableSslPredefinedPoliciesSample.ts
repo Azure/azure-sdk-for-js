@@ -32,7 +32,7 @@ async function getAvailableSslPredefinedPolicies() {
 }
 
 async function main() {
-  getAvailableSslPredefinedPolicies();
+  await getAvailableSslPredefinedPolicies();
 }
 
 main().catch(console.error);

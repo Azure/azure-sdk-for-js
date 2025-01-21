@@ -37,7 +37,7 @@ async function getACluster() {
 }
 
 async function main() {
-  getACluster();
+  await getACluster();
 }
 
 main().catch(console.error);

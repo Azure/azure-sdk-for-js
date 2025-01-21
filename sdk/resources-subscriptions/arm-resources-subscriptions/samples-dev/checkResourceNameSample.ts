@@ -28,7 +28,7 @@ async function checkValidityForAResourceName() {
 }
 
 async function main() {
-  checkValidityForAResourceName();
+  await checkValidityForAResourceName();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function virtualHubVirtualHubRouteTableV2Get() {
 }
 
 async function main() {
-  virtualHubVirtualHubRouteTableV2Get();
+  await virtualHubVirtualHubRouteTableV2Get();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function getsWafDefaultManifest() {
 }
 
 async function main() {
-  getsWafDefaultManifest();
+  await getsWafDefaultManifest();
 }
 
 main().catch(console.error);

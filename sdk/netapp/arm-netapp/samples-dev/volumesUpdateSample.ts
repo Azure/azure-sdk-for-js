@@ -42,7 +42,7 @@ async function volumesUpdate() {
 }
 
 async function main() {
-  volumesUpdate();
+  await volumesUpdate();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function cloudHsmClusterPrivateLinkResourcesListByResourceMaximumSetGen() 
 }
 
 async function main() {
-  cloudHsmClusterPrivateLinkResourcesListByResourceMaximumSetGen();
+  await cloudHsmClusterPrivateLinkResourcesListByResourceMaximumSetGen();
 }
 
 main().catch(console.error);

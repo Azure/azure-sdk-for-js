@@ -34,7 +34,7 @@ async function deleteVirtualNetworkGatewayConnection() {
 }
 
 async function main() {
-  deleteVirtualNetworkGatewayConnection();
+  await deleteVirtualNetworkGatewayConnection();
 }
 
 main().catch(console.error);

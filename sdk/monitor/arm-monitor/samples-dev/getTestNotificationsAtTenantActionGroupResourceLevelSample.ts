@@ -38,7 +38,7 @@ async function getNotificationDetailsAtTenantActionGroupLevel() {
 }
 
 async function main() {
-  getNotificationDetailsAtTenantActionGroupLevel();
+  await getNotificationDetailsAtTenantActionGroupLevel();
 }
 
 main().catch(console.error);

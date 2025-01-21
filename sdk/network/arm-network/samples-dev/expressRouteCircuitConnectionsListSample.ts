@@ -39,7 +39,7 @@ async function listExpressRouteCircuitConnection() {
 }
 
 async function main() {
-  listExpressRouteCircuitConnection();
+  await listExpressRouteCircuitConnection();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function tagRulesCreateOrUpdate() {
 }
 
 async function main() {
-  tagRulesCreateOrUpdate();
+  await tagRulesCreateOrUpdate();
 }
 
 main().catch(console.error);

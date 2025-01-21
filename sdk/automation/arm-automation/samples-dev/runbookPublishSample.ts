@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Publish runbook draft.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Publish runbook draft.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/publishRunbook.json
  */
-async function publishRunbookDraft() {
+async function publishRunbookDraft(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "ContoseAutomationAccount";
@@ -35,7 +33,7 @@ async function publishRunbookDraft() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   publishRunbookDraft();
 }
 

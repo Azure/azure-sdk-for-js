@@ -40,7 +40,7 @@ async function createApplicationSecurityGroup() {
 }
 
 async function main() {
-  createApplicationSecurityGroup();
+  await createApplicationSecurityGroup();
 }
 
 main().catch(console.error);

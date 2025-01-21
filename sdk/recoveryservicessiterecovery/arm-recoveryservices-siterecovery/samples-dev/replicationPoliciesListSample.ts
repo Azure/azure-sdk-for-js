@@ -41,7 +41,7 @@ async function getsTheListOfReplicationPolicies() {
 }
 
 async function main() {
-  getsTheListOfReplicationPolicies();
+  await getsTheListOfReplicationPolicies();
 }
 
 main().catch(console.error);

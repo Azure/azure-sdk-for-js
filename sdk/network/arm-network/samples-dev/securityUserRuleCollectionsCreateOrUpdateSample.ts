@@ -53,7 +53,7 @@ async function createOrUpdateASecurityUserRuleCollection() {
 }
 
 async function main() {
-  createOrUpdateASecurityUserRuleCollection();
+  await createOrUpdateASecurityUserRuleCollection();
 }
 
 main().catch(console.error);

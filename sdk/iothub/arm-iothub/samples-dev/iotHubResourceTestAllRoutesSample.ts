@@ -46,7 +46,7 @@ async function iotHubResourceTestAllRoutes() {
 }
 
 async function main() {
-  iotHubResourceTestAllRoutes();
+  await iotHubResourceTestAllRoutes();
 }
 
 main().catch(console.error);

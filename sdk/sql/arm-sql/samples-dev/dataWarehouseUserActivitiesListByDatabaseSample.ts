@@ -42,7 +42,7 @@ async function listOfTheUserActivitiesOfADataWarehouse() {
 }
 
 async function main() {
-  listOfTheUserActivitiesOfADataWarehouse();
+  await listOfTheUserActivitiesOfADataWarehouse();
 }
 
 main().catch(console.error);

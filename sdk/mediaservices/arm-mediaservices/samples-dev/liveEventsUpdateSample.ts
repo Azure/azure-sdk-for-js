@@ -57,7 +57,7 @@ async function updateALiveEvent() {
 }
 
 async function main() {
-  updateALiveEvent();
+  await updateALiveEvent();
 }
 
 main().catch(console.error);

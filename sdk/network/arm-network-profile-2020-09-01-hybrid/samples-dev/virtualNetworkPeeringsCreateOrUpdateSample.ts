@@ -50,7 +50,7 @@ async function createPeering() {
 }
 
 async function main() {
-  createPeering();
+  await createPeering();
 }
 
 main().catch(console.error);

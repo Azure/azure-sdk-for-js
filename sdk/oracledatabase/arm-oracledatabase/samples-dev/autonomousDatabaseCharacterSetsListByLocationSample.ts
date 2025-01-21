@@ -37,7 +37,7 @@ async function listAutonomousDbCharacterSetsByLocation() {
 }
 
 async function main() {
-  listAutonomousDbCharacterSetsByLocation();
+  await listAutonomousDbCharacterSetsByLocation();
 }
 
 main().catch(console.error);

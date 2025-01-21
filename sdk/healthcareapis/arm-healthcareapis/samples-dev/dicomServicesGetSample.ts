@@ -38,7 +38,7 @@ async function getADicomservice() {
 }
 
 async function main() {
-  getADicomservice();
+  await getADicomservice();
 }
 
 main().catch(console.error);

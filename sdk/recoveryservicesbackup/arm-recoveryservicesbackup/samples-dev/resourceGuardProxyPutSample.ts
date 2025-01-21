@@ -52,7 +52,7 @@ async function createResourceGuardProxy() {
 }
 
 async function main() {
-  createResourceGuardProxy();
+  await createResourceGuardProxy();
 }
 
 main().catch(console.error);

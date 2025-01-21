@@ -37,7 +37,7 @@ async function getsAnExperimentByExperimentName() {
 }
 
 async function main() {
-  getsAnExperimentByExperimentName();
+  await getsAnExperimentByExperimentName();
 }
 
 main().catch(console.error);

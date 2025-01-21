@@ -55,7 +55,7 @@ async function createOrUpdateACertificate() {
 }
 
 async function main() {
-  createOrUpdateACertificate();
+  await createOrUpdateACertificate();
 }
 
 main().catch(console.error);

@@ -70,7 +70,7 @@ async function networkFabricControllersCreateMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricControllersCreateMaximumSetGen();
+  await networkFabricControllersCreateMaximumSetGen();
 }
 
 main().catch(console.error);

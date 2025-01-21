@@ -47,7 +47,7 @@ async function patchSchedule() {
 }
 
 async function main() {
-  patchSchedule();
+  await patchSchedule();
 }
 
 main().catch(console.error);

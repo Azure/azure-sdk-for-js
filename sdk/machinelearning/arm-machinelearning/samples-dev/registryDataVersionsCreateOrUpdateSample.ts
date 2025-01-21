@@ -60,7 +60,7 @@ async function createOrUpdateRegistryDataVersionBase() {
 }
 
 async function main() {
-  createOrUpdateRegistryDataVersionBase();
+  await createOrUpdateRegistryDataVersionBase();
 }
 
 main().catch(console.error);

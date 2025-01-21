@@ -46,7 +46,7 @@ async function listExpressionTracesForARepetition() {
 }
 
 async function main() {
-  listExpressionTracesForARepetition();
+  await listExpressionTracesForARepetition();
 }
 
 main().catch(console.error);

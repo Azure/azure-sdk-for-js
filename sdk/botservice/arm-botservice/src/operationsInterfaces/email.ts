@@ -9,7 +9,7 @@
 import {
   EmailCreateSignInUrlOptionalParams,
   EmailCreateSignInUrlResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Email. */
 export interface Email {

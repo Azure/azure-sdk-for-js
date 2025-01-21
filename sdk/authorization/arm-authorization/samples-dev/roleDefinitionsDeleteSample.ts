@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a role definition.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a role definition.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-05-01-preview/examples/DeleteRoleDefinition.json
  */
-async function deleteRoleDefinition() {
+async function deleteRoleDefinition(): Promise<void> {
   const scope = "scope";
   const roleDefinitionId = "roleDefinitionId";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function deleteRoleDefinition() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteRoleDefinition();
 }
 

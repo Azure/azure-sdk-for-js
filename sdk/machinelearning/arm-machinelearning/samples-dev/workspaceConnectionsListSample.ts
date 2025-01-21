@@ -50,7 +50,7 @@ async function listWorkspaceConnections() {
 }
 
 async function main() {
-  listWorkspaceConnections();
+  await listWorkspaceConnections();
 }
 
 main().catch(console.error);

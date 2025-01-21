@@ -28,7 +28,7 @@ async function operationsDiscoveryGet() {
 }
 
 async function main() {
-  operationsDiscoveryGet();
+  await operationsDiscoveryGet();
 }
 
 main().catch(console.error);

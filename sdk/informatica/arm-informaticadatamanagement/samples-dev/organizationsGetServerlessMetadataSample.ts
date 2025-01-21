@@ -59,8 +59,8 @@ async function organizationsGetServerlessMetadataMin() {
 }
 
 async function main() {
-  organizationsGetServerlessMetadata();
-  organizationsGetServerlessMetadataMin();
+  await organizationsGetServerlessMetadata();
+  await organizationsGetServerlessMetadataMin();
 }
 
 main().catch(console.error);

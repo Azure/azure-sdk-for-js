@@ -30,7 +30,7 @@ async function expressRouteProviderPort() {
 }
 
 async function main() {
-  expressRouteProviderPort();
+  await expressRouteProviderPort();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function deleteATriggerResource() {
 }
 
 async function main() {
-  deleteATriggerResource();
+  await deleteATriggerResource();
 }
 
 main().catch(console.error);

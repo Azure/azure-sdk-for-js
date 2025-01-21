@@ -123,9 +123,9 @@ async function createsAStreamingLocatorWithUserDefinedContentKeys() {
 }
 
 async function main() {
-  createsAStreamingLocatorWithClearStreaming();
-  createsAStreamingLocatorWithSecureStreaming();
-  createsAStreamingLocatorWithUserDefinedContentKeys();
+  await createsAStreamingLocatorWithClearStreaming();
+  await createsAStreamingLocatorWithSecureStreaming();
+  await createsAStreamingLocatorWithUserDefinedContentKeys();
 }
 
 main().catch(console.error);

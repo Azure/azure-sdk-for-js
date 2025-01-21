@@ -41,7 +41,7 @@ async function networkTapsListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  networkTapsListByResourceGroupMaximumSetGen();
+  await networkTapsListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

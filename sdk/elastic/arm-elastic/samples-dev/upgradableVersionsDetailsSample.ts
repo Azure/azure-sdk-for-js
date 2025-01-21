@@ -37,7 +37,7 @@ async function upgradableVersionsDetails() {
 }
 
 async function main() {
-  upgradableVersionsDetails();
+  await upgradableVersionsDetails();
 }
 
 main().catch(console.error);

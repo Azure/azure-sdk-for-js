@@ -30,7 +30,7 @@ async function getDetailsOfAFileWorkspace() {
 }
 
 async function main() {
-  getDetailsOfAFileWorkspace();
+  await getDetailsOfAFileWorkspace();
 }
 
 main().catch(console.error);

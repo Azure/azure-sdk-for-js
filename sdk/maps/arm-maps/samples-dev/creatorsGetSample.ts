@@ -39,7 +39,7 @@ async function getCreatorResource() {
 }
 
 async function main() {
-  getCreatorResource();
+  await getCreatorResource();
 }
 
 main().catch(console.error);

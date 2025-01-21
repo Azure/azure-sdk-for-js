@@ -40,7 +40,7 @@ async function disasterRecoveryConfigsAuthorizationRuleListKey() {
 }
 
 async function main() {
-  disasterRecoveryConfigsAuthorizationRuleListKey();
+  await disasterRecoveryConfigsAuthorizationRuleListKey();
 }
 
 main().catch(console.error);

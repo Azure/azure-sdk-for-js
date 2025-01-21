@@ -58,7 +58,7 @@ async function configurationAssignmentsForSubscriptionsCreateOrUpdate() {
 }
 
 async function main() {
-  configurationAssignmentsForSubscriptionsCreateOrUpdate();
+  await configurationAssignmentsForSubscriptionsCreateOrUpdate();
 }
 
 main().catch(console.error);

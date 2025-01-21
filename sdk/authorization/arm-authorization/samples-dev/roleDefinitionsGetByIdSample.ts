@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a role definition by ID.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a role definition by ID.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-05-01-preview/examples/GetRoleDefinitionByRoleId.json
  */
-async function getRoleDefinitionByRoleId() {
+async function getRoleDefinitionByRoleId(): Promise<void> {
   const roleId = "roleDefinitionId";
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
@@ -28,7 +26,7 @@ async function getRoleDefinitionByRoleId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRoleDefinitionByRoleId();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraDataCenterCreate.json
  */
-async function cosmosDbManagedCassandraDataCenterCreate() {
+async function cosmosDbManagedCassandraDataCenterCreate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -50,7 +50,7 @@ async function cosmosDbManagedCassandraDataCenterCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbManagedCassandraDataCenterCreate();
 }
 

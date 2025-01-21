@@ -63,8 +63,8 @@ async function kustoSuspendedDatabasesGet() {
 }
 
 async function main() {
-  kustoDatabasesGet();
-  kustoSuspendedDatabasesGet();
+  await kustoDatabasesGet();
+  await kustoSuspendedDatabasesGet();
 }
 
 main().catch(console.error);

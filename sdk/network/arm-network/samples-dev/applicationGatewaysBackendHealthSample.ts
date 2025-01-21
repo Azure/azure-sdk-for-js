@@ -34,7 +34,7 @@ async function getBackendHealth() {
 }
 
 async function main() {
-  getBackendHealth();
+  await getBackendHealth();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function getCommunicationDetailsForANoSubscriptionSupportTicket() {
 }
 
 async function main() {
-  getCommunicationDetailsForANoSubscriptionSupportTicket();
+  await getCommunicationDetailsForANoSubscriptionSupportTicket();
 }
 
 main().catch(console.error);

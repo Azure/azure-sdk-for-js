@@ -35,7 +35,7 @@ async function deletesAnNetworkExperimentProfileByProfileName() {
 }
 
 async function main() {
-  deletesAnNetworkExperimentProfileByProfileName();
+  await deletesAnNetworkExperimentProfileByProfileName();
 }
 
 main().catch(console.error);

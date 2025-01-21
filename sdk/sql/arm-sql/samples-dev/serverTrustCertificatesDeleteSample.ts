@@ -38,7 +38,7 @@ async function deleteServerTrustCertificate() {
 }
 
 async function main() {
-  deleteServerTrustCertificate();
+  await deleteServerTrustCertificate();
 }
 
 main().catch(console.error);

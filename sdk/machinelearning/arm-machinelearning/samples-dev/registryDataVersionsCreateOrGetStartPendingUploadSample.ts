@@ -53,7 +53,7 @@ async function createOrGetStartPendingUploadRegistryDataVersionBase() {
 }
 
 async function main() {
-  createOrGetStartPendingUploadRegistryDataVersionBase();
+  await createOrGetStartPendingUploadRegistryDataVersionBase();
 }
 
 main().catch(console.error);

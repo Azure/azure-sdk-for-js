@@ -46,7 +46,7 @@ async function resetGtidOnAServer() {
 }
 
 async function main() {
-  resetGtidOnAServer();
+  await resetGtidOnAServer();
 }
 
 main().catch(console.error);

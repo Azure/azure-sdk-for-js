@@ -37,7 +37,7 @@ async function listsAllPrivateLinkResourcesOnApplicationGateway() {
 }
 
 async function main() {
-  listsAllPrivateLinkResourcesOnApplicationGateway();
+  await listsAllPrivateLinkResourcesOnApplicationGateway();
 }
 
 main().catch(console.error);

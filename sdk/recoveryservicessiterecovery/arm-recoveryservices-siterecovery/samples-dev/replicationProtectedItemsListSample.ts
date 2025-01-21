@@ -41,7 +41,7 @@ async function getsTheListOfReplicationProtectedItems() {
 }
 
 async function main() {
-  getsTheListOfReplicationProtectedItems();
+  await getsTheListOfReplicationProtectedItems();
 }
 
 main().catch(console.error);

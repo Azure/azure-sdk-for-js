@@ -57,7 +57,6 @@ const examplePackageGood = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -168,7 +167,6 @@ const examplePackageBad = `{
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^0.1.0",
-    "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",

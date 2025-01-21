@@ -53,7 +53,7 @@ async function createExadataInfrastructure() {
 }
 
 async function main() {
-  createExadataInfrastructure();
+  await createExadataInfrastructure();
 }
 
 main().catch(console.error);

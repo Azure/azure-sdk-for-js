@@ -13,9 +13,7 @@ import {
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get access review instances assigned for my approval.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get access review instances assigned for my approval.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/GetAccessReviewInstancesAssignedForMyApproval.json
  */
-async function getAccessReviews() {
+async function getAccessReviews(): Promise<void> {
   const scheduleDefinitionId = "488a6d0e-0a63-4946-86e3-1f5bbc934661";
   const filter = "assignedToMeToReview()";
   const options: AccessReviewInstancesAssignedForMyApprovalListOptionalParams = {
@@ -41,7 +39,7 @@ async function getAccessReviews() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAccessReviews();
 }
 

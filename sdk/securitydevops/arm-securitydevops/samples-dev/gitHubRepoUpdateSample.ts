@@ -48,7 +48,7 @@ async function gitHubRepoUpdate() {
 }
 
 async function main() {
-  gitHubRepoUpdate();
+  await gitHubRepoUpdate();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function getDetailsOfASubscriptionFile() {
 }
 
 async function main() {
-  getDetailsOfASubscriptionFile();
+  await getDetailsOfASubscriptionFile();
 }
 
 main().catch(console.error);

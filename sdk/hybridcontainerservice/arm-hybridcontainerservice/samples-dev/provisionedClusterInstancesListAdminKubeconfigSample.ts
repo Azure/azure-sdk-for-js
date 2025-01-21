@@ -32,7 +32,7 @@ async function listClusterAdminCredentials() {
 }
 
 async function main() {
-  listClusterAdminCredentials();
+  await listClusterAdminCredentials();
 }
 
 main().catch(console.error);

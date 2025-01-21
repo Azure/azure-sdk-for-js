@@ -43,7 +43,7 @@ async function listSchedules() {
 }
 
 async function main() {
-  listSchedules();
+  await listSchedules();
 }
 
 main().catch(console.error);

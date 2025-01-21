@@ -92,7 +92,7 @@ async function assessmentsCreate() {
 }
 
 async function main() {
-  assessmentsCreate();
+  await assessmentsCreate();
 }
 
 main().catch(console.error);

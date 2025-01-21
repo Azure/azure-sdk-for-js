@@ -47,7 +47,7 @@ async function prepareDataMove() {
 }
 
 async function main() {
-  prepareDataMove();
+  await prepareDataMove();
 }
 
 main().catch(console.error);

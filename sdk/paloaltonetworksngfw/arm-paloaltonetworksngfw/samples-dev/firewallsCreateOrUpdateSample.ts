@@ -210,8 +210,8 @@ async function firewallsCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  firewallsCreateOrUpdateMaximumSetGen();
-  firewallsCreateOrUpdateMinimumSetGen();
+  await firewallsCreateOrUpdateMaximumSetGen();
+  await firewallsCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

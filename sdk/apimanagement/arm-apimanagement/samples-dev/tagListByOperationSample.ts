@@ -18,30 +18,30 @@ import "dotenv/config";
  * @summary Lists all Tags associated with the Operation.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiOperationTags.json
  */
-async function apiManagementListApiOperationTags() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "57d2ef278aa04f0888cba3f3";
-    const operationId = "57d2ef278aa04f0888cba3f6";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const resArray = new Array();
-    for await (let item of client.tag.listByOperation(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        operationId
-    )) {
-        resArray.push(item);
-    }
-    console.log(resArray);
+async function apiManagementListApiOperationTags(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "57d2ef278aa04f0888cba3f3";
+  const operationId = "57d2ef278aa04f0888cba3f6";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.tag.listByOperation(
+    resourceGroupName,
+    serviceName,
+    apiId,
+    operationId
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-async function main() {
-    apiManagementListApiOperationTags();
+async function main(): Promise<void> {
+  apiManagementListApiOperationTags();
 }
 
 main().catch(console.error);

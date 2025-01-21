@@ -2,14 +2,9 @@
 // Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import * as fs from "node:fs";
-import * as path from "node:path";
-import { promisify } from "node:util";
-
-const readdirAsync = promisify(fs.readdir);
-const statAsync = promisify(fs.stat);
-const lstatAsync = promisify(fs.lstat);
-const mkdirAsync = promisify(fs.mkdir);
+import type { MakeDirectoryOptions } from "node:fs";
+import { join } from "node:path";
+import { lstat, mkdir, readdir, stat } from "node:fs/promises";
 
 /**
  * Computes the size (in bytes) of all files in a directory at the root level. Asynchronously.
@@ -19,11 +14,11 @@ export const getShallowDirectorySize = async (directory: string): Promise<number
   let totalSize = 0;
   try {
     // Get the directory listing
-    const files = await readdirAsync(directory);
+    const files = await readdir(directory);
 
     // Query all file sizes
     for (const file of files) {
-      const fileStats = await statAsync(path.join(directory, file));
+      const fileStats = await stat(join(directory, file));
       if (fileStats.isFile()) {
         totalSize += fileStats.size;
       }
@@ -42,15 +37,15 @@ export const getShallowDirectorySize = async (directory: string): Promise<number
  */
 export const confirmDirExists = async (directory: string): Promise<void> => {
   try {
-    const stats = await lstatAsync(directory);
+    const stats = await lstat(directory);
     if (!stats.isDirectory()) {
       throw new Error("Path existed but was not a directory");
     }
   } catch (err: any) {
     if (err && err.code === "ENOENT") {
       try {
-        const options: fs.MakeDirectoryOptions = { recursive: true };
-        await mkdirAsync(directory, options);
+        const options: MakeDirectoryOptions = { recursive: true };
+        await mkdir(directory, options);
       } catch (mkdirErr: any) {
         if (mkdirErr && mkdirErr.code !== "EEXIST") {
           // Handle race condition by ignoring EEXIST

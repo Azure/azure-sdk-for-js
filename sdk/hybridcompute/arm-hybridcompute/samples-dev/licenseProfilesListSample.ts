@@ -39,7 +39,7 @@ async function listAllLicenseProfiles() {
 }
 
 async function main() {
-  listAllLicenseProfiles();
+  await listAllLicenseProfiles();
 }
 
 main().catch(console.error);

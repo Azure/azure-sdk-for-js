@@ -50,7 +50,7 @@ async function createACustomAssessmentAutomation() {
 }
 
 async function main() {
-  createACustomAssessmentAutomation();
+  await createACustomAssessmentAutomation();
 }
 
 main().catch(console.error);

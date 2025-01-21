@@ -39,7 +39,7 @@ async function iotHubResourceUpdate() {
 }
 
 async function main() {
-  iotHubResourceUpdate();
+  await iotHubResourceUpdate();
 }
 
 main().catch(console.error);

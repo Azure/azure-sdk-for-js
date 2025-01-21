@@ -41,7 +41,7 @@ async function checksWhetherNameIsAvailableForSupportTicketResource() {
 }
 
 async function main() {
-  checksWhetherNameIsAvailableForSupportTicketResource();
+  await checksWhetherNameIsAvailableForSupportTicketResource();
 }
 
 main().catch(console.error);

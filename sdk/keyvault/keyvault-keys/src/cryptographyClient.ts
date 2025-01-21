@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import type {
   CryptographyClientOptions,
@@ -260,7 +260,7 @@ export class CryptographyClient {
    * Decrypts the given ciphertext with the specified decryption parameters.
    * Depending on the algorithm used in the decryption parameters, the set of possible decryption parameters will change.
    *
-   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    *
    * Example usage:
    * ```ts
@@ -284,7 +284,7 @@ export class CryptographyClient {
    * let result = await client.decrypt("RSA1_5", encryptedBuffer);
    * ```
    *
-   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    *
    * @param algorithm - The algorithm to use.
    * @param ciphertext - The text to decrypt.

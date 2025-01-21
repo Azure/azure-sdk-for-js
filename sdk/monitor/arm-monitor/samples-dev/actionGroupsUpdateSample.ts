@@ -42,7 +42,7 @@ async function patchAnActionGroup() {
 }
 
 async function main() {
-  patchAnActionGroup();
+  await patchAnActionGroup();
 }
 
 main().catch(console.error);

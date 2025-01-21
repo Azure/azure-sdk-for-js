@@ -43,7 +43,7 @@ async function createsOrUpdatesAnIncidentComment() {
 }
 
 async function main() {
-  createsOrUpdatesAnIncidentComment();
+  await createsOrUpdatesAnIncidentComment();
 }
 
 main().catch(console.error);

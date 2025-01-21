@@ -38,7 +38,7 @@ async function getVpnLinkConnectionIkeSa() {
 }
 
 async function main() {
-  getVpnLinkConnectionIkeSa();
+  await getVpnLinkConnectionIkeSa();
 }
 
 main().catch(console.error);

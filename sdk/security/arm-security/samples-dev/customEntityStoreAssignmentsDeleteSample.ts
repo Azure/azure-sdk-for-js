@@ -38,7 +38,7 @@ async function deleteACustomEntityStoreAssignment() {
 }
 
 async function main() {
-  deleteACustomEntityStoreAssignment();
+  await deleteACustomEntityStoreAssignment();
 }
 
 main().catch(console.error);

@@ -86,8 +86,8 @@ async function createsOrUpdatesAWatchlist() {
 }
 
 async function main() {
-  createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems();
-  createsOrUpdatesAWatchlist();
+  await createsOrUpdatesAWatchlistAndBulkCreatesWatchlistItems();
+  await createsOrUpdatesAWatchlist();
 }
 
 main().catch(console.error);

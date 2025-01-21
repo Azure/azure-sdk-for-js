@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a GlobalReachConnection
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a GlobalReachConnection
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/GlobalReachConnections_Delete.json
  */
-async function globalReachConnectionsDelete() {
+async function globalReachConnectionsDelete(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function globalReachConnectionsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   globalReachConnectionsDelete();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of AzureBareMetal management operations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of AzureBareMetal management operations.
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalOperations_List.json
  */
-async function listAllManagementOperationsSupportedByTheAzureBareMetalRp() {
+async function listAllManagementOperationsSupportedByTheAzureBareMetalRp(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function listAllManagementOperationsSupportedByTheAzureBareMetalRp() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllManagementOperationsSupportedByTheAzureBareMetalRp();
 }
 

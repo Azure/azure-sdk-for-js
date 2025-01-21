@@ -59,8 +59,8 @@ async function getLocationsWithExtendedLocations() {
 }
 
 async function main() {
-  getLocationsWithASubscriptionId();
-  getLocationsWithExtendedLocations();
+  await getLocationsWithASubscriptionId();
+  await getLocationsWithExtendedLocations();
 }
 
 main().catch(console.error);

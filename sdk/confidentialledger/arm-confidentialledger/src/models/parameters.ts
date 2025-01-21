@@ -19,7 +19,7 @@ import {
   ManagedCCF as ManagedCCFMapper,
   ManagedCCFBackup as ManagedCCFBackupMapper,
   ManagedCCFRestore as ManagedCCFRestoreMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

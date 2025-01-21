@@ -66,8 +66,8 @@ async function storageAccountRegenerateKey() {
 }
 
 async function main() {
-  storageAccountRegenerateKerbKey();
-  storageAccountRegenerateKey();
+  await storageAccountRegenerateKerbKey();
+  await storageAccountRegenerateKey();
 }
 
 main().catch(console.error);

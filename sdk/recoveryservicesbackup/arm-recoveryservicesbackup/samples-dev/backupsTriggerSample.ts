@@ -52,7 +52,7 @@ async function triggerBackup() {
 }
 
 async function main() {
-  triggerBackup();
+  await triggerBackup();
 }
 
 main().catch(console.error);

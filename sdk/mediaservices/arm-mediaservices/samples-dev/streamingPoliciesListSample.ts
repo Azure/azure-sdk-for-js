@@ -40,7 +40,7 @@ async function listsStreamingPolicies() {
 }
 
 async function main() {
-  listsStreamingPolicies();
+  await listsStreamingPolicies();
 }
 
 main().catch(console.error);

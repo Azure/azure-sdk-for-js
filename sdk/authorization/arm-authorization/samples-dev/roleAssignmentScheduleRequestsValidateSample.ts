@@ -13,9 +13,7 @@ import {
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates a new role assignment schedule request.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Validates a new role assignment schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/ValidateRoleAssignmentScheduleRequestByName.json
  */
-async function validateRoleAssignmentScheduleRequestByName() {
+async function validateRoleAssignmentScheduleRequestByName(): Promise<void> {
   const scope = "subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleAssignmentScheduleRequestName =
     "fea7a502-9a96-4806-a26f-eee560e52045";
@@ -55,7 +53,7 @@ async function validateRoleAssignmentScheduleRequestByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   validateRoleAssignmentScheduleRequestByName();
 }
 

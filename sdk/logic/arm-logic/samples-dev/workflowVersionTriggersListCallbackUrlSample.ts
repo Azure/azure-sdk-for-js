@@ -53,7 +53,7 @@ async function getTheCallbackUrlForATriggerOfAWorkflowVersion() {
 }
 
 async function main() {
-  getTheCallbackUrlForATriggerOfAWorkflowVersion();
+  await getTheCallbackUrlForATriggerOfAWorkflowVersion();
 }
 
 main().catch(console.error);

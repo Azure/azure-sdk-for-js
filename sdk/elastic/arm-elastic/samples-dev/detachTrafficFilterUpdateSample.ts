@@ -43,7 +43,7 @@ async function detachTrafficFilterUpdate() {
 }
 
 async function main() {
-  detachTrafficFilterUpdate();
+  await detachTrafficFilterUpdate();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listSecretsBySubscriptionId() {
 }
 
 async function main() {
-  listSecretsBySubscriptionId();
+  await listSecretsBySubscriptionId();
 }
 
 main().catch(console.error);

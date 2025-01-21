@@ -65,7 +65,7 @@ async function provisionInstantItemLevelRecoveryForAzureVM() {
 }
 
 async function main() {
-  provisionInstantItemLevelRecoveryForAzureVM();
+  await provisionInstantItemLevelRecoveryForAzureVM();
 }
 
 main().catch(console.error);

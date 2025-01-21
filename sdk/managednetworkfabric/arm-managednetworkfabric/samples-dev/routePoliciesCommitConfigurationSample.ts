@@ -40,7 +40,7 @@ async function routePoliciesCommitConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  routePoliciesCommitConfigurationMaximumSetGen();
+  await routePoliciesCommitConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

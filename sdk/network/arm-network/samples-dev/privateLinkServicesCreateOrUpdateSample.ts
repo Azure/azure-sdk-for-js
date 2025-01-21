@@ -62,7 +62,7 @@ async function createPrivateLinkService() {
 }
 
 async function main() {
-  createPrivateLinkService();
+  await createPrivateLinkService();
 }
 
 main().catch(console.error);

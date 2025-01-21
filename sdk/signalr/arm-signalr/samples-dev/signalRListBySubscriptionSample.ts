@@ -34,7 +34,7 @@ async function signalRListBySubscription() {
 }
 
 async function main() {
-  signalRListBySubscription();
+  await signalRListBySubscription();
 }
 
 main().catch(console.error);

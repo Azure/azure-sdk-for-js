@@ -37,7 +37,7 @@ async function deleteExadataInfrastructure() {
 }
 
 async function main() {
-  deleteExadataInfrastructure();
+  await deleteExadataInfrastructure();
 }
 
 main().catch(console.error);

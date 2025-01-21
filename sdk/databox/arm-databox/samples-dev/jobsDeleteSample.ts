@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a job.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsDelete.json
  */
-async function jobsDelete() {
+async function jobsDelete(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function jobsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsDelete();
 }
 

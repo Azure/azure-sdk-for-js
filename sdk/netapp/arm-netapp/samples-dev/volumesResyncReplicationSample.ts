@@ -40,7 +40,7 @@ async function volumesResyncReplication() {
 }
 
 async function main() {
-  volumesResyncReplication();
+  await volumesResyncReplication();
 }
 
 main().catch(console.error);

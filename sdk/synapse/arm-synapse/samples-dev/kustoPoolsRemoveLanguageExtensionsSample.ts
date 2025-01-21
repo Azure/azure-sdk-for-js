@@ -46,7 +46,7 @@ async function kustoPoolRemoveLanguageExtensions() {
 }
 
 async function main() {
-  kustoPoolRemoveLanguageExtensions();
+  await kustoPoolRemoveLanguageExtensions();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function listServersInAResourceGroup() {
 }
 
 async function main() {
-  listServersInAResourceGroup();
+  await listServersInAResourceGroup();
 }
 
 main().catch(console.error);

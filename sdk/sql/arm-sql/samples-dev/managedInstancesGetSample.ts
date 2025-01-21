@@ -78,9 +78,9 @@ async function getManagedInstanceWithExpandAdministratorsOrActivedirectory() {
 }
 
 async function main() {
-  getManagedInstance();
-  getManagedInstanceWhileResourceIsUpdating();
-  getManagedInstanceWithExpandAdministratorsOrActivedirectory();
+  await getManagedInstance();
+  await getManagedInstanceWhileResourceIsUpdating();
+  await getManagedInstanceWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

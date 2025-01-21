@@ -41,7 +41,7 @@ async function azureVMDiscoveryOperationResult() {
 }
 
 async function main() {
-  azureVMDiscoveryOperationResult();
+  await azureVMDiscoveryOperationResult();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function listTheTablesOfAGivenSchemaInASqlAnalyticsPool() {
 }
 
 async function main() {
-  listTheTablesOfAGivenSchemaInASqlAnalyticsPool();
+  await listTheTablesOfAGivenSchemaInASqlAnalyticsPool();
 }
 
 main().catch(console.error);

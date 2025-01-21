@@ -42,7 +42,7 @@ async function createsOrUpdatesTheAdvancedThreatProtectionSettingsOnASpecifiedRe
 }
 
 async function main() {
-  createsOrUpdatesTheAdvancedThreatProtectionSettingsOnASpecifiedResource();
+  await createsOrUpdatesTheAdvancedThreatProtectionSettingsOnASpecifiedResource();
 }
 
 main().catch(console.error);

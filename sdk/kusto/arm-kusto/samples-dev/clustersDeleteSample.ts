@@ -37,7 +37,7 @@ async function kustoClustersDelete() {
 }
 
 async function main() {
-  kustoClustersDelete();
+  await kustoClustersDelete();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function routeFilterDelete() {
 }
 
 async function main() {
-  routeFilterDelete();
+  await routeFilterDelete();
 }
 
 main().catch(console.error);

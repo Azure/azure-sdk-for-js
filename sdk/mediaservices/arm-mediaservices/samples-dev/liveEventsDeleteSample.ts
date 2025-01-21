@@ -39,7 +39,7 @@ async function deleteALiveEvent() {
 }
 
 async function main() {
-  deleteALiveEvent();
+  await deleteALiveEvent();
 }
 
 main().catch(console.error);

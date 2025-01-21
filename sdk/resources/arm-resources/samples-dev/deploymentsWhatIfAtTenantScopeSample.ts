@@ -42,7 +42,7 @@ async function predictTemplateChangesAtManagementGroupScope() {
 }
 
 async function main() {
-  predictTemplateChangesAtManagementGroupScope();
+  await predictTemplateChangesAtManagementGroupScope();
 }
 
 main().catch(console.error);

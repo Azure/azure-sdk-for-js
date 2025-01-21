@@ -56,7 +56,7 @@ async function retrieveTheDefaultDefinitionForAnAzureMlFunction() {
 }
 
 async function main() {
-  retrieveTheDefaultDefinitionForAnAzureMlFunction();
+  await retrieveTheDefaultDefinitionForAnAzureMlFunction();
 }
 
 main().catch(console.error);

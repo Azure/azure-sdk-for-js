@@ -41,7 +41,7 @@ async function readAMaintenance() {
 }
 
 async function main() {
-  readAMaintenance();
+  await readAMaintenance();
 }
 
 main().catch(console.error);

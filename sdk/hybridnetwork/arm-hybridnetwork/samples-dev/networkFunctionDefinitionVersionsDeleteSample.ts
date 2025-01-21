@@ -90,9 +90,9 @@ async function deleteANetworkFunctionDefinitionVersionForAzureOperatorNexusVnf()
 }
 
 async function main() {
-  deleteANetworkFunctionDefinitionVersion();
-  deleteANetworkFunctionDefinitionVersionForAzureCoreVnf();
-  deleteANetworkFunctionDefinitionVersionForAzureOperatorNexusVnf();
+  await deleteANetworkFunctionDefinitionVersion();
+  await deleteANetworkFunctionDefinitionVersionForAzureCoreVnf();
+  await deleteANetworkFunctionDefinitionVersionForAzureOperatorNexusVnf();
 }
 
 main().catch(console.error);

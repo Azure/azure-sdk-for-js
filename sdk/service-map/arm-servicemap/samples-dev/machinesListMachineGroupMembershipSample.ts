@@ -52,7 +52,7 @@ async function smMachinesListMachineGroupMembershipGet() {
 }
 
 async function main() {
-  smMachinesListMachineGroupMembershipGet();
+  await smMachinesListMachineGroupMembershipGet();
 }
 
 main().catch(console.error);

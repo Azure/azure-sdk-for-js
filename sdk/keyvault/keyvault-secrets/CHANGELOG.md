@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Generate code from TypeSpec. This is an internal change that should not affect customers. [#31848](https://github.com/Azure/azure-sdk-for-js/pull/31848)
+
 ## 4.9.0 (2024-10-16)
 
 ### Features Added

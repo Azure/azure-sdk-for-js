@@ -55,7 +55,7 @@ async function disablesProtection() {
 }
 
 async function main() {
-  disablesProtection();
+  await disablesProtection();
 }
 
 main().catch(console.error);

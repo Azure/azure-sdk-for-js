@@ -56,7 +56,7 @@ async function emailConfigurationCreate() {
 }
 
 async function main() {
-  emailConfigurationCreate();
+  await emailConfigurationCreate();
 }
 
 main().catch(console.error);

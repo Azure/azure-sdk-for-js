@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates an email channel sign in url for a Bot Service
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates an email channel sign in url for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/CreateEmailSignInUrl.json
  */
-async function createUrl() {
+async function createUrl(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function createUrl() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createUrl();
 }
 

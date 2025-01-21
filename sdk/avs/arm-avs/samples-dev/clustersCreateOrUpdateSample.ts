@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Cluster, AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a Cluster
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a Cluster
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Clusters_CreateOrUpdate.json
  */
-async function clustersCreateOrUpdate() {
+async function clustersCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function clustersCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clustersCreateOrUpdate();
 }
 

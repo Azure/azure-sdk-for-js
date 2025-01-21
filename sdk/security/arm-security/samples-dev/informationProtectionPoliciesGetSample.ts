@@ -53,8 +53,8 @@ async function getTheEffectiveInformationProtectionPolicyForAManagementGroup() {
 }
 
 async function main() {
-  getTheCustomizedInformationProtectionPolicyForAManagementGroup();
-  getTheEffectiveInformationProtectionPolicyForAManagementGroup();
+  await getTheCustomizedInformationProtectionPolicyForAManagementGroup();
+  await getTheEffectiveInformationProtectionPolicyForAManagementGroup();
 }
 
 main().catch(console.error);

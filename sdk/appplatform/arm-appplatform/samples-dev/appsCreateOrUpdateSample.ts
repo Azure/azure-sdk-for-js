@@ -13,9 +13,7 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new App or update an exiting App.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create a new App or update an exiting App.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apps_CreateOrUpdate.json
  */
-async function appsCreateOrUpdate() {
+async function appsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -107,7 +105,7 @@ async function appsCreateOrUpdate() {
  * @summary Create a new App or update an exiting App.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apps_CreateOrUpdate_VNetInjection.json
  */
-async function appsCreateOrUpdateVNetInjection() {
+async function appsCreateOrUpdateVNetInjection(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -185,7 +183,7 @@ async function appsCreateOrUpdateVNetInjection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   appsCreateOrUpdate();
   appsCreateOrUpdateVNetInjection();
 }

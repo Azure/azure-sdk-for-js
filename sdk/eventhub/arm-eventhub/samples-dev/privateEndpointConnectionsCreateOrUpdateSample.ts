@@ -51,7 +51,7 @@ async function nameSpacePrivateEndPointConnectionCreate() {
 }
 
 async function main() {
-  nameSpacePrivateEndPointConnectionCreate();
+  await nameSpacePrivateEndPointConnectionCreate();
 }
 
 main().catch(console.error);

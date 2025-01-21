@@ -59,7 +59,7 @@ async function createProtectionIntentResource() {
 }
 
 async function main() {
-  createProtectionIntentResource();
+  await createProtectionIntentResource();
 }
 
 main().catch(console.error);

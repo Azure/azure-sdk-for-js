@@ -39,7 +39,7 @@ async function deleteSimPolicy() {
 }
 
 async function main() {
-  deleteSimPolicy();
+  await deleteSimPolicy();
 }
 
 main().catch(console.error);

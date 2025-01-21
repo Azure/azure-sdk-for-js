@@ -63,7 +63,7 @@ async function vMwareCollectorsCreate() {
 }
 
 async function main() {
-  vMwareCollectorsCreate();
+  await vMwareCollectorsCreate();
 }
 
 main().catch(console.error);

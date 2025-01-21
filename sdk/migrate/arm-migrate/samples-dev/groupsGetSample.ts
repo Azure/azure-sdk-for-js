@@ -39,7 +39,7 @@ async function groupsGet() {
 }
 
 async function main() {
-  groupsGet();
+  await groupsGet();
 }
 
 main().catch(console.error);

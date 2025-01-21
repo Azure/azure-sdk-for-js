@@ -45,7 +45,7 @@ async function nameSpaceUpdate() {
 }
 
 async function main() {
-  nameSpaceUpdate();
+  await nameSpaceUpdate();
 }
 
 main().catch(console.error);

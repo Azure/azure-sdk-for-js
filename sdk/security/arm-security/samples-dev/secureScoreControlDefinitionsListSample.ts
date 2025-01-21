@@ -31,7 +31,7 @@ async function listSecurityControlsDefinition() {
 }
 
 async function main() {
-  listSecurityControlsDefinition();
+  await listSecurityControlsDefinition();
 }
 
 main().catch(console.error);

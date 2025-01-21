@@ -36,7 +36,7 @@ async function frontendEndpointsDisableHttps() {
 }
 
 async function main() {
-  frontendEndpointsDisableHttps();
+  await frontendEndpointsDisableHttps();
 }
 
 main().catch(console.error);

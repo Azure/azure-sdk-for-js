@@ -42,7 +42,7 @@ async function deleteRegistryEnvironmentContainer() {
 }
 
 async function main() {
-  deleteRegistryEnvironmentContainer();
+  await deleteRegistryEnvironmentContainer();
 }
 
 main().catch(console.error);

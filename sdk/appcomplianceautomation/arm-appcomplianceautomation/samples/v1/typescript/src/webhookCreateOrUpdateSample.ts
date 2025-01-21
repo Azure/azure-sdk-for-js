@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new AppComplianceAutomation webhook or update an exiting AppComplianceAutomation webhook.

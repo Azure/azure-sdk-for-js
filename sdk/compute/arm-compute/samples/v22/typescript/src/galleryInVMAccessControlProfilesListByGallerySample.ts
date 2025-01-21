@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List gallery inVMAccessControlProfiles in a gallery.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List gallery inVMAccessControlProfiles in a gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_ListByGallery.json
  */
-async function listGalleryInVMAccessControlProfilesInAGallery() {
+async function listGalleryInVMAccessControlProfilesInAGallery(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function listGalleryInVMAccessControlProfilesInAGallery() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listGalleryInVMAccessControlProfilesInAGallery();
 }
 

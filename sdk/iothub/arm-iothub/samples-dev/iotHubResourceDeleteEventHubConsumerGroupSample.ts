@@ -41,7 +41,7 @@ async function iotHubResourceDeleteEventHubConsumerGroup() {
 }
 
 async function main() {
-  iotHubResourceDeleteEventHubConsumerGroup();
+  await iotHubResourceDeleteEventHubConsumerGroup();
 }
 
 main().catch(console.error);

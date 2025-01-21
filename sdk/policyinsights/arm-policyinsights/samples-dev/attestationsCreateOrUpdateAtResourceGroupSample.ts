@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { Attestation, PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an attestation at resource group scope.
  *
  * @summary Creates or updates an attestation at resource group scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_CreateResourceGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_CreateResourceGroupScope.json
  */
 async function createAttestationAtResourceGroupScope() {
   const subscriptionId =
@@ -35,28 +33,29 @@ async function createAttestationAtResourceGroupScope() {
       {
         description: "The results of the security audit.",
         sourceUri:
-          "https://gist.github.com/contoso/9573e238762c60166c090ae16b814011"
-      }
+          "https://gist.github.com/contoso/9573e238762c60166c090ae16b814011",
+      },
     ],
     expiresOn: new Date("2021-06-15T00:00:00Z"),
     metadata: { departmentId: "NYC-MARKETING-1" },
     owner: "55a32e28-3aa5-4eea-9b5a-4cd85153b966",
     policyAssignmentId:
       "/subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5",
-    policyDefinitionReferenceId: "0b158b46-ff42-4799-8e39-08a5c23b4551"
+    policyDefinitionReferenceId: "0b158b46-ff42-4799-8e39-08a5c23b4551",
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
-  const result = await client.attestations.beginCreateOrUpdateAtResourceGroupAndWait(
-    resourceGroupName,
-    attestationName,
-    parameters
-  );
+  const result =
+    await client.attestations.beginCreateOrUpdateAtResourceGroupAndWait(
+      resourceGroupName,
+      attestationName,
+      parameters,
+    );
   console.log(result);
 }
 
 async function main() {
-  createAttestationAtResourceGroupScope();
+  await createAttestationAtResourceGroupScope();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function volumesRestoreStatus() {
 }
 
 async function main() {
-  volumesRestoreStatus();
+  await volumesRestoreStatus();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function getWorkspaceDataVersionBase() {
 }
 
 async function main() {
-  getWorkspaceDataVersionBase();
+  await getWorkspaceDataVersionBase();
 }
 
 main().catch(console.error);

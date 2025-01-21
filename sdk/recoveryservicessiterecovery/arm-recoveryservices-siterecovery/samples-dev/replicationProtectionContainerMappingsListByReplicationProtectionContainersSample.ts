@@ -45,7 +45,7 @@ async function getsTheListOfProtectionContainerMappingsForAProtectionContainer()
 }
 
 async function main() {
-  getsTheListOfProtectionContainerMappingsForAProtectionContainer();
+  await getsTheListOfProtectionContainerMappingsForAProtectionContainer();
 }
 
 main().catch(console.error);

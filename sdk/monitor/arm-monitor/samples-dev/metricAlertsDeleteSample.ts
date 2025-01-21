@@ -33,7 +33,7 @@ async function deleteAnAlertRule() {
 }
 
 async function main() {
-  deleteAnAlertRule();
+  await deleteAnAlertRule();
 }
 
 main().catch(console.error);

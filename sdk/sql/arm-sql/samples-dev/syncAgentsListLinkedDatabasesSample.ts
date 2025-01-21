@@ -42,7 +42,7 @@ async function getSyncAgentLinkedDatabases() {
 }
 
 async function main() {
-  getSyncAgentLinkedDatabases();
+  await getSyncAgentLinkedDatabases();
 }
 
 main().catch(console.error);

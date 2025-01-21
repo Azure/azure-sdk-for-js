@@ -36,7 +36,7 @@ async function getRoute() {
 }
 
 async function main() {
-  getRoute();
+  await getRoute();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function deviceGroupsDelete() {
 }
 
 async function main() {
-  deviceGroupsDelete();
+  await deviceGroupsDelete();
 }
 
 main().catch(console.error);

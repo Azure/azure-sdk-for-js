@@ -66,8 +66,8 @@ async function createPublicIPPrefixDefaults() {
 }
 
 async function main() {
-  createPublicIPPrefixAllocationMethod();
-  createPublicIPPrefixDefaults();
+  await createPublicIPPrefixAllocationMethod();
+  await createPublicIPPrefixDefaults();
 }
 
 main().catch(console.error);

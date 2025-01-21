@@ -77,8 +77,8 @@ async function listAllInputsInAStreamingJobAndIncludeDiagnosticInformationUsingT
 }
 
 async function main() {
-  listAllInputsInAStreamingJob();
-  listAllInputsInAStreamingJobAndIncludeDiagnosticInformationUsingTheSelectODataQueryParameter();
+  await listAllInputsInAStreamingJob();
+  await listAllInputsInAStreamingJobAndIncludeDiagnosticInformationUsingTheSelectODataQueryParameter();
 }
 
 main().catch(console.error);

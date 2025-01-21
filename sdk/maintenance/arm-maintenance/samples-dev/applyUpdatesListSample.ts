@@ -34,7 +34,7 @@ async function applyUpdatesList() {
 }
 
 async function main() {
-  applyUpdatesList();
+  await applyUpdatesList();
 }
 
 main().catch(console.error);

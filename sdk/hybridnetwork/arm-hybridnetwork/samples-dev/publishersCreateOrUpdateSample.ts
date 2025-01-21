@@ -45,7 +45,7 @@ async function createOrUpdateAPublisherResource() {
 }
 
 async function main() {
-  createOrUpdateAPublisherResource();
+  await createOrUpdateAPublisherResource();
 }
 
 main().catch(console.error);

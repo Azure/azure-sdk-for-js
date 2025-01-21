@@ -58,7 +58,7 @@ async function updateExtension() {
 }
 
 async function main() {
-  updateExtension();
+  await updateExtension();
 }
 
 main().catch(console.error);

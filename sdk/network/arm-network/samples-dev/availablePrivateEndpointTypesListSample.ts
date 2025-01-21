@@ -33,7 +33,7 @@ async function getAvailablePrivateEndpointTypes() {
 }
 
 async function main() {
-  getAvailablePrivateEndpointTypes();
+  await getAvailablePrivateEndpointTypes();
 }
 
 main().catch(console.error);

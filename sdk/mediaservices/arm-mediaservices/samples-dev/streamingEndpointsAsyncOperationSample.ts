@@ -39,7 +39,7 @@ async function getTheStreamingEndpointOperationStatus() {
 }
 
 async function main() {
-  getTheStreamingEndpointOperationStatus();
+  await getTheStreamingEndpointOperationStatus();
 }
 
 main().catch(console.error);

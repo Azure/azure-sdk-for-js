@@ -63,8 +63,8 @@ async function listIoTSecuritySolutionsBySubscription() {
 }
 
 async function main() {
-  listIoTSecuritySolutionsByIoTHub();
-  listIoTSecuritySolutionsBySubscription();
+  await listIoTSecuritySolutionsByIoTHub();
+  await listIoTSecuritySolutionsBySubscription();
 }
 
 main().catch(console.error);

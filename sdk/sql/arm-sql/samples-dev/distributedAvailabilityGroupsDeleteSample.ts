@@ -38,7 +38,7 @@ async function initiateADistributedAvailabilityGroupDrop() {
 }
 
 async function main() {
-  initiateADistributedAvailabilityGroupDrop();
+  await initiateADistributedAvailabilityGroupDrop();
 }
 
 main().catch(console.error);

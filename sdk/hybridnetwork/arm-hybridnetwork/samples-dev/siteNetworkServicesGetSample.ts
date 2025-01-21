@@ -36,7 +36,7 @@ async function getNetworkSite() {
 }
 
 async function main() {
-  getNetworkSite();
+  await getNetworkSite();
 }
 
 main().catch(console.error);

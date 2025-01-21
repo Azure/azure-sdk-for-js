@@ -41,7 +41,7 @@ async function listOfDatabaseRecommendedActions() {
 }
 
 async function main() {
-  listOfDatabaseRecommendedActions();
+  await listOfDatabaseRecommendedActions();
 }
 
 main().catch(console.error);

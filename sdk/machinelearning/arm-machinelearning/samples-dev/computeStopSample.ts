@@ -42,7 +42,7 @@ async function stopComputeInstanceCompute() {
 }
 
 async function main() {
-  stopComputeInstanceCompute();
+  await stopComputeInstanceCompute();
 }
 
 main().catch(console.error);

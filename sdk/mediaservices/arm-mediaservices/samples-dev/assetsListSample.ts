@@ -98,9 +98,9 @@ async function listAllAssets() {
 }
 
 async function main() {
-  listAssetCreatedInADateRange();
-  listAssetOrderedByDate();
-  listAllAssets();
+  await listAssetCreatedInADateRange();
+  await listAssetOrderedByDate();
+  await listAllAssets();
 }
 
 main().catch(console.error);

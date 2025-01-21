@@ -46,7 +46,7 @@ async function topicAuthorizationRuleCreate() {
 }
 
 async function main() {
-  topicAuthorizationRuleCreate();
+  await topicAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

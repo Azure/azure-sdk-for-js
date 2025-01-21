@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an enrollment account by ID. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets an enrollment account by ID. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/enrollmentAccountGet.json
  */
-async function enrollmentAccountGet() {
+async function enrollmentAccountGet(): Promise<void> {
   const billingAccountName = "6564892";
   const enrollmentAccountName = "257698";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function enrollmentAccountGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   enrollmentAccountGet();
 }
 

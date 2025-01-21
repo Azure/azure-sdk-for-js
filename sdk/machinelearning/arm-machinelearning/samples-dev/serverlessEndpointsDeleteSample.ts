@@ -42,7 +42,7 @@ async function deleteWorkspaceServerlessEndpoint() {
 }
 
 async function main() {
-  deleteWorkspaceServerlessEndpoint();
+  await deleteWorkspaceServerlessEndpoint();
 }
 
 main().catch(console.error);

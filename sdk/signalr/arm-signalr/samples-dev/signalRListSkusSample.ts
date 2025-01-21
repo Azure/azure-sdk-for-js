@@ -34,7 +34,7 @@ async function signalRListSkus() {
 }
 
 async function main() {
-  signalRListSkus();
+  await signalRListSkus();
 }
 
 main().catch(console.error);

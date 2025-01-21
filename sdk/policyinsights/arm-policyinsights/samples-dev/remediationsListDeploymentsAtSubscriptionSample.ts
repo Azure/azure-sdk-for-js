@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all deployments for a remediation at subscription scope.
  *
  * @summary Gets all deployments for a remediation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListDeploymentsSubscriptionScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListDeploymentsSubscriptionScope.json
  */
 async function listDeploymentsForARemediationAtSubscriptionScope() {
   const subscriptionId =
@@ -29,7 +27,7 @@ async function listDeploymentsForARemediationAtSubscriptionScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.remediations.listDeploymentsAtSubscription(
-    remediationName
+    remediationName,
   )) {
     resArray.push(item);
   }
@@ -37,7 +35,7 @@ async function listDeploymentsForARemediationAtSubscriptionScope() {
 }
 
 async function main() {
-  listDeploymentsForARemediationAtSubscriptionScope();
+  await listDeploymentsForARemediationAtSubscriptionScope();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listGatewaysByResourceGroup() {
 }
 
 async function main() {
-  listGatewaysByResourceGroup();
+  await listGatewaysByResourceGroup();
 }
 
 main().catch(console.error);

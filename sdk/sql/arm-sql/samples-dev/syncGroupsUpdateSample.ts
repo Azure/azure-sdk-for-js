@@ -51,7 +51,7 @@ async function updateASyncGroup() {
 }
 
 async function main() {
-  updateASyncGroup();
+  await updateASyncGroup();
 }
 
 main().catch(console.error);

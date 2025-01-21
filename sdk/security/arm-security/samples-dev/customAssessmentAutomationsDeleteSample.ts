@@ -37,7 +37,7 @@ async function deleteACustomAssessmentAutomation() {
 }
 
 async function main() {
-  deleteACustomAssessmentAutomation();
+  await deleteACustomAssessmentAutomation();
 }
 
 main().catch(console.error);

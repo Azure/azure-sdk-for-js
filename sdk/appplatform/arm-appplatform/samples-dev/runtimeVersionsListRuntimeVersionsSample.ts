@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available runtime versions supported by Microsoft.AppPlatform provider.
@@ -20,14 +18,14 @@ dotenv.config();
  * @summary Lists all of the available runtime versions supported by Microsoft.AppPlatform provider.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/RuntimeVersions_ListRuntimeVersions.json
  */
-async function runtimeVersionsListRuntimeVersions() {
+async function runtimeVersionsListRuntimeVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential);
   const result = await client.runtimeVersions.listRuntimeVersions();
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   runtimeVersionsListRuntimeVersions();
 }
 

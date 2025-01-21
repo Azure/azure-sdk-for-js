@@ -32,7 +32,7 @@ async function listAllFirewallPoliciesForAGivenSubscription() {
 }
 
 async function main() {
-  listAllFirewallPoliciesForAGivenSubscription();
+  await listAllFirewallPoliciesForAGivenSubscription();
 }
 
 main().catch(console.error);

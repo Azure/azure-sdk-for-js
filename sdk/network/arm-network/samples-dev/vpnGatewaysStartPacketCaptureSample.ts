@@ -63,8 +63,8 @@ async function startPacketCaptureOnVpnGatewayWithoutFilter() {
 }
 
 async function main() {
-  startPacketCaptureOnVpnGatewayWithFilter();
-  startPacketCaptureOnVpnGatewayWithoutFilter();
+  await startPacketCaptureOnVpnGatewayWithFilter();
+  await startPacketCaptureOnVpnGatewayWithoutFilter();
 }
 
 main().catch(console.error);

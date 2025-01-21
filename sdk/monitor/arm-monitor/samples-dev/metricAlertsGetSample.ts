@@ -142,13 +142,13 @@ async function getAnAlertRuleOnSubscription() {
 }
 
 async function main() {
-  getADynamicAlertRuleForMultipleResources();
-  getADynamicAlertRuleForSingleResource();
-  getAWebTestAlertRule();
-  getAnAlertRuleForMultipleResources();
-  getAnAlertRuleForSingleResource();
-  getAnAlertRuleOnResourceGroupS();
-  getAnAlertRuleOnSubscription();
+  await getADynamicAlertRuleForMultipleResources();
+  await getADynamicAlertRuleForSingleResource();
+  await getAWebTestAlertRule();
+  await getAnAlertRuleForMultipleResources();
+  await getAnAlertRuleForSingleResource();
+  await getAnAlertRuleOnResourceGroupS();
+  await getAnAlertRuleOnSubscription();
 }
 
 main().catch(console.error);

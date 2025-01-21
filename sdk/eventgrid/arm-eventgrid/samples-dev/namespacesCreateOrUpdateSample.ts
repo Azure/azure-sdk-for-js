@@ -47,7 +47,7 @@ async function namespacesCreateOrUpdate() {
 }
 
 async function main() {
-  namespacesCreateOrUpdate();
+  await namespacesCreateOrUpdate();
 }
 
 main().catch(console.error);

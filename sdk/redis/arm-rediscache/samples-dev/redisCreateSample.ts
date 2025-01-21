@@ -119,9 +119,9 @@ async function redisCacheCreateLatestVersion() {
 }
 
 async function main() {
-  redisCacheCreate();
-  redisCacheCreateDefaultVersion();
-  redisCacheCreateLatestVersion();
+  await redisCacheCreate();
+  await redisCacheCreateDefaultVersion();
+  await redisCacheCreateLatestVersion();
 }
 
 main().catch(console.error);

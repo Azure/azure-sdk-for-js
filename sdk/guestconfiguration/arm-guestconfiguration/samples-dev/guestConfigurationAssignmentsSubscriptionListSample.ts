@@ -33,7 +33,7 @@ async function listAllGuestConfigurationAssignmentsForASubscription() {
 }
 
 async function main() {
-  listAllGuestConfigurationAssignmentsForASubscription();
+  await listAllGuestConfigurationAssignmentsForASubscription();
 }
 
 main().catch(console.error);

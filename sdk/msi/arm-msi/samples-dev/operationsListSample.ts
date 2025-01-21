@@ -34,7 +34,7 @@ async function msiOperationsList() {
 }
 
 async function main() {
-  msiOperationsList();
+  await msiOperationsList();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function configurationPolicyGroupGet() {
 }
 
 async function main() {
-  configurationPolicyGroupGet();
+  await configurationPolicyGroupGet();
 }
 
 main().catch(console.error);

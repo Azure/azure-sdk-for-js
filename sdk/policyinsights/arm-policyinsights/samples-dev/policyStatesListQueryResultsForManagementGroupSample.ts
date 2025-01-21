@@ -10,31 +10,26 @@
 // Licensed under the MIT License.
 import {
   PolicyStatesListQueryResultsForManagementGroupOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Queries policy states for the resources under the management group.
  *
  * @summary Queries policy states for the resources under the management group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryManagementGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryManagementGroupScope.json
  */
 async function queryLatestAtManagementGroupScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
   const managementGroupName = "myManagementGroup";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForManagementGroup(
     policyStatesResource,
-    managementGroupName
+    managementGroupName,
   )) {
     resArray.push(item);
   }
@@ -45,25 +40,21 @@ async function queryLatestAtManagementGroupScope() {
  * This sample demonstrates how to Queries policy states for the resources under the management group.
  *
  * @summary Queries policy states for the resources under the management group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryManagementGroupScopeNextLink.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryManagementGroupScopeNextLink.json
  */
 async function queryLatestAtManagementGroupScopeWithNextLink() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
   const managementGroupName = "myManagementGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
-  const options: PolicyStatesListQueryResultsForManagementGroupOptionalParams = {
-    queryOptions: { skipToken: skipToken }
-  };
+  const options: PolicyStatesListQueryResultsForManagementGroupOptionalParams =
+    { skipToken };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForManagementGroup(
     policyStatesResource,
     managementGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -71,8 +62,8 @@ async function queryLatestAtManagementGroupScopeWithNextLink() {
 }
 
 async function main() {
-  queryLatestAtManagementGroupScope();
-  queryLatestAtManagementGroupScopeWithNextLink();
+  await queryLatestAtManagementGroupScope();
+  await queryLatestAtManagementGroupScopeWithNextLink();
 }
 
 main().catch(console.error);

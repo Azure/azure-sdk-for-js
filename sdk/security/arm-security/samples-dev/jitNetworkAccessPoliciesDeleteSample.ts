@@ -38,7 +38,7 @@ async function deleteAJitNetworkAccessPolicy() {
 }
 
 async function main() {
-  deleteAJitNetworkAccessPolicy();
+  await deleteAJitNetworkAccessPolicy();
 }
 
 main().catch(console.error);

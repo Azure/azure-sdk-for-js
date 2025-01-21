@@ -37,7 +37,7 @@ async function deleteDataCollectionEndpoint() {
 }
 
 async function main() {
-  deleteDataCollectionEndpoint();
+  await deleteDataCollectionEndpoint();
 }
 
 main().catch(console.error);

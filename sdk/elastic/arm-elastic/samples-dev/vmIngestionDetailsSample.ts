@@ -37,7 +37,7 @@ async function vmIngestionDetails() {
 }
 
 async function main() {
-  vmIngestionDetails();
+  await vmIngestionDetails();
 }
 
 main().catch(console.error);

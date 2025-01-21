@@ -40,7 +40,7 @@ async function serverCollectorsListByProject() {
 }
 
 async function main() {
-  serverCollectorsListByProject();
+  await serverCollectorsListByProject();
 }
 
 main().catch(console.error);

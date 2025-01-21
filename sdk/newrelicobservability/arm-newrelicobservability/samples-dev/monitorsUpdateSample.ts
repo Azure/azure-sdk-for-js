@@ -75,7 +75,7 @@ async function monitorsUpdateMaximumSetGen() {
 }
 
 async function main() {
-  monitorsUpdateMaximumSetGen();
+  await monitorsUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

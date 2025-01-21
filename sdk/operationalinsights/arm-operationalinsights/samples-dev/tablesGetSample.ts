@@ -42,7 +42,7 @@ async function tablesGet() {
 }
 
 async function main() {
-  tablesGet();
+  await tablesGet();
 }
 
 main().catch(console.error);

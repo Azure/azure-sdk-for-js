@@ -36,7 +36,7 @@ async function poolsList() {
 }
 
 async function main() {
-  poolsList();
+  await poolsList();
 }
 
 main().catch(console.error);

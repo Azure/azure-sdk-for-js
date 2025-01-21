@@ -46,7 +46,7 @@ async function deletesASecurityUserRuleCollection() {
 }
 
 async function main() {
-  deletesASecurityUserRuleCollection();
+  await deletesASecurityUserRuleCollection();
 }
 
 main().catch(console.error);

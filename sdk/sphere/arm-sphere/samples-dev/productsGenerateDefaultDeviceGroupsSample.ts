@@ -42,7 +42,7 @@ async function productsGenerateDefaultDeviceGroups() {
 }
 
 async function main() {
-  productsGenerateDefaultDeviceGroups();
+  await productsGenerateDefaultDeviceGroups();
 }
 
 main().catch(console.error);

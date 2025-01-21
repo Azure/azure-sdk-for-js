@@ -41,7 +41,7 @@ async function networkPacketBrokersListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  networkPacketBrokersListByResourceGroupMaximumSetGen();
+  await networkPacketBrokersListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getProvisionedClusterInstance() {
 }
 
 async function main() {
-  getProvisionedClusterInstance();
+  await getProvisionedClusterInstance();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function deleteProtectionFromAzureVirtualMachine() {
 }
 
 async function main() {
-  deleteProtectionFromAzureVirtualMachine();
+  await deleteProtectionFromAzureVirtualMachine();
 }
 
 main().catch(console.error);

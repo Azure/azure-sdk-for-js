@@ -29,7 +29,7 @@ async function getAvailableWafRuleSets() {
 }
 
 async function main() {
-  getAvailableWafRuleSets();
+  await getAvailableWafRuleSets();
 }
 
 main().catch(console.error);

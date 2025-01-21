@@ -40,7 +40,7 @@ async function backupsUnderBackupVaultGet() {
 }
 
 async function main() {
-  backupsUnderBackupVaultGet();
+  await backupsUnderBackupVaultGet();
 }
 
 main().catch(console.error);

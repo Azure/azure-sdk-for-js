@@ -56,7 +56,7 @@ async function ipExtendedCommunitiesCreateMaximumSetGen() {
 }
 
 async function main() {
-  ipExtendedCommunitiesCreateMaximumSetGen();
+  await ipExtendedCommunitiesCreateMaximumSetGen();
 }
 
 main().catch(console.error);

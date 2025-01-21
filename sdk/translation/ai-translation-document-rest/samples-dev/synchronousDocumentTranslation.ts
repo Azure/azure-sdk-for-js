@@ -47,8 +47,8 @@ export async function main() {
     throw response.body;
   }
   console.log("Response code: " + response.status + ", Response body: " + response.body);
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

@@ -41,7 +41,7 @@ async function createAutoProvisioningSettingsForSubscription() {
 }
 
 async function main() {
-  createAutoProvisioningSettingsForSubscription();
+  await createAutoProvisioningSettingsForSubscription();
 }
 
 main().catch(console.error);

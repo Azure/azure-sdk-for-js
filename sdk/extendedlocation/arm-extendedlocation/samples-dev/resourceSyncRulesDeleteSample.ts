@@ -42,7 +42,7 @@ async function deleteResourceSyncRule() {
 }
 
 async function main() {
-  deleteResourceSyncRule();
+  await deleteResourceSyncRule();
 }
 
 main().catch(console.error);

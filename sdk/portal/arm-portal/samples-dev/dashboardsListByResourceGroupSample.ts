@@ -37,7 +37,7 @@ async function listAllCustomResourceProvidersOnTheResourceGroup() {
 }
 
 async function main() {
-  listAllCustomResourceProvidersOnTheResourceGroup();
+  await listAllCustomResourceProvidersOnTheResourceGroup();
 }
 
 main().catch(console.error);

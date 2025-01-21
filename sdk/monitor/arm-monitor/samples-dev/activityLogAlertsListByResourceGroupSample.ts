@@ -38,7 +38,7 @@ async function listActivityLogAlerts() {
 }
 
 async function main() {
-  listActivityLogAlerts();
+  await listActivityLogAlerts();
 }
 
 main().catch(console.error);

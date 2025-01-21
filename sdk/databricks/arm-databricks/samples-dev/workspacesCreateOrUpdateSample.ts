@@ -13,9 +13,7 @@ import {
   AzureDatabricksManagementClient
 } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new workspace.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a new workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/PrepareEncryption.json
  */
-async function createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption() {
+async function createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -51,7 +49,7 @@ async function createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption() 
  * @summary Creates a new workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceManagedDiskEncryptionCreate.json
  */
-async function createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks() {
+async function createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -91,7 +89,7 @@ async function createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisk
  * @summary Creates a new workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreate.json
  */
-async function createOrUpdateWorkspace() {
+async function createOrUpdateWorkspace(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -118,7 +116,7 @@ async function createOrUpdateWorkspace() {
  * @summary Creates a new workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreateWithParameters.json
  */
-async function createOrUpdateWorkspaceWithCustomParameters() {
+async function createOrUpdateWorkspaceWithCustomParameters(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -153,7 +151,7 @@ async function createOrUpdateWorkspaceWithCustomParameters() {
  * @summary Creates a new workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/EnableEncryption.json
  */
-async function enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedForEncryption() {
+async function enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedForEncryption(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -191,7 +189,7 @@ async function enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedF
  * @summary Creates a new workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/DisableEncryption.json
  */
-async function revertCustomerManagedKeyCmkEncryptionToMicrosoftManagedKeysEncryptionOnAWorkspace() {
+async function revertCustomerManagedKeyCmkEncryptionToMicrosoftManagedKeysEncryptionOnAWorkspace(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -219,7 +217,7 @@ async function revertCustomerManagedKeyCmkEncryptionToMicrosoftManagedKeysEncryp
  * @summary Creates a new workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceManagedDiskEncryptionUpdate.json
  */
-async function updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks() {
+async function updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -254,7 +252,7 @@ async function updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisk
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption();
   createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
   createOrUpdateWorkspace();

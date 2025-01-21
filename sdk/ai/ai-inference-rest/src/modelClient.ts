@@ -27,7 +27,7 @@ export default function createClient(
   { apiVersion = "2024-05-01-preview", ...options }: ModelClientOptions = {},
 ): ModelClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-ai-inference/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-ai-inference/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

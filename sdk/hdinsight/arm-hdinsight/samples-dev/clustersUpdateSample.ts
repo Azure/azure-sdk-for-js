@@ -65,8 +65,8 @@ async function patchHdInsightLinuxClustersWithSystemAssignedMsi() {
 }
 
 async function main() {
-  patchHdInsightLinuxClusters();
-  patchHdInsightLinuxClustersWithSystemAssignedMsi();
+  await patchHdInsightLinuxClusters();
+  await patchHdInsightLinuxClustersWithSystemAssignedMsi();
 }
 
 main().catch(console.error);

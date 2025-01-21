@@ -41,7 +41,7 @@ async function revertsTheEncryptionProtectorForAParticularDatabase() {
 }
 
 async function main() {
-  revertsTheEncryptionProtectorForAParticularDatabase();
+  await revertsTheEncryptionProtectorForAParticularDatabase();
 }
 
 main().catch(console.error);

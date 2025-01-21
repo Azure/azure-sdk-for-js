@@ -53,8 +53,8 @@ async function organizationsListBySubscriptionMin() {
 }
 
 async function main() {
-  organizationsListBySubscription();
-  organizationsListBySubscriptionMin();
+  await organizationsListBySubscription();
+  await organizationsListBySubscriptionMin();
 }
 
 main().catch(console.error);

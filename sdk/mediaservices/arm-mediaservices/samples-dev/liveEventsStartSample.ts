@@ -39,7 +39,7 @@ async function startALiveEvent() {
 }
 
 async function main() {
-  startALiveEvent();
+  await startALiveEvent();
 }
 
 main().catch(console.error);

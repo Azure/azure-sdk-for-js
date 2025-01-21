@@ -50,7 +50,7 @@ async function routeTablePut() {
 }
 
 async function main() {
-  routeTablePut();
+  await routeTablePut();
 }
 
 main().catch(console.error);

@@ -53,7 +53,7 @@ async function updateAnAssetFilter() {
 }
 
 async function main() {
-  updateAnAssetFilter();
+  await updateAnAssetFilter();
 }
 
 main().catch(console.error);

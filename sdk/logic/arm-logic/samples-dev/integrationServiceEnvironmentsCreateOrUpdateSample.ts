@@ -77,7 +77,7 @@ async function createOrUpdateAnIntegrationServiceEnvironment() {
 }
 
 async function main() {
-  createOrUpdateAnIntegrationServiceEnvironment();
+  await createOrUpdateAnIntegrationServiceEnvironment();
 }
 
 main().catch(console.error);

@@ -61,8 +61,8 @@ async function volumeGroupsGetMinimumSetGen() {
 }
 
 async function main() {
-  volumeGroupsGetMaximumSetGen();
-  volumeGroupsGetMinimumSetGen();
+  await volumeGroupsGetMaximumSetGen();
+  await volumeGroupsGetMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -26,7 +26,7 @@ export interface AssetConversionSettings {
 export interface AssetConversionInputSettings {
   /** The URI of the Azure blob storage container containing the input model. */
   storageContainerUrl: string;
-  /** An Azure blob storage container shared access signature giving read and list access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies. */
+  /** An Azure blob storage container shared access signature giving read and list access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://learn.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies. */
   storageContainerReadListSas?: string;
   /** Only Blobs starting with this prefix will be downloaded to perform the conversion. Optional. If not provided, all Blobs from the container will be downloaded. */
   blobPrefix?: string;
@@ -38,7 +38,7 @@ export interface AssetConversionInputSettings {
 export interface AssetConversionOutputSettings {
   /** The URI of the Azure blob storage container where the result of the conversion should be written to. */
   storageContainerUrl: string;
-  /** An Azure blob storage container shared access signature giving write access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies. */
+  /** An Azure blob storage container shared access signature giving write access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://learn.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies. */
   storageContainerWriteSas?: string;
   /** A prefix which gets prepended in front of all files produced by the conversion process. Will be treated as a virtual folder. Optional. If not provided, output files will be stored at the container root. */
   blobPrefix?: string;

@@ -40,7 +40,7 @@ async function getsTheRequestedPolicy() {
 }
 
 async function main() {
-  getsTheRequestedPolicy();
+  await getsTheRequestedPolicy();
 }
 
 main().catch(console.error);

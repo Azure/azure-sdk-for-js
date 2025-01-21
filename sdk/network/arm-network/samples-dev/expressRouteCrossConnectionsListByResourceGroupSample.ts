@@ -36,7 +36,7 @@ async function expressRouteCrossConnectionListByResourceGroup() {
 }
 
 async function main() {
-  expressRouteCrossConnectionListByResourceGroup();
+  await expressRouteCrossConnectionListByResourceGroup();
 }
 
 main().catch(console.error);

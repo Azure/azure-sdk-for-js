@@ -35,7 +35,7 @@ async function groupQuotaSubscriptionsDeleteSubscriptions() {
 }
 
 async function main() {
-  groupQuotaSubscriptionsDeleteSubscriptions();
+  await groupQuotaSubscriptionsDeleteSubscriptions();
 }
 
 main().catch(console.error);

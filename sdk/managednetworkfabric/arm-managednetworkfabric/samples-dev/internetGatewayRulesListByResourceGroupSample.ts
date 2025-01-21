@@ -42,7 +42,7 @@ async function internetGatewayRulesListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewayRulesListByResourceGroupMaximumSetGen();
+  await internetGatewayRulesListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

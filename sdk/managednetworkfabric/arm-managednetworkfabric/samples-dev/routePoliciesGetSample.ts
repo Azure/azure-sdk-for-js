@@ -40,7 +40,7 @@ async function routePoliciesGetMaximumSetGen() {
 }
 
 async function main() {
-  routePoliciesGetMaximumSetGen();
+  await routePoliciesGetMaximumSetGen();
 }
 
 main().catch(console.error);

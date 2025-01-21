@@ -72,7 +72,7 @@ async function createOrUpdateApplication() {
 }
 
 async function main() {
-  createOrUpdateApplication();
+  await createOrUpdateApplication();
 }
 
 main().catch(console.error);

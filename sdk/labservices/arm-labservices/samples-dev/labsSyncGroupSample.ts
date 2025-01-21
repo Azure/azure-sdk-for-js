@@ -37,7 +37,7 @@ async function syncLab() {
 }
 
 async function main() {
-  syncLab();
+  await syncLab();
 }
 
 main().catch(console.error);

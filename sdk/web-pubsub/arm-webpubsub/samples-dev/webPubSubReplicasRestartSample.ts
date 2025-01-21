@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebPubSubManagementClient } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to restart a replica.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Operation to restart a replica.
  * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubReplicas_Restart.json
  */
-async function webPubSubReplicasRestart() {
+async function webPubSubReplicasRestart(): Promise<void> {
   const subscriptionId =
     process.env["WEB-PUBSUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function webPubSubReplicasRestart() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   webPubSubReplicasRestart();
 }
 

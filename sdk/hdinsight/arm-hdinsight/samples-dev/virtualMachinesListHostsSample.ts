@@ -34,7 +34,7 @@ async function getAllHostsInTheCluster() {
 }
 
 async function main() {
-  getAllHostsInTheCluster();
+  await getAllHostsInTheCluster();
 }
 
 main().catch(console.error);

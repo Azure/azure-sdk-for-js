@@ -38,7 +38,7 @@ async function listRouteTables() {
 }
 
 async function main() {
-  listRouteTables();
+  await listRouteTables();
 }
 
 main().catch(console.error);

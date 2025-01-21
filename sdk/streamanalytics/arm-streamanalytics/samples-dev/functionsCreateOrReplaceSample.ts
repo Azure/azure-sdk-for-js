@@ -191,10 +191,10 @@ async function createAnAzureMlFunction() {
 }
 
 async function main() {
-  createAClrUdfFunction();
-  createAJavaScriptFunction();
-  createAnAzureMlServiceFunction();
-  createAnAzureMlFunction();
+  await createAClrUdfFunction();
+  await createAJavaScriptFunction();
+  await createAnAzureMlServiceFunction();
+  await createAnAzureMlFunction();
 }
 
 main().catch(console.error);

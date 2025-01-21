@@ -40,7 +40,7 @@ async function listAllAccountFilters() {
 }
 
 async function main() {
-  listAllAccountFilters();
+  await listAllAccountFilters();
 }
 
 main().catch(console.error);

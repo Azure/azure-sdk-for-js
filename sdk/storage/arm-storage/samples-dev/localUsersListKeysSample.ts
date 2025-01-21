@@ -37,7 +37,7 @@ async function listLocalUserKeys() {
 }
 
 async function main() {
-  listLocalUserKeys();
+  await listLocalUserKeys();
 }
 
 main().catch(console.error);

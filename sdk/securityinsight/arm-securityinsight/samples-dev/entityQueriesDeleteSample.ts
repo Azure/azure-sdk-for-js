@@ -39,7 +39,7 @@ async function deleteAnEntityQuery() {
 }
 
 async function main() {
-  deleteAnEntityQuery();
+  await deleteAnEntityQuery();
 }
 
 main().catch(console.error);

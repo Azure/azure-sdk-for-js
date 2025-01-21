@@ -10,24 +10,22 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
  *
  * @summary Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/GetSkus.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetSkus.json
  */
-async function regenerateKeys() {
+async function regenerateKeys(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "f1c637e4-72ec-4f89-8d2b-0f933c036002";
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.resourceSkus.list()) {
@@ -36,7 +34,7 @@ async function regenerateKeys() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   regenerateKeys();
 }
 

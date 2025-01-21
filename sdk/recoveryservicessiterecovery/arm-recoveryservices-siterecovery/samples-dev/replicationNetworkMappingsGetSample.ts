@@ -45,7 +45,7 @@ async function getsNetworkMappingByName() {
 }
 
 async function main() {
-  getsNetworkMappingByName();
+  await getsNetworkMappingByName();
 }
 
 main().catch(console.error);

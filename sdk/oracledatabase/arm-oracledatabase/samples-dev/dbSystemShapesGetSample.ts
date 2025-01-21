@@ -33,7 +33,7 @@ async function getADbSystemShapeByName() {
 }
 
 async function main() {
-  getADbSystemShapeByName();
+  await getADbSystemShapeByName();
 }
 
 main().catch(console.error);

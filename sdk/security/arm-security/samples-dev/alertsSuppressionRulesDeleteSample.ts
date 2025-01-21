@@ -34,7 +34,7 @@ async function deleteSuppressionRuleDataForASubscription() {
 }
 
 async function main() {
-  deleteSuppressionRuleDataForASubscription();
+  await deleteSuppressionRuleDataForASubscription();
 }
 
 main().catch(console.error);

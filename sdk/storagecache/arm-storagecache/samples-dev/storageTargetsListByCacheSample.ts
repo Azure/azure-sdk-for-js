@@ -40,7 +40,7 @@ async function storageTargetsList() {
 }
 
 async function main() {
-  storageTargetsList();
+  await storageTargetsList();
 }
 
 main().catch(console.error);

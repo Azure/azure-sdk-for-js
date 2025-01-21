@@ -40,7 +40,7 @@ async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope() {
 }
 
 async function main() {
-  getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope();
+  await getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope();
 }
 
 main().catch(console.error);

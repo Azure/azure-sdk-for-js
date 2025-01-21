@@ -69,8 +69,8 @@ async function testTheConnectionForAnAzureMlFunction() {
 }
 
 async function main() {
-  testTheConnectionForAJavaScriptFunction();
-  testTheConnectionForAnAzureMlFunction();
+  await testTheConnectionForAJavaScriptFunction();
+  await testTheConnectionForAnAzureMlFunction();
 }
 
 main().catch(console.error);

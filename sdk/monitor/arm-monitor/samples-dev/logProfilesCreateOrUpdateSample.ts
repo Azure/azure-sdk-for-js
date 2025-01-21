@@ -45,7 +45,7 @@ async function createOrUpdateALogProfile() {
 }
 
 async function main() {
-  createOrUpdateALogProfile();
+  await createOrUpdateALogProfile();
 }
 
 main().catch(console.error);

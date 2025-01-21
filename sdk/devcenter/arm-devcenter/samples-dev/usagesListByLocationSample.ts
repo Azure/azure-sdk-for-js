@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the current usages and limits in this location for the provided subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the current usages and limits in this location for the provided subscription.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Usages_ListByLocation.json
  */
-async function listUsages() {
+async function listUsages(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -34,8 +32,8 @@ async function listUsages() {
   console.log(resArray);
 }
 
-async function main() {
-  listUsages();
+async function main(): Promise<void> {
+  await listUsages();
 }
 
 main().catch(console.error);

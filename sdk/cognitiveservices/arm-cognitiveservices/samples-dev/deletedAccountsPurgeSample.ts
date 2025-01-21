@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a Cognitive Services account from the resource group.
  *
  * @summary Deletes a Cognitive Services account from the resource group.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/PurgeDeletedAccount.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/PurgeDeletedAccount.json
  */
-async function deleteAccount() {
+async function deleteAccount(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -31,17 +29,17 @@ async function deleteAccount() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.deletedAccounts.beginPurgeAndWait(
     location,
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAccount();
 }
 

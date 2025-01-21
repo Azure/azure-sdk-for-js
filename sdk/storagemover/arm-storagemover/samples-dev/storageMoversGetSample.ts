@@ -37,7 +37,7 @@ async function storageMoversGet() {
 }
 
 async function main() {
-  storageMoversGet();
+  await storageMoversGet();
 }
 
 main().catch(console.error);

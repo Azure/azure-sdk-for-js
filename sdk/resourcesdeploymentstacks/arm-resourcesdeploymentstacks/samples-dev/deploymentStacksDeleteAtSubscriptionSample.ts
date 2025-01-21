@@ -35,7 +35,7 @@ async function deploymentStacksSubscriptionDelete() {
 }
 
 async function main() {
-  deploymentStacksSubscriptionDelete();
+  await deploymentStacksSubscriptionDelete();
 }
 
 main().catch(console.error);

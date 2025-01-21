@@ -43,7 +43,7 @@ async function rulesGet() {
 }
 
 async function main() {
-  rulesGet();
+  await rulesGet();
 }
 
 main().catch(console.error);

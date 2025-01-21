@@ -55,7 +55,7 @@ async function createOrUpdateJitRequest() {
 }
 
 async function main() {
-  createOrUpdateJitRequest();
+  await createOrUpdateJitRequest();
 }
 
 main().catch(console.error);

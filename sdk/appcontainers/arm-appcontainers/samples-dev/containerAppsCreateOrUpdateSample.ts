@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerApp, ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Container App.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or update a Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_Kind_CreateOrUpdate.json
  */
-async function createOrUpdateAppKind() {
+async function createOrUpdateAppKind(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -69,7 +67,7 @@ async function createOrUpdateAppKind() {
  * @summary Create or update a Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_CreateOrUpdate_ConnectedEnvironment.json
  */
-async function createOrUpdateAppOnAConnectedEnvironment() {
+async function createOrUpdateAppOnAConnectedEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -222,7 +220,7 @@ async function createOrUpdateAppOnAConnectedEnvironment() {
  * @summary Create or update a Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_CreateOrUpdate.json
  */
-async function createOrUpdateContainerApp() {
+async function createOrUpdateContainerApp(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -439,7 +437,7 @@ async function createOrUpdateContainerApp() {
  * @summary Create or update a Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_ManagedBy_CreateOrUpdate.json
  */
-async function createOrUpdateManagedByApp() {
+async function createOrUpdateManagedByApp(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -507,7 +505,7 @@ async function createOrUpdateManagedByApp() {
  * @summary Create or update a Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_SourceToCloudApp_CreateOrUpdate.json
  */
-async function createOrUpdateSourceToCloudApp() {
+async function createOrUpdateSourceToCloudApp(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -675,7 +673,7 @@ async function createOrUpdateSourceToCloudApp() {
  * @summary Create or update a Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_TcpApp_CreateOrUpdate.json
  */
-async function createOrUpdateTcpApp() {
+async function createOrUpdateTcpApp(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -733,7 +731,7 @@ async function createOrUpdateTcpApp() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAppKind();
   createOrUpdateAppOnAConnectedEnvironment();
   createOrUpdateContainerApp();
