@@ -26,7 +26,7 @@
     "test": "npm run clean && npm run build:test",
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
     "test:browser": "npm run unit-test:browser",
-    "build:test": "npm run build && npm run unit-test:node",
+    "build:test": "echo skipped",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
