@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected } from "../src/index.js";
+import ContentSafetyClient, {
+  CreateOrUpdateTextBlocklistParameters,
+  isUnexpected,
+} from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { readFileSync } from "node:fs";

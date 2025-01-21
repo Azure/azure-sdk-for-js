@@ -60,6 +60,7 @@ az cognitiveservices account keys list --name "<resource-name>" --resource-group
 To use an API key as the `credential` parameter, pass the key as a string into an instance of `AzureKeyCredential`.
 
 ```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential } from "@azure/core-auth";
 import ContentSafetyClient from "@azure-rest/ai-content-safety";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
@@ -196,7 +197,10 @@ for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
 
 ```ts snippet:ReadmeSampleAnalyzeTextWithBlocklists
 import { DefaultAzureCredential } from "@azure/identity";
-import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, {
+  CreateOrUpdateTextBlocklistParameters,
+  isUnexpected,
+} from "@azure-rest/ai-content-safety";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
 const credential = new DefaultAzureCredential();
@@ -351,7 +355,10 @@ for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
 
 ```ts snippet:ReadmeSampleCreateOrUpdateTextBlocklist
 import { DefaultAzureCredential } from "@azure/identity";
-import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, {
+  CreateOrUpdateTextBlocklistParameters,
+  isUnexpected,
+} from "@azure-rest/ai-content-safety";
 
 const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
 const credential = new DefaultAzureCredential();
@@ -553,6 +560,7 @@ const credential = new DefaultAzureCredential();
 const client = ContentSafetyClient(endpoint, credential);
 
 const blockItemId = "<blockItemId>";
+const blocklistName = "TestBlocklist";
 
 const blockItem = await client
   .path(
@@ -588,6 +596,8 @@ const credential = new DefaultAzureCredential();
 const client = ContentSafetyClient(endpoint, credential);
 
 const blockItemId = "<blockItemId>";
+const blocklistName = "TestBlocklist";
+const blockItemText = "sample";
 
 const removeBlocklistItemsParameters = {
   body: {
