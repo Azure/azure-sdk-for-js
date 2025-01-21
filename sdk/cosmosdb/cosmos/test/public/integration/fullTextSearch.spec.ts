@@ -305,7 +305,7 @@ describe.skip("Validate full text search queries", function (this: Suite) {
 
   it("FetchAll: should return correct expected values for all the queries", async function () {
     for (const [query, { expected1, expected2 }] of queriesMap) {
-      const queryOptions = { allowUnboundedNonStreamingQueries: true , enableQueryControl: true};
+      const queryOptions = { allowUnboundedNonStreamingQueries: true, enableQueryControl: true };
       const queryIterator = container.items.query(query, queryOptions);
 
       const { resources: results } = await queryIterator.fetchAll();
