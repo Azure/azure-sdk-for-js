@@ -4,35 +4,20 @@
 import {
   ChatMessageDeletedEvent,
   ChatMessageEditedEvent,
-  ChatMessageReceivedEvent as OldSignalingMessageReceivedEvent,
+  ChatMessageReceivedEvent,
   ChatThreadCreatedEvent,
   ChatThreadDeletedEvent,
   ChatThreadPropertiesUpdatedEvent,
   ParticipantsAddedEvent,
   ParticipantsRemovedEvent,
   ReadReceiptReceivedEvent,
-  // StreamingChatMessageChunkReceivedEvent, // TODO: from signaling once package available
-  // StreamingChatMessageStartEvent,         // rush local packages broken
-  // StreamingMessageMetadata,               // 
+  StreamingChatMessageChunkReceivedEvent,
+  StreamingChatMessageStartEvent,
+  StreamEndReason,
+  StreamingMessageMetadata,
+  StreamingMessageType,
   TypingIndicatorReceivedEvent,
 } from "@azure/communication-signaling";
-
-// TODO: Remove these once the signaling package is available
-export type StreamingMessageType = "start" | "informative" | "streaming" | "final";
-export type StreamEndReason = "completed" | "expired" | "canceled";
-export interface StreamingMessageMetadata {
-  streamingMessageType?: StreamingMessageType;
-  streamingSequenceNumber?: number; // Only present on informative or streaming type messages
-  streamEndReason?: StreamEndReason;  // Only present on final type messages
-}
-interface ChatMessageReceivedEvent extends OldSignalingMessageReceivedEvent {
-  /**
-   * If a streaming message, details about the streaming message.
-   */
-  streamingMetadata?: StreamingMessageMetadata;
-}
-interface StreamingChatMessageStartEvent extends ChatMessageReceivedEvent { }
-interface StreamingChatMessageChunkReceivedEvent extends ChatMessageEditedEvent { }
 
 type ChatEventId =
   | "chatMessageReceived"
@@ -64,4 +49,7 @@ export {
   ParticipantsRemovedEvent,
   StreamingChatMessageChunkReceivedEvent,
   StreamingChatMessageStartEvent,
+  StreamEndReason,
+  StreamingMessageMetadata,
+  StreamingMessageType
 };

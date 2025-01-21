@@ -1314,8 +1314,8 @@ packages:
     resolution: {integrity: sha512-fuCtFFSJb8fZohEJmy3rdD6yohCCirlVzSiebJ8JIX2wrzw44/JEP0jd9V+vtGZUCyDk5Xj2ackb4FI/kH7wUQ==}
     engines: {node: '>=14.0.0'}
 
-  '@azure/communication-signaling@1.0.0-beta.29':
-    resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
+  '@azure/communication-signaling@1.0.0-beta.31':
+    resolution: {integrity: sha512-4zdDo8nyt9b+s8aieXHypEvrdS9OYSlvbyJG9tJz/fOpyXH7lbWvB/m/SNueX2b/M8ESeQdLjibzBxMJIQYFUw==}
     engines: {node: '>=8.0.0'}
 
   '@azure/core-auth@1.9.0':
@@ -3721,6 +3721,7 @@ packages:
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
     resolution: {integrity: sha512-URCgccrndzMIOdWOMGDXBoq/u37E7WQH6ftkb0ea6lR2hNWULafUoP5slpxh02wi+Gi0DRujoNBERPLOlX7xxg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-Wv67VdyQfqbfC67wOyRcYxreCvVtmgHrfAVzxeJrYVjPTwn5WH/zjMP76g36uCLsZpZ3rgN0T/er3eLUXfDKnQ==, tarball: file:projects/communication-chat.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
@@ -8697,7 +8698,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/communication-signaling@1.0.0-beta.29':
+  '@azure/communication-signaling@1.0.0-beta.31':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
