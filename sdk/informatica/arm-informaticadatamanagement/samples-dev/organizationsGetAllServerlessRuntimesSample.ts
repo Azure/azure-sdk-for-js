@@ -59,8 +59,8 @@ async function organizationsGetAllServerlessRuntimesMin() {
 }
 
 async function main() {
-  organizationsGetAllServerlessRuntimes();
-  organizationsGetAllServerlessRuntimesMin();
+  await organizationsGetAllServerlessRuntimes();
+  await organizationsGetAllServerlessRuntimesMin();
 }
 
 main().catch(console.error);

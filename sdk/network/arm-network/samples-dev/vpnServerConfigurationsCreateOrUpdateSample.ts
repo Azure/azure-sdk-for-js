@@ -117,7 +117,7 @@ async function vpnServerConfigurationCreate() {
 }
 
 async function main() {
-  vpnServerConfigurationCreate();
+  await vpnServerConfigurationCreate();
 }
 
 main().catch(console.error);

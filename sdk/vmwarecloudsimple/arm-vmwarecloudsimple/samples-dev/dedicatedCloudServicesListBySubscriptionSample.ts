@@ -33,7 +33,7 @@ async function listDedicatedCloudServices() {
 }
 
 async function main() {
-  listDedicatedCloudServices();
+  await listDedicatedCloudServices();
 }
 
 main().catch(console.error);

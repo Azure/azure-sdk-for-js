@@ -34,7 +34,7 @@ async function getVirtualNetworkGatewayVpnClientIpsecParameters() {
 }
 
 async function main() {
-  getVirtualNetworkGatewayVpnClientIpsecParameters();
+  await getVirtualNetworkGatewayVpnClientIpsecParameters();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listAutonomousDatabaseByResourceGroup() {
 }
 
 async function main() {
-  listAutonomousDatabaseByResourceGroup();
+  await listAutonomousDatabaseByResourceGroup();
 }
 
 main().catch(console.error);

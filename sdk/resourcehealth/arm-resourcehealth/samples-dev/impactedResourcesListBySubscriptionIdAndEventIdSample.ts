@@ -44,7 +44,7 @@ async function listImpactedResourcesBySubscriptionId() {
 }
 
 async function main() {
-  listImpactedResourcesBySubscriptionId();
+  await listImpactedResourcesBySubscriptionId();
 }
 
 main().catch(console.error);

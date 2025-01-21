@@ -38,7 +38,7 @@ async function migrationConfigurationsRevert() {
 }
 
 async function main() {
-  migrationConfigurationsRevert();
+  await migrationConfigurationsRevert();
 }
 
 main().catch(console.error);

@@ -57,7 +57,7 @@ async function resumeReplication() {
 }
 
 async function main() {
-  resumeReplication();
+  await resumeReplication();
 }
 
 main().catch(console.error);

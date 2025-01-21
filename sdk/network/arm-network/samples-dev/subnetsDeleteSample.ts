@@ -37,7 +37,7 @@ async function deleteSubnet() {
 }
 
 async function main() {
-  deleteSubnet();
+  await deleteSubnet();
 }
 
 main().catch(console.error);

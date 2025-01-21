@@ -42,7 +42,7 @@ async function patchAutonomousDatabase() {
 }
 
 async function main() {
-  patchAutonomousDatabase();
+  await patchAutonomousDatabase();
 }
 
 main().catch(console.error);

@@ -56,7 +56,7 @@ async function createsASourceControl() {
 }
 
 async function main() {
-  createsASourceControl();
+  await createsASourceControl();
 }
 
 main().catch(console.error);

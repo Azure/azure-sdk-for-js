@@ -130,9 +130,9 @@ async function updateServerWithByok() {
 }
 
 async function main() {
-  updateAServer();
-  updateServerCustomerMaintenanceWindow();
-  updateServerWithByok();
+  await updateAServer();
+  await updateServerCustomerMaintenanceWindow();
+  await updateServerWithByok();
 }
 
 main().catch(console.error);

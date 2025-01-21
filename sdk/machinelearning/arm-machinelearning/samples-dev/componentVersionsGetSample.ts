@@ -44,7 +44,7 @@ async function getWorkspaceComponentVersion() {
 }
 
 async function main() {
-  getWorkspaceComponentVersion();
+  await getWorkspaceComponentVersion();
 }
 
 main().catch(console.error);

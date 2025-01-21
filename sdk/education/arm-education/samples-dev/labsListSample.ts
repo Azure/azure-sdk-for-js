@@ -70,8 +70,8 @@ async function labListWithInvoiceSectionNameIncludeBudget() {
 }
 
 async function main() {
-  labListWithInvoiceSectionName();
-  labListWithInvoiceSectionNameIncludeBudget();
+  await labListWithInvoiceSectionName();
+  await labListWithInvoiceSectionNameIncludeBudget();
 }
 
 main().catch(console.error);

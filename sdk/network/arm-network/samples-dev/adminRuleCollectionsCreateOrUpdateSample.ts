@@ -53,7 +53,7 @@ async function createOrUpdateAnAdminRuleCollection() {
 }
 
 async function main() {
-  createOrUpdateAnAdminRuleCollection();
+  await createOrUpdateAnAdminRuleCollection();
 }
 
 main().catch(console.error);

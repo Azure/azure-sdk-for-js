@@ -40,7 +40,7 @@ async function iotHubResourceGetValidSkus() {
 }
 
 async function main() {
-  iotHubResourceGetValidSkus();
+  await iotHubResourceGetValidSkus();
 }
 
 main().catch(console.error);

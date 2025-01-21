@@ -33,7 +33,7 @@ async function listsAllApplicationGatewaysInAResourceGroup() {
 }
 
 async function main() {
-  listsAllApplicationGatewaysInAResourceGroup();
+  await listsAllApplicationGatewaysInAResourceGroup();
 }
 
 main().catch(console.error);

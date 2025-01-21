@@ -34,7 +34,7 @@ async function listAzureMonitorWorkspacesBySubscription() {
 }
 
 async function main() {
-  listAzureMonitorWorkspacesBySubscription();
+  await listAzureMonitorWorkspacesBySubscription();
 }
 
 main().catch(console.error);

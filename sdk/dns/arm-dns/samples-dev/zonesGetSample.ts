@@ -31,7 +31,7 @@ async function getZone() {
 }
 
 async function main() {
-  getZone();
+  await getZone();
 }
 
 main().catch(console.error);

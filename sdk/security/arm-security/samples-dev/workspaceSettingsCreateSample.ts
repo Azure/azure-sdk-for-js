@@ -43,7 +43,7 @@ async function createAWorkspaceSettingDataForSubscription() {
 }
 
 async function main() {
-  createAWorkspaceSettingDataForSubscription();
+  await createAWorkspaceSettingDataForSubscription();
 }
 
 main().catch(console.error);

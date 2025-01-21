@@ -43,8 +43,8 @@ async function guestAgentsDeleteMinimumSet() {
 }
 
 async function main() {
-  guestAgentsDeleteMaximumSet();
-  guestAgentsDeleteMinimumSet();
+  await guestAgentsDeleteMaximumSet();
+  await guestAgentsDeleteMinimumSet();
 }
 
 main().catch(console.error);

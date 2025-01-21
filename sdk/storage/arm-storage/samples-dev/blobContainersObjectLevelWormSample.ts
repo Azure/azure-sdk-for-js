@@ -37,7 +37,7 @@ async function versionLevelWormContainerMigration() {
 }
 
 async function main() {
-  versionLevelWormContainerMigration();
+  await versionLevelWormContainerMigration();
 }
 
 main().catch(console.error);

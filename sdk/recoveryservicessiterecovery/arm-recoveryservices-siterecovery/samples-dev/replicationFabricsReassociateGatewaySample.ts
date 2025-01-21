@@ -52,7 +52,7 @@ async function performFailoverOfTheProcessServer() {
 }
 
 async function main() {
-  performFailoverOfTheProcessServer();
+  await performFailoverOfTheProcessServer();
 }
 
 main().catch(console.error);

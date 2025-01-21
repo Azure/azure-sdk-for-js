@@ -66,8 +66,8 @@ async function performFailoverActionOnAutonomousDatabase() {
 }
 
 async function main() {
-  autonomousDatabasesFailover();
-  performFailoverActionOnAutonomousDatabase();
+  await autonomousDatabasesFailover();
+  await performFailoverActionOnAutonomousDatabase();
 }
 
 main().catch(console.error);

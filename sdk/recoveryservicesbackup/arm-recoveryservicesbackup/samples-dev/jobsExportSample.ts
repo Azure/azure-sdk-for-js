@@ -34,7 +34,7 @@ async function exportJobs() {
 }
 
 async function main() {
-  exportJobs();
+  await exportJobs();
 }
 
 main().catch(console.error);

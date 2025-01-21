@@ -39,8 +39,8 @@ async function scheduledActionsVirtualMachinesCancelOperationsGeneratedByMaximum
 }
 
 async function main(): Promise<void> {
-  scheduledActionsVirtualMachinesCancelOperationsGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesCancelOperationsGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+  await scheduledActionsVirtualMachinesCancelOperationsGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await scheduledActionsVirtualMachinesCancelOperationsGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

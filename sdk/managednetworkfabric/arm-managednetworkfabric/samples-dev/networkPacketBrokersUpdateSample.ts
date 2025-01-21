@@ -45,7 +45,7 @@ async function networkPacketBrokersUpdateMaximumSetGen() {
 }
 
 async function main() {
-  networkPacketBrokersUpdateMaximumSetGen();
+  await networkPacketBrokersUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

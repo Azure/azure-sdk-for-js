@@ -44,7 +44,7 @@ async function getVpnDeviceConfigurationScript() {
 }
 
 async function main() {
-  getVpnDeviceConfigurationScript();
+  await getVpnDeviceConfigurationScript();
 }
 
 main().catch(console.error);

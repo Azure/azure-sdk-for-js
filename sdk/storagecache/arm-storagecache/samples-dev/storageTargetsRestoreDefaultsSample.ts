@@ -39,7 +39,7 @@ async function storageTargetsRestoreDefaults() {
 }
 
 async function main() {
-  storageTargetsRestoreDefaults();
+  await storageTargetsRestoreDefaults();
 }
 
 main().catch(console.error);

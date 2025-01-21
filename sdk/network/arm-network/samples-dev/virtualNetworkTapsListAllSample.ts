@@ -32,7 +32,7 @@ async function listAllVirtualNetworkTaps() {
 }
 
 async function main() {
-  listAllVirtualNetworkTaps();
+  await listAllVirtualNetworkTaps();
 }
 
 main().catch(console.error);

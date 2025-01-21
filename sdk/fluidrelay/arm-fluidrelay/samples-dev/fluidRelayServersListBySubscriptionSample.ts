@@ -33,7 +33,7 @@ async function listAllFluidRelayServersInASubscription() {
 }
 
 async function main() {
-  listAllFluidRelayServersInASubscription();
+  await listAllFluidRelayServersInASubscription();
 }
 
 main().catch(console.error);

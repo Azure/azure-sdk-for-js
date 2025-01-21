@@ -53,8 +53,8 @@ async function dataProductsListBySubscriptionMaximumSetGenGeneratedByMinimumSetR
 }
 
 async function main() {
-  dataProductsListBySubscriptionMaximumSetGen();
-  dataProductsListBySubscriptionMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsListBySubscriptionMaximumSetGen();
+  await dataProductsListBySubscriptionMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

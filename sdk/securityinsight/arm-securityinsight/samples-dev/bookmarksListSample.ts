@@ -40,7 +40,7 @@ async function getAllBookmarks() {
 }
 
 async function main() {
-  getAllBookmarks();
+  await getAllBookmarks();
 }
 
 main().catch(console.error);

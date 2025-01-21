@@ -53,8 +53,8 @@ async function listDedicatedHsmDevicesInASubscriptionIncludingPaymentHsm() {
 }
 
 async function main() {
-  listDedicatedHsmDevicesInASubscription();
-  listDedicatedHsmDevicesInASubscriptionIncludingPaymentHsm();
+  await listDedicatedHsmDevicesInASubscription();
+  await listDedicatedHsmDevicesInASubscriptionIncludingPaymentHsm();
 }
 
 main().catch(console.error);

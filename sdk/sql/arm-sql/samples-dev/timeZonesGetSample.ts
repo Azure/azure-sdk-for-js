@@ -33,7 +33,7 @@ async function getManagedInstanceTimeZone() {
 }
 
 async function main() {
-  getManagedInstanceTimeZone();
+  await getManagedInstanceTimeZone();
 }
 
 main().catch(console.error);

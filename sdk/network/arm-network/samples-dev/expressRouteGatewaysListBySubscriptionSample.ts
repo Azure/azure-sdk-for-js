@@ -29,7 +29,7 @@ async function expressRouteGatewayListBySubscription() {
 }
 
 async function main() {
-  expressRouteGatewayListBySubscription();
+  await expressRouteGatewayListBySubscription();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function subvolumesUpdate() {
 }
 
 async function main() {
-  subvolumesUpdate();
+  await subvolumesUpdate();
 }
 
 main().catch(console.error);

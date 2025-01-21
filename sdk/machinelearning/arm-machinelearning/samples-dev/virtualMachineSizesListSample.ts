@@ -35,7 +35,7 @@ async function listVMSizes() {
 }
 
 async function main() {
-  listVMSizes();
+  await listVMSizes();
 }
 
 main().catch(console.error);

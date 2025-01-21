@@ -40,7 +40,7 @@ async function deleteAnIoTConnectorDestination() {
 }
 
 async function main() {
-  deleteAnIoTConnectorDestination();
+  await deleteAnIoTConnectorDestination();
 }
 
 main().catch(console.error);

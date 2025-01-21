@@ -67,7 +67,7 @@ async function patchFluxConfiguration() {
 }
 
 async function main() {
-  patchFluxConfiguration();
+  await patchFluxConfiguration();
 }
 
 main().catch(console.error);

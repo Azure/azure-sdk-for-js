@@ -32,7 +32,7 @@ async function vpnGatewayListBySubscription() {
 }
 
 async function main() {
-  vpnGatewayListBySubscription();
+  await vpnGatewayListBySubscription();
 }
 
 main().catch(console.error);

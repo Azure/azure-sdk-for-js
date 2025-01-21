@@ -41,7 +41,7 @@ async function networkRacksListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  networkRacksListByResourceGroupMaximumSetGen();
+  await networkRacksListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

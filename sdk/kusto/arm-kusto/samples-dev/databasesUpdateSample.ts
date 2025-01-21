@@ -44,7 +44,7 @@ async function kustoDatabasesUpdate() {
 }
 
 async function main() {
-  kustoDatabasesUpdate();
+  await kustoDatabasesUpdate();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function resetPasswordVirtualMachine() {
 }
 
 async function main() {
-  resetPasswordVirtualMachine();
+  await resetPasswordVirtualMachine();
 }
 
 main().catch(console.error);

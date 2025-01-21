@@ -57,8 +57,8 @@ async function privateLinkResourcesListByElasticSanMinimumSetGen() {
 }
 
 async function main() {
-  privateLinkResourcesListByElasticSanMaximumSetGen();
-  privateLinkResourcesListByElasticSanMinimumSetGen();
+  await privateLinkResourcesListByElasticSanMaximumSetGen();
+  await privateLinkResourcesListByElasticSanMinimumSetGen();
 }
 
 main().catch(console.error);

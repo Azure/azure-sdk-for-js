@@ -34,7 +34,7 @@ async function monitorsList() {
 }
 
 async function main() {
-  monitorsList();
+  await monitorsList();
 }
 
 main().catch(console.error);

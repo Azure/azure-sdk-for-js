@@ -39,7 +39,7 @@ async function getSelectedRegulatoryComplianceAssessmentDetailsAndState() {
 }
 
 async function main() {
-  getSelectedRegulatoryComplianceAssessmentDetailsAndState();
+  await getSelectedRegulatoryComplianceAssessmentDetailsAndState();
 }
 
 main().catch(console.error);

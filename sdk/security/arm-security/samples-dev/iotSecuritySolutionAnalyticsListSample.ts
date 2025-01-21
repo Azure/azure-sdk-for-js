@@ -36,7 +36,7 @@ async function getSecuritySolutionAnalytics() {
 }
 
 async function main() {
-  getSecuritySolutionAnalytics();
+  await getSecuritySolutionAnalytics();
 }
 
 main().catch(console.error);

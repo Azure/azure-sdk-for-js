@@ -75,8 +75,8 @@ async function cloudsCreateOrUpdateMinimumSet() {
 }
 
 async function main() {
-  cloudsCreateOrUpdateMaximumSet();
-  cloudsCreateOrUpdateMinimumSet();
+  await cloudsCreateOrUpdateMaximumSet();
+  await cloudsCreateOrUpdateMinimumSet();
 }
 
 main().catch(console.error);

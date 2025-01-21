@@ -38,7 +38,7 @@ async function namespacesValidateCustomDomainOwnership() {
 }
 
 async function main() {
-  namespacesValidateCustomDomainOwnership();
+  await namespacesValidateCustomDomainOwnership();
 }
 
 main().catch(console.error);

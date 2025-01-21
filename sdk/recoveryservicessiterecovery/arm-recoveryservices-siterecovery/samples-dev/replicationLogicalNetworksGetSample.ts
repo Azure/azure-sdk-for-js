@@ -42,7 +42,7 @@ async function getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName() {
 }
 
 async function main() {
-  getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName();
+  await getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName();
 }
 
 main().catch(console.error);

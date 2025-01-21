@@ -40,7 +40,7 @@ async function listsTheSapInstanceResourcesForTheGivenSapMigrationDiscoverySiteR
 }
 
 async function main() {
-  listsTheSapInstanceResourcesForTheGivenSapMigrationDiscoverySiteResource();
+  await listsTheSapInstanceResourcesForTheGivenSapMigrationDiscoverySiteResource();
 }
 
 main().catch(console.error);

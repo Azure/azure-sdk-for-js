@@ -39,7 +39,7 @@ async function setVirtualNetworkGatewayConnectionSharedKey() {
 }
 
 async function main() {
-  setVirtualNetworkGatewayConnectionSharedKey();
+  await setVirtualNetworkGatewayConnectionSharedKey();
 }
 
 main().catch(console.error);

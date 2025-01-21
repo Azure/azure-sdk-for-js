@@ -28,7 +28,7 @@ async function getPrivateDnsZoneSuffix() {
 }
 
 async function main() {
-  getPrivateDnsZoneSuffix();
+  await getPrivateDnsZoneSuffix();
 }
 
 main().catch(console.error);

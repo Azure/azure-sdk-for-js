@@ -37,7 +37,7 @@ async function routeMapList() {
 }
 
 async function main() {
-  routeMapList();
+  await routeMapList();
 }
 
 main().catch(console.error);

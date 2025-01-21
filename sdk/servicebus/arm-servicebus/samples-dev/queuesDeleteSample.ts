@@ -39,7 +39,7 @@ async function queueDelete() {
 }
 
 async function main() {
-  queueDelete();
+  await queueDelete();
 }
 
 main().catch(console.error);

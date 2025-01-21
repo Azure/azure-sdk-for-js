@@ -39,7 +39,7 @@ async function privateEndpointConnectionGet() {
 }
 
 async function main() {
-  privateEndpointConnectionGet();
+  await privateEndpointConnectionGet();
 }
 
 main().catch(console.error);

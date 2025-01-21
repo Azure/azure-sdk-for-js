@@ -41,7 +41,7 @@ async function maintenanceWindowStatus() {
 }
 
 async function main() {
-  maintenanceWindowStatus();
+  await maintenanceWindowStatus();
 }
 
 main().catch(console.error);

@@ -63,8 +63,8 @@ async function serverlessRuntimesGetMin() {
 }
 
 async function main() {
-  serverlessRuntimesGet();
-  serverlessRuntimesGetMin();
+  await serverlessRuntimesGet();
+  await serverlessRuntimesGetMin();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function partnerDestinationsUpdate() {
 }
 
 async function main() {
-  partnerDestinationsUpdate();
+  await partnerDestinationsUpdate();
 }
 
 main().catch(console.error);

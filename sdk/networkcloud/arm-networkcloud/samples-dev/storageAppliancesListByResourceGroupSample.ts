@@ -38,7 +38,7 @@ async function listStorageAppliancesForResourceGroup() {
 }
 
 async function main() {
-  listStorageAppliancesForResourceGroup();
+  await listStorageAppliancesForResourceGroup();
 }
 
 main().catch(console.error);

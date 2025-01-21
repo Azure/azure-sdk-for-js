@@ -37,7 +37,7 @@ async function domainsListSharedAccessKeys() {
 }
 
 async function main() {
-  domainsListSharedAccessKeys();
+  await domainsListSharedAccessKeys();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function networkManagersList() {
 }
 
 async function main() {
-  networkManagersList();
+  await networkManagersList();
 }
 
 main().catch(console.error);

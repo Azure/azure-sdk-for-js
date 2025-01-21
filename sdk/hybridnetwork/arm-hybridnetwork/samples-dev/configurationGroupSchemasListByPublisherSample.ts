@@ -39,7 +39,7 @@ async function getNetworkFunctionDefinitionGroupsUnderPublisherResource() {
 }
 
 async function main() {
-  getNetworkFunctionDefinitionGroupsUnderPublisherResource();
+  await getNetworkFunctionDefinitionGroupsUnderPublisherResource();
 }
 
 main().catch(console.error);

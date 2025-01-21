@@ -37,7 +37,7 @@ async function listAllVirtualRouterPeeringsForAGivenVirtualRouter() {
 }
 
 async function main() {
-  listAllVirtualRouterPeeringsForAGivenVirtualRouter();
+  await listAllVirtualRouterPeeringsForAGivenVirtualRouter();
 }
 
 main().catch(console.error);

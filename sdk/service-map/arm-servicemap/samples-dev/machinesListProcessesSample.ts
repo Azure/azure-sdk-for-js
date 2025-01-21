@@ -49,7 +49,7 @@ async function smMachinesListProcessesGet() {
 }
 
 async function main() {
-  smMachinesListProcessesGet();
+  await smMachinesListProcessesGet();
 }
 
 main().catch(console.error);

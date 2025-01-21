@@ -36,7 +36,7 @@ async function environmentsDelete() {
 }
 
 async function main() {
-  environmentsDelete();
+  await environmentsDelete();
 }
 
 main().catch(console.error);

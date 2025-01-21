@@ -42,7 +42,7 @@ async function deleteDatastore() {
 }
 
 async function main() {
-  deleteDatastore();
+  await deleteDatastore();
 }
 
 main().catch(console.error);

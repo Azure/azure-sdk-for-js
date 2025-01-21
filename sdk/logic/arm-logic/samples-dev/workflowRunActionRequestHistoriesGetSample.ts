@@ -43,7 +43,7 @@ async function getARequestHistory() {
 }
 
 async function main() {
-  getARequestHistory();
+  await getARequestHistory();
 }
 
 main().catch(console.error);

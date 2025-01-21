@@ -39,7 +39,7 @@ async function cancelAWorkflowRun() {
 }
 
 async function main() {
-  cancelAWorkflowRun();
+  await cancelAWorkflowRun();
 }
 
 main().catch(console.error);

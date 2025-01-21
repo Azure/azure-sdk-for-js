@@ -49,7 +49,7 @@ async function entityInsight() {
 }
 
 async function main() {
-  entityInsight();
+  await entityInsight();
 }
 
 main().catch(console.error);

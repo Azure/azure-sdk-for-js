@@ -40,7 +40,7 @@ async function signalRSharedPrivateLinkResourcesList() {
 }
 
 async function main() {
-  signalRSharedPrivateLinkResourcesList();
+  await signalRSharedPrivateLinkResourcesList();
 }
 
 main().catch(console.error);

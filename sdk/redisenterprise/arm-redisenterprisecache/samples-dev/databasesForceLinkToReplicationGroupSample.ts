@@ -57,7 +57,7 @@ async function howToRelinkADatabaseAfterARegionalOutage() {
 }
 
 async function main() {
-  howToRelinkADatabaseAfterARegionalOutage();
+  await howToRelinkADatabaseAfterARegionalOutage();
 }
 
 main().catch(console.error);

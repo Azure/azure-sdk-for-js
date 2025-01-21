@@ -39,7 +39,7 @@ async function storageAccountEncryptionScopeList() {
 }
 
 async function main() {
-  storageAccountEncryptionScopeList();
+  await storageAccountEncryptionScopeList();
 }
 
 main().catch(console.error);

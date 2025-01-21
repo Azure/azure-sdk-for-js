@@ -43,7 +43,7 @@ async function rotateDiskEncryptionKeyOfTheSpecifiedHdInsightCluster() {
 }
 
 async function main() {
-  rotateDiskEncryptionKeyOfTheSpecifiedHdInsightCluster();
+  await rotateDiskEncryptionKeyOfTheSpecifiedHdInsightCluster();
 }
 
 main().catch(console.error);

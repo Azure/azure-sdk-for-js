@@ -62,8 +62,8 @@ async function listRemediationsAtManagementGroupScopeWithQueryParameters() {
 }
 
 async function main() {
-  listRemediationsAtManagementGroupScope();
-  listRemediationsAtManagementGroupScopeWithQueryParameters();
+  await listRemediationsAtManagementGroupScope();
+  await listRemediationsAtManagementGroupScopeWithQueryParameters();
 }
 
 main().catch(console.error);

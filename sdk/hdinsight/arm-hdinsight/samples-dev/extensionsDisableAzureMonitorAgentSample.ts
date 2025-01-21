@@ -34,7 +34,7 @@ async function disableAzureMonitorAgent() {
 }
 
 async function main() {
-  disableAzureMonitorAgent();
+  await disableAzureMonitorAgent();
 }
 
 main().catch(console.error);

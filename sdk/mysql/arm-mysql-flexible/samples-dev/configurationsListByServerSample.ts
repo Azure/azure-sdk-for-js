@@ -49,7 +49,7 @@ async function listAllConfigurationsForAServer() {
 }
 
 async function main() {
-  listAllConfigurationsForAServer();
+  await listAllConfigurationsForAServer();
 }
 
 main().catch(console.error);

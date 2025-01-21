@@ -42,7 +42,7 @@ async function createHybridIdentityMetadata() {
 }
 
 async function main() {
-  createHybridIdentityMetadata();
+  await createHybridIdentityMetadata();
 }
 
 main().catch(console.error);

@@ -70,8 +70,8 @@ async function createRouteTableWithRoute() {
 }
 
 async function main() {
-  createRouteTable();
-  createRouteTableWithRoute();
+  await createRouteTable();
+  await createRouteTableWithRoute();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function sbehAliasBreakPairing() {
 }
 
 async function main() {
-  sbehAliasBreakPairing();
+  await sbehAliasBreakPairing();
 }
 
 main().catch(console.error);

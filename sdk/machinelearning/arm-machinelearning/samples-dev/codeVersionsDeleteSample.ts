@@ -44,7 +44,7 @@ async function deleteWorkspaceCodeVersion() {
 }
 
 async function main() {
-  deleteWorkspaceCodeVersion();
+  await deleteWorkspaceCodeVersion();
 }
 
 main().catch(console.error);

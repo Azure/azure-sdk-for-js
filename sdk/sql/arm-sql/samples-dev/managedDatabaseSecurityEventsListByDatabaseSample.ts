@@ -82,8 +82,8 @@ async function getTheManagedDatabaseSecurityEventsWithMinimalParameters() {
 }
 
 async function main() {
-  getTheManagedDatabaseSecurityEventsWithMaximalParameters();
-  getTheManagedDatabaseSecurityEventsWithMinimalParameters();
+  await getTheManagedDatabaseSecurityEventsWithMaximalParameters();
+  await getTheManagedDatabaseSecurityEventsWithMinimalParameters();
 }
 
 main().catch(console.error);

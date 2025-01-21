@@ -43,7 +43,7 @@ async function saveImageVirtualMachine() {
 }
 
 async function main() {
-  saveImageVirtualMachine();
+  await saveImageVirtualMachine();
 }
 
 main().catch(console.error);

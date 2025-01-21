@@ -36,7 +36,7 @@ async function getSelectedRegulatoryComplianceControlDetailsAndState() {
 }
 
 async function main() {
-  getSelectedRegulatoryComplianceControlDetailsAndState();
+  await getSelectedRegulatoryComplianceControlDetailsAndState();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function deploymentStacksManagementGroupGet() {
 }
 
 async function main() {
-  deploymentStacksManagementGroupGet();
+  await deploymentStacksManagementGroupGet();
 }
 
 main().catch(console.error);

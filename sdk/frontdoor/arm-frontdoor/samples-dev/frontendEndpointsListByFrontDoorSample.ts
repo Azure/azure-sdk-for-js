@@ -37,7 +37,7 @@ async function listFrontendEndpointsInAFrontDoor() {
 }
 
 async function main() {
-  listFrontendEndpointsInAFrontDoor();
+  await listFrontendEndpointsInAFrontDoor();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function listAuthorizationRules() {
 }
 
 async function main() {
-  listAuthorizationRules();
+  await listAuthorizationRules();
 }
 
 main().catch(console.error);

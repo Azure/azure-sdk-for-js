@@ -35,7 +35,7 @@ async function tableServicesGet() {
 }
 
 async function main() {
-  tableServicesGet();
+  await tableServicesGet();
 }
 
 main().catch(console.error);

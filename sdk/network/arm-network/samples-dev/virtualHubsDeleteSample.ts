@@ -34,7 +34,7 @@ async function virtualHubDelete() {
 }
 
 async function main() {
-  virtualHubDelete();
+  await virtualHubDelete();
 }
 
 main().catch(console.error);

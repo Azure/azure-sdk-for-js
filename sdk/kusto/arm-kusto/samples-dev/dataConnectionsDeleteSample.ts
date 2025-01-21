@@ -41,7 +41,7 @@ async function kustoDataConnectionsDelete() {
 }
 
 async function main() {
-  kustoDataConnectionsDelete();
+  await kustoDataConnectionsDelete();
 }
 
 main().catch(console.error);

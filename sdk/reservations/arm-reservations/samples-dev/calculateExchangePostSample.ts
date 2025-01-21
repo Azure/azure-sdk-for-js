@@ -74,7 +74,7 @@ async function calculateExchange() {
 }
 
 async function main() {
-  calculateExchange();
+  await calculateExchange();
 }
 
 main().catch(console.error);

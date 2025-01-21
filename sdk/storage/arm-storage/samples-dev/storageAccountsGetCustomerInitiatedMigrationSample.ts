@@ -61,8 +61,8 @@ async function storageAccountGetMigrationInProgress() {
 }
 
 async function main() {
-  storageAccountGetMigrationFailed();
-  storageAccountGetMigrationInProgress();
+  await storageAccountGetMigrationFailed();
+  await storageAccountGetMigrationInProgress();
 }
 
 main().catch(console.error);

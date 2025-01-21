@@ -40,7 +40,7 @@ async function listDnsSecurityRulesByDnsResolverPolicy() {
 }
 
 async function main() {
-  listDnsSecurityRulesByDnsResolverPolicy();
+  await listDnsSecurityRulesByDnsResolverPolicy();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function queryLoadBalancingRuleHealth() {
 }
 
 async function main() {
-  queryLoadBalancingRuleHealth();
+  await queryLoadBalancingRuleHealth();
 }
 
 main().catch(console.error);

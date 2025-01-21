@@ -37,7 +37,7 @@ async function partnerDestinationsActivate() {
 }
 
 async function main() {
-  partnerDestinationsActivate();
+  await partnerDestinationsActivate();
 }
 
 main().catch(console.error);

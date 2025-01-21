@@ -37,7 +37,7 @@ async function listOfRecoveryServicesResourcesInResourceGroup() {
 }
 
 async function main() {
-  listOfRecoveryServicesResourcesInResourceGroup();
+  await listOfRecoveryServicesResourcesInResourceGroup();
 }
 
 main().catch(console.error);

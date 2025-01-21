@@ -39,7 +39,7 @@ async function getMarketplaceTerms() {
 }
 
 async function main() {
-  getMarketplaceTerms();
+  await getMarketplaceTerms();
 }
 
 main().catch(console.error);

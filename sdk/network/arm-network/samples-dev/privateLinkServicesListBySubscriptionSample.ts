@@ -32,7 +32,7 @@ async function listAllPrivateListService() {
 }
 
 async function main() {
-  listAllPrivateListService();
+  await listAllPrivateListService();
 }
 
 main().catch(console.error);

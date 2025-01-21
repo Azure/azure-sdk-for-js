@@ -425,11 +425,11 @@ async function createLoadBalancerWithOutboundRules() {
 }
 
 async function main() {
-  createLoadBalancer();
-  createLoadBalancerWithFrontendIPInZone1();
-  createLoadBalancerWithStandardSku();
-  createLoadBalancerWithInboundNatPool();
-  createLoadBalancerWithOutboundRules();
+  await createLoadBalancer();
+  await createLoadBalancerWithFrontendIPInZone1();
+  await createLoadBalancerWithStandardSku();
+  await createLoadBalancerWithInboundNatPool();
+  await createLoadBalancerWithOutboundRules();
 }
 
 main().catch(console.error);

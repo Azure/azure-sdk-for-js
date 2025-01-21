@@ -36,7 +36,7 @@ async function deleteDevOpsConfigurations() {
 }
 
 async function main() {
-  deleteDevOpsConfigurations();
+  await deleteDevOpsConfigurations();
 }
 
 main().catch(console.error);

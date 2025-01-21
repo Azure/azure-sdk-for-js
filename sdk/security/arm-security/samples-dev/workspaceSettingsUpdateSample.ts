@@ -42,7 +42,7 @@ async function updateAWorkspaceSettingDataForSubscription() {
 }
 
 async function main() {
-  updateAWorkspaceSettingDataForSubscription();
+  await updateAWorkspaceSettingDataForSubscription();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function createOrUpdateTheConfigurationGroupSchemaResource() {
 }
 
 async function main() {
-  createOrUpdateTheConfigurationGroupSchemaResource();
+  await createOrUpdateTheConfigurationGroupSchemaResource();
 }
 
 main().catch(console.error);

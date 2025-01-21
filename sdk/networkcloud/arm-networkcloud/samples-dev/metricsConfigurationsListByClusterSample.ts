@@ -40,7 +40,7 @@ async function listMetricsConfigurationsOfTheCluster() {
 }
 
 async function main() {
-  listMetricsConfigurationsOfTheCluster();
+  await listMetricsConfigurationsOfTheCluster();
 }
 
 main().catch(console.error);

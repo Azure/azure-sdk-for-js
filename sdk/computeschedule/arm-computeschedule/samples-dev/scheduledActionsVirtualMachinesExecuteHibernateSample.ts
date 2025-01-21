@@ -55,8 +55,8 @@ async function scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximum
 }
 
 async function main(): Promise<void> {
-  scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+  await scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

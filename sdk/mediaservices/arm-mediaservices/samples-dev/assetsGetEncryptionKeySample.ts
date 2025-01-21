@@ -39,7 +39,7 @@ async function getAssetStorageEncryptionKeys() {
 }
 
 async function main() {
-  getAssetStorageEncryptionKeys();
+  await getAssetStorageEncryptionKeys();
 }
 
 main().catch(console.error);

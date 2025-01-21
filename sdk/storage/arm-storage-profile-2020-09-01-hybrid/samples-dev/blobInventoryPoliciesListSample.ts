@@ -38,7 +38,7 @@ async function storageAccountGetBlobInventoryPolicy() {
 }
 
 async function main() {
-  storageAccountGetBlobInventoryPolicy();
+  await storageAccountGetBlobInventoryPolicy();
 }
 
 main().catch(console.error);

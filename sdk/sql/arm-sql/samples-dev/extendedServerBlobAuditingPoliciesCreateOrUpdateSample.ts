@@ -89,8 +89,8 @@ async function updateAServerExtendedBlobAuditingPolicyWithMinimalParameters() {
 }
 
 async function main() {
-  updateAServerExtendedBlobAuditingPolicyWithAllParameters();
-  updateAServerExtendedBlobAuditingPolicyWithMinimalParameters();
+  await updateAServerExtendedBlobAuditingPolicyWithAllParameters();
+  await updateAServerExtendedBlobAuditingPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

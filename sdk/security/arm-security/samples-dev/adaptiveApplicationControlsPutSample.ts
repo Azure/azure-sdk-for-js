@@ -129,7 +129,7 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
 }
 
 async function main() {
-  updateAnApplicationControlMachineGroupByAddingANewApplication();
+  await updateAnApplicationControlMachineGroupByAddingANewApplication();
 }
 
 main().catch(console.error);

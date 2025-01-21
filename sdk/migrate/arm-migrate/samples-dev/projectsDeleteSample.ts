@@ -34,7 +34,7 @@ async function projectsDelete() {
 }
 
 async function main() {
-  projectsDelete();
+  await projectsDelete();
 }
 
 main().catch(console.error);

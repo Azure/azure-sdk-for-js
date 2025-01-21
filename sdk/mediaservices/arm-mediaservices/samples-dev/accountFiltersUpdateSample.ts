@@ -51,7 +51,7 @@ async function updateAnAccountFilter() {
 }
 
 async function main() {
-  updateAnAccountFilter();
+  await updateAnAccountFilter();
 }
 
 main().catch(console.error);

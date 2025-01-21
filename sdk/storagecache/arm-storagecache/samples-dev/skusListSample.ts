@@ -34,7 +34,7 @@ async function skusList() {
 }
 
 async function main() {
-  skusList();
+  await skusList();
 }
 
 main().catch(console.error);

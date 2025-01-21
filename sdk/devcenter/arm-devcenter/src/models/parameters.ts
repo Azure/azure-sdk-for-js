@@ -34,7 +34,7 @@ import {
   ScheduleUpdate as ScheduleUpdateMapper,
   NetworkConnection as NetworkConnectionMapper,
   NetworkConnectionUpdate as NetworkConnectionUpdateMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

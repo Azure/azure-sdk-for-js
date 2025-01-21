@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ArtifactSources } from "../operationsInterfaces";
+import { ArtifactSources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureDeploymentManager } from "../azureDeploymentManager";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureDeploymentManager } from "../azureDeploymentManager.js";
 import {
   ArtifactSourcesCreateOrUpdateOptionalParams,
   ArtifactSourcesCreateOrUpdateResponse,
@@ -19,7 +19,7 @@ import {
   ArtifactSourcesDeleteOptionalParams,
   ArtifactSourcesListOptionalParams,
   ArtifactSourcesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ArtifactSources operations. */
 export class ArtifactSourcesImpl implements ArtifactSources {

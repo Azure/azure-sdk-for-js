@@ -17,7 +17,7 @@ import {
   ScalingPlanPersonalSchedulesDeleteOptionalParams,
   ScalingPlanPersonalSchedulesUpdateOptionalParams,
   ScalingPlanPersonalSchedulesUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScalingPlanPersonalSchedules. */

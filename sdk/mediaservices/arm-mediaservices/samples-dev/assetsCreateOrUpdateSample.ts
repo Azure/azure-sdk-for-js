@@ -44,7 +44,7 @@ async function createAnAsset() {
 }
 
 async function main() {
-  createAnAsset();
+  await createAnAsset();
 }
 
 main().catch(console.error);

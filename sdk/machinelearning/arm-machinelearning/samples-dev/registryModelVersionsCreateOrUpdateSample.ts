@@ -59,7 +59,7 @@ async function createOrUpdateRegistryModelVersion() {
 }
 
 async function main() {
-  createOrUpdateRegistryModelVersion();
+  await createOrUpdateRegistryModelVersion();
 }
 
 main().catch(console.error);

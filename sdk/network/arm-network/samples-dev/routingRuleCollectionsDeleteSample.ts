@@ -40,7 +40,7 @@ async function deletesAnRoutingRuleCollection() {
 }
 
 async function main() {
-  deletesAnRoutingRuleCollection();
+  await deletesAnRoutingRuleCollection();
 }
 
 main().catch(console.error);

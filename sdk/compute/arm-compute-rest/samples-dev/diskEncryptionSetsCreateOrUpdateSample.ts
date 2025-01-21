@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  DiskEncryptionSetsCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { DiskEncryptionSetsCreateOrUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Creates or updates a disk encryption set
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
  */
-async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() {
+async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -55,7 +51,7 @@ createADiskEncryptionSetWithKeyVaultFromADifferentSubscription().catch(console.e
  * @summary Creates or updates a disk encryption set
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
  */
-async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
+async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -101,7 +97,7 @@ createADiskEncryptionSetWithKeyVaultFromADifferentTenant().catch(console.error);
  * @summary Creates or updates a disk encryption set
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
  */
-async function createADiskEncryptionSet() {
+async function createADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

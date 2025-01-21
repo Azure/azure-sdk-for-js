@@ -45,7 +45,7 @@ async function kustoSandboxCustomImagesCheckNameAvailability() {
 }
 
 async function main() {
-  kustoSandboxCustomImagesCheckNameAvailability();
+  await kustoSandboxCustomImagesCheckNameAvailability();
 }
 
 main().catch(console.error);

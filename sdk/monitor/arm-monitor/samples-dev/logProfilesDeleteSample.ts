@@ -32,7 +32,7 @@ async function deleteLogProfile() {
 }
 
 async function main() {
-  deleteLogProfile();
+  await deleteLogProfile();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function predictTemplateChangesAtResourceGroupScope() {
 }
 
 async function main() {
-  predictTemplateChangesAtResourceGroupScope();
+  await predictTemplateChangesAtResourceGroupScope();
 }
 
 main().catch(console.error);

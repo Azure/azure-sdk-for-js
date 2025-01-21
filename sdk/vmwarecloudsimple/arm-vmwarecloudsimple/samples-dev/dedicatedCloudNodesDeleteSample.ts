@@ -36,7 +36,7 @@ async function deleteDedicatedCloudNode() {
 }
 
 async function main() {
-  deleteDedicatedCloudNode();
+  await deleteDedicatedCloudNode();
 }
 
 main().catch(console.error);

@@ -29,7 +29,7 @@ async function verifiedPartnersGet() {
 }
 
 async function main() {
-  verifiedPartnersGet();
+  await verifiedPartnersGet();
 }
 
 main().catch(console.error);

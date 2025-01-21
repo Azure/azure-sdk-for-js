@@ -53,8 +53,8 @@ async function virtualNetworksListBySubscriptionMinimumSet() {
 }
 
 async function main() {
-  virtualNetworksListBySubscriptionMaximumSet();
-  virtualNetworksListBySubscriptionMinimumSet();
+  await virtualNetworksListBySubscriptionMaximumSet();
+  await virtualNetworksListBySubscriptionMinimumSet();
 }
 
 main().catch(console.error);

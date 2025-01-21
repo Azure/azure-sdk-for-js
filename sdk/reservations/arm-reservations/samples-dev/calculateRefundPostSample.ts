@@ -46,7 +46,7 @@ async function calculateRefund() {
 }
 
 async function main() {
-  calculateRefund();
+  await calculateRefund();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function getAnIncidentComment() {
 }
 
 async function main() {
-  getAnIncidentComment();
+  await getAnIncidentComment();
 }
 
 main().catch(console.error);

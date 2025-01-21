@@ -59,8 +59,8 @@ async function listPeeringsWithRemoteVirtualNetworkEncryption() {
 }
 
 async function main() {
-  listPeerings();
-  listPeeringsWithRemoteVirtualNetworkEncryption();
+  await listPeerings();
+  await listPeeringsWithRemoteVirtualNetworkEncryption();
 }
 
 main().catch(console.error);

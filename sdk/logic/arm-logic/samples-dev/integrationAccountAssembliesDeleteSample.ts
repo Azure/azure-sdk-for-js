@@ -39,7 +39,7 @@ async function deleteAnIntegrationAccountAssembly() {
 }
 
 async function main() {
-  deleteAnIntegrationAccountAssembly();
+  await deleteAnIntegrationAccountAssembly();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function createsIncidentTeamsGroup() {
 }
 
 async function main() {
-  createsIncidentTeamsGroup();
+  await createsIncidentTeamsGroup();
 }
 
 main().catch(console.error);

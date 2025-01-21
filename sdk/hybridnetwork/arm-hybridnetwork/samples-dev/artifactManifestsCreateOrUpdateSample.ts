@@ -60,7 +60,7 @@ async function createOrUpdateTheArtifactManifestResource() {
 }
 
 async function main() {
-  createOrUpdateTheArtifactManifestResource();
+  await createOrUpdateTheArtifactManifestResource();
 }
 
 main().catch(console.error);

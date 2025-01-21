@@ -18,7 +18,7 @@ async function fleetsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsDelete();
+  await fleetsDelete();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function batchAccountDelete() {
 }
 
 async function main() {
-  batchAccountDelete();
+  await batchAccountDelete();
 }
 
 main().catch(console.error);

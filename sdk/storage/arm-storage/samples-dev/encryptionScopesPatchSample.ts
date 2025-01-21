@@ -46,7 +46,7 @@ async function storageAccountPatchEncryptionScope() {
 }
 
 async function main() {
-  storageAccountPatchEncryptionScope();
+  await storageAccountPatchEncryptionScope();
 }
 
 main().catch(console.error);

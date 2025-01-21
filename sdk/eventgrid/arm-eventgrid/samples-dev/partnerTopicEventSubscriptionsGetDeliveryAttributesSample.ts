@@ -40,7 +40,7 @@ async function partnerTopicEventSubscriptionsGetDeliveryAttributes() {
 }
 
 async function main() {
-  partnerTopicEventSubscriptionsGetDeliveryAttributes();
+  await partnerTopicEventSubscriptionsGetDeliveryAttributes();
 }
 
 main().catch(console.error);

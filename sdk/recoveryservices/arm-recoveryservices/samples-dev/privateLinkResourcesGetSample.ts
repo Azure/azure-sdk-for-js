@@ -39,7 +39,7 @@ async function getPrivateLinkResource() {
 }
 
 async function main() {
-  getPrivateLinkResource();
+  await getPrivateLinkResource();
 }
 
 main().catch(console.error);

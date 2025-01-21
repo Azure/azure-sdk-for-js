@@ -36,7 +36,7 @@ import {
   MsixImageURI as MsixImageURIMapper,
   AppAttachPackage as AppAttachPackageMapper,
   AppAttachPackagePatch as AppAttachPackagePatchMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

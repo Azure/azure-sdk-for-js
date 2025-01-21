@@ -32,7 +32,7 @@ async function listAllRouteTables() {
 }
 
 async function main() {
-  listAllRouteTables();
+  await listAllRouteTables();
 }
 
 main().catch(console.error);

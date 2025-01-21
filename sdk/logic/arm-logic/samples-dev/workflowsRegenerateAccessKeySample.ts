@@ -42,7 +42,7 @@ async function regenerateTheCallbackUrlAccessKeyForRequestTriggers() {
 }
 
 async function main() {
-  regenerateTheCallbackUrlAccessKeyForRequestTriggers();
+  await regenerateTheCallbackUrlAccessKeyForRequestTriggers();
 }
 
 main().catch(console.error);

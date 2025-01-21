@@ -56,7 +56,7 @@ async function connectorDryrunCreate() {
 }
 
 async function main() {
-  connectorDryrunCreate();
+  await connectorDryrunCreate();
 }
 
 main().catch(console.error);

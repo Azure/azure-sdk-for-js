@@ -50,7 +50,7 @@ async function keyVaultPutPrivateEndpointConnection() {
 }
 
 async function main() {
-  keyVaultPutPrivateEndpointConnection();
+  await keyVaultPutPrivateEndpointConnection();
 }
 
 main().catch(console.error);

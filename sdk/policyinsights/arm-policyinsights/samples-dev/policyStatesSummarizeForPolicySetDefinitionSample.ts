@@ -47,7 +47,7 @@ async function summarizeAtPolicySetDefinitionScope() {
 }
 
 async function main() {
-  summarizeAtPolicySetDefinitionScope();
+  await summarizeAtPolicySetDefinitionScope();
 }
 
 main().catch(console.error);

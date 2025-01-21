@@ -52,7 +52,7 @@ async function workspacePutPrivateEndpointConnection() {
 }
 
 async function main() {
-  workspacePutPrivateEndpointConnection();
+  await workspacePutPrivateEndpointConnection();
 }
 
 main().catch(console.error);

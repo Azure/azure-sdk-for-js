@@ -52,7 +52,7 @@ async function createOrUpdateADashboard() {
 }
 
 async function main() {
-  createOrUpdateADashboard();
+  await createOrUpdateADashboard();
 }
 
 main().catch(console.error);

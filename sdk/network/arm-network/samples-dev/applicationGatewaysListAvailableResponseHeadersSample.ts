@@ -32,7 +32,7 @@ async function getAvailableResponseHeaders() {
 }
 
 async function main() {
-  getAvailableResponseHeaders();
+  await getAvailableResponseHeaders();
 }
 
 main().catch(console.error);

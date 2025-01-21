@@ -42,7 +42,7 @@ async function projectListByWorkspaces() {
 }
 
 async function main() {
-  projectListByWorkspaces();
+  await projectListByWorkspaces();
 }
 
 main().catch(console.error);

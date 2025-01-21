@@ -48,7 +48,7 @@ async function networkTapsUpdateAdministrativeStateMaximumSetGen() {
 }
 
 async function main() {
-  networkTapsUpdateAdministrativeStateMaximumSetGen();
+  await networkTapsUpdateAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

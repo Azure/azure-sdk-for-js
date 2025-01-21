@@ -38,7 +38,7 @@ async function performsUpdateOfDnsServersOnManagedInstance() {
 }
 
 async function main() {
-  performsUpdateOfDnsServersOnManagedInstance();
+  await performsUpdateOfDnsServersOnManagedInstance();
 }
 
 main().catch(console.error);

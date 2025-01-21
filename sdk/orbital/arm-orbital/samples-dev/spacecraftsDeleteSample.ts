@@ -37,7 +37,7 @@ async function deleteSpacecraft() {
 }
 
 async function main() {
-  deleteSpacecraft();
+  await deleteSpacecraft();
 }
 
 main().catch(console.error);

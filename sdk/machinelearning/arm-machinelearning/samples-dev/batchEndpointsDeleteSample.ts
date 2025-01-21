@@ -42,7 +42,7 @@ async function deleteWorkspaceBatchEndpoint() {
 }
 
 async function main() {
-  deleteWorkspaceBatchEndpoint();
+  await deleteWorkspaceBatchEndpoint();
 }
 
 main().catch(console.error);

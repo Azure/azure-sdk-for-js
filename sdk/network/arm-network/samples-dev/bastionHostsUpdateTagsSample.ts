@@ -36,7 +36,7 @@ async function patchBastionHost() {
 }
 
 async function main() {
-  patchBastionHost();
+  await patchBastionHost();
 }
 
 main().catch(console.error);

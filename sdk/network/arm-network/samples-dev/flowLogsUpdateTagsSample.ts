@@ -38,7 +38,7 @@ async function updateFlowLogTags() {
 }
 
 async function main() {
-  updateFlowLogTags();
+  await updateFlowLogTags();
 }
 
 main().catch(console.error);

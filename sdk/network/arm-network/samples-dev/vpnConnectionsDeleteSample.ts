@@ -36,7 +36,7 @@ async function vpnConnectionDelete() {
 }
 
 async function main() {
-  vpnConnectionDelete();
+  await vpnConnectionDelete();
 }
 
 main().catch(console.error);

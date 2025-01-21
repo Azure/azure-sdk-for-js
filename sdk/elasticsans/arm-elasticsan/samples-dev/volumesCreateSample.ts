@@ -75,8 +75,8 @@ async function volumesCreateMinimumSetGen() {
 }
 
 async function main() {
-  volumesCreateMaximumSetGen();
-  volumesCreateMinimumSetGen();
+  await volumesCreateMaximumSetGen();
+  await volumesCreateMinimumSetGen();
 }
 
 main().catch(console.error);

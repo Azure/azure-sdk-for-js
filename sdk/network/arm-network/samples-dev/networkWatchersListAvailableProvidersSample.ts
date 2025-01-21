@@ -45,7 +45,7 @@ async function getAvailableProvidersList() {
 }
 
 async function main() {
-  getAvailableProvidersList();
+  await getAvailableProvidersList();
 }
 
 main().catch(console.error);

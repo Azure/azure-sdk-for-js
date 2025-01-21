@@ -13,9 +13,7 @@ import {
   IotDpsClient
 } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update the status of a private endpoint connection with the specified name
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update the status of a private endpoint connection with the specified name
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSCreateOrUpdatePrivateEndpointConnection.json
  */
-async function privateEndpointConnectionCreateOrUpdate() {
+async function privateEndpointConnectionCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -51,8 +49,8 @@ async function privateEndpointConnectionCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  privateEndpointConnectionCreateOrUpdate();
+async function main(): Promise<void> {
+  await privateEndpointConnectionCreateOrUpdate();
 }
 
 main().catch(console.error);

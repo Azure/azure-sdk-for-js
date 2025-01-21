@@ -38,7 +38,7 @@ async function schemaRegistryGet() {
 }
 
 async function main() {
-  schemaRegistryGet();
+  await schemaRegistryGet();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getsTheDistributedAvailabilityGroupInfo() {
 }
 
 async function main() {
-  getsTheDistributedAvailabilityGroupInfo();
+  await getsTheDistributedAvailabilityGroupInfo();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function schemaRegistryDelete() {
 }
 
 async function main() {
-  schemaRegistryDelete();
+  await schemaRegistryDelete();
 }
 
 main().catch(console.error);

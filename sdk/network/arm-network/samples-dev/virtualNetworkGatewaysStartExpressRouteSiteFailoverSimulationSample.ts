@@ -37,7 +37,7 @@ async function virtualNetworkGatewayStartSiteFailoverSimulation() {
 }
 
 async function main() {
-  virtualNetworkGatewayStartSiteFailoverSimulation();
+  await virtualNetworkGatewayStartSiteFailoverSimulation();
 }
 
 main().catch(console.error);

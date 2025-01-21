@@ -41,7 +41,7 @@ async function kustoDatabasePrincipalAssignmentsGet() {
 }
 
 async function main() {
-  kustoDatabasePrincipalAssignmentsGet();
+  await kustoDatabasePrincipalAssignmentsGet();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function openAiCreateOrUpdate() {
 }
 
 async function main() {
-  openAiCreateOrUpdate();
+  await openAiCreateOrUpdate();
 }
 
 main().catch(console.error);

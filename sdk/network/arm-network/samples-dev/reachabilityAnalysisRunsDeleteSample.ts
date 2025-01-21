@@ -40,7 +40,7 @@ async function reachabilityAnalysisRunDelete() {
 }
 
 async function main() {
-  reachabilityAnalysisRunDelete();
+  await reachabilityAnalysisRunDelete();
 }
 
 main().catch(console.error);

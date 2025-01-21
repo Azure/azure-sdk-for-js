@@ -102,9 +102,9 @@ async function effectiveRoutesForTheVirtualHub() {
 }
 
 async function main() {
-  effectiveRoutesForAConnectionResource();
-  effectiveRoutesForARouteTableResource();
-  effectiveRoutesForTheVirtualHub();
+  await effectiveRoutesForAConnectionResource();
+  await effectiveRoutesForARouteTableResource();
+  await effectiveRoutesForTheVirtualHub();
 }
 
 main().catch(console.error);

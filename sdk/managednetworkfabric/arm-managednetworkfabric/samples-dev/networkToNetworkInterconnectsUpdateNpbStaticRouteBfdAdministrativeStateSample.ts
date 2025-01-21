@@ -50,7 +50,7 @@ async function networkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativ
 }
 
 async function main() {
-  networkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateMaximumSetGen();
+  await networkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -59,7 +59,7 @@ async function diagnoseWorkspace() {
 }
 
 async function main() {
-  diagnoseWorkspace();
+  await diagnoseWorkspace();
 }
 
 main().catch(console.error);

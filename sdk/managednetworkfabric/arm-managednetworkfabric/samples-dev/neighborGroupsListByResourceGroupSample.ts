@@ -41,7 +41,7 @@ async function neighborGroupsListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  neighborGroupsListByResourceGroupMaximumSetGen();
+  await neighborGroupsListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

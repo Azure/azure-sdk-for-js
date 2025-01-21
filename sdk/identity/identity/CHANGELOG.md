@@ -1,6 +1,6 @@
 # Release History
 
-## 4.5.1 (Unreleased)
+## 4.6.1 (Unreleased)
 
 ### Features Added
 
@@ -18,6 +18,10 @@
 - Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021. [#31519](https://github.com/Azure/azure-sdk-for-js/pull/31519)
 
 - Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
+
+## 4.6.0 (2025-01-16)
+
+### Other Changes
 
 - Update `@azure/msal-browser` to 4.x [#32565](https://github.com/Azure/azure-sdk-for-js/pull/32565)
 

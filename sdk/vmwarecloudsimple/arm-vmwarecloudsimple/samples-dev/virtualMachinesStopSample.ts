@@ -71,8 +71,8 @@ async function stopInQueryVirtualMachine() {
 }
 
 async function main() {
-  stopInBodyVirtualMachine();
-  stopInQueryVirtualMachine();
+  await stopInBodyVirtualMachine();
+  await stopInQueryVirtualMachine();
 }
 
 main().catch(console.error);

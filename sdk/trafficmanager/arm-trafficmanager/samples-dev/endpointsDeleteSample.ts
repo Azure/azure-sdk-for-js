@@ -41,7 +41,7 @@ async function endpointDeleteExternal() {
 }
 
 async function main() {
-  endpointDeleteExternal();
+  await endpointDeleteExternal();
 }
 
 main().catch(console.error);

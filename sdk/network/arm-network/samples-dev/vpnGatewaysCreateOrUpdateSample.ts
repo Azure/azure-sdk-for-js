@@ -92,7 +92,7 @@ async function vpnGatewayPut() {
 }
 
 async function main() {
-  vpnGatewayPut();
+  await vpnGatewayPut();
 }
 
 main().catch(console.error);

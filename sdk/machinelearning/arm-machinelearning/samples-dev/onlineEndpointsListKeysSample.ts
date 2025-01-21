@@ -42,7 +42,7 @@ async function listKeysWorkspaceOnlineEndpoint() {
 }
 
 async function main() {
-  listKeysWorkspaceOnlineEndpoint();
+  await listKeysWorkspaceOnlineEndpoint();
 }
 
 main().catch(console.error);

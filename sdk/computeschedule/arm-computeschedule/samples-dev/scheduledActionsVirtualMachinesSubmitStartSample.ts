@@ -65,8 +65,8 @@ async function scheduledActionsVirtualMachinesSubmitStartGeneratedByMaximumSetRu
 }
 
 async function main(): Promise<void> {
-  scheduledActionsVirtualMachinesSubmitStartGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesSubmitStartGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+  await scheduledActionsVirtualMachinesSubmitStartGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await scheduledActionsVirtualMachinesSubmitStartGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

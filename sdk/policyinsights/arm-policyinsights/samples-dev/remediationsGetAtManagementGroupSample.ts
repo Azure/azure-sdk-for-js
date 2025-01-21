@@ -31,7 +31,7 @@ async function getRemediationAtManagementGroupScope() {
 }
 
 async function main() {
-  getRemediationAtManagementGroupScope();
+  await getRemediationAtManagementGroupScope();
 }
 
 main().catch(console.error);

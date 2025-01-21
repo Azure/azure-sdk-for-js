@@ -37,7 +37,7 @@ async function partnerTopicsDelete() {
 }
 
 async function main() {
-  partnerTopicsDelete();
+  await partnerTopicsDelete();
 }
 
 main().catch(console.error);

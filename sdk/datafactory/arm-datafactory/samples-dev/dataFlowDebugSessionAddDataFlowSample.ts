@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Add a data flow into debug session.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Add a data flow into debug session.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlowDebugSession_AddDataFlow.json
  */
-async function dataFlowDebugSessionAddDataFlow() {
+async function dataFlowDebugSessionAddDataFlow(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -105,8 +103,8 @@ async function dataFlowDebugSessionAddDataFlow() {
   console.log(result);
 }
 
-async function main() {
-  dataFlowDebugSessionAddDataFlow();
+async function main(): Promise<void> {
+  await dataFlowDebugSessionAddDataFlow();
 }
 
 main().catch(console.error);

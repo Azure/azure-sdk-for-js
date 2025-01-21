@@ -35,7 +35,7 @@ async function getBlobServices() {
 }
 
 async function main() {
-  getBlobServices();
+  await getBlobServices();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function clusterVersionListResult() {
 }
 
 async function main() {
-  clusterVersionListResult();
+  await clusterVersionListResult();
 }
 
 main().catch(console.error);

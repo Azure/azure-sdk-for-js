@@ -394,10 +394,10 @@ async function hdInsightSparkClusterPutWithInternalIngress() {
 }
 
 async function main() {
-  hdInsightClusterPut();
-  hdInsightRangerClusterPut();
-  hdInsightSparkClusterPut();
-  hdInsightSparkClusterPutWithInternalIngress();
+  await hdInsightClusterPut();
+  await hdInsightRangerClusterPut();
+  await hdInsightSparkClusterPut();
+  await hdInsightSparkClusterPutWithInternalIngress();
 }
 
 main().catch(console.error);

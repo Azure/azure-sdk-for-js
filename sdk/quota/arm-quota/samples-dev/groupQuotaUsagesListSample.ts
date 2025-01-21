@@ -40,7 +40,7 @@ async function groupQuotasUsagesList() {
 }
 
 async function main() {
-  groupQuotasUsagesList();
+  await groupQuotasUsagesList();
 }
 
 main().catch(console.error);

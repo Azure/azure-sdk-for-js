@@ -35,7 +35,7 @@ async function listResourcePools() {
 }
 
 async function main() {
-  listResourcePools();
+  await listResourcePools();
 }
 
 main().catch(console.error);

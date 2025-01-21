@@ -37,7 +37,7 @@ async function networkVirtualApplianceConnectionList() {
 }
 
 async function main() {
-  networkVirtualApplianceConnectionList();
+  await networkVirtualApplianceConnectionList();
 }
 
 main().catch(console.error);

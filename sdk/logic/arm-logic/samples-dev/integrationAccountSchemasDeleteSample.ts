@@ -39,7 +39,7 @@ async function deleteASchemaByName() {
 }
 
 async function main() {
-  deleteASchemaByName();
+  await deleteASchemaByName();
 }
 
 main().catch(console.error);

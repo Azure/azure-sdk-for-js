@@ -36,7 +36,7 @@ async function listTenantActionGroupsAtManagementGroupLevel() {
 }
 
 async function main() {
-  listTenantActionGroupsAtManagementGroupLevel();
+  await listTenantActionGroupsAtManagementGroupLevel();
 }
 
 main().catch(console.error);

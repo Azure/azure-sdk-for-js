@@ -39,7 +39,7 @@ async function getPartnerByName() {
 }
 
 async function main() {
-  getPartnerByName();
+  await getPartnerByName();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function createAFileWorkspaceForASubscription() {
 }
 
 async function main() {
-  createAFileWorkspaceForASubscription();
+  await createAFileWorkspaceForASubscription();
 }
 
 main().catch(console.error);

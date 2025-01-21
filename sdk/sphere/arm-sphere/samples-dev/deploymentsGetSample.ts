@@ -43,7 +43,7 @@ async function deploymentsGet() {
 }
 
 async function main() {
-  deploymentsGet();
+  await deploymentsGet();
 }
 
 main().catch(console.error);

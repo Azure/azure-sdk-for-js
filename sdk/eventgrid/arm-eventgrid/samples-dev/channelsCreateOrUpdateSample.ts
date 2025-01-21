@@ -51,7 +51,7 @@ async function channelsCreateOrUpdate() {
 }
 
 async function main() {
-  channelsCreateOrUpdate();
+  await channelsCreateOrUpdate();
 }
 
 main().catch(console.error);

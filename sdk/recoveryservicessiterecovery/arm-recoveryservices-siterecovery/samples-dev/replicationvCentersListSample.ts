@@ -40,7 +40,7 @@ async function getsTheListOfVCenterRegisteredUnderTheVault() {
 }
 
 async function main() {
-  getsTheListOfVCenterRegisteredUnderTheVault();
+  await getsTheListOfVCenterRegisteredUnderTheVault();
 }
 
 main().catch(console.error);

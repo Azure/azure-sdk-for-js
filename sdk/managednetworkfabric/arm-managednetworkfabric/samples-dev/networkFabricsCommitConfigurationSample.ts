@@ -40,7 +40,7 @@ async function networkFabricsCommitConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricsCommitConfigurationMaximumSetGen();
+  await networkFabricsCommitConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

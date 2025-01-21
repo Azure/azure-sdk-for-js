@@ -47,7 +47,7 @@ async function createPacketCoreDataPlane() {
 }
 
 async function main() {
-  createPacketCoreDataPlane();
+  await createPacketCoreDataPlane();
 }
 
 main().catch(console.error);

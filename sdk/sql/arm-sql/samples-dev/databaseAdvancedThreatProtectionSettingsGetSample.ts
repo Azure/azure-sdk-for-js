@@ -41,7 +41,7 @@ async function getADatabaseAdvancedThreatProtectionSettings() {
 }
 
 async function main() {
-  getADatabaseAdvancedThreatProtectionSettings();
+  await getADatabaseAdvancedThreatProtectionSettings();
 }
 
 main().catch(console.error);

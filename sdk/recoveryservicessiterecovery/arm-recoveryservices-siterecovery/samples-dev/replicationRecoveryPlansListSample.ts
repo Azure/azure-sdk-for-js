@@ -41,7 +41,7 @@ async function getsTheListOfRecoveryPlans() {
 }
 
 async function main() {
-  getsTheListOfRecoveryPlans();
+  await getsTheListOfRecoveryPlans();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function deleteFlowLog() {
 }
 
 async function main() {
-  deleteFlowLog();
+  await deleteFlowLog();
 }
 
 main().catch(console.error);

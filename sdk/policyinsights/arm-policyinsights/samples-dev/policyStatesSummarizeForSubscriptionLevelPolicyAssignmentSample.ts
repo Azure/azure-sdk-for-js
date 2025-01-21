@@ -34,7 +34,7 @@ async function summarizeAtPolicyAssignmentScope() {
 }
 
 async function main() {
-  summarizeAtPolicyAssignmentScope();
+  await summarizeAtPolicyAssignmentScope();
 }
 
 main().catch(console.error);

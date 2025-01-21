@@ -36,7 +36,7 @@ async function moveCollectionsDelete() {
 }
 
 async function main() {
-  moveCollectionsDelete();
+  await moveCollectionsDelete();
 }
 
 main().catch(console.error);

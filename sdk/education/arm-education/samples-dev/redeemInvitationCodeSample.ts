@@ -33,7 +33,7 @@ async function redeemCode() {
 }
 
 async function main() {
-  redeemCode();
+  await redeemCode();
 }
 
 main().catch(console.error);

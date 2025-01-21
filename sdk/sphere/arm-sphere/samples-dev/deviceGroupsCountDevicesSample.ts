@@ -41,7 +41,7 @@ async function deviceGroupsCountDevices() {
 }
 
 async function main() {
-  deviceGroupsCountDevices();
+  await deviceGroupsCountDevices();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function putPrivateDnsZone() {
 }
 
 async function main() {
-  putPrivateDnsZone();
+  await putPrivateDnsZone();
 }
 
 main().catch(console.error);

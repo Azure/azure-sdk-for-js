@@ -49,7 +49,7 @@ async function createsOrUpdatesAnActionOfAlertRule() {
 }
 
 async function main() {
-  createsOrUpdatesAnActionOfAlertRule();
+  await createsOrUpdatesAnActionOfAlertRule();
 }
 
 main().catch(console.error);

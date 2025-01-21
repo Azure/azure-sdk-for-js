@@ -15,7 +15,7 @@ async function operationsListMaxGeneratedByMaximumSetRuleGeneratedByMaximumSetRu
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -33,7 +33,7 @@ async function operationsListMaxGeneratedByMaximumSetRuleGeneratedByMinimumSetRu
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -41,8 +41,8 @@ async function operationsListMaxGeneratedByMaximumSetRuleGeneratedByMinimumSetRu
 }
 
 async function main(): Promise<void> {
-  operationsListMaxGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  operationsListMaxGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+  await operationsListMaxGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await operationsListMaxGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

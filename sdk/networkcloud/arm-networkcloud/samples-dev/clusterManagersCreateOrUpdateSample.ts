@@ -93,8 +93,8 @@ async function createOrUpdateClusterManagerWithUserAssignedIdentity() {
 }
 
 async function main() {
-  createOrUpdateClusterManager();
-  createOrUpdateClusterManagerWithUserAssignedIdentity();
+  await createOrUpdateClusterManager();
+  await createOrUpdateClusterManagerWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

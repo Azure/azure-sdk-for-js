@@ -43,8 +43,8 @@ async function globalRulestackGetChangeLogMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackGetChangeLogMaximumSetGen();
-  globalRulestackGetChangeLogMinimumSetGen();
+  await globalRulestackGetChangeLogMaximumSetGen();
+  await globalRulestackGetChangeLogMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function vpnServerConfigurationUpdate() {
 }
 
 async function main() {
-  vpnServerConfigurationUpdate();
+  await vpnServerConfigurationUpdate();
 }
 
 main().catch(console.error);

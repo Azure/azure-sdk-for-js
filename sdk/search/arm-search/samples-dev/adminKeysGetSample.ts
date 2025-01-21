@@ -34,7 +34,7 @@ async function searchGetAdminKeys() {
 }
 
 async function main() {
-  searchGetAdminKeys();
+  await searchGetAdminKeys();
 }
 
 main().catch(console.error);

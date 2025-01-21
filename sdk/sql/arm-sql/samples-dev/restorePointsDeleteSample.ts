@@ -41,7 +41,7 @@ async function deletesARestorePoint() {
 }
 
 async function main() {
-  deletesARestorePoint();
+  await deletesARestorePoint();
 }
 
 main().catch(console.error);

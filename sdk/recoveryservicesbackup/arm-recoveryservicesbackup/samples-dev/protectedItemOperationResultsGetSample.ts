@@ -46,7 +46,7 @@ async function getOperationResultsOfProtectedVM() {
 }
 
 async function main() {
-  getOperationResultsOfProtectedVM();
+  await getOperationResultsOfProtectedVM();
 }
 
 main().catch(console.error);

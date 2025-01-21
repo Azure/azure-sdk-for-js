@@ -55,7 +55,7 @@ async function createOrUpdateWorkspaceFeaturestoreEntityContainer() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceFeaturestoreEntityContainer();
+  await createOrUpdateWorkspaceFeaturestoreEntityContainer();
 }
 
 main().catch(console.error);

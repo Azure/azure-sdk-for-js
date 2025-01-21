@@ -37,7 +37,7 @@ async function getExadataInfrastructure() {
 }
 
 async function main() {
-  getExadataInfrastructure();
+  await getExadataInfrastructure();
 }
 
 main().catch(console.error);

@@ -54,7 +54,7 @@ async function updateAnExistingSyncMember() {
 }
 
 async function main() {
-  updateAnExistingSyncMember();
+  await updateAnExistingSyncMember();
 }
 
 main().catch(console.error);

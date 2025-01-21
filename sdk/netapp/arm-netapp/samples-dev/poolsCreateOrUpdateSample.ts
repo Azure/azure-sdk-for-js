@@ -76,8 +76,8 @@ async function poolsCreateOrUpdateCustomThroughput() {
 }
 
 async function main() {
-  poolsCreateOrUpdate();
-  poolsCreateOrUpdateCustomThroughput();
+  await poolsCreateOrUpdate();
+  await poolsCreateOrUpdateCustomThroughput();
 }
 
 main().catch(console.error);

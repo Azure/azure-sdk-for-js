@@ -43,7 +43,7 @@ async function listResourceSyncRulesBySubscription() {
 }
 
 async function main() {
-  listResourceSyncRulesBySubscription();
+  await listResourceSyncRulesBySubscription();
 }
 
 main().catch(console.error);

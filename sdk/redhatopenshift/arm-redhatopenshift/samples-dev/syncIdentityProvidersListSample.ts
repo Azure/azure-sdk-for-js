@@ -39,7 +39,7 @@ async function listsSyncIdentityProvidersThatBelongToThatAzureRedHatOpenShiftClu
 }
 
 async function main() {
-  listsSyncIdentityProvidersThatBelongToThatAzureRedHatOpenShiftCluster();
+  await listsSyncIdentityProvidersThatBelongToThatAzureRedHatOpenShiftCluster();
 }
 
 main().catch(console.error);

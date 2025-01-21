@@ -40,7 +40,7 @@ async function createRemediationAtResourceGroupScope() {
 }
 
 async function main() {
-  createRemediationAtResourceGroupScope();
+  await createRemediationAtResourceGroupScope();
 }
 
 main().catch(console.error);

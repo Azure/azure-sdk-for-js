@@ -34,7 +34,7 @@ async function resetP2SVpnGateway() {
 }
 
 async function main() {
-  resetP2SVpnGateway();
+  await resetP2SVpnGateway();
 }
 
 main().catch(console.error);

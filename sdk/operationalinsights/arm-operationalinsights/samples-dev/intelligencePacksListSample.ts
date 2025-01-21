@@ -40,7 +40,7 @@ async function intelligencePacksList() {
 }
 
 async function main() {
-  intelligencePacksList();
+  await intelligencePacksList();
 }
 
 main().catch(console.error);

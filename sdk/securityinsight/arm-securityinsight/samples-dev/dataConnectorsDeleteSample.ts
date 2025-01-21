@@ -135,11 +135,11 @@ async function deleteAnOffice365DataConnector() {
 }
 
 async function main() {
-  deleteAApiPollingDataConnector();
-  deleteAGenericUiDataConnector();
-  deleteAnOfficePowerBiDataConnector();
-  deleteAnOffice365ProjectDataConnector();
-  deleteAnOffice365DataConnector();
+  await deleteAApiPollingDataConnector();
+  await deleteAGenericUiDataConnector();
+  await deleteAnOfficePowerBiDataConnector();
+  await deleteAnOffice365ProjectDataConnector();
+  await deleteAnOffice365DataConnector();
 }
 
 main().catch(console.error);

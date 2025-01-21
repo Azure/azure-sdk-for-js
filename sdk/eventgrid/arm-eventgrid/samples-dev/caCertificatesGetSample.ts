@@ -39,7 +39,7 @@ async function caCertificatesGet() {
 }
 
 async function main() {
-  caCertificatesGet();
+  await caCertificatesGet();
 }
 
 main().catch(console.error);

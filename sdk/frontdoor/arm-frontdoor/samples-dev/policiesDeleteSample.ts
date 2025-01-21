@@ -34,7 +34,7 @@ async function deleteProtectionPolicy() {
 }
 
 async function main() {
-  deleteProtectionPolicy();
+  await deleteProtectionPolicy();
 }
 
 main().catch(console.error);

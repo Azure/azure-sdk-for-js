@@ -46,7 +46,7 @@ async function getMetricForData() {
 }
 
 async function main() {
-  getMetricForData();
+  await getMetricForData();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function updateADicomservice() {
 }
 
 async function main() {
-  updateADicomservice();
+  await updateADicomservice();
 }
 
 main().catch(console.error);

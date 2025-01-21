@@ -43,7 +43,7 @@ async function listWorkspaceMarketplaceSubscription() {
 }
 
 async function main() {
-  listWorkspaceMarketplaceSubscription();
+  await listWorkspaceMarketplaceSubscription();
 }
 
 main().catch(console.error);

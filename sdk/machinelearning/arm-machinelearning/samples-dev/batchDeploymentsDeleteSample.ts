@@ -44,7 +44,7 @@ async function deleteWorkspaceBatchDeployment() {
 }
 
 async function main() {
-  deleteWorkspaceBatchDeployment();
+  await deleteWorkspaceBatchDeployment();
 }
 
 main().catch(console.error);

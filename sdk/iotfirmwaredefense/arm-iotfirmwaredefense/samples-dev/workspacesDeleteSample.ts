@@ -59,8 +59,8 @@ async function workspacesDeleteMinimumSetGen() {
 }
 
 async function main() {
-  workspacesDeleteMaximumSetGen();
-  workspacesDeleteMinimumSetGen();
+  await workspacesDeleteMaximumSetGen();
+  await workspacesDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

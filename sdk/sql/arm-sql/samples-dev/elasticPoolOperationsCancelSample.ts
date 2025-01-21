@@ -41,7 +41,7 @@ async function cancelTheElasticPoolManagementOperation() {
 }
 
 async function main() {
-  cancelTheElasticPoolManagementOperation();
+  await cancelTheElasticPoolManagementOperation();
 }
 
 main().catch(console.error);

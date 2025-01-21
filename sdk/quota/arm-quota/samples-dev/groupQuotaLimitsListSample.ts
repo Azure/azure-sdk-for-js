@@ -42,7 +42,7 @@ async function groupQuotaLimitsListRequestForCompute() {
 }
 
 async function main() {
-  groupQuotaLimitsListRequestForCompute();
+  await groupQuotaLimitsListRequestForCompute();
 }
 
 main().catch(console.error);

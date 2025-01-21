@@ -60,7 +60,7 @@ async function clustersPatch() {
 }
 
 async function main() {
-  clustersPatch();
+  await clustersPatch();
 }
 
 main().catch(console.error);

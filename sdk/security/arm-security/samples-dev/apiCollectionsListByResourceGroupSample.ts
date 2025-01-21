@@ -37,7 +37,7 @@ async function getsAListOfApiCollectionsWithinAResourceGroupThatHaveBeenOnboarde
 }
 
 async function main() {
-  getsAListOfApiCollectionsWithinAResourceGroupThatHaveBeenOnboardedToMicrosoftDefenderForApIs();
+  await getsAListOfApiCollectionsWithinAResourceGroupThatHaveBeenOnboardedToMicrosoftDefenderForApIs();
 }
 
 main().catch(console.error);

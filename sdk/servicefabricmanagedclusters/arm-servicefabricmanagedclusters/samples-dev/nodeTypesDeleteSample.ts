@@ -42,7 +42,7 @@ async function deleteANodeType() {
 }
 
 async function main() {
-  deleteANodeType();
+  await deleteANodeType();
 }
 
 main().catch(console.error);

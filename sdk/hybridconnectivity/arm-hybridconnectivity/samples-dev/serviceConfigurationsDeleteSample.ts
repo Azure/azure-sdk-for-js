@@ -36,7 +36,7 @@ async function serviceConfigurationsDeleteSsh() {
 }
 
 async function main() {
-  serviceConfigurationsDeleteSsh();
+  await serviceConfigurationsDeleteSsh();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function getSecurityGroupView() {
 }
 
 async function main() {
-  getSecurityGroupView();
+  await getSecurityGroupView();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function partnerRegistrationsDelete() {
 }
 
 async function main() {
-  partnerRegistrationsDelete();
+  await partnerRegistrationsDelete();
 }
 
 main().catch(console.error);

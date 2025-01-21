@@ -39,7 +39,7 @@ async function deleteABookmark() {
 }
 
 async function main() {
-  deleteABookmark();
+  await deleteABookmark();
 }
 
 main().catch(console.error);

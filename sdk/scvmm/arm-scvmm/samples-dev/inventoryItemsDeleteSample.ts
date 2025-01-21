@@ -61,8 +61,8 @@ async function inventoryItemsDeleteMinimumSet() {
 }
 
 async function main() {
-  inventoryItemsDeleteMaximumSet();
-  inventoryItemsDeleteMinimumSet();
+  await inventoryItemsDeleteMaximumSet();
+  await inventoryItemsDeleteMinimumSet();
 }
 
 main().catch(console.error);

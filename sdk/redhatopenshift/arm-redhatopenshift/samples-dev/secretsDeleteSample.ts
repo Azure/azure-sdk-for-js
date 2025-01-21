@@ -38,7 +38,7 @@ async function deletesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourc
 }
 
 async function main() {
-  deletesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await deletesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

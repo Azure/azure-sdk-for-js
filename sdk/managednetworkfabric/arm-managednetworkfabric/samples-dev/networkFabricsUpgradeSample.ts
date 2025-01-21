@@ -45,7 +45,7 @@ async function networkFabricsUpgradeMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricsUpgradeMaximumSetGen();
+  await networkFabricsUpgradeMaximumSetGen();
 }
 
 main().catch(console.error);

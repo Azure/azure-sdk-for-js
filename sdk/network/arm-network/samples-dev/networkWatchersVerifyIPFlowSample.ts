@@ -48,7 +48,7 @@ async function ipFlowVerify() {
 }
 
 async function main() {
-  ipFlowVerify();
+  await ipFlowVerify();
 }
 
 main().catch(console.error);

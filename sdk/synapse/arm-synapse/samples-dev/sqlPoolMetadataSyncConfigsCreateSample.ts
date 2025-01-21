@@ -44,7 +44,7 @@ async function setMetadataSyncConfigForASqlAnalyticsPool() {
 }
 
 async function main() {
-  setMetadataSyncConfigForASqlAnalyticsPool();
+  await setMetadataSyncConfigForASqlAnalyticsPool();
 }
 
 main().catch(console.error);

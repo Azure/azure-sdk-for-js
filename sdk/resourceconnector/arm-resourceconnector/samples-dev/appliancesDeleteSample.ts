@@ -40,7 +40,7 @@ async function deleteAppliance() {
 }
 
 async function main() {
-  deleteAppliance();
+  await deleteAppliance();
 }
 
 main().catch(console.error);

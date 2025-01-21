@@ -56,7 +56,7 @@ async function protectedItemCreate() {
 }
 
 async function main() {
-  protectedItemCreate();
+  await protectedItemCreate();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function getASyncMember() {
 }
 
 async function main() {
-  getASyncMember();
+  await getASyncMember();
 }
 
 main().catch(console.error);

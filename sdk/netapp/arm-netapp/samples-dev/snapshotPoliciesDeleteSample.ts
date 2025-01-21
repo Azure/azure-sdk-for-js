@@ -39,7 +39,7 @@ async function snapshotPoliciesDelete() {
 }
 
 async function main() {
-  snapshotPoliciesDelete();
+  await snapshotPoliciesDelete();
 }
 
 main().catch(console.error);

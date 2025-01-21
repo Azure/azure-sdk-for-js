@@ -118,8 +118,8 @@ async function createsOrUpdatesAnAvailabilityGroupListenerThisIsUsedForVMSPresen
 }
 
 async function main() {
-  createsOrUpdatesAnAvailabilityGroupListenerUsingLoadBalancerThisIsUsedForVMSPresentInSingleSubnet();
-  createsOrUpdatesAnAvailabilityGroupListenerThisIsUsedForVMSPresentInMultiSubnet();
+  await createsOrUpdatesAnAvailabilityGroupListenerUsingLoadBalancerThisIsUsedForVMSPresentInSingleSubnet();
+  await createsOrUpdatesAnAvailabilityGroupListenerThisIsUsedForVMSPresentInMultiSubnet();
 }
 
 main().catch(console.error);

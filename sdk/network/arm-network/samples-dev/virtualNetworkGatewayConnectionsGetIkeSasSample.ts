@@ -35,7 +35,7 @@ async function getVirtualNetworkGatewayConnectionIkeSa() {
 }
 
 async function main() {
-  getVirtualNetworkGatewayConnectionIkeSa();
+  await getVirtualNetworkGatewayConnectionIkeSa();
 }
 
 main().catch(console.error);

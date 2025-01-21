@@ -41,7 +41,7 @@ async function topicAuthorizationRuleDelete() {
 }
 
 async function main() {
-  topicAuthorizationRuleDelete();
+  await topicAuthorizationRuleDelete();
 }
 
 main().catch(console.error);

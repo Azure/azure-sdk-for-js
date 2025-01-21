@@ -34,7 +34,7 @@ async function listJobsInASubscription() {
 }
 
 async function main() {
-  listJobsInASubscription();
+  await listJobsInASubscription();
 }
 
 main().catch(console.error);

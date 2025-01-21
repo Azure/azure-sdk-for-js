@@ -119,9 +119,9 @@ async function createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithMinimalParam
 }
 
 async function main() {
-  createOrUpdateAnExtendedSqlPoolAzureMonitorAuditingPolicyWithMinimalParameters();
-  createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithAllParameters();
-  createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithMinimalParameters();
+  await createOrUpdateAnExtendedSqlPoolAzureMonitorAuditingPolicyWithMinimalParameters();
+  await createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithAllParameters();
+  await createOrUpdateAnExtendedSqlPoolBlobAuditingPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

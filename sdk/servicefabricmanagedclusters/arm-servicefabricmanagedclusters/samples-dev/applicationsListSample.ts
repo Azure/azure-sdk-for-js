@@ -43,7 +43,7 @@ async function getAListOfApplicationResources() {
 }
 
 async function main() {
-  getAListOfApplicationResources();
+  await getAListOfApplicationResources();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function createOrUpdateWorkspaceMarketplaceSubscription() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceMarketplaceSubscription();
+  await createOrUpdateWorkspaceMarketplaceSubscription();
 }
 
 main().catch(console.error);

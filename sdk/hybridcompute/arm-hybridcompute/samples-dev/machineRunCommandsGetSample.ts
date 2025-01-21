@@ -38,7 +38,7 @@ async function getARunCommand() {
 }
 
 async function main() {
-  getARunCommand();
+  await getARunCommand();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function turnOnRemoteVendorManagementForStorageAppliance() {
 }
 
 async function main() {
-  turnOnRemoteVendorManagementForStorageAppliance();
+  await turnOnRemoteVendorManagementForStorageAppliance();
 }
 
 main().catch(console.error);

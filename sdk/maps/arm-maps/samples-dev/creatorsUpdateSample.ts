@@ -47,7 +47,7 @@ async function updateCreatorResource() {
 }
 
 async function main() {
-  updateCreatorResource();
+  await updateCreatorResource();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function migratesTheSiteToAad() {
 }
 
 async function main() {
-  migratesTheSiteToAad();
+  await migratesTheSiteToAad();
 }
 
 main().catch(console.error);

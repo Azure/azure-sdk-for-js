@@ -39,7 +39,7 @@ async function deleteMetricsConfigurationOfCluster() {
 }
 
 async function main() {
-  deleteMetricsConfigurationOfCluster();
+  await deleteMetricsConfigurationOfCluster();
 }
 
 main().catch(console.error);

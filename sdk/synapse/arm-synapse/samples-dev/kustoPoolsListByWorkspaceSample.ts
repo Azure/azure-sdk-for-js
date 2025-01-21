@@ -37,7 +37,7 @@ async function listKustoPoolsInAWorkspace() {
 }
 
 async function main() {
-  listKustoPoolsInAWorkspace();
+  await listKustoPoolsInAWorkspace();
 }
 
 main().catch(console.error);

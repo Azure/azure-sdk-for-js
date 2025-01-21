@@ -128,11 +128,11 @@ async function queryLatestComponentPolicyStatesAtResourceScopeAndExpandPolicyEva
 }
 
 async function main() {
-  queryLatestComponentPolicyComplianceStateAtResourceScopeFilteredByGivenComponentId();
-  queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceScopeFilteredByGivenAssignment();
-  queryLatestComponentPolicyStatesAtNestedResourceScope();
-  queryLatestComponentPolicyStatesAtResourceScope();
-  queryLatestComponentPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails();
+  await queryLatestComponentPolicyComplianceStateAtResourceScopeFilteredByGivenComponentId();
+  await queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceScopeFilteredByGivenAssignment();
+  await queryLatestComponentPolicyStatesAtNestedResourceScope();
+  await queryLatestComponentPolicyStatesAtResourceScope();
+  await queryLatestComponentPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails();
 }
 
 main().catch(console.error);

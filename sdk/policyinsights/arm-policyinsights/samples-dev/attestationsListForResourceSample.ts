@@ -59,8 +59,8 @@ async function listAttestationsAtIndividualResourceScopeWithQueryParameters() {
 }
 
 async function main() {
-  listAttestationsAtIndividualResourceScope();
-  listAttestationsAtIndividualResourceScopeWithQueryParameters();
+  await listAttestationsAtIndividualResourceScope();
+  await listAttestationsAtIndividualResourceScopeWithQueryParameters();
 }
 
 main().catch(console.error);

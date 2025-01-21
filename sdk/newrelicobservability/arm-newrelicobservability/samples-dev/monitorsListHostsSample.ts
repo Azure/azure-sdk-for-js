@@ -78,8 +78,8 @@ async function monitorsListHostsMinimumSetGen() {
 }
 
 async function main() {
-  monitorsListHostsMaximumSetGen();
-  monitorsListHostsMinimumSetGen();
+  await monitorsListHostsMaximumSetGen();
+  await monitorsListHostsMinimumSetGen();
 }
 
 main().catch(console.error);

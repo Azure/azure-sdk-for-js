@@ -63,8 +63,8 @@ async function volumeGroupsListByElasticSanMinimumSetGen() {
 }
 
 async function main() {
-  volumeGroupsListByElasticSanMaximumSetGen();
-  volumeGroupsListByElasticSanMinimumSetGen();
+  await volumeGroupsListByElasticSanMaximumSetGen();
+  await volumeGroupsListByElasticSanMinimumSetGen();
 }
 
 main().catch(console.error);

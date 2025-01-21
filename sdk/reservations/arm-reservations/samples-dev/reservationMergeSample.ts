@@ -38,7 +38,7 @@ async function merge() {
 }
 
 async function main() {
-  merge();
+  await merge();
 }
 
 main().catch(console.error);

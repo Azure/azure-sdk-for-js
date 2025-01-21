@@ -38,7 +38,7 @@ async function moveResourcesDelete() {
 }
 
 async function main() {
-  moveResourcesDelete();
+  await moveResourcesDelete();
 }
 
 main().catch(console.error);

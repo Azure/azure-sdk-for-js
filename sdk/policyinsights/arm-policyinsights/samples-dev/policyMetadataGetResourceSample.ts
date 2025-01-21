@@ -28,7 +28,7 @@ async function getASinglePolicyMetadataResource() {
 }
 
 async function main() {
-  getASinglePolicyMetadataResource();
+  await getASinglePolicyMetadataResource();
 }
 
 main().catch(console.error);

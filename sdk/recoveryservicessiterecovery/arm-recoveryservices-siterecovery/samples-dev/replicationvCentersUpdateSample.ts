@@ -48,7 +48,7 @@ async function updateVCenterOperation() {
 }
 
 async function main() {
-  updateVCenterOperation();
+  await updateVCenterOperation();
 }
 
 main().catch(console.error);

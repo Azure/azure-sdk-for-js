@@ -160,7 +160,7 @@ async function createOrUpdateAnAutoscaleSetting() {
 }
 
 async function main() {
-  createOrUpdateAnAutoscaleSetting();
+  await createOrUpdateAnAutoscaleSetting();
 }
 
 main().catch(console.error);

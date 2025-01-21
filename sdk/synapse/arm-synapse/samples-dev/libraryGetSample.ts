@@ -39,7 +39,7 @@ async function getLibraryByName() {
 }
 
 async function main() {
-  getLibraryByName();
+  await getLibraryByName();
 }
 
 main().catch(console.error);

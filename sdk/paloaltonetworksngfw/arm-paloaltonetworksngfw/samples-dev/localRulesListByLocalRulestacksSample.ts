@@ -65,8 +65,8 @@ async function localRulesListByLocalRulestacksMinimumSetGen() {
 }
 
 async function main() {
-  localRulesListByLocalRulestacksMaximumSetGen();
-  localRulesListByLocalRulestacksMinimumSetGen();
+  await localRulesListByLocalRulestacksMaximumSetGen();
+  await localRulesListByLocalRulestacksMinimumSetGen();
 }
 
 main().catch(console.error);

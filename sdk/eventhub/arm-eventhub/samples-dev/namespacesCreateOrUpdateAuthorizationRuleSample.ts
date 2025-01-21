@@ -44,7 +44,7 @@ async function nameSpaceAuthorizationRuleCreate() {
 }
 
 async function main() {
-  nameSpaceAuthorizationRuleCreate();
+  await nameSpaceAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

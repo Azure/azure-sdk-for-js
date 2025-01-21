@@ -42,7 +42,7 @@ async function snapshotsDelete() {
 }
 
 async function main() {
-  snapshotsDelete();
+  await snapshotsDelete();
 }
 
 main().catch(console.error);

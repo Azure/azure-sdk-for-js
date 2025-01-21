@@ -57,7 +57,7 @@ async function ipPrefixesUpdateMaximumSetGen() {
 }
 
 async function main() {
-  ipPrefixesUpdateMaximumSetGen();
+  await ipPrefixesUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

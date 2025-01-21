@@ -35,7 +35,7 @@ async function listAllSecurityPartnerProvidersForAGivenResourceGroup() {
 }
 
 async function main() {
-  listAllSecurityPartnerProvidersForAGivenResourceGroup();
+  await listAllSecurityPartnerProvidersForAGivenResourceGroup();
 }
 
 main().catch(console.error);

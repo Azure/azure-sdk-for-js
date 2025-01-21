@@ -42,7 +42,7 @@ async function getAnApplicationUpgrade() {
 }
 
 async function main() {
-  getAnApplicationUpgrade();
+  await getAnApplicationUpgrade();
 }
 
 main().catch(console.error);

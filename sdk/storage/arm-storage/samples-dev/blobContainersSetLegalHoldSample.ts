@@ -66,8 +66,8 @@ async function setLegalHoldContainersWithAllowProtectedAppendWritesAll() {
 }
 
 async function main() {
-  setLegalHoldContainers();
-  setLegalHoldContainersWithAllowProtectedAppendWritesAll();
+  await setLegalHoldContainers();
+  await setLegalHoldContainersWithAllowProtectedAppendWritesAll();
 }
 
 main().catch(console.error);
