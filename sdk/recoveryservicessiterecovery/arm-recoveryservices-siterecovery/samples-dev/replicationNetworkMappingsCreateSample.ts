@@ -57,7 +57,7 @@ async function createsNetworkMapping() {
 }
 
 async function main() {
-  createsNetworkMapping();
+  await createsNetworkMapping();
 }
 
 main().catch(console.error);

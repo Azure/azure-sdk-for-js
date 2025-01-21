@@ -47,7 +47,7 @@ async function migrationConfigurationsStartMigration() {
 }
 
 async function main() {
-  migrationConfigurationsStartMigration();
+  await migrationConfigurationsStartMigration();
 }
 
 main().catch(console.error);

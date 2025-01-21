@@ -41,7 +41,7 @@ async function domainTopicEventSubscriptionsGetFullUrl() {
 }
 
 async function main() {
-  domainTopicEventSubscriptionsGetFullUrl();
+  await domainTopicEventSubscriptionsGetFullUrl();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function volumeQuotaRulesDelete() {
 }
 
 async function main() {
-  volumeQuotaRulesDelete();
+  await volumeQuotaRulesDelete();
 }
 
 main().catch(console.error);

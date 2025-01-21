@@ -39,7 +39,7 @@ async function clientGroupsGet() {
 }
 
 async function main() {
-  clientGroupsGet();
+  await clientGroupsGet();
 }
 
 main().catch(console.error);

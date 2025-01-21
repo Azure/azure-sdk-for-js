@@ -37,7 +37,7 @@ async function createRemediationAtIndividualResourceScope() {
 }
 
 async function main() {
-  createRemediationAtIndividualResourceScope();
+  await createRemediationAtIndividualResourceScope();
 }
 
 main().catch(console.error);

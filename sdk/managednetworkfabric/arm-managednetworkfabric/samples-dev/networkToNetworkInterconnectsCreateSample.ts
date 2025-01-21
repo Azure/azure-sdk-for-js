@@ -91,7 +91,7 @@ async function networkToNetworkInterconnectsCreateMaximumSetGen() {
 }
 
 async function main() {
-  networkToNetworkInterconnectsCreateMaximumSetGen();
+  await networkToNetworkInterconnectsCreateMaximumSetGen();
 }
 
 main().catch(console.error);

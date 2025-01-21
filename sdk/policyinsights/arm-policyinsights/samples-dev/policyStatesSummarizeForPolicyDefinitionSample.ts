@@ -33,7 +33,7 @@ async function summarizeAtPolicyDefinitionScope() {
 }
 
 async function main() {
-  summarizeAtPolicyDefinitionScope();
+  await summarizeAtPolicyDefinitionScope();
 }
 
 main().catch(console.error);

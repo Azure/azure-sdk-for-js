@@ -52,7 +52,7 @@ async function testMigrateCleanup() {
 }
 
 async function main() {
-  testMigrateCleanup();
+  await testMigrateCleanup();
 }
 
 main().catch(console.error);

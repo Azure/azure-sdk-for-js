@@ -60,8 +60,8 @@ async function nameAvailabilityV2TestNameNotAvailablePost23() {
 }
 
 async function main() {
-  nameAvailabilityV2TestNameAvailablePost21();
-  nameAvailabilityV2TestNameNotAvailablePost23();
+  await nameAvailabilityV2TestNameAvailablePost21();
+  await nameAvailabilityV2TestNameNotAvailablePost23();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getClusterVersionByEnvironment() {
 }
 
 async function main() {
-  getClusterVersionByEnvironment();
+  await getClusterVersionByEnvironment();
 }
 
 main().catch(console.error);

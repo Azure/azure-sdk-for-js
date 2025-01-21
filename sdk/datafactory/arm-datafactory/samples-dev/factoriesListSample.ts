@@ -32,7 +32,7 @@ async function factoriesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesList();
+  await factoriesList();
 }
 
 main().catch(console.error);

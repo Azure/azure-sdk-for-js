@@ -193,12 +193,12 @@ async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
 }
 
 async function main() {
-  createVirtualNetwork();
-  createVirtualNetworkWithDelegatedSubnets();
-  createVirtualNetworkWithServiceEndpoints();
-  createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy();
-  createVirtualNetworkWithSubnet();
-  createVirtualNetworkWithSubnetContainingAddressPrefixes();
+  await createVirtualNetwork();
+  await createVirtualNetworkWithDelegatedSubnets();
+  await createVirtualNetworkWithServiceEndpoints();
+  await createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy();
+  await createVirtualNetworkWithSubnet();
+  await createVirtualNetworkWithSubnetContainingAddressPrefixes();
 }
 
 main().catch(console.error);

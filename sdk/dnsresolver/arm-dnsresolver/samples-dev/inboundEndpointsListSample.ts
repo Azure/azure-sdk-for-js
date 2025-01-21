@@ -40,7 +40,7 @@ async function listInboundEndpointsByDnsResolver() {
 }
 
 async function main() {
-  listInboundEndpointsByDnsResolver();
+  await listInboundEndpointsByDnsResolver();
 }
 
 main().catch(console.error);

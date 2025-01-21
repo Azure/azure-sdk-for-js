@@ -32,7 +32,7 @@ async function deleteRemediationAtIndividualResourceScope() {
 }
 
 async function main() {
-  deleteRemediationAtIndividualResourceScope();
+  await deleteRemediationAtIndividualResourceScope();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function updatesTheServerInstanceResource() {
 }
 
 async function main() {
-  updatesTheServerInstanceResource();
+  await updatesTheServerInstanceResource();
 }
 
 main().catch(console.error);

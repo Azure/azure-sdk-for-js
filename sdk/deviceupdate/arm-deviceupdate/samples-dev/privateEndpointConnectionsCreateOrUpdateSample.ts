@@ -47,7 +47,7 @@ async function privateEndpointConnectionCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionCreateOrUpdate();
+  await privateEndpointConnectionCreateOrUpdate();
 }
 
 main().catch(console.error);

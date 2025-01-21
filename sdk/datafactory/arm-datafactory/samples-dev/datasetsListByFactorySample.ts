@@ -38,7 +38,7 @@ async function datasetsListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  datasetsListByFactory();
+  await datasetsListByFactory();
 }
 
 main().catch(console.error);

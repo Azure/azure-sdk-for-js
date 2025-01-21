@@ -42,7 +42,7 @@ async function triggersQueryByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersQueryByFactory();
+  await triggersQueryByFactory();
 }
 
 main().catch(console.error);

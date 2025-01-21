@@ -44,7 +44,7 @@ async function environmentsUpdate() {
 }
 
 async function main() {
-  environmentsUpdate();
+  await environmentsUpdate();
 }
 
 main().catch(console.error);

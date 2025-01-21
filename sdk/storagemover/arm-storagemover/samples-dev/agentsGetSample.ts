@@ -63,8 +63,8 @@ async function agentsGetMinimumSet() {
 }
 
 async function main() {
-  agentsGetMaximumSet();
-  agentsGetMinimumSet();
+  await agentsGetMaximumSet();
+  await agentsGetMinimumSet();
 }
 
 main().catch(console.error);

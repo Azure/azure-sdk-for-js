@@ -41,7 +41,7 @@ async function getsTheListOfAzureSiteRecoveryEvents() {
 }
 
 async function main() {
-  getsTheListOfAzureSiteRecoveryEvents();
+  await getsTheListOfAzureSiteRecoveryEvents();
 }
 
 main().catch(console.error);

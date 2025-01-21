@@ -41,7 +41,7 @@ async function getsTheListOfRegisteredRecoveryServicesProvidersInTheVaultThisIsA
 }
 
 async function main() {
-  getsTheListOfRegisteredRecoveryServicesProvidersInTheVaultThisIsAViewOnlyApi();
+  await getsTheListOfRegisteredRecoveryServicesProvidersInTheVaultThisIsAViewOnlyApi();
 }
 
 main().catch(console.error);

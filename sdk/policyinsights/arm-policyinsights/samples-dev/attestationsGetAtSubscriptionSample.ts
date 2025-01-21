@@ -30,7 +30,7 @@ async function getAttestationAtSubscriptionScope() {
 }
 
 async function main() {
-  getAttestationAtSubscriptionScope();
+  await getAttestationAtSubscriptionScope();
 }
 
 main().catch(console.error);

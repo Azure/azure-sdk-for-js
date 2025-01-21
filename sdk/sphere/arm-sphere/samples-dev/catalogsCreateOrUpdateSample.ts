@@ -39,7 +39,7 @@ async function catalogsCreateOrUpdate() {
 }
 
 async function main() {
-  catalogsCreateOrUpdate();
+  await catalogsCreateOrUpdate();
 }
 
 main().catch(console.error);

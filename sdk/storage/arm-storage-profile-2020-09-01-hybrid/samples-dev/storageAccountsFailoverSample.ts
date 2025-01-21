@@ -35,7 +35,7 @@ async function storageAccountFailover() {
 }
 
 async function main() {
-  storageAccountFailover();
+  await storageAccountFailover();
 }
 
 main().catch(console.error);

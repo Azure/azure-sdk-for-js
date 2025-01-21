@@ -122,8 +122,8 @@ async function createWorkflowWithArtifactGeneration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createWorkflow();
-  createWorkflowWithArtifactGeneration();
+  await createWorkflow();
+  await createWorkflowWithArtifactGeneration();
 }
 
 main().catch(console.error);

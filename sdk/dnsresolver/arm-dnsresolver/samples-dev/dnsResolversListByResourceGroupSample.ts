@@ -38,7 +38,7 @@ async function listDnsResolversByResourceGroup() {
 }
 
 async function main() {
-  listDnsResolversByResourceGroup();
+  await listDnsResolversByResourceGroup();
 }
 
 main().catch(console.error);

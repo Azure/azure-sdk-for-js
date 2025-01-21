@@ -38,7 +38,7 @@ async function globalParametersListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  globalParametersListByFactory();
+  await globalParametersListByFactory();
 }
 
 main().catch(console.error);

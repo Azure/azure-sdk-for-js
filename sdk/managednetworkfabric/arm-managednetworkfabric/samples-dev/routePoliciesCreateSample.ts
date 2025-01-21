@@ -107,7 +107,7 @@ async function routePoliciesCreateMaximumSetGen() {
 }
 
 async function main() {
-  routePoliciesCreateMaximumSetGen();
+  await routePoliciesCreateMaximumSetGen();
 }
 
 main().catch(console.error);

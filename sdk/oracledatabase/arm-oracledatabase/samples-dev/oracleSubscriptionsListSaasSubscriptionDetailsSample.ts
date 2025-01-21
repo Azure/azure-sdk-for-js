@@ -32,7 +32,7 @@ async function listSaasSubscriptionDetailsForTheOracleSubscription() {
 }
 
 async function main() {
-  listSaasSubscriptionDetailsForTheOracleSubscription();
+  await listSaasSubscriptionDetailsForTheOracleSubscription();
 }
 
 main().catch(console.error);

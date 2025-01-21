@@ -47,7 +47,7 @@ async function fetchSecondaryRPs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fetchSecondaryRPs();
+  await fetchSecondaryRPs();
 }
 
 main().catch(console.error);

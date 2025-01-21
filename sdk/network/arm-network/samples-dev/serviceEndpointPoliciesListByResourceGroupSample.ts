@@ -35,7 +35,7 @@ async function listResourceGroupServiceEndpointPolicies() {
 }
 
 async function main() {
-  listResourceGroupServiceEndpointPolicies();
+  await listResourceGroupServiceEndpointPolicies();
 }
 
 main().catch(console.error);

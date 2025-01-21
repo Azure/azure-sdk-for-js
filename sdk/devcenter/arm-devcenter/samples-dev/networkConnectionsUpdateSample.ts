@@ -38,7 +38,7 @@ async function networkConnectionsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsUpdate();
+  await networkConnectionsUpdate();
 }
 
 main().catch(console.error);

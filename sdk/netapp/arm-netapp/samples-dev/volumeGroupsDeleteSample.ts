@@ -38,7 +38,7 @@ async function volumeGroupsDelete() {
 }
 
 async function main() {
-  volumeGroupsDelete();
+  await volumeGroupsDelete();
 }
 
 main().catch(console.error);

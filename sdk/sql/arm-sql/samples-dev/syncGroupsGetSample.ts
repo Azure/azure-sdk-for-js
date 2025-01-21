@@ -41,7 +41,7 @@ async function getASyncGroup() {
 }
 
 async function main() {
-  getASyncGroup();
+  await getASyncGroup();
 }
 
 main().catch(console.error);

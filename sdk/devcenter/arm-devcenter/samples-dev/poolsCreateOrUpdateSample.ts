@@ -84,8 +84,8 @@ async function poolsCreateOrUpdateWithManagedNetwork(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  poolsCreateOrUpdate();
-  poolsCreateOrUpdateWithManagedNetwork();
+  await poolsCreateOrUpdate();
+  await poolsCreateOrUpdateWithManagedNetwork();
 }
 
 main().catch(console.error);

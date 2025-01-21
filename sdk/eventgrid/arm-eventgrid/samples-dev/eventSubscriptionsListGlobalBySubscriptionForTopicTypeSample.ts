@@ -37,7 +37,7 @@ async function eventSubscriptionsListGlobalBySubscriptionForTopicType() {
 }
 
 async function main() {
-  eventSubscriptionsListGlobalBySubscriptionForTopicType();
+  await eventSubscriptionsListGlobalBySubscriptionForTopicType();
 }
 
 main().catch(console.error);

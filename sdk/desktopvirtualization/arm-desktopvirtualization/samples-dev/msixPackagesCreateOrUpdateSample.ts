@@ -70,7 +70,7 @@ async function msixPackageCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  msixPackageCreate();
+  await msixPackageCreate();
 }
 
 main().catch(console.error);

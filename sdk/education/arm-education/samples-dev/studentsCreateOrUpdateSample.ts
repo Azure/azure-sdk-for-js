@@ -49,7 +49,7 @@ async function student() {
 }
 
 async function main() {
-  student();
+  await student();
 }
 
 main().catch(console.error);

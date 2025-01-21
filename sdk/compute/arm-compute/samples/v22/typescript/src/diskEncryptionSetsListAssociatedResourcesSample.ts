@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all resources that are encrypted with this disk encryption set.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all resources that are encrypted with this disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
  */
-async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
+async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet();
 }
 

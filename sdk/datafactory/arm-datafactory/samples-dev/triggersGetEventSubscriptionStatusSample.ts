@@ -37,7 +37,7 @@ async function triggersGetEventSubscriptionStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersGetEventSubscriptionStatus();
+  await triggersGetEventSubscriptionStatus();
 }
 
 main().catch(console.error);

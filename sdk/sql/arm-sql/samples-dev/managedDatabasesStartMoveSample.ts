@@ -75,8 +75,8 @@ async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified() {
 }
 
 async function main() {
-  startsAManagedDatabaseMoveWithAllOptionalParametersSpecified();
-  startsAManagedDatabaseMoveWithNoOptionalParametersSpecified();
+  await startsAManagedDatabaseMoveWithAllOptionalParametersSpecified();
+  await startsAManagedDatabaseMoveWithNoOptionalParametersSpecified();
 }
 
 main().catch(console.error);

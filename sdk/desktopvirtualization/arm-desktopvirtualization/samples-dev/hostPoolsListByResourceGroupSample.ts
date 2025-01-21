@@ -48,7 +48,7 @@ async function hostPoolListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hostPoolListByResourceGroup();
+  await hostPoolListByResourceGroup();
 }
 
 main().catch(console.error);

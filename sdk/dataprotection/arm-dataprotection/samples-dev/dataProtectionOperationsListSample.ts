@@ -29,7 +29,7 @@ async function returnsTheListOfSupportedRestOperations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  returnsTheListOfSupportedRestOperations();
+  await returnsTheListOfSupportedRestOperations();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MaximumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen() {
+async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaa";
@@ -40,7 +38,7 @@ async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen() {
  * @summary Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MinimumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen() {
+async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaa";
@@ -54,7 +52,7 @@ async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineImagesEdgeZoneListPublishersMaximumSetGen();
   virtualMachineImagesEdgeZoneListPublishersMinimumSetGen();
 }

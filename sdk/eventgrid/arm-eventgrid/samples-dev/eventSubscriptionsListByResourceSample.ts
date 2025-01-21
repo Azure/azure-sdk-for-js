@@ -44,7 +44,7 @@ async function eventSubscriptionsListByResource() {
 }
 
 async function main() {
-  eventSubscriptionsListByResource();
+  await eventSubscriptionsListByResource();
 }
 
 main().catch(console.error);

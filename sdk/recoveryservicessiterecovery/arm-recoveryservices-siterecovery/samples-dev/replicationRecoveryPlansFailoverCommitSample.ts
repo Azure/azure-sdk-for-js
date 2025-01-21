@@ -41,7 +41,7 @@ async function executeCommitFailoverOfTheRecoveryPlan() {
 }
 
 async function main() {
-  executeCommitFailoverOfTheRecoveryPlan();
+  await executeCommitFailoverOfTheRecoveryPlan();
 }
 
 main().catch(console.error);

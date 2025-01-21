@@ -37,7 +37,7 @@ async function systemTopicsDelete() {
 }
 
 async function main() {
-  systemTopicsDelete();
+  await systemTopicsDelete();
 }
 
 main().catch(console.error);

@@ -59,7 +59,7 @@ async function createOrUpdateBareMetalMachine() {
 }
 
 async function main() {
-  createOrUpdateBareMetalMachine();
+  await createOrUpdateBareMetalMachine();
 }
 
 main().catch(console.error);

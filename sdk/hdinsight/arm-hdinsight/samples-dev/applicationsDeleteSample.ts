@@ -36,7 +36,7 @@ async function deleteApplicationFromHdInsightCluster() {
 }
 
 async function main() {
-  deleteApplicationFromHdInsightCluster();
+  await deleteApplicationFromHdInsightCluster();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function listAllNetworkVirtualAppliancesForAGivenSubscription() {
 }
 
 async function main() {
-  listAllNetworkVirtualAppliancesForAGivenSubscription();
+  await listAllNetworkVirtualAppliancesForAGivenSubscription();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function networkFabricControllersListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricControllersListByResourceGroupMaximumSetGen();
+  await networkFabricControllersListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

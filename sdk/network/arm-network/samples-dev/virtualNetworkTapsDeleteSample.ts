@@ -34,7 +34,7 @@ async function deleteVirtualNetworkTapResource() {
 }
 
 async function main() {
-  deleteVirtualNetworkTapResource();
+  await deleteVirtualNetworkTapResource();
 }
 
 main().catch(console.error);

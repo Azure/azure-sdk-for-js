@@ -43,7 +43,7 @@ async function getComputes() {
 }
 
 async function main() {
-  getComputes();
+  await getComputes();
 }
 
 main().catch(console.error);

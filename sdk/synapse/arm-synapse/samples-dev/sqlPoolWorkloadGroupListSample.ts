@@ -42,7 +42,7 @@ async function getTheListOfWorkloadGroupsOfASqlAnalyticsPool() {
 }
 
 async function main() {
-  getTheListOfWorkloadGroupsOfASqlAnalyticsPool();
+  await getTheListOfWorkloadGroupsOfASqlAnalyticsPool();
 }
 
 main().catch(console.error);

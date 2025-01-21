@@ -45,7 +45,7 @@ async function getComputeNodesInformationForACompute() {
 }
 
 async function main() {
-  getComputeNodesInformationForACompute();
+  await getComputeNodesInformationForACompute();
 }
 
 main().catch(console.error);

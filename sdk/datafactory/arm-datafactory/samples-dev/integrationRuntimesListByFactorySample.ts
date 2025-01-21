@@ -38,7 +38,7 @@ async function integrationRuntimesListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesListByFactory();
+  await integrationRuntimesListByFactory();
 }
 
 main().catch(console.error);

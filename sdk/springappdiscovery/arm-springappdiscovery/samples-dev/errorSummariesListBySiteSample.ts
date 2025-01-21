@@ -69,8 +69,8 @@ async function errorSummariesListBySiteMinimumSetGen() {
 }
 
 async function main() {
-  errorSummariesListBySiteMaximumSetGen();
-  errorSummariesListBySiteMinimumSetGen();
+  await errorSummariesListBySiteMaximumSetGen();
+  await errorSummariesListBySiteMinimumSetGen();
 }
 
 main().catch(console.error);

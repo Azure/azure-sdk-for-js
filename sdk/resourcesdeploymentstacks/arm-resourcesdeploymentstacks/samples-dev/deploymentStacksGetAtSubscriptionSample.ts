@@ -33,7 +33,7 @@ async function deploymentStacksSubscriptionGet() {
 }
 
 async function main() {
-  deploymentStacksSubscriptionGet();
+  await deploymentStacksSubscriptionGet();
 }
 
 main().catch(console.error);

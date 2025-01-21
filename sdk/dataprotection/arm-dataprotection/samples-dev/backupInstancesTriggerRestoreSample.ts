@@ -182,9 +182,9 @@ async function triggerRestoreWithRehydration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerRestore();
-  triggerRestoreAsFiles();
-  triggerRestoreWithRehydration();
+  await triggerRestore();
+  await triggerRestoreAsFiles();
+  await triggerRestoreWithRehydration();
 }
 
 main().catch(console.error);

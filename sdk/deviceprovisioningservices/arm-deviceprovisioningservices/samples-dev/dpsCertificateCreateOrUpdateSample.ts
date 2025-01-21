@@ -45,7 +45,7 @@ async function dpsCreateOrUpdateCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsCreateOrUpdateCertificate();
+  await dpsCreateOrUpdateCertificate();
 }
 
 main().catch(console.error);

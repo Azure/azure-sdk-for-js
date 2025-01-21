@@ -101,10 +101,10 @@ async function updateStatusOfASupportTicket() {
 }
 
 async function main() {
-  updateAdvancedDiagnosticConsentOfASupportTicket();
-  updateContactDetailsOfASupportTicket();
-  updateSeverityOfASupportTicket();
-  updateStatusOfASupportTicket();
+  await updateAdvancedDiagnosticConsentOfASupportTicket();
+  await updateContactDetailsOfASupportTicket();
+  await updateSeverityOfASupportTicket();
+  await updateStatusOfASupportTicket();
 }
 
 main().catch(console.error);

@@ -57,7 +57,7 @@ async function patchClusterManager() {
 }
 
 async function main() {
-  patchClusterManager();
+  await patchClusterManager();
 }
 
 main().catch(console.error);

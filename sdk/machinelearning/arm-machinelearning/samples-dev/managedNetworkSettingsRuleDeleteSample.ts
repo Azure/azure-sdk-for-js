@@ -42,7 +42,7 @@ async function deleteManagedNetworkSettingsRule() {
 }
 
 async function main() {
-  deleteManagedNetworkSettingsRule();
+  await deleteManagedNetworkSettingsRule();
 }
 
 main().catch(console.error);

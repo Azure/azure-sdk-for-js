@@ -78,9 +78,9 @@ async function checkForAServerNameThatIsInvalid() {
 }
 
 async function main() {
-  checkForAServerNameThatAlreadyExists();
-  checkForAServerNameThatIsAvailable();
-  checkForAServerNameThatIsInvalid();
+  await checkForAServerNameThatAlreadyExists();
+  await checkForAServerNameThatIsAvailable();
+  await checkForAServerNameThatIsInvalid();
 }
 
 main().catch(console.error);

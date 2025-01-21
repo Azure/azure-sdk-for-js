@@ -35,7 +35,7 @@ async function expressRoutePortListByResourceGroup() {
 }
 
 async function main() {
-  expressRoutePortListByResourceGroup();
+  await expressRoutePortListByResourceGroup();
 }
 
 main().catch(console.error);

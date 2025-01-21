@@ -503,14 +503,14 @@ async function createsOrUpdatesAnThreatIntelligencePlatformDataConnector() {
 }
 
 async function main() {
-  createsOrUpdatesAApiPollingDataConnector();
-  createsOrUpdatesADynamics365DataConnector();
-  createsOrUpdatesAGenericUiDataConnector();
-  createsOrUpdatesAThreatIntelligenceTaxiiDataConnector();
-  createsOrUpdatesAnOfficePowerBiDataConnector();
-  createsOrUpdatesAnOffice365ProjectDataConnector();
-  createsOrUpdatesAnOffice365DataConnector();
-  createsOrUpdatesAnThreatIntelligencePlatformDataConnector();
+  await createsOrUpdatesAApiPollingDataConnector();
+  await createsOrUpdatesADynamics365DataConnector();
+  await createsOrUpdatesAGenericUiDataConnector();
+  await createsOrUpdatesAThreatIntelligenceTaxiiDataConnector();
+  await createsOrUpdatesAnOfficePowerBiDataConnector();
+  await createsOrUpdatesAnOffice365ProjectDataConnector();
+  await createsOrUpdatesAnOffice365DataConnector();
+  await createsOrUpdatesAnThreatIntelligencePlatformDataConnector();
 }
 
 main().catch(console.error);

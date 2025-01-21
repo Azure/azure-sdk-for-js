@@ -37,7 +37,7 @@ async function getNetworkProfile() {
 }
 
 async function main() {
-  getNetworkProfile();
+  await getNetworkProfile();
 }
 
 main().catch(console.error);

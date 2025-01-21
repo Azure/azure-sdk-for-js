@@ -44,7 +44,7 @@ async function deleteRegistryEnvironmentVersion() {
 }
 
 async function main() {
-  deleteRegistryEnvironmentVersion();
+  await deleteRegistryEnvironmentVersion();
 }
 
 main().catch(console.error);

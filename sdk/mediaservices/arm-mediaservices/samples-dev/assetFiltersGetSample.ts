@@ -41,7 +41,7 @@ async function getAnAssetFilterByName() {
 }
 
 async function main() {
-  getAnAssetFilterByName();
+  await getAnAssetFilterByName();
 }
 
 main().catch(console.error);

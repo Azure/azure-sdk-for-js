@@ -33,7 +33,7 @@ async function archive() {
 }
 
 async function main() {
-  archive();
+  await archive();
 }
 
 main().catch(console.error);

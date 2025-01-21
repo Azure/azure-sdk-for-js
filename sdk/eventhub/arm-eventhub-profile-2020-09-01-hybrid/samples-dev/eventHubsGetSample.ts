@@ -40,7 +40,7 @@ async function eventHubGet() {
 }
 
 async function main() {
-  eventHubGet();
+  await eventHubGet();
 }
 
 main().catch(console.error);

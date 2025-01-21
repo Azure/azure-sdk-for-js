@@ -46,7 +46,7 @@ async function appAttachPackageInfoImport(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appAttachPackageInfoImport();
+  await appAttachPackageInfoImport();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function listWorkflows(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWorkflows();
+  await listWorkflows();
 }
 
 main().catch(console.error);

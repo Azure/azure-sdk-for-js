@@ -34,7 +34,7 @@ async function listHybridComputeProviderOperations() {
 }
 
 async function main() {
-  listHybridComputeProviderOperations();
+  await listHybridComputeProviderOperations();
 }
 
 main().catch(console.error);

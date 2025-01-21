@@ -38,7 +38,7 @@ async function listAlertRules() {
 }
 
 async function main() {
-  listAlertRules();
+  await listAlertRules();
 }
 
 main().catch(console.error);

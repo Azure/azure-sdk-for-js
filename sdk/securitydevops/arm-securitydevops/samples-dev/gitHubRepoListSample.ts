@@ -42,7 +42,7 @@ async function gitHubRepoList() {
 }
 
 async function main() {
-  gitHubRepoList();
+  await gitHubRepoList();
 }
 
 main().catch(console.error);

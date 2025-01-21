@@ -35,7 +35,7 @@ async function monitorsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsDelete();
+  await monitorsDelete();
 }
 
 main().catch(console.error);

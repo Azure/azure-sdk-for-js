@@ -40,7 +40,7 @@ async function getAPrivateEndpoint() {
 }
 
 async function main() {
-  getAPrivateEndpoint();
+  await getAPrivateEndpoint();
 }
 
 main().catch(console.error);

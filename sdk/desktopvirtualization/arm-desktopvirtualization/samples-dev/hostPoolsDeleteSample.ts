@@ -41,7 +41,7 @@ async function hostPoolDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hostPoolDelete();
+  await hostPoolDelete();
 }
 
 main().catch(console.error);

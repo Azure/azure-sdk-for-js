@@ -53,7 +53,7 @@ async function createOrUpdateRack() {
 }
 
 async function main() {
-  createOrUpdateRack();
+  await createOrUpdateRack();
 }
 
 main().catch(console.error);

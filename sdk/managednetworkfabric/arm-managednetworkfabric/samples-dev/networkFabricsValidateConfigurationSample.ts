@@ -45,7 +45,7 @@ async function networkFabricsValidateConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricsValidateConfigurationMaximumSetGen();
+  await networkFabricsValidateConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function azureDevOpsOrgCreateOrUpdate() {
 }
 
 async function main() {
-  azureDevOpsOrgCreateOrUpdate();
+  await azureDevOpsOrgCreateOrUpdate();
 }
 
 main().catch(console.error);

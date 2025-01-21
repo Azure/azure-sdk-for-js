@@ -68,8 +68,8 @@ async function quotasRequestPatchForNetwork() {
 }
 
 async function main() {
-  quotasRequestPatchForCompute();
-  quotasRequestPatchForNetwork();
+  await quotasRequestPatchForCompute();
+  await quotasRequestPatchForNetwork();
 }
 
 main().catch(console.error);

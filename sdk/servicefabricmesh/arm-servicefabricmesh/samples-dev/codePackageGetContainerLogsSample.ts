@@ -46,7 +46,7 @@ async function getContainerLogs() {
 }
 
 async function main() {
-  getContainerLogs();
+  await getContainerLogs();
 }
 
 main().catch(console.error);

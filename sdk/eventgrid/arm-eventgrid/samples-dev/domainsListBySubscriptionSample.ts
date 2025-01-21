@@ -34,7 +34,7 @@ async function domainsListBySubscription() {
 }
 
 async function main() {
-  domainsListBySubscription();
+  await domainsListBySubscription();
 }
 
 main().catch(console.error);

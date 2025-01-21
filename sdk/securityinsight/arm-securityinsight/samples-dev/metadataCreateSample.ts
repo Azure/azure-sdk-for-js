@@ -133,8 +133,8 @@ async function createOrUpdateMinimalMetadata() {
 }
 
 async function main() {
-  createOrUpdateFullMetadata();
-  createOrUpdateMinimalMetadata();
+  await createOrUpdateFullMetadata();
+  await createOrUpdateMinimalMetadata();
 }
 
 main().catch(console.error);

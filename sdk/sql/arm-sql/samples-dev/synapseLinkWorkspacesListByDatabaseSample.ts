@@ -42,7 +42,7 @@ async function listAllSynapselinkWorkspacesForTheGivenDatabase() {
 }
 
 async function main() {
-  listAllSynapselinkWorkspacesForTheGivenDatabase();
+  await listAllSynapselinkWorkspacesForTheGivenDatabase();
 }
 
 main().catch(console.error);

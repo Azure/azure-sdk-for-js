@@ -35,7 +35,7 @@ async function hostPoolsRetrieveRegistrationTokenPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hostPoolsRetrieveRegistrationTokenPost();
+  await hostPoolsRetrieveRegistrationTokenPost();
 }
 
 main().catch(console.error);

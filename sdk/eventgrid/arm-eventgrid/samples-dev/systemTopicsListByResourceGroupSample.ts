@@ -38,7 +38,7 @@ async function systemTopicsListByResourceGroup() {
 }
 
 async function main() {
-  systemTopicsListByResourceGroup();
+  await systemTopicsListByResourceGroup();
 }
 
 main().catch(console.error);

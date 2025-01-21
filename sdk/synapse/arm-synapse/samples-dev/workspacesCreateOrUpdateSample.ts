@@ -91,7 +91,7 @@ async function createOrUpdateAWorkspace() {
 }
 
 async function main() {
-  createOrUpdateAWorkspace();
+  await createOrUpdateAWorkspace();
 }
 
 main().catch(console.error);

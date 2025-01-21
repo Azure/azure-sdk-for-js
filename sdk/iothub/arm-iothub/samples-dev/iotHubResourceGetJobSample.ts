@@ -39,7 +39,7 @@ async function iotHubResourceGetJob() {
 }
 
 async function main() {
-  iotHubResourceGetJob();
+  await iotHubResourceGetJob();
 }
 
 main().catch(console.error);

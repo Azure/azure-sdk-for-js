@@ -68,8 +68,8 @@ async function getAStreamingJobAndUseTheExpandODataQueryParameterToExpandInputsO
 }
 
 async function main() {
-  getAStreamingJobAndDoNotUseTheExpandODataQueryParameter();
-  getAStreamingJobAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions();
+  await getAStreamingJobAndDoNotUseTheExpandODataQueryParameter();
+  await getAStreamingJobAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions();
 }
 
 main().catch(console.error);

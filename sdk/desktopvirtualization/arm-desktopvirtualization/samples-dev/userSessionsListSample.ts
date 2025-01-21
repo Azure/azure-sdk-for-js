@@ -52,7 +52,7 @@ async function userSessionList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  userSessionList();
+  await userSessionList();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function networkInterfaceIPConfigurationGet() {
 }
 
 async function main() {
-  networkInterfaceIPConfigurationGet();
+  await networkInterfaceIPConfigurationGet();
 }
 
 main().catch(console.error);

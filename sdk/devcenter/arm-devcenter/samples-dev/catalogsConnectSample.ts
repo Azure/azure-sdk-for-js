@@ -36,7 +36,7 @@ async function catalogsConnect(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  catalogsConnect();
+  await catalogsConnect();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function signalRReplicasRestart() {
 }
 
 async function main() {
-  signalRReplicasRestart();
+  await signalRReplicasRestart();
 }
 
 main().catch(console.error);

@@ -101,8 +101,8 @@ async function localRulesCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  localRulesCreateOrUpdateMaximumSetGen();
-  localRulesCreateOrUpdateMinimumSetGen();
+  await localRulesCreateOrUpdateMaximumSetGen();
+  await localRulesCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

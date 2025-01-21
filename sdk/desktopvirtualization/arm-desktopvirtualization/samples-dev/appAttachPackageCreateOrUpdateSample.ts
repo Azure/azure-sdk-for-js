@@ -80,7 +80,7 @@ async function appAttachPackageCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appAttachPackageCreate();
+  await appAttachPackageCreate();
 }
 
 main().catch(console.error);

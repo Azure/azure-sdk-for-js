@@ -52,7 +52,7 @@ async function networkDevicesCreateMaximumSetGen() {
 }
 
 async function main() {
-  networkDevicesCreateMaximumSetGen();
+  await networkDevicesCreateMaximumSetGen();
 }
 
 main().catch(console.error);

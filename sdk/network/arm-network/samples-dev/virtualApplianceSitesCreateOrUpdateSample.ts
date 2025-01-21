@@ -46,7 +46,7 @@ async function createNetworkVirtualApplianceSite() {
 }
 
 async function main() {
-  createNetworkVirtualApplianceSite();
+  await createNetworkVirtualApplianceSite();
 }
 
 main().catch(console.error);

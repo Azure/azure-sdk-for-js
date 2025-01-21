@@ -35,7 +35,7 @@ async function monitorsRefreshSetPasswordLink(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsRefreshSetPasswordLink();
+  await monitorsRefreshSetPasswordLink();
 }
 
 main().catch(console.error);

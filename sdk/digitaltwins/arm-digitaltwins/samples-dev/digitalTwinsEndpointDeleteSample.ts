@@ -67,8 +67,8 @@ async function deleteADigitalTwinsInstanceEndpointWithIdentity(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  deleteADigitalTwinsInstanceEndpoint();
-  deleteADigitalTwinsInstanceEndpointWithIdentity();
+  await deleteADigitalTwinsInstanceEndpoint();
+  await deleteADigitalTwinsInstanceEndpointWithIdentity();
 }
 
 main().catch(console.error);

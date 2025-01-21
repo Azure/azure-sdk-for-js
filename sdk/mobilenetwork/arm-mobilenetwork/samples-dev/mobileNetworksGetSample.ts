@@ -37,7 +37,7 @@ async function getMobileNetwork() {
 }
 
 async function main() {
-  getMobileNetwork();
+  await getMobileNetwork();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getSyncAgentsUnderAServer() {
 }
 
 async function main() {
-  getSyncAgentsUnderAServer();
+  await getSyncAgentsUnderAServer();
 }
 
 main().catch(console.error);

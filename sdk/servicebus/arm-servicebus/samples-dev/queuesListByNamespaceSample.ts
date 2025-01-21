@@ -40,7 +40,7 @@ async function queueListByNameSpace() {
 }
 
 async function main() {
-  queueListByNameSpace();
+  await queueListByNameSpace();
 }
 
 main().catch(console.error);

@@ -65,7 +65,7 @@ async function patchStorageTask() {
 }
 
 async function main() {
-  patchStorageTask();
+  await patchStorageTask();
 }
 
 main().catch(console.error);

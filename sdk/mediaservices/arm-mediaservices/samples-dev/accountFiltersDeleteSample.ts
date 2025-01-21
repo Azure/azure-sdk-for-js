@@ -39,7 +39,7 @@ async function deleteAnAccountFilter() {
 }
 
 async function main() {
-  deleteAnAccountFilter();
+  await deleteAnAccountFilter();
 }
 
 main().catch(console.error);

@@ -81,8 +81,8 @@ async function catalogsCreateOrUpdateGitHub(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  catalogsCreateOrUpdateAdo();
-  catalogsCreateOrUpdateGitHub();
+  await catalogsCreateOrUpdateAdo();
+  await catalogsCreateOrUpdateGitHub();
 }
 
 main().catch(console.error);

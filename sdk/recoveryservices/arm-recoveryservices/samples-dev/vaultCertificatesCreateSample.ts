@@ -52,7 +52,7 @@ async function downloadVaultCredentialFile() {
 }
 
 async function main() {
-  downloadVaultCredentialFile();
+  await downloadVaultCredentialFile();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listAllAzureWebCategoriesForAGivenSubscription() {
 }
 
 async function main() {
-  listAllAzureWebCategoriesForAGivenSubscription();
+  await listAllAzureWebCategoriesForAGivenSubscription();
 }
 
 main().catch(console.error);

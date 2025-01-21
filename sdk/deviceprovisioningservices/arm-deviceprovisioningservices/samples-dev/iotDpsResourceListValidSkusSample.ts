@@ -39,7 +39,7 @@ async function dpsGetValidSku(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsGetValidSku();
+  await dpsGetValidSku();
 }
 
 main().catch(console.error);

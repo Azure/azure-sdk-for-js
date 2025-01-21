@@ -42,7 +42,7 @@ async function deleteWorkspaceConnection() {
 }
 
 async function main() {
-  deleteWorkspaceConnection();
+  await deleteWorkspaceConnection();
 }
 
 main().catch(console.error);

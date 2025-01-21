@@ -49,7 +49,7 @@ async function internetGatewaysUpdateMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewaysUpdateMaximumSetGen();
+  await internetGatewaysUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

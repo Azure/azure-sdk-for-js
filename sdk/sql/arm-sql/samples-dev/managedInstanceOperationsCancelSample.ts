@@ -39,7 +39,7 @@ async function cancelTheManagedInstanceManagementOperation() {
 }
 
 async function main() {
-  cancelTheManagedInstanceManagementOperation();
+  await cancelTheManagedInstanceManagementOperation();
 }
 
 main().catch(console.error);

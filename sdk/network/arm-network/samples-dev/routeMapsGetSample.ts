@@ -36,7 +36,7 @@ async function routeMapGet() {
 }
 
 async function main() {
-  routeMapGet();
+  await routeMapGet();
 }
 
 main().catch(console.error);

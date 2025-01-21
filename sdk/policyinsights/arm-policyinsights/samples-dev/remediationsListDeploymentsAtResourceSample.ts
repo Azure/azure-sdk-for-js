@@ -35,7 +35,7 @@ async function listDeploymentsForARemediationAtIndividualResourceScope() {
 }
 
 async function main() {
-  listDeploymentsForARemediationAtIndividualResourceScope();
+  await listDeploymentsForARemediationAtIndividualResourceScope();
 }
 
 main().catch(console.error);

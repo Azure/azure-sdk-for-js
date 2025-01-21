@@ -39,7 +39,7 @@ async function uploadFile() {
 }
 
 async function main() {
-  uploadFile();
+  await uploadFile();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function queryPacketCaptureStatus() {
 }
 
 async function main() {
-  queryPacketCaptureStatus();
+  await queryPacketCaptureStatus();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function desktopUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  desktopUpdate();
+  await desktopUpdate();
 }
 
 main().catch(console.error);

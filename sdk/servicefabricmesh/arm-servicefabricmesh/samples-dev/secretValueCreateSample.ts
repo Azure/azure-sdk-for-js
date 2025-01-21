@@ -52,7 +52,7 @@ async function createSecretValue() {
 }
 
 async function main() {
-  createSecretValue();
+  await createSecretValue();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listNamespacesInCluster() {
 }
 
 async function main() {
-  listNamespacesInCluster();
+  await listNamespacesInCluster();
 }
 
 main().catch(console.error);

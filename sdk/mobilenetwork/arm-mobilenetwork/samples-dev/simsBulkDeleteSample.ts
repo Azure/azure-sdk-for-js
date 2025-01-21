@@ -42,7 +42,7 @@ async function bulkDeleteSiMSFromASimGroup() {
 }
 
 async function main() {
-  bulkDeleteSiMSFromASimGroup();
+  await bulkDeleteSiMSFromASimGroup();
 }
 
 main().catch(console.error);

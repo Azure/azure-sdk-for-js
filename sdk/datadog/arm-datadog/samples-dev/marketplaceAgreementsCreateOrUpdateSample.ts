@@ -35,7 +35,7 @@ async function marketplaceAgreementsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  marketplaceAgreementsCreateOrUpdate();
+  await marketplaceAgreementsCreateOrUpdate();
 }
 
 main().catch(console.error);

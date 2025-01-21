@@ -39,7 +39,7 @@ async function permissionBindingsDelete() {
 }
 
 async function main() {
-  permissionBindingsDelete();
+  await permissionBindingsDelete();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function purchase() {
 }
 
 async function main() {
-  purchase();
+  await purchase();
 }
 
 main().catch(console.error);

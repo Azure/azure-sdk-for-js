@@ -40,7 +40,7 @@ async function listEventsByTenantId() {
 }
 
 async function main() {
-  listEventsByTenantId();
+  await listEventsByTenantId();
 }
 
 main().catch(console.error);

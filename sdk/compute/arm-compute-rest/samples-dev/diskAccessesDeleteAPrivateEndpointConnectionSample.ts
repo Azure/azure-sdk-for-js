@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  DiskAccessesDeleteAPrivateEndpointConnectionParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { DiskAccessesDeleteAPrivateEndpointConnectionParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Deletes a private endpoint connection under a disk access resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_Delete.json
  */
-async function deleteAPrivateEndpointConnectionUnderADiskAccessResource() {
+async function deleteAPrivateEndpointConnectionUnderADiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

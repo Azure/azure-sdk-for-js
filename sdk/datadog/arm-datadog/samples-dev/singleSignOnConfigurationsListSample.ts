@@ -38,7 +38,7 @@ async function singleSignOnConfigurationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  singleSignOnConfigurationsList();
+  await singleSignOnConfigurationsList();
 }
 
 main().catch(console.error);

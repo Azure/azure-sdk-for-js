@@ -39,7 +39,7 @@ async function deleteASqlAnalyticsPool() {
 }
 
 async function main() {
-  deleteASqlAnalyticsPool();
+  await deleteASqlAnalyticsPool();
 }
 
 main().catch(console.error);

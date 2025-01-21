@@ -36,7 +36,7 @@ async function catalogsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  catalogsDelete();
+  await catalogsDelete();
 }
 
 main().catch(console.error);

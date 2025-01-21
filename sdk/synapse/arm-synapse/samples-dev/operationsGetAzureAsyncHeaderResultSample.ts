@@ -39,7 +39,7 @@ async function getAzureAsyncOperationHeaderResult() {
 }
 
 async function main() {
-  getAzureAsyncOperationHeaderResult();
+  await getAzureAsyncOperationHeaderResult();
 }
 
 main().catch(console.error);

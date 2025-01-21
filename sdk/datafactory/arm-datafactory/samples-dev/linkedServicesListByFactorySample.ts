@@ -38,7 +38,7 @@ async function linkedServicesListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkedServicesListByFactory();
+  await linkedServicesListByFactory();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function partnerNamespacesRegenerateKey() {
 }
 
 async function main() {
-  partnerNamespacesRegenerateKey();
+  await partnerNamespacesRegenerateKey();
 }
 
 main().catch(console.error);

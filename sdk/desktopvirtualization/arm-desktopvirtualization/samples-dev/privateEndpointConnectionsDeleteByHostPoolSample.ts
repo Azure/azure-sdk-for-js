@@ -38,7 +38,7 @@ async function privateEndpointConnectionDeleteByHostPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionDeleteByHostPool();
+  await privateEndpointConnectionDeleteByHostPool();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function listNodeTypeOfTheSpecifiedManagedCluster() {
 }
 
 async function main() {
-  listNodeTypeOfTheSpecifiedManagedCluster();
+  await listNodeTypeOfTheSpecifiedManagedCluster();
 }
 
 main().catch(console.error);

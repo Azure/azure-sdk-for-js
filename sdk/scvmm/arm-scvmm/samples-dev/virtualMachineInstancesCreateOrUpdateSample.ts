@@ -130,8 +130,8 @@ async function virtualMachineInstancesCreateOrUpdateMinimumSet() {
 }
 
 async function main() {
-  virtualMachineInstancesCreateOrUpdateMaximumSet();
-  virtualMachineInstancesCreateOrUpdateMinimumSet();
+  await virtualMachineInstancesCreateOrUpdateMaximumSet();
+  await virtualMachineInstancesCreateOrUpdateMinimumSet();
 }
 
 main().catch(console.error);

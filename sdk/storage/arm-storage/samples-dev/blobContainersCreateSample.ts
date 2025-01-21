@@ -92,9 +92,9 @@ async function putContainers() {
 }
 
 async function main() {
-  putContainerWithDefaultEncryptionScope();
-  putContainerWithObjectLevelWorm();
-  putContainers();
+  await putContainerWithDefaultEncryptionScope();
+  await putContainerWithObjectLevelWorm();
+  await putContainers();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listVolumesForResourceGroup() {
 }
 
 async function main() {
-  listVolumesForResourceGroup();
+  await listVolumesForResourceGroup();
 }
 
 main().catch(console.error);

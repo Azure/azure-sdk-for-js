@@ -47,7 +47,7 @@ async function networkInterfacesUpdateMaximumSetGen() {
 }
 
 async function main() {
-  networkInterfacesUpdateMaximumSetGen();
+  await networkInterfacesUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

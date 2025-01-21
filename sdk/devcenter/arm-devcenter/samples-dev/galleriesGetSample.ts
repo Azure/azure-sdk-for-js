@@ -36,7 +36,7 @@ async function galleriesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  galleriesGet();
+  await galleriesGet();
 }
 
 main().catch(console.error);

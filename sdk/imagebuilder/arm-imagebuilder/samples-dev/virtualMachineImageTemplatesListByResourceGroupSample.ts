@@ -37,7 +37,7 @@ async function listImagesByResourceGroup() {
 }
 
 async function main() {
-  listImagesByResourceGroup();
+  await listImagesByResourceGroup();
 }
 
 main().catch(console.error);

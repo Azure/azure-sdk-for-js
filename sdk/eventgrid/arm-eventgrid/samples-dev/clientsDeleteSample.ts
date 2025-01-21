@@ -39,7 +39,7 @@ async function clientsDelete() {
 }
 
 async function main() {
-  clientsDelete();
+  await clientsDelete();
 }
 
 main().catch(console.error);

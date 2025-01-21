@@ -43,7 +43,7 @@ async function scalingPlansListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlansListBySubscription();
+  await scalingPlansListBySubscription();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function networkTapRulesListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  networkTapRulesListBySubscriptionMaximumSetGen();
+  await networkTapRulesListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

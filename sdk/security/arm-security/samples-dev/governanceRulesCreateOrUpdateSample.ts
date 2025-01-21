@@ -155,9 +155,9 @@ async function createOrUpdateGovernanceRuleOverSubscriptionScope() {
 }
 
 async function main() {
-  createOrUpdateGovernanceRuleOverManagementGroupScope();
-  createOrUpdateGovernanceRuleOverSecurityConnectorScope();
-  createOrUpdateGovernanceRuleOverSubscriptionScope();
+  await createOrUpdateGovernanceRuleOverManagementGroupScope();
+  await createOrUpdateGovernanceRuleOverSecurityConnectorScope();
+  await createOrUpdateGovernanceRuleOverSubscriptionScope();
 }
 
 main().catch(console.error);

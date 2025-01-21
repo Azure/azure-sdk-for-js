@@ -41,7 +41,7 @@ async function staticMembersList() {
 }
 
 async function main() {
-  staticMembersList();
+  await staticMembersList();
 }
 
 main().catch(console.error);

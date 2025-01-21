@@ -37,7 +37,7 @@ async function retrieveDnsResolverPolicy() {
 }
 
 async function main() {
-  retrieveDnsResolverPolicy();
+  await retrieveDnsResolverPolicy();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function createIntegrationRuntime() {
 }
 
 async function main() {
-  createIntegrationRuntime();
+  await createIntegrationRuntime();
 }
 
 main().catch(console.error);

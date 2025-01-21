@@ -36,7 +36,7 @@ async function assessPatchStateOfAMachine() {
 }
 
 async function main() {
-  assessPatchStateOfAMachine();
+  await assessPatchStateOfAMachine();
 }
 
 main().catch(console.error);

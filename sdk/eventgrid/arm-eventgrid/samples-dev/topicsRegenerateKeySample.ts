@@ -42,7 +42,7 @@ async function topicsRegenerateKey() {
 }
 
 async function main() {
-  topicsRegenerateKey();
+  await topicsRegenerateKey();
 }
 
 main().catch(console.error);

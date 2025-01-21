@@ -38,7 +38,7 @@ async function changeDataCaptureListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  changeDataCaptureListByFactory();
+  await changeDataCaptureListByFactory();
 }
 
 main().catch(console.error);

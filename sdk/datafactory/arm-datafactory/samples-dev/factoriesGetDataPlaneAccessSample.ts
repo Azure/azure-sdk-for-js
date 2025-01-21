@@ -46,7 +46,7 @@ async function factoriesGetDataPlaneAccess(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesGetDataPlaneAccess();
+  await factoriesGetDataPlaneAccess();
 }
 
 main().catch(console.error);

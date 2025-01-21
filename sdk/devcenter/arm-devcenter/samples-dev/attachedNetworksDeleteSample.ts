@@ -36,7 +36,7 @@ async function attachedNetworksDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  attachedNetworksDelete();
+  await attachedNetworksDelete();
 }
 
 main().catch(console.error);

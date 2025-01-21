@@ -52,7 +52,7 @@ async function listWorkspaceEnvironmentVersion() {
 }
 
 async function main() {
-  listWorkspaceEnvironmentVersion();
+  await listWorkspaceEnvironmentVersion();
 }
 
 main().catch(console.error);

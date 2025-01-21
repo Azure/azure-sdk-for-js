@@ -39,7 +39,7 @@ async function deleteAdministratorOfManagedInstance() {
 }
 
 async function main() {
-  deleteAdministratorOfManagedInstance();
+  await deleteAdministratorOfManagedInstance();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function uploadFileForSubscription() {
 }
 
 async function main() {
-  uploadFileForSubscription();
+  await uploadFileForSubscription();
 }
 
 main().catch(console.error);

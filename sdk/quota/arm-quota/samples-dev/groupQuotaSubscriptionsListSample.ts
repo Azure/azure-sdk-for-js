@@ -33,7 +33,7 @@ async function groupQuotaSubscriptionsListSubscriptions() {
 }
 
 async function main() {
-  groupQuotaSubscriptionsListSubscriptions();
+  await groupQuotaSubscriptionsListSubscriptions();
 }
 
 main().catch(console.error);

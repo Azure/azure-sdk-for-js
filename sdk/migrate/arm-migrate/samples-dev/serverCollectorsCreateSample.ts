@@ -63,7 +63,7 @@ async function serverCollectorsCreate() {
 }
 
 async function main() {
-  serverCollectorsCreate();
+  await serverCollectorsCreate();
 }
 
 main().catch(console.error);

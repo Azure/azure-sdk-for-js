@@ -47,7 +47,7 @@ async function createDeploymentAtAGivenScope() {
 }
 
 async function main() {
-  createDeploymentAtAGivenScope();
+  await createDeploymentAtAGivenScope();
 }
 
 main().catch(console.error);

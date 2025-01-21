@@ -43,7 +43,7 @@ async function redisEnterpriseListPrivateLinkResources() {
 }
 
 async function main() {
-  redisEnterpriseListPrivateLinkResources();
+  await redisEnterpriseListPrivateLinkResources();
 }
 
 main().catch(console.error);

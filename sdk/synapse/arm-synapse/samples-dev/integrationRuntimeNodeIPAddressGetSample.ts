@@ -41,7 +41,7 @@ async function getIntegrationRuntimeNodeIPAddress() {
 }
 
 async function main() {
-  getIntegrationRuntimeNodeIPAddress();
+  await getIntegrationRuntimeNodeIPAddress();
 }
 
 main().catch(console.error);

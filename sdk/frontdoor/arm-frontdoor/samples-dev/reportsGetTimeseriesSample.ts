@@ -45,7 +45,7 @@ async function getsATimeseriesForAGivenExperiment() {
 }
 
 async function main() {
-  getsATimeseriesForAGivenExperiment();
+  await getsATimeseriesForAGivenExperiment();
 }
 
 main().catch(console.error);

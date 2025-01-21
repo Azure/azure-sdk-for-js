@@ -32,7 +32,7 @@ async function detailsOfASpecificCloudAccountConnector() {
 }
 
 async function main() {
-  detailsOfASpecificCloudAccountConnector();
+  await detailsOfASpecificCloudAccountConnector();
 }
 
 main().catch(console.error);

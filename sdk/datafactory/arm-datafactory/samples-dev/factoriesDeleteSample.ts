@@ -32,7 +32,7 @@ async function factoriesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesDelete();
+  await factoriesDelete();
 }
 
 main().catch(console.error);

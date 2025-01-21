@@ -38,7 +38,7 @@ async function dropServerTrustGroup() {
 }
 
 async function main() {
-  dropServerTrustGroup();
+  await dropServerTrustGroup();
 }
 
 main().catch(console.error);

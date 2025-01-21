@@ -75,7 +75,7 @@ async function deploymentsCreate() {
 }
 
 async function main() {
-  deploymentsCreate();
+  await deploymentsCreate();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function partnerConfigurationsGet() {
 }
 
 async function main() {
-  partnerConfigurationsGet();
+  await partnerConfigurationsGet();
 }
 
 main().catch(console.error);

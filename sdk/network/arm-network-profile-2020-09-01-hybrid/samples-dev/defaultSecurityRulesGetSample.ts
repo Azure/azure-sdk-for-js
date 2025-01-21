@@ -36,7 +36,7 @@ async function defaultSecurityRuleGet() {
 }
 
 async function main() {
-  defaultSecurityRuleGet();
+  await defaultSecurityRuleGet();
 }
 
 main().catch(console.error);

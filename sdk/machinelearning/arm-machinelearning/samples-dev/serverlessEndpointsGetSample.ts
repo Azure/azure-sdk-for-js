@@ -42,7 +42,7 @@ async function getWorkspaceServerlessEndpoint() {
 }
 
 async function main() {
-  getWorkspaceServerlessEndpoint();
+  await getWorkspaceServerlessEndpoint();
 }
 
 main().catch(console.error);

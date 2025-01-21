@@ -35,7 +35,7 @@ async function p2SVpnGatewayListByResourceGroup() {
 }
 
 async function main() {
-  p2SVpnGatewayListByResourceGroup();
+  await p2SVpnGatewayListByResourceGroup();
 }
 
 main().catch(console.error);

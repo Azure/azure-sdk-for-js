@@ -38,7 +38,7 @@ async function getATriggerResource() {
 }
 
 async function main() {
-  getATriggerResource();
+  await getATriggerResource();
 }
 
 main().catch(console.error);

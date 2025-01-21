@@ -39,7 +39,7 @@ async function listAzureDevOpsOrgs() {
 }
 
 async function main() {
-  listAzureDevOpsOrgs();
+  await listAzureDevOpsOrgs();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function executeTestFailoverCleanupOfTheRecoveryPlan() {
 }
 
 async function main() {
-  executeTestFailoverCleanupOfTheRecoveryPlan();
+  await executeTestFailoverCleanupOfTheRecoveryPlan();
 }
 
 main().catch(console.error);

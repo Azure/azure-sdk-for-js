@@ -90,7 +90,7 @@ async function createNotificationsAtTenantActionGroupLevel() {
 }
 
 async function main() {
-  createNotificationsAtTenantActionGroupLevel();
+  await createNotificationsAtTenantActionGroupLevel();
 }
 
 main().catch(console.error);

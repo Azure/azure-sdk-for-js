@@ -54,7 +54,7 @@ async function scalingPlanPooledSchedulesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlanPooledSchedulesUpdate();
+  await scalingPlanPooledSchedulesUpdate();
 }
 
 main().catch(console.error);

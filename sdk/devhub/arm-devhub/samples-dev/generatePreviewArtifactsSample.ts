@@ -46,7 +46,7 @@ async function artifactGenerationProperties(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  artifactGenerationProperties();
+  await artifactGenerationProperties();
 }
 
 main().catch(console.error);

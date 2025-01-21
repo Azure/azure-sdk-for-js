@@ -45,7 +45,7 @@ async function monitorsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsUpdate();
+  await monitorsUpdate();
 }
 
 main().catch(console.error);

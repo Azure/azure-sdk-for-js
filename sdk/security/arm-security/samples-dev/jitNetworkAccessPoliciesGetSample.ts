@@ -38,7 +38,7 @@ async function getJitNetworkAccessPolicy() {
 }
 
 async function main() {
-  getJitNetworkAccessPolicy();
+  await getJitNetworkAccessPolicy();
 }
 
 main().catch(console.error);

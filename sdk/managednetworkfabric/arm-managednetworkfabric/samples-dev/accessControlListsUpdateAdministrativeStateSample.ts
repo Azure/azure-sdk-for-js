@@ -48,7 +48,7 @@ async function accessControlListsUpdateAdministrativeStateMaximumSetGen() {
 }
 
 async function main() {
-  accessControlListsUpdateAdministrativeStateMaximumSetGen();
+  await accessControlListsUpdateAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

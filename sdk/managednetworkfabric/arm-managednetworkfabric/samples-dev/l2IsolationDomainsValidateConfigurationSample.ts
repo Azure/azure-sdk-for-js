@@ -40,7 +40,7 @@ async function l2IsolationDomainsValidateConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  l2IsolationDomainsValidateConfigurationMaximumSetGen();
+  await l2IsolationDomainsValidateConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

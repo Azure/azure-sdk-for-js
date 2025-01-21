@@ -393,17 +393,17 @@ async function eventSubscriptionsUpdateForSubscription() {
 }
 
 async function main() {
-  eventSubscriptionsUpdateForCustomTopic();
-  eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination();
-  eventSubscriptionsUpdateForCustomTopicEventHubDestination();
-  eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination();
-  eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination();
-  eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination();
-  eventSubscriptionsUpdateForCustomTopicStorageQueueDestination();
-  eventSubscriptionsUpdateForCustomTopicWebhookDestination();
-  eventSubscriptionsUpdateForResource();
-  eventSubscriptionsUpdateForResourceGroup();
-  eventSubscriptionsUpdateForSubscription();
+  await eventSubscriptionsUpdateForCustomTopic();
+  await eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination();
+  await eventSubscriptionsUpdateForCustomTopicEventHubDestination();
+  await eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination();
+  await eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination();
+  await eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination();
+  await eventSubscriptionsUpdateForCustomTopicStorageQueueDestination();
+  await eventSubscriptionsUpdateForCustomTopicWebhookDestination();
+  await eventSubscriptionsUpdateForResource();
+  await eventSubscriptionsUpdateForResourceGroup();
+  await eventSubscriptionsUpdateForSubscription();
 }
 
 main().catch(console.error);

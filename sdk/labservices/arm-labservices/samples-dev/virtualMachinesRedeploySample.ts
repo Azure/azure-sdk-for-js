@@ -39,7 +39,7 @@ async function redeployVirtualMachine() {
 }
 
 async function main() {
-  redeployVirtualMachine();
+  await redeployVirtualMachine();
 }
 
 main().catch(console.error);

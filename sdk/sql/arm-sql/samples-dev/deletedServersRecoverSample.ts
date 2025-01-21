@@ -36,7 +36,7 @@ async function recoverDeletedServer() {
 }
 
 async function main() {
-  recoverDeletedServer();
+  await recoverDeletedServer();
 }
 
 main().catch(console.error);

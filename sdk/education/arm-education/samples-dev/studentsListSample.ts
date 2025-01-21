@@ -38,7 +38,7 @@ async function studentList() {
 }
 
 async function main() {
-  studentList();
+  await studentList();
 }
 
 main().catch(console.error);

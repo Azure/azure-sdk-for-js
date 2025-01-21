@@ -40,7 +40,7 @@ async function listFeaturesForTheKubernetesCluster() {
 }
 
 async function main() {
-  listFeaturesForTheKubernetesCluster();
+  await listFeaturesForTheKubernetesCluster();
 }
 
 main().catch(console.error);

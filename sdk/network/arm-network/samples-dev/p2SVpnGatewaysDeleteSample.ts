@@ -34,7 +34,7 @@ async function p2SVpnGatewayDelete() {
 }
 
 async function main() {
-  p2SVpnGatewayDelete();
+  await p2SVpnGatewayDelete();
 }
 
 main().catch(console.error);

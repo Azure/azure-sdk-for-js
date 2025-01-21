@@ -160,9 +160,9 @@ async function createOrUpdateAnActivityLogAlertRuleWithContainsAny() {
 }
 
 async function main() {
-  createOrUpdateAnActivityLogAlertRule();
-  createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition();
-  createOrUpdateAnActivityLogAlertRuleWithContainsAny();
+  await createOrUpdateAnActivityLogAlertRule();
+  await createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition();
+  await createOrUpdateAnActivityLogAlertRuleWithContainsAny();
 }
 
 main().catch(console.error);

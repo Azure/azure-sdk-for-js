@@ -40,7 +40,7 @@ async function relayHybridConnectionListAll() {
 }
 
 async function main() {
-  relayHybridConnectionListAll();
+  await relayHybridConnectionListAll();
 }
 
 main().catch(console.error);

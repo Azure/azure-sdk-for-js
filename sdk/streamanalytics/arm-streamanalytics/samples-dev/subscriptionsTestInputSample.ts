@@ -60,7 +60,7 @@ async function testTheStreamAnalyticsInput() {
 }
 
 async function main() {
-  testTheStreamAnalyticsInput();
+  await testTheStreamAnalyticsInput();
 }
 
 main().catch(console.error);

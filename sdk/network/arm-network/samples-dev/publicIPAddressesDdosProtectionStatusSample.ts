@@ -35,7 +35,7 @@ async function getDdosProtectionStatusOfAPublicIPAddress() {
 }
 
 async function main() {
-  getDdosProtectionStatusOfAPublicIPAddress();
+  await getDdosProtectionStatusOfAPublicIPAddress();
 }
 
 main().catch(console.error);

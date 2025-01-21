@@ -73,8 +73,8 @@ async function projectsCreateOrUpdateWithLimitsPerDev(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectsCreateOrUpdate();
-  projectsCreateOrUpdateWithLimitsPerDev();
+  await projectsCreateOrUpdate();
+  await projectsCreateOrUpdateWithLimitsPerDev();
 }
 
 main().catch(console.error);

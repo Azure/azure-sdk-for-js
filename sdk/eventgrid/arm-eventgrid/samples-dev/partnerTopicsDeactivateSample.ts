@@ -37,7 +37,7 @@ async function partnerTopicsDeactivate() {
 }
 
 async function main() {
-  partnerTopicsDeactivate();
+  await partnerTopicsDeactivate();
 }
 
 main().catch(console.error);

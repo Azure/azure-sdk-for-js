@@ -93,10 +93,10 @@ async function getTenantActivityLogsWithoutFilterOrSelect() {
 }
 
 async function main() {
-  getTenantActivityLogsWithFilter();
-  getTenantActivityLogsWithFilterAndSelect();
-  getTenantActivityLogsWithSelect();
-  getTenantActivityLogsWithoutFilterOrSelect();
+  await getTenantActivityLogsWithFilter();
+  await getTenantActivityLogsWithFilterAndSelect();
+  await getTenantActivityLogsWithSelect();
+  await getTenantActivityLogsWithoutFilterOrSelect();
 }
 
 main().catch(console.error);

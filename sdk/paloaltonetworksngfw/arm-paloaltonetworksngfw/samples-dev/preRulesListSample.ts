@@ -49,8 +49,8 @@ async function preRulesListMinimumSetGen() {
 }
 
 async function main() {
-  preRulesListMaximumSetGen();
-  preRulesListMinimumSetGen();
+  await preRulesListMaximumSetGen();
+  await preRulesListMinimumSetGen();
 }
 
 main().catch(console.error);

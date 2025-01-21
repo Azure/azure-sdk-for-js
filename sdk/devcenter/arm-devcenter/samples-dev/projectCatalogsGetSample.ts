@@ -36,7 +36,7 @@ async function projectCatalogsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectCatalogsGet();
+  await projectCatalogsGet();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function integrationRuntimeNodesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimeNodesUpdate();
+  await integrationRuntimeNodesUpdate();
 }
 
 main().catch(console.error);

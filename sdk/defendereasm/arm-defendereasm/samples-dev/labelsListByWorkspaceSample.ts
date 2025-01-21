@@ -38,7 +38,7 @@ async function labels(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  labels();
+  await labels();
 }
 
 main().catch(console.error);

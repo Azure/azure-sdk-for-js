@@ -38,7 +38,7 @@ async function privateLinkResourcesListByWorkspace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateLinkResourcesListByWorkspace();
+  await privateLinkResourcesListByWorkspace();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function stopPacketCaptureSession() {
 }
 
 async function main() {
-  stopPacketCaptureSession();
+  await stopPacketCaptureSession();
 }
 
 main().catch(console.error);

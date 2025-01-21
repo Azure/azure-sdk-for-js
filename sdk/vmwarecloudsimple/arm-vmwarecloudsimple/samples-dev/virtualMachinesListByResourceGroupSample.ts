@@ -37,7 +37,7 @@ async function listRgVirtualMachines() {
 }
 
 async function main() {
-  listRgVirtualMachines();
+  await listRgVirtualMachines();
 }
 
 main().catch(console.error);

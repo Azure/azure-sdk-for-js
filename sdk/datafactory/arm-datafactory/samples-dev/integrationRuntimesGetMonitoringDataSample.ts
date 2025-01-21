@@ -37,7 +37,7 @@ async function integrationRuntimesGetMonitoringData(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesGetMonitoringData();
+  await integrationRuntimesGetMonitoringData();
 }
 
 main().catch(console.error);

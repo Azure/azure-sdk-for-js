@@ -43,7 +43,7 @@ async function refreshASyncMemberDatabaseSchema() {
 }
 
 async function main() {
-  refreshASyncMemberDatabaseSchema();
+  await refreshASyncMemberDatabaseSchema();
 }
 
 main().catch(console.error);

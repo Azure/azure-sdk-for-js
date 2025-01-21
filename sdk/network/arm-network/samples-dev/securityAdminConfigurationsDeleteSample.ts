@@ -44,7 +44,7 @@ async function deleteNetworkManagerSecurityAdminConfiguration() {
 }
 
 async function main() {
-  deleteNetworkManagerSecurityAdminConfiguration();
+  await deleteNetworkManagerSecurityAdminConfiguration();
 }
 
 main().catch(console.error);

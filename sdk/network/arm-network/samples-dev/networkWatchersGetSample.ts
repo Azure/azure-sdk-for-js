@@ -34,7 +34,7 @@ async function getNetworkWatcher() {
 }
 
 async function main() {
-  getNetworkWatcher();
+  await getNetworkWatcher();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function updateServiceTags() {
 }
 
 async function main() {
-  updateServiceTags();
+  await updateServiceTags();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function registryListRegistryDataContainer() {
 }
 
 async function main() {
-  registryListRegistryDataContainer();
+  await registryListRegistryDataContainer();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getABookmark() {
 }
 
 async function main() {
-  getABookmark();
+  await getABookmark();
 }
 
 main().catch(console.error);

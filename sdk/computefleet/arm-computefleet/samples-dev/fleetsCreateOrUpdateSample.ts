@@ -442,8 +442,8 @@ async function fleetsCreateOrUpdateMinimumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsCreateOrUpdate();
-  fleetsCreateOrUpdateMinimumSet();
+  await fleetsCreateOrUpdate();
+  await fleetsCreateOrUpdateMinimumSet();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function listCloudAccountDetailsForTheOracleSubscription() {
 }
 
 async function main() {
-  listCloudAccountDetailsForTheOracleSubscription();
+  await listCloudAccountDetailsForTheOracleSubscription();
 }
 
 main().catch(console.error);

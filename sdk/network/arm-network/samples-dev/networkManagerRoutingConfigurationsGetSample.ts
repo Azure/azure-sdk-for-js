@@ -38,7 +38,7 @@ async function getRoutingConfigurations() {
 }
 
 async function main() {
-  getRoutingConfigurations();
+  await getRoutingConfigurations();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function devCentersUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devCentersUpdate();
+  await devCentersUpdate();
 }
 
 main().catch(console.error);

@@ -120,7 +120,7 @@ async function createOrUpdateBackupPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateBackupPolicy();
+  await createOrUpdateBackupPolicy();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listAllPersistedScriptActionsForTheGivenCluster() {
 }
 
 async function main() {
-  listAllPersistedScriptActionsForTheGivenCluster();
+  await listAllPersistedScriptActionsForTheGivenCluster();
 }
 
 main().catch(console.error);

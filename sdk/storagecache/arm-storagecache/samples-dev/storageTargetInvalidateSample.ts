@@ -39,7 +39,7 @@ async function storageTargetsInvalidate() {
 }
 
 async function main() {
-  storageTargetsInvalidate();
+  await storageTargetsInvalidate();
 }
 
 main().catch(console.error);

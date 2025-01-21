@@ -42,7 +42,7 @@ async function devBoxDefinitionsPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devBoxDefinitionsPatch();
+  await devBoxDefinitionsPatch();
 }
 
 main().catch(console.error);

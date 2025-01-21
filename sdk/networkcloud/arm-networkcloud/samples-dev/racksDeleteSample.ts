@@ -39,7 +39,7 @@ async function deleteRack() {
 }
 
 async function main() {
-  deleteRack();
+  await deleteRack();
 }
 
 main().catch(console.error);

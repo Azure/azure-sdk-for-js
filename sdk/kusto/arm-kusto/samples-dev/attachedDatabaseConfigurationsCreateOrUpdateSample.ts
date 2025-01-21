@@ -60,7 +60,7 @@ async function attachedDatabaseConfigurationsCreateOrUpdate() {
 }
 
 async function main() {
-  attachedDatabaseConfigurationsCreateOrUpdate();
+  await attachedDatabaseConfigurationsCreateOrUpdate();
 }
 
 main().catch(console.error);

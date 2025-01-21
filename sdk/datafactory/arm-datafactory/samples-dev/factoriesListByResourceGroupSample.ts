@@ -36,7 +36,7 @@ async function factoriesListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  factoriesListByResourceGroup();
+  await factoriesListByResourceGroup();
 }
 
 main().catch(console.error);

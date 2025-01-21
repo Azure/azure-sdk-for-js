@@ -32,7 +32,7 @@ async function networkVirtualApplianceSkuListResult() {
 }
 
 async function main() {
-  networkVirtualApplianceSkuListResult();
+  await networkVirtualApplianceSkuListResult();
 }
 
 main().catch(console.error);

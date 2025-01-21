@@ -133,9 +133,9 @@ async function createANewOrUpdateAnExistingPaymentHsmWithManagementProfile() {
 }
 
 async function main() {
-  createANewOrUpdateAnExistingDedicatedHsm();
-  createANewOrUpdateAnExistingPaymentHsm();
-  createANewOrUpdateAnExistingPaymentHsmWithManagementProfile();
+  await createANewOrUpdateAnExistingDedicatedHsm();
+  await createANewOrUpdateAnExistingPaymentHsm();
+  await createANewOrUpdateAnExistingPaymentHsmWithManagementProfile();
 }
 
 main().catch(console.error);

@@ -76,7 +76,7 @@ async function expressRouteConnectionCreate() {
 }
 
 async function main() {
-  expressRouteConnectionCreate();
+  await expressRouteConnectionCreate();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function topicsDelete() {
 }
 
 async function main() {
-  topicsDelete();
+  await topicsDelete();
 }
 
 main().catch(console.error);

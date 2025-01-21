@@ -46,7 +46,7 @@ async function createsOrUpdatesABookmarkRelation() {
 }
 
 async function main() {
-  createsOrUpdatesABookmarkRelation();
+  await createsOrUpdatesABookmarkRelation();
 }
 
 main().catch(console.error);

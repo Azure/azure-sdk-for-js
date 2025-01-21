@@ -42,7 +42,7 @@ async function getAllBookmarkRelations() {
 }
 
 async function main() {
-  getAllBookmarkRelations();
+  await getAllBookmarkRelations();
 }
 
 main().catch(console.error);

@@ -100,7 +100,7 @@ async function accessControlListsCreateMaximumSetGen() {
 }
 
 async function main() {
-  accessControlListsCreateMaximumSetGen();
+  await accessControlListsCreateMaximumSetGen();
 }
 
 main().catch(console.error);

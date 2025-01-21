@@ -57,8 +57,8 @@ async function globalRulestackListPredefinedUrlCategoriesMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackListPredefinedUrlCategoriesMaximumSetGen();
-  globalRulestackListPredefinedUrlCategoriesMinimumSetGen();
+  await globalRulestackListPredefinedUrlCategoriesMaximumSetGen();
+  await globalRulestackListPredefinedUrlCategoriesMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function applicationGroupsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationGroupsUpdate();
+  await applicationGroupsUpdate();
 }
 
 main().catch(console.error);

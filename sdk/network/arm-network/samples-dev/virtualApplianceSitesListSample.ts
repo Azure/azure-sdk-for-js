@@ -37,7 +37,7 @@ async function listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualApplian
 }
 
 async function main() {
-  listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualAppliance();
+  await listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualAppliance();
 }
 
 main().catch(console.error);

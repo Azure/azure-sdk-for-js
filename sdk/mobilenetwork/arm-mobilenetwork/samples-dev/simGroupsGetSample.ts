@@ -34,7 +34,7 @@ async function getSimGroup() {
 }
 
 async function main() {
-  getSimGroup();
+  await getSimGroup();
 }
 
 main().catch(console.error);

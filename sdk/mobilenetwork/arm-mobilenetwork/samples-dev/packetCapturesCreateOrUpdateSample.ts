@@ -53,7 +53,7 @@ async function createPacketCapture() {
 }
 
 async function main() {
-  createPacketCapture();
+  await createPacketCapture();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function fabricListBySubscription() {
 }
 
 async function main() {
-  fabricListBySubscription();
+  await fabricListBySubscription();
 }
 
 main().catch(console.error);

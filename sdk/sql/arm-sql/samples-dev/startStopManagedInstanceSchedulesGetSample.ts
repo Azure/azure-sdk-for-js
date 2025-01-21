@@ -38,7 +38,7 @@ async function getsTheManagedInstanceStartOrStopSchedule() {
 }
 
 async function main() {
-  getsTheManagedInstanceStartOrStopSchedule();
+  await getsTheManagedInstanceStartOrStopSchedule();
 }
 
 main().catch(console.error);

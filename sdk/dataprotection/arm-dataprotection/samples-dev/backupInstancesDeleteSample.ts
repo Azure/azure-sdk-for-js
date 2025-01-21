@@ -37,7 +37,7 @@ async function deleteBackupInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteBackupInstance();
+  await deleteBackupInstance();
 }
 
 main().catch(console.error);

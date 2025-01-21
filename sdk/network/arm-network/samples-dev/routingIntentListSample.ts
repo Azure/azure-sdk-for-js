@@ -37,7 +37,7 @@ async function routingIntentList() {
 }
 
 async function main() {
-  routingIntentList();
+  await routingIntentList();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function userSessionDisconnectPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  userSessionDisconnectPost();
+  await userSessionDisconnectPost();
 }
 
 main().catch(console.error);

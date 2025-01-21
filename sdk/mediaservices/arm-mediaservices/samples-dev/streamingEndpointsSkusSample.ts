@@ -39,7 +39,7 @@ async function listAStreamingEndpointSku() {
 }
 
 async function main() {
-  listAStreamingEndpointSku();
+  await listAStreamingEndpointSku();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function cancelARemediationAtManagementGroupScope() {
 }
 
 async function main() {
-  cancelARemediationAtManagementGroupScope();
+  await cancelARemediationAtManagementGroupScope();
 }
 
 main().catch(console.error);

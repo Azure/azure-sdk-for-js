@@ -34,7 +34,7 @@ async function listCloudServicesNetworksForSubscription() {
 }
 
 async function main() {
-  listCloudServicesNetworksForSubscription();
+  await listCloudServicesNetworksForSubscription();
 }
 
 main().catch(console.error);

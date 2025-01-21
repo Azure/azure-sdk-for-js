@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets list of OS upgrades on a VM scale set instance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets list of OS upgrades on a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetOSUpgradeHistory_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen() {
+async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -44,7 +42,7 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen() {
  * @summary Gets list of OS upgrades on a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetOSUpgradeHistory_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen() {
+async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -62,7 +60,7 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen();
   virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen();
 }

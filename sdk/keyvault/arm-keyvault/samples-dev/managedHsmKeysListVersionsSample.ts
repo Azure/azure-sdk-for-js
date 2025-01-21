@@ -42,7 +42,7 @@ async function listKeyVersionsInTheManagedHsm() {
 }
 
 async function main() {
-  listKeyVersionsInTheManagedHsm();
+  await listKeyVersionsInTheManagedHsm();
 }
 
 main().catch(console.error);

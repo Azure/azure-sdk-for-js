@@ -43,7 +43,7 @@ async function exposureControlGetFeatureValueByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exposureControlGetFeatureValueByFactory();
+  await exposureControlGetFeatureValueByFactory();
 }
 
 main().catch(console.error);

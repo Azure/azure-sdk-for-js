@@ -36,7 +36,7 @@ async function getPeering() {
 }
 
 async function main() {
-  getPeering();
+  await getPeering();
 }
 
 main().catch(console.error);

@@ -291,18 +291,18 @@ async function deleteTxtRecordset() {
 }
 
 async function main() {
-  deleteARecordset();
-  deleteAaaaRecordset();
-  deleteCaaRecordset();
-  deleteCnameRecordset();
-  deleteDsRecordset();
-  deleteMxRecordset();
-  deleteNaptrRecordset();
-  deleteNsRecordset();
-  deletePtrRecordset();
-  deleteSrvRecordset();
-  deleteTlsaRecordset();
-  deleteTxtRecordset();
+  await deleteARecordset();
+  await deleteAaaaRecordset();
+  await deleteCaaRecordset();
+  await deleteCnameRecordset();
+  await deleteDsRecordset();
+  await deleteMxRecordset();
+  await deleteNaptrRecordset();
+  await deleteNsRecordset();
+  await deletePtrRecordset();
+  await deleteSrvRecordset();
+  await deleteTlsaRecordset();
+  await deleteTxtRecordset();
 }
 
 main().catch(console.error);

@@ -50,7 +50,7 @@ async function createSentinelOnboardingState() {
 }
 
 async function main() {
-  createSentinelOnboardingState();
+  await createSentinelOnboardingState();
 }
 
 main().catch(console.error);

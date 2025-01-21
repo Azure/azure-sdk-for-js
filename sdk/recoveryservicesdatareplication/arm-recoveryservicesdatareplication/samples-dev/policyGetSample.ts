@@ -43,7 +43,7 @@ async function policyGet() {
 }
 
 async function main() {
-  policyGet();
+  await policyGet();
 }
 
 main().catch(console.error);

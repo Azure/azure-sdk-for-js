@@ -38,7 +38,7 @@ async function ipamPoolsUpdate() {
 }
 
 async function main() {
-  ipamPoolsUpdate();
+  await ipamPoolsUpdate();
 }
 
 main().catch(console.error);

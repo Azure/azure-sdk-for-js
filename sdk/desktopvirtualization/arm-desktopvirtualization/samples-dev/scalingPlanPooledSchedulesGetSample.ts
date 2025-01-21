@@ -37,7 +37,7 @@ async function scalingPlanPooledSchedulesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlanPooledSchedulesGet();
+  await scalingPlanPooledSchedulesGet();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listPrivateLinkResourcesForGivenDigitalTwin(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPrivateLinkResourcesForGivenDigitalTwin();
+  await listPrivateLinkResourcesForGivenDigitalTwin();
 }
 
 main().catch(console.error);

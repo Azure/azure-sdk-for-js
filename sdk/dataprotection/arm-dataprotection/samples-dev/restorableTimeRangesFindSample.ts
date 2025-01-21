@@ -46,7 +46,7 @@ async function findRestorableTimeRanges(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  findRestorableTimeRanges();
+  await findRestorableTimeRanges();
 }
 
 main().catch(console.error);

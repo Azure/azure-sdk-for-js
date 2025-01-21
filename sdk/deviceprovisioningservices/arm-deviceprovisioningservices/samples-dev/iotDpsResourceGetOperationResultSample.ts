@@ -40,7 +40,7 @@ async function dpsGetOperationResult(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsGetOperationResult();
+  await dpsGetOperationResult();
 }
 
 main().catch(console.error);

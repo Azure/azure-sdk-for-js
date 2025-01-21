@@ -43,7 +43,7 @@ async function configurationAssignmentsGet() {
 }
 
 async function main() {
-  configurationAssignmentsGet();
+  await configurationAssignmentsGet();
 }
 
 main().catch(console.error);

@@ -57,7 +57,7 @@ async function projectEnvironmentTypesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectEnvironmentTypesCreateOrUpdate();
+  await projectEnvironmentTypesCreateOrUpdate();
 }
 
 main().catch(console.error);

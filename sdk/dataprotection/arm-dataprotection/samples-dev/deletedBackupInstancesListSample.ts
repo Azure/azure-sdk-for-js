@@ -38,7 +38,7 @@ async function listDeletedBackupInstancesInAVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDeletedBackupInstancesInAVault();
+  await listDeletedBackupInstancesInAVault();
 }
 
 main().catch(console.error);

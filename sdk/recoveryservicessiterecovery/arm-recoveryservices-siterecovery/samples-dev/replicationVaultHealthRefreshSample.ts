@@ -38,7 +38,7 @@ async function refreshesHealthSummaryOfTheVault() {
 }
 
 async function main() {
-  refreshesHealthSummaryOfTheVault();
+  await refreshesHealthSummaryOfTheVault();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function resetVpnLinkConnection() {
 }
 
 async function main() {
-  resetVpnLinkConnection();
+  await resetVpnLinkConnection();
 }
 
 main().catch(console.error);

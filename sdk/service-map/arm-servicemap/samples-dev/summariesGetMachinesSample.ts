@@ -44,7 +44,7 @@ async function smSummariesGetMachinesGet() {
 }
 
 async function main() {
-  smSummariesGetMachinesGet();
+  await smSummariesGetMachinesGet();
 }
 
 main().catch(console.error);

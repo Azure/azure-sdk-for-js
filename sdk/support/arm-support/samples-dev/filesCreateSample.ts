@@ -42,7 +42,7 @@ async function createAFileUnderASubscriptionWorkspace() {
 }
 
 async function main() {
-  createAFileUnderASubscriptionWorkspace();
+  await createAFileUnderASubscriptionWorkspace();
 }
 
 main().catch(console.error);

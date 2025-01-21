@@ -53,7 +53,7 @@ async function createServer() {
 }
 
 async function main() {
-  createServer();
+  await createServer();
 }
 
 main().catch(console.error);

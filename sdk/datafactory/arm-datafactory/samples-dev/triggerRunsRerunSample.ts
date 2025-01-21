@@ -39,7 +39,7 @@ async function triggersRerun(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersRerun();
+  await triggersRerun();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function domainEventSubscriptionsGetDeliveryAttributes() {
 }
 
 async function main() {
-  domainEventSubscriptionsGetDeliveryAttributes();
+  await domainEventSubscriptionsGetDeliveryAttributes();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function createCreatorResource() {
 }
 
 async function main() {
-  createCreatorResource();
+  await createCreatorResource();
 }
 
 main().catch(console.error);

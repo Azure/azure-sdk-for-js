@@ -66,8 +66,8 @@ async function labListIncludeBudget() {
 }
 
 async function main() {
-  labList();
-  labListIncludeBudget();
+  await labList();
+  await labListIncludeBudget();
 }
 
 main().catch(console.error);

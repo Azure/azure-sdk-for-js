@@ -37,7 +37,7 @@ async function gitHubOAuth(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gitHubOAuth();
+  await gitHubOAuth();
 }
 
 main().catch(console.error);

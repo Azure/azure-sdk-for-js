@@ -42,7 +42,7 @@ async function patchVMCluster() {
 }
 
 async function main() {
-  patchVMCluster();
+  await patchVMCluster();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function scaleAStreamingJob() {
 }
 
 async function main() {
-  scaleAStreamingJob();
+  await scaleAStreamingJob();
 }
 
 main().catch(console.error);

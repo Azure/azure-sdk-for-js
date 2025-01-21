@@ -32,7 +32,7 @@ async function regionInfosGet() {
 }
 
 async function main() {
-  regionInfosGet();
+  await regionInfosGet();
 }
 
 main().catch(console.error);

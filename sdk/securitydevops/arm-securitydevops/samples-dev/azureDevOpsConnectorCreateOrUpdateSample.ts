@@ -53,7 +53,7 @@ async function azureDevOpsConnectorCreateOrUpdate() {
 }
 
 async function main() {
-  azureDevOpsConnectorCreateOrUpdate();
+  await azureDevOpsConnectorCreateOrUpdate();
 }
 
 main().catch(console.error);

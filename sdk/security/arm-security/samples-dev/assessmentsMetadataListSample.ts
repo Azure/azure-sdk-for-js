@@ -31,7 +31,7 @@ async function listSecurityAssessmentMetadata() {
 }
 
 async function main() {
-  listSecurityAssessmentMetadata();
+  await listSecurityAssessmentMetadata();
 }
 
 main().catch(console.error);

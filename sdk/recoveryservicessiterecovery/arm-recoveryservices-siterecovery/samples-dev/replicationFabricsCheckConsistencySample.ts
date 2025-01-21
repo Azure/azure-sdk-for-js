@@ -40,7 +40,7 @@ async function checksTheConsistencyOfTheAsrFabric() {
 }
 
 async function main() {
-  checksTheConsistencyOfTheAsrFabric();
+  await checksTheConsistencyOfTheAsrFabric();
 }
 
 main().catch(console.error);

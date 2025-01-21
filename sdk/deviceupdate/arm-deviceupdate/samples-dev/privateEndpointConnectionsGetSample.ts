@@ -37,7 +37,7 @@ async function privateEndpointConnectionGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionGet();
+  await privateEndpointConnectionGet();
 }
 
 main().catch(console.error);

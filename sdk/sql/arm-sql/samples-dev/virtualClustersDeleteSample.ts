@@ -36,7 +36,7 @@ async function deleteVirtualCluster() {
 }
 
 async function main() {
-  deleteVirtualCluster();
+  await deleteVirtualCluster();
 }
 
 main().catch(console.error);

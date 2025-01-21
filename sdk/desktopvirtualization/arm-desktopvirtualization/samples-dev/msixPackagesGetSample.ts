@@ -37,7 +37,7 @@ async function msixPackageGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  msixPackageGet();
+  await msixPackageGet();
 }
 
 main().catch(console.error);

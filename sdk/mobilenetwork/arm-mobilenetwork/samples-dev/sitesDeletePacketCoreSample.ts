@@ -48,7 +48,7 @@ async function deletePacketCoreInMobileNetworkSite() {
 }
 
 async function main() {
-  deletePacketCoreInMobileNetworkSite();
+  await deletePacketCoreInMobileNetworkSite();
 }
 
 main().catch(console.error);

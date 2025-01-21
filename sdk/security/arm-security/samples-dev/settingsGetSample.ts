@@ -32,7 +32,7 @@ async function getASettingOnSubscription() {
 }
 
 async function main() {
-  getASettingOnSubscription();
+  await getASettingOnSubscription();
 }
 
 main().catch(console.error);

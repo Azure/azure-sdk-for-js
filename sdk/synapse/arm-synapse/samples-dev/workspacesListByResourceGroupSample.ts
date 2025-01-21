@@ -38,7 +38,7 @@ async function listWorkspacesInResourceGroup() {
 }
 
 async function main() {
-  listWorkspacesInResourceGroup();
+  await listWorkspacesInResourceGroup();
 }
 
 main().catch(console.error);

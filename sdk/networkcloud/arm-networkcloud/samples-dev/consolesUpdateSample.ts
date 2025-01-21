@@ -54,7 +54,7 @@ async function patchVirtualMachineConsole() {
 }
 
 async function main() {
-  patchVirtualMachineConsole();
+  await patchVirtualMachineConsole();
 }
 
 main().catch(console.error);

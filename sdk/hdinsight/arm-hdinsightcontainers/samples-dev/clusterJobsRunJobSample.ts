@@ -61,7 +61,7 @@ async function runClusterJob() {
 }
 
 async function main() {
-  runClusterJob();
+  await runClusterJob();
 }
 
 main().catch(console.error);

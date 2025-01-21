@@ -38,7 +38,7 @@ async function listAllSecurityAutomationsOfASpecifiedResourceGroup() {
 }
 
 async function main() {
-  listAllSecurityAutomationsOfASpecifiedResourceGroup();
+  await listAllSecurityAutomationsOfASpecifiedResourceGroup();
 }
 
 main().catch(console.error);

@@ -63,8 +63,8 @@ async function localRulesDeleteMinimumSetGen() {
 }
 
 async function main() {
-  localRulesDeleteMaximumSetGen();
-  localRulesDeleteMinimumSetGen();
+  await localRulesDeleteMaximumSetGen();
+  await localRulesDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

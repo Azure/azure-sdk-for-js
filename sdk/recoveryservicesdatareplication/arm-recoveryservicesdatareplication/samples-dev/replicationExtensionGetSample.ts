@@ -43,7 +43,7 @@ async function replicationExtensionGet() {
 }
 
 async function main() {
-  replicationExtensionGet();
+  await replicationExtensionGet();
 }
 
 main().catch(console.error);

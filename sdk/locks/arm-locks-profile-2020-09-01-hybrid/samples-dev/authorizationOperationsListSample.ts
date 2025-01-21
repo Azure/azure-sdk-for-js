@@ -34,7 +34,7 @@ async function listProviderOperations() {
 }
 
 async function main() {
-  listProviderOperations();
+  await listProviderOperations();
 }
 
 main().catch(console.error);

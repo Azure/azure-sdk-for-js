@@ -42,7 +42,7 @@ async function appAttachPackageListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appAttachPackageListByResourceGroup();
+  await appAttachPackageListByResourceGroup();
 }
 
 main().catch(console.error);

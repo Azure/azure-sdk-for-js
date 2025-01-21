@@ -79,9 +79,9 @@ async function getADigitalTwinsInstanceResourceWithIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getADigitalTwinsInstanceResource();
-  getADigitalTwinsInstanceResourceWithAPrivateEndpointConnection();
-  getADigitalTwinsInstanceResourceWithIdentity();
+  await getADigitalTwinsInstanceResource();
+  await getADigitalTwinsInstanceResourceWithAPrivateEndpointConnection();
+  await getADigitalTwinsInstanceResourceWithIdentity();
 }
 
 main().catch(console.error);

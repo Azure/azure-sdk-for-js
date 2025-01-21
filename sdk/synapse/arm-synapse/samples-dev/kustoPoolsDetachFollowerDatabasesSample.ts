@@ -48,7 +48,7 @@ async function kustoPoolDetachFollowerDatabases() {
 }
 
 async function main() {
-  kustoPoolDetachFollowerDatabases();
+  await kustoPoolDetachFollowerDatabases();
 }
 
 main().catch(console.error);

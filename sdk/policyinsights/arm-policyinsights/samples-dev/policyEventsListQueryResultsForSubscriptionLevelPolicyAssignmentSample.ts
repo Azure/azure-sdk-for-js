@@ -66,8 +66,8 @@ async function queryAtSubscriptionLevelPolicyAssignmentScopeWithNextLink() {
 }
 
 async function main() {
-  queryAtSubscriptionLevelPolicyAssignmentScope();
-  queryAtSubscriptionLevelPolicyAssignmentScopeWithNextLink();
+  await queryAtSubscriptionLevelPolicyAssignmentScope();
+  await queryAtSubscriptionLevelPolicyAssignmentScopeWithNextLink();
 }
 
 main().catch(console.error);

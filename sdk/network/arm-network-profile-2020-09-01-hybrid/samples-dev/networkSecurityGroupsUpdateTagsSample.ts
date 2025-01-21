@@ -39,7 +39,7 @@ async function updateNetworkSecurityGroupTags() {
 }
 
 async function main() {
-  updateNetworkSecurityGroupTags();
+  await updateNetworkSecurityGroupTags();
 }
 
 main().catch(console.error);

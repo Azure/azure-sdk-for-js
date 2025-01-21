@@ -37,7 +37,7 @@ async function routeFilterRuleListByRouteFilter() {
 }
 
 async function main() {
-  routeFilterRuleListByRouteFilter();
+  await routeFilterRuleListByRouteFilter();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function getJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getJob();
+  await getJob();
 }
 
 main().catch(console.error);

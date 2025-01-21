@@ -63,8 +63,8 @@ async function deleteADigitalTwinsInstanceResourceWithIdentity(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  deleteADigitalTwinsInstanceResource();
-  deleteADigitalTwinsInstanceResourceWithIdentity();
+  await deleteADigitalTwinsInstanceResource();
+  await deleteADigitalTwinsInstanceResourceWithIdentity();
 }
 
 main().catch(console.error);

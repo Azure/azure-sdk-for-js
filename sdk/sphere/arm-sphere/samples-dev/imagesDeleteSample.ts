@@ -39,7 +39,7 @@ async function imagesDelete() {
 }
 
 async function main() {
-  imagesDelete();
+  await imagesDelete();
 }
 
 main().catch(console.error);

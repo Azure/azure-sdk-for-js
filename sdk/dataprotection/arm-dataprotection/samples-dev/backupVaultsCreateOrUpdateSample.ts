@@ -149,9 +149,9 @@ async function createBackupVaultWithMsi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createBackupVault();
-  createBackupVaultWithCmk();
-  createBackupVaultWithMsi();
+  await createBackupVault();
+  await createBackupVaultWithCmk();
+  await createBackupVaultWithMsi();
 }
 
 main().catch(console.error);

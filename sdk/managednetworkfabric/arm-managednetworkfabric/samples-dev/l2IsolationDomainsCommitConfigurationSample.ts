@@ -40,7 +40,7 @@ async function l2IsolationDomainsCommitConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  l2IsolationDomainsCommitConfigurationMaximumSetGen();
+  await l2IsolationDomainsCommitConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listL2NetworksForSubscription() {
 }
 
 async function main() {
-  listL2NetworksForSubscription();
+  await listL2NetworksForSubscription();
 }
 
 main().catch(console.error);

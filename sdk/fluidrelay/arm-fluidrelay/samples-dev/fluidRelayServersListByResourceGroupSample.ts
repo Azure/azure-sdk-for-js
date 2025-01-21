@@ -36,7 +36,7 @@ async function listAllFluidRelayServersInAResourceGroup() {
 }
 
 async function main() {
-  listAllFluidRelayServersInAResourceGroup();
+  await listAllFluidRelayServersInAResourceGroup();
 }
 
 main().catch(console.error);

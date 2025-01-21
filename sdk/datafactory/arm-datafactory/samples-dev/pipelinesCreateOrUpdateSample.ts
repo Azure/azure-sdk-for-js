@@ -162,8 +162,8 @@ async function pipelinesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelinesCreate();
-  pipelinesUpdate();
+  await pipelinesCreate();
+  await pipelinesUpdate();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function deleteUser() {
 }
 
 async function main() {
-  deleteUser();
+  await deleteUser();
 }
 
 main().catch(console.error);

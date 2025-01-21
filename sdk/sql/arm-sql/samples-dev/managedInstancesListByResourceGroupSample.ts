@@ -59,8 +59,8 @@ async function listManagedInstancesByResourceGroupWithExpandAdministratorsOrActi
 }
 
 async function main() {
-  listManagedInstancesByResourceGroup();
-  listManagedInstancesByResourceGroupWithExpandAdministratorsOrActivedirectory();
+  await listManagedInstancesByResourceGroup();
+  await listManagedInstancesByResourceGroupWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

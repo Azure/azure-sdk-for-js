@@ -51,7 +51,7 @@ async function patchAnApplicationTypeVersion() {
 }
 
 async function main() {
-  patchAnApplicationTypeVersion();
+  await patchAnApplicationTypeVersion();
 }
 
 main().catch(console.error);

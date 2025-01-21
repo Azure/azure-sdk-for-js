@@ -96,8 +96,8 @@ async function createFailoverGroupWithStandbySecondaryDatabaseOnPartnerServer() 
 }
 
 async function main() {
-  createFailoverGroup();
-  createFailoverGroupWithStandbySecondaryDatabaseOnPartnerServer();
+  await createFailoverGroup();
+  await createFailoverGroupWithStandbySecondaryDatabaseOnPartnerServer();
 }
 
 main().catch(console.error);

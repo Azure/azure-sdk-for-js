@@ -196,11 +196,11 @@ async function endpointPutExternalWithSubnetMapping() {
 }
 
 async function main() {
-  endpointPutExternalWithAlwaysServe();
-  endpointPutExternalWithCustomHeaders();
-  endpointPutExternalWithGeoMapping();
-  endpointPutExternalWithLocation();
-  endpointPutExternalWithSubnetMapping();
+  await endpointPutExternalWithAlwaysServe();
+  await endpointPutExternalWithCustomHeaders();
+  await endpointPutExternalWithGeoMapping();
+  await endpointPutExternalWithLocation();
+  await endpointPutExternalWithSubnetMapping();
 }
 
 main().catch(console.error);

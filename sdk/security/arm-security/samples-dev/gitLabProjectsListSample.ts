@@ -41,7 +41,7 @@ async function listGitLabProjects() {
 }
 
 async function main() {
-  listGitLabProjects();
+  await listGitLabProjects();
 }
 
 main().catch(console.error);

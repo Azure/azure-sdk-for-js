@@ -37,7 +37,7 @@ async function azureDevOpsConnectorStatsGet() {
 }
 
 async function main() {
-  azureDevOpsConnectorStatsGet();
+  await azureDevOpsConnectorStatsGet();
 }
 
 main().catch(console.error);

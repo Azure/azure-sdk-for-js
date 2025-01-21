@@ -40,7 +40,7 @@ async function getListOfRecoverableDatabases() {
 }
 
 async function main() {
-  getListOfRecoverableDatabases();
+  await getListOfRecoverableDatabases();
 }
 
 main().catch(console.error);

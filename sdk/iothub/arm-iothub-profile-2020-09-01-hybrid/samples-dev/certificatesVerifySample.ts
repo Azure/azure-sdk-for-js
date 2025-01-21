@@ -48,7 +48,7 @@ async function certificatesVerify() {
 }
 
 async function main() {
-  certificatesVerify();
+  await certificatesVerify();
 }
 
 main().catch(console.error);

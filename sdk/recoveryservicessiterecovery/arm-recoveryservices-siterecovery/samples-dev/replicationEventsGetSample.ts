@@ -40,7 +40,7 @@ async function getTheDetailsOfAnAzureSiteRecoveryEvent() {
 }
 
 async function main() {
-  getTheDetailsOfAnAzureSiteRecoveryEvent();
+  await getTheDetailsOfAnAzureSiteRecoveryEvent();
 }
 
 main().catch(console.error);

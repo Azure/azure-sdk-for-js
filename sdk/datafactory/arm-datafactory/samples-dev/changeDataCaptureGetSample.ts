@@ -37,7 +37,7 @@ async function changeDataCaptureGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  changeDataCaptureGet();
+  await changeDataCaptureGet();
 }
 
 main().catch(console.error);

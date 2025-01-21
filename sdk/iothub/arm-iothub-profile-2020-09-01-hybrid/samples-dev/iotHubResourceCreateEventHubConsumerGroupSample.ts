@@ -41,7 +41,7 @@ async function iotHubResourceCreateEventHubConsumerGroup() {
 }
 
 async function main() {
-  iotHubResourceCreateEventHubConsumerGroup();
+  await iotHubResourceCreateEventHubConsumerGroup();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function deleteResourceGuardProxy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteResourceGuardProxy();
+  await deleteResourceGuardProxy();
 }
 
 main().catch(console.error);

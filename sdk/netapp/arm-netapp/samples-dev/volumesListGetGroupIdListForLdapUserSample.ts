@@ -45,7 +45,7 @@ async function getGroupIdListForUser() {
 }
 
 async function main() {
-  getGroupIdListForUser();
+  await getGroupIdListForUser();
 }
 
 main().catch(console.error);

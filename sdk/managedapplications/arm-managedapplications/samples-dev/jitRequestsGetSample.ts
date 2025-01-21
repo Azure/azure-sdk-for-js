@@ -36,7 +36,7 @@ async function getsTheJitRequest() {
 }
 
 async function main() {
-  getsTheJitRequest();
+  await getsTheJitRequest();
 }
 
 main().catch(console.error);

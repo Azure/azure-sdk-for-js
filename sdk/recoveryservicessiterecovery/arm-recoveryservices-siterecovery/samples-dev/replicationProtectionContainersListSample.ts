@@ -41,7 +41,7 @@ async function getsTheListOfAllProtectionContainersInAVault() {
 }
 
 async function main() {
-  getsTheListOfAllProtectionContainersInAVault();
+  await getsTheListOfAllProtectionContainersInAVault();
 }
 
 main().catch(console.error);

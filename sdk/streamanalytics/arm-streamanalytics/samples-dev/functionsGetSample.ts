@@ -69,8 +69,8 @@ async function getAnAzureMlFunction() {
 }
 
 async function main() {
-  getAJavaScriptFunction();
-  getAnAzureMlFunction();
+  await getAJavaScriptFunction();
+  await getAnAzureMlFunction();
 }
 
 main().catch(console.error);

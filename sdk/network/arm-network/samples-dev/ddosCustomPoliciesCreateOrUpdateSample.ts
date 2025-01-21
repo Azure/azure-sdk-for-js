@@ -36,7 +36,7 @@ async function createDDoSCustomPolicy() {
 }
 
 async function main() {
-  createDDoSCustomPolicy();
+  await createDDoSCustomPolicy();
 }
 
 main().catch(console.error);

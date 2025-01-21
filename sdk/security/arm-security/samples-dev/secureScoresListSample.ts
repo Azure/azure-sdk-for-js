@@ -34,7 +34,7 @@ async function listSecureScores() {
 }
 
 async function main() {
-  listSecureScores();
+  await listSecureScores();
 }
 
 main().catch(console.error);

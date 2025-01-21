@@ -40,7 +40,7 @@ async function listNetworkSlicesInAMobileNetwork() {
 }
 
 async function main() {
-  listNetworkSlicesInAMobileNetwork();
+  await listNetworkSlicesInAMobileNetwork();
 }
 
 main().catch(console.error);

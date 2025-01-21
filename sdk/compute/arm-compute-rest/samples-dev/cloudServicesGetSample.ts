@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, { CloudServicesGetParameters } from "@azure-rest/arm-compute";
+import type { CloudServicesGetParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -13,7 +12,7 @@ import "dotenv/config";
  * @summary Display information about a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Get_WithMultiRoleAndRDP.json
  */
-async function getCloudServiceWithMultipleRolesAndRdpExtension() {
+async function getCloudServiceWithMultipleRolesAndRdpExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

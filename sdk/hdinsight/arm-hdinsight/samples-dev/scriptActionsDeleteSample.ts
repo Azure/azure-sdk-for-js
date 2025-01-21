@@ -36,7 +36,7 @@ async function deleteAScriptActionOnHdInsightCluster() {
 }
 
 async function main() {
-  deleteAScriptActionOnHdInsightCluster();
+  await deleteAScriptActionOnHdInsightCluster();
 }
 
 main().catch(console.error);

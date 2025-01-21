@@ -37,7 +37,7 @@ async function partnerNamespacesGet() {
 }
 
 async function main() {
-  partnerNamespacesGet();
+  await partnerNamespacesGet();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function getAListOfTheManagedDatabaseAdvancedThreatProtectionSettings() {
 }
 
 async function main() {
-  getAListOfTheManagedDatabaseAdvancedThreatProtectionSettings();
+  await getAListOfTheManagedDatabaseAdvancedThreatProtectionSettings();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function environmentDefinitionsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentDefinitionsGet();
+  await environmentDefinitionsGet();
 }
 
 main().catch(console.error);

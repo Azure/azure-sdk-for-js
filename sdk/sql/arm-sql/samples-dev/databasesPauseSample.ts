@@ -39,7 +39,7 @@ async function pausesADatabase() {
 }
 
 async function main() {
-  pausesADatabase();
+  await pausesADatabase();
 }
 
 main().catch(console.error);

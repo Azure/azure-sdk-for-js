@@ -42,7 +42,7 @@ async function updateAMediaServicesAccounts() {
 }
 
 async function main() {
-  updateAMediaServicesAccounts();
+  await updateAMediaServicesAccounts();
 }
 
 main().catch(console.error);

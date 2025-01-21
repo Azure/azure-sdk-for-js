@@ -45,7 +45,7 @@ async function executeCancelFailover() {
 }
 
 async function main() {
-  executeCancelFailover();
+  await executeCancelFailover();
 }
 
 main().catch(console.error);
