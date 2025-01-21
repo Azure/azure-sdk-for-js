@@ -3,7 +3,7 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { SmsClient } from "../src/index.js";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 

@@ -11,14 +11,14 @@ describe("snippets", () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
   });
 
   it("ReadmeSampleCreateCall", async () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
     // target endpoint for ACS User
     const target = {
@@ -34,25 +34,31 @@ describe("snippets", () => {
     const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
     // @ts-preserve-whitespace
     // send out the invitation, creating call
-    const response = callAutomationClient.createCall(callInvite, callbackUrl);
+    const response = await callAutomationClient.createCall(callInvite, callbackUrl);
   });
 
   it("ReadmeSamplePlayMedia", async () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
+    const target = { communicationUserId: "8:acs:..." };
+    const callInvite = { targetParticipant: target };
+    const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
+    // @ts-preserve-whitespace
+    const createCallResult = await callAutomationClient.createCall(callInvite, callbackUri);
+    const callConnection = createCallResult.callConnection;
     // from callconnection of response above, play media of media file
     const myFile = { uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav" };
-    const response = callConnection.getCallMedia().playToAll(myFile);
+    const response = await callConnection.getCallMedia().playToAll(myFile);
   });
 
   it("ReadmeSampleEventProcessor", async () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
     const eventProcessor = await callAutomationClient.getEventProcessor();
     eventProcessor.processEvents(incomingEvent);
@@ -62,12 +68,12 @@ describe("snippets", () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
     // send out the invitation, creating call
     const callInvite = new CallInvite(target);
     const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
-    const callResult = callAutomationClient.createCall(callInvite, callbackUrl);
+    const callResult = await callAutomationClient.createCall(callInvite, callbackUrl);
     // @ts-preserve-whitespace
     // giving 30 seconds timeout for waiting on createCall's event, 'CallConnected'
     const createCallEventResult = await callResult.waitForEventProcessor(undefined, 30000);
