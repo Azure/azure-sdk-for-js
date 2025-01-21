@@ -36,7 +36,7 @@ async function deleteManagedInstance() {
 }
 
 async function main() {
-  deleteManagedInstance();
+  await deleteManagedInstance();
 }
 
 main().catch(console.error);

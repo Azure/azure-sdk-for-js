@@ -38,7 +38,7 @@ async function getsAListOfExperiments() {
 }
 
 async function main() {
-  getsAListOfExperiments();
+  await getsAListOfExperiments();
 }
 
 main().catch(console.error);

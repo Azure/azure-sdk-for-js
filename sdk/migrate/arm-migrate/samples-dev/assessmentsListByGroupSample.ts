@@ -48,7 +48,7 @@ async function assessmentsListByGroup() {
 }
 
 async function main() {
-  assessmentsListByGroup();
+  await assessmentsListByGroup();
 }
 
 main().catch(console.error);

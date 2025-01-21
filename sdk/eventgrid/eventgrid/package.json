@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "5.9.1",
+  "version": "5.10.0",
   "keywords": [
     "node",
     "azure",
@@ -36,9 +36,9 @@
       "azure-event-grid"
     ],
     "requiredResources": {
-      "Azure Event Grid Custom Topic, configured to use the Event Grid Schema": "https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic",
-      "Azure Event Grid Custom Topic, configured to use the Cloud Event 1.0 Schema": "https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic",
-      "Azure Service Bus Queue": "https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal"
+      "Azure Event Grid Custom Topic, configured to use the Event Grid Schema": "https://learn.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic",
+      "Azure Event Grid Custom Topic, configured to use the Cloud Event 1.0 Schema": "https://learn.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic",
+      "Azure Service Bus Queue": "https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal"
     }
   },
   "//metadata": {

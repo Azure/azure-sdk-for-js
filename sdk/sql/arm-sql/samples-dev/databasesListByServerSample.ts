@@ -65,8 +65,8 @@ async function getsAListOfDatabases() {
 }
 
 async function main() {
-  getsAListOfDatabasesConfiguredWithEnclaveType();
-  getsAListOfDatabases();
+  await getsAListOfDatabasesConfiguredWithEnclaveType();
+  await getsAListOfDatabases();
 }
 
 main().catch(console.error);

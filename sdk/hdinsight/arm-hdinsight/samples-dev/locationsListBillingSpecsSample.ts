@@ -30,7 +30,7 @@ async function getTheSubscriptionBillingSpecsForTheSpecifiedLocation() {
 }
 
 async function main() {
-  getTheSubscriptionBillingSpecsForTheSpecifiedLocation();
+  await getTheSubscriptionBillingSpecsForTheSpecifiedLocation();
 }
 
 main().catch(console.error);

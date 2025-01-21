@@ -49,7 +49,7 @@ async function jobDefinitionsUpdate() {
 }
 
 async function main() {
-  jobDefinitionsUpdate();
+  await jobDefinitionsUpdate();
 }
 
 main().catch(console.error);

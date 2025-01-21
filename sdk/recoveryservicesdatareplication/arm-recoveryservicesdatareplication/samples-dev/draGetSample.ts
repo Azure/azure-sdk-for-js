@@ -43,7 +43,7 @@ async function draGet() {
 }
 
 async function main() {
-  draGet();
+  await draGet();
 }
 
 main().catch(console.error);

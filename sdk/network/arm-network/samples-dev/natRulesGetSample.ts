@@ -36,7 +36,7 @@ async function natRuleGet() {
 }
 
 async function main() {
-  natRuleGet();
+  await natRuleGet();
 }
 
 main().catch(console.error);

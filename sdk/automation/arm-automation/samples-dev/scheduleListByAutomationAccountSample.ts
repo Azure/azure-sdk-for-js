@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of schedules.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listSchedulesByAutomationAccount_First100.json
  */
-async function listSchedulesByAutomationAccountFirst100() {
+async function listSchedulesByAutomationAccountFirst100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -40,7 +40,7 @@ async function listSchedulesByAutomationAccountFirst100() {
  * @summary Retrieve a list of schedules.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listSchedulesByAutomationAccount_Next100.json
  */
-async function listSchedulesByAutomationAccountNext100() {
+async function listSchedulesByAutomationAccountNext100(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -56,7 +56,7 @@ async function listSchedulesByAutomationAccountNext100() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSchedulesByAutomationAccountFirst100();
   listSchedulesByAutomationAccountNext100();
 }

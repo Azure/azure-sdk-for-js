@@ -37,7 +37,7 @@ async function monitorUpgrade() {
 }
 
 async function main() {
-  monitorUpgrade();
+  await monitorUpgrade();
 }
 
 main().catch(console.error);

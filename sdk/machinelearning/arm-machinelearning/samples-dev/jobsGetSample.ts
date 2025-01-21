@@ -107,10 +107,10 @@ async function getSweepJob() {
 }
 
 async function main() {
-  getAutoMlJob();
-  getCommandJob();
-  getPipelineJob();
-  getSweepJob();
+  await getAutoMlJob();
+  await getCommandJob();
+  await getPipelineJob();
+  await getSweepJob();
 }
 
 main().catch(console.error);

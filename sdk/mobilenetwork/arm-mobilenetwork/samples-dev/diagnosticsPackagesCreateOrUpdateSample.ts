@@ -39,7 +39,7 @@ async function createDiagnosticsPackage() {
 }
 
 async function main() {
-  createDiagnosticsPackage();
+  await createDiagnosticsPackage();
 }
 
 main().catch(console.error);

@@ -59,7 +59,7 @@ async function registryListRegistryDataVersionBase() {
 }
 
 async function main() {
-  registryListRegistryDataVersionBase();
+  await registryListRegistryDataVersionBase();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function updateRouteTableTags() {
 }
 
 async function main() {
-  updateRouteTableTags();
+  await updateRouteTableTags();
 }
 
 main().catch(console.error);

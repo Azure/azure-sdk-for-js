@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the virtual machine instances within the specified parent resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the virtual machine instances within the specified parent resource.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/ListVirtualMachineInstances.json
  */
-async function getVirtualMachine() {
+async function getVirtualMachine(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function getVirtualMachine() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getVirtualMachine();
 }
 

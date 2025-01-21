@@ -177,7 +177,7 @@ async function createOrUpdateAnAgreement() {
 }
 
 async function main() {
-  createOrUpdateAnAgreement();
+  await createOrUpdateAnAgreement();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function ipamPoolsGetPoolUsage() {
 }
 
 async function main() {
-  ipamPoolsGetPoolUsage();
+  await ipamPoolsGetPoolUsage();
 }
 
 main().catch(console.error);

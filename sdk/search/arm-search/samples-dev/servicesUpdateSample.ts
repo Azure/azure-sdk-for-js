@@ -272,16 +272,16 @@ async function searchUpdateServiceWithSemanticSearch() {
 }
 
 async function main() {
-  searchUpdateService();
-  searchUpdateServiceAuthOptions();
-  searchUpdateServiceDisableLocalAuth();
-  searchUpdateServiceToAllowAccessFromPrivateEndpoints();
-  searchUpdateServiceToAllowAccessFromPublicCustomIPs();
-  searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass();
-  searchUpdateServiceToRemoveIdentity();
-  searchUpdateServiceWithCmkEnforcement();
-  searchUpdateServiceWithDataExfiltration();
-  searchUpdateServiceWithSemanticSearch();
+  await searchUpdateService();
+  await searchUpdateServiceAuthOptions();
+  await searchUpdateServiceDisableLocalAuth();
+  await searchUpdateServiceToAllowAccessFromPrivateEndpoints();
+  await searchUpdateServiceToAllowAccessFromPublicCustomIPs();
+  await searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass();
+  await searchUpdateServiceToRemoveIdentity();
+  await searchUpdateServiceWithCmkEnforcement();
+  await searchUpdateServiceWithDataExfiltration();
+  await searchUpdateServiceWithSemanticSearch();
 }
 
 main().catch(console.error);

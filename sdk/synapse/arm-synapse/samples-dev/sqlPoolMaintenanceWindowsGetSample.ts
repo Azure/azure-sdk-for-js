@@ -40,7 +40,7 @@ async function getsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool() {
 }
 
 async function main() {
-  getsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool();
+  await getsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool();
 }
 
 main().catch(console.error);

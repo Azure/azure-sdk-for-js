@@ -47,7 +47,7 @@ async function replaceFirewallRules() {
 }
 
 async function main() {
-  replaceFirewallRules();
+  await replaceFirewallRules();
 }
 
 main().catch(console.error);

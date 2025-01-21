@@ -43,7 +43,7 @@ async function getsTheListOfProtectionContainerForAFabric() {
 }
 
 async function main() {
-  getsTheListOfProtectionContainerForAFabric();
+  await getsTheListOfProtectionContainerForAFabric();
 }
 
 main().catch(console.error);

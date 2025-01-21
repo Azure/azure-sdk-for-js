@@ -42,7 +42,7 @@ async function testTheConnectionForAnOutput() {
 }
 
 async function main() {
-  testTheConnectionForAnOutput();
+  await testTheConnectionForAnOutput();
 }
 
 main().catch(console.error);

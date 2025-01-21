@@ -38,7 +38,7 @@ async function listScheduledQueryRulesByResourceGroup() {
 }
 
 async function main() {
-  listScheduledQueryRulesByResourceGroup();
+  await listScheduledQueryRulesByResourceGroup();
 }
 
 main().catch(console.error);

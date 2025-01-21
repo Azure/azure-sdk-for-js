@@ -81,9 +81,9 @@ async function maintenanceConfigurationsGetForResourceGuestOSPatchWindows() {
 }
 
 async function main() {
-  maintenanceConfigurationsGetForResource();
-  maintenanceConfigurationsGetForResourceGuestOSPatchLinux();
-  maintenanceConfigurationsGetForResourceGuestOSPatchWindows();
+  await maintenanceConfigurationsGetForResource();
+  await maintenanceConfigurationsGetForResourceGuestOSPatchLinux();
+  await maintenanceConfigurationsGetForResourceGuestOSPatchWindows();
 }
 
 main().catch(console.error);

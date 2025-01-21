@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the automation keys for an account.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/listAutomationAccountKeys.json
  */
-async function getListsOfAnAutomationAccount() {
+async function getListsOfAnAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "MyAutomationAccount";
@@ -31,7 +31,7 @@ async function getListsOfAnAutomationAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getListsOfAnAutomationAccount();
 }
 

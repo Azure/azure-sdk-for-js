@@ -47,7 +47,7 @@ async function restartAServer() {
 }
 
 async function main() {
-  restartAServer();
+  await restartAServer();
 }
 
 main().catch(console.error);

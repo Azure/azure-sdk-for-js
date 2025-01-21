@@ -13,9 +13,7 @@ import {
   ConfidentialLedgerClient,
 } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Backs up a Managed CCF Resource.

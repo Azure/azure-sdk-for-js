@@ -42,7 +42,7 @@ async function smMachinesGet() {
 }
 
 async function main() {
-  smMachinesGet();
+  await smMachinesGet();
 }
 
 main().catch(console.error);

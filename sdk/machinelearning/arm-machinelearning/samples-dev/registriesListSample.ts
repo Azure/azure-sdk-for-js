@@ -63,8 +63,8 @@ async function listRegistriesWithUserCreatedAccounts() {
 }
 
 async function main() {
-  listRegistriesWithSystemCreatedAccounts();
-  listRegistriesWithUserCreatedAccounts();
+  await listRegistriesWithSystemCreatedAccounts();
+  await listRegistriesWithUserCreatedAccounts();
 }
 
 main().catch(console.error);

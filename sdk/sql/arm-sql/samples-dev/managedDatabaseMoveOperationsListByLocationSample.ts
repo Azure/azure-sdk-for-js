@@ -95,9 +95,9 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
 }
 
 async function main() {
-  getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResourceGroupAndLocation();
-  getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType();
-  getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocation();
+  await getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResourceGroupAndLocation();
+  await getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType();
+  await getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocation();
 }
 
 main().catch(console.error);

@@ -202,8 +202,8 @@ async function iotHubResourceCreateOrUpdate() {
 }
 
 async function main() {
-  iotHubResourceAddCosmosDbEndpoint();
-  iotHubResourceCreateOrUpdate();
+  await iotHubResourceAddCosmosDbEndpoint();
+  await iotHubResourceCreateOrUpdate();
 }
 
 main().catch(console.error);

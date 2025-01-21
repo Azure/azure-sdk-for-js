@@ -36,7 +36,7 @@ async function getUnsupportedVMSizes() {
 }
 
 async function main() {
-  getUnsupportedVMSizes();
+  await getUnsupportedVMSizes();
 }
 
 main().catch(console.error);

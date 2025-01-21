@@ -34,7 +34,7 @@ async function listPrivateCloudInLocation() {
 }
 
 async function main() {
-  listPrivateCloudInLocation();
+  await listPrivateCloudInLocation();
 }
 
 main().catch(console.error);

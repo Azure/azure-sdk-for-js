@@ -39,7 +39,7 @@ async function getEyesOnSettings() {
 }
 
 async function main() {
-  getEyesOnSettings();
+  await getEyesOnSettings();
 }
 
 main().catch(console.error);

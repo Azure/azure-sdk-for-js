@@ -38,7 +38,7 @@ async function snapshotPoliciesGet() {
 }
 
 async function main() {
-  snapshotPoliciesGet();
+  await snapshotPoliciesGet();
 }
 
 main().catch(console.error);

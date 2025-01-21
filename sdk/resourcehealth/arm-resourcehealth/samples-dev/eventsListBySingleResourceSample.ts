@@ -35,7 +35,7 @@ async function listEventsBySingleResource() {
 }
 
 async function main() {
-  listEventsBySingleResource();
+  await listEventsBySingleResource();
 }
 
 main().catch(console.error);

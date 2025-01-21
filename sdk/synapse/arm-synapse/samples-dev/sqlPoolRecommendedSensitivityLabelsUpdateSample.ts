@@ -49,7 +49,7 @@ async function updateRecommendedSensitivityLabelsOfAGivenSqlPoolUsingAnOperation
 }
 
 async function main() {
-  updateRecommendedSensitivityLabelsOfAGivenSqlPoolUsingAnOperationsBatch();
+  await updateRecommendedSensitivityLabelsOfAGivenSqlPoolUsingAnOperationsBatch();
 }
 
 main().catch(console.error);

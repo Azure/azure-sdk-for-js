@@ -35,7 +35,7 @@ async function identityListByResourceGroup() {
 }
 
 async function main() {
-  identityListByResourceGroup();
+  await identityListByResourceGroup();
 }
 
 main().catch(console.error);

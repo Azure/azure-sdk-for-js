@@ -55,7 +55,7 @@ async function listWorkspaceFeaturestoreEntityVersion() {
 }
 
 async function main() {
-  listWorkspaceFeaturestoreEntityVersion();
+  await listWorkspaceFeaturestoreEntityVersion();
 }
 
 main().catch(console.error);

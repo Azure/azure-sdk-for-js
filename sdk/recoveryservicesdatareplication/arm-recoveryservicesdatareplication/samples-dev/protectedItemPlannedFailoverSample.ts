@@ -54,7 +54,7 @@ async function protectedItemPlannedFailover() {
 }
 
 async function main() {
-  protectedItemPlannedFailover();
+  await protectedItemPlannedFailover();
 }
 
 main().catch(console.error);

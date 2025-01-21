@@ -51,8 +51,8 @@ async function dataProductsCatalogsGetMaximumSetGenGeneratedByMinimumSetRuleMini
 }
 
 async function main() {
-  dataProductsCatalogsGetMaximumSetGen();
-  dataProductsCatalogsGetMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsCatalogsGetMaximumSetGen();
+  await dataProductsCatalogsGetMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getChildCurrentHealthByResource() {
 }
 
 async function main() {
-  getChildCurrentHealthByResource();
+  await getChildCurrentHealthByResource();
 }
 
 main().catch(console.error);

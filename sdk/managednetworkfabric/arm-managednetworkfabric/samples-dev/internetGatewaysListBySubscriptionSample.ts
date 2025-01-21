@@ -37,7 +37,7 @@ async function internetGatewaysListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewaysListBySubscriptionMaximumSetGen();
+  await internetGatewaysListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

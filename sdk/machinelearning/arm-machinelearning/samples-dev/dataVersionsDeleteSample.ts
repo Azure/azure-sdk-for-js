@@ -44,7 +44,7 @@ async function deleteWorkspaceDataVersionBase() {
 }
 
 async function main() {
-  deleteWorkspaceDataVersionBase();
+  await deleteWorkspaceDataVersionBase();
 }
 
 main().catch(console.error);

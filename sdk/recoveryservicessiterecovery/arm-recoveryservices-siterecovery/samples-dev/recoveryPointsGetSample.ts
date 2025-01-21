@@ -46,7 +46,7 @@ async function getsARecoveryPoint() {
 }
 
 async function main() {
-  getsARecoveryPoint();
+  await getsARecoveryPoint();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates a configuration store with the specified parameters.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdate.json
  */
-async function configurationStoresUpdate() {
+async function configurationStoresUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -51,7 +51,7 @@ async function configurationStoresUpdate() {
  * @summary Updates a configuration store with the specified parameters.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdateDisableLocalAuth.json
  */
-async function configurationStoresUpdateDisableLocalAuth() {
+async function configurationStoresUpdateDisableLocalAuth(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -81,7 +81,7 @@ async function configurationStoresUpdateDisableLocalAuth() {
  * @summary Updates a configuration store with the specified parameters.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresUpdateWithIdentity.json
  */
-async function configurationStoresUpdateWithIdentity() {
+async function configurationStoresUpdateWithIdentity(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -112,7 +112,7 @@ async function configurationStoresUpdateWithIdentity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   configurationStoresUpdate();
   configurationStoresUpdateDisableLocalAuth();
   configurationStoresUpdateWithIdentity();

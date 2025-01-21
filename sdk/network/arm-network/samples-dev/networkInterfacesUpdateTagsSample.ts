@@ -36,7 +36,7 @@ async function updateNetworkInterfaceTags() {
 }
 
 async function main() {
-  updateNetworkInterfaceTags();
+  await updateNetworkInterfaceTags();
 }
 
 main().catch(console.error);

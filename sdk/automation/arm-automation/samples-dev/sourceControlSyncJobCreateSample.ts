@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates the sync job for a source control.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/sourceControlSyncJob/createSourceControlSyncJob.json
  */
-async function createOrUpdateASourceControlSyncJob() {
+async function createOrUpdateASourceControlSyncJob(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -42,7 +42,7 @@ async function createOrUpdateASourceControlSyncJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateASourceControlSyncJob();
 }
 

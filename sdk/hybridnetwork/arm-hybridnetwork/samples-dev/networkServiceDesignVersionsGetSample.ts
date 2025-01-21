@@ -39,7 +39,7 @@ async function getANetworkServiceDesignVersionResource() {
 }
 
 async function main() {
-  getANetworkServiceDesignVersionResource();
+  await getANetworkServiceDesignVersionResource();
 }
 
 main().catch(console.error);

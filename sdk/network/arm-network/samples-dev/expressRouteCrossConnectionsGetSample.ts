@@ -35,7 +35,7 @@ async function getExpressRouteCrossConnection() {
 }
 
 async function main() {
-  getExpressRouteCrossConnection();
+  await getExpressRouteCrossConnection();
 }
 
 main().catch(console.error);

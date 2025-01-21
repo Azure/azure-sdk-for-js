@@ -63,8 +63,8 @@ async function springbootsitesTriggerRefreshSiteMinimumSetGen() {
 }
 
 async function main() {
-  springbootsitesTriggerRefreshSiteMaximumSetGen();
-  springbootsitesTriggerRefreshSiteMinimumSetGen();
+  await springbootsitesTriggerRefreshSiteMaximumSetGen();
+  await springbootsitesTriggerRefreshSiteMinimumSetGen();
 }
 
 main().catch(console.error);

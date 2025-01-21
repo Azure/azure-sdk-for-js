@@ -13,9 +13,7 @@ import {
   ConfidentialLedgerClient,
 } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a  Confidential Ledger with the specified ledger parameters.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a  Confidential Ledger with the specified ledger parameters.
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Create.json
  */
-async function confidentialLedgerCreate() {
+async function confidentialLedgerCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
     "0000000-0000-0000-0000-000000000001";
@@ -62,7 +60,7 @@ async function confidentialLedgerCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   confidentialLedgerCreate();
 }
 

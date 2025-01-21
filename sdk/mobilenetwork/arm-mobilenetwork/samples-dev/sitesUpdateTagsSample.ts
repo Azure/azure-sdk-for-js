@@ -44,7 +44,7 @@ async function updateMobileNetworkSiteTags() {
 }
 
 async function main() {
-  updateMobileNetworkSiteTags();
+  await updateMobileNetworkSiteTags();
 }
 
 main().catch(console.error);

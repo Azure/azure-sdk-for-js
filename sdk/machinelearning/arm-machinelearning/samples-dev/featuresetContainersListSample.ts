@@ -53,7 +53,7 @@ async function listWorkspaceFeaturesetContainer() {
 }
 
 async function main() {
-  listWorkspaceFeaturesetContainer();
+  await listWorkspaceFeaturesetContainer();
 }
 
 main().catch(console.error);

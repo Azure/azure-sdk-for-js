@@ -59,8 +59,8 @@ async function loadBalancerBackendAddressPoolList() {
 }
 
 async function main() {
-  loadBalancerWithBackendAddressPoolContainingBackendAddresses();
-  loadBalancerBackendAddressPoolList();
+  await loadBalancerWithBackendAddressPoolContainingBackendAddresses();
+  await loadBalancerBackendAddressPoolList();
 }
 
 main().catch(console.error);

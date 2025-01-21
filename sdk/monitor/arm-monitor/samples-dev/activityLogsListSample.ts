@@ -63,8 +63,8 @@ async function getActivityLogsWithFilterAndSelect() {
 }
 
 async function main() {
-  getActivityLogsWithFilter();
-  getActivityLogsWithFilterAndSelect();
+  await getActivityLogsWithFilter();
+  await getActivityLogsWithFilterAndSelect();
 }
 
 main().catch(console.error);

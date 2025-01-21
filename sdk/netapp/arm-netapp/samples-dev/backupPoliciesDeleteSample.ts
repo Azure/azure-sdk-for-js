@@ -39,7 +39,7 @@ async function backupPoliciesDelete() {
 }
 
 async function main() {
-  backupPoliciesDelete();
+  await backupPoliciesDelete();
 }
 
 main().catch(console.error);

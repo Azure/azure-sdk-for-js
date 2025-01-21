@@ -38,7 +38,7 @@ async function getAnIntegrationAccountSession() {
 }
 
 async function main() {
-  getAnIntegrationAccountSession();
+  await getAnIntegrationAccountSession();
 }
 
 main().catch(console.error);

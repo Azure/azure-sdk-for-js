@@ -44,7 +44,7 @@ async function networkFeaturesUpdate() {
 }
 
 async function main() {
-  networkFeaturesUpdate();
+  await networkFeaturesUpdate();
 }
 
 main().catch(console.error);

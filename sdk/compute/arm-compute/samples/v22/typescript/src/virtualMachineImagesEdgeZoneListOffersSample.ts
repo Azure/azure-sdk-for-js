@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
+async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaa";
@@ -42,7 +40,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
  * @summary Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
+async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaa";
@@ -58,7 +56,7 @@ async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineImagesEdgeZoneListOffersMaximumSetGen();
   virtualMachineImagesEdgeZoneListOffersMinimumSetGen();
 }

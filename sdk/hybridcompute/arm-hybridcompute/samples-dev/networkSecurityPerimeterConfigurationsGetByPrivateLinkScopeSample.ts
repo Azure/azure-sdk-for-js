@@ -40,7 +40,7 @@ async function getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope
 }
 
 async function main() {
-  getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope();
+  await getsTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function listBackupProtectionContainers() {
 }
 
 async function main() {
-  listBackupProtectionContainers();
+  await listBackupProtectionContainers();
 }
 
 main().catch(console.error);

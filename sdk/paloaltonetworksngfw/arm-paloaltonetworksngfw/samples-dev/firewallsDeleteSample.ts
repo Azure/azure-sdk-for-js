@@ -59,8 +59,8 @@ async function firewallsDeleteMinimumSetGen() {
 }
 
 async function main() {
-  firewallsDeleteMaximumSetGen();
-  firewallsDeleteMinimumSetGen();
+  await firewallsDeleteMaximumSetGen();
+  await firewallsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

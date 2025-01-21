@@ -37,7 +37,7 @@ async function tagRulesList() {
 }
 
 async function main() {
-  tagRulesList();
+  await tagRulesList();
 }
 
 main().catch(console.error);

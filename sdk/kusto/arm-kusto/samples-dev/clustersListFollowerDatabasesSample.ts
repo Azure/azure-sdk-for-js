@@ -40,7 +40,7 @@ async function kustoClusterListFollowerDatabases() {
 }
 
 async function main() {
-  kustoClusterListFollowerDatabases();
+  await kustoClusterListFollowerDatabases();
 }
 
 main().catch(console.error);

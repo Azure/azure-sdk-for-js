@@ -40,7 +40,7 @@ async function getCertificatesByIntegrationAccountName() {
 }
 
 async function main() {
-  getCertificatesByIntegrationAccountName();
+  await getCertificatesByIntegrationAccountName();
 }
 
 main().catch(console.error);

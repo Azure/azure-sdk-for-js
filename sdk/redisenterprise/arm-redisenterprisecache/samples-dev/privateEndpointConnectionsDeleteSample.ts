@@ -42,7 +42,7 @@ async function redisEnterpriseDeletePrivateEndpointConnection() {
 }
 
 async function main() {
-  redisEnterpriseDeletePrivateEndpointConnection();
+  await redisEnterpriseDeletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

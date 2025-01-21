@@ -34,7 +34,7 @@ async function getSecurityPartnerProvider() {
 }
 
 async function main() {
-  getSecurityPartnerProvider();
+  await getSecurityPartnerProvider();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns all the resources of a particular type belonging to a resource group
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListBotsByResourceGroup.json
  */
-async function listBotsByResourceGroup() {
+async function listBotsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -32,7 +32,7 @@ async function listBotsByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listBotsByResourceGroup();
 }
 

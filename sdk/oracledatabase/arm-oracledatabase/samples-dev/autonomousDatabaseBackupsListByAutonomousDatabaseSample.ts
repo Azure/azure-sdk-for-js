@@ -65,8 +65,8 @@ async function listAutonomousDatabaseBackupsByAutonomousDatabase() {
 }
 
 async function main() {
-  autonomousDatabaseBackupsListByAutonomousDatabase();
-  listAutonomousDatabaseBackupsByAutonomousDatabase();
+  await autonomousDatabaseBackupsListByAutonomousDatabase();
+  await listAutonomousDatabaseBackupsByAutonomousDatabase();
 }
 
 main().catch(console.error);

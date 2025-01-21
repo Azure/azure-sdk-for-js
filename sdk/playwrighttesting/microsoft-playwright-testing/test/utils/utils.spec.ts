@@ -16,6 +16,7 @@ import {
   validateServiceUrl,
   validateMptPAT,
   exitWithFailureMessage,
+  warnIfAccessTokenCloseToExpiry,
   fetchOrValidateAccessToken,
   emitReportingUrl,
   populateValuesFromServiceUrl,
@@ -193,6 +194,38 @@ describe("Service Utils", () => {
     expect(exitStub.calledWith(1)).to.be.true;
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
+  it("should log a warning if the token is close to expiry", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    const currentTime = Date.now();
+    sandbox.stub(Date, "now").returns(currentTime);
+    const fiveDaysFromNow = Math.floor((currentTime + 5 * 24 * 60 * 60 * 1000) / 1000);
+    sandbox.stub(utils, "parseJwt").returns({ exp: fiveDaysFromNow });
+    const consoleWarningSpy = sandbox.stub(console, "warn");
+    warnIfAccessTokenCloseToExpiry();
+    const expirationTime = fiveDaysFromNow * 1000;
+    const daysToExpiration = Math.ceil((expirationTime - currentTime) / (24 * 60 * 60 * 1000));
+    const expirationDate = new Date(expirationTime).toLocaleDateString();
+    const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/en-us/entra/identity/`;
+    expect(consoleWarningSpy.calledOnce).to.be.true;
+    expect(consoleWarningSpy.calledWithExactly(expirationWarning)).to.be.true;
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+
+  it("should not log a warning if the token is not close to expiry", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    const thirtyDaysFromNow = Math.ceil((Date.now() + 30 * 24 * 60 * 60 * 1000) / 1000);
+    sandbox.stub(utils, "parseJwt").returns({ exp: thirtyDaysFromNow });
+    sandbox
+      .stub(utils, "populateValuesFromServiceUrl")
+      .returns({ region: "eastus", accountId: "123456789" });
+
+    const consoleWarningSpy = sandbox.stub(console, "warn");
+
+    warnIfAccessTokenCloseToExpiry();
+    expect(consoleWarningSpy.called).to.be.false;
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
 
   it("should be no-op if the MPT PAT and service URL are from same workspaces", () => {
     const processExitStub = sandbox.stub(process, "exit");
@@ -354,7 +387,7 @@ describe("Service Utils", () => {
     testRubrics.forEach(({ serviceUrl, reportingUrl }) => {
       process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = serviceUrl;
       emitReportingUrl();
-      expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL]).to.equal(
+      expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]).to.equal(
         reportingUrl,
       );
       delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];

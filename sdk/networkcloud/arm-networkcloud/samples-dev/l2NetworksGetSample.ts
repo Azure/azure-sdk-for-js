@@ -34,7 +34,7 @@ async function getL2Network() {
 }
 
 async function main() {
-  getL2Network();
+  await getL2Network();
 }
 
 main().catch(console.error);

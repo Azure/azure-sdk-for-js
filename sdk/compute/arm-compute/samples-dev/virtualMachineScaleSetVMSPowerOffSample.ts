@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineScaleSetVMsPowerOffOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineScaleSetVMsPowerOffOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated or already has been deallocated.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated or already has been deallocated.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_PowerOff_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMPowerOffMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetVMPowerOffMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaa";
   const instanceId = "aaaaaaaaa";
   const skipShutdown = true;
@@ -51,11 +43,9 @@ async function virtualMachineScaleSetVMPowerOffMaximumSetGen() {
  * @summary Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated or already has been deallocated.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_PowerOff_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMPowerOffMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetVMPowerOffMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -68,9 +58,9 @@ async function virtualMachineScaleSetVMPowerOffMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetVMPowerOffMaximumSetGen();
-  virtualMachineScaleSetVMPowerOffMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetVMPowerOffMaximumSetGen();
+  await virtualMachineScaleSetVMPowerOffMinimumSetGen();
 }
 
 main().catch(console.error);

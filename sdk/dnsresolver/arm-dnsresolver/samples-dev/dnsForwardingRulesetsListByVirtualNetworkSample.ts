@@ -40,7 +40,7 @@ async function listDnsForwardingRulesetsByVirtualNetwork() {
 }
 
 async function main() {
-  listDnsForwardingRulesetsByVirtualNetwork();
+  await listDnsForwardingRulesetsByVirtualNetwork();
 }
 
 main().catch(console.error);

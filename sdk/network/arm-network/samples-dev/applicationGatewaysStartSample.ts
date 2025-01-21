@@ -34,7 +34,7 @@ async function startApplicationGateway() {
 }
 
 async function main() {
-  startApplicationGateway();
+  await startApplicationGateway();
 }
 
 main().catch(console.error);

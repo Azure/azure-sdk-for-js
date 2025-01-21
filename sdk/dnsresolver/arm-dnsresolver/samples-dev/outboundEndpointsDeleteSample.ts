@@ -39,7 +39,7 @@ async function deleteOutboundEndpointForDnsResolver() {
 }
 
 async function main() {
-  deleteOutboundEndpointForDnsResolver();
+  await deleteOutboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

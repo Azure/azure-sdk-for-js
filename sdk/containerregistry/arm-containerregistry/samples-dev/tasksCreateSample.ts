@@ -13,9 +13,7 @@ import {
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a task for a container registry with the specified parameters.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a task for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksCreate.json
  */
-async function tasksCreate() {
+async function tasksCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -98,7 +96,7 @@ async function tasksCreate() {
  * @summary Creates a task for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksCreate_QuickTask.json
  */
-async function tasksCreateQuickTask() {
+async function tasksCreateQuickTask(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -134,7 +132,7 @@ async function tasksCreateQuickTask() {
  * @summary Creates a task for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithSystemAndUserIdentities.json
  */
-async function tasksCreateWithSystemAndUserIdentities() {
+async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -214,7 +212,7 @@ async function tasksCreateWithSystemAndUserIdentities() {
  * @summary Creates a task for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithUserIdentities.json
  */
-async function tasksCreateWithUserIdentities() {
+async function tasksCreateWithUserIdentities(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -295,7 +293,7 @@ async function tasksCreateWithUserIdentities() {
  * @summary Creates a task for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/ManagedIdentity/TasksCreate_WithSystemIdentity.json
  */
-async function tasksCreateWithUserIdentitiesWithSystemIdentity() {
+async function tasksCreateWithUserIdentitiesWithSystemIdentity(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -362,7 +360,7 @@ async function tasksCreateWithUserIdentitiesWithSystemIdentity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   tasksCreate();
   tasksCreateQuickTask();
   tasksCreateWithSystemAndUserIdentities();

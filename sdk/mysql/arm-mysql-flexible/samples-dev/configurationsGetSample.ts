@@ -41,7 +41,7 @@ async function getAConfiguration() {
 }
 
 async function main() {
-  getAConfiguration();
+  await getAConfiguration();
 }
 
 main().catch(console.error);

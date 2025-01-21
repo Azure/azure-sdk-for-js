@@ -80,7 +80,7 @@ async function updatesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroup
 }
 
 async function main() {
-  updatesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await updatesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

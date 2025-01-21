@@ -37,7 +37,7 @@ async function vnetGetUsage() {
 }
 
 async function main() {
-  vnetGetUsage();
+  await vnetGetUsage();
 }
 
 main().catch(console.error);

@@ -52,7 +52,7 @@ async function listWorkloadItemsInContainer() {
 }
 
 async function main() {
-  listWorkloadItemsInContainer();
+  await listWorkloadItemsInContainer();
 }
 
 main().catch(console.error);

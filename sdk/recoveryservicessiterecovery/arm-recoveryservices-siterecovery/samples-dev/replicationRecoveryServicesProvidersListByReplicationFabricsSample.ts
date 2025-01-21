@@ -43,7 +43,7 @@ async function getsTheListOfRegisteredRecoveryServicesProvidersForTheFabric() {
 }
 
 async function main() {
-  getsTheListOfRegisteredRecoveryServicesProvidersForTheFabric();
+  await getsTheListOfRegisteredRecoveryServicesProvidersForTheFabric();
 }
 
 main().catch(console.error);

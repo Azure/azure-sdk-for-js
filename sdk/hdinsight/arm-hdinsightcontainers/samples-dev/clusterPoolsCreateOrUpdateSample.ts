@@ -136,9 +136,9 @@ async function clusterPoolPutWithUdrAks() {
 }
 
 async function main() {
-  clusterPoolPut();
-  clusterPoolPutWithPrivateAks();
-  clusterPoolPutWithUdrAks();
+  await clusterPoolPut();
+  await clusterPoolPutWithPrivateAks();
+  await clusterPoolPutWithUdrAks();
 }
 
 main().catch(console.error);

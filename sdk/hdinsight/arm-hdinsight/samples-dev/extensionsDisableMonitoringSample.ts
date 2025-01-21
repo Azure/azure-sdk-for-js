@@ -34,7 +34,7 @@ async function disableClusterMonitoring() {
 }
 
 async function main() {
-  disableClusterMonitoring();
+  await disableClusterMonitoring();
 }
 
 main().catch(console.error);

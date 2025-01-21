@@ -35,7 +35,7 @@ async function vpnGatewayListByResourceGroup() {
 }
 
 async function main() {
-  vpnGatewayListByResourceGroup();
+  await vpnGatewayListByResourceGroup();
 }
 
 main().catch(console.error);

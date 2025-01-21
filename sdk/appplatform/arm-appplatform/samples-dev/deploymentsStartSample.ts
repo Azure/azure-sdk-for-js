@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Start the deployment.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Deployments_Start.json
  */
-async function deploymentsStart() {
+async function deploymentsStart(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function deploymentsStart() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploymentsStart();
 }
 

@@ -49,7 +49,7 @@ async function clustersCreate() {
 }
 
 async function main() {
-  clustersCreate();
+  await clustersCreate();
 }
 
 main().catch(console.error);

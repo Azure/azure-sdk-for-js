@@ -34,7 +34,7 @@ async function getWorkspaceSettingsOnSubscription() {
 }
 
 async function main() {
-  getWorkspaceSettingsOnSubscription();
+  await getWorkspaceSettingsOnSubscription();
 }
 
 main().catch(console.error);

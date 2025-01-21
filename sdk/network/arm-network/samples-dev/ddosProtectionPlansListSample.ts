@@ -32,7 +32,7 @@ async function listAllDDoSProtectionPlans() {
 }
 
 async function main() {
-  listAllDDoSProtectionPlans();
+  await listAllDDoSProtectionPlans();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function deletesTheServerInstanceResource() {
 }
 
 async function main() {
-  deletesTheServerInstanceResource();
+  await deletesTheServerInstanceResource();
 }
 
 main().catch(console.error);

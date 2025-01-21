@@ -68,8 +68,8 @@ async function inventoryItemsCreateMinimumSet() {
 }
 
 async function main() {
-  inventoryItemsCreateMaximumSet();
-  inventoryItemsCreateMinimumSet();
+  await inventoryItemsCreateMaximumSet();
+  await inventoryItemsCreateMinimumSet();
 }
 
 main().catch(console.error);

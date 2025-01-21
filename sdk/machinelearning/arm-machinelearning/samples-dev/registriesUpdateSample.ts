@@ -95,8 +95,8 @@ async function updateRegistryWithUserCreatedAccounts() {
 }
 
 async function main() {
-  updateRegistryWithSystemCreatedAccounts();
-  updateRegistryWithUserCreatedAccounts();
+  await updateRegistryWithSystemCreatedAccounts();
+  await updateRegistryWithUserCreatedAccounts();
 }
 
 main().catch(console.error);

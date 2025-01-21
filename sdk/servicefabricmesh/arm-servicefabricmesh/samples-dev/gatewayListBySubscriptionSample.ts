@@ -37,7 +37,7 @@ async function listGatewaysBySubscriptionId() {
 }
 
 async function main() {
-  listGatewaysBySubscriptionId();
+  await listGatewaysBySubscriptionId();
 }
 
 main().catch(console.error);

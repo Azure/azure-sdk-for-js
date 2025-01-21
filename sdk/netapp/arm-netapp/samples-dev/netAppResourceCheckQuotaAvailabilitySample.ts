@@ -40,7 +40,7 @@ async function checkQuotaAvailability() {
 }
 
 async function main() {
-  checkQuotaAvailability();
+  await checkQuotaAvailability();
 }
 
 main().catch(console.error);

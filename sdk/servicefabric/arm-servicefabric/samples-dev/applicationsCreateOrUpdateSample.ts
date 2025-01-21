@@ -146,9 +146,9 @@ async function putAnApplicationWithRecreateOption() {
 }
 
 async function main() {
-  putAnApplicationWithMaximumParameters();
-  putAnApplicationWithMinimumParameters();
-  putAnApplicationWithRecreateOption();
+  await putAnApplicationWithMaximumParameters();
+  await putAnApplicationWithMinimumParameters();
+  await putAnApplicationWithRecreateOption();
 }
 
 main().catch(console.error);

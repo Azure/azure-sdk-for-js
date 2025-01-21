@@ -49,7 +49,7 @@ async function updateAnArtifactState() {
 }
 
 async function main() {
-  updateAnArtifactState();
+  await updateAnArtifactState();
 }
 
 main().catch(console.error);

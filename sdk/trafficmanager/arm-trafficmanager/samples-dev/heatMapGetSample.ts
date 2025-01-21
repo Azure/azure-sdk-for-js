@@ -82,9 +82,9 @@ async function heatMapGetWithTopLeftBotRight() {
 }
 
 async function main() {
-  heatMapGet();
-  heatMapGetWithNullValues();
-  heatMapGetWithTopLeftBotRight();
+  await heatMapGet();
+  await heatMapGetWithNullValues();
+  await heatMapGetWithTopLeftBotRight();
 }
 
 main().catch(console.error);

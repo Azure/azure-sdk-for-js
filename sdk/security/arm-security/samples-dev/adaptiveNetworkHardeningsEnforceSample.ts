@@ -68,7 +68,7 @@ async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
 }
 
 async function main() {
-  enforcesTheGivenRulesOnTheNsgSListedInTheRequest();
+  await enforcesTheGivenRulesOnTheNsgSListedInTheRequest();
 }
 
 main().catch(console.error);

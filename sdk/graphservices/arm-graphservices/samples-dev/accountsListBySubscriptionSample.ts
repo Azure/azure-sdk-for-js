@@ -34,7 +34,7 @@ async function getListOfAccountsBySubscription() {
 }
 
 async function main() {
-  getListOfAccountsBySubscription();
+  await getListOfAccountsBySubscription();
 }
 
 main().catch(console.error);

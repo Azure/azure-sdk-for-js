@@ -34,7 +34,7 @@ async function getsAWafPolicyWithinAResourceGroup() {
 }
 
 async function main() {
-  getsAWafPolicyWithinAResourceGroup();
+  await getsAWafPolicyWithinAResourceGroup();
 }
 
 main().catch(console.error);

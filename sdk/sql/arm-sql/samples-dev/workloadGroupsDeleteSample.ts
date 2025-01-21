@@ -41,7 +41,7 @@ async function deleteAWorkloadGroup() {
 }
 
 async function main() {
-  deleteAWorkloadGroup();
+  await deleteAWorkloadGroup();
 }
 
 main().catch(console.error);

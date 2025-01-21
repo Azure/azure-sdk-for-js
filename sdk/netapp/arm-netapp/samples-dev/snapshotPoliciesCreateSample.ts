@@ -57,7 +57,7 @@ async function snapshotPoliciesCreate() {
 }
 
 async function main() {
-  snapshotPoliciesCreate();
+  await snapshotPoliciesCreate();
 }
 
 main().catch(console.error);

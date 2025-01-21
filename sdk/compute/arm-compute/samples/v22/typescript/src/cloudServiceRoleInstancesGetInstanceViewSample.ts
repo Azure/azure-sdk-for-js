@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about the run-time state of a role instance in a cloud service.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves information about the run-time state of a role instance in a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudServiceRoleInstance_Get_InstanceView.json
  */
-async function getInstanceViewOfCloudServiceRoleInstance() {
+async function getInstanceViewOfCloudServiceRoleInstance(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const roleInstanceName = "{roleInstance-name}";
@@ -37,7 +35,7 @@ async function getInstanceViewOfCloudServiceRoleInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getInstanceViewOfCloudServiceRoleInstance();
 }
 

@@ -39,7 +39,7 @@ async function catalogsUpdate() {
 }
 
 async function main() {
-  catalogsUpdate();
+  await catalogsUpdate();
 }
 
 main().catch(console.error);

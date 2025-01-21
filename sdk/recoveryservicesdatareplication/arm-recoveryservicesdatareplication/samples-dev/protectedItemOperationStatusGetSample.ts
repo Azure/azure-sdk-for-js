@@ -45,7 +45,7 @@ async function protectedItemOperationStatusGet() {
 }
 
 async function main() {
-  protectedItemOperationStatusGet();
+  await protectedItemOperationStatusGet();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function expressRouteConnectionGet() {
 }
 
 async function main() {
-  expressRouteConnectionGet();
+  await expressRouteConnectionGet();
 }
 
 main().catch(console.error);

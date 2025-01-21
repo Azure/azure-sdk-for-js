@@ -79,8 +79,8 @@ async function certificateObjectLocalRulestackCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  certificateObjectLocalRulestackCreateOrUpdateMaximumSetGen();
-  certificateObjectLocalRulestackCreateOrUpdateMinimumSetGen();
+  await certificateObjectLocalRulestackCreateOrUpdateMaximumSetGen();
+  await certificateObjectLocalRulestackCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

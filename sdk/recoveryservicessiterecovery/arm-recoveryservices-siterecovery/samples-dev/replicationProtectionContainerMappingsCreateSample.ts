@@ -59,7 +59,7 @@ async function createProtectionContainerMapping() {
 }
 
 async function main() {
-  createProtectionContainerMapping();
+  await createProtectionContainerMapping();
 }
 
 main().catch(console.error);

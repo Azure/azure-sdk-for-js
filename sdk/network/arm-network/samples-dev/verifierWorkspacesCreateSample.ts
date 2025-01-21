@@ -43,7 +43,7 @@ async function verifierWorkspaceCreate() {
 }
 
 async function main() {
-  verifierWorkspaceCreate();
+  await verifierWorkspaceCreate();
 }
 
 main().catch(console.error);

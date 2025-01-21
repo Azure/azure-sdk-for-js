@@ -47,7 +47,7 @@ async function createAnIPFirewallRule() {
 }
 
 async function main() {
-  createAnIPFirewallRule();
+  await createAnIPFirewallRule();
 }
 
 main().catch(console.error);

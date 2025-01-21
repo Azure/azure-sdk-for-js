@@ -40,7 +40,7 @@ async function dismissAnAggregatedIoTSecuritySolutionAlert() {
 }
 
 async function main() {
-  dismissAnAggregatedIoTSecuritySolutionAlert();
+  await dismissAnAggregatedIoTSecuritySolutionAlert();
 }
 
 main().catch(console.error);

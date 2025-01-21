@@ -58,7 +58,7 @@ async function patchCloudServicesNetwork() {
 }
 
 async function main() {
-  patchCloudServicesNetwork();
+  await patchCloudServicesNetwork();
 }
 
 main().catch(console.error);

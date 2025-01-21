@@ -34,7 +34,7 @@ async function listExadataInfrastructureBySubscription() {
 }
 
 async function main() {
-  listExadataInfrastructureBySubscription();
+  await listExadataInfrastructureBySubscription();
 }
 
 main().catch(console.error);

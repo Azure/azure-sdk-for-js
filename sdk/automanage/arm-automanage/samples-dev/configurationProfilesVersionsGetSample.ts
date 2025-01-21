@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get information about a configuration profile version
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getConfigurationProfileVersion.json
  */
-async function getAConfigurationProfileVersion() {
+async function getAConfigurationProfileVersion(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
@@ -35,7 +35,7 @@ async function getAConfigurationProfileVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAConfigurationProfileVersion();
 }
 

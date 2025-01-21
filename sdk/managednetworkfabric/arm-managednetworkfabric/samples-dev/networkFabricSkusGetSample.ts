@@ -35,7 +35,7 @@ async function networkFabricSkusGetMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricSkusGetMaximumSetGen();
+  await networkFabricSkusGetMaximumSetGen();
 }
 
 main().catch(console.error);

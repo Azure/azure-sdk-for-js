@@ -495,26 +495,26 @@ async function getAnOffice365DataConnector() {
 }
 
 async function main() {
-  getAApiPollingDataConnector();
-  getAAscDataConnector();
-  getADynamics365DataConnector();
-  getAGenericUiDataConnector();
-  getAIoTDataConnector();
-  getAMcasDataConnector();
-  getAMdatpDataConnector();
-  getAMicrosoftThreatIntelligenceDataConnector();
-  getAMicrosoftThreatProtectionDataConnector();
-  getATiTaxiiDataConnector();
-  getATiDataConnector();
-  getAnAadDataConnector();
-  getAnAatpDataConnector();
-  getAnAwsS3DataConnector();
-  getAnAwsCloudTrailDataConnector();
-  getAnOfficeAtpDataConnector();
-  getAnOfficeIrmDataConnector();
-  getAnOffice365PowerBiDataConnector();
-  getAnOffice365ProjectDataConnector();
-  getAnOffice365DataConnector();
+  await getAApiPollingDataConnector();
+  await getAAscDataConnector();
+  await getADynamics365DataConnector();
+  await getAGenericUiDataConnector();
+  await getAIoTDataConnector();
+  await getAMcasDataConnector();
+  await getAMdatpDataConnector();
+  await getAMicrosoftThreatIntelligenceDataConnector();
+  await getAMicrosoftThreatProtectionDataConnector();
+  await getATiTaxiiDataConnector();
+  await getATiDataConnector();
+  await getAnAadDataConnector();
+  await getAnAatpDataConnector();
+  await getAnAwsS3DataConnector();
+  await getAnAwsCloudTrailDataConnector();
+  await getAnOfficeAtpDataConnector();
+  await getAnOfficeIrmDataConnector();
+  await getAnOffice365PowerBiDataConnector();
+  await getAnOffice365ProjectDataConnector();
+  await getAnOffice365DataConnector();
 }
 
 main().catch(console.error);

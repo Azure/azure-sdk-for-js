@@ -34,7 +34,7 @@ async function domainsGet() {
 }
 
 async function main() {
-  domainsGet();
+  await domainsGet();
 }
 
 main().catch(console.error);

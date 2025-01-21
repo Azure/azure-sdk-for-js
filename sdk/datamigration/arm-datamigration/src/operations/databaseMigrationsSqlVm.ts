@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DatabaseMigrationsSqlVm } from "../operationsInterfaces";
+import { DatabaseMigrationsSqlVm } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataMigrationManagementClient } from "../dataMigrationManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataMigrationManagementClient } from "../dataMigrationManagementClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   DatabaseMigrationsSqlVmGetOptionalParams,
   DatabaseMigrationsSqlVmGetResponse,
@@ -22,7 +22,7 @@ import {
   MigrationOperationInput,
   DatabaseMigrationsSqlVmCancelOptionalParams,
   DatabaseMigrationsSqlVmCutoverOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DatabaseMigrationsSqlVm operations. */
 export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {

@@ -75,8 +75,8 @@ async function createNetworkSecurityGroupWithRule() {
 }
 
 async function main() {
-  createNetworkSecurityGroup();
-  createNetworkSecurityGroupWithRule();
+  await createNetworkSecurityGroup();
+  await createNetworkSecurityGroupWithRule();
 }
 
 main().catch(console.error);

@@ -74,7 +74,7 @@ async function createVirtualMachine() {
 }
 
 async function main() {
-  createVirtualMachine();
+  await createVirtualMachine();
 }
 
 main().catch(console.error);

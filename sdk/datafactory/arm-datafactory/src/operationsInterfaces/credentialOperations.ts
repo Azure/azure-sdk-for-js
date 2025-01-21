@@ -15,7 +15,7 @@ import {
   CredentialOperationsGetOptionalParams,
   CredentialOperationsGetResponse,
   CredentialOperationsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CredentialOperations. */

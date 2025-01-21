@@ -68,7 +68,7 @@ async function addsARecoveryServicesProvider() {
 }
 
 async function main() {
-  addsARecoveryServicesProvider();
+  await addsARecoveryServicesProvider();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function expressRouteGatewayGet() {
 }
 
 async function main() {
-  expressRouteGatewayGet();
+  await expressRouteGatewayGet();
 }
 
 main().catch(console.error);

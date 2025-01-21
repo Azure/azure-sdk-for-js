@@ -39,7 +39,7 @@ async function vMwareCollectorsDelete() {
 }
 
 async function main() {
-  vMwareCollectorsDelete();
+  await vMwareCollectorsDelete();
 }
 
 main().catch(console.error);

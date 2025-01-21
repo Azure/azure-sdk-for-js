@@ -45,7 +45,7 @@ async function getAListOfServiceResources() {
 }
 
 async function main() {
-  getAListOfServiceResources();
+  await getAListOfServiceResources();
 }
 
 main().catch(console.error);

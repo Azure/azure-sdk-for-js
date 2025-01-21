@@ -33,7 +33,7 @@ async function getADnsPrivateZoneByName() {
 }
 
 async function main() {
-  getADnsPrivateZoneByName();
+  await getADnsPrivateZoneByName();
 }
 
 main().catch(console.error);

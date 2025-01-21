@@ -191,8 +191,8 @@ async function firewallsUpdateMinimumSetGen() {
 }
 
 async function main() {
-  firewallsUpdateMaximumSetGen();
-  firewallsUpdateMinimumSetGen();
+  await firewallsUpdateMaximumSetGen();
+  await firewallsUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

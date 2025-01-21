@@ -39,7 +39,7 @@ async function deletePacketCapture() {
 }
 
 async function main() {
-  deletePacketCapture();
+  await deletePacketCapture();
 }
 
 main().catch(console.error);

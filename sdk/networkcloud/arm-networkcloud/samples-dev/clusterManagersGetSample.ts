@@ -37,7 +37,7 @@ async function getClusterManager() {
 }
 
 async function main() {
-  getClusterManager();
+  await getClusterManager();
 }
 
 main().catch(console.error);

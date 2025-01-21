@@ -39,7 +39,7 @@ async function getLocationHeaderResult() {
 }
 
 async function main() {
-  getLocationHeaderResult();
+  await getLocationHeaderResult();
 }
 
 main().catch(console.error);

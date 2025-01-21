@@ -32,7 +32,7 @@ async function getDetailsOfASubscriptionTicket() {
 }
 
 async function main() {
-  getDetailsOfASubscriptionTicket();
+  await getDetailsOfASubscriptionTicket();
 }
 
 main().catch(console.error);

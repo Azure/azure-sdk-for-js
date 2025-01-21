@@ -36,7 +36,7 @@ async function getAnAutonomousVersion() {
 }
 
 async function main() {
-  getAnAutonomousVersion();
+  await getAnAutonomousVersion();
 }
 
 main().catch(console.error);

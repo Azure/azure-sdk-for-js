@@ -35,7 +35,7 @@ async function listManagedInstanceTimeZonesByLocation() {
 }
 
 async function main() {
-  listManagedInstanceTimeZonesByLocation();
+  await listManagedInstanceTimeZonesByLocation();
 }
 
 main().catch(console.error);

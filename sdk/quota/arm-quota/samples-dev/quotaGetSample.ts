@@ -47,8 +47,8 @@ async function quotasUsagesRequestForNetwork() {
 }
 
 async function main() {
-  quotasGetRequestForCompute();
-  quotasUsagesRequestForNetwork();
+  await quotasGetRequestForCompute();
+  await quotasUsagesRequestForNetwork();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function createOrUpdateAnIntegrationAccountSession() {
 }
 
 async function main() {
-  createOrUpdateAnIntegrationAccountSession();
+  await createOrUpdateAnIntegrationAccountSession();
 }
 
 main().catch(console.error);

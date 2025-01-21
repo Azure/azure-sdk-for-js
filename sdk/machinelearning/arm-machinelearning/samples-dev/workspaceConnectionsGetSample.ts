@@ -42,7 +42,7 @@ async function getWorkspaceConnection() {
 }
 
 async function main() {
-  getWorkspaceConnection();
+  await getWorkspaceConnection();
 }
 
 main().catch(console.error);

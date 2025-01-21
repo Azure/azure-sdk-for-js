@@ -42,7 +42,7 @@ async function redisEnterpriseGetPrivateEndpointConnection() {
 }
 
 async function main() {
-  redisEnterpriseGetPrivateEndpointConnection();
+  await redisEnterpriseGetPrivateEndpointConnection();
 }
 
 main().catch(console.error);

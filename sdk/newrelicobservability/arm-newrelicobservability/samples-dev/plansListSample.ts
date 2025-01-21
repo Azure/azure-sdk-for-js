@@ -61,8 +61,8 @@ async function plansListMinimumSetGen() {
 }
 
 async function main() {
-  plansListMaximumSetGen();
-  plansListMinimumSetGen();
+  await plansListMaximumSetGen();
+  await plansListMinimumSetGen();
 }
 
 main().catch(console.error);

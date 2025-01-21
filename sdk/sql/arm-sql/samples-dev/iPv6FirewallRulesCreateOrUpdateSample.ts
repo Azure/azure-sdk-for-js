@@ -73,8 +73,8 @@ async function updateAnIPv6FirewallRuleMaxOrMin() {
 }
 
 async function main() {
-  createAnIPv6FirewallRuleMaxOrMin();
-  updateAnIPv6FirewallRuleMaxOrMin();
+  await createAnIPv6FirewallRuleMaxOrMin();
+  await updateAnIPv6FirewallRuleMaxOrMin();
 }
 
 main().catch(console.error);

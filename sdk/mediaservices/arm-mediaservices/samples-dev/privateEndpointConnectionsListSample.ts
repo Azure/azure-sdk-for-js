@@ -37,7 +37,7 @@ async function getAllPrivateEndpointConnections() {
 }
 
 async function main() {
-  getAllPrivateEndpointConnections();
+  await getAllPrivateEndpointConnections();
 }
 
 main().catch(console.error);

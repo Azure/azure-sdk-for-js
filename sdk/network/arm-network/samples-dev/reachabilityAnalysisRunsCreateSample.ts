@@ -51,7 +51,7 @@ async function reachabilityAnalysisRunCreate() {
 }
 
 async function main() {
-  reachabilityAnalysisRunCreate();
+  await reachabilityAnalysisRunCreate();
 }
 
 main().catch(console.error);

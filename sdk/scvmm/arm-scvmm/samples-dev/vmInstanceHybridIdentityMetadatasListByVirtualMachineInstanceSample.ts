@@ -53,8 +53,8 @@ async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMini
 }
 
 async function main() {
-  vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMaximumSet();
-  vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMinimumSet();
+  await vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMaximumSet();
+  await vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMinimumSet();
 }
 
 main().catch(console.error);

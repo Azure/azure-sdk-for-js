@@ -139,9 +139,9 @@ async function putBlobServices() {
 }
 
 async function main() {
-  blobServicesPutAllowPermanentDelete();
-  blobServicesPutLastAccessTimeBasedTracking();
-  putBlobServices();
+  await blobServicesPutAllowPermanentDelete();
+  await blobServicesPutLastAccessTimeBasedTracking();
+  await putBlobServices();
 }
 
 main().catch(console.error);

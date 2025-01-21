@@ -52,7 +52,7 @@ async function clusterUpgradeRollback() {
 }
 
 async function main() {
-  clusterUpgradeRollback();
+  await clusterUpgradeRollback();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function cancelsTheSpecifiedJob() {
 }
 
 async function main() {
-  cancelsTheSpecifiedJob();
+  await cancelsTheSpecifiedJob();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function listAllApplicationSecurityGroups() {
 }
 
 async function main() {
-  listAllApplicationSecurityGroups();
+  await listAllApplicationSecurityGroups();
 }
 
 main().catch(console.error);

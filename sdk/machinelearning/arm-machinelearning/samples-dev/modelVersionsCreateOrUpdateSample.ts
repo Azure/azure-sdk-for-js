@@ -59,7 +59,7 @@ async function createOrUpdateWorkspaceModelVersion() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceModelVersion();
+  await createOrUpdateWorkspaceModelVersion();
 }
 
 main().catch(console.error);

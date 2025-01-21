@@ -52,6 +52,10 @@ export const enum OutputKind {
  */
 export interface SampleGenerationInfo extends SampleConfiguration {
   /**
+   * The scope part of the package name. For example, the base part of "@azure/template" is "@azure".
+   */
+  scope?: string;
+  /**
    * The base part of the package name. For example, the base part of "@azure/template" is "template".
    */
   baseName: string;

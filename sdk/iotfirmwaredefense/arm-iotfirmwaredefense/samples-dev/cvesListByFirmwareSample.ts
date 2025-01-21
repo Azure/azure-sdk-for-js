@@ -69,8 +69,8 @@ async function cvesListByFirmwareMinimumSetGen() {
 }
 
 async function main() {
-  cvesListByFirmwareMaximumSetGen();
-  cvesListByFirmwareMinimumSetGen();
+  await cvesListByFirmwareMaximumSetGen();
+  await cvesListByFirmwareMinimumSetGen();
 }
 
 main().catch(console.error);

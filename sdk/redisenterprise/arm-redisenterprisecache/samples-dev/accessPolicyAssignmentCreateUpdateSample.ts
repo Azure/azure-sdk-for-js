@@ -53,7 +53,7 @@ async function redisEnterpriseAccessPolicyAssignmentCreateUpdate() {
 }
 
 async function main() {
-  redisEnterpriseAccessPolicyAssignmentCreateUpdate();
+  await redisEnterpriseAccessPolicyAssignmentCreateUpdate();
 }
 
 main().catch(console.error);

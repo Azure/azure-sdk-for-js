@@ -53,7 +53,7 @@ async function privateEndpointConnectionsUpdate() {
 }
 
 async function main() {
-  privateEndpointConnectionsUpdate();
+  await privateEndpointConnectionsUpdate();
 }
 
 main().catch(console.error);

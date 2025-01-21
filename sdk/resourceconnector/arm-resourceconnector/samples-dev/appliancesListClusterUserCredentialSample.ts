@@ -40,7 +40,7 @@ async function listClusterUserCredentialAppliance() {
 }
 
 async function main() {
-  listClusterUserCredentialAppliance();
+  await listClusterUserCredentialAppliance();
 }
 
 main().catch(console.error);

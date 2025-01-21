@@ -40,7 +40,7 @@ async function listBigDataPoolsInAWorkspace() {
 }
 
 async function main() {
-  listBigDataPoolsInAWorkspace();
+  await listBigDataPoolsInAWorkspace();
 }
 
 main().catch(console.error);

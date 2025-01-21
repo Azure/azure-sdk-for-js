@@ -34,7 +34,7 @@ async function getAllCloudAccountsConnectorsOfASubscription() {
 }
 
 async function main() {
-  getAllCloudAccountsConnectorsOfASubscription();
+  await getAllCloudAccountsConnectorsOfASubscription();
 }
 
 main().catch(console.error);

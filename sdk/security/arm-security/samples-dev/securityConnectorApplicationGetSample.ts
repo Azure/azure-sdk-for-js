@@ -39,7 +39,7 @@ async function getSecurityApplicationsBySpecificApplicationId() {
 }
 
 async function main() {
-  getSecurityApplicationsBySpecificApplicationId();
+  await getSecurityApplicationsBySpecificApplicationId();
 }
 
 main().catch(console.error);

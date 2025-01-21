@@ -39,7 +39,7 @@ async function deleteSentinelOnboardingState() {
 }
 
 async function main() {
-  deleteSentinelOnboardingState();
+  await deleteSentinelOnboardingState();
 }
 
 main().catch(console.error);

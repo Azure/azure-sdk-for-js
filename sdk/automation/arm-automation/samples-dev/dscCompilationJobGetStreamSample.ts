@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the job stream identified by job stream id.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/compilationJobStreamByJobStreamId.json
  */
-async function getADscCompilationJobStreamByJobStreamId() {
+async function getADscCompilationJobStreamByJobStreamId(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -36,7 +36,7 @@ async function getADscCompilationJobStreamByJobStreamId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getADscCompilationJobStreamByJobStreamId();
 }
 

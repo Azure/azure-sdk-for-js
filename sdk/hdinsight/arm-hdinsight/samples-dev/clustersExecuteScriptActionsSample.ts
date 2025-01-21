@@ -49,7 +49,7 @@ async function executeScriptActionOnHdInsightCluster() {
 }
 
 async function main() {
-  executeScriptActionOnHdInsightCluster();
+  await executeScriptActionOnHdInsightCluster();
 }
 
 main().catch(console.error);

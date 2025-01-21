@@ -47,7 +47,7 @@ async function getsTheListOfTargetComputeSizesForTheReplicationProtectedItem() {
 }
 
 async function main() {
-  getsTheListOfTargetComputeSizesForTheReplicationProtectedItem();
+  await getsTheListOfTargetComputeSizesForTheReplicationProtectedItem();
 }
 
 main().catch(console.error);

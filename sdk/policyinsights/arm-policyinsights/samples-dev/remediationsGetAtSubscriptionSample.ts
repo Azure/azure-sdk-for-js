@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an existing remediation at subscription scope.
  *
  * @summary Gets an existing remediation at subscription scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_GetSubscriptionScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_GetSubscriptionScope.json
  */
 async function getRemediationAtSubscriptionScope() {
   const subscriptionId =
@@ -32,7 +30,7 @@ async function getRemediationAtSubscriptionScope() {
 }
 
 async function main() {
-  getRemediationAtSubscriptionScope();
+  await getRemediationAtSubscriptionScope();
 }
 
 main().catch(console.error);

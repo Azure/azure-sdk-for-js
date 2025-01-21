@@ -40,7 +40,7 @@ async function listAWorkflowsVersions() {
 }
 
 async function main() {
-  listAWorkflowsVersions();
+  await listAWorkflowsVersions();
 }
 
 main().catch(console.error);

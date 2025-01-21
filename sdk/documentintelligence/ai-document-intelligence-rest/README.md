@@ -10,7 +10,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-document-intelligence)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-document-intelligence?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/ai-document-intelligence?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/samples)
 - [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md)
 - [Migration Guide from Form Recognizer](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/MIGRATION-FR_v4-DI_v1.md)
@@ -19,19 +19,19 @@ Key links:
 
 This table shows the relationship between SDK versions and supported API versions of the service:
 
-| SDK version  | Supported API version of service |
-| ------------ | -------------------------------- |
-| 1.0.0        | 2024-11-30                       |
+| SDK version | Supported API version of service |
+| ----------- | -------------------------------- |
+| 1.0.0       | 2024-11-30                       |
 
 > Please rely on the older `@azure/ai-form-recognizer` library through the older service API versions for retired models, such as `"prebuilt-businessCard"` and `"prebuilt-document"`. For more information, see [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md).
 
 The below table describes the relationship of each client and its supported API version(s):
 
-| Service API version | Supported clients                                            | Package                                                       |
-| ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
-| 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0`        |
-| 2023-07-31          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^5.0.0`                  |
-| 2022-08-01          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^4.0.0`                  |
+| Service API version | Supported clients                                            | Package                                                |
+| ------------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
+| 2024-11-30          | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0` |
+| 2023-07-31          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^5.0.0`           |
+| 2022-08-01          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^4.0.0`           |
 
 ## Getting started
 
@@ -73,7 +73,7 @@ import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
 
 const client = DocumentIntelligence(
   process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
-  new DefaultAzureCredential()
+  new DefaultAzureCredential(),
 );
 ```
 
@@ -328,7 +328,7 @@ const output = await client
   .path(
     "/documentModels/{modelId}/analyzeResults/{resultId}/pdf",
     "prebuilt-read",
-    parseResultIdFromResponse(initialResponse)
+    parseResultIdFromResponse(initialResponse),
   )
   .get()
   .asNodeStream(); // output.body would be NodeJS.ReadableStream
@@ -377,7 +377,7 @@ const output = await client
     "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
     "prebuilt-layout",
     parseResultIdFromResponse(initialResponse),
-    figureId
+    figureId,
   )
   .get()
   .asNodeStream(); // output.body would be NodeJS.ReadableStream

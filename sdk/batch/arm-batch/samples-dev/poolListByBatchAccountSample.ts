@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists all of the pools in the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolList.json
  */
-async function listPool() {
+async function listPool(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -44,7 +44,7 @@ async function listPool() {
  * @summary Lists all of the pools in the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolListWithFilter.json
  */
-async function listPoolWithFilter() {
+async function listPoolWithFilter(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -67,7 +67,7 @@ async function listPoolWithFilter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPool();
   listPoolWithFilter();
 }

@@ -76,7 +76,7 @@ async function createOrUpdateBareMetalMachineKeySetOfCluster() {
 }
 
 async function main() {
-  createOrUpdateBareMetalMachineKeySetOfCluster();
+  await createOrUpdateBareMetalMachineKeySetOfCluster();
 }
 
 main().catch(console.error);

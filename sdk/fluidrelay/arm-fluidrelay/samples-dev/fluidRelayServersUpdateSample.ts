@@ -40,7 +40,7 @@ async function updateAFluidRelayServer() {
 }
 
 async function main() {
-  updateAFluidRelayServer();
+  await updateAFluidRelayServer();
 }
 
 main().catch(console.error);

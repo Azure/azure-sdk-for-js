@@ -61,8 +61,8 @@ async function listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm() {
 }
 
 async function main() {
-  listDedicatedHsmDevicesInAResourceGroup();
-  listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm();
+  await listDedicatedHsmDevicesInAResourceGroup();
+  await listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm();
 }
 
 main().catch(console.error);

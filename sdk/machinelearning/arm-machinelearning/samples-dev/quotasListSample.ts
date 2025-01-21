@@ -38,7 +38,7 @@ async function listWorkspaceQuotasByVMFamily() {
 }
 
 async function main() {
-  listWorkspaceQuotasByVMFamily();
+  await listWorkspaceQuotasByVMFamily();
 }
 
 main().catch(console.error);

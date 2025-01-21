@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create an API Key of an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/APIKeysCreate.json
  */
-async function apiKeyCreate() {
+async function apiKeyCreate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "my-resource-group";
   const resourceName = "my-component";

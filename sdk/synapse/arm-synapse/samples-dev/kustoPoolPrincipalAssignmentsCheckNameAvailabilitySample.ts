@@ -47,7 +47,7 @@ async function kustoPoolPrincipalAssignmentsCheckNameAvailability() {
 }
 
 async function main() {
-  kustoPoolPrincipalAssignmentsCheckNameAvailability();
+  await kustoPoolPrincipalAssignmentsCheckNameAvailability();
 }
 
 main().catch(console.error);

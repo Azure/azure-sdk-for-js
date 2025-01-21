@@ -40,7 +40,7 @@ async function iotHubResourceGetEndpointHealth() {
 }
 
 async function main() {
-  iotHubResourceGetEndpointHealth();
+  await iotHubResourceGetEndpointHealth();
 }
 
 main().catch(console.error);

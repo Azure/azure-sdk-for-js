@@ -84,10 +84,10 @@ async function updatePricingOnSubscriptionExampleForVirtualMachinesPlan() {
 }
 
 async function main() {
-  updatePricingOnResourceExampleForVirtualMachinesPlan();
-  updatePricingOnSubscriptionExampleForCloudPosturePlan();
-  updatePricingOnSubscriptionExampleForCloudPosturePlanPartialSuccess();
-  updatePricingOnSubscriptionExampleForVirtualMachinesPlan();
+  await updatePricingOnResourceExampleForVirtualMachinesPlan();
+  await updatePricingOnSubscriptionExampleForCloudPosturePlan();
+  await updatePricingOnSubscriptionExampleForCloudPosturePlanPartialSuccess();
+  await updatePricingOnSubscriptionExampleForVirtualMachinesPlan();
 }
 
 main().catch(console.error);

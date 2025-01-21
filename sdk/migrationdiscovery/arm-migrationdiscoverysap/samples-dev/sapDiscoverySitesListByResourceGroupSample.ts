@@ -38,7 +38,7 @@ async function listSapMigrationDiscoverySiteResourcesByResourceGroup() {
 }
 
 async function main() {
-  listSapMigrationDiscoverySiteResourcesByResourceGroup();
+  await listSapMigrationDiscoverySiteResourcesByResourceGroup();
 }
 
 main().catch(console.error);

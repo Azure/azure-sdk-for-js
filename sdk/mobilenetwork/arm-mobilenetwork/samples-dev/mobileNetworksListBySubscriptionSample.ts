@@ -34,7 +34,7 @@ async function listMobileNetworksInASubscription() {
 }
 
 async function main() {
-  listMobileNetworksInASubscription();
+  await listMobileNetworksInASubscription();
 }
 
 main().catch(console.error);

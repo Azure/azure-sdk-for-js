@@ -37,7 +37,7 @@ async function maintenanceConfigurationsDeleteForResource() {
 }
 
 async function main() {
-  maintenanceConfigurationsDeleteForResource();
+  await maintenanceConfigurationsDeleteForResource();
 }
 
 main().catch(console.error);

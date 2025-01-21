@@ -51,7 +51,7 @@ async function createOrUpdateADicomService() {
 }
 
 async function main() {
-  createOrUpdateADicomService();
+  await createOrUpdateADicomService();
 }
 
 main().catch(console.error);

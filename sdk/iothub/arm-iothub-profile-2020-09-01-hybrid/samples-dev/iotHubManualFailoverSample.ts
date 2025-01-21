@@ -42,7 +42,7 @@ async function iotHubManualFailover() {
 }
 
 async function main() {
-  iotHubManualFailover();
+  await iotHubManualFailover();
 }
 
 main().catch(console.error);

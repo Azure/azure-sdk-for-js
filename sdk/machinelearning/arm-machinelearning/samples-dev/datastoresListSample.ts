@@ -61,7 +61,7 @@ async function listDatastores() {
 }
 
 async function main() {
-  listDatastores();
+  await listDatastores();
 }
 
 main().catch(console.error);

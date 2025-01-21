@@ -40,7 +40,7 @@ async function listConsolesOfTheVirtualMachine() {
 }
 
 async function main() {
-  listConsolesOfTheVirtualMachine();
+  await listConsolesOfTheVirtualMachine();
 }
 
 main().catch(console.error);

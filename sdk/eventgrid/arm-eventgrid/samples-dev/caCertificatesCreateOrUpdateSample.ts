@@ -44,7 +44,7 @@ async function caCertificatesCreateOrUpdate() {
 }
 
 async function main() {
-  caCertificatesCreateOrUpdate();
+  await caCertificatesCreateOrUpdate();
 }
 
 main().catch(console.error);

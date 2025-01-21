@@ -40,7 +40,7 @@ async function listProtectionIntentWithBackupManagementTypeFilter() {
 }
 
 async function main() {
-  listProtectionIntentWithBackupManagementTypeFilter();
+  await listProtectionIntentWithBackupManagementTypeFilter();
 }
 
 main().catch(console.error);

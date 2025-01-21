@@ -39,7 +39,7 @@ async function listAuthKeys() {
 }
 
 async function main() {
-  listAuthKeys();
+  await listAuthKeys();
 }
 
 main().catch(console.error);

@@ -93,9 +93,9 @@ async function endpointGetExternalWithSubnetMapping() {
 }
 
 async function main() {
-  endpointGetExternalWithGeoMapping();
-  endpointGetExternalWithLocation();
-  endpointGetExternalWithSubnetMapping();
+  await endpointGetExternalWithGeoMapping();
+  await endpointGetExternalWithLocation();
+  await endpointGetExternalWithSubnetMapping();
 }
 
 main().catch(console.error);

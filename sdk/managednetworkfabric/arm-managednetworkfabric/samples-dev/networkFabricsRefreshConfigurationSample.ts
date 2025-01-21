@@ -40,7 +40,7 @@ async function networkFabricsRefreshConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricsRefreshConfigurationMaximumSetGen();
+  await networkFabricsRefreshConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

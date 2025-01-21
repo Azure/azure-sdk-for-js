@@ -38,7 +38,7 @@ async function virtualWanUpdate() {
 }
 
 async function main() {
-  virtualWanUpdate();
+  await virtualWanUpdate();
 }
 
 main().catch(console.error);

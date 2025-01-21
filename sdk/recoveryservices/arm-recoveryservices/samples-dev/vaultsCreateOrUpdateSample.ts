@@ -261,12 +261,12 @@ async function createOrUpdateVaultWithUserAssignedIdentity() {
 }
 
 async function main() {
-  createOrUpdateRecoveryServicesVault();
-  createOrUpdateVaultWithMonitoringSetting();
-  createOrUpdateVaultWithRedundancySetting();
-  createOrUpdateVaultPerformingCriticalOperationWithMua();
-  createOrUpdateVaultWithCustomerManagedKeys();
-  createOrUpdateVaultWithUserAssignedIdentity();
+  await createOrUpdateRecoveryServicesVault();
+  await createOrUpdateVaultWithMonitoringSetting();
+  await createOrUpdateVaultWithRedundancySetting();
+  await createOrUpdateVaultPerformingCriticalOperationWithMua();
+  await createOrUpdateVaultWithCustomerManagedKeys();
+  await createOrUpdateVaultWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

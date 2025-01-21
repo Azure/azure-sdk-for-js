@@ -36,7 +36,7 @@ async function configurationPolicyGroupDelete() {
 }
 
 async function main() {
-  configurationPolicyGroupDelete();
+  await configurationPolicyGroupDelete();
 }
 
 main().catch(console.error);

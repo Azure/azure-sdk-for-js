@@ -42,7 +42,7 @@ async function deleteWorkspaceFeaturesetContainer() {
 }
 
 async function main() {
-  deleteWorkspaceFeaturesetContainer();
+  await deleteWorkspaceFeaturesetContainer();
 }
 
 main().catch(console.error);

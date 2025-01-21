@@ -42,7 +42,7 @@ async function deletesAnAvailabilityGroupListener() {
 }
 
 async function main() {
-  deletesAnAvailabilityGroupListener();
+  await deletesAnAvailabilityGroupListener();
 }
 
 main().catch(console.error);

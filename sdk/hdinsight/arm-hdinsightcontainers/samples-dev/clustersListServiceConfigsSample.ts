@@ -44,7 +44,7 @@ async function hdInsightClusterGetServiceConfigs() {
 }
 
 async function main() {
-  hdInsightClusterGetServiceConfigs();
+  await hdInsightClusterGetServiceConfigs();
 }
 
 main().catch(console.error);

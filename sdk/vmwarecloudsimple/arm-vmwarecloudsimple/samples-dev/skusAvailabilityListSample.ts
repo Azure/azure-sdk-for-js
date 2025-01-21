@@ -34,7 +34,7 @@ async function listAvailabilities() {
 }
 
 async function main() {
-  listAvailabilities();
+  await listAvailabilities();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function deletesTheSensitivityLabelOfAGivenColumn() {
 }
 
 async function main() {
-  deletesTheSensitivityLabelOfAGivenColumn();
+  await deletesTheSensitivityLabelOfAGivenColumn();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listDataCollectionEndpointsByResourceGroup() {
 }
 
 async function main() {
-  listDataCollectionEndpointsByResourceGroup();
+  await listDataCollectionEndpointsByResourceGroup();
 }
 
 main().catch(console.error);

@@ -79,8 +79,8 @@ async function updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecifi
 }
 
 async function main() {
-  updatesManagedInstanceDtcSettingsByEnablingDtc();
-  updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecified();
+  await updatesManagedInstanceDtcSettingsByEnablingDtc();
+  await updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecified();
 }
 
 main().catch(console.error);

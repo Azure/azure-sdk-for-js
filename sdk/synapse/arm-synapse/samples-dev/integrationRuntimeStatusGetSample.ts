@@ -39,7 +39,7 @@ async function getStatus() {
 }
 
 async function main() {
-  getStatus();
+  await getStatus();
 }
 
 main().catch(console.error);

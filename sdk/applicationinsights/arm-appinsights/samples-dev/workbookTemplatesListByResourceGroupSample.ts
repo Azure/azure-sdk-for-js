@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get all Workbook templates defined within a specified resource group.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-11-20/examples/WorkbookTemplatesList.json
  */
-async function workbookTemplatesList() {
+async function workbookTemplatesList(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const resourceGroupName = "my-resource-group";
   const credential = new DefaultAzureCredential();

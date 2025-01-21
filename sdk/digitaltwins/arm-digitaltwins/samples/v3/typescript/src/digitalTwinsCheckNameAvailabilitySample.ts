@@ -13,9 +13,7 @@ import {
   AzureDigitalTwinsManagementClient
 } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check if a DigitalTwinsInstance name is available.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Check if a DigitalTwinsInstance name is available.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsCheckNameAvailability_example.json
  */
-async function checkNameAvailability() {
+async function checkNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] ||
     "50016170-c839-41ba-a724-51e9df440b9e";
@@ -44,7 +42,7 @@ async function checkNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkNameAvailability();
 }
 

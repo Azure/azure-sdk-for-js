@@ -33,7 +33,7 @@ async function getAvailableSslPredefinedPolicyByName() {
 }
 
 async function main() {
-  getAvailableSslPredefinedPolicyByName();
+  await getAvailableSslPredefinedPolicyByName();
 }
 
 main().catch(console.error);

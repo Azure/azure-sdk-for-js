@@ -40,7 +40,7 @@ async function signalRPrivateEndpointConnectionsDelete() {
 }
 
 async function main() {
-  signalRPrivateEndpointConnectionsDelete();
+  await signalRPrivateEndpointConnectionsDelete();
 }
 
 main().catch(console.error);

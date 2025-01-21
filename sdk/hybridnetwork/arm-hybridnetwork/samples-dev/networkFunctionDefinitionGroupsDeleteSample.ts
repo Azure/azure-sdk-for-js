@@ -38,7 +38,7 @@ async function deleteANetworkFunctionGroupResource() {
 }
 
 async function main() {
-  deleteANetworkFunctionGroupResource();
+  await deleteANetworkFunctionGroupResource();
 }
 
 main().catch(console.error);

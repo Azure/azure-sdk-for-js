@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a transfer request by ID. The caller must be the recipient of the transfer request.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/recipientTransfersGet.json
  */
-async function recipientTransferGet() {
+async function recipientTransferGet(): Promise<void> {
   const transferName = "aabb123";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -26,7 +26,7 @@ async function recipientTransferGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   recipientTransferGet();
 }
 

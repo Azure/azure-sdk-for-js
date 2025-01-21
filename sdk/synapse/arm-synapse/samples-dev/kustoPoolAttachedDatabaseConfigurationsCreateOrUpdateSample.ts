@@ -60,7 +60,7 @@ async function kustoPoolAttachedDatabaseConfigurationsCreateOrUpdate() {
 }
 
 async function main() {
-  kustoPoolAttachedDatabaseConfigurationsCreateOrUpdate();
+  await kustoPoolAttachedDatabaseConfigurationsCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -57,8 +57,8 @@ async function preRulesRefreshCountersMinimumSetGen() {
 }
 
 async function main() {
-  preRulesRefreshCountersMaximumSetGen();
-  preRulesRefreshCountersMinimumSetGen();
+  await preRulesRefreshCountersMaximumSetGen();
+  await preRulesRefreshCountersMinimumSetGen();
 }
 
 main().catch(console.error);

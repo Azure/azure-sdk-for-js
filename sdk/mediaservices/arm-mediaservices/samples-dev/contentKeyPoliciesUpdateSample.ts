@@ -54,7 +54,7 @@ async function updateAContentKeyPolicy() {
 }
 
 async function main() {
-  updateAContentKeyPolicy();
+  await updateAContentKeyPolicy();
 }
 
 main().catch(console.error);

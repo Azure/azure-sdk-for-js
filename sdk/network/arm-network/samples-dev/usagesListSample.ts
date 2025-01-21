@@ -51,8 +51,8 @@ async function listUsagesSpacedLocation() {
 }
 
 async function main() {
-  listUsages();
-  listUsagesSpacedLocation();
+  await listUsages();
+  await listUsagesSpacedLocation();
 }
 
 main().catch(console.error);

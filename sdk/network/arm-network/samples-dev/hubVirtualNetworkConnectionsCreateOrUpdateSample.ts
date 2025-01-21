@@ -81,7 +81,7 @@ async function hubVirtualNetworkConnectionPut() {
 }
 
 async function main() {
-  hubVirtualNetworkConnectionPut();
+  await hubVirtualNetworkConnectionPut();
 }
 
 main().catch(console.error);

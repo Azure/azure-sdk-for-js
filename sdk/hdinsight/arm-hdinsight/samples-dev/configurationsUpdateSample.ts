@@ -67,8 +67,8 @@ async function enableHttpConnectivity() {
 }
 
 async function main() {
-  disableHttpConnectivity();
-  enableHttpConnectivity();
+  await disableHttpConnectivity();
+  await enableHttpConnectivity();
 }
 
 main().catch(console.error);

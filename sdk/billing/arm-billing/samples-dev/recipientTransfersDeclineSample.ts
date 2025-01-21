@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Declines a transfer request.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/recipientTransfersDecline.json
  */
-async function declineTransfer() {
+async function declineTransfer(): Promise<void> {
   const transferName = "aabb123";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -26,7 +26,7 @@ async function declineTransfer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   declineTransfer();
 }
 

@@ -35,7 +35,7 @@ async function listKubernetesVersions() {
 }
 
 async function main() {
-  listKubernetesVersions();
+  await listKubernetesVersions();
 }
 
 main().catch(console.error);

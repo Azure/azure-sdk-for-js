@@ -63,8 +63,8 @@ async function cloudsUpdateMinimumSet() {
 }
 
 async function main() {
-  cloudsUpdateMaximumSet();
-  cloudsUpdateMinimumSet();
+  await cloudsUpdateMaximumSet();
+  await cloudsUpdateMinimumSet();
 }
 
 main().catch(console.error);

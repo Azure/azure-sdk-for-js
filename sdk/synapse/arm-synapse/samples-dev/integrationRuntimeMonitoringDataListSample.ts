@@ -39,7 +39,7 @@ async function getMonitoringData() {
 }
 
 async function main() {
-  getMonitoringData();
+  await getMonitoringData();
 }
 
 main().catch(console.error);

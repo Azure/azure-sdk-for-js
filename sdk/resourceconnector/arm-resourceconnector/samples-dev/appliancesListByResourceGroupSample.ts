@@ -41,7 +41,7 @@ async function listAppliancesByResourceGroup() {
 }
 
 async function main() {
-  listAppliancesByResourceGroup();
+  await listAppliancesByResourceGroup();
 }
 
 main().catch(console.error);

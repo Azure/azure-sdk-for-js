@@ -68,7 +68,7 @@ async function patchKubernetesCluster() {
 }
 
 async function main() {
-  patchKubernetesCluster();
+  await patchKubernetesCluster();
 }
 
 main().catch(console.error);

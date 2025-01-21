@@ -36,7 +36,7 @@ async function createCustomIPPrefixAllocationMethod() {
 }
 
 async function main() {
-  createCustomIPPrefixAllocationMethod();
+  await createCustomIPPrefixAllocationMethod();
 }
 
 main().catch(console.error);

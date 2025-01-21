@@ -30,11 +30,12 @@ To troubleshoot issues with Azure Monitor Query library, it's important to first
 
 To see a log of HTTP requests and responses:
 
- 1. Set the `AZURE_LOG_LEVEL` environment variable to `info` in your *.env* file:
+1.  Set the `AZURE_LOG_LEVEL` environment variable to `info` in your _.env_ file:
 
-  ```text
-  AZURE_LOG_LEVEL = info
-  ```
+```text
+AZURE_LOG_LEVEL = info
+```
+
 2. Add the following code to the app:
 
 ```ts
@@ -69,7 +70,7 @@ For more help on troubleshooting authentication errors, see the Azure Identity c
 If you get an HTTP error with status code 403 (Forbidden), the provided credentials lack sufficient permissions to query the workspace.
 
 ```json
- {
+{
   "name": "RestError",
   "code": "InsufficientAccessError",
   "statusCode": 403,
@@ -106,7 +107,7 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
 ```
 
 1. Check that the application or user making the request has sufficient permissions:
-   - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
+   - You can refer to this document to [manage access to workspaces](https://learn.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
 2. If the user or application is granted sufficient privileges to query the workspace, ensure you're authenticating as that user/application. If you're authenticating using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential), check the logs to verify the credential used is the one you expected. To enable logging, see the [Enable client logging](#enable-client-logging) section.
 
 ### Invalid Kusto query
@@ -161,7 +162,7 @@ If you get an HTTP error with status code 400 (Bad Request), you may have an err
 }
 ```
 
-The error message may include the line number and position where the Kusto query has an error (line 2, position 244 in the above example). You may also refer to the [Kusto Query Language](https://docs.microsoft.com/azure/data-explorer/kusto/query) reference docs to learn more about querying logs using KQL.
+The error message may include the line number and position where the Kusto query has an error (line 2, position 244 in the above example). You may also refer to the [Kusto Query Language](https://learn.microsoft.com/azure/data-explorer/kusto/query) reference docs to learn more about querying logs using KQL.
 
 ### Empty log query results
 
@@ -218,7 +219,6 @@ You may see an error as follows:
   },
   "message": "Gateway timeout"
 }
-
 ```
 
 The following code shows a sample of setting the server timeout to 10 minutes. By setting this server timeout, the Azure Monitor Query library automatically extends the client timeout to wait for 10 minutes for the server to respond. You don't need to configure your HTTP client to extend the response timeout, as shown in the previous section.
@@ -230,11 +230,11 @@ import { LogsQueryClient } from "@azure/monitor-query";
 const credential = new DefaultAzureCredential();
 const logsQueryClient = new LogsQueryClient(credential);
 const result = await logsQueryClient.queryWorkspace(
-        monitorWorkspaceId,
-        kustoQuery,
-        { duration: Durations.oneHour },
-        {serverTimeoutInSeconds: 600}
-        );
+  monitorWorkspaceId,
+  kustoQuery,
+  { duration: Durations.oneHour },
+  { serverTimeoutInSeconds: 600 },
+);
 ```
 
 ### Partially successful logs query requests
@@ -277,16 +277,16 @@ async function processBatchResult(result: LogsQueryBatchResult) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
     if (response.status === LogsQueryResultStatus.Success) {
       console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.partialTables);
       console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
       );
     } else {
       console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -337,11 +337,10 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
   },
   "message": "The client '<client-id>' with object id '<object-id>' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
 }
-
 ```
 
 1. Check that the application or user making the request has sufficient permissions:
-   - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
+   - You can refer to this document to [manage access to workspaces](https://learn.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
 2. If the user or application is granted sufficient privileges to query the workspace, make sure you're authenticating as that user/application. If you're authenticating using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/identity/azure-identity/README.md#authenticating-with-defaultazurecredential), check the logs to verify that the credential used is the one you expected. To enable logging, see the [Enable client logging](#enable-client-logging) section.
 
 ### Unsupported granularity for metrics query

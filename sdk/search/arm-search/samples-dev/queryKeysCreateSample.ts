@@ -37,7 +37,7 @@ async function searchCreateQueryKey() {
 }
 
 async function main() {
-  searchCreateQueryKey();
+  await searchCreateQueryKey();
 }
 
 main().catch(console.error);

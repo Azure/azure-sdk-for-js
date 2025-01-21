@@ -37,7 +37,7 @@ async function checkNameAvailability() {
 }
 
 async function main() {
-  checkNameAvailability();
+  await checkNameAvailability();
 }
 
 main().catch(console.error);

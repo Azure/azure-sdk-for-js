@@ -52,7 +52,7 @@ async function createOrUpdateSchema() {
 }
 
 async function main() {
-  createOrUpdateSchema();
+  await createOrUpdateSchema();
 }
 
 main().catch(console.error);

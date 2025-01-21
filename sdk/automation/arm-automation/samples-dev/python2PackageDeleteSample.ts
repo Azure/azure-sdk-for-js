@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete the python 2 package by name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/deletePython2Package.json
  */
-async function deleteAPython2Package() {
+async function deleteAPython2Package(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -33,7 +33,7 @@ async function deleteAPython2Package() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAPython2Package();
 }
 

@@ -50,7 +50,7 @@ async function smClientGroupsListMembersGet() {
 }
 
 async function main() {
-  smClientGroupsListMembersGet();
+  await smClientGroupsListMembersGet();
 }
 
 main().catch(console.error);

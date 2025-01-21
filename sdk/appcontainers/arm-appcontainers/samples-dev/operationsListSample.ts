@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the available RP operations.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Operations_List.json
  */
-async function listAllOperations() {
+async function listAllOperations(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function listAllOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllOperations();
 }
 

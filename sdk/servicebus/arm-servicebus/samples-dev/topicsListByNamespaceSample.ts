@@ -40,7 +40,7 @@ async function topicGet() {
 }
 
 async function main() {
-  topicGet();
+  await topicGet();
 }
 
 main().catch(console.error);

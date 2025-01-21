@@ -67,8 +67,8 @@ async function dataTypesDeleteDataMinimumSetGen() {
 }
 
 async function main() {
-  dataTypesDeleteDataMaximumSetGen();
-  dataTypesDeleteDataMinimumSetGen();
+  await dataTypesDeleteDataMaximumSetGen();
+  await dataTypesDeleteDataMinimumSetGen();
 }
 
 main().catch(console.error);

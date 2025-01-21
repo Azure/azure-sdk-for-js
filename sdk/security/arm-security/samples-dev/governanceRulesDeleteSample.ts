@@ -61,9 +61,9 @@ async function deleteAGovernanceRuleOverSubscriptionScope() {
 }
 
 async function main() {
-  deleteAGovernanceRuleOverManagementGroupScope();
-  deleteAGovernanceRuleOverSecurityConnectorScope();
-  deleteAGovernanceRuleOverSubscriptionScope();
+  await deleteAGovernanceRuleOverManagementGroupScope();
+  await deleteAGovernanceRuleOverSecurityConnectorScope();
+  await deleteAGovernanceRuleOverSubscriptionScope();
 }
 
 main().catch(console.error);

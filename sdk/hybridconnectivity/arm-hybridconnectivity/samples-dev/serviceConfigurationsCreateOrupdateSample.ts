@@ -70,8 +70,8 @@ async function serviceConfigurationsPutWac() {
 }
 
 async function main() {
-  serviceConfigurationsPutSsh();
-  serviceConfigurationsPutWac();
+  await serviceConfigurationsPutSsh();
+  await serviceConfigurationsPutWac();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function serverCollectorsDelete() {
 }
 
 async function main() {
-  serverCollectorsDelete();
+  await serverCollectorsDelete();
 }
 
 main().catch(console.error);

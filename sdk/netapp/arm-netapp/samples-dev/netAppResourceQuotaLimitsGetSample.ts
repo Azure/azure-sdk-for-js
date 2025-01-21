@@ -36,7 +36,7 @@ async function quotaLimits() {
 }
 
 async function main() {
-  quotaLimits();
+  await quotaLimits();
 }
 
 main().catch(console.error);

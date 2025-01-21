@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes an existing attestation at resource group scope.
  *
  * @summary Deletes an existing attestation at resource group scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_DeleteResourceGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_DeleteResourceGroupScope.json
  */
 async function deleteAttestationAtResourceGroupScope() {
   const subscriptionId =
@@ -31,13 +29,13 @@ async function deleteAttestationAtResourceGroupScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.attestations.deleteAtResourceGroup(
     resourceGroupName,
-    attestationName
+    attestationName,
   );
   console.log(result);
 }
 
 async function main() {
-  deleteAttestationAtResourceGroupScope();
+  await deleteAttestationAtResourceGroupScope();
 }
 
 main().catch(console.error);

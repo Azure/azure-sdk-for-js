@@ -55,7 +55,7 @@ async function expressRouteCircuitConnectionCreate() {
 }
 
 async function main() {
-  expressRouteCircuitConnectionCreate();
+  await expressRouteCircuitConnectionCreate();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getAWorkflowVersion() {
 }
 
 async function main() {
-  getAWorkflowVersion();
+  await getAWorkflowVersion();
 }
 
 main().catch(console.error);

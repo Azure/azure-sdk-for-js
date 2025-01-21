@@ -41,7 +41,7 @@ async function getADatabaseTransparentDataEncryption() {
 }
 
 async function main() {
-  getADatabaseTransparentDataEncryption();
+  await getADatabaseTransparentDataEncryption();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getAgreementsByIntegrationAccountName() {
 }
 
 async function main() {
-  getAgreementsByIntegrationAccountName();
+  await getAgreementsByIntegrationAccountName();
 }
 
 main().catch(console.error);

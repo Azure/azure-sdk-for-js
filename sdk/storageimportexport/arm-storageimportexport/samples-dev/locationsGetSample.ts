@@ -32,7 +32,7 @@ async function getLocations() {
 }
 
 async function main() {
-  getLocations();
+  await getLocations();
 }
 
 main().catch(console.error);

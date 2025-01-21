@@ -44,7 +44,7 @@ async function getWorkspaceEnvironmentVersion() {
 }
 
 async function main() {
-  getWorkspaceEnvironmentVersion();
+  await getWorkspaceEnvironmentVersion();
 }
 
 main().catch(console.error);

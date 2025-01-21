@@ -55,7 +55,7 @@ async function updateAAmlCompute() {
 }
 
 async function main() {
-  updateAAmlCompute();
+  await updateAAmlCompute();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Migrate an Azure Cosmos DB Cassandra table from manual throughput to autoscale
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraTableMigrateToAutoscale.json
  */
-async function cosmosDbCassandraTableMigrateToAutoscale() {
+async function cosmosDbCassandraTableMigrateToAutoscale(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -36,7 +36,7 @@ async function cosmosDbCassandraTableMigrateToAutoscale() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbCassandraTableMigrateToAutoscale();
 }
 

@@ -40,7 +40,7 @@ async function regenerateKeysForAFluidRelayServer() {
 }
 
 async function main() {
-  regenerateKeysForAFluidRelayServer();
+  await regenerateKeysForAFluidRelayServer();
 }
 
 main().catch(console.error);

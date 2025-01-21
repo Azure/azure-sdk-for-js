@@ -30,7 +30,7 @@ async function environmentsBySubscription() {
 }
 
 async function main() {
-  environmentsBySubscription();
+  await environmentsBySubscription();
 }
 
 main().catch(console.error);

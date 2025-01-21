@@ -42,7 +42,7 @@ async function getWorkspaceMarketplaceSubscription() {
 }
 
 async function main() {
-  getWorkspaceMarketplaceSubscription();
+  await getWorkspaceMarketplaceSubscription();
 }
 
 main().catch(console.error);

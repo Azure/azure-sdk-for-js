@@ -39,7 +39,7 @@ async function getAGuestConfigurationAssignment() {
 }
 
 async function main() {
-  getAGuestConfigurationAssignment();
+  await getAGuestConfigurationAssignment();
 }
 
 main().catch(console.error);

@@ -13,9 +13,7 @@ import {
   ConfluentManagementClient,
 } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists of all the clusters in a environment
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists of all the clusters in a environment
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_ClusterList.json
  */
-async function organizationListClusters() {
+async function organizationListClusters(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function organizationListClusters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationListClusters();
 }
 

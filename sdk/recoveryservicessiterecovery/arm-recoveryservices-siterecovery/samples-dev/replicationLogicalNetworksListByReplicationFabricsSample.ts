@@ -43,7 +43,7 @@ async function getsTheListOfLogicalNetworksUnderAFabric() {
 }
 
 async function main() {
-  getsTheListOfLogicalNetworksUnderAFabric();
+  await getsTheListOfLogicalNetworksUnderAFabric();
 }
 
 main().catch(console.error);

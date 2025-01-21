@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { delay } from "@azure/core-util";
 import { Poller } from "@azure/core-lro";
 import type { RestoreKeyBackupPollOperationState, TestKeyClientInterface } from "./operation.js";

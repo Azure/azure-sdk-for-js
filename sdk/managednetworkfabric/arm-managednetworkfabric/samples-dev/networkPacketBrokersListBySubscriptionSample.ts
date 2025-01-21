@@ -37,7 +37,7 @@ async function networkPacketBrokersListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  networkPacketBrokersListBySubscriptionMaximumSetGen();
+  await networkPacketBrokersListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

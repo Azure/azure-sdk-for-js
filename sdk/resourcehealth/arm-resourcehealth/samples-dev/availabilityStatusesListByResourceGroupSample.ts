@@ -45,7 +45,7 @@ async function listByResourceGroup() {
 }
 
 async function main() {
-  listByResourceGroup();
+  await listByResourceGroup();
 }
 
 main().catch(console.error);
