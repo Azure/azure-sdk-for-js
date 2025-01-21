@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { ErrorResponse } from "../request";
-import { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
-import { EncryptionAlgorithm } from "./enums";
+import type { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
 /**
  * Represents the client encryption policy associated with a container.
  */
@@ -24,13 +23,13 @@ export class ClientEncryptionPolicy {
     this.policyFormatVersion = policyFormatVersion || 1;
   }
 
-  private validatePolicyVersion(policyFormatVersion: number) {
+  private validatePolicyVersion(policyFormatVersion: number): void {
     if (policyFormatVersion < 1 || policyFormatVersion > 2) {
       throw new ErrorResponse("Supported versions of client encryption policy are 1 and 2.");
     }
   }
 
-  private validateIncludedPaths(includedPaths: ClientEncryptionIncludedPath[]) {
+  private validateIncludedPaths(includedPaths: ClientEncryptionIncludedPath[]): void {
     const paths = new Set<string>();
     for (const includedPath of includedPaths) {
       if (paths.has(includedPath.path)) {
@@ -43,7 +42,7 @@ export class ClientEncryptionPolicy {
     }
   }
 
-  private validateClientEncryptionIncludedPath(includedPath: ClientEncryptionIncludedPath) {
+  private validateClientEncryptionIncludedPath(includedPath: ClientEncryptionIncludedPath): void {
     if (
       includedPath.path === undefined ||
       includedPath.path === null ||
@@ -62,13 +61,11 @@ export class ClientEncryptionPolicy {
         "ClientEncryptionKeyId needs to be defined in ClientEncryptionIncludedPath.",
       );
     }
-    if (includedPath.encryptionAlgorithm !== EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256) {
-      throw new ErrorResponse("Invalid encryption algorithm in ClientEncryptionIncludedPath.");
-    }
     if (includedPath.path[0] !== "/") {
       throw new ErrorResponse("Path in ClientEncryptionIncludedPath needs to start with '/'.");
     }
-    if (includedPath.path.split("/").filter((segment) => segment.length > 0).length > 1) {
+    const pathSegments = includedPath.path.split("/").filter((segment) => segment.length > 0);
+    if (pathSegments.length > 1) {
       throw new ErrorResponse("Only top-level paths are currently supported for encryption");
     }
   }

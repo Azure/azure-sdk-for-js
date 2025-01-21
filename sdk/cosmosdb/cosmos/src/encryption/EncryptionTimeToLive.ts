@@ -24,7 +24,7 @@ export class EncryptionTimeToLive {
     return hours * 60 * 60 * 1000;
   }
   /** method to set zero ttl */
-  static NoTtl(): number {
+  static NoTTL(): number {
     return 0;
   }
 }

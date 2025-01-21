@@ -91,6 +91,10 @@ async function run() {
   };
   const { container } = await database.containers.createIfNotExists(containerDefinition);
 
+  // optional call to initialize encryption. This will warm up the encryption cache.
+  // If not initialized, it will be initialized on the first operation that requires encryption.
+  await container.initializeEncryption();
+
   logStep("Create item with encrypted properties");
   const item1 = {
     id: "123456",
@@ -103,7 +107,7 @@ async function run() {
   const item2 = {
     id: "654321",
     firstName: "John",
-    lastName: "DOe",
+    lastName: "Doe",
     department: "Supply Chain",
     salary: { base: 47920, bonus: 1810 },
     ssn: "987-65-4321",
@@ -146,6 +150,8 @@ async function run() {
   );
   await database.rewrapClientEncryptionKey("cek1", newMetadata);
   console.log(`rewrapped client encryption key with id cek1`);
+  // recommended to dispose client after use to clear all the timers
+  client.dispose();
   await finish();
 }
 

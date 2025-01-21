@@ -7,7 +7,7 @@ import { EncryptionSettingsCache } from "./Cache/EncryptionSettingsCache";
 import { ClientEncryptionKeyPropertiesCache } from "./Cache/ClientEncryptionKeyPropertiesCache";
 import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
 import { Constants } from "../common/constants";
-import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
+import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
 import { EncryptionTimeToLive } from "./EncryptionTimeToLive";
 /**
  * Cache manager for encryption related caches.
@@ -46,7 +46,7 @@ export class EncryptionManager {
    * Converts the EncryptionTimeToLive instance to a number (milliseconds).
    */
   private getCacheTtlInMilliseconds(): number {
-    if (this.cacheTimeToLive === EncryptionTimeToLive.NoTtl()) {
+    if (this.cacheTimeToLive === EncryptionTimeToLive.NoTTL()) {
       return 0;
     } else {
       return Number(this.cacheTimeToLive);

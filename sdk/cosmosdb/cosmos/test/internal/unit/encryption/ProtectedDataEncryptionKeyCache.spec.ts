@@ -5,8 +5,8 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
+import type { EncryptionKeyResolver } from "../../../../src/encryption";
 import {
-  EncryptionKeyResolver,
   EncryptionKeyStoreProvider,
   KeyEncryptionKey,
   ProtectedDataEncryptionKey,
@@ -84,7 +84,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
   });
 
   it("should create and cache a protected data encryption key", async function () {
-    const result = protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(key);
+    const result = protectedDataEncryptionKeyCache.get(key);
     assert.equal(result, protectedDataEncryptionKey, "Key should be in cache");
     const newEncryptedKey = Buffer.alloc(32);
     const newKey = JSON.stringify([
@@ -94,7 +94,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
       newEncryptedKey.toString("hex"),
     ]);
     assert.equal(
-      protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(newKey),
+      protectedDataEncryptionKeyCache.get(newKey),
       undefined,
       "new Protected data encryption key should not be in cache.",
     );
@@ -105,10 +105,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
         newEncryptedKey,
       );
     assert.ok(newProtectedDataEncryptionKey instanceof ProtectedDataEncryptionKey);
-    assert.equal(
-      protectedDataEncryptionKeyCache.getProtectedDataEncryptionKey(newKey),
-      newProtectedDataEncryptionKey,
-    );
+    assert.equal(protectedDataEncryptionKeyCache.get(newKey), newProtectedDataEncryptionKey);
   });
 
   it("should not store keys in cache when ttl is 0", async function () {
@@ -126,7 +123,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
       newEncryptedKey,
     );
     assert.equal(
-      cacheWithZeroTTL.getProtectedDataEncryptionKey(newKey),
+      cacheWithZeroTTL.get(newKey),
       undefined,
       "The key should not get stored in cache as ttl is 0",
     );

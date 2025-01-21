@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientEncryptionKeyProperties } from "../ClientEncryptionKey";
+import type { ClientEncryptionKeyProperties } from "../ClientEncryptionKey";
 
 /**
  * The cache used to store the properties of the client encryption key
@@ -16,13 +16,10 @@ export class ClientEncryptionKeyPropertiesCache {
     this.clientEncryptionKeyPropertiesCache = new Map<string, ClientEncryptionKeyProperties>();
   }
 
-  public getClientEncryptionKeyProperties(key: string): ClientEncryptionKeyProperties | undefined {
+  public get(key: string): ClientEncryptionKeyProperties | undefined {
     return this.clientEncryptionKeyPropertiesCache.get(key);
   }
-  public setClientEncryptionKeyProperties(
-    key: string,
-    clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
-  ): void {
+  public set(key: string, clientEncryptionKeyProperties: ClientEncryptionKeyProperties): void {
     this.clientEncryptionKeyPropertiesCache.set(key, clientEncryptionKeyProperties);
   }
 }

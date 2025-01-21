@@ -37,8 +37,8 @@ describe("ClientEncryptionKeyPropertiesCache", () => {
     const cache = new ClientEncryptionKeyPropertiesCache();
     const key = "databaseId/clientEncryptionKeyId";
 
-    cache.setClientEncryptionKeyProperties(key, clientEncryptionKeyProperties);
-    const retrievedProperties = cache.getClientEncryptionKeyProperties(key);
+    cache.set(key, clientEncryptionKeyProperties);
+    const retrievedProperties = cache.get(key);
 
     assert.strictEqual(retrievedProperties, clientEncryptionKeyProperties);
   });
@@ -47,7 +47,7 @@ describe("ClientEncryptionKeyPropertiesCache", () => {
     const cache = new ClientEncryptionKeyPropertiesCache();
     const key = "nonExistentKey";
 
-    const retrievedProperties = cache.getClientEncryptionKeyProperties(key);
+    const retrievedProperties = cache.get(key);
 
     assert.strictEqual(retrievedProperties, undefined);
   });

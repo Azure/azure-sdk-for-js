@@ -454,7 +454,7 @@ export class Container {
           const encryptionKeyProperties = res.clientEncryptionKeyProperties;
           const key = this.database._rid + "/" + clientEncryptionKeyId;
 
-          this.encryptionManager.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
+          this.encryptionManager.clientEncryptionKeyPropertiesCache.set(
             key,
             encryptionKeyProperties,
           );
@@ -471,8 +471,7 @@ export class Container {
    */
   async throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: ErrorResponse): Promise<void> {
     const key = this.database._rid + "/" + this._rid;
-    const encryptionSetting =
-      this.encryptionManager.encryptionSettingsCache.getEncryptionSettings(key);
+    const encryptionSetting = this.encryptionManager.encryptionSettingsCache.get(key);
     const subStatusCode = errorResponse.headers[Constants.HttpHeaders.SubStatus];
     const isPartitionKeyMismatch = Number(subStatusCode) === SubStatusCodes.PartitionKeyMismatch;
     const isIncorrectContainerRidSubstatus =
