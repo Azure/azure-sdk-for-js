@@ -56,7 +56,7 @@ export type AgentRunResponse = PromiseLike<ThreadRunOutput> & {
 
 // @public
 export interface AgentsApiResponseFormat {
-    type?: ApiResponseFormat;
+    type?: ResponseFormat;
 }
 
 // @public
@@ -66,14 +66,14 @@ export type AgentsApiResponseFormatMode = string;
 export type AgentsApiResponseFormatModeOutput = string;
 
 // @public
-export type AgentsApiResponseFormatOption = string | AgentsApiResponseFormatMode | AgentsApiResponseFormat;
+export type AgentsApiResponseFormatOption = string | AgentsApiResponseFormatMode | AgentsApiResponseFormat | ResponseFormatJsonSchemaType;
 
 // @public
-export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput;
+export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput | ResponseFormatJsonSchemaTypeOutput;
 
 // @public
 export interface AgentsApiResponseFormatOutput {
-    type?: ApiResponseFormatOutput;
+    type?: ResponseFormatOutput;
 }
 
 // @public
@@ -186,12 +186,6 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions {
 }
 
 // @public
-export type ApiResponseFormat = string;
-
-// @public
-export type ApiResponseFormatOutput = string;
-
-// @public
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 
 // @public
@@ -212,6 +206,56 @@ export interface AzureAISearchToolDefinition extends ToolDefinitionParent {
 // @public
 export interface AzureAISearchToolDefinitionOutput extends ToolDefinitionOutputParent {
     type: "azure_ai_search";
+}
+
+// @public
+export interface AzureFunctionBinding {
+    storageQueue: AzureFunctionStorageQueue;
+    type: "storage_queue";
+}
+
+// @public
+export interface AzureFunctionBindingOutput {
+    storageQueue: AzureFunctionStorageQueueOutput;
+    type: "storage_queue";
+}
+
+// @public
+export interface AzureFunctionDefinition {
+    function: FunctionDefinition;
+    inputBinding: AzureFunctionBinding;
+    outputBinding: AzureFunctionBinding;
+}
+
+// @public
+export interface AzureFunctionDefinitionOutput {
+    function: FunctionDefinitionOutput;
+    inputBinding: AzureFunctionBindingOutput;
+    outputBinding: AzureFunctionBindingOutput;
+}
+
+// @public
+export interface AzureFunctionStorageQueue {
+    queueName: string;
+    queueServiceEndpoint: string;
+}
+
+// @public
+export interface AzureFunctionStorageQueueOutput {
+    queueName: string;
+    queueServiceEndpoint: string;
+}
+
+// @public
+export interface AzureFunctionToolDefinition extends ToolDefinitionParent {
+    azureFunction: AzureFunctionDefinition;
+    type: "azure_function";
+}
+
+// @public
+export interface AzureFunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
+    azureFunction: AzureFunctionDefinitionOutput;
+    type: "azure_function";
 }
 
 // @public
@@ -309,6 +353,7 @@ export interface CreateAndRunThreadOptions {
     maxPromptTokens?: number | null;
     metadata?: Record<string, string> | null;
     model?: string | null;
+    parallelToolCalls?: boolean;
     responseFormat?: AgentsApiResponseFormatOption | null;
     stream?: boolean;
     temperature?: number | null;
@@ -330,18 +375,19 @@ export type CreateRunOptionalParams = Omit<CreateRunOptions & OperationOptions, 
 // @public
 export interface CreateRunOptions {
     additionalInstructions?: string | null;
-    additionalMessages?: Array<ThreadMessage> | null;
+    additionalMessages?: Array<ThreadMessageOptions> | null;
     assistantId: string;
     instructions?: string | null;
     maxCompletionTokens?: number | null;
     maxPromptTokens?: number | null;
     metadata?: Record<string, string> | null;
     model?: string | null;
+    parallelToolCalls?: boolean;
     responseFormat?: AgentsApiResponseFormatOption | null;
     stream?: boolean;
     temperature?: number | null;
     toolChoice?: AgentsApiToolChoiceOption | null;
-    tools?: Array<ToolDefinition>;
+    tools?: Array<ToolDefinition> | null;
     topP?: number | null;
     truncationStrategy?: TruncationObject | null;
 }
@@ -457,6 +503,12 @@ export interface FileSearchRankingOptionsOutput {
 }
 
 // @public
+export interface FileSearchToolCallContentOutput {
+    text: string;
+    type: "text";
+}
+
+// @public
 export interface FileSearchToolDefinition extends ToolDefinitionParent {
     fileSearch?: FileSearchToolDefinitionDetails;
     type: "file_search";
@@ -465,14 +517,12 @@ export interface FileSearchToolDefinition extends ToolDefinitionParent {
 // @public
 export interface FileSearchToolDefinitionDetails {
     maxNumResults?: number;
-    // (undocumented)
     rankingOptions?: FileSearchRankingOptions;
 }
 
 // @public
 export interface FileSearchToolDefinitionDetailsOutput {
     maxNumResults?: number;
-    // (undocumented)
     rankingOptions?: FileSearchRankingOptionsOutput;
 }
 
@@ -594,7 +644,12 @@ export interface GetWorkspaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IncompleteRunDetailsOutput = string;
+export type IncompleteDetailsReasonOutput = string;
+
+// @public
+export interface IncompleteRunDetailsOutput {
+    reason: IncompleteDetailsReasonOutput;
+}
 
 // @public
 export interface IndexResource {
@@ -695,7 +750,7 @@ export interface ListRunStepsOptionalParams extends ListQueryParameters, Operati
 }
 
 // @public
-export type ListSortOrder = "asc" | "desc";
+export type ListSortOrder = string;
 
 // @public
 export interface ListVectorStoreFileBatchFilesOptionalParams extends ListQueryParameters, OperationOptions {
@@ -712,14 +767,14 @@ export interface ListVectorStoresOptionalParams extends ListQueryParameters, Ope
 
 // @public
 export interface MessageAttachment {
-    dataSources?: Array<VectorStoreDataSource>;
+    dataSource?: VectorStoreDataSource;
     fileId?: string;
     tools: MessageAttachmentToolDefinition[];
 }
 
 // @public
 export interface MessageAttachmentOutput {
-    dataSources?: Array<VectorStoreDataSourceOutput>;
+    dataSource?: VectorStoreDataSourceOutput;
     fileId?: string;
     tools: MessageAttachmentToolDefinitionOutput[];
 }
@@ -731,19 +786,10 @@ export type MessageAttachmentToolDefinition = CodeInterpreterToolDefinition | Fi
 export type MessageAttachmentToolDefinitionOutput = CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput;
 
 // @public
-export type MessageContent = MessageContentParent | MessageTextContent | MessageImageFileContent;
-
-// @public
 export type MessageContentOutput = MessageContentOutputParent | MessageTextContentOutput | MessageImageFileContentOutput;
 
 // @public
 export interface MessageContentOutputParent {
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface MessageContentParent {
     // (undocumented)
     type: string;
 }
@@ -838,20 +884,9 @@ export interface MessageDeltaTextUrlCitationDetails {
 }
 
 // @public
-export interface MessageImageFileContent extends MessageContentParent {
-    imageFile: MessageImageFileDetails;
-    type: "image_file";
-}
-
-// @public
 export interface MessageImageFileContentOutput extends MessageContentOutputParent {
     imageFile: MessageImageFileDetailsOutput;
     type: "image_file";
-}
-
-// @public
-export interface MessageImageFileDetails {
-    fileId: string;
 }
 
 // @public
@@ -860,17 +895,9 @@ export interface MessageImageFileDetailsOutput {
 }
 
 // @public
-export interface MessageIncompleteDetails {
-    reason: MessageIncompleteDetailsReason;
-}
-
-// @public
 export interface MessageIncompleteDetailsOutput {
     reason: MessageIncompleteDetailsReasonOutput;
 }
-
-// @public
-export type MessageIncompleteDetailsReason = string;
 
 // @public
 export type MessageIncompleteDetailsReasonOutput = string;
@@ -880,9 +907,6 @@ export type MessageRole = string;
 
 // @public
 export type MessageRoleOutput = string;
-
-// @public
-export type MessageStatus = string;
 
 // @public
 export type MessageStatusOutput = string;
@@ -897,9 +921,6 @@ export enum MessageStreamEvent {
 }
 
 // @public
-export type MessageTextAnnotation = MessageTextAnnotationParent | MessageTextFileCitationAnnotation | MessageTextFilePathAnnotation;
-
-// @public
 export type MessageTextAnnotationOutput = MessageTextAnnotationOutputParent | MessageTextFileCitationAnnotationOutput | MessageTextFilePathAnnotationOutput;
 
 // @public
@@ -910,42 +931,15 @@ export interface MessageTextAnnotationOutputParent {
 }
 
 // @public
-export interface MessageTextAnnotationParent {
-    text: string;
-    // (undocumented)
-    type: string;
-}
-
-// @public
-export interface MessageTextContent extends MessageContentParent {
-    text: MessageTextDetails;
-    type: "text";
-}
-
-// @public
 export interface MessageTextContentOutput extends MessageContentOutputParent {
     text: MessageTextDetailsOutput;
     type: "text";
 }
 
 // @public
-export interface MessageTextDetails {
-    annotations: Array<MessageTextAnnotation>;
-    value: string;
-}
-
-// @public
 export interface MessageTextDetailsOutput {
     annotations: Array<MessageTextAnnotationOutput>;
     value: string;
-}
-
-// @public
-export interface MessageTextFileCitationAnnotation extends MessageTextAnnotationParent {
-    endIndex?: number;
-    fileCitation: MessageTextFileCitationDetails;
-    startIndex?: number;
-    type: "file_citation";
 }
 
 // @public
@@ -957,23 +951,9 @@ export interface MessageTextFileCitationAnnotationOutput extends MessageTextAnno
 }
 
 // @public
-export interface MessageTextFileCitationDetails {
-    fileId: string;
-    quote: string;
-}
-
-// @public
 export interface MessageTextFileCitationDetailsOutput {
     fileId: string;
     quote: string;
-}
-
-// @public
-export interface MessageTextFilePathAnnotation extends MessageTextAnnotationParent {
-    endIndex?: number;
-    filePath: MessageTextFilePathDetails;
-    startIndex?: number;
-    type: "file_path";
 }
 
 // @public
@@ -985,25 +965,20 @@ export interface MessageTextFilePathAnnotationOutput extends MessageTextAnnotati
 }
 
 // @public
-export interface MessageTextFilePathDetails {
-    fileId: string;
-}
-
-// @public
 export interface MessageTextFilePathDetailsOutput {
     fileId: string;
 }
 
 // @public
 export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
-    microsoftFabric: ToolConnectionList;
-    type: "microsoft_fabric";
+    fabricAISkill: ToolConnectionList;
+    type: "fabric_aiskill";
 }
 
 // @public
 export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
-    microsoftFabric: ToolConnectionListOutput;
-    type: "microsoft_fabric";
+    fabricAISkill: ToolConnectionListOutput;
+    type: "fabric_aiskill";
 }
 
 // @public
@@ -1073,6 +1048,112 @@ export interface OpenAIPageableListOfVectorStoreOutput {
 }
 
 // @public
+export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetailsParent {
+    type: "anonymous";
+}
+
+// @public
+export interface OpenApiAnonymousAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+    type: "anonymous";
+}
+
+// @public
+export type OpenApiAuthDetails = OpenApiAuthDetailsParent | OpenApiAnonymousAuthDetails | OpenApiConnectionAuthDetails | OpenApiManagedAuthDetails;
+
+// @public
+export type OpenApiAuthDetailsOutput = OpenApiAuthDetailsOutputParent | OpenApiAnonymousAuthDetailsOutput | OpenApiConnectionAuthDetailsOutput | OpenApiManagedAuthDetailsOutput;
+
+// @public
+export interface OpenApiAuthDetailsOutputParent {
+    // (undocumented)
+    type: OpenApiAuthTypeOutput;
+}
+
+// @public
+export interface OpenApiAuthDetailsParent {
+    // (undocumented)
+    type: OpenApiAuthType;
+}
+
+// @public
+export type OpenApiAuthType = string;
+
+// @public
+export type OpenApiAuthTypeOutput = string;
+
+// @public
+export interface OpenApiConnectionAuthDetails extends OpenApiAuthDetailsParent {
+    securityScheme: OpenApiConnectionSecurityScheme;
+    type: "connection";
+}
+
+// @public
+export interface OpenApiConnectionAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+    securityScheme: OpenApiConnectionSecuritySchemeOutput;
+    type: "connection";
+}
+
+// @public
+export interface OpenApiConnectionSecurityScheme {
+    connectionId: string;
+}
+
+// @public
+export interface OpenApiConnectionSecuritySchemeOutput {
+    connectionId: string;
+}
+
+// @public
+export interface OpenApiFunctionDefinition {
+    auth: OpenApiAuthDetails;
+    description?: string;
+    name: string;
+    spec: unknown;
+}
+
+// @public
+export interface OpenApiFunctionDefinitionOutput {
+    auth: OpenApiAuthDetailsOutput;
+    description?: string;
+    name: string;
+    spec: any;
+}
+
+// @public
+export interface OpenApiManagedAuthDetails extends OpenApiAuthDetailsParent {
+    securityScheme: OpenApiManagedSecurityScheme;
+    type: "managed_identity";
+}
+
+// @public
+export interface OpenApiManagedAuthDetailsOutput extends OpenApiAuthDetailsOutputParent {
+    securityScheme: OpenApiManagedSecuritySchemeOutput;
+    type: "managed_identity";
+}
+
+// @public
+export interface OpenApiManagedSecurityScheme {
+    audience: string;
+}
+
+// @public
+export interface OpenApiManagedSecuritySchemeOutput {
+    audience: string;
+}
+
+// @public
+export interface OpenApiToolDefinition extends ToolDefinitionParent {
+    openapi: OpenApiFunctionDefinition;
+    type: "openapi";
+}
+
+// @public
+export interface OpenApiToolDefinitionOutput extends ToolDefinitionOutputParent {
+    openapi: OpenApiFunctionDefinitionOutput;
+    type: "openapi";
+}
+
+// @public
 export interface PollingOptions {
     abortSignal?: AbortSignalLike;
     sleepIntervalInMs?: number;
@@ -1118,6 +1199,38 @@ export interface RequiredToolCallOutputParent {
     // (undocumented)
     type: string;
 }
+
+// @public
+export type ResponseFormat = string;
+
+// @public
+export interface ResponseFormatJsonSchema {
+    description?: string;
+    name: string;
+    schema: unknown;
+}
+
+// @public
+export interface ResponseFormatJsonSchemaOutput {
+    description?: string;
+    name: string;
+    schema: any;
+}
+
+// @public
+export interface ResponseFormatJsonSchemaType {
+    jsonSchema: ResponseFormatJsonSchema;
+    type: "json_schema";
+}
+
+// @public
+export interface ResponseFormatJsonSchemaTypeOutput {
+    jsonSchema: ResponseFormatJsonSchemaOutput;
+    type: "json_schema";
+}
+
+// @public
+export type ResponseFormatOutput = string;
 
 // @public
 export interface RunCompletionUsageOutput {
@@ -1313,8 +1426,23 @@ export interface RunStepErrorOutput {
 
 // @public
 export interface RunStepFileSearchToolCallOutput extends RunStepToolCallOutputParent {
-    fileSearch: Record<string, string>;
+    fileSearch: RunStepFileSearchToolCallResultsOutput;
+    id: string;
     type: "file_search";
+}
+
+// @public
+export interface RunStepFileSearchToolCallResultOutput {
+    content?: Array<FileSearchToolCallContentOutput>;
+    fileId: string;
+    fileName: string;
+    score: number;
+}
+
+// @public
+export interface RunStepFileSearchToolCallResultsOutput {
+    rankingOptions?: FileSearchRankingOptionsOutput;
+    results: Array<RunStepFileSearchToolCallResultOutput>;
 }
 
 // @public
@@ -1343,8 +1471,8 @@ export interface RunStepMessageCreationReferenceOutput {
 
 // @public
 export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
-    microsoftFabric: Record<string, string>;
-    type: "microsoft_fabric";
+    fabricAISkill: Record<string, string>;
+    type: "fabric_aiskill";
 }
 
 // @public
@@ -1467,24 +1595,6 @@ export interface ThreadDeletionStatusOutput {
 }
 
 // @public
-export interface ThreadMessage {
-    assistantId: string | null;
-    attachments: Array<MessageAttachment> | null;
-    completedAt: number | null;
-    content: Array<MessageContent>;
-    createdAt: number;
-    id: string;
-    incompleteAt: number | null;
-    incompleteDetails: MessageIncompleteDetails | null;
-    metadata: Record<string, string> | null;
-    object: "thread.message";
-    role: MessageRole;
-    runId: string | null;
-    status: MessageStatus;
-    threadId: string;
-}
-
-// @public
 export interface ThreadMessageOptions {
     attachments?: Array<MessageAttachment> | null;
     content: string;
@@ -1527,7 +1637,7 @@ export interface ThreadRunOutput {
     metadata: Record<string, string> | null;
     model: string;
     object: "thread.run";
-    parallelToolCalls?: boolean;
+    parallelToolCalls: boolean;
     requiredAction?: RequiredActionOutput | null;
     responseFormat: AgentsApiResponseFormatOptionOutput | null;
     startedAt: Date | null;
@@ -1568,10 +1678,10 @@ export interface ToolConnectionOutput {
 }
 
 // @public
-export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition;
+export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | AzureFunctionToolDefinition;
 
 // @public
-export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput;
+export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput | OpenApiToolDefinitionOutput | AzureFunctionToolDefinitionOutput;
 
 // @public
 export interface ToolDefinitionOutputParent {
@@ -1814,10 +1924,10 @@ export interface VectorStoreDataSource {
 }
 
 // @public
-export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
+export type VectorStoreDataSourceAssetType = string;
 
 // @public
-export type VectorStoreDataSourceAssetTypeOutput = "uri_asset" | "id_asset";
+export type VectorStoreDataSourceAssetTypeOutput = string;
 
 // @public
 export interface VectorStoreDataSourceOutput {
