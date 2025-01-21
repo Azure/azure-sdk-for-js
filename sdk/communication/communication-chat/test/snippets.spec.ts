@@ -40,7 +40,7 @@ describe("snippets", () => {
       createChatThreadOptions,
     );
     // @ts-preserve-whitespace
-    const threadId = createChatThreadResult.chatThread.id;
+    const threadId = createChatThreadResult?.chatThread?.id;
   });
 
   it("ReadmeSampleCreateChatThreadClient", async () => {
@@ -50,27 +50,7 @@ describe("snippets", () => {
     const tokenCredential = new AzureCommunicationTokenCredential(userAccessToken);
     const chatClient = new ChatClient(endpointUrl, tokenCredential);
     // @ts-preserve-whitespace
-    const createChatThreadRequest = {
-      topic: "Hello, World!",
-    };
-    // @ts-preserve-whitespace
-    const createChatThreadOptions = {
-      participants: [
-        {
-          id: { communicationUserId: "<USER_ID>" },
-          displayName: "<USER_DISPLAY_NAME>",
-        },
-      ],
-    };
-    // @ts-preserve-whitespace
-    const createChatThreadResult = await chatClient.createChatThread(
-      createChatThreadRequest,
-      createChatThreadOptions,
-    );
-    // @ts-preserve-whitespace
-    const threadId = createChatThreadResult.chatThread.id;
-    // @ts-preserve-whitespace
-    const chatThreadClient = chatClient.getChatThreadClient(threadId);
+    const chatThreadClient = chatClient.getChatThreadClient("<threadId>");
   });
 
   it("ReadmeSampleSendMessage", async () => {

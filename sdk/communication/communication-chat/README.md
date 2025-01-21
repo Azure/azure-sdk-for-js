@@ -109,7 +109,7 @@ const createChatThreadResult = await chatClient.createChatThread(
   createChatThreadOptions,
 );
 
-const threadId = createChatThreadResult.chatThread.id;
+const threadId = createChatThreadResult?.chatThread?.id;
 ```
 
 ### Create a ChatThreadClient
@@ -128,27 +128,7 @@ const userAccessToken = "<USER_ACCESS_TOKEN>";
 const tokenCredential = new AzureCommunicationTokenCredential(userAccessToken);
 const chatClient = new ChatClient(endpointUrl, tokenCredential);
 
-const createChatThreadRequest = {
-  topic: "Hello, World!",
-};
-
-const createChatThreadOptions = {
-  participants: [
-    {
-      id: { communicationUserId: "<USER_ID>" },
-      displayName: "<USER_DISPLAY_NAME>",
-    },
-  ],
-};
-
-const createChatThreadResult = await chatClient.createChatThread(
-  createChatThreadRequest,
-  createChatThreadOptions,
-);
-
-const threadId = createChatThreadResult.chatThread.id;
-
-const chatThreadClient = chatClient.getChatThreadClient(threadId);
+const chatThreadClient = chatClient.getChatThreadClient("<threadId>");
 ```
 
 ### Send a message to the thread
