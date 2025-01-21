@@ -236,6 +236,10 @@ export class BulkStreamer {
     let limiter = this.limitersByPartitionKeyRangeId.get(pkRangeId);
     if (!limiter) {
       limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
+      // starting with degree of concurrency as 1
+      for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; ++i) {
+        limiter.take(() => {});
+      }
       this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
     }
     return limiter;
