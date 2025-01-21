@@ -168,10 +168,8 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const jobRouterClient = new JobRouterClient(acsConnectionString);
     // @ts-preserve-whitespace
-    const workerId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-    const offerId = "offer-id";
-    // @ts-preserve-whitespace
-    const { jobId, assignmentId } = await jobRouterClient.acceptJobOffer(workerId, offerId);
+    const jobId = "job-id";
+    const assignmentId = "assignment-id";
     // @ts-preserve-whitespace
     // Complete the job
     await jobRouterClient.completeJob(jobId, assignmentId);
@@ -183,10 +181,8 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const jobRouterClient = new JobRouterClient(acsConnectionString);
     // @ts-preserve-whitespace
-    const workerId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-    const offerId = "offer-id";
-    // @ts-preserve-whitespace
-    const { jobId, assignmentId } = await jobRouterClient.acceptJobOffer(workerId, offerId);
+    const jobId = "job-id";
+    const assignmentId = "assignment-id";
     // @ts-preserve-whitespace
     // Close the job
     await jobRouterClient.closeJob(jobId, assignmentId, { dispositionCode: "Resolved" });

@@ -353,10 +353,8 @@ const acsConnectionString =
 
 const jobRouterClient = new JobRouterClient(acsConnectionString);
 
-const workerId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-const offerId = "offer-id";
-
-const { jobId, assignmentId } = await jobRouterClient.acceptJobOffer(workerId, offerId);
+const jobId = "job-id";
+const assignmentId = "assignment-id";
 
 // Complete the job
 await jobRouterClient.completeJob(jobId, assignmentId);
@@ -374,10 +372,8 @@ const acsConnectionString =
 
 const jobRouterClient = new JobRouterClient(acsConnectionString);
 
-const workerId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-const offerId = "offer-id";
-
-const { jobId, assignmentId } = await jobRouterClient.acceptJobOffer(workerId, offerId);
+const jobId = "job-id";
+const assignmentId = "assignment-id";
 
 // Close the job
 await jobRouterClient.closeJob(jobId, assignmentId, { dispositionCode: "Resolved" });

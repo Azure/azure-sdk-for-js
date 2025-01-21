@@ -110,4 +110,4 @@ async function createClassificationPolicy(): Promise<void> {
   console.log("classification policy: " + result);
 }
 
-void createClassificationPolicy();
+createClassificationPolicy().catch(console.error);
