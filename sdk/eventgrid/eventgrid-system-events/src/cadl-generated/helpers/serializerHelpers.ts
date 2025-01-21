@@ -31,6 +31,6 @@ export function serializeRecord<T, R>(
   );
 }
 
-function isSupportedRecordType(t: any): boolean {
+function isSupportedRecordType(t: any) {
   return ["number", "string", "boolean", "null"].includes(typeof t) || t instanceof Date;
 }
