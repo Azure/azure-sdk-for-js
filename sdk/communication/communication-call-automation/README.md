@@ -74,23 +74,29 @@ const callInvite = {
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
 
 // send out the invitation, creating call
-const response = callAutomationClient.createCall(callInvite, callbackUrl);
+const response = await callAutomationClient.createCall(callInvite, callbackUrl);
 ```
 
 ### Play Media
 
 ```ts snippet:ReadmeSamplePlayMedia
 import { DefaultAzureCredential } from "@azure/identity";
-import { CallAutomationClient } from "@azure/communication-call-automation";
+import { CallAutomationClient, FileSource } from "@azure/communication-call-automation";
 
 // Your unique Azure Communication service endpoint
 const credential = new DefaultAzureCredential();
 const endpointUrl = "<ENDPOINT>";
 const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
 
+const target = { communicationUserId: "8:acs:..." };
+const callInvite = { targetParticipant: target };
+const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
+
+const createCallResult = await callAutomationClient.createCall(callInvite, callbackUrl);
+const callConnection = createCallResult.callConnection;
 // from callconnection of response above, play media of media file
-const myFile = { uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav" };
-const response = callConnection.getCallMedia().playToAll(myFile);
+const myFile: FileSource = { url: "https://<FILE-SOURCE>/<SOME-FILE>.wav", kind: "fileSource" };
+const response = await callConnection.getCallMedia().playToAll([myFile]);
 ```
 
 ### Handle Mid-Connection callback events
@@ -106,8 +112,8 @@ const credential = new DefaultAzureCredential();
 const endpointUrl = "<ENDPOINT>";
 const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
 
-const eventProcessor = await callAutomationClient.getEventProcessor();
-eventProcessor.processEvents(incomingEvent);
+const eventProcessor = callAutomationClient.getEventProcessor();
+eventProcessor.processEvents("CallConnected");
 ```
 
 ProcessEvents is required for EventProcessor to work. After event is being consumed by EventProcessor, you can start using its feature.
@@ -116,7 +122,7 @@ See below for example: where you are making a call with CreateCall, and wait for
 
 ```ts snippet:ReadmeSampleEventProcessorExample
 import { DefaultAzureCredential } from "@azure/identity";
-import { CallAutomationClient } from "@azure/communication-call-automation";
+import { CallAutomationClient, CallInvite } from "@azure/communication-call-automation";
 
 // Your unique Azure Communication service endpoint
 const credential = new DefaultAzureCredential();
@@ -124,9 +130,9 @@ const endpointUrl = "<ENDPOINT>";
 const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
 
 // send out the invitation, creating call
-const callInvite = new CallInvite(target);
+const callInvite: CallInvite = { targetParticipant: { communicationUserId: "8:acs:..." } };
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
-const callResult = callAutomationClient.createCall(callInvite, callbackUrl);
+const callResult = await callAutomationClient.createCall(callInvite, callbackUrl);
 
 // giving 30 seconds timeout for waiting on createCall's event, 'CallConnected'
 const createCallEventResult = await callResult.waitForEventProcessor(undefined, 30000);
@@ -135,7 +141,7 @@ const createCallEventResult = await callResult.waitForEventProcessor(undefined, 
 // check if it was successful
 if (createCallEventResult.isSuccess) {
   // work with callConnected event
-  const callConnectedEvent: CallConnected = createCallEventResult.successResult!;
+  const callConnectedEvent = createCallEventResult.successResult!;
 }
 ```
 

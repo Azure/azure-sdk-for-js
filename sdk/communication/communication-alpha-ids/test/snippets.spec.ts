@@ -28,7 +28,7 @@ describe("snippets", () => {
     const client = new AlphaIdsClient(connectionString);
     // @ts-preserve-whitespace
     // get the current configuration
-    const configuration = await client.getConfiguration();
+    const configuration = await client.getDynamicAlphaIdConfiguration();
     // @ts-preserve-whitespace
     console.log(
       `Usage of Alpha IDs is currently ${configuration.enabled ? "enabled" : "disabled"}`,

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CallAutomationClient, CallInvite } from "../src/index.js";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
+import { CallAutomationClient, CallInvite, FileSource } from "../src/index.js";
+import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
@@ -11,14 +11,14 @@ describe("snippets", () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
   });
 
   it("ReadmeSampleCreateCall", async () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
     // target endpoint for ACS User
     const target = {
@@ -41,37 +41,37 @@ describe("snippets", () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
     const target = { communicationUserId: "8:acs:..." };
     const callInvite = { targetParticipant: target };
     const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
     // @ts-preserve-whitespace
-    const createCallResult = await callAutomationClient.createCall(callInvite, callbackUri);
+    const createCallResult = await callAutomationClient.createCall(callInvite, callbackUrl);
     const callConnection = createCallResult.callConnection;
     // from callconnection of response above, play media of media file
-    const myFile = { uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav" };
-    const response = await callConnection.getCallMedia().playToAll(myFile);
+    const myFile: FileSource = { url: "https://<FILE-SOURCE>/<SOME-FILE>.wav", kind: "fileSource" };
+    const response = await callConnection.getCallMedia().playToAll([myFile]);
   });
 
   it("ReadmeSampleEventProcessor", async () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
-    const eventProcessor = await callAutomationClient.getEventProcessor();
-    eventProcessor.processEvents(incomingEvent);
+    const eventProcessor = callAutomationClient.getEventProcessor();
+    eventProcessor.processEvents("CallConnected");
   });
 
   it("ReadmeSampleEventProcessorExample", async () => {
     // Your unique Azure Communication service endpoint
     const credential = new DefaultAzureCredential();
     const endpointUrl = "<ENDPOINT>";
-    const callAutomationClient = CallAutomationClient(endpointUrl, credential);
+    const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
     // send out the invitation, creating call
-    const callInvite = new CallInvite(target);
+    const callInvite: CallInvite = { targetParticipant: { communicationUserId: "8:acs:..." } };
     const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
     const callResult = await callAutomationClient.createCall(callInvite, callbackUrl);
     // @ts-preserve-whitespace
@@ -82,7 +82,7 @@ describe("snippets", () => {
     // check if it was successful
     if (createCallEventResult.isSuccess) {
       // work with callConnected event
-      const callConnectedEvent: CallConnected = createCallEventResult.successResult!;
+      const callConnectedEvent = createCallEventResult.successResult!;
     }
   });
 

@@ -80,7 +80,7 @@ The following sections provide code snippets that cover some of the common tasks
 
 ### Get the current applied configuration
 
-Use the `getConfiguration` method to obtain the current applied configuration for your resource.
+Use the `getDynamicAlphaIdConfiguration` method to obtain the current applied configuration for your resource.
 
 ```ts snippet:AlphaIdsGetConfiguration
 import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
@@ -89,7 +89,7 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new AlphaIdsClient(connectionString);
 
 // get the current configuration
-const configuration = await client.getConfiguration();
+const configuration = await client.getDynamicAlphaIdConfiguration();
 
 console.log(`Usage of Alpha IDs is currently ${configuration.enabled ? "enabled" : "disabled"}`);
 ```
