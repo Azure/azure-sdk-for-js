@@ -437,7 +437,24 @@ export class Items {
     }, this.clientContext);
   }
 
-  /** New bulk api contract */
+  /**
+   * provides streamer for bulk operations
+   * @param options - used for modifying the request
+   * @returns an instance of bulk streamer
+   * @example
+   * ```typescript
+   * const createOperations: OperationInput[] = Array.from({ length: 5 }, (_, index) => ({
+   *     operationType: "Create"
+   *     resourceBody: { id: `doc${index + 1}`, name: `sample${index + 1}`, key: index, },
+   *  }));
+   * const readOperation: OperationInput = { operationType: "Read", id: "doc1", partitionKey: "1" };
+   *
+   *  const bulkStreamer = container.items.getBulkStreamer();
+   *  bulkStreamer.add(createOperations);
+   *  bulkStreamer.add(readOperation);
+   * const response = await bulkStreamer.endStream();
+   * ```
+   */
   public getBulkStreamer(options: RequestOptions = {}): BulkStreamer {
     const bulkStreamerCache = this.clientContext.getBulkStreamerCache();
     const bulkStreamer = bulkStreamerCache.getOrCreateStreamer(

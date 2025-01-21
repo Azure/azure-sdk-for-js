@@ -76,7 +76,10 @@ export class BulkStreamer {
     );
   }
 
-  /** add an operation or a list of operations to Bulk Streamer */
+  /**
+   * adds operation(s) to the streamer
+   * @param operationInput - bulk operation or list of bulk operations
+   */
   addOperations(operationInput: OperationInput | OperationInput[]): void {
     if (Array.isArray(operationInput)) {
       operationInput.forEach((operation) => {
@@ -101,7 +104,10 @@ export class BulkStreamer {
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
-
+  /**
+   * ends the stream and returns response
+   * @returns bulk response
+   */
   async endStream(): Promise<BulkStreamerResponse> {
     let orderedOperationsResult: BulkOperationResult[];
 

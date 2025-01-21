@@ -80,7 +80,6 @@ export type BulkPatchOperation = OperationBase & {
 // @public
 export class BulkStreamer {
     addOperations(operationInput: OperationInput | OperationInput[]): void;
-    // (undocumented)
     endStream(): Promise<BulkStreamerResponse>;
 }
 
