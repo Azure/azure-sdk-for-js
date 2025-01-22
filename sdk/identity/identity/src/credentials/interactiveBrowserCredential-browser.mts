@@ -13,10 +13,10 @@ import {
 } from "../util/tenantIdUtils.js";
 
 import type { AuthenticationRecord } from "../msal/types.js";
-import type { MsalBrowserClient, MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon.js";
+import type { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserOptions.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { tracingClient } from "../util/tracing.js";
-import { createMsalBrowserClient } from "../msal/browserFlows/msalAuthCode.js";
+import { createMsalBrowserClient, MsalBrowserClient } from "../msal/browserFlows/msalBrowserCommon.js";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -27,7 +27,7 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 export class InteractiveBrowserCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalBrowserClient;
+  private msalClient: MsalBrowserClient;
   private disableAutomaticAuthentication?: boolean;
 
   /**
@@ -83,7 +83,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri,
     };
 
-    this.msalFlow = createMsalBrowserClient(msalOptions);
+    this.msalClient = createMsalBrowserClient(msalOptions);
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
@@ -112,7 +112,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         newOptions.tenantId = tenantId;
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalFlow.getToken(arrayScopes, {
+        return this.msalClient.getToken(arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
@@ -139,8 +139,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-        await this.msalFlow.getToken(arrayScopes, newOptions);
-        return this.msalFlow.getActiveAccount();
+        await this.msalClient.getToken(arrayScopes, newOptions);
+        return this.msalClient.getActiveAccount();
       },
     );
   }
