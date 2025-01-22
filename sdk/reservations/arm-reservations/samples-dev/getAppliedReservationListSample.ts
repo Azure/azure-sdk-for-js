@@ -29,7 +29,7 @@ async function appliedReservationList() {
 }
 
 async function main() {
-  appliedReservationList();
+  await appliedReservationList();
 }
 
 main().catch(console.error);

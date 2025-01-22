@@ -47,7 +47,7 @@ async function renewsCertificateForTheFabric() {
 }
 
 async function main() {
-  renewsCertificateForTheFabric();
+  await renewsCertificateForTheFabric();
 }
 
 main().catch(console.error);

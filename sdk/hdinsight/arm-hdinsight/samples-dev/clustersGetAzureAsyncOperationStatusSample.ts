@@ -36,7 +36,7 @@ async function getAsyncOperationStatusOfCreatingCluster() {
 }
 
 async function main() {
-  getAsyncOperationStatusOfCreatingCluster();
+  await getAsyncOperationStatusOfCreatingCluster();
 }
 
 main().catch(console.error);

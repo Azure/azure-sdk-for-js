@@ -32,7 +32,7 @@ async function listAllNetworkWatchers() {
 }
 
 async function main() {
-  listAllNetworkWatchers();
+  await listAllNetworkWatchers();
 }
 
 main().catch(console.error);

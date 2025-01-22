@@ -37,7 +37,7 @@ async function iotHubResourceDelete() {
 }
 
 async function main() {
-  iotHubResourceDelete();
+  await iotHubResourceDelete();
 }
 
 main().catch(console.error);

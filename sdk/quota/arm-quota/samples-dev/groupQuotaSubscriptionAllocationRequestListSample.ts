@@ -42,7 +42,7 @@ async function subscriptionQuotaAllocationListRequestForCompute() {
 }
 
 async function main() {
-  subscriptionQuotaAllocationListRequestForCompute();
+  await subscriptionQuotaAllocationListRequestForCompute();
 }
 
 main().catch(console.error);

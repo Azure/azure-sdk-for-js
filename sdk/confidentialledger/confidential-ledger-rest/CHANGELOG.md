@@ -1,5 +1,14 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+### Features Added
+
+- User defined endpoint
+- User defined endpoint runtimeoptions
+- User defined endpoint modules
+- User defined roles 
+- 
 ## 1.1.0-beta.1 (Unreleased)
 
 ### Features Added

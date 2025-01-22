@@ -13,9 +13,7 @@ import {
   CommunicationServiceManagementClient,
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Add a new Domains resource under the parent EmailService resource or update an existing Domains resource.

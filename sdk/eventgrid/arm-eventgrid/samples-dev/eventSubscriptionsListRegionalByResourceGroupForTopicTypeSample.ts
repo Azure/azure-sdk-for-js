@@ -42,7 +42,7 @@ async function eventSubscriptionsListRegionalByResourceGroupForTopicType() {
 }
 
 async function main() {
-  eventSubscriptionsListRegionalByResourceGroupForTopicType();
+  await eventSubscriptionsListRegionalByResourceGroupForTopicType();
 }
 
 main().catch(console.error);

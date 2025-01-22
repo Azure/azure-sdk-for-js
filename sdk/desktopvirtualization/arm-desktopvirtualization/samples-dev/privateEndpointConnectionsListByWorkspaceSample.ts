@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DesktopVirtualizationAPIClient } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List private endpoint connections.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List private endpoint connections.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateEndpointConnection_ListByWorkspace.json
  */
-async function privateEndpointConnectionListByWorkspace() {
+async function privateEndpointConnectionListByWorkspace(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] ||
     "daefabc0-95b4-48b3-b645-8a753a63c4fa";
@@ -39,8 +37,8 @@ async function privateEndpointConnectionListByWorkspace() {
   console.log(resArray);
 }
 
-async function main() {
-  privateEndpointConnectionListByWorkspace();
+async function main(): Promise<void> {
+  await privateEndpointConnectionListByWorkspace();
 }
 
 main().catch(console.error);

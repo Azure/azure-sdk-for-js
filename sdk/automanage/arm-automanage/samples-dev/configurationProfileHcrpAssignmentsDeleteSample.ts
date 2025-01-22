@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a configuration profile assignment
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/deleteConfigurationProfileHCRPAssignment.json
  */
-async function deleteAHcrpConfigurationProfileAssignment() {
+async function deleteAHcrpConfigurationProfileAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function deleteAHcrpConfigurationProfileAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAHcrpConfigurationProfileAssignment();
 }
 

@@ -41,7 +41,7 @@ async function deleteAttachedDataNetworkResource() {
 }
 
 async function main() {
-  deleteAttachedDataNetworkResource();
+  await deleteAttachedDataNetworkResource();
 }
 
 main().catch(console.error);

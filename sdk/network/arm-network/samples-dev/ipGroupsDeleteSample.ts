@@ -35,7 +35,7 @@ async function deleteIPGroups() {
 }
 
 async function main() {
-  deleteIPGroups();
+  await deleteIPGroups();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletin
 }
 
 async function main() {
-  updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletingIt();
+  await updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletingIt();
 }
 
 main().catch(console.error);

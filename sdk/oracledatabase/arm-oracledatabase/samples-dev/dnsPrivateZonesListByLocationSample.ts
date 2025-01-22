@@ -35,7 +35,7 @@ async function listDnsPrivateZonesByLocation() {
 }
 
 async function main() {
-  listDnsPrivateZonesByLocation();
+  await listDnsPrivateZonesByLocation();
 }
 
 main().catch(console.error);

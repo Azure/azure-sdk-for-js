@@ -63,7 +63,7 @@ async function patchAnAlertRule() {
 }
 
 async function main() {
-  patchAnAlertRule();
+  await patchAnAlertRule();
 }
 
 main().catch(console.error);

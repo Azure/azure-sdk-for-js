@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GalleryApplicationVersionUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { GalleryApplicationVersionUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a gallery Application Version.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Update a gallery Application Version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplicationVersion_Update.json
  */
-async function updateASimpleGalleryApplicationVersion() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateASimpleGalleryApplicationVersion(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplicationVersionName = "1.0.0";
@@ -68,8 +60,8 @@ async function updateASimpleGalleryApplicationVersion() {
   console.log(result);
 }
 
-async function main() {
-  updateASimpleGalleryApplicationVersion();
+async function main(): Promise<void> {
+  await updateASimpleGalleryApplicationVersion();
 }
 
 main().catch(console.error);

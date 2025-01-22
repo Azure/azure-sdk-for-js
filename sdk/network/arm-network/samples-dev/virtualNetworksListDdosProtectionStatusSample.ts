@@ -45,7 +45,7 @@ async function getDdosProtectionStatusOfAVirtualNetwork() {
 }
 
 async function main() {
-  getDdosProtectionStatusOfAVirtualNetwork();
+  await getDdosProtectionStatusOfAVirtualNetwork();
 }
 
 main().catch(console.error);

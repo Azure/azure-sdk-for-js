@@ -34,7 +34,7 @@ async function searchListOperations() {
 }
 
 async function main() {
-  searchListOperations();
+  await searchListOperations();
 }
 
 main().catch(console.error);

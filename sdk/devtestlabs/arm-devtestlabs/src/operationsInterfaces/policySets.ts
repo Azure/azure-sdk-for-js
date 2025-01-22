@@ -10,7 +10,7 @@ import {
   EvaluatePoliciesRequest,
   PolicySetsEvaluatePoliciesOptionalParams,
   PolicySetsEvaluatePoliciesResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PolicySets. */
 export interface PolicySets {

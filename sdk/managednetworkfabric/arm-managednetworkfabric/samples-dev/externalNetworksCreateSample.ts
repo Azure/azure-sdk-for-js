@@ -90,7 +90,7 @@ async function externalNetworksCreateMaximumSetGen() {
 }
 
 async function main() {
-  externalNetworksCreateMaximumSetGen();
+  await externalNetworksCreateMaximumSetGen();
 }
 
 main().catch(console.error);

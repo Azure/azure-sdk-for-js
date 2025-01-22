@@ -70,9 +70,9 @@ async function executeGovernanceRuleOverSecurityConnectorScope() {
 }
 
 async function main() {
-  executeGovernanceRuleOverSubscriptionScope();
-  executeGovernanceRuleOverManagementGroupScope();
-  executeGovernanceRuleOverSecurityConnectorScope();
+  await executeGovernanceRuleOverSubscriptionScope();
+  await executeGovernanceRuleOverManagementGroupScope();
+  await executeGovernanceRuleOverSecurityConnectorScope();
 }
 
 main().catch(console.error);

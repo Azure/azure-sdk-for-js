@@ -37,7 +37,7 @@ async function deploymentsDelete() {
 }
 
 async function main() {
-  deploymentsDelete();
+  await deploymentsDelete();
 }
 
 main().catch(console.error);

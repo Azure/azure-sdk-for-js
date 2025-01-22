@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all operations provided by Microsoft.Datadog for the 2023-01-01 api version.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all operations provided by Microsoft.Datadog for the 2023-01-01 api version.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/Operations_List.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,8 +31,8 @@ async function operationsList() {
   console.log(resArray);
 }
 
-async function main() {
-  operationsList();
+async function main(): Promise<void> {
+  await operationsList();
 }
 
 main().catch(console.error);

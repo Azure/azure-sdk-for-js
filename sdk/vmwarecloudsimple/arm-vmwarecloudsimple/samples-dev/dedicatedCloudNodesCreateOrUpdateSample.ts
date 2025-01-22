@@ -52,7 +52,7 @@ async function createDedicatedCloudNode() {
 }
 
 async function main() {
-  createDedicatedCloudNode();
+  await createDedicatedCloudNode();
 }
 
 main().catch(console.error);

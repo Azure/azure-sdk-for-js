@@ -48,7 +48,7 @@ async function configurationAssignmentsListParent() {
 }
 
 async function main() {
-  configurationAssignmentsListParent();
+  await configurationAssignmentsListParent();
 }
 
 main().catch(console.error);

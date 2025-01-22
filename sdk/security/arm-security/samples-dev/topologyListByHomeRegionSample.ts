@@ -35,7 +35,7 @@ async function getTopologyOnASubscriptionFromSecurityDataLocation() {
 }
 
 async function main() {
-  getTopologyOnASubscriptionFromSecurityDataLocation();
+  await getTopologyOnASubscriptionFromSecurityDataLocation();
 }
 
 main().catch(console.error);

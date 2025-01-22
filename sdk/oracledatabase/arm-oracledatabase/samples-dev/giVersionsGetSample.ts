@@ -33,7 +33,7 @@ async function getAGiVersionByName() {
 }
 
 async function main() {
-  getAGiVersionByName();
+  await getAGiVersionByName();
 }
 
 main().catch(console.error);

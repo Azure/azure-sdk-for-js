@@ -77,8 +77,8 @@ async function accountsCreateOrUpdateWithActiveDirectory() {
 }
 
 async function main() {
-  accountsCreateOrUpdate();
-  accountsCreateOrUpdateWithActiveDirectory();
+  await accountsCreateOrUpdate();
+  await accountsCreateOrUpdateWithActiveDirectory();
 }
 
 main().catch(console.error);

@@ -65,8 +65,8 @@ async function volumeSnapshotsGetMinimumSetGen() {
 }
 
 async function main() {
-  volumeSnapshotsGetMaximumSetGen();
-  volumeSnapshotsGetMinimumSetGen();
+  await volumeSnapshotsGetMaximumSetGen();
+  await volumeSnapshotsGetMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function vpnSiteLinkConnectionList() {
 }
 
 async function main() {
-  vpnSiteLinkConnectionList();
+  await vpnSiteLinkConnectionList();
 }
 
 main().catch(console.error);

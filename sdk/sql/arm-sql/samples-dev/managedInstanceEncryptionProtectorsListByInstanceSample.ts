@@ -40,7 +40,7 @@ async function listEncryptionProtectorsByManagedInstance() {
 }
 
 async function main() {
-  listEncryptionProtectorsByManagedInstance();
+  await listEncryptionProtectorsByManagedInstance();
 }
 
 main().catch(console.error);

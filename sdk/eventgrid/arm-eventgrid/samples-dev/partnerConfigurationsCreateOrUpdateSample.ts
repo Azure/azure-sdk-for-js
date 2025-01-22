@@ -62,7 +62,7 @@ async function partnerConfigurationsCreateOrUpdate() {
 }
 
 async function main() {
-  partnerConfigurationsCreateOrUpdate();
+  await partnerConfigurationsCreateOrUpdate();
 }
 
 main().catch(console.error);

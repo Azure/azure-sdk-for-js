@@ -78,8 +78,8 @@ async function enableAServerAdvancedThreatProtectionSettingsUsingPut() {
 }
 
 async function main() {
-  disableAServerAdvancedThreatProtectionSettingsWithAllParametersUsingPut();
-  enableAServerAdvancedThreatProtectionSettingsUsingPut();
+  await disableAServerAdvancedThreatProtectionSettingsWithAllParametersUsingPut();
+  await enableAServerAdvancedThreatProtectionSettingsUsingPut();
 }
 
 main().catch(console.error);

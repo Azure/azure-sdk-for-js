@@ -41,7 +41,7 @@ async function certificatesDelete() {
 }
 
 async function main() {
-  certificatesDelete();
+  await certificatesDelete();
 }
 
 main().catch(console.error);

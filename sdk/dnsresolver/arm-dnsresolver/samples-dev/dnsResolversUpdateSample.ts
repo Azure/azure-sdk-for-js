@@ -42,7 +42,7 @@ async function updateDnsResolver() {
 }
 
 async function main() {
-  updateDnsResolver();
+  await updateDnsResolver();
 }
 
 main().catch(console.error);

@@ -114,8 +114,8 @@ async function validateOperationWithIdentityBasedRestoreDetails() {
 }
 
 async function main() {
-  validateOperation();
-  validateOperationWithIdentityBasedRestoreDetails();
+  await validateOperation();
+  await validateOperationWithIdentityBasedRestoreDetails();
 }
 
 main().catch(console.error);

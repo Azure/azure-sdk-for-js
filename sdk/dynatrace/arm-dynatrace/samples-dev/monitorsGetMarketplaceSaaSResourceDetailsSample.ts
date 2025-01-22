@@ -58,8 +58,8 @@ async function monitorsGetMarketplaceSaaSResourceDetailsMinimumSetGen() {
 }
 
 async function main() {
-  monitorsGetMarketplaceSaaSResourceDetailsMaximumSetGen();
-  monitorsGetMarketplaceSaaSResourceDetailsMinimumSetGen();
+  await monitorsGetMarketplaceSaaSResourceDetailsMaximumSetGen();
+  await monitorsGetMarketplaceSaaSResourceDetailsMinimumSetGen();
 }
 
 main().catch(console.error);

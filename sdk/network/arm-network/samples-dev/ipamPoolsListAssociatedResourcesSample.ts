@@ -41,7 +41,7 @@ async function ipamPoolsListAssociatedResources() {
 }
 
 async function main() {
-  ipamPoolsListAssociatedResources();
+  await ipamPoolsListAssociatedResources();
 }
 
 main().catch(console.error);

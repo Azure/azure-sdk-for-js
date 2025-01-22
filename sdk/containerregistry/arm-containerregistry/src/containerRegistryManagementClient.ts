@@ -29,7 +29,7 @@ import {
   RunsImpl,
   TaskRunsImpl,
   TasksImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Archives,
   ArchiveVersions,
@@ -50,8 +50,8 @@ import {
   Runs,
   TaskRuns,
   Tasks
-} from "./operationsInterfaces";
-import { ContainerRegistryManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ContainerRegistryManagementClientOptionalParams } from "./models/index.js";
 
 export class ContainerRegistryManagementClient extends coreClient.ServiceClient {
   $host: string;

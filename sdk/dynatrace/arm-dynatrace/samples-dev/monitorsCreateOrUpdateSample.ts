@@ -89,8 +89,8 @@ async function monitorsCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  monitorsCreateOrUpdateMaximumSetGen();
-  monitorsCreateOrUpdateMinimumSetGen();
+  await monitorsCreateOrUpdateMaximumSetGen();
+  await monitorsCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

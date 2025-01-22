@@ -41,7 +41,7 @@ async function getIntegrationRuntimeNode() {
 }
 
 async function main() {
-  getIntegrationRuntimeNode();
+  await getIntegrationRuntimeNode();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listsAllWafPoliciesInAResourceGroup() {
 }
 
 async function main() {
-  listsAllWafPoliciesInAResourceGroup();
+  await listsAllWafPoliciesInAResourceGroup();
 }
 
 main().catch(console.error);

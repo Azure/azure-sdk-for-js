@@ -41,7 +41,7 @@ async function topicSpacesCreateOrUpdate() {
 }
 
 async function main() {
-  topicSpacesCreateOrUpdate();
+  await topicSpacesCreateOrUpdate();
 }
 
 main().catch(console.error);

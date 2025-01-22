@@ -35,7 +35,7 @@ async function listLoadBalancersInResourceGroup() {
 }
 
 async function main() {
-  listLoadBalancersInResourceGroup();
+  await listLoadBalancersInResourceGroup();
 }
 
 main().catch(console.error);

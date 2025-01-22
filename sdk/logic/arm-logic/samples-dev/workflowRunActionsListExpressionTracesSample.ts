@@ -44,7 +44,7 @@ async function listExpressionTraces() {
 }
 
 async function main() {
-  listExpressionTraces();
+  await listExpressionTraces();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function certificatesRetrieveCertChain() {
 }
 
 async function main() {
-  certificatesRetrieveCertChain();
+  await certificatesRetrieveCertChain();
 }
 
 main().catch(console.error);

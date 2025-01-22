@@ -50,7 +50,7 @@ async function updateWorkspaceBatchDeployment() {
 }
 
 async function main() {
-  updateWorkspaceBatchDeployment();
+  await updateWorkspaceBatchDeployment();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function updateTagsForNetworkFunctionResource() {
 }
 
 async function main() {
-  updateTagsForNetworkFunctionResource();
+  await updateTagsForNetworkFunctionResource();
 }
 
 main().catch(console.error);

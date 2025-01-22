@@ -51,7 +51,7 @@ async function howToUnlinkADatabaseDuringARegionalOutage() {
 }
 
 async function main() {
-  howToUnlinkADatabaseDuringARegionalOutage();
+  await howToUnlinkADatabaseDuringARegionalOutage();
 }
 
 main().catch(console.error);

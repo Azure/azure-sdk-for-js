@@ -46,7 +46,7 @@ async function createAFileImport() {
 }
 
 async function main() {
-  createAFileImport();
+  await createAFileImport();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function deleteExpressRouteCircuitPeerings() {
 }
 
 async function main() {
-  deleteExpressRouteCircuitPeerings();
+  await deleteExpressRouteCircuitPeerings();
 }
 
 main().catch(console.error);

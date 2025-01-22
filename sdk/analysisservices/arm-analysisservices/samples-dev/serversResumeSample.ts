@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Resumes operation of the specified Analysis Services server instance.
  * x-ms-original-file: specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2017-08-01/examples/resumeServer.json
  */
-async function resumeAServer() {
+async function resumeAServer(): Promise<void> {
   const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const resourceGroupName = "TestRG";
   const serverName = "azsdktest";

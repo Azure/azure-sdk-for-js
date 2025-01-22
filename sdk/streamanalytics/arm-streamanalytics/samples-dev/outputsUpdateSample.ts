@@ -430,18 +430,18 @@ async function updateAnEventHubOutputWithJsonSerialization() {
 }
 
 async function main() {
-  updateADeltaLakeOutput();
-  updateADocumentDbOutput();
-  updateAPowerBiOutput();
-  updateAServiceBusQueueOutputWithAvroSerialization();
-  updateAServiceBusTopicOutputWithCsvSerialization();
-  updateABlobOutputWithCsvSerialization();
-  updateAnAzureDataLakeStoreOutputWithJsonSerialization();
-  updateAnAzureDataWarehouseOutput();
-  updateAnAzureFunctionOutput();
-  updateAnAzureSqlDatabaseOutput();
-  updateAnAzureTableOutput();
-  updateAnEventHubOutputWithJsonSerialization();
+  await updateADeltaLakeOutput();
+  await updateADocumentDbOutput();
+  await updateAPowerBiOutput();
+  await updateAServiceBusQueueOutputWithAvroSerialization();
+  await updateAServiceBusTopicOutputWithCsvSerialization();
+  await updateABlobOutputWithCsvSerialization();
+  await updateAnAzureDataLakeStoreOutputWithJsonSerialization();
+  await updateAnAzureDataWarehouseOutput();
+  await updateAnAzureFunctionOutput();
+  await updateAnAzureSqlDatabaseOutput();
+  await updateAnAzureTableOutput();
+  await updateAnEventHubOutputWithJsonSerialization();
 }
 
 main().catch(console.error);

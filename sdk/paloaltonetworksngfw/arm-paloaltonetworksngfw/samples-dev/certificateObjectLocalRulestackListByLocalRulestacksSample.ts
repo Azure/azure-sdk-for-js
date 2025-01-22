@@ -65,8 +65,8 @@ async function certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen
 }
 
 async function main() {
-  certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen();
-  certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen();
+  await certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen();
+  await certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen();
 }
 
 main().catch(console.error);

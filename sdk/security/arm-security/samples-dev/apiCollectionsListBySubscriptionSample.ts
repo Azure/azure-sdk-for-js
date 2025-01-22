@@ -34,7 +34,7 @@ async function getsAListOfApiCollectionsWithinASubscriptionThatHaveBeenOnboarded
 }
 
 async function main() {
-  getsAListOfApiCollectionsWithinASubscriptionThatHaveBeenOnboardedToMicrosoftDefenderForApIs();
+  await getsAListOfApiCollectionsWithinASubscriptionThatHaveBeenOnboardedToMicrosoftDefenderForApIs();
 }
 
 main().catch(console.error);

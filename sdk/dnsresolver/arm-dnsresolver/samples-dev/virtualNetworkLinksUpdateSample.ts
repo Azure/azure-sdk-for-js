@@ -46,7 +46,7 @@ async function updateVirtualNetworkLinkToADnsForwardingRuleset() {
 }
 
 async function main() {
-  updateVirtualNetworkLinkToADnsForwardingRuleset();
+  await updateVirtualNetworkLinkToADnsForwardingRuleset();
 }
 
 main().catch(console.error);

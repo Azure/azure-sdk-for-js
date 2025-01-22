@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks if specified API deployment exists.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Deployments_Head.json
  */
-async function deploymentsHead() {
+async function deploymentsHead(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +40,7 @@ async function deploymentsHead() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploymentsHead();
 }
 

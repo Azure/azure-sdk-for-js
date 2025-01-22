@@ -46,7 +46,7 @@ async function updateAppliance() {
 }
 
 async function main() {
-  updateAppliance();
+  await updateAppliance();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function certificatesRetrieveProofOfPossessionNonce() {
 }
 
 async function main() {
-  certificatesRetrieveProofOfPossessionNonce();
+  await certificatesRetrieveProofOfPossessionNonce();
 }
 
 main().catch(console.error);

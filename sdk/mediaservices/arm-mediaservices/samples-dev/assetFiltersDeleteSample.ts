@@ -41,7 +41,7 @@ async function deleteAnAssetFilter() {
 }
 
 async function main() {
-  deleteAnAssetFilter();
+  await deleteAnAssetFilter();
 }
 
 main().catch(console.error);

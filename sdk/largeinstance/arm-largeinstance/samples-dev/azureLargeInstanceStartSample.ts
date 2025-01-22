@@ -37,7 +37,7 @@ async function azureLargeInstanceStart() {
 }
 
 async function main() {
-  azureLargeInstanceStart();
+  await azureLargeInstanceStart();
 }
 
 main().catch(console.error);

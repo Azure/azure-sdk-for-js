@@ -39,7 +39,7 @@ async function updateSpacecraftTags() {
 }
 
 async function main() {
-  updateSpacecraftTags();
+  await updateSpacecraftTags();
 }
 
 main().catch(console.error);

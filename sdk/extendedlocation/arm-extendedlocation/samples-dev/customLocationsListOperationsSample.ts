@@ -37,7 +37,7 @@ async function listCustomLocationsOperations() {
 }
 
 async function main() {
-  listCustomLocationsOperations();
+  await listCustomLocationsOperations();
 }
 
 main().catch(console.error);

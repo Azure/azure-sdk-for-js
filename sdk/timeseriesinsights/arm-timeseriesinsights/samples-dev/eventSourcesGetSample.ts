@@ -38,7 +38,7 @@ async function getEventHubEventSource() {
 }
 
 async function main() {
-  getEventHubEventSource();
+  await getEventHubEventSource();
 }
 
 main().catch(console.error);

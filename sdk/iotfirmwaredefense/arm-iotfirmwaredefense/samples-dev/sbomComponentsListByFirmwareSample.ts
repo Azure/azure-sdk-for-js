@@ -69,8 +69,8 @@ async function sbomComponentsListByFirmwareMinimumSetGen() {
 }
 
 async function main() {
-  sbomComponentsListByFirmwareMaximumSetGen();
-  sbomComponentsListByFirmwareMinimumSetGen();
+  await sbomComponentsListByFirmwareMaximumSetGen();
+  await sbomComponentsListByFirmwareMinimumSetGen();
 }
 
 main().catch(console.error);

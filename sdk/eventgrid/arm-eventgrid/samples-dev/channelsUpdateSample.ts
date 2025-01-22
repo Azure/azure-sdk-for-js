@@ -46,7 +46,7 @@ async function channelsUpdate() {
 }
 
 async function main() {
-  channelsUpdate();
+  await channelsUpdate();
 }
 
 main().catch(console.error);

@@ -61,8 +61,8 @@ async function getDevOpsOperationResultsSucceeded() {
 }
 
 async function main() {
-  getDevOpsOperationResultsFailed();
-  getDevOpsOperationResultsSucceeded();
+  await getDevOpsOperationResultsFailed();
+  await getDevOpsOperationResultsSucceeded();
 }
 
 main().catch(console.error);

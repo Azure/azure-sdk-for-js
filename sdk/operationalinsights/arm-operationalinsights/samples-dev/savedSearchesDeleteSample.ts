@@ -42,7 +42,7 @@ async function savedSearchesDelete() {
 }
 
 async function main() {
-  savedSearchesDelete();
+  await savedSearchesDelete();
 }
 
 main().catch(console.error);

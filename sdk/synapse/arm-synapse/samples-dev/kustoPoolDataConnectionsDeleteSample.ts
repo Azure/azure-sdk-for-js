@@ -43,7 +43,7 @@ async function kustoPoolDataConnectionsDelete() {
 }
 
 async function main() {
-  kustoPoolDataConnectionsDelete();
+  await kustoPoolDataConnectionsDelete();
 }
 
 main().catch(console.error);

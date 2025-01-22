@@ -34,7 +34,7 @@ async function deleteAccount() {
 }
 
 async function main() {
-  deleteAccount();
+  await deleteAccount();
 }
 
 main().catch(console.error);

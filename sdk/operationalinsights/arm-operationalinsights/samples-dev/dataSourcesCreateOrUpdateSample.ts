@@ -53,7 +53,7 @@ async function dataSourcesCreate() {
 }
 
 async function main() {
-  dataSourcesCreate();
+  await dataSourcesCreate();
 }
 
 main().catch(console.error);

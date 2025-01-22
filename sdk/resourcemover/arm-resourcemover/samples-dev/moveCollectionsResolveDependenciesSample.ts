@@ -36,7 +36,7 @@ async function moveCollectionsResolveDependencies() {
 }
 
 async function main() {
-  moveCollectionsResolveDependencies();
+  await moveCollectionsResolveDependencies();
 }
 
 main().catch(console.error);

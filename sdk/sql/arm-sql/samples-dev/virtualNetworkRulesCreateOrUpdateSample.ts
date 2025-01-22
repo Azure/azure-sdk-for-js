@@ -44,7 +44,7 @@ async function createOrUpdateAVirtualNetworkRule() {
 }
 
 async function main() {
-  createOrUpdateAVirtualNetworkRule();
+  await createOrUpdateAVirtualNetworkRule();
 }
 
 main().catch(console.error);

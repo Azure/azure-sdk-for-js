@@ -37,7 +37,7 @@ async function storageAccountDeleteManagementPolicies() {
 }
 
 async function main() {
-  storageAccountDeleteManagementPolicies();
+  await storageAccountDeleteManagementPolicies();
 }
 
 main().catch(console.error);

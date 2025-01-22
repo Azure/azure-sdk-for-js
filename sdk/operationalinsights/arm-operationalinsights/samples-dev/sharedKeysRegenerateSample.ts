@@ -40,7 +40,7 @@ async function regenerateSharedKeys() {
 }
 
 async function main() {
-  regenerateSharedKeys();
+  await regenerateSharedKeys();
 }
 
 main().catch(console.error);

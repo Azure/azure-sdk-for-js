@@ -39,7 +39,7 @@ async function listNetworkManagerScopeConnection() {
 }
 
 async function main() {
-  listNetworkManagerScopeConnection();
+  await listNetworkManagerScopeConnection();
 }
 
 main().catch(console.error);

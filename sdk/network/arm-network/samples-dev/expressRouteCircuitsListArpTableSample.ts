@@ -38,7 +38,7 @@ async function listArpTable() {
 }
 
 async function main() {
-  listArpTable();
+  await listArpTable();
 }
 
 main().catch(console.error);

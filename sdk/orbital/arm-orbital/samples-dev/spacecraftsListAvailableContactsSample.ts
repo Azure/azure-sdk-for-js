@@ -51,7 +51,7 @@ async function listOfContact() {
 }
 
 async function main() {
-  listOfContact();
+  await listOfContact();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function connector() {
 }
 
 async function main() {
-  connector();
+  await connector();
 }
 
 main().catch(console.error);

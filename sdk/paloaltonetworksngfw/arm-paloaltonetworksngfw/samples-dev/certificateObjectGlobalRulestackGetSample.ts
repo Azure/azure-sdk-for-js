@@ -51,8 +51,8 @@ async function certificateObjectGlobalRulestackGetMinimumSetGen() {
 }
 
 async function main() {
-  certificateObjectGlobalRulestackGetMaximumSetGen();
-  certificateObjectGlobalRulestackGetMinimumSetGen();
+  await certificateObjectGlobalRulestackGetMaximumSetGen();
+  await certificateObjectGlobalRulestackGetMinimumSetGen();
 }
 
 main().catch(console.error);

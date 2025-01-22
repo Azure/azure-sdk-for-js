@@ -42,7 +42,7 @@ async function enableAzureMonitoringAgent() {
 }
 
 async function main() {
-  enableAzureMonitoringAgent();
+  await enableAzureMonitoringAgent();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function quotasList() {
 }
 
 async function main() {
-  quotasList();
+  await quotasList();
 }
 
 main().catch(console.error);

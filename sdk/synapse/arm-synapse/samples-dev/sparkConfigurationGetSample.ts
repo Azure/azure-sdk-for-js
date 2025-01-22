@@ -39,7 +39,7 @@ async function getSparkConfigurationByName() {
 }
 
 async function main() {
-  getSparkConfigurationByName();
+  await getSparkConfigurationByName();
 }
 
 main().catch(console.error);

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesExecuteStart: executeStart for a virtual machine
  * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesExecuteStart_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
+async function scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -35,7 +35,7 @@ async function scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetR
  * @summary virtualMachinesExecuteStart: executeStart for a virtual machine
  * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesExecuteStart_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
+async function scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetRuleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -54,9 +54,9 @@ async function scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetR
   console.log(result);
 }
 
-async function main() {
-  scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+async function main(): Promise<void> {
+  await scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
+  await scheduledActionsVirtualMachinesExecuteStartGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

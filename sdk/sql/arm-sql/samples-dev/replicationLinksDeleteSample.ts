@@ -40,7 +40,7 @@ async function deleteReplicationLinkOnServer() {
 }
 
 async function main() {
-  deleteReplicationLinkOnServer();
+  await deleteReplicationLinkOnServer();
 }
 
 main().catch(console.error);

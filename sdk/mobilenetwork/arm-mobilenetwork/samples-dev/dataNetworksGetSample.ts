@@ -39,7 +39,7 @@ async function getDataNetwork() {
 }
 
 async function main() {
-  getDataNetwork();
+  await getDataNetwork();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function getTheResultOfAnOperationOnASqlAnalyticsPool() {
 }
 
 async function main() {
-  getTheResultOfAnOperationOnASqlAnalyticsPool();
+  await getTheResultOfAnOperationOnASqlAnalyticsPool();
 }
 
 main().catch(console.error);

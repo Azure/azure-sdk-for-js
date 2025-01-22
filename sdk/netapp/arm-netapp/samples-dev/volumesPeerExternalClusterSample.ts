@@ -54,7 +54,7 @@ async function volumesPeerExternalCluster() {
 }
 
 async function main() {
-  volumesPeerExternalCluster();
+  await volumesPeerExternalCluster();
 }
 
 main().catch(console.error);

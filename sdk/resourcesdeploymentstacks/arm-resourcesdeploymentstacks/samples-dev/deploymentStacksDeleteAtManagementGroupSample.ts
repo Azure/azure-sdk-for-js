@@ -34,7 +34,7 @@ async function deploymentStacksManagementGroupDelete() {
 }
 
 async function main() {
-  deploymentStacksManagementGroupDelete();
+  await deploymentStacksManagementGroupDelete();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DeviceUpdate } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to (INTERNAL - DO NOT USE) Deletes the specified private endpoint connection proxy associated with the device update account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary (INTERNAL - DO NOT USE) Deletes the specified private endpoint connection proxy associated with the device update account.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Delete.json
  */
-async function privateEndpointConnectionProxyDelete() {
+async function privateEndpointConnectionProxyDelete(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +36,8 @@ async function privateEndpointConnectionProxyDelete() {
   console.log(result);
 }
 
-async function main() {
-  privateEndpointConnectionProxyDelete();
+async function main(): Promise<void> {
+  await privateEndpointConnectionProxyDelete();
 }
 
 main().catch(console.error);

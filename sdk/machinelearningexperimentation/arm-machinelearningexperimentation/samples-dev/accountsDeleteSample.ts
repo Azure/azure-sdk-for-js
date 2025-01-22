@@ -35,7 +35,7 @@ async function accountDelete() {
 }
 
 async function main() {
-  accountDelete();
+  await accountDelete();
 }
 
 main().catch(console.error);

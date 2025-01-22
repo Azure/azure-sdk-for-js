@@ -34,7 +34,7 @@ async function systemTopicsListBySubscription() {
 }
 
 async function main() {
-  systemTopicsListBySubscription();
+  await systemTopicsListBySubscription();
 }
 
 main().catch(console.error);

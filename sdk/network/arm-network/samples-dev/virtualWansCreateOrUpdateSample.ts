@@ -41,7 +41,7 @@ async function virtualWanCreate() {
 }
 
 async function main() {
-  virtualWanCreate();
+  await virtualWanCreate();
 }
 
 main().catch(console.error);

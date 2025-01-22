@@ -44,7 +44,7 @@ async function createOrUpdateAssociation() {
 }
 
 async function main() {
-  createOrUpdateAssociation();
+  await createOrUpdateAssociation();
 }
 
 main().catch(console.error);

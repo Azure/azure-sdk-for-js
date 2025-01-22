@@ -45,7 +45,7 @@ async function getARepetitionRequestHistory() {
 }
 
 async function main() {
-  getARepetitionRequestHistory();
+  await getARepetitionRequestHistory();
 }
 
 main().catch(console.error);

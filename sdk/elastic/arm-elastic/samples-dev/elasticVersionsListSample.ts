@@ -35,7 +35,7 @@ async function elasticVersionsList() {
 }
 
 async function main() {
-  elasticVersionsList();
+  await elasticVersionsList();
 }
 
 main().catch(console.error);

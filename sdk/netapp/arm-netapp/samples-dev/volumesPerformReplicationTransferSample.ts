@@ -40,7 +40,7 @@ async function volumesPerformReplicationTransfer() {
 }
 
 async function main() {
-  volumesPerformReplicationTransfer();
+  await volumesPerformReplicationTransfer();
 }
 
 main().catch(console.error);

@@ -63,8 +63,8 @@ async function dataTypesGetMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen()
 }
 
 async function main() {
-  dataTypesGetMaximumSetGen();
-  dataTypesGetMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataTypesGetMaximumSetGen();
+  await dataTypesGetMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

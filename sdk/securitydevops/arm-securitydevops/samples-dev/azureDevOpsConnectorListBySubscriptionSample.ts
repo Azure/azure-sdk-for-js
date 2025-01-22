@@ -34,7 +34,7 @@ async function azureDevOpsConnectorListBySubscription() {
 }
 
 async function main() {
-  azureDevOpsConnectorListBySubscription();
+  await azureDevOpsConnectorListBySubscription();
 }
 
 main().catch(console.error);

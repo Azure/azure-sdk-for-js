@@ -49,7 +49,7 @@ async function workspaceCreate() {
 }
 
 async function main() {
-  workspaceCreate();
+  await workspaceCreate();
 }
 
 main().catch(console.error);

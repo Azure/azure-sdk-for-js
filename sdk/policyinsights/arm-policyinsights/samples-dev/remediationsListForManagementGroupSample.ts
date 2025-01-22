@@ -10,29 +10,24 @@
 // Licensed under the MIT License.
 import {
   RemediationsListForManagementGroupOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all remediations for the management group.
  *
  * @summary Gets all remediations for the management group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListManagementGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListManagementGroupScope.json
  */
 async function listRemediationsAtManagementGroupScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "financeMg";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.remediations.listForManagementGroup(
-    managementGroupId
+    managementGroupId,
   )) {
     resArray.push(item);
   }
@@ -43,25 +38,23 @@ async function listRemediationsAtManagementGroupScope() {
  * This sample demonstrates how to Gets all remediations for the management group.
  *
  * @summary Gets all remediations for the management group.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListManagementGroupScope_WithQuery.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListManagementGroupScope_WithQuery.json
  */
 async function listRemediationsAtManagementGroupScopeWithQueryParameters() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "financeMg";
   const top = 1;
   const filter =
     "PolicyAssignmentId eq '/providers/microsoft.management/managementGroups/financeMg/providers/microsoft.authorization/policyassignments/b101830944f246d8a14088c5'";
   const options: RemediationsListForManagementGroupOptionalParams = {
-    queryOptions: { top: top, filter: filter }
+    top,
+    filter,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.remediations.listForManagementGroup(
     managementGroupId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -69,8 +62,8 @@ async function listRemediationsAtManagementGroupScopeWithQueryParameters() {
 }
 
 async function main() {
-  listRemediationsAtManagementGroupScope();
-  listRemediationsAtManagementGroupScopeWithQueryParameters();
+  await listRemediationsAtManagementGroupScope();
+  await listRemediationsAtManagementGroupScopeWithQueryParameters();
 }
 
 main().catch(console.error);

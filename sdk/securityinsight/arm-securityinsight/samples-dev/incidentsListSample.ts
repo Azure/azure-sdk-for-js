@@ -47,7 +47,7 @@ async function getAllIncidents() {
 }
 
 async function main() {
-  getAllIncidents();
+  await getAllIncidents();
 }
 
 main().catch(console.error);

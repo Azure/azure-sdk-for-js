@@ -40,7 +40,7 @@ async function getNetwork() {
 }
 
 async function main() {
-  getNetwork();
+  await getNetwork();
 }
 
 main().catch(console.error);

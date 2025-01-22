@@ -37,7 +37,7 @@ async function vpnSiteLinkListByVpnSite() {
 }
 
 async function main() {
-  vpnSiteLinkListByVpnSite();
+  await vpnSiteLinkListByVpnSite();
 }
 
 main().catch(console.error);

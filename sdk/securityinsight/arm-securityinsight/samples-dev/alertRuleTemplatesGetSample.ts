@@ -39,7 +39,7 @@ async function getAlertRuleTemplateById() {
 }
 
 async function main() {
-  getAlertRuleTemplateById();
+  await getAlertRuleTemplateById();
 }
 
 main().catch(console.error);

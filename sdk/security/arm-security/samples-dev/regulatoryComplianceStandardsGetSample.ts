@@ -34,7 +34,7 @@ async function getSelectedRegulatoryComplianceStandardDetailsAndState() {
 }
 
 async function main() {
-  getSelectedRegulatoryComplianceStandardDetailsAndState();
+  await getSelectedRegulatoryComplianceStandardDetailsAndState();
 }
 
 main().catch(console.error);

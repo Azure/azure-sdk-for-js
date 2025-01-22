@@ -42,7 +42,7 @@ async function workspaceGetPrivateEndpointConnection() {
 }
 
 async function main() {
-  workspaceGetPrivateEndpointConnection();
+  await workspaceGetPrivateEndpointConnection();
 }
 
 main().catch(console.error);

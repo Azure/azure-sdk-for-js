@@ -44,7 +44,7 @@ async function gitHubOwnerCreateOrUpdate() {
 }
 
 async function main() {
-  gitHubOwnerCreateOrUpdate();
+  await gitHubOwnerCreateOrUpdate();
 }
 
 main().catch(console.error);

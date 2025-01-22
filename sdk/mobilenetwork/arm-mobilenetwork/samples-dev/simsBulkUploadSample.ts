@@ -89,7 +89,7 @@ async function bulkUploadSiMSInASimGroup() {
 }
 
 async function main() {
-  bulkUploadSiMSInASimGroup();
+  await bulkUploadSiMSInASimGroup();
 }
 
 main().catch(console.error);

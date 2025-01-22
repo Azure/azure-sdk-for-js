@@ -68,7 +68,7 @@ async function createOrUpdateSchedule() {
 }
 
 async function main() {
-  createOrUpdateSchedule();
+  await createOrUpdateSchedule();
 }
 
 main().catch(console.error);

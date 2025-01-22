@@ -41,7 +41,7 @@ async function vaultDelete() {
 }
 
 async function main() {
-  vaultDelete();
+  await vaultDelete();
 }
 
 main().catch(console.error);

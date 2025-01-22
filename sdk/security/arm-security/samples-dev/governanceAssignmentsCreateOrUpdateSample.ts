@@ -55,7 +55,7 @@ async function createGovernanceAssignment() {
 }
 
 async function main() {
-  createGovernanceAssignment();
+  await createGovernanceAssignment();
 }
 
 main().catch(console.error);

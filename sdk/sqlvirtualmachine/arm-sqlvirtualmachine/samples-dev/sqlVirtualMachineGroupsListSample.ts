@@ -37,7 +37,7 @@ async function getsAllSqlVirtualMachineGroupsInASubscription() {
 }
 
 async function main() {
-  getsAllSqlVirtualMachineGroupsInASubscription();
+  await getsAllSqlVirtualMachineGroupsInASubscription();
 }
 
 main().catch(console.error);

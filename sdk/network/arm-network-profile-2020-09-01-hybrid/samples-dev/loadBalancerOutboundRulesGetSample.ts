@@ -36,7 +36,7 @@ async function loadBalancerOutboundRuleGet() {
 }
 
 async function main() {
-  loadBalancerOutboundRuleGet();
+  await loadBalancerOutboundRuleGet();
 }
 
 main().catch(console.error);

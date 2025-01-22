@@ -38,7 +38,7 @@ async function deleteAMachineRunCommand() {
 }
 
 async function main() {
-  deleteAMachineRunCommand();
+  await deleteAMachineRunCommand();
 }
 
 main().catch(console.error);

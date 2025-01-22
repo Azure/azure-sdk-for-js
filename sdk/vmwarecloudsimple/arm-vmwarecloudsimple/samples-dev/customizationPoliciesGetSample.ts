@@ -37,7 +37,7 @@ async function getCustomizationPolicy() {
 }
 
 async function main() {
-  getCustomizationPolicy();
+  await getCustomizationPolicy();
 }
 
 main().catch(console.error);

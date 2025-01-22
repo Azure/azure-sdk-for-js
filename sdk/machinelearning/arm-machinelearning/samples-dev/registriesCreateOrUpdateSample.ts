@@ -176,8 +176,8 @@ async function createOrUpdateRegistryWithUserCreatedAccounts() {
 }
 
 async function main() {
-  createOrUpdateRegistryWithSystemCreatedAccounts();
-  createOrUpdateRegistryWithUserCreatedAccounts();
+  await createOrUpdateRegistryWithSystemCreatedAccounts();
+  await createOrUpdateRegistryWithUserCreatedAccounts();
 }
 
 main().catch(console.error);

@@ -63,8 +63,8 @@ async function fqdnListLocalRulestackDeleteMinimumSetGen() {
 }
 
 async function main() {
-  fqdnListLocalRulestackDeleteMaximumSetGen();
-  fqdnListLocalRulestackDeleteMinimumSetGen();
+  await fqdnListLocalRulestackDeleteMaximumSetGen();
+  await fqdnListLocalRulestackDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

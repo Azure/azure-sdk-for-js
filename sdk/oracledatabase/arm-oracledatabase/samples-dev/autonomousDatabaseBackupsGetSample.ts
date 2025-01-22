@@ -63,8 +63,8 @@ async function getAutonomousDatabaseBackup() {
 }
 
 async function main() {
-  autonomousDatabaseBackupsGet();
-  getAutonomousDatabaseBackup();
+  await autonomousDatabaseBackupsGet();
+  await getAutonomousDatabaseBackup();
 }
 
 main().catch(console.error);

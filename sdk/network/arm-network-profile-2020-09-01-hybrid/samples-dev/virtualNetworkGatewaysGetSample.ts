@@ -34,7 +34,7 @@ async function getVirtualNetworkGateway() {
 }
 
 async function main() {
-  getVirtualNetworkGateway();
+  await getVirtualNetworkGateway();
 }
 
 main().catch(console.error);

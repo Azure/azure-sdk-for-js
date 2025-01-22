@@ -34,7 +34,7 @@ async function listOfRecoveryServicesResourcesInSubscriptionId() {
 }
 
 async function main() {
-  listOfRecoveryServicesResourcesInSubscriptionId();
+  await listOfRecoveryServicesResourcesInSubscriptionId();
 }
 
 main().catch(console.error);

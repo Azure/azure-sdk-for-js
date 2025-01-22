@@ -111,10 +111,10 @@ async function getAnElasticPoolWithPreferredEnclaveTypeParameter() {
 }
 
 async function main() {
-  getAHyperscaleElasticPool();
-  getAnElasticPool();
-  getAnElasticPoolWithAvailabilityZone();
-  getAnElasticPoolWithPreferredEnclaveTypeParameter();
+  await getAHyperscaleElasticPool();
+  await getAnElasticPool();
+  await getAnElasticPoolWithAvailabilityZone();
+  await getAnElasticPoolWithPreferredEnclaveTypeParameter();
 }
 
 main().catch(console.error);

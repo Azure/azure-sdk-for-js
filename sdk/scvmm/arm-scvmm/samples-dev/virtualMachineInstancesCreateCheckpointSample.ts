@@ -56,8 +56,8 @@ async function virtualMachineInstancesCreateCheckpointMinimumSet() {
 }
 
 async function main() {
-  virtualMachineInstancesCreateCheckpointMaximumSet();
-  virtualMachineInstancesCreateCheckpointMinimumSet();
+  await virtualMachineInstancesCreateCheckpointMaximumSet();
+  await virtualMachineInstancesCreateCheckpointMinimumSet();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function quotaRequestHistory() {
 }
 
 async function main() {
-  quotaRequestHistory();
+  await quotaRequestHistory();
 }
 
 main().catch(console.error);

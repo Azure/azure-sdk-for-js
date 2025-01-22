@@ -37,7 +37,7 @@ async function getAnActivityLogAlertRule() {
 }
 
 async function main() {
-  getAnActivityLogAlertRule();
+  await getAnActivityLogAlertRule();
 }
 
 main().catch(console.error);

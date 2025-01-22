@@ -47,7 +47,7 @@ async function createDataNetwork() {
 }
 
 async function main() {
-  createDataNetwork();
+  await createDataNetwork();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function createOrUpdateASqlPoolTransparentDataEncryptionConfiguration() {
 }
 
 async function main() {
-  createOrUpdateASqlPoolTransparentDataEncryptionConfiguration();
+  await createOrUpdateASqlPoolTransparentDataEncryptionConfiguration();
 }
 
 main().catch(console.error);

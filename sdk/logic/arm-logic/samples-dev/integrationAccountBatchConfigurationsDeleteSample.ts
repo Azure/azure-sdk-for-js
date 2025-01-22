@@ -39,7 +39,7 @@ async function deleteABatchConfiguration() {
 }
 
 async function main() {
-  deleteABatchConfiguration();
+  await deleteABatchConfiguration();
 }
 
 main().catch(console.error);

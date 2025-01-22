@@ -32,7 +32,7 @@ async function listAllNatGateways() {
 }
 
 async function main() {
-  listAllNatGateways();
+  await listAllNatGateways();
 }
 
 main().catch(console.error);

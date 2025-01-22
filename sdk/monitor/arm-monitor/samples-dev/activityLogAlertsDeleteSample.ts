@@ -37,7 +37,7 @@ async function deleteAnActivityLogAlertRule() {
 }
 
 async function main() {
-  deleteAnActivityLogAlertRule();
+  await deleteAnActivityLogAlertRule();
 }
 
 main().catch(console.error);

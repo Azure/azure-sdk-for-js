@@ -32,7 +32,7 @@ async function identityListBySubscription() {
 }
 
 async function main() {
-  identityListBySubscription();
+  await identityListBySubscription();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function listDiscoverySolutionsAtResourceScope() {
 }
 
 async function main() {
-  listDiscoverySolutionsAtResourceScope();
+  await listDiscoverySolutionsAtResourceScope();
 }
 
 main().catch(console.error);

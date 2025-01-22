@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a payment method owned by the caller.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/paymentMethodsGetByUser.json
  */
-async function getPaymentMethodOwnedByUser() {
+async function getPaymentMethodOwnedByUser(): Promise<void> {
   const paymentMethodName = "ABCDABCDABC0";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -26,7 +26,7 @@ async function getPaymentMethodOwnedByUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPaymentMethodOwnedByUser();
 }
 

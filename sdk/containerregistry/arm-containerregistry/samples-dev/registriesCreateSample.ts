@@ -13,9 +13,7 @@ import {
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a container registry with the specified parameters.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryCreate.json
  */
-async function registryCreate() {
+async function registryCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -55,7 +53,7 @@ async function registryCreate() {
  * @summary Creates a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryCreateZoneRedundant.json
  */
-async function registryCreateZoneRedundant() {
+async function registryCreateZoneRedundant(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -81,7 +79,7 @@ async function registryCreateZoneRedundant() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   registryCreate();
   registryCreateZoneRedundant();
 }

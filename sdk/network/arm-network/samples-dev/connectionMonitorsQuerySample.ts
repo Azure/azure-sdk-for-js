@@ -36,7 +36,7 @@ async function queryConnectionMonitor() {
 }
 
 async function main() {
-  queryConnectionMonitor();
+  await queryConnectionMonitor();
 }
 
 main().catch(console.error);

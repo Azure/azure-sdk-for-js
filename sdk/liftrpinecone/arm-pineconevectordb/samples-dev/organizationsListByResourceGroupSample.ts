@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list OrganizationResource resources by resource group
  * x-ms-original-file: 2024-10-22-preview/Organizations_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function organizationsListByResourceGroupMaximumSet() {
+async function organizationsListByResourceGroupMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077";
   const client = new VectorDbClient(credential, subscriptionId);
@@ -22,8 +22,8 @@ async function organizationsListByResourceGroupMaximumSet() {
   console.log(resArray);
 }
 
-async function main() {
-  organizationsListByResourceGroupMaximumSet();
+async function main(): Promise<void> {
+  await organizationsListByResourceGroupMaximumSet();
 }
 
 main().catch(console.error);

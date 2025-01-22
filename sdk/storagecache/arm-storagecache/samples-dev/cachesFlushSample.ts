@@ -37,7 +37,7 @@ async function cachesFlush() {
 }
 
 async function main() {
-  cachesFlush();
+  await cachesFlush();
 }
 
 main().catch(console.error);

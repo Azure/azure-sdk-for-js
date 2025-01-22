@@ -37,7 +37,7 @@ async function getAnAutoscaleSetting() {
 }
 
 async function main() {
-  getAnAutoscaleSetting();
+  await getAnAutoscaleSetting();
 }
 
 main().catch(console.error);

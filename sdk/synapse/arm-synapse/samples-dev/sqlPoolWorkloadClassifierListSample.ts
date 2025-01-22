@@ -44,7 +44,7 @@ async function getTheListOfWorkloadClassifiersOfASqlAnalyticsPoolWorkloadGroup()
 }
 
 async function main() {
-  getTheListOfWorkloadClassifiersOfASqlAnalyticsPoolWorkloadGroup();
+  await getTheListOfWorkloadClassifiersOfASqlAnalyticsPoolWorkloadGroup();
 }
 
 main().catch(console.error);

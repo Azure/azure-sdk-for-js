@@ -34,7 +34,7 @@ async function getAzureMonitorAgentStatus() {
 }
 
 async function main() {
-  getAzureMonitorAgentStatus();
+  await getAzureMonitorAgentStatus();
 }
 
 main().catch(console.error);

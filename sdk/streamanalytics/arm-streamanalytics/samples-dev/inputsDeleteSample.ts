@@ -42,7 +42,7 @@ async function deleteAnInput() {
 }
 
 async function main() {
-  deleteAnInput();
+  await deleteAnInput();
 }
 
 main().catch(console.error);

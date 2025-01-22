@@ -37,7 +37,7 @@ async function networkVirtualApplianceConnectionDelete() {
 }
 
 async function main() {
-  networkVirtualApplianceConnectionDelete();
+  await networkVirtualApplianceConnectionDelete();
 }
 
 main().catch(console.error);

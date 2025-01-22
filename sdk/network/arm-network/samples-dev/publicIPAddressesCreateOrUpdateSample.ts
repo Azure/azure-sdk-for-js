@@ -114,10 +114,10 @@ async function createPublicIPAddressDefaults() {
 }
 
 async function main() {
-  createPublicIPAddressDns();
-  createPublicIPAddressDnsWithDomainNameLabelScope();
-  createPublicIPAddressAllocationMethod();
-  createPublicIPAddressDefaults();
+  await createPublicIPAddressDns();
+  await createPublicIPAddressDnsWithDomainNameLabelScope();
+  await createPublicIPAddressAllocationMethod();
+  await createPublicIPAddressDefaults();
 }
 
 main().catch(console.error);

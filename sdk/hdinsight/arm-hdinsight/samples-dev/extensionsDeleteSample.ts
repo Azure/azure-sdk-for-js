@@ -36,7 +36,7 @@ async function deleteAnExtension() {
 }
 
 async function main() {
-  deleteAnExtension();
+  await deleteAnExtension();
 }
 
 main().catch(console.error);

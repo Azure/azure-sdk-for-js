@@ -91,10 +91,10 @@ async function getDeveloperBastionHost() {
 }
 
 async function main() {
-  getBastionHost();
-  getBastionHostWithPrivateOnly();
-  getBastionHostWithZones();
-  getDeveloperBastionHost();
+  await getBastionHost();
+  await getBastionHostWithPrivateOnly();
+  await getBastionHostWithZones();
+  await getDeveloperBastionHost();
 }
 
 main().catch(console.error);

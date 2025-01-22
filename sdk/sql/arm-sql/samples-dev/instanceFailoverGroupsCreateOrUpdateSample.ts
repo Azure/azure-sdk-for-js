@@ -56,7 +56,7 @@ async function createFailoverGroup() {
 }
 
 async function main() {
-  createFailoverGroup();
+  await createFailoverGroup();
 }
 
 main().catch(console.error);

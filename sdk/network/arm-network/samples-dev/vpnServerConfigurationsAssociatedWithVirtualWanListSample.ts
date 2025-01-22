@@ -35,7 +35,7 @@ async function getVirtualWanVpnServerConfigurations() {
 }
 
 async function main() {
-  getVirtualWanVpnServerConfigurations();
+  await getVirtualWanVpnServerConfigurations();
 }
 
 main().catch(console.error);

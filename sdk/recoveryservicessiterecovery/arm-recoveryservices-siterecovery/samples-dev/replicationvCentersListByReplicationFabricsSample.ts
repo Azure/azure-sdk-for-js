@@ -42,7 +42,7 @@ async function getsTheListOfVCenterRegisteredUnderAFabric() {
 }
 
 async function main() {
-  getsTheListOfVCenterRegisteredUnderAFabric();
+  await getsTheListOfVCenterRegisteredUnderAFabric();
 }
 
 main().catch(console.error);

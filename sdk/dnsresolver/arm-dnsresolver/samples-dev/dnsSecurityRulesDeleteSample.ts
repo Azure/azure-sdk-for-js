@@ -39,7 +39,7 @@ async function deleteDnsSecurityRuleForDnsResolverPolicy() {
 }
 
 async function main() {
-  deleteDnsSecurityRuleForDnsResolverPolicy();
+  await deleteDnsSecurityRuleForDnsResolverPolicy();
 }
 
 main().catch(console.error);

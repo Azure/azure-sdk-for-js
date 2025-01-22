@@ -127,9 +127,9 @@ async function gcpCredentialsCreateACloudAccountConnectorForASubscription() {
 }
 
 async function main() {
-  awsAssumeRoleCreateACloudAccountConnectorForASubscription();
-  awsCredCreateACloudAccountConnectorForASubscription();
-  gcpCredentialsCreateACloudAccountConnectorForASubscription();
+  await awsAssumeRoleCreateACloudAccountConnectorForASubscription();
+  await awsCredCreateACloudAccountConnectorForASubscription();
+  await gcpCredentialsCreateACloudAccountConnectorForASubscription();
 }
 
 main().catch(console.error);

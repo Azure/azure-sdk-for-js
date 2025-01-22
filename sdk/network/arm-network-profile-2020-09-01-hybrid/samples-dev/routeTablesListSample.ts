@@ -33,7 +33,7 @@ async function listRouteTablesInResourceGroup() {
 }
 
 async function main() {
-  listRouteTablesInResourceGroup();
+  await listRouteTablesInResourceGroup();
 }
 
 main().catch(console.error);

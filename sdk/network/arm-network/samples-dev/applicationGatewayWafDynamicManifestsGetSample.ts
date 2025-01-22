@@ -35,7 +35,7 @@ async function getsWafManifests() {
 }
 
 async function main() {
-  getsWafManifests();
+  await getsWafManifests();
 }
 
 main().catch(console.error);

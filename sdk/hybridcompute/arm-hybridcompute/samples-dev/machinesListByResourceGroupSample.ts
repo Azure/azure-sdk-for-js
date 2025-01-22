@@ -37,7 +37,7 @@ async function listMachinesByResourceGroup() {
 }
 
 async function main() {
-  listMachinesByResourceGroup();
+  await listMachinesByResourceGroup();
 }
 
 main().catch(console.error);

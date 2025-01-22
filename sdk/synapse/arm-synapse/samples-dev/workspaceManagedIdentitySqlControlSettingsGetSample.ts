@@ -37,7 +37,7 @@ async function getManagedIdentitySqlControlSettings() {
 }
 
 async function main() {
-  getManagedIdentitySqlControlSettings();
+  await getManagedIdentitySqlControlSettings();
 }
 
 main().catch(console.error);

@@ -193,9 +193,9 @@ async function createAStreamingJobShellAStreamingJobWithNoInputsOutputsTransform
 }
 
 async function main() {
-  createACompleteStreamingJobAStreamingJobWithATransformationAtLeast1InputAndAtLeast1Output();
-  createAStreamingJobShellAStreamingJobWithNoInputsOutputsTransformationOrFunctions();
-  createAStreamingJobShellAStreamingJobWithNoInputsOutputsTransformationOrFunctionsWithUserAssignedIdentity();
+  await createACompleteStreamingJobAStreamingJobWithATransformationAtLeast1InputAndAtLeast1Output();
+  await createAStreamingJobShellAStreamingJobWithNoInputsOutputsTransformationOrFunctions();
+  await createAStreamingJobShellAStreamingJobWithNoInputsOutputsTransformationOrFunctionsWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

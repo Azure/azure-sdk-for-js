@@ -42,7 +42,7 @@ async function queryDelete() {
 }
 
 async function main() {
-  queryDelete();
+  await queryDelete();
 }
 
 main().catch(console.error);

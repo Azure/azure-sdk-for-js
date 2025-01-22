@@ -70,8 +70,8 @@ async function workspacesCreateMinimumSetGen() {
 }
 
 async function main() {
-  workspacesCreateMaximumSetGen();
-  workspacesCreateMinimumSetGen();
+  await workspacesCreateMaximumSetGen();
+  await workspacesCreateMinimumSetGen();
 }
 
 main().catch(console.error);

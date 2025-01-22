@@ -39,7 +39,7 @@ async function listRoutingConfigurationsInANetworkManager() {
 }
 
 async function main() {
-  listRoutingConfigurationsInANetworkManager();
+  await listRoutingConfigurationsInANetworkManager();
 }
 
 main().catch(console.error);

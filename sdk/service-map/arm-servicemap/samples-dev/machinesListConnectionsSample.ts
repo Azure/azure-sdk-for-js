@@ -49,7 +49,7 @@ async function smMachinesListConnectionsGet() {
 }
 
 async function main() {
-  smMachinesListConnectionsGet();
+  await smMachinesListConnectionsGet();
 }
 
 main().catch(console.error);

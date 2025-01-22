@@ -48,7 +48,7 @@ async function powerOffVirtualMachine() {
 }
 
 async function main() {
-  powerOffVirtualMachine();
+  await powerOffVirtualMachine();
 }
 
 main().catch(console.error);

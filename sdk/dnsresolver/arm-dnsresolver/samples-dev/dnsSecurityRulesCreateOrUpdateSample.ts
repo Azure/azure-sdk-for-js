@@ -55,7 +55,7 @@ async function upsertDnsSecurityRule() {
 }
 
 async function main() {
-  upsertDnsSecurityRule();
+  await upsertDnsSecurityRule();
 }
 
 main().catch(console.error);

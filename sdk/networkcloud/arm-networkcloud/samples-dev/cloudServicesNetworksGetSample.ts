@@ -37,7 +37,7 @@ async function getCloudServicesNetwork() {
 }
 
 async function main() {
-  getCloudServicesNetwork();
+  await getCloudServicesNetwork();
 }
 
 main().catch(console.error);

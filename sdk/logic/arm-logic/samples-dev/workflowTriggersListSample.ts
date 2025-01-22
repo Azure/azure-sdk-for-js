@@ -40,7 +40,7 @@ async function listWorkflowTriggers() {
 }
 
 async function main() {
-  listWorkflowTriggers();
+  await listWorkflowTriggers();
 }
 
 main().catch(console.error);

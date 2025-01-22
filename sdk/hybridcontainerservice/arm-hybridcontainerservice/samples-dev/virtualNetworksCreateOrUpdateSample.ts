@@ -65,7 +65,7 @@ async function putVirtualNetwork() {
 }
 
 async function main() {
-  putVirtualNetwork();
+  await putVirtualNetwork();
 }
 
 main().catch(console.error);

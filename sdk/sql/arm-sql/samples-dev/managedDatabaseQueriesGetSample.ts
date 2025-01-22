@@ -41,7 +41,7 @@ async function obtainQueryProperties() {
 }
 
 async function main() {
-  obtainQueryProperties();
+  await obtainQueryProperties();
 }
 
 main().catch(console.error);

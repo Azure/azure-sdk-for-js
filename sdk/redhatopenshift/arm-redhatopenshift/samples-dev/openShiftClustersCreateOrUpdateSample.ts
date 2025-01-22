@@ -81,7 +81,7 @@ async function createsOrUpdatesAOpenShiftClusterWithTheSpecifiedSubscriptionReso
 }
 
 async function main() {
-  createsOrUpdatesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await createsOrUpdatesAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

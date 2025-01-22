@@ -45,7 +45,7 @@ async function listDatabaseColumns() {
 }
 
 async function main() {
-  listDatabaseColumns();
+  await listDatabaseColumns();
 }
 
 main().catch(console.error);

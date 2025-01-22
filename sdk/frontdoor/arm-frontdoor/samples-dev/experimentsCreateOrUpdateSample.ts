@@ -44,7 +44,7 @@ async function createsAnExperiment() {
 }
 
 async function main() {
-  createsAnExperiment();
+  await createsAnExperiment();
 }
 
 main().catch(console.error);

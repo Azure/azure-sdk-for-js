@@ -37,7 +37,7 @@ async function getACustomAssessmentAutomation() {
 }
 
 async function main() {
-  getACustomAssessmentAutomation();
+  await getACustomAssessmentAutomation();
 }
 
 main().catch(console.error);

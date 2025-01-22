@@ -42,7 +42,7 @@ async function moveAWorkflow() {
 }
 
 async function main() {
-  moveAWorkflow();
+  await moveAWorkflow();
 }
 
 main().catch(console.error);

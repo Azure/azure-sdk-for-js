@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates a workbook that has already been added.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookManagedUpdate.json
  */
-async function workbookManagedUpdate() {
+async function workbookManagedUpdate(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const resourceGroupName = "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
@@ -48,7 +48,7 @@ workbookManagedUpdate().catch(console.error);
  * @summary Updates a workbook that has already been added.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookUpdate.json
  */
-async function workbookUpdate() {
+async function workbookUpdate(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const resourceGroupName = "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";

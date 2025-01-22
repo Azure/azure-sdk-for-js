@@ -36,7 +36,7 @@ async function restartsAnIntegrationServiceEnvironment() {
 }
 
 async function main() {
-  restartsAnIntegrationServiceEnvironment();
+  await restartsAnIntegrationServiceEnvironment();
 }
 
 main().catch(console.error);

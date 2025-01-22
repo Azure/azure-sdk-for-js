@@ -32,7 +32,7 @@ async function listAllBastionHostsForAGivenSubscription() {
 }
 
 async function main() {
-  listAllBastionHostsForAGivenSubscription();
+  await listAllBastionHostsForAGivenSubscription();
 }
 
 main().catch(console.error);

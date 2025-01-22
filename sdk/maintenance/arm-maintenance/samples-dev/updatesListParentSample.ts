@@ -48,7 +48,7 @@ async function updatesListParent() {
 }
 
 async function main() {
-  updatesListParent();
+  await updatesListParent();
 }
 
 main().catch(console.error);

@@ -99,8 +99,8 @@ async function workspacePurgeResourceId() {
 }
 
 async function main() {
-  workspacePurge();
-  workspacePurgeResourceId();
+  await workspacePurge();
+  await workspacePurgeResourceId();
 }
 
 main().catch(console.error);

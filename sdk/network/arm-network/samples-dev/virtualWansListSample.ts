@@ -32,7 +32,7 @@ async function virtualWanList() {
 }
 
 async function main() {
-  virtualWanList();
+  await virtualWanList();
 }
 
 main().catch(console.error);

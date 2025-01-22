@@ -39,7 +39,7 @@ async function federatedIdentityCredentialList() {
 }
 
 async function main() {
-  federatedIdentityCredentialList();
+  await federatedIdentityCredentialList();
 }
 
 main().catch(console.error);

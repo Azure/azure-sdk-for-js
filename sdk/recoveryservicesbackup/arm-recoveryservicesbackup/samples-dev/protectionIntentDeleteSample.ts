@@ -41,7 +41,7 @@ async function deleteProtectionIntentFromItem() {
 }
 
 async function main() {
-  deleteProtectionIntentFromItem();
+  await deleteProtectionIntentFromItem();
 }
 
 main().catch(console.error);

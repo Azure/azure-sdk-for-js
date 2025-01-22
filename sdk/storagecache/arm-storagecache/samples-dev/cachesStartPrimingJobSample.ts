@@ -48,7 +48,7 @@ async function startPrimingJob() {
 }
 
 async function main() {
-  startPrimingJob();
+  await startPrimingJob();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function subvolumesCreate() {
 }
 
 async function main() {
-  subvolumesCreate();
+  await subvolumesCreate();
 }
 
 main().catch(console.error);

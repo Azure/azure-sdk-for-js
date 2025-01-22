@@ -42,7 +42,7 @@ async function listAksComputeKeys() {
 }
 
 async function main() {
-  listAksComputeKeys();
+  await listAksComputeKeys();
 }
 
 main().catch(console.error);

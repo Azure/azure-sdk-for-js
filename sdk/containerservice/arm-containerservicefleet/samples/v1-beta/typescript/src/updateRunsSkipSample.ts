@@ -13,9 +13,7 @@ import {
   ContainerServiceFleetClient,
 } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.

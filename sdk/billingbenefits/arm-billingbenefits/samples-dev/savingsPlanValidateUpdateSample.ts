@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Validate savings plan patch.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanValidateUpdate.json
  */
-async function savingsPlanValidateUpdate() {
+async function savingsPlanValidateUpdate(): Promise<void> {
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
   const savingsPlanId = "30000000-0000-0000-0000-000000000000";
   const body: SavingsPlanUpdateValidateRequest = {

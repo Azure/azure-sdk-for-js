@@ -53,8 +53,8 @@ async function listServersWithExpandAdministratorsOrActivedirectory() {
 }
 
 async function main() {
-  listServers();
-  listServersWithExpandAdministratorsOrActivedirectory();
+  await listServers();
+  await listServersWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

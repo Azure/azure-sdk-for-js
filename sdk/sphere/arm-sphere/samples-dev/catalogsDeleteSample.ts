@@ -37,7 +37,7 @@ async function catalogsDelete() {
 }
 
 async function main() {
-  catalogsDelete();
+  await catalogsDelete();
 }
 
 main().catch(console.error);

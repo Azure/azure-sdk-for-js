@@ -65,8 +65,8 @@ async function singleSignOnListMinimumSetGen() {
 }
 
 async function main() {
-  singleSignOnListMaximumSetGen();
-  singleSignOnListMinimumSetGen();
+  await singleSignOnListMaximumSetGen();
+  await singleSignOnListMinimumSetGen();
 }
 
 main().catch(console.error);

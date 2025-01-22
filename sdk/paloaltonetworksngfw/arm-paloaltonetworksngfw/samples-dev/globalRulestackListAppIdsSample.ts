@@ -59,8 +59,8 @@ async function globalRulestackListAppIdsMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackListAppIdsMaximumSetGen();
-  globalRulestackListAppIdsMinimumSetGen();
+  await globalRulestackListAppIdsMaximumSetGen();
+  await globalRulestackListAppIdsMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function deletePrivateEndpoint() {
 }
 
 async function main() {
-  deletePrivateEndpoint();
+  await deletePrivateEndpoint();
 }
 
 main().catch(console.error);

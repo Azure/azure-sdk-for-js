@@ -34,7 +34,7 @@ async function getNatGateway() {
 }
 
 async function main() {
-  getNatGateway();
+  await getNatGateway();
 }
 
 main().catch(console.error);

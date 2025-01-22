@@ -45,7 +45,7 @@ async function listClusterJobs() {
 }
 
 async function main() {
-  listClusterJobs();
+  await listClusterJobs();
 }
 
 main().catch(console.error);

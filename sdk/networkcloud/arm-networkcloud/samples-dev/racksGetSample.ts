@@ -34,7 +34,7 @@ async function getRack() {
 }
 
 async function main() {
-  getRack();
+  await getRack();
 }
 
 main().catch(console.error);

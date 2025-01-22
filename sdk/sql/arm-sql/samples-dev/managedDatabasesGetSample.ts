@@ -38,7 +38,7 @@ async function getsAManagedDatabase() {
 }
 
 async function main() {
-  getsAManagedDatabase();
+  await getsAManagedDatabase();
 }
 
 main().catch(console.error);

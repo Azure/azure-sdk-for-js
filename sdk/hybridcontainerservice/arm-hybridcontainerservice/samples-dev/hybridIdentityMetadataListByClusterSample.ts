@@ -35,7 +35,7 @@ async function hybridIdentityMetadataListByCluster() {
 }
 
 async function main() {
-  hybridIdentityMetadataListByCluster();
+  await hybridIdentityMetadataListByCluster();
 }
 
 main().catch(console.error);

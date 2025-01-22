@@ -39,7 +39,7 @@ async function getMetadataSyncConfigForASqlAnalyticsPool() {
 }
 
 async function main() {
-  getMetadataSyncConfigForASqlAnalyticsPool();
+  await getMetadataSyncConfigForASqlAnalyticsPool();
 }
 
 main().catch(console.error);

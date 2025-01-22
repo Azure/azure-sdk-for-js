@@ -46,7 +46,7 @@ async function gitHubOwnerUpdate() {
 }
 
 async function main() {
-  gitHubOwnerUpdate();
+  await gitHubOwnerUpdate();
 }
 
 main().catch(console.error);

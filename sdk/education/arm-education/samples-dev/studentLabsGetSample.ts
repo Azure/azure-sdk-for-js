@@ -29,7 +29,7 @@ async function studentLab() {
 }
 
 async function main() {
-  studentLab();
+  await studentLab();
 }
 
 main().catch(console.error);

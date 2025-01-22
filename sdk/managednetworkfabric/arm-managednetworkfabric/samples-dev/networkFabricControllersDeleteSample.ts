@@ -40,7 +40,7 @@ async function networkFabricControllersDeleteMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricControllersDeleteMaximumSetGen();
+  await networkFabricControllersDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function putUser() {
 }
 
 async function main() {
-  putUser();
+  await putUser();
 }
 
 main().catch(console.error);

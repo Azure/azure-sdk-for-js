@@ -39,7 +39,7 @@ async function virtualNetworkGatewayGetFailoverAllTestsDetails() {
 }
 
 async function main() {
-  virtualNetworkGatewayGetFailoverAllTestsDetails();
+  await virtualNetworkGatewayGetFailoverAllTestsDetails();
 }
 
 main().catch(console.error);

@@ -99,7 +99,7 @@ async function accessControlListsUpdateMaximumSetGen() {
 }
 
 async function main() {
-  accessControlListsUpdateMaximumSetGen();
+  await accessControlListsUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

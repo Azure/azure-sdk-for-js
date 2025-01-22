@@ -42,7 +42,7 @@ async function deleteWorkspaceMarketplaceSubscription() {
 }
 
 async function main() {
-  deleteWorkspaceMarketplaceSubscription();
+  await deleteWorkspaceMarketplaceSubscription();
 }
 
 main().catch(console.error);

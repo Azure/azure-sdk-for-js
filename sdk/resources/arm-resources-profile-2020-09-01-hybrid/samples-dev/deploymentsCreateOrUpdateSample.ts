@@ -81,8 +81,8 @@ async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFai
 }
 
 async function main() {
-  createADeploymentThatWillRedeployAnotherDeploymentOnFailure();
-  createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure();
+  await createADeploymentThatWillRedeployAnotherDeploymentOnFailure();
+  await createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure();
 }
 
 main().catch(console.error);

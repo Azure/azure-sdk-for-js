@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get a certificate order.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/GetAppServiceCertificateOrder.json
  */
-async function getAppServiceCertificateOrder() {
+async function getAppServiceCertificateOrder(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,7 +34,7 @@ async function getAppServiceCertificateOrder() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAppServiceCertificateOrder();
 }
 

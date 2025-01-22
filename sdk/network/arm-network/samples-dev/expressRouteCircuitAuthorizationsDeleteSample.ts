@@ -37,7 +37,7 @@ async function deleteExpressRouteCircuitAuthorization() {
 }
 
 async function main() {
-  deleteExpressRouteCircuitAuthorization();
+  await deleteExpressRouteCircuitAuthorization();
 }
 
 main().catch(console.error);

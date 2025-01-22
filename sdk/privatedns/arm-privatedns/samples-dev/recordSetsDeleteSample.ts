@@ -190,13 +190,13 @@ async function deletePrivateDnsZoneTxtRecordSet() {
 }
 
 async function main() {
-  deletePrivateDnsZoneARecordSet();
-  deletePrivateDnsZoneAaaaRecordSet();
-  deletePrivateDnsZoneCnameRecordSet();
-  deletePrivateDnsZoneMxRecordSet();
-  deletePrivateDnsZonePtrRecordSet();
-  deletePrivateDnsZoneSrvRecordSet();
-  deletePrivateDnsZoneTxtRecordSet();
+  await deletePrivateDnsZoneARecordSet();
+  await deletePrivateDnsZoneAaaaRecordSet();
+  await deletePrivateDnsZoneCnameRecordSet();
+  await deletePrivateDnsZoneMxRecordSet();
+  await deletePrivateDnsZonePtrRecordSet();
+  await deletePrivateDnsZoneSrvRecordSet();
+  await deletePrivateDnsZoneTxtRecordSet();
 }
 
 main().catch(console.error);

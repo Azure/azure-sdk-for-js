@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a database connection for a static site
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DeleteStaticSiteDatabaseConnection.json
  */
-async function deleteADatabaseConnectionFromAStaticSite() {
+async function deleteADatabaseConnectionFromAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,7 +35,7 @@ async function deleteADatabaseConnectionFromAStaticSite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteADatabaseConnectionFromAStaticSite();
 }
 

@@ -38,7 +38,7 @@ async function listCloudServicesNetworksForResourceGroup() {
 }
 
 async function main() {
-  listCloudServicesNetworksForResourceGroup();
+  await listCloudServicesNetworksForResourceGroup();
 }
 
 main().catch(console.error);

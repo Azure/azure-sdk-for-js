@@ -82,8 +82,8 @@ async function createAWorkloadGroupWithTheRequiredPropertiesSpecified() {
 }
 
 async function main() {
-  createAWorkloadGroupWithAllPropertiesSpecified();
-  createAWorkloadGroupWithTheRequiredPropertiesSpecified();
+  await createAWorkloadGroupWithAllPropertiesSpecified();
+  await createAWorkloadGroupWithTheRequiredPropertiesSpecified();
 }
 
 main().catch(console.error);

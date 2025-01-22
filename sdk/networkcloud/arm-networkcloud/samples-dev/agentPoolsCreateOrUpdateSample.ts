@@ -89,7 +89,7 @@ async function createOrUpdateKubernetesClusterAgentPool() {
 }
 
 async function main() {
-  createOrUpdateKubernetesClusterAgentPool();
+  await createOrUpdateKubernetesClusterAgentPool();
 }
 
 main().catch(console.error);

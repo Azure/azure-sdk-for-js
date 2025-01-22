@@ -86,7 +86,7 @@ async function createJitNetworkAccessPolicy() {
 }
 
 async function main() {
-  createJitNetworkAccessPolicy();
+  await createJitNetworkAccessPolicy();
 }
 
 main().catch(console.error);

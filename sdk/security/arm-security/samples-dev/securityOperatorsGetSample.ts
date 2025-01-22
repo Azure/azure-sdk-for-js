@@ -36,7 +36,7 @@ async function getASpecificSecurityOperatorByScopeAndSecurityOperatorName() {
 }
 
 async function main() {
-  getASpecificSecurityOperatorByScopeAndSecurityOperatorName();
+  await getASpecificSecurityOperatorByScopeAndSecurityOperatorName();
 }
 
 main().catch(console.error);

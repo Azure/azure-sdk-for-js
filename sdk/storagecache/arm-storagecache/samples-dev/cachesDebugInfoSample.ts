@@ -37,7 +37,7 @@ async function cachesDebugInfo() {
 }
 
 async function main() {
-  cachesDebugInfo();
+  await cachesDebugInfo();
 }
 
 main().catch(console.error);

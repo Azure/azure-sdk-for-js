@@ -39,7 +39,7 @@ async function kustoClusterPrincipalAssignmentsDelete() {
 }
 
 async function main() {
-  kustoClusterPrincipalAssignmentsDelete();
+  await kustoClusterPrincipalAssignmentsDelete();
 }
 
 main().catch(console.error);

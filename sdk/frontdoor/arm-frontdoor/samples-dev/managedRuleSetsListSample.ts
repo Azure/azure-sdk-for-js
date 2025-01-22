@@ -32,7 +32,7 @@ async function listPoliciesManagedRuleSetsInAResourceGroup() {
 }
 
 async function main() {
-  listPoliciesManagedRuleSetsInAResourceGroup();
+  await listPoliciesManagedRuleSetsInAResourceGroup();
 }
 
 main().catch(console.error);

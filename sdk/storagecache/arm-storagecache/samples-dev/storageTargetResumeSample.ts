@@ -39,7 +39,7 @@ async function storageTargetsResume() {
 }
 
 async function main() {
-  storageTargetsResume();
+  await storageTargetsResume();
 }
 
 main().catch(console.error);

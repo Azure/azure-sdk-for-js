@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes an existing Azure Cosmos DB SQL userDefinedFunction.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlUserDefinedFunctionDelete.json
  */
-async function cosmosDbSqlUserDefinedFunctionDelete() {
+async function cosmosDbSqlUserDefinedFunctionDelete(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -38,7 +38,7 @@ async function cosmosDbSqlUserDefinedFunctionDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlUserDefinedFunctionDelete();
 }
 

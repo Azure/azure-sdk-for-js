@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Resume the job identified by jobName.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/job/resumeJob.json
  */
-async function resumeJob() {
+async function resumeJob(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -36,7 +36,7 @@ async function resumeJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   resumeJob();
 }
 

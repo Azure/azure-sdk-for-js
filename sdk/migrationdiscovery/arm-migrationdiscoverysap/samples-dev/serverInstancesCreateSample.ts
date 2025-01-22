@@ -46,7 +46,7 @@ async function createsTheServerInstanceResource() {
 }
 
 async function main() {
-  createsTheServerInstanceResource();
+  await createsTheServerInstanceResource();
 }
 
 main().catch(console.error);

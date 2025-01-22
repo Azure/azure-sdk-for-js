@@ -30,7 +30,7 @@ async function trafficManagerUserMetricsKeysDelete() {
 }
 
 async function main() {
-  trafficManagerUserMetricsKeysDelete();
+  await trafficManagerUserMetricsKeysDelete();
 }
 
 main().catch(console.error);

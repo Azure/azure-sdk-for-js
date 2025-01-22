@@ -13,9 +13,7 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the reservations details for the defined scope and provided date range.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the reservations details for the defined scope and provided date range.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingAccountId.json
  */
-async function reservationDetailsByBillingAccountId() {
+async function reservationDetailsByBillingAccountId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,7 +44,7 @@ async function reservationDetailsByBillingAccountId() {
  * @summary Lists the reservations details for the defined scope and provided date range.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingProfileId.json
  */
-async function reservationDetailsByBillingProfileId() {
+async function reservationDetailsByBillingProfileId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -70,7 +68,7 @@ async function reservationDetailsByBillingProfileId() {
  * @summary Lists the reservations details for the defined scope and provided date range.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingProfileIdReservationId.json
  */
-async function reservationDetailsByBillingProfileIdReservationId() {
+async function reservationDetailsByBillingProfileIdReservationId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -95,7 +93,7 @@ async function reservationDetailsByBillingProfileIdReservationId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationDetailsByBillingAccountId();
   reservationDetailsByBillingProfileId();
   reservationDetailsByBillingProfileIdReservationId();

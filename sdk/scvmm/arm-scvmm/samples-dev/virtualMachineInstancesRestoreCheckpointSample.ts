@@ -53,8 +53,8 @@ async function virtualMachineInstancesRestoreCheckpointMinimumSet() {
 }
 
 async function main() {
-  virtualMachineInstancesRestoreCheckpointMaximumSet();
-  virtualMachineInstancesRestoreCheckpointMinimumSet();
+  await virtualMachineInstancesRestoreCheckpointMaximumSet();
+  await virtualMachineInstancesRestoreCheckpointMinimumSet();
 }
 
 main().catch(console.error);

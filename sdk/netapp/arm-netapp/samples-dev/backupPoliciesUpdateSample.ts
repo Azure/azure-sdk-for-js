@@ -46,7 +46,7 @@ async function backupPoliciesUpdate() {
 }
 
 async function main() {
-  backupPoliciesUpdate();
+  await backupPoliciesUpdate();
 }
 
 main().catch(console.error);

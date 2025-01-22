@@ -54,7 +54,7 @@ async function createAProtectionContainer() {
 }
 
 async function main() {
-  createAProtectionContainer();
+  await createAProtectionContainer();
 }
 
 main().catch(console.error);

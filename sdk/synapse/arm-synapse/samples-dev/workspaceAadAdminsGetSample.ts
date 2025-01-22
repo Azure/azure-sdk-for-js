@@ -37,7 +37,7 @@ async function getWorkspaceActiveDirectoryAdmin() {
 }
 
 async function main() {
-  getWorkspaceActiveDirectoryAdmin();
+  await getWorkspaceActiveDirectoryAdmin();
 }
 
 main().catch(console.error);

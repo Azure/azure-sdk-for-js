@@ -38,7 +38,7 @@ async function workspacePrivateLinkResourcesGet() {
 }
 
 async function main() {
-  workspacePrivateLinkResourcesGet();
+  await workspacePrivateLinkResourcesGet();
 }
 
 main().catch(console.error);

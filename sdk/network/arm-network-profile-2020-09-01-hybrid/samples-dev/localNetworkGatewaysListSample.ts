@@ -33,7 +33,7 @@ async function listLocalNetworkGateways() {
 }
 
 async function main() {
-  listLocalNetworkGateways();
+  await listLocalNetworkGateways();
 }
 
 main().catch(console.error);

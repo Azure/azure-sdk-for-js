@@ -57,7 +57,7 @@ async function updatesNetworkMapping() {
 }
 
 async function main() {
-  updatesNetworkMapping();
+  await updatesNetworkMapping();
 }
 
 main().catch(console.error);

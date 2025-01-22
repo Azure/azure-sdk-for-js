@@ -70,8 +70,8 @@ async function exportAResourceGroupWithFiltering() {
 }
 
 async function main() {
-  exportAResourceGroup();
-  exportAResourceGroupWithFiltering();
+  await exportAResourceGroup();
+  await exportAResourceGroupWithFiltering();
 }
 
 main().catch(console.error);

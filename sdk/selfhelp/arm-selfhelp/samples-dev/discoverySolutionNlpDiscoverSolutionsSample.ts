@@ -39,7 +39,7 @@ async function discoverySolutionsUsingIssueSummaryAndServiceId() {
 }
 
 async function main() {
-  discoverySolutionsUsingIssueSummaryAndServiceId();
+  await discoverySolutionsUsingIssueSummaryAndServiceId();
 }
 
 main().catch(console.error);

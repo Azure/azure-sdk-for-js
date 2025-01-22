@@ -39,7 +39,7 @@ async function serverlessRuntimesStartFailedServerlessRuntime() {
 }
 
 async function main() {
-  serverlessRuntimesStartFailedServerlessRuntime();
+  await serverlessRuntimesStartFailedServerlessRuntime();
 }
 
 main().catch(console.error);

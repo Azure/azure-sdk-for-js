@@ -40,7 +40,7 @@ async function certificatesListByCatalog() {
 }
 
 async function main() {
-  certificatesListByCatalog();
+  await certificatesListByCatalog();
 }
 
 main().catch(console.error);

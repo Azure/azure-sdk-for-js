@@ -40,7 +40,7 @@ async function staticMembersGet() {
 }
 
 async function main() {
-  staticMembersGet();
+  await staticMembersGet();
 }
 
 main().catch(console.error);

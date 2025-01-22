@@ -34,7 +34,7 @@ async function profileDelete() {
 }
 
 async function main() {
-  profileDelete();
+  await profileDelete();
 }
 
 main().catch(console.error);

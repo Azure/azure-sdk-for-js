@@ -41,7 +41,7 @@ async function resizeTheWorkerNodesForAHadoopOnLinuxCluster() {
 }
 
 async function main() {
-  resizeTheWorkerNodesForAHadoopOnLinuxCluster();
+  await resizeTheWorkerNodesForAHadoopOnLinuxCluster();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function getMetricBaselines() {
 }
 
 async function main() {
-  getMetricBaselines();
+  await getMetricBaselines();
 }
 
 main().catch(console.error);

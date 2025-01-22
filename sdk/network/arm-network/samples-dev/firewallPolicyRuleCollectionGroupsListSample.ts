@@ -83,9 +83,9 @@ async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFir
 }
 
 async function main() {
-  listAllFirewallPolicyRuleCollectionGroupWithWebCategories();
-  listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy();
-  listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy();
+  await listAllFirewallPolicyRuleCollectionGroupWithWebCategories();
+  await listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy();
+  await listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy();
 }
 
 main().catch(console.error);

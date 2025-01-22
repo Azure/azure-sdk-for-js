@@ -40,7 +40,7 @@ async function getAllSourceControls() {
 }
 
 async function main() {
-  getAllSourceControls();
+  await getAllSourceControls();
 }
 
 main().catch(console.error);

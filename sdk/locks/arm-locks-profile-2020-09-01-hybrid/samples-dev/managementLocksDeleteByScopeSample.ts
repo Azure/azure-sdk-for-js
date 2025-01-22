@@ -33,7 +33,7 @@ async function deleteManagementLockAtScope() {
 }
 
 async function main() {
-  deleteManagementLockAtScope();
+  await deleteManagementLockAtScope();
 }
 
 main().catch(console.error);

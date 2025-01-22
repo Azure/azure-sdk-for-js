@@ -52,7 +52,7 @@ async function patchKubernetesClusterFeature() {
 }
 
 async function main() {
-  patchKubernetesClusterFeature();
+  await patchKubernetesClusterFeature();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function groupQuotaEnforcementList() {
 }
 
 async function main() {
-  groupQuotaEnforcementList();
+  await groupQuotaEnforcementList();
 }
 
 main().catch(console.error);

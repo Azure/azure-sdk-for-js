@@ -49,7 +49,7 @@ async function createOrUpdateKubernetesClusterFeature() {
 }
 
 async function main() {
-  createOrUpdateKubernetesClusterFeature();
+  await createOrUpdateKubernetesClusterFeature();
 }
 
 main().catch(console.error);

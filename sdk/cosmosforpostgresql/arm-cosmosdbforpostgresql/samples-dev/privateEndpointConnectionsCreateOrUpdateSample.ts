@@ -13,9 +13,7 @@ import {
   CosmosDBForPostgreSQL,
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Approves or Rejects a private endpoint connection with a given name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Approves or Rejects a private endpoint connection with a given name.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateEndpointConnectionCreateOrUpdate.json
  */
-async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName() {
+async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -49,7 +47,7 @@ async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   approvesOrRejectsAPrivateEndpointConnectionWithAGivenName();
 }
 

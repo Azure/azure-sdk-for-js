@@ -38,7 +38,7 @@ async function deletesTheIntegrationServiceEnvironmentManagedApis() {
 }
 
 async function main() {
-  deletesTheIntegrationServiceEnvironmentManagedApis();
+  await deletesTheIntegrationServiceEnvironmentManagedApis();
 }
 
 main().catch(console.error);

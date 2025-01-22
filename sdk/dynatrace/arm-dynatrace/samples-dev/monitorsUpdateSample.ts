@@ -66,8 +66,8 @@ async function monitorsUpdateMinimumSetGen() {
 }
 
 async function main() {
-  monitorsUpdateMaximumSetGen();
-  monitorsUpdateMinimumSetGen();
+  await monitorsUpdateMaximumSetGen();
+  await monitorsUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

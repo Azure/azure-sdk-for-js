@@ -10,37 +10,35 @@
 // Licensed under the MIT License.
 import {
   PolicyEventsListQueryResultsForSubscriptionOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
  *
  * @summary Queries policy events for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndAggregateOnly.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_FilterAndAggregateOnly.json
  */
 async function filterAndAggregateOnly() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const apply = "aggregate($count as NumDenyEvents)";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    queryOptions: { from: fromParam, filter: filter, apply: apply }
+    fromParam,
+    filter,
+    apply,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
     subscriptionId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -51,13 +49,11 @@ async function filterAndAggregateOnly() {
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
  *
  * @summary Queries policy events for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndGroupByWithAggregate.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_FilterAndGroupByWithAggregate.json
  */
 async function filterAndGroupWithAggregate() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const filter =
@@ -65,15 +61,18 @@ async function filterAndGroupWithAggregate() {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, PolicyDefinitionAction, ResourceId), aggregate($count as NumEvents))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    queryOptions: { top: top, from: fromParam, filter: filter, apply: apply }
+    top,
+    fromParam,
+    filter,
+    apply,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
     subscriptionId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -84,13 +83,11 @@ async function filterAndGroupWithAggregate() {
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
  *
  * @summary Queries policy events for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndGroupByWithoutAggregate.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_FilterAndGroupByWithoutAggregate.json
  */
 async function filterAndGroupWithoutAggregate() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2018-01-05T18:00:00Z");
   const filter =
@@ -98,15 +95,18 @@ async function filterAndGroupWithoutAggregate() {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, PolicyDefinitionAction, ResourceId))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    queryOptions: { top: top, from: fromParam, filter: filter, apply: apply }
+    top,
+    fromParam,
+    filter,
+    apply,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
     subscriptionId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -117,13 +117,11 @@ async function filterAndGroupWithoutAggregate() {
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
  *
  * @summary Queries policy events for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_FilterAndMultipleGroups.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_FilterAndMultipleGroups.json
  */
 async function filterAndMultipleGroups() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 10;
   const orderBy = "NumDeniedResources desc";
   const fromParam = new Date("2018-01-01T00:00:00Z");
@@ -131,15 +129,19 @@ async function filterAndMultipleGroups() {
   const apply =
     "groupby((PolicyAssignmentId, PolicyDefinitionId, ResourceId))/groupby((PolicyAssignmentId, PolicyDefinitionId), aggregate($count as NumDeniedResources))";
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    queryOptions: { top: top, orderBy: orderBy, from: fromParam, filter: filter, apply: apply }
+    top,
+    orderBy,
+    fromParam,
+    filter,
+    apply,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
     subscriptionId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -150,47 +152,17 @@ async function filterAndMultipleGroups() {
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
  *
  * @summary Queries policy events for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QuerySubscriptionScope.json
  */
 async function queryAtSubscriptionScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.policyEvents.listQueryResultsForSubscription(
-    policyEventsResource,
-    subscriptionId
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
-}
-
-/**
- * This sample demonstrates how to Queries policy events for the resources under the subscription.
- *
- * @summary Queries policy events for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_QuerySubscriptionScopeNextLink.json
- */
-async function queryAtSubscriptionScopeWithNextLink() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const policyEventsResource = "default";
-  const skipToken = "WpmWfBSvPhkAK6QD";
-  const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    queryOptions: { skipToken: skipToken }
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
     subscriptionId,
-    options
   )) {
     resArray.push(item);
   }
@@ -201,13 +173,37 @@ async function queryAtSubscriptionScopeWithNextLink() {
  * This sample demonstrates how to Queries policy events for the resources under the subscription.
  *
  * @summary Queries policy events for the resources under the subscription.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyEvents_TimeRangeSortSelectTop.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QuerySubscriptionScopeNextLink.json
+ */
+async function queryAtSubscriptionScopeWithNextLink() {
+  const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const skipToken = "WpmWfBSvPhkAK6QD";
+  const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
+    skipToken,
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PolicyInsightsClient(credential);
+  const resArray = new Array();
+  for await (let item of client.policyEvents.listQueryResultsForSubscription(
+    policyEventsResource,
+    subscriptionId,
+    options,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to Queries policy events for the resources under the subscription.
+ *
+ * @summary Queries policy events for the resources under the subscription.
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_TimeRangeSortSelectTop.json
  */
 async function timeRangeSortSelectAndLimit() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
+  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy =
     "Timestamp desc, PolicyAssignmentId asc, SubscriptionId asc, ResourceGroup asc, ResourceId";
@@ -216,15 +212,19 @@ async function timeRangeSortSelectAndLimit() {
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const to = new Date("2018-02-06T18:00:00Z");
   const options: PolicyEventsListQueryResultsForSubscriptionOptionalParams = {
-    queryOptions: { top: top, from: fromParam, to: to, select: select }
+    top,
+    orderBy,
+    select,
+    fromParam,
+    to,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
     subscriptionId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -232,13 +232,13 @@ async function timeRangeSortSelectAndLimit() {
 }
 
 async function main() {
-  filterAndAggregateOnly();
-  filterAndGroupWithAggregate();
-  filterAndGroupWithoutAggregate();
-  filterAndMultipleGroups();
-  queryAtSubscriptionScope();
-  queryAtSubscriptionScopeWithNextLink();
-  timeRangeSortSelectAndLimit();
+  await filterAndAggregateOnly();
+  await filterAndGroupWithAggregate();
+  await filterAndGroupWithoutAggregate();
+  await filterAndMultipleGroups();
+  await queryAtSubscriptionScope();
+  await queryAtSubscriptionScopeWithNextLink();
+  await timeRangeSortSelectAndLimit();
 }
 
 main().catch(console.error);

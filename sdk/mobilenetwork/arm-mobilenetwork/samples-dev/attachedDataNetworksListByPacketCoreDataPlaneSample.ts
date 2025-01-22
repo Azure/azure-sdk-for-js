@@ -42,7 +42,7 @@ async function listAttachedDataNetworksInADataPlane() {
 }
 
 async function main() {
-  listAttachedDataNetworksInADataPlane();
+  await listAttachedDataNetworksInADataPlane();
 }
 
 main().catch(console.error);

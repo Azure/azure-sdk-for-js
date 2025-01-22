@@ -39,7 +39,7 @@ async function listServiceObjectives() {
 }
 
 async function main() {
-  listServiceObjectives();
+  await listServiceObjectives();
 }
 
 main().catch(console.error);

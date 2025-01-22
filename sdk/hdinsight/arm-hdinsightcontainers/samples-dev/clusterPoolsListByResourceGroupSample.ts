@@ -41,7 +41,7 @@ async function clusterPoolsListByResourceGroup() {
 }
 
 async function main() {
-  clusterPoolsListByResourceGroup();
+  await clusterPoolsListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function updateEyesOnSettings() {
 }
 
 async function main() {
-  updateEyesOnSettings();
+  await updateEyesOnSettings();
 }
 
 main().catch(console.error);

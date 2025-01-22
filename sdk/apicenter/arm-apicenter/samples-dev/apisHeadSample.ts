@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks if specified API exists.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Apis_Head.json
  */
-async function apisHead() {
+async function apisHead(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function apisHead() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apisHead();
 }
 

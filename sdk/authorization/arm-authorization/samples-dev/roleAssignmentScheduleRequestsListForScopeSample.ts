@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Gets role assignment schedule requests for a scope.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/GetRoleAssignmentScheduleRequestByScope.json
  */
-async function getRoleAssignmentScheduleRequestByScope() {
+async function getRoleAssignmentScheduleRequestByScope(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const filter = "assignedTo('A3BB8764-CB92-4276-9D2A-CA1E895E55EA')";
@@ -40,7 +40,7 @@ async function getRoleAssignmentScheduleRequestByScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRoleAssignmentScheduleRequestByScope();
 }
 

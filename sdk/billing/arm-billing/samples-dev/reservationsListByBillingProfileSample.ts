@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists the reservations for a billing profile and the roll up counts of reservations group by provisioning state.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/reservationsListByBillingProfile.json
  */
-async function reservationsListByBillingProfile() {
+async function reservationsListByBillingProfile(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const billingProfileName = "AAAA-AAAA-AAA-AAA";
@@ -42,7 +42,7 @@ async function reservationsListByBillingProfile() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reservationsListByBillingProfile();
 }
 

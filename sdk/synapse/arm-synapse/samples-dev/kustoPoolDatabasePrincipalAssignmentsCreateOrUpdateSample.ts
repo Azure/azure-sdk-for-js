@@ -53,7 +53,7 @@ async function kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate() {
 }
 
 async function main() {
-  kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate();
+  await kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate();
 }
 
 main().catch(console.error);

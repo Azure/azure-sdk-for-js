@@ -42,7 +42,7 @@ async function getAnApplicationType() {
 }
 
 async function main() {
-  getAnApplicationType();
+  await getAnApplicationType();
 }
 
 main().catch(console.error);

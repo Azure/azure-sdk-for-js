@@ -46,7 +46,7 @@ async function upgradeMachineExtensions() {
 }
 
 async function main() {
-  upgradeMachineExtensions();
+  await upgradeMachineExtensions();
 }
 
 main().catch(console.error);

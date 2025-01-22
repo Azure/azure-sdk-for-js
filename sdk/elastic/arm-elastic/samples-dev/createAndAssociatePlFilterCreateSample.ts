@@ -47,7 +47,7 @@ async function createAndAssociatePlFilterCreate() {
 }
 
 async function main() {
-  createAndAssociatePlFilterCreate();
+  await createAndAssociatePlFilterCreate();
 }
 
 main().catch(console.error);

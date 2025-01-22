@@ -39,7 +39,7 @@ async function workspacePrivateEndpointConnectionsDelete() {
 }
 
 async function main() {
-  workspacePrivateEndpointConnectionsDelete();
+  await workspacePrivateEndpointConnectionsDelete();
 }
 
 main().catch(console.error);

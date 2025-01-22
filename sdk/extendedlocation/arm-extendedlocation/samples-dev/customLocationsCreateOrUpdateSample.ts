@@ -56,7 +56,7 @@ async function createOrUpdateCustomLocation() {
 }
 
 async function main() {
-  createOrUpdateCustomLocation();
+  await createOrUpdateCustomLocation();
 }
 
 main().catch(console.error);

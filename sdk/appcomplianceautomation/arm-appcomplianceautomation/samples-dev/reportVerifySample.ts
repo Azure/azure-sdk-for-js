@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Verify the AppComplianceAutomation report health status.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_Verify.json
  */
-async function reportVerify() {
+async function reportVerify(): Promise<void> {
   const reportName = "testReport";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -26,7 +26,7 @@ async function reportVerify() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reportVerify();
 }
 

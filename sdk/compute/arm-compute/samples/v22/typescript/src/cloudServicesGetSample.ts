@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Display information about a cloud service.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Display information about a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Get_WithMultiRoleAndRDP.json
  */
-async function getCloudServiceWithMultipleRolesAndRdpExtension() {
+async function getCloudServiceWithMultipleRolesAndRdpExtension(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function getCloudServiceWithMultipleRolesAndRdpExtension() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCloudServiceWithMultipleRolesAndRdpExtension();
 }
 

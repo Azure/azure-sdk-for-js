@@ -41,7 +41,7 @@ async function accessControlListsListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  accessControlListsListByResourceGroupMaximumSetGen();
+  await accessControlListsListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

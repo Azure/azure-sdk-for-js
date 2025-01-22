@@ -39,7 +39,7 @@ async function deleteRegisteredIdentity() {
 }
 
 async function main() {
-  deleteRegisteredIdentity();
+  await deleteRegisteredIdentity();
 }
 
 main().catch(console.error);

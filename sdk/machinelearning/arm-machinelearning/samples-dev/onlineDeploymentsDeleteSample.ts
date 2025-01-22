@@ -44,7 +44,7 @@ async function deleteWorkspaceOnlineDeployment() {
 }
 
 async function main() {
-  deleteWorkspaceOnlineDeployment();
+  await deleteWorkspaceOnlineDeployment();
 }
 
 main().catch(console.error);

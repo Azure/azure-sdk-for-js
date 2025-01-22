@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a sync job stream identified by stream id.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/sourceControlSyncJobStreams/getSourceControlSyncJobStreamsByStreamId.json
  */
-async function getASyncJobStreamIdentifiedBySyncJobStreamId() {
+async function getASyncJobStreamIdentifiedBySyncJobStreamId(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -38,7 +38,7 @@ async function getASyncJobStreamIdentifiedBySyncJobStreamId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getASyncJobStreamIdentifiedBySyncJobStreamId();
 }
 

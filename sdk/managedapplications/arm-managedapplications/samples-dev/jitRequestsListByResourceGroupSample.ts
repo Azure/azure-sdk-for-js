@@ -34,7 +34,7 @@ async function listsAllJitRequestsWithinTheResourceGroup() {
 }
 
 async function main() {
-  listsAllJitRequestsWithinTheResourceGroup();
+  await listsAllJitRequestsWithinTheResourceGroup();
 }
 
 main().catch(console.error);

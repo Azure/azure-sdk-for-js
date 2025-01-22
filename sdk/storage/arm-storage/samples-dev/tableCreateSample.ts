@@ -85,8 +85,8 @@ async function tableOperationPutOrPatchAcls() {
 }
 
 async function main() {
-  tableOperationPut();
-  tableOperationPutOrPatchAcls();
+  await tableOperationPut();
+  await tableOperationPutOrPatchAcls();
 }
 
 main().catch(console.error);

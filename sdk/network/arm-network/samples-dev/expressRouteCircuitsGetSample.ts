@@ -34,7 +34,7 @@ async function getExpressRouteCircuit() {
 }
 
 async function main() {
-  getExpressRouteCircuit();
+  await getExpressRouteCircuit();
 }
 
 main().catch(console.error);

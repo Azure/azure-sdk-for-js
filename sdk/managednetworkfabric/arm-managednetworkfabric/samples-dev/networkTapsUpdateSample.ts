@@ -65,7 +65,7 @@ async function networkTapsUpdateMaximumSetGen() {
 }
 
 async function main() {
-  networkTapsUpdateMaximumSetGen();
+  await networkTapsUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

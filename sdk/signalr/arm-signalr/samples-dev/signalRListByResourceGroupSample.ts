@@ -38,7 +38,7 @@ async function signalRListByResourceGroup() {
 }
 
 async function main() {
-  signalRListByResourceGroup();
+  await signalRListByResourceGroup();
 }
 
 main().catch(console.error);
