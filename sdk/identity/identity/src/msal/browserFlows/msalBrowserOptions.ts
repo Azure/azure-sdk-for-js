@@ -5,7 +5,7 @@ import type { AuthenticationRecord } from "../types.js";
 import type { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions.js";
 import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import type { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions.js";
-import { CredentialLogger } from "../../util/logging.js";
+import type { CredentialLogger } from "../../util/logging.js";
 
 /**
  * Options for the MSAL browser flows.

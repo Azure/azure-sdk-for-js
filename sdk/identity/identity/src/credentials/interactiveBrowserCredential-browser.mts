@@ -16,7 +16,8 @@ import type { AuthenticationRecord } from "../msal/types.js";
 import type { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserOptions.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { tracingClient } from "../util/tracing.js";
-import { createMsalBrowserClient, MsalBrowserClient } from "../msal/browserFlows/msalBrowserCommon.js";
+import type { MsalBrowserClient } from "../msal/browserFlows/msalBrowserCommon.js";
+import { createMsalBrowserClient } from "../msal/browserFlows/msalBrowserCommon.js";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 

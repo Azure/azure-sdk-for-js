@@ -344,7 +344,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
 
     // Attempts to get the token silently; else, falls back to interactive method.
     try {
-      return getTokenSilent(scopes, getTokenOptions);
+      return await getTokenSilent(scopes, getTokenOptions);
     } catch (err: any) {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;
