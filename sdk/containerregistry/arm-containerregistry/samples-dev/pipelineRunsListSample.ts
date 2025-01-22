@@ -31,7 +31,7 @@ async function pipelineRunList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.pipelineRuns.list(
+  for await (const item of client.pipelineRuns.list(
     resourceGroupName,
     registryName
   )) {

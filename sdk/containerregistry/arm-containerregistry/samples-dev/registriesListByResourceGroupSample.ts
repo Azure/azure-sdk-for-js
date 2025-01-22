@@ -30,7 +30,7 @@ async function registryListByResourceGroup(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.registries.listByResourceGroup(
+  for await (const item of client.registries.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -31,7 +31,7 @@ async function replicationList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.replications.list(
+  for await (const item of client.replications.list(
     resourceGroupName,
     registryName
   )) {

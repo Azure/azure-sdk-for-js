@@ -31,7 +31,7 @@ async function exportPipelineList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.exportPipelines.list(
+  for await (const item of client.exportPipelines.list(
     resourceGroupName,
     registryName
   )) {

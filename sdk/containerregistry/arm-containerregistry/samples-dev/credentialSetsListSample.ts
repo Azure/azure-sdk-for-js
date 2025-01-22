@@ -31,7 +31,7 @@ async function credentialSetList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.credentialSets.list(
+  for await (const item of client.credentialSets.list(
     resourceGroupName,
     registryName
   )) {

@@ -8,11 +8,12 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   DockerBuildRequest,
   EncodedTaskRunRequest,
   FileTaskRunRequest,
-  TaskRunRequest,
+  TaskRunRequest} from "@azure/arm-containerregistry";
+import {
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";

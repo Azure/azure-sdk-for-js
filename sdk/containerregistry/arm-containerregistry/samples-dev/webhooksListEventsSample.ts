@@ -32,7 +32,7 @@ async function webhookListEvents(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.webhooks.listEvents(
+  for await (const item of client.webhooks.listEvents(
     resourceGroupName,
     registryName,
     webhookName

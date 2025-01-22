@@ -32,7 +32,7 @@ async function archiveList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.archives.list(
+  for await (const item of client.archives.list(
     resourceGroupName,
     registryName,
     packageType

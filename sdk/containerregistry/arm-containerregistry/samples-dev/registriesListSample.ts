@@ -28,7 +28,7 @@ async function registryList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.registries.list()) {
+  for await (const item of client.registries.list()) {
     resArray.push(item);
   }
   console.log(resArray);

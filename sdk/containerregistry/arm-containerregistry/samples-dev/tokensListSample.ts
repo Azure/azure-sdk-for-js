@@ -31,7 +31,7 @@ async function tokenList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.tokens.list(resourceGroupName, registryName)) {
+  for await (const item of client.tokens.list(resourceGroupName, registryName)) {
     resArray.push(item);
   }
   console.log(resArray);

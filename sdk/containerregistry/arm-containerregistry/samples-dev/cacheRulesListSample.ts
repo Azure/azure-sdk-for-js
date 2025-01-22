@@ -31,7 +31,7 @@ async function cacheRuleList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.cacheRules.list(
+  for await (const item of client.cacheRules.list(
     resourceGroupName,
     registryName
   )) {

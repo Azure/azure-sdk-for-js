@@ -31,7 +31,7 @@ async function agentPoolsList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.agentPools.list(
+  for await (const item of client.agentPools.list(
     resourceGroupName,
     registryName
   )) {

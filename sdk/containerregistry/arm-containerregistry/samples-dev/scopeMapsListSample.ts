@@ -31,7 +31,7 @@ async function scopeMapList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.scopeMaps.list(
+  for await (const item of client.scopeMaps.list(
     resourceGroupName,
     registryName
   )) {

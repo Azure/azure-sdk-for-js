@@ -31,7 +31,7 @@ async function connectedRegistryList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.connectedRegistries.list(
+  for await (const item of client.connectedRegistries.list(
     resourceGroupName,
     registryName
   )) {

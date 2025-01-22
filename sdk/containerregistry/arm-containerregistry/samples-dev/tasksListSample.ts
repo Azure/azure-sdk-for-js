@@ -31,7 +31,7 @@ async function tasksList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.tasks.list(resourceGroupName, registryName)) {
+  for await (const item of client.tasks.list(resourceGroupName, registryName)) {
     resArray.push(item);
   }
   console.log(resArray);

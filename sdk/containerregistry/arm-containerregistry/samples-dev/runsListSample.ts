@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RunsListOptionalParams} from "@azure/arm-containerregistry";
 import {
-  RunsListOptionalParams,
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -37,7 +38,7 @@ async function runsList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.runs.list(
+  for await (const item of client.runs.list(
     resourceGroupName,
     registryName,
     options

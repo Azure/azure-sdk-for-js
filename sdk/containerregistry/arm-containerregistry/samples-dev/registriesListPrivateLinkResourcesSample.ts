@@ -31,7 +31,7 @@ async function registryListPrivateLinkResources(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.registries.listPrivateLinkResources(
+  for await (const item of client.registries.listPrivateLinkResources(
     resourceGroupName,
     registryName
   )) {

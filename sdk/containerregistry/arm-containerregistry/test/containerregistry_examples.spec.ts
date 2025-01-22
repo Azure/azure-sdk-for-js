@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  RecorderStartOptions} from "@azure-tools/test-recorder";
 import {
   env,
   Recorder,
-  RecorderStartOptions,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -202,7 +203,7 @@ describe("ContainerRegistry test", () => {
 
   it("tasks list test", async function () {
     const resArray = new Array();
-    for await (let item of client.tasks.list(resourceGroup, registryName)) {
+    for await (const item of client.tasks.list(resourceGroup, registryName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -244,7 +245,7 @@ describe("ContainerRegistry test", () => {
   it("tasks delete test", async function () {
     await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.tasks.list(resourceGroup, registryName)) {
+    for await (const item of client.tasks.list(resourceGroup, registryName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

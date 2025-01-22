@@ -33,7 +33,7 @@ async function archiveVersionList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.archiveVersions.list(
+  for await (const item of client.archiveVersions.list(
     resourceGroupName,
     registryName,
     packageType,
