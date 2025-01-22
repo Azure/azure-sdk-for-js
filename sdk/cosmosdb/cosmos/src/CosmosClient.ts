@@ -97,7 +97,7 @@ export class CosmosClient {
 
     const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.XMSUserAgent] = userAgent;
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;
 
     const globalEndpointManager = new GlobalEndpointManager(
       optionsOrConnectionString,
