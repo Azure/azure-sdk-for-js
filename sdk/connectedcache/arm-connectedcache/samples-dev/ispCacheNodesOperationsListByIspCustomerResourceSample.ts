@@ -15,7 +15,7 @@ async function ispCacheNodesOperationsListByIspCustomerResource(): Promise<void>
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ispCacheNodesOperations.listByIspCustomerResource(
+  for await (const item of client.ispCacheNodesOperations.listByIspCustomerResource(
     "rgConnectedCache",
     "MccRPTest1",
   )) {
