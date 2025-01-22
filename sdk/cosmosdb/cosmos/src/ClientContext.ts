@@ -980,6 +980,9 @@ export class ClientContext {
     return this.clientConfig;
   }
 
+  /**
+   * @internal
+   */
   public refreshUserAgent(hostFramework: string): void {
     const updatedUserAgent = getUserAgent(this.cosmosClientOptions.userAgentSuffix, hostFramework);
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;

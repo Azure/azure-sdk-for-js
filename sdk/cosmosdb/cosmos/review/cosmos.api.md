@@ -280,8 +280,6 @@ export class ClientContext {
     // (undocumented)
     recordDiagnostics(diagnostic: CosmosDiagnostics): void;
     // (undocumented)
-    refreshUserAgent(hostFramework: string): void;
-    // (undocumented)
     replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
         body: any;
         path: string;

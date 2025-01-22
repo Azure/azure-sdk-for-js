@@ -75,9 +75,7 @@ export class CosmosClient {
       optionsOrConnectionString.endpoint = endpoint;
       optionsOrConnectionString.key = key;
     }
-    if (!optionsOrConnectionString.endpoint) {
-      throw new Error("Invalid endpoint specified");
-    }
+
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
     if (!endpoint) {
       throw new Error("Invalid endpoint specified");
