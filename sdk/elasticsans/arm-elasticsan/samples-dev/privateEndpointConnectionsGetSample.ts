@@ -61,8 +61,8 @@ async function privateEndpointConnectionsGetMinimumSetGen() {
 }
 
 async function main() {
-  privateEndpointConnectionsGetMaximumSetGen();
-  privateEndpointConnectionsGetMinimumSetGen();
+  await privateEndpointConnectionsGetMaximumSetGen();
+  await privateEndpointConnectionsGetMinimumSetGen();
 }
 
 main().catch(console.error);

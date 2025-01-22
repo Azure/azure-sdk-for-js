@@ -45,7 +45,7 @@ async function internetGatewayRulesUpdateMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewayRulesUpdateMaximumSetGen();
+  await internetGatewayRulesUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

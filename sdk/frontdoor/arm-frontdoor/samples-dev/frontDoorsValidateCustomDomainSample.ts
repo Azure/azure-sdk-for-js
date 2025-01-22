@@ -41,7 +41,7 @@ async function frontDoorValidateCustomDomain() {
 }
 
 async function main() {
-  frontDoorValidateCustomDomain();
+  await frontDoorValidateCustomDomain();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function enableTheReceiver() {
 }
 
 async function main() {
-  enableTheReceiver();
+  await enableTheReceiver();
 }
 
 main().catch(console.error);

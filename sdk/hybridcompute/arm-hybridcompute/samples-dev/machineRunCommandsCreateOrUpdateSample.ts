@@ -58,7 +58,7 @@ async function createOrUpdateARunCommand() {
 }
 
 async function main() {
-  createOrUpdateARunCommand();
+  await createOrUpdateARunCommand();
 }
 
 main().catch(console.error);

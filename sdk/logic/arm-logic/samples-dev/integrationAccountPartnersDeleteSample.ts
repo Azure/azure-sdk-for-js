@@ -39,7 +39,7 @@ async function deleteAPartner() {
 }
 
 async function main() {
-  deleteAPartner();
+  await deleteAPartner();
 }
 
 main().catch(console.error);

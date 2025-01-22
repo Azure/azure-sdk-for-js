@@ -13,9 +13,7 @@ import {
   DashboardManagementClient
 } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a workspace for Grafana resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update a workspace for Grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Update.json
  */
-async function grafanaUpdate() {
+async function grafanaUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -74,7 +72,7 @@ async function grafanaUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   grafanaUpdate();
 }
 

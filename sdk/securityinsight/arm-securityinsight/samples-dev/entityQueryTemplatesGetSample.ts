@@ -39,7 +39,7 @@ async function getAnActivityEntityQueryTemplate() {
 }
 
 async function main() {
-  getAnActivityEntityQueryTemplate();
+  await getAnActivityEntityQueryTemplate();
 }
 
 main().catch(console.error);

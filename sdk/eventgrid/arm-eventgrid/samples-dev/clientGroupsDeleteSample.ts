@@ -39,7 +39,7 @@ async function clientGroupsDelete() {
 }
 
 async function main() {
-  clientGroupsDelete();
+  await clientGroupsDelete();
 }
 
 main().catch(console.error);

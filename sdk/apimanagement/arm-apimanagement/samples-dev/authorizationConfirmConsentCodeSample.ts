@@ -9,8 +9,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-    ApiManagementClient,
-    AuthorizationConfirmConsentCodeRequestContract
+  ApiManagementClient,
+  AuthorizationConfirmConsentCodeRequestContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -21,31 +21,31 @@ import "dotenv/config";
  * @summary Confirm valid consent code to suppress Authorizations anti-phishing page.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPostAuthorizationConfirmConsentCodeRequest.json
  */
-async function apiManagementPostAuthorizationConfirmConsentCodeRequest() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const authorizationProviderId = "aadwithauthcode";
-    const authorizationId = "authz1";
-    const parameters: AuthorizationConfirmConsentCodeRequestContract = {
-        consentCode: "theconsentcode"
-    };
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.authorization.confirmConsentCode(
-        resourceGroupName,
-        serviceName,
-        authorizationProviderId,
-        authorizationId,
-        parameters
-    );
-    console.log(result);
+async function apiManagementPostAuthorizationConfirmConsentCodeRequest(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const authorizationProviderId = "aadwithauthcode";
+  const authorizationId = "authz1";
+  const parameters: AuthorizationConfirmConsentCodeRequestContract = {
+    consentCode: "theconsentcode"
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.authorization.confirmConsentCode(
+    resourceGroupName,
+    serviceName,
+    authorizationProviderId,
+    authorizationId,
+    parameters
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementPostAuthorizationConfirmConsentCodeRequest();
+async function main(): Promise<void> {
+  apiManagementPostAuthorizationConfirmConsentCodeRequest();
 }
 
 main().catch(console.error);

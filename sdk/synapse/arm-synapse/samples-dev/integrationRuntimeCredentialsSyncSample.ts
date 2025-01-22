@@ -39,7 +39,7 @@ async function syncCredentials() {
 }
 
 async function main() {
-  syncCredentials();
+  await syncCredentials();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function storageAccountListPrivateLinkResources() {
 }
 
 async function main() {
-  storageAccountListPrivateLinkResources();
+  await storageAccountListPrivateLinkResources();
 }
 
 main().catch(console.error);

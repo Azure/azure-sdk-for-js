@@ -32,7 +32,7 @@ async function listActivationLinksForTheOracleSubscription() {
 }
 
 async function main() {
-  listActivationLinksForTheOracleSubscription();
+  await listActivationLinksForTheOracleSubscription();
 }
 
 main().catch(console.error);

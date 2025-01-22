@@ -34,7 +34,7 @@ async function deleteIPAllocation() {
 }
 
 async function main() {
-  deleteIPAllocation();
+  await deleteIPAllocation();
 }
 
 main().catch(console.error);

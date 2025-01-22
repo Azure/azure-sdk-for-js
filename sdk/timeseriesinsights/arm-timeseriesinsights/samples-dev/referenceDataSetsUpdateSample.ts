@@ -45,7 +45,7 @@ async function referenceDataSetsUpdate() {
 }
 
 async function main() {
-  referenceDataSetsUpdate();
+  await referenceDataSetsUpdate();
 }
 
 main().catch(console.error);

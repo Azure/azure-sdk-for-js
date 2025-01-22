@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get savings plan by billing account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/savingsPlanGetByBillingAccount.json
  */
-async function savingsPlanGet() {
+async function savingsPlanGet(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ async function savingsPlanGet() {
  * @summary Get savings plan by billing account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/savingsPlanGetExpandRenewPropertiesByBillingAccount.json
  */
-async function savingsPlanGetExpandRenewProperties() {
+async function savingsPlanGetExpandRenewProperties(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
@@ -54,7 +54,7 @@ async function savingsPlanGetExpandRenewProperties() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   savingsPlanGet();
   savingsPlanGetExpandRenewProperties();
 }

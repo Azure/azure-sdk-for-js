@@ -40,7 +40,7 @@ async function subscriptionDelete() {
 }
 
 async function main() {
-  subscriptionDelete();
+  await subscriptionDelete();
 }
 
 main().catch(console.error);

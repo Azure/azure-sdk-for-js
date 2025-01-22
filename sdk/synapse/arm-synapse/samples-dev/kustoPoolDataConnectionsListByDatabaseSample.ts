@@ -44,7 +44,7 @@ async function kustoPoolDataConnectionsListByDatabase() {
 }
 
 async function main() {
-  kustoPoolDataConnectionsListByDatabase();
+  await kustoPoolDataConnectionsListByDatabase();
 }
 
 main().catch(console.error);

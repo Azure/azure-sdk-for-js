@@ -41,7 +41,7 @@ async function generateExpressRoutePortLoa() {
 }
 
 async function main() {
-  generateExpressRoutePortLoa();
+  await generateExpressRoutePortLoa();
 }
 
 main().catch(console.error);

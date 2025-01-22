@@ -78,7 +78,7 @@ async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
 }
 
 async function main() {
-  validateTheSecurityAutomationModelBeforeCreateOrUpdate();
+  await validateTheSecurityAutomationModelBeforeCreateOrUpdate();
 }
 
 main().catch(console.error);

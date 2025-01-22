@@ -38,7 +38,7 @@ async function connectorDryrunDelete() {
 }
 
 async function main() {
-  connectorDryrunDelete();
+  await connectorDryrunDelete();
 }
 
 main().catch(console.error);

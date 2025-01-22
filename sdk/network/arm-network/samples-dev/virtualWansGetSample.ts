@@ -34,7 +34,7 @@ async function virtualWanGet() {
 }
 
 async function main() {
-  virtualWanGet();
+  await virtualWanGet();
 }
 
 main().catch(console.error);

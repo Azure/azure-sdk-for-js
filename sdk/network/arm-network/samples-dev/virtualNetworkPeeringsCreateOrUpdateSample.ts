@@ -263,13 +263,13 @@ async function syncSubnetPeering() {
 }
 
 async function main() {
-  createV6SubnetPeering();
-  createPeering();
-  createPeeringWithRemoteVirtualNetworkEncryption();
-  createSubnetPeering();
-  syncPeering();
-  syncV6SubnetPeering();
-  syncSubnetPeering();
+  await createV6SubnetPeering();
+  await createPeering();
+  await createPeeringWithRemoteVirtualNetworkEncryption();
+  await createSubnetPeering();
+  await syncPeering();
+  await syncV6SubnetPeering();
+  await syncSubnetPeering();
 }
 
 main().catch(console.error);

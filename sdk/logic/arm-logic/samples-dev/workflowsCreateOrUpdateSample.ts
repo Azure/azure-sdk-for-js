@@ -85,7 +85,7 @@ async function createOrUpdateAWorkflow() {
 }
 
 async function main() {
-  createOrUpdateAWorkflow();
+  await createOrUpdateAWorkflow();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the subscriptions that are being monitored by the Datadog monitor resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates the subscriptions that are being monitored by the Datadog monitor resource
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/MonitoredSubscriptions_Delete.json
  */
-async function monitorsDeleteMonitoredSubscriptions() {
+async function monitorsDeleteMonitoredSubscriptions(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +36,8 @@ async function monitorsDeleteMonitoredSubscriptions() {
   console.log(result);
 }
 
-async function main() {
-  monitorsDeleteMonitoredSubscriptions();
+async function main(): Promise<void> {
+  await monitorsDeleteMonitoredSubscriptions();
 }
 
 main().catch(console.error);

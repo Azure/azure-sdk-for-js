@@ -34,7 +34,7 @@ async function listKubernetesClustersForSubscription() {
 }
 
 async function main() {
-  listKubernetesClustersForSubscription();
+  await listKubernetesClustersForSubscription();
 }
 
 main().catch(console.error);

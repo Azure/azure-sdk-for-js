@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Request to mitigate for a given job
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobMitigate.json
  */
-async function mitigate() {
+async function mitigate(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const jobName = "TestJobName1";
@@ -43,7 +43,7 @@ async function mitigate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   mitigate();
 }
 

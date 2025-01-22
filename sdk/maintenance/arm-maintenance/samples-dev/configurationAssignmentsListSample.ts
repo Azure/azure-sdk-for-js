@@ -44,7 +44,7 @@ async function configurationAssignmentsList() {
 }
 
 async function main() {
-  configurationAssignmentsList();
+  await configurationAssignmentsList();
 }
 
 main().catch(console.error);

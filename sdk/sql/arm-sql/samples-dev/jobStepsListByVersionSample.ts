@@ -45,7 +45,7 @@ async function listJobStepsForTheSpecifiedVersionOfAJob() {
 }
 
 async function main() {
-  listJobStepsForTheSpecifiedVersionOfAJob();
+  await listJobStepsForTheSpecifiedVersionOfAJob();
 }
 
 main().catch(console.error);

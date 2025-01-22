@@ -33,7 +33,7 @@ async function listResourceGroupNetworkProfiles() {
 }
 
 async function main() {
-  listResourceGroupNetworkProfiles();
+  await listResourceGroupNetworkProfiles();
 }
 
 main().catch(console.error);

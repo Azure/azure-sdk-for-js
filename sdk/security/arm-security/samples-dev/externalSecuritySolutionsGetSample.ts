@@ -40,7 +40,7 @@ async function getExternalSecuritySolution() {
 }
 
 async function main() {
-  getExternalSecuritySolution();
+  await getExternalSecuritySolution();
 }
 
 main().catch(console.error);

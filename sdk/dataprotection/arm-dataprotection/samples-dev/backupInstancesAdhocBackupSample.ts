@@ -13,9 +13,7 @@ import {
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Trigger adhoc backup
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Trigger adhoc backup
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerBackup.json
  */
-async function triggerAdhocBackup() {
+async function triggerAdhocBackup(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -48,8 +46,8 @@ async function triggerAdhocBackup() {
   console.log(result);
 }
 
-async function main() {
-  triggerAdhocBackup();
+async function main(): Promise<void> {
+  await triggerAdhocBackup();
 }
 
 main().catch(console.error);

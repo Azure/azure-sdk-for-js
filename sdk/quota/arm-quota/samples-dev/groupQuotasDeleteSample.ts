@@ -30,7 +30,7 @@ async function groupQuotasDeleteRequestForCompute() {
 }
 
 async function main() {
-  groupQuotasDeleteRequestForCompute();
+  await groupQuotasDeleteRequestForCompute();
 }
 
 main().catch(console.error);

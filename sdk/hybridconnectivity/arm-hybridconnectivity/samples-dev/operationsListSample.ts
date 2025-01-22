@@ -31,7 +31,7 @@ async function hybridConnectivityOperationsList() {
 }
 
 async function main() {
-  hybridConnectivityOperationsList();
+  await hybridConnectivityOperationsList();
 }
 
 main().catch(console.error);

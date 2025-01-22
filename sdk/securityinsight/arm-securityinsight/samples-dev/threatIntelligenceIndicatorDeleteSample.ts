@@ -39,7 +39,7 @@ async function deleteAThreatIntelligenceIndicator() {
 }
 
 async function main() {
-  deleteAThreatIntelligenceIndicator();
+  await deleteAThreatIntelligenceIndicator();
 }
 
 main().catch(console.error);

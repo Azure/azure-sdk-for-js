@@ -50,7 +50,7 @@ async function sharedPrivateLinkResourceCreateOrUpdate() {
 }
 
 async function main() {
-  sharedPrivateLinkResourceCreateOrUpdate();
+  await sharedPrivateLinkResourceCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getSupportedPacketCoreControlPlaneVersionsBySubscription() {
 }
 
 async function main() {
-  getSupportedPacketCoreControlPlaneVersionsBySubscription();
+  await getSupportedPacketCoreControlPlaneVersionsBySubscription();
 }
 
 main().catch(console.error);

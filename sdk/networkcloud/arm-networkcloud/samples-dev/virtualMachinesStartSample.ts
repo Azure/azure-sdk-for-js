@@ -37,7 +37,7 @@ async function startVirtualMachine() {
 }
 
 async function main() {
-  startVirtualMachine();
+  await startVirtualMachine();
 }
 
 main().catch(console.error);

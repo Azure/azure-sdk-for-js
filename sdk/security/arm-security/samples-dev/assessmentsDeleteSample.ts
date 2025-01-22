@@ -31,7 +31,7 @@ async function deleteASecurityRecommendationTaskOnAResource() {
 }
 
 async function main() {
-  deleteASecurityRecommendationTaskOnAResource();
+  await deleteASecurityRecommendationTaskOnAResource();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getComponentResource() {
 }
 
 async function main() {
-  getComponentResource();
+  await getComponentResource();
 }
 
 main().catch(console.error);

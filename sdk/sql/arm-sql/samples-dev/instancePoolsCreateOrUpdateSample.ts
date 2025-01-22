@@ -78,8 +78,8 @@ async function createAnInstancePoolWithMinProperties() {
 }
 
 async function main() {
-  createAnInstancePoolWithAllProperties();
-  createAnInstancePoolWithMinProperties();
+  await createAnInstancePoolWithAllProperties();
+  await createAnInstancePoolWithMinProperties();
 }
 
 main().catch(console.error);

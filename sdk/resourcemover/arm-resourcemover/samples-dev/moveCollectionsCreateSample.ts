@@ -51,7 +51,7 @@ async function moveCollectionsCreate() {
 }
 
 async function main() {
-  moveCollectionsCreate();
+  await moveCollectionsCreate();
 }
 
 main().catch(console.error);

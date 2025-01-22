@@ -43,7 +43,7 @@ async function putExtendedInfoOfResource() {
 }
 
 async function main() {
-  putExtendedInfoOfResource();
+  await putExtendedInfoOfResource();
 }
 
 main().catch(console.error);

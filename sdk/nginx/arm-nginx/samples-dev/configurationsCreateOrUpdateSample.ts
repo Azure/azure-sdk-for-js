@@ -52,7 +52,7 @@ async function configurationsCreateOrUpdate() {
 }
 
 async function main() {
-  configurationsCreateOrUpdate();
+  await configurationsCreateOrUpdate();
 }
 
 main().catch(console.error);

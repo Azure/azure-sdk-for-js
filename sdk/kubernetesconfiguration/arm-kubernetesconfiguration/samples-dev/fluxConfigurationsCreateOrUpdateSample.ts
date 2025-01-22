@@ -154,8 +154,8 @@ async function createFluxConfigurationWithBucketSourceKind() {
 }
 
 async function main() {
-  createFluxConfiguration();
-  createFluxConfigurationWithBucketSourceKind();
+  await createFluxConfiguration();
+  await createFluxConfigurationWithBucketSourceKind();
 }
 
 main().catch(console.error);

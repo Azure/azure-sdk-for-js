@@ -39,7 +39,7 @@ async function iotHubResourceGetKeysForKeyName() {
 }
 
 async function main() {
-  iotHubResourceGetKeysForKeyName();
+  await iotHubResourceGetKeysForKeyName();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function deploymentsListByResourceGroup() {
 }
 
 async function main() {
-  deploymentsListByResourceGroup();
+  await deploymentsListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function kustoManagedPrivateEndpointsCreateOrUpdate() {
 }
 
 async function main() {
-  kustoManagedPrivateEndpointsCreateOrUpdate();
+  await kustoManagedPrivateEndpointsCreateOrUpdate();
 }
 
 main().catch(console.error);

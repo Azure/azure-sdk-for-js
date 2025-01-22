@@ -34,7 +34,7 @@ async function listThePortalOperations() {
 }
 
 async function main() {
-  listThePortalOperations();
+  await listThePortalOperations();
 }
 
 main().catch(console.error);

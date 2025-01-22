@@ -43,7 +43,7 @@ async function vaultOperationStatusGet() {
 }
 
 async function main() {
-  vaultOperationStatusGet();
+  await vaultOperationStatusGet();
 }
 
 main().catch(console.error);

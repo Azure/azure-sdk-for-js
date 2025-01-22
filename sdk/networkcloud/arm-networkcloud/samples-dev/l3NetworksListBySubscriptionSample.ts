@@ -34,7 +34,7 @@ async function listL3NetworksForSubscription() {
 }
 
 async function main() {
-  listL3NetworksForSubscription();
+  await listL3NetworksForSubscription();
 }
 
 main().catch(console.error);

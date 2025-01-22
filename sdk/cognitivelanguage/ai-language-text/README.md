@@ -92,10 +92,13 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
-```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
+```ts snippet:ReadmeSampleCreateClient_Node
+import { AzureKeyCredential } from "@azure/core-auth";
+import { TextAnalysisClient } from "@azure/ai-language-text";
 
-const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+const credential = new AzureKeyCredential("<api key>");
+const client = new TextAnalysisClient(endpoint, credential);
 ```
 
 #### Using an Azure Active Directory Credential
@@ -111,11 +114,13 @@ You will also need to [register a new AAD application][register_aad_app] and gra
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-```javascript
-const { TextAnalysisClient } = require("@azure/ai-language-text");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_ActiveDirectory
+import { DefaultAzureCredential } from "@azure/identity";
+import { TextAnalysisClient } from "@azure/ai-language-text";
 
-const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential());
+const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new TextAnalysisClient(endpoint, credential);
 ```
 
 ## Key concepts
@@ -130,7 +135,7 @@ A **document** represents a single unit of input to be analyzed by the predictiv
 
 For example, each document can be passed as a string in an array, e.g.
 
-```typescript
+```ts snippet:ReadmeSample_Documents
 const documents = [
   "I hated the movie. It was so slow!",
   "The movie made it into my top ten favorites.",
@@ -140,7 +145,7 @@ const documents = [
 
 or, if you wish to pass in a per-item document `id` or `language`/`countryHint`, they can be given as a list of `TextDocumentInput` or `DetectLanguageInput` depending on the operation;
 
-```javascript
+```ts snippet:ReadmeSample_TextDocumentInput
 const textDocumentInputs = [
   { id: "1", language: "en", text: "I hated the movie. It was so slow!" },
   { id: "2", language: "en", text: "The movie made it into my top ten favorites." },
@@ -164,14 +169,35 @@ In the collection returned by an operation, errors are distinguished from succes
 
 For example, to filter out all errors, you could use the following `filter`:
 
-```javascript
+```ts snippet:ReadmeSample_FilterErrors
+import { DefaultAzureCredential } from "@azure/identity";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+
+const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+const credential = new DefaultAzureCredential();
+
+const client = new TextAnalysisClient(endpoint, credential);
+
+const documents = [
+  "I hated the movie. It was so slow!",
+  "The movie made it into my top ten favorites.",
+  "What a great movie!",
+];
+
 const results = await client.analyze("SentimentAnalysis", documents);
 const onlySuccessful = results.filter((result) => result.error === undefined);
 ```
 
 **Note**: TypeScript users can benefit from better type-checking of result and error objects if `compilerOptions.strictNullChecks` is set to `true` in the `tsconfig.json` configuration. For example:
 
-```typescript
+```ts snippet:ReadmeSample_TypeChecking
+import { DefaultAzureCredential } from "@azure/identity";
+import { TextAnalysisClient } from "@azure/ai-language-text";
+
+const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+const credential = new DefaultAzureCredential();
+
+const client = new TextAnalysisClient(endpoint, credential);
 const [result] = await client.analyze("SentimentAnalysis", ["Hello world!"]);
 
 if (result.error !== undefined) {
@@ -219,8 +245,8 @@ if (result.error !== undefined) {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

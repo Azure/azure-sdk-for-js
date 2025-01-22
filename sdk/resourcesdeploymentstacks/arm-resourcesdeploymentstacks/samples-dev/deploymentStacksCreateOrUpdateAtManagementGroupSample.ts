@@ -56,7 +56,7 @@ async function deploymentStacksManagementGroupCreateOrUpdate() {
 }
 
 async function main() {
-  deploymentStacksManagementGroupCreateOrUpdate();
+  await deploymentStacksManagementGroupCreateOrUpdate();
 }
 
 main().catch(console.error);

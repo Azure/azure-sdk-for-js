@@ -36,7 +36,7 @@ async function getsAVirtualCluster() {
 }
 
 async function main() {
-  getsAVirtualCluster();
+  await getsAVirtualCluster();
 }
 
 main().catch(console.error);

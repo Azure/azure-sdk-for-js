@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to reapply a virtual machine's state.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The operation to reapply a virtual machine's state.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Reapply.json
  */
-async function reapplyTheStateOfAVirtualMachine() {
+async function reapplyTheStateOfAVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function reapplyTheStateOfAVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reapplyTheStateOfAVirtualMachine();
 }
 

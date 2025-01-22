@@ -115,7 +115,7 @@ async function createOrUpdateDataCollectionRule() {
 }
 
 async function main() {
-  createOrUpdateDataCollectionRule();
+  await createOrUpdateDataCollectionRule();
 }
 
 main().catch(console.error);

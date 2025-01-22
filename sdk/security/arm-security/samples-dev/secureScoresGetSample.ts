@@ -32,7 +32,7 @@ async function getSingleSecureScore() {
 }
 
 async function main() {
-  getSingleSecureScore();
+  await getSingleSecureScore();
 }
 
 main().catch(console.error);

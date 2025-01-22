@@ -37,7 +37,7 @@ async function getJitNetworkAccessPoliciesOnAResourceGroup() {
 }
 
 async function main() {
-  getJitNetworkAccessPoliciesOnAResourceGroup();
+  await getJitNetworkAccessPoliciesOnAResourceGroup();
 }
 
 main().catch(console.error);

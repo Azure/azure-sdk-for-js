@@ -38,7 +38,7 @@ async function privateEndPointConnectionList() {
 }
 
 async function main() {
-  privateEndPointConnectionList();
+  await privateEndPointConnectionList();
 }
 
 main().catch(console.error);

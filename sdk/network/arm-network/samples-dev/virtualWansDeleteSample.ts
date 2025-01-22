@@ -34,7 +34,7 @@ async function virtualWanDelete() {
 }
 
 async function main() {
-  virtualWanDelete();
+  await virtualWanDelete();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listVMClustersByResourceGroup() {
 }
 
 async function main() {
-  listVMClustersByResourceGroup();
+  await listVMClustersByResourceGroup();
 }
 
 main().catch(console.error);

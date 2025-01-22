@@ -40,7 +40,7 @@ async function endpointsList() {
 }
 
 async function main() {
-  endpointsList();
+  await endpointsList();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function updateWorkspace() {
 }
 
 async function main() {
-  updateWorkspace();
+  await updateWorkspace();
 }
 
 main().catch(console.error);

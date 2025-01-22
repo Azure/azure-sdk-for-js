@@ -41,7 +41,7 @@ async function deleteTheBookmarkRelation() {
 }
 
 async function main() {
-  deleteTheBookmarkRelation();
+  await deleteTheBookmarkRelation();
 }
 
 main().catch(console.error);

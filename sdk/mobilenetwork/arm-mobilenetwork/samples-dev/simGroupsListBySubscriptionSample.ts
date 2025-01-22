@@ -34,7 +34,7 @@ async function listSimGroupsInASubscription() {
 }
 
 async function main() {
-  listSimGroupsInASubscription();
+  await listSimGroupsInASubscription();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function listGitHubOwners() {
 }
 
 async function main() {
-  listGitHubOwners();
+  await listGitHubOwners();
 }
 
 main().catch(console.error);

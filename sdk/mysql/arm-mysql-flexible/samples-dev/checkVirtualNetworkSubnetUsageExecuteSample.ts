@@ -45,7 +45,7 @@ async function checkVirtualNetworkSubnetUsage() {
 }
 
 async function main() {
-  checkVirtualNetworkSubnetUsage();
+  await checkVirtualNetworkSubnetUsage();
 }
 
 main().catch(console.error);

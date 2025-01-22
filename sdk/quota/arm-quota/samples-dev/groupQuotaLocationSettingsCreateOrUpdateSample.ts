@@ -93,8 +93,8 @@ async function groupQuotaLocationSettingsCreateOrUpdateFailed() {
 }
 
 async function main() {
-  groupQuotaLocationSettingsCreateOrUpdate();
-  groupQuotaLocationSettingsCreateOrUpdateFailed();
+  await groupQuotaLocationSettingsCreateOrUpdate();
+  await groupQuotaLocationSettingsCreateOrUpdateFailed();
 }
 
 main().catch(console.error);

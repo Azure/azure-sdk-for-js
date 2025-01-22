@@ -39,7 +39,7 @@ async function projectsGet() {
 }
 
 async function main() {
-  projectsGet();
+  await projectsGet();
 }
 
 main().catch(console.error);

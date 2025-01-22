@@ -51,7 +51,7 @@ async function createOrUpdateATransform() {
 }
 
 async function main() {
-  createOrUpdateATransform();
+  await createOrUpdateATransform();
 }
 
 main().catch(console.error);

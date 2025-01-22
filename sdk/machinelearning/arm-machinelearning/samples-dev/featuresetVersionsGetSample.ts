@@ -44,7 +44,7 @@ async function getWorkspaceFeaturesetVersion() {
 }
 
 async function main() {
-  getWorkspaceFeaturesetVersion();
+  await getWorkspaceFeaturesetVersion();
 }
 
 main().catch(console.error);

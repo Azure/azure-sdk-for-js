@@ -37,7 +37,7 @@ async function getDetailsOfACapacity() {
 }
 
 async function main() {
-  getDetailsOfACapacity();
+  await getDetailsOfACapacity();
 }
 
 main().catch(console.error);

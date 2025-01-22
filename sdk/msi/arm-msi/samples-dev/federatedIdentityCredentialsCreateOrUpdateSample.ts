@@ -47,7 +47,7 @@ async function federatedIdentityCredentialCreate() {
 }
 
 async function main() {
-  federatedIdentityCredentialCreate();
+  await federatedIdentityCredentialCreate();
 }
 
 main().catch(console.error);

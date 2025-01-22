@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List all Savings plan orders.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanOrderList.json
  */
-async function savingsPlanOrderList() {
+async function savingsPlanOrderList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
   const resArray = new Array();

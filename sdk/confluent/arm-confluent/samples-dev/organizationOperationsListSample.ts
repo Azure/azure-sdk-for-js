@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all operations provided by Microsoft.Confluent.
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/OrganizationOperations_List.json
  */
-async function organizationOperationsList() {
+async function organizationOperationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential);
   const resArray = new Array();
@@ -28,7 +28,7 @@ async function organizationOperationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationOperationsList();
 }
 

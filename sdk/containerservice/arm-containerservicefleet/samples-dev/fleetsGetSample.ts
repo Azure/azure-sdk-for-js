@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Fleet.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a Fleet.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/Fleets_Get.json
  */
-async function getsAFleetResource() {
+async function getsAFleetResource(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -32,7 +30,7 @@ async function getsAFleetResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsAFleetResource();
 }
 

@@ -84,8 +84,8 @@ async function virtualMachineTemplatesCreateOrUpdateMinimumSet() {
 }
 
 async function main() {
-  virtualMachineTemplatesCreateOrUpdateMaximumSet();
-  virtualMachineTemplatesCreateOrUpdateMinimumSet();
+  await virtualMachineTemplatesCreateOrUpdateMaximumSet();
+  await virtualMachineTemplatesCreateOrUpdateMinimumSet();
 }
 
 main().catch(console.error);

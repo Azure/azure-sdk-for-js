@@ -42,7 +42,7 @@ async function dataExportDelete() {
 }
 
 async function main() {
-  dataExportDelete();
+  await dataExportDelete();
 }
 
 main().catch(console.error);

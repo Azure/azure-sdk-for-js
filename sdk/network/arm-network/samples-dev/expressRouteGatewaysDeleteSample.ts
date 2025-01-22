@@ -35,7 +35,7 @@ async function expressRouteGatewayDelete() {
 }
 
 async function main() {
-  expressRouteGatewayDelete();
+  await expressRouteGatewayDelete();
 }
 
 main().catch(console.error);

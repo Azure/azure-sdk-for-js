@@ -39,7 +39,7 @@ async function getsAListOfAzureApiManagementApIsThatHaveBeenOnboardedToMicrosoft
 }
 
 async function main() {
-  getsAListOfAzureApiManagementApIsThatHaveBeenOnboardedToMicrosoftDefenderForApis();
+  await getsAListOfAzureApiManagementApIsThatHaveBeenOnboardedToMicrosoftDefenderForApis();
 }
 
 main().catch(console.error);

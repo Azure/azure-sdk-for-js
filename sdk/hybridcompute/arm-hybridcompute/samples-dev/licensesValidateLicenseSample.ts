@@ -44,7 +44,7 @@ async function validateALicense() {
 }
 
 async function main() {
-  validateALicense();
+  await validateALicense();
 }
 
 main().catch(console.error);

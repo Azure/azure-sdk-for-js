@@ -40,7 +40,7 @@ async function listImages() {
 }
 
 async function main() {
-  listImages();
+  await listImages();
 }
 
 main().catch(console.error);

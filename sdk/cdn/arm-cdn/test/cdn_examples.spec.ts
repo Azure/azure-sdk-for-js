@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { CdnManagementClient } from "../src/cdnManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -41,130 +37,171 @@ describe("CDN test", () => {
   let profileName: string;
   let endpointName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new CdnManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new CdnManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     profileName = "myprofilexxx";
     endpointName = "myendpointxxx1";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("profiles create test", async function () {
-    const res = await client.profiles.beginCreateAndWait(resourceGroup, profileName, {
-      location: location,
-      sku: {
-        name: "Standard_Verizon"
-      }
-    }, testPollingOptions);
+  it("profiles create test", async () => {
+    const res = await client.profiles.beginCreateAndWait(
+      resourceGroup,
+      profileName,
+      {
+        location: location,
+        sku: {
+          name: "Standard_Verizon",
+        },
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, profileName);
   });
 
-  it("endpoints create test", async function () {
-    const res = await client.endpoints.beginCreateAndWait(resourceGroup, profileName, endpointName, {
-      originHostHeader: "www.bing.com",
-      originPath: "/image",
-      contentTypesToCompress: [
-        "text/html",
-        "application/octet-stream"
-      ],
-      isCompressionEnabled: true,
-      isHttpAllowed: true,
-      isHttpsAllowed: true,
-      queryStringCachingBehavior: "BypassCaching",
-      origins: [
-        {
-          name: "origin1",
-          hostName: "host1.hello.com"
-        }
-      ],
-      location: "westus",
-      tags: {
-        key1: "value1"
-      }
-    }, testPollingOptions);
+  it("endpoints create test", async () => {
+    const res = await client.endpoints.beginCreateAndWait(
+      resourceGroup,
+      profileName,
+      endpointName,
+      {
+        originHostHeader: "www.bing.com",
+        originPath: "/image",
+        contentTypesToCompress: ["text/html", "application/octet-stream"],
+        isCompressionEnabled: true,
+        isHttpAllowed: true,
+        isHttpsAllowed: true,
+        queryStringCachingBehavior: "BypassCaching",
+        origins: [
+          {
+            name: "origin1",
+            hostName: "host1.hello.com",
+          },
+        ],
+        location: "westus",
+        tags: {
+          key1: "value1",
+        },
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, endpointName);
   });
 
-  it("profiles get test", async function () {
+  it("profiles get test", async () => {
     const res = await client.profiles.get(resourceGroup, profileName);
     assert.equal(res.name, profileName);
   });
 
-  it("endpoints get test", async function () {
+  it("endpoints get test", async () => {
     const res = await client.endpoints.get(resourceGroup, profileName, endpointName);
     assert.equal(res.name, endpointName);
   });
 
-  it("profiles list test", async function () {
+  it("profiles list test", async () => {
     const resArray = new Array();
-    for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("profiles listResourceUsage test", async function () {
+  it("profiles listResourceUsage test", async () => {
     const resArray = new Array();
-    for await (let item of client.profiles.listResourceUsage(resourceGroup, profileName)) {
+    for await (const item of client.profiles.listResourceUsage(resourceGroup, profileName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("profiles update test", async function () {
-    const res = await client.profiles.beginUpdateAndWait(resourceGroup, profileName, { tags: { additional_properties: "Tag1" } }, testPollingOptions);
-    assert.equal(res.name, profileName)
+  it("profiles update test", async () => {
+    const res = await client.profiles.beginUpdateAndWait(
+      resourceGroup,
+      profileName,
+      { tags: { additional_properties: "Tag1" } },
+      testPollingOptions,
+    );
+    assert.equal(res.name, profileName);
   });
 
-  it("endpoints list test", async function () {
+  it("endpoints list test", async () => {
     const resArray = new Array();
-    for await (let item of client.endpoints.listByProfile(resourceGroup, profileName)) {
+    for await (const item of client.endpoints.listByProfile(resourceGroup, profileName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("endpoints update test", async function () {
-    const res = await client.endpoints.beginUpdateAndWait(resourceGroup, profileName, endpointName, { tags: { additional_properties: "Tag1" } }, testPollingOptions);
+  it("endpoints update test", async () => {
+    const res = await client.endpoints.beginUpdateAndWait(
+      resourceGroup,
+      profileName,
+      endpointName,
+      { tags: { additional_properties: "Tag1" } },
+      testPollingOptions,
+    );
     assert.equal(res.type, "Microsoft.Cdn/profiles/endpoints");
   });
 
-  //before create a customdomain, you need to create a DNS Zone and after that add a CName Recoedsets
-  it.skip("customDomains enable test", async function () {// skip this case as there's some issues from service
+  // before create a customdomain, you need to create a DNS Zone and after that add a CName Recoedsets
+  it.skip("customDomains enable test", async () => {
+    // skip this case as there's some issues from service
     // 1. we need to add a custom name https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain?tabs=azure-dns%2Cazure-portal%2Cazure-portal-cleanup
     // 2. then enable the https https://learn.microsoft.com/en-us/azure/cdn/cdn-custom-ssl?tabs=option-1-default-enable-https-with-a-cdn-managed-certificate
-    const defaultSetting = { "certificateSource": "Cdn", "protocolType": "IPBased", "certificateSourceParameters": { "typeName": "CdnCertificateSourceParameters", "certificateType": "Shared" } };
+    const defaultSetting = {
+      certificateSource: "Cdn",
+      protocolType: "IPBased",
+      certificateSourceParameters: {
+        typeName: "CdnCertificateSourceParameters",
+        certificateType: "Shared",
+      },
+    };
     try {
-      await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz", testPollingOptions);
+      await client.customDomains.beginEnableCustomHttpsAndWait(
+        resourceGroup,
+        profileName,
+        endpointName,
+        "www-qiaozha-xyz",
+        testPollingOptions,
+      );
     } catch (error) {
       // ensure we set the default value into the request body
       assert.deepEqual(JSON.parse((error as any).request.body), defaultSetting);
     }
-
   });
 
-  it("endpoints delete test", async function () {
-    await client.endpoints.beginDeleteAndWait(resourceGroup, profileName, endpointName, testPollingOptions);
+  it("endpoints delete test", async () => {
+    await client.endpoints.beginDeleteAndWait(
+      resourceGroup,
+      profileName,
+      endpointName,
+      testPollingOptions,
+    );
     const resArray = new Array();
-    for await (let item of client.endpoints.listByProfile(resourceGroup, profileName)) {
+    for await (const item of client.endpoints.listByProfile(resourceGroup, profileName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("profiles delete test", async function () {
+  it("profiles delete test", async () => {
     await client.profiles.beginDeleteAndWait(resourceGroup, profileName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

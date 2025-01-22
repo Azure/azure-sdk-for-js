@@ -69,7 +69,7 @@ async function redisEnterpriseCreate() {
 }
 
 async function main() {
-  redisEnterpriseCreate();
+  await redisEnterpriseCreate();
 }
 
 main().catch(console.error);

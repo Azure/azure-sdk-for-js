@@ -42,7 +42,7 @@ async function getFlowLogStatus() {
 }
 
 async function main() {
-  getFlowLogStatus();
+  await getFlowLogStatus();
 }
 
 main().catch(console.error);

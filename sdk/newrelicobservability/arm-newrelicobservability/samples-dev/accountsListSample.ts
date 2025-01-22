@@ -57,8 +57,8 @@ async function accountsListMinimumSetGen() {
 }
 
 async function main() {
-  accountsListMaximumSetGen();
-  accountsListMinimumSetGen();
+  await accountsListMaximumSetGen();
+  await accountsListMinimumSetGen();
 }
 
 main().catch(console.error);

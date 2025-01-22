@@ -37,7 +37,7 @@ async function partnerNamespacesDelete() {
 }
 
 async function main() {
-  partnerNamespacesDelete();
+  await partnerNamespacesDelete();
 }
 
 main().catch(console.error);

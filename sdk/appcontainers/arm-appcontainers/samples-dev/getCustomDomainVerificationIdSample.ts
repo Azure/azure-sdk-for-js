@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the verification id of a subscription used for verifying custom domains
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Subscriptions_GetCustomDomainVerificationId.json
  */
-async function listAllOperations() {
+async function listAllOperations(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "d27c3573-f76e-4b26-b871-0ccd2203d08c";
@@ -28,7 +28,7 @@ async function listAllOperations() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllOperations();
 }
 

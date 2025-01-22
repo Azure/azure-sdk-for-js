@@ -42,7 +42,7 @@ async function listTheSqlAnalyticsPoolManagementOperations() {
 }
 
 async function main() {
-  listTheSqlAnalyticsPoolManagementOperations();
+  await listTheSqlAnalyticsPoolManagementOperations();
 }
 
 main().catch(console.error);

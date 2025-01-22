@@ -43,7 +43,7 @@ async function deleteAWorkloadClassifierOfASqlAnalyticsPoolWorkloadGroup() {
 }
 
 async function main() {
-  deleteAWorkloadClassifierOfASqlAnalyticsPoolWorkloadGroup();
+  await deleteAWorkloadClassifierOfASqlAnalyticsPoolWorkloadGroup();
 }
 
 main().catch(console.error);

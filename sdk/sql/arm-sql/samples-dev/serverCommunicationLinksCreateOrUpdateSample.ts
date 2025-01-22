@@ -44,7 +44,7 @@ async function createAServerCommunicationLink() {
 }
 
 async function main() {
-  createAServerCommunicationLink();
+  await createAServerCommunicationLink();
 }
 
 main().catch(console.error);

@@ -50,7 +50,7 @@ async function frontendEndpointsEnableHttps() {
 }
 
 async function main() {
-  frontendEndpointsEnableHttps();
+  await frontendEndpointsEnableHttps();
 }
 
 main().catch(console.error);

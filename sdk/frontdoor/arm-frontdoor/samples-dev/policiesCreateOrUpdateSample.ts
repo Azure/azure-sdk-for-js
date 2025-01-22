@@ -142,7 +142,7 @@ async function createsSpecificPolicy() {
 }
 
 async function main() {
-  createsSpecificPolicy();
+  await createsSpecificPolicy();
 }
 
 main().catch(console.error);

@@ -57,8 +57,8 @@ async function organizationsListMinimumSetGen() {
 }
 
 async function main() {
-  organizationsListMaximumSetGen();
-  organizationsListMinimumSetGen();
+  await organizationsListMaximumSetGen();
+  await organizationsListMinimumSetGen();
 }
 
 main().catch(console.error);

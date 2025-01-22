@@ -44,7 +44,7 @@ async function jobRunsList() {
 }
 
 async function main() {
-  jobRunsList();
+  await jobRunsList();
 }
 
 main().catch(console.error);

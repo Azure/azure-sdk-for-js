@@ -33,7 +33,7 @@ async function deleteManagementGroupNetworkManagerConnection() {
 }
 
 async function main() {
-  deleteManagementGroupNetworkManagerConnection();
+  await deleteManagementGroupNetworkManagerConnection();
 }
 
 main().catch(console.error);

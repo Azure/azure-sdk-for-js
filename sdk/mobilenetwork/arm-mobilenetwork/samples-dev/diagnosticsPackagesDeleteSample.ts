@@ -39,7 +39,7 @@ async function deleteDiagnosticsPackage() {
 }
 
 async function main() {
-  deleteDiagnosticsPackage();
+  await deleteDiagnosticsPackage();
 }
 
 main().catch(console.error);

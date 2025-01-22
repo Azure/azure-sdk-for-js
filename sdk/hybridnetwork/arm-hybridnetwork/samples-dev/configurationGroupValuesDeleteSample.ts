@@ -36,7 +36,7 @@ async function deleteHybridConfigurationGroupResource() {
 }
 
 async function main() {
-  deleteHybridConfigurationGroupResource();
+  await deleteHybridConfigurationGroupResource();
 }
 
 main().catch(console.error);

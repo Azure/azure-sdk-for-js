@@ -45,7 +45,7 @@ async function connectivityConfigurationsDelete() {
 }
 
 async function main() {
-  connectivityConfigurationsDelete();
+  await connectivityConfigurationsDelete();
 }
 
 main().catch(console.error);

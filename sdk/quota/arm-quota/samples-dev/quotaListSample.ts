@@ -69,9 +69,9 @@ async function quotasListQuotaLimitsMachineLearningServices() {
 }
 
 async function main() {
-  quotasListQuotaLimitsForCompute();
-  quotasListQuotaLimitsForNetwork();
-  quotasListQuotaLimitsMachineLearningServices();
+  await quotasListQuotaLimitsForCompute();
+  await quotasListQuotaLimitsForNetwork();
+  await quotasListQuotaLimitsMachineLearningServices();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary This method does all necessary pre-job creation validation under resource group.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateInputsByResourceGroup.json
  */
-async function validateInputsByResourceGroup() {
+async function validateInputsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -87,7 +87,7 @@ async function validateInputsByResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   validateInputsByResourceGroup();
 }
 

@@ -95,8 +95,8 @@ async function connectAnApiPollingDataConnector() {
 }
 
 async function main() {
-  connectAnApiPollingV2LogsDataConnector();
-  connectAnApiPollingDataConnector();
+  await connectAnApiPollingV2LogsDataConnector();
+  await connectAnApiPollingDataConnector();
 }
 
 main().catch(console.error);

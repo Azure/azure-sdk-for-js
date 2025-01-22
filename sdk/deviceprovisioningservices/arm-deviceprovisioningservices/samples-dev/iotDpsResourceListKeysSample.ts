@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the primary and secondary keys for a provisioning service.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List the primary and secondary keys for a provisioning service.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSListKeys.json
  */
-async function dpsListKeys() {
+async function dpsListKeys(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -40,8 +38,8 @@ async function dpsListKeys() {
   console.log(resArray);
 }
 
-async function main() {
-  dpsListKeys();
+async function main(): Promise<void> {
+  await dpsListKeys();
 }
 
 main().catch(console.error);

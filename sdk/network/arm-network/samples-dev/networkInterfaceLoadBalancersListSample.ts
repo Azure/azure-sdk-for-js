@@ -37,7 +37,7 @@ async function networkInterfaceLoadBalancerList() {
 }
 
 async function main() {
-  networkInterfaceLoadBalancerList();
+  await networkInterfaceLoadBalancerList();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function volumesReInitializeReplication() {
 }
 
 async function main() {
-  volumesReInitializeReplication();
+  await volumesReInitializeReplication();
 }
 
 main().catch(console.error);

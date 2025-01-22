@@ -101,10 +101,10 @@ async function getFirewallPolicyRuleCollectionGroupWithWebCategories() {
 }
 
 async function main() {
-  getFirewallPolicyNatRuleCollectionGroup();
-  getFirewallPolicyRuleCollectionGroup();
-  getFirewallPolicyRuleCollectionGroupWithIPGroups();
-  getFirewallPolicyRuleCollectionGroupWithWebCategories();
+  await getFirewallPolicyNatRuleCollectionGroup();
+  await getFirewallPolicyRuleCollectionGroup();
+  await getFirewallPolicyRuleCollectionGroupWithIPGroups();
+  await getFirewallPolicyRuleCollectionGroupWithWebCategories();
 }
 
 main().catch(console.error);

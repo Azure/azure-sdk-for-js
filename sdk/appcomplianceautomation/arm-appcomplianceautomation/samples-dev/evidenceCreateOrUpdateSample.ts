@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or Update an evidence a specified report
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Evidence_CreateOrUpdate.json
  */
-async function evidenceCreateOrUpdate() {
+async function evidenceCreateOrUpdate(): Promise<void> {
   const reportName = "testReportName";
   const evidenceName = "evidence1";
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function evidenceCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   evidenceCreateOrUpdate();
 }
 

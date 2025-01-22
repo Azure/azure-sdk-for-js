@@ -40,7 +40,7 @@ async function getsTheDetailsOfAReplicationProtectionIntentItem() {
 }
 
 async function main() {
-  getsTheDetailsOfAReplicationProtectionIntentItem();
+  await getsTheDetailsOfAReplicationProtectionIntentItem();
 }
 
 main().catch(console.error);

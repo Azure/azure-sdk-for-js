@@ -113,8 +113,8 @@ async function uninstallExistingClusterLibraries() {
 }
 
 async function main() {
-  installNewClusterLibraries();
-  uninstallExistingClusterLibraries();
+  await installNewClusterLibraries();
+  await uninstallExistingClusterLibraries();
 }
 
 main().catch(console.error);

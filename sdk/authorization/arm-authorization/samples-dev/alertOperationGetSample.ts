@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the specified alert operation.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-08-01-preview/examples/GetAlertOperationById.json
  */
-async function getAlertOperation() {
+async function getAlertOperation(): Promise<void> {
   const scope = "subscriptions/afa2a084-766f-4003-8ae1-c4aeb893a99f";
   const operationId = "{operationId}";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getAlertOperation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAlertOperation();
 }
 

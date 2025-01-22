@@ -45,7 +45,7 @@ async function upsertDnsResolverPolicy() {
 }
 
 async function main() {
-  upsertDnsResolverPolicy();
+  await upsertDnsResolverPolicy();
 }
 
 main().catch(console.error);

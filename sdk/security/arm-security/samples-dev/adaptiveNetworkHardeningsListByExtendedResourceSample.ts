@@ -43,7 +43,7 @@ async function listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource() {
 }
 
 async function main() {
-  listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource();
+  await listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource();
 }
 
 main().catch(console.error);

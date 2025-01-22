@@ -39,7 +39,7 @@ async function getSingleMetadataByName() {
 }
 
 async function main() {
-  getSingleMetadataByName();
+  await getSingleMetadataByName();
 }
 
 main().catch(console.error);

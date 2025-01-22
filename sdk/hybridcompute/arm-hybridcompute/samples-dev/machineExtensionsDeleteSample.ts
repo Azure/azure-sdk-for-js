@@ -38,7 +38,7 @@ async function deleteAMachineExtension() {
 }
 
 async function main() {
-  deleteAMachineExtension();
+  await deleteAMachineExtension();
 }
 
 main().catch(console.error);

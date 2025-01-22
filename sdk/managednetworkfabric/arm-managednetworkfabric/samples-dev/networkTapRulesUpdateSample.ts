@@ -103,7 +103,7 @@ async function networkTapRulesUpdateMaximumSetGen() {
 }
 
 async function main() {
-  networkTapRulesUpdateMaximumSetGen();
+  await networkTapRulesUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function topicTypesList() {
 }
 
 async function main() {
-  topicTypesList();
+  await topicTypesList();
 }
 
 main().catch(console.error);

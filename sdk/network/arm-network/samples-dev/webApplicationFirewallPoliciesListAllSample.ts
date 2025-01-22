@@ -32,7 +32,7 @@ async function listsAllWafPoliciesInASubscription() {
 }
 
 async function main() {
-  listsAllWafPoliciesInASubscription();
+  await listsAllWafPoliciesInASubscription();
 }
 
 main().catch(console.error);

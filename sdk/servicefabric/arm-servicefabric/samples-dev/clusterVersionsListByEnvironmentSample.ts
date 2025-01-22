@@ -36,7 +36,7 @@ async function listClusterVersionsByEnvironment() {
 }
 
 async function main() {
-  listClusterVersionsByEnvironment();
+  await listClusterVersionsByEnvironment();
 }
 
 main().catch(console.error);

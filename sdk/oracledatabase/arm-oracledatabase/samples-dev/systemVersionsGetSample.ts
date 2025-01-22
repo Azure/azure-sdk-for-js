@@ -51,8 +51,8 @@ async function systemVersionsListSystemVersions() {
 }
 
 async function main() {
-  getExadataSystemVersion();
-  systemVersionsListSystemVersions();
+  await getExadataSystemVersion();
+  await systemVersionsListSystemVersions();
 }
 
 main().catch(console.error);

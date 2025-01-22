@@ -40,7 +40,7 @@ async function savedSearchesList() {
 }
 
 async function main() {
-  savedSearchesList();
+  await savedSearchesList();
 }
 
 main().catch(console.error);

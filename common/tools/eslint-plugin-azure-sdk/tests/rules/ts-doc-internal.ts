@@ -74,6 +74,15 @@ ruleTester.run("ts-doc-internal", rule, {
             function ExampleFunction() {}`,
       filename: "src/test.ts",
     },
+    {
+      code: `
+            /**
+             * Other documentation
+             * @hidden
+             */
+            function ExampleFunction() {}`,
+      filename: "src/test-browser.mts",
+    },
   ],
   invalid: [
     // class
@@ -113,6 +122,21 @@ ruleTester.run("ts-doc-internal", rule, {
              */
             function ExampleFunction() {}`,
       filename: "src/test.ts",
+      errors: [
+        {
+          message: "internal items with TSDoc comments should include an @internal or @hidden tag",
+        },
+      ],
+    },
+    // .mts file
+    {
+      code: `
+            /**
+             * Other documentation
+             * @ignore
+             */
+            function ExampleFunction() {}`,
+      filename: "src/test-browser.mts",
       errors: [
         {
           message: "internal items with TSDoc comments should include an @internal or @hidden tag",

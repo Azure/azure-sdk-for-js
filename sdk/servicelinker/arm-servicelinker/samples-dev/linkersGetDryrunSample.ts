@@ -31,7 +31,7 @@ async function getDryrun() {
 }
 
 async function main() {
-  getDryrun();
+  await getDryrun();
 }
 
 main().catch(console.error);

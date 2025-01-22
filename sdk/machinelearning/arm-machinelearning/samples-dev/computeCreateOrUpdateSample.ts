@@ -433,15 +433,15 @@ async function updateAnAksCompute() {
 }
 
 async function main() {
-  attachAKubernetesCompute();
-  createAAmlCompute();
-  createADataFactoryCompute();
-  createAnAksCompute();
-  createAnComputeInstanceCompute();
-  createAnComputeInstanceComputeWithSchedules();
-  createAnComputeInstanceComputeWithMinimalInputs();
-  updateAAmlCompute();
-  updateAnAksCompute();
+  await attachAKubernetesCompute();
+  await createAAmlCompute();
+  await createADataFactoryCompute();
+  await createAnAksCompute();
+  await createAnComputeInstanceCompute();
+  await createAnComputeInstanceComputeWithSchedules();
+  await createAnComputeInstanceComputeWithMinimalInputs();
+  await updateAAmlCompute();
+  await updateAnAksCompute();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function routePoliciesUpdateAdministrativeStateMaximumSetGen() {
 }
 
 async function main() {
-  routePoliciesUpdateAdministrativeStateMaximumSetGen();
+  await routePoliciesUpdateAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

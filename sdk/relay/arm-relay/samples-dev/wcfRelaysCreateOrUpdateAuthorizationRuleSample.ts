@@ -43,7 +43,7 @@ async function relayAuthorizationRuleCreate() {
 }
 
 async function main() {
-  relayAuthorizationRuleCreate();
+  await relayAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

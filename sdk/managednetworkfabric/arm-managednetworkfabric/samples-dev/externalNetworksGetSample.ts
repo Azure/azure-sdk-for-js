@@ -43,7 +43,7 @@ async function externalNetworksGetMaximumSetGen() {
 }
 
 async function main() {
-  externalNetworksGetMaximumSetGen();
+  await externalNetworksGetMaximumSetGen();
 }
 
 main().catch(console.error);

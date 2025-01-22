@@ -37,7 +37,7 @@ async function deleteAnAutoscaleSetting() {
 }
 
 async function main() {
-  deleteAnAutoscaleSetting();
+  await deleteAnAutoscaleSetting();
 }
 
 main().catch(console.error);

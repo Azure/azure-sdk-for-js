@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a Capability that extends a Target resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a Capability that extends a Target resource.
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DeleteCapability.json
  */
-async function deleteACapabilityThatExtendsAVirtualMachineTargetResource() {
+async function deleteACapabilityThatExtendsAVirtualMachineTargetResource(): Promise<void> {
   const subscriptionId =
     process.env["CHAOS_SUBSCRIPTION_ID"] ||
     "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -43,7 +41,7 @@ async function deleteACapabilityThatExtendsAVirtualMachineTargetResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteACapabilityThatExtendsAVirtualMachineTargetResource();
 }
 

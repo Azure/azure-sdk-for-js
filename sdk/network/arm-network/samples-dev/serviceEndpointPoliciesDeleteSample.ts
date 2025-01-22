@@ -34,7 +34,7 @@ async function deleteServiceEndpointPolicy() {
 }
 
 async function main() {
-  deleteServiceEndpointPolicy();
+  await deleteServiceEndpointPolicy();
 }
 
 main().catch(console.error);

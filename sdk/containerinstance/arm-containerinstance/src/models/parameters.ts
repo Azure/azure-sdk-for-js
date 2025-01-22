@@ -17,7 +17,7 @@ import {
   ContainerExecRequest as ContainerExecRequestMapper,
   ContainerGroupProfile as ContainerGroupProfileMapper,
   ContainerGroupProfilePatch as ContainerGroupProfilePatchMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

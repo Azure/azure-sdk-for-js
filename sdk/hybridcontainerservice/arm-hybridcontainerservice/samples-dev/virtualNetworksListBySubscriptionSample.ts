@@ -34,7 +34,7 @@ async function listVirtualNetworkBySubscription() {
 }
 
 async function main() {
-  listVirtualNetworkBySubscription();
+  await listVirtualNetworkBySubscription();
 }
 
 main().catch(console.error);

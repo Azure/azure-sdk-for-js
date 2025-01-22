@@ -68,7 +68,7 @@ async function createAnAssetFilter() {
 }
 
 async function main() {
-  createAnAssetFilter();
+  await createAnAssetFilter();
 }
 
 main().catch(console.error);

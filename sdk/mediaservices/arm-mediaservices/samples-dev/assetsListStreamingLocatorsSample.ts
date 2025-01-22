@@ -39,7 +39,7 @@ async function listAssetSasUrLs() {
 }
 
 async function main() {
-  listAssetSasUrLs();
+  await listAssetSasUrLs();
 }
 
 main().catch(console.error);

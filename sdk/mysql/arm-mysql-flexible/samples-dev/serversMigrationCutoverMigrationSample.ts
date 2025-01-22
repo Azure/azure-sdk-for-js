@@ -39,7 +39,7 @@ async function cutoverMigrationForMySqlImport() {
 }
 
 async function main() {
-  cutoverMigrationForMySqlImport();
+  await cutoverMigrationForMySqlImport();
 }
 
 main().catch(console.error);

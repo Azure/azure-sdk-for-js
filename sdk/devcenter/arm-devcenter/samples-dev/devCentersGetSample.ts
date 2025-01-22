@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a devcenter.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a devcenter.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_Get.json
  */
-async function devCentersGet() {
+async function devCentersGet(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -32,8 +30,8 @@ async function devCentersGet() {
   console.log(result);
 }
 
-async function main() {
-  devCentersGet();
+async function main(): Promise<void> {
+  await devCentersGet();
 }
 
 main().catch(console.error);

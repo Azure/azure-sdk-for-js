@@ -68,7 +68,7 @@ async function applicationGroupCreate() {
 }
 
 async function main() {
-  applicationGroupCreate();
+  await applicationGroupCreate();
 }
 
 main().catch(console.error);

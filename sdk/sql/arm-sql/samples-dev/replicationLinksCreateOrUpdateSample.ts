@@ -42,7 +42,7 @@ async function updatesReplicationLink() {
 }
 
 async function main() {
-  updatesReplicationLink();
+  await updatesReplicationLink();
 }
 
 main().catch(console.error);

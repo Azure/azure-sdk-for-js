@@ -57,7 +57,7 @@ async function deploymentStacksSubscriptionCreateOrUpdate() {
 }
 
 async function main() {
-  deploymentStacksSubscriptionCreateOrUpdate();
+  await deploymentStacksSubscriptionCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -71,7 +71,7 @@ async function kustoDatabaseAddPrincipals() {
 }
 
 async function main() {
-  kustoDatabaseAddPrincipals();
+  await kustoDatabaseAddPrincipals();
 }
 
 main().catch(console.error);

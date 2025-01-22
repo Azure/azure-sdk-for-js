@@ -37,7 +37,7 @@ async function listsAllTheApplicationsWithinAResourceGroup() {
 }
 
 async function main() {
-  listsAllTheApplicationsWithinAResourceGroup();
+  await listsAllTheApplicationsWithinAResourceGroup();
 }
 
 main().catch(console.error);

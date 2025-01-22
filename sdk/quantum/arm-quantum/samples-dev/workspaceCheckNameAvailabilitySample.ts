@@ -42,7 +42,7 @@ async function quantumWorkspacesCheckNameAvailability() {
 }
 
 async function main() {
-  quantumWorkspacesCheckNameAvailability();
+  await quantumWorkspacesCheckNameAvailability();
 }
 
 main().catch(console.error);

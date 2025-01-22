@@ -42,7 +42,7 @@ async function hdInsightClusterGet() {
 }
 
 async function main() {
-  hdInsightClusterGet();
+  await hdInsightClusterGet();
 }
 
 main().catch(console.error);

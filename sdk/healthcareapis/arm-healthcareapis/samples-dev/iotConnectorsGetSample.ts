@@ -38,7 +38,7 @@ async function getAnIoTConnector() {
 }
 
 async function main() {
-  getAnIoTConnector();
+  await getAnIoTConnector();
 }
 
 main().catch(console.error);

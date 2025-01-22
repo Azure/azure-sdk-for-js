@@ -36,7 +36,7 @@ async function getVirtualNetworkGatewayAdvertisedRoutes() {
 }
 
 async function main() {
-  getVirtualNetworkGatewayAdvertisedRoutes();
+  await getVirtualNetworkGatewayAdvertisedRoutes();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceI
 }
 
 async function main() {
-  createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId();
+  await createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId();
 }
 
 main().catch(console.error);

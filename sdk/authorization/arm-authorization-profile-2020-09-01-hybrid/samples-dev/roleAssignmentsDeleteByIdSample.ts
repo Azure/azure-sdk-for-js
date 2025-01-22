@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a role assignment.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/DeleteRoleAssignmentById.json
  */
-async function deleteRoleAssignmentById() {
+async function deleteRoleAssignmentById(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,7 +29,7 @@ async function deleteRoleAssignmentById() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteRoleAssignmentById();
 }
 

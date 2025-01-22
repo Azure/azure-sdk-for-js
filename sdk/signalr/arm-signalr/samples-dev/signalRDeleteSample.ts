@@ -37,7 +37,7 @@ async function signalRDelete() {
 }
 
 async function main() {
-  signalRDelete();
+  await signalRDelete();
 }
 
 main().catch(console.error);

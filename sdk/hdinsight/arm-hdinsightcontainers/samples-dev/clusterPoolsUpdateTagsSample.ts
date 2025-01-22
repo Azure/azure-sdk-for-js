@@ -47,7 +47,7 @@ async function clusterPoolsPatchTags() {
 }
 
 async function main() {
-  clusterPoolsPatchTags();
+  await clusterPoolsPatchTags();
 }
 
 main().catch(console.error);

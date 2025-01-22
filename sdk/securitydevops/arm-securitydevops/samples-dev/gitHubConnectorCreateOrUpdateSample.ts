@@ -45,7 +45,7 @@ async function gitHubConnectorCreateOrUpdate() {
 }
 
 async function main() {
-  gitHubConnectorCreateOrUpdate();
+  await gitHubConnectorCreateOrUpdate();
 }
 
 main().catch(console.error);

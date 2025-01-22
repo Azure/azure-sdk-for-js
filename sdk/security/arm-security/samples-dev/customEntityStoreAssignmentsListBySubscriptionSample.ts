@@ -34,7 +34,7 @@ async function listCustomEntityStoreAssignmentsInASubscription() {
 }
 
 async function main() {
-  listCustomEntityStoreAssignmentsInASubscription();
+  await listCustomEntityStoreAssignmentsInASubscription();
 }
 
 main().catch(console.error);

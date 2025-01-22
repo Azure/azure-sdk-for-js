@@ -37,7 +37,7 @@ async function listsAllOfTheAvailableSqlVirtualMachineRestApiOperations() {
 }
 
 async function main() {
-  listsAllOfTheAvailableSqlVirtualMachineRestApiOperations();
+  await listsAllOfTheAvailableSqlVirtualMachineRestApiOperations();
 }
 
 main().catch(console.error);

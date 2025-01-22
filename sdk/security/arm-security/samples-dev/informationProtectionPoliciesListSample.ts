@@ -33,7 +33,7 @@ async function getInformationProtectionPolicies() {
 }
 
 async function main() {
-  getInformationProtectionPolicies();
+  await getInformationProtectionPolicies();
 }
 
 main().catch(console.error);

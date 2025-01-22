@@ -36,7 +36,7 @@ async function getGovernanceAssignmentBySpecificGovernanceAssignmentKey() {
 }
 
 async function main() {
-  getGovernanceAssignmentBySpecificGovernanceAssignmentKey();
+  await getGovernanceAssignmentBySpecificGovernanceAssignmentKey();
 }
 
 main().catch(console.error);

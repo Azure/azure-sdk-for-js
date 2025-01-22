@@ -40,7 +40,7 @@ async function neighborGroupsGetMaximumSetGen() {
 }
 
 async function main() {
-  neighborGroupsGetMaximumSetGen();
+  await neighborGroupsGetMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -55,7 +55,7 @@ async function groupsCreate() {
 }
 
 async function main() {
-  groupsCreate();
+  await groupsCreate();
 }
 
 main().catch(console.error);

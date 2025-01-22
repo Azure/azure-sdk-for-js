@@ -38,7 +38,7 @@ async function cloudHsmClusterValidateBackupValidationMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterValidateBackupValidationMaximumSetGen();
+  await cloudHsmClusterValidateBackupValidationMaximumSetGen();
 }
 
 main().catch(console.error);

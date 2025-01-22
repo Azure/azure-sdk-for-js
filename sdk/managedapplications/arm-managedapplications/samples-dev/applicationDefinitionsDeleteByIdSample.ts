@@ -36,7 +36,7 @@ async function deletesManagedApplicationDefinition() {
 }
 
 async function main() {
-  deletesManagedApplicationDefinition();
+  await deletesManagedApplicationDefinition();
 }
 
 main().catch(console.error);

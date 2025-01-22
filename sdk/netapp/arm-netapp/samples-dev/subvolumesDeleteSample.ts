@@ -42,7 +42,7 @@ async function subvolumesDelete() {
 }
 
 async function main() {
-  subvolumesDelete();
+  await subvolumesDelete();
 }
 
 main().catch(console.error);

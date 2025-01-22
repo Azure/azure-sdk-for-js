@@ -41,7 +41,7 @@ async function certificatesGenerateVerificationCode() {
 }
 
 async function main() {
-  certificatesGenerateVerificationCode();
+  await certificatesGenerateVerificationCode();
 }
 
 main().catch(console.error);

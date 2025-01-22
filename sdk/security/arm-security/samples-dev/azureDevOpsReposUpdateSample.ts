@@ -49,7 +49,7 @@ async function updateAzureDevOpsRepos() {
 }
 
 async function main() {
-  updateAzureDevOpsRepos();
+  await updateAzureDevOpsRepos();
 }
 
 main().catch(console.error);

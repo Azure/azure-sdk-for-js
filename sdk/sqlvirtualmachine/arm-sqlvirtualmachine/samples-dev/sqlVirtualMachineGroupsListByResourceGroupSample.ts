@@ -41,7 +41,7 @@ async function getsAllSqlVirtualMachineGroupsInAResourceGroup() {
 }
 
 async function main() {
-  getsAllSqlVirtualMachineGroupsInAResourceGroup();
+  await getsAllSqlVirtualMachineGroupsInAResourceGroup();
 }
 
 main().catch(console.error);

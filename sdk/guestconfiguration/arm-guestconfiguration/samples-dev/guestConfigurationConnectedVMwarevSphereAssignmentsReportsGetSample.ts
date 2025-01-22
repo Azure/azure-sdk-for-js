@@ -41,7 +41,7 @@ async function getAGuestConfigurationAssignmentReportByIdForAVirtualMachine() {
 }
 
 async function main() {
-  getAGuestConfigurationAssignmentReportByIdForAVirtualMachine();
+  await getAGuestConfigurationAssignmentReportByIdForAVirtualMachine();
 }
 
 main().catch(console.error);

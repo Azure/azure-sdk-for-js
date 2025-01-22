@@ -43,7 +43,7 @@ async function networkSecurityPerimeterConfigurationsGet() {
 }
 
 async function main() {
-  networkSecurityPerimeterConfigurationsGet();
+  await networkSecurityPerimeterConfigurationsGet();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function quantumWorkspacesListByResourceGroup() {
 }
 
 async function main() {
-  quantumWorkspacesListByResourceGroup();
+  await quantumWorkspacesListByResourceGroup();
 }
 
 main().catch(console.error);

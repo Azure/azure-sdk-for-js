@@ -39,7 +39,7 @@ async function listSecretsByResourceGroup() {
 }
 
 async function main() {
-  listSecretsByResourceGroup();
+  await listSecretsByResourceGroup();
 }
 
 main().catch(console.error);

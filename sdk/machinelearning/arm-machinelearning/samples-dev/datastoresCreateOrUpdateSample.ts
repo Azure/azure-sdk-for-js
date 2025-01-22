@@ -212,10 +212,10 @@ async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
 }
 
 async function main() {
-  createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal();
-  createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal();
-  createOrUpdateDatastoreAzureFileStoreWOrAccountKey();
-  createOrUpdateDatastoreAzureBlobWOrAccountKey();
+  await createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal();
+  await createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal();
+  await createOrUpdateDatastoreAzureFileStoreWOrAccountKey();
+  await createOrUpdateDatastoreAzureBlobWOrAccountKey();
 }
 
 main().catch(console.error);

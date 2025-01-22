@@ -98,9 +98,9 @@ async function listJobsWithTimeFilter() {
 }
 
 async function main() {
-  listAllJobs();
-  listJobsWithFilters();
-  listJobsWithTimeFilter();
+  await listAllJobs();
+  await listJobsWithFilters();
+  await listJobsWithTimeFilter();
 }
 
 main().catch(console.error);

@@ -63,7 +63,7 @@ async function sampleTheStreamAnalyticsInputData() {
 }
 
 async function main() {
-  sampleTheStreamAnalyticsInputData();
+  await sampleTheStreamAnalyticsInputData();
 }
 
 main().catch(console.error);

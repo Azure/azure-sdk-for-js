@@ -39,7 +39,7 @@ async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
 }
 
 async function main() {
-  retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate();
+  await retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate();
 }
 
 main().catch(console.error);

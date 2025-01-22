@@ -36,7 +36,7 @@ async function deleteService() {
 }
 
 async function main() {
-  deleteService();
+  await deleteService();
 }
 
 main().catch(console.error);

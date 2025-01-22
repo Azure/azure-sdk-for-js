@@ -31,7 +31,7 @@ async function listEligibleSkUsForANewCapacity() {
 }
 
 async function main() {
-  listEligibleSkUsForANewCapacity();
+  await listEligibleSkUsForANewCapacity();
 }
 
 main().catch(console.error);

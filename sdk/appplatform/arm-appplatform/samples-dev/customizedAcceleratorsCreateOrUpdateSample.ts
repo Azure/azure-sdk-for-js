@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update the customized accelerator.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/CustomizedAccelerators_CreateOrUpdate.json
  */
-async function customizedAcceleratorsCreateOrUpdate() {
+async function customizedAcceleratorsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,7 +64,7 @@ async function customizedAcceleratorsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   customizedAcceleratorsCreateOrUpdate();
 }
 

@@ -34,7 +34,7 @@ async function listDataCollectionEndpointsBySubscription() {
 }
 
 async function main() {
-  listDataCollectionEndpointsBySubscription();
+  await listDataCollectionEndpointsBySubscription();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function devicesCreateOrUpdate() {
 }
 
 async function main() {
-  devicesCreateOrUpdate();
+  await devicesCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function moveCollectionsGet() {
 }
 
 async function main() {
-  moveCollectionsGet();
+  await moveCollectionsGet();
 }
 
 main().catch(console.error);

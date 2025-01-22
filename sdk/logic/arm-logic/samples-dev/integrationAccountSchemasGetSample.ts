@@ -39,7 +39,7 @@ async function getSchemaByName() {
 }
 
 async function main() {
-  getSchemaByName();
+  await getSchemaByName();
 }
 
 main().catch(console.error);

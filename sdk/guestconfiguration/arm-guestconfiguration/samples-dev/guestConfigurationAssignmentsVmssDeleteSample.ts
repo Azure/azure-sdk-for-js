@@ -38,7 +38,7 @@ async function deleteAnGuestConfigurationAssignmentForVmss() {
 }
 
 async function main() {
-  deleteAnGuestConfigurationAssignmentForVmss();
+  await deleteAnGuestConfigurationAssignmentForVmss();
 }
 
 main().catch(console.error);

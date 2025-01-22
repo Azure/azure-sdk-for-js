@@ -52,7 +52,7 @@ async function swapViPsBetweenTwoLoadBalancers() {
 }
 
 async function main() {
-  swapViPsBetweenTwoLoadBalancers();
+  await swapViPsBetweenTwoLoadBalancers();
 }
 
 main().catch(console.error);

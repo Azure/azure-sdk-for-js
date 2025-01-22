@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, getting the keys will fail.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountGetKeys.json
  */
-async function batchAccountGetKeys() {
+async function batchAccountGetKeys(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -32,7 +32,7 @@ async function batchAccountGetKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   batchAccountGetKeys();
 }
 

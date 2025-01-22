@@ -39,7 +39,7 @@ async function getConnectionInfo() {
 }
 
 async function main() {
-  getConnectionInfo();
+  await getConnectionInfo();
 }
 
 main().catch(console.error);

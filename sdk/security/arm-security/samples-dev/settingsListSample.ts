@@ -34,7 +34,7 @@ async function getSettingsOfSubscription() {
 }
 
 async function main() {
-  getSettingsOfSubscription();
+  await getSettingsOfSubscription();
 }
 
 main().catch(console.error);

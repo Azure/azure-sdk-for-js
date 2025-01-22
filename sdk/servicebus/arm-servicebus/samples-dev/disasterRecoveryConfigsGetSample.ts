@@ -39,7 +39,7 @@ async function sbAliasGet() {
 }
 
 async function main() {
-  sbAliasGet();
+  await sbAliasGet();
 }
 
 main().catch(console.error);

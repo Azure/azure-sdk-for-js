@@ -46,7 +46,7 @@ async function signalRReplicasCreateOrUpdate() {
 }
 
 async function main() {
-  signalRReplicasCreateOrUpdate();
+  await signalRReplicasCreateOrUpdate();
 }
 
 main().catch(console.error);

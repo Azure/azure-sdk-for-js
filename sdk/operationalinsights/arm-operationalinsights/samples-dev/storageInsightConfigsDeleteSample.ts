@@ -42,7 +42,7 @@ async function storageInsightsDelete() {
 }
 
 async function main() {
-  storageInsightsDelete();
+  await storageInsightsDelete();
 }
 
 main().catch(console.error);

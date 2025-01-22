@@ -63,8 +63,8 @@ async function inventoryItemsListByVmmServerMinimumSet() {
 }
 
 async function main() {
-  inventoryItemsListByVmmServerMaximumSet();
-  inventoryItemsListByVmmServerMinimumSet();
+  await inventoryItemsListByVmmServerMaximumSet();
+  await inventoryItemsListByVmmServerMinimumSet();
 }
 
 main().catch(console.error);

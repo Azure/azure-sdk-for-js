@@ -69,8 +69,8 @@ async function localRulestacksListPredefinedUrlCategoriesMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksListPredefinedUrlCategoriesMaximumSetGen();
-  localRulestacksListPredefinedUrlCategoriesMinimumSetGen();
+  await localRulestacksListPredefinedUrlCategoriesMaximumSetGen();
+  await localRulestacksListPredefinedUrlCategoriesMinimumSetGen();
 }
 
 main().catch(console.error);

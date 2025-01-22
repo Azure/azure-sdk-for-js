@@ -39,7 +39,7 @@ async function deleteAStreamingLocator() {
 }
 
 async function main() {
-  deleteAStreamingLocator();
+  await deleteAStreamingLocator();
 }
 
 main().catch(console.error);

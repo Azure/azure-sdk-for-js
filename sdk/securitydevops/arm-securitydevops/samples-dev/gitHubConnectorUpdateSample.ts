@@ -47,7 +47,7 @@ async function gitHubConnectorUpdate() {
 }
 
 async function main() {
-  gitHubConnectorUpdate();
+  await gitHubConnectorUpdate();
 }
 
 main().catch(console.error);

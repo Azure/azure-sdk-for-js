@@ -36,7 +36,7 @@ async function listRacksForResourceGroup() {
 }
 
 async function main() {
-  listRacksForResourceGroup();
+  await listRacksForResourceGroup();
 }
 
 main().catch(console.error);

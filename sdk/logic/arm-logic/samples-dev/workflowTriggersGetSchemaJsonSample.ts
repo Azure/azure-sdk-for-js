@@ -39,7 +39,7 @@ async function getTriggerSchema() {
 }
 
 async function main() {
-  getTriggerSchema();
+  await getTriggerSchema();
 }
 
 main().catch(console.error);

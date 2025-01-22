@@ -32,7 +32,7 @@ async function listNetworkExperimentProfilesInAResourceGroup() {
 }
 
 async function main() {
-  listNetworkExperimentProfilesInAResourceGroup();
+  await listNetworkExperimentProfilesInAResourceGroup();
 }
 
 main().catch(console.error);

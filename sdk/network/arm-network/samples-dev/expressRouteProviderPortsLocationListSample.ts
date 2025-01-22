@@ -29,7 +29,7 @@ async function expressRouteProviderPortList() {
 }
 
 async function main() {
-  expressRouteProviderPortList();
+  await expressRouteProviderPortList();
 }
 
 main().catch(console.error);

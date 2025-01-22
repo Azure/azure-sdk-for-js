@@ -59,8 +59,8 @@ async function virtualMachineTemplatesListByResourceGroupMinimumSet() {
 }
 
 async function main() {
-  virtualMachineTemplatesListByResourceGroupMaximumSet();
-  virtualMachineTemplatesListByResourceGroupMinimumSet();
+  await virtualMachineTemplatesListByResourceGroupMaximumSet();
+  await virtualMachineTemplatesListByResourceGroupMinimumSet();
 }
 
 main().catch(console.error);

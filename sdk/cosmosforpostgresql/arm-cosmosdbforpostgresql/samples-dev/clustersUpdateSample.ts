@@ -13,9 +13,7 @@ import {
   CosmosDBForPostgreSQL,
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterScaleCompute.json
  */
-async function scaleComputeUpOrDown() {
+async function scaleComputeUpOrDown(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -47,7 +45,7 @@ async function scaleComputeUpOrDown() {
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterAddNode.json
  */
-async function scaleOutAddNewWorkerNodes() {
+async function scaleOutAddNewWorkerNodes(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -71,7 +69,7 @@ async function scaleOutAddNewWorkerNodes() {
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterScaleStorage.json
  */
-async function scaleUpStorage() {
+async function scaleUpStorage(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -95,7 +93,7 @@ async function scaleUpStorage() {
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterUpdate.json
  */
-async function updateMultipleConfigurationSettingsOfTheCluster() {
+async function updateMultipleConfigurationSettingsOfTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -124,7 +122,7 @@ async function updateMultipleConfigurationSettingsOfTheCluster() {
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterUpdateMaintenanceWindow.json
  */
-async function updateOrDefineMaintenanceWindow() {
+async function updateOrDefineMaintenanceWindow(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -149,7 +147,7 @@ async function updateOrDefineMaintenanceWindow() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   scaleComputeUpOrDown();
   scaleOutAddNewWorkerNodes();
   scaleUpStorage();

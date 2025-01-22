@@ -42,7 +42,7 @@ async function getWorkspaceOnlineEndpoint() {
 }
 
 async function main() {
-  getWorkspaceOnlineEndpoint();
+  await getWorkspaceOnlineEndpoint();
 }
 
 main().catch(console.error);

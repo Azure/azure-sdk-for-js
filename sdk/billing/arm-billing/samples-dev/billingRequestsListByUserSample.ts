@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary The list of billing requests submitted by a user.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRequestsListByUser.json
  */
-async function billingRequestsListByUser() {
+async function billingRequestsListByUser(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
@@ -37,7 +37,7 @@ async function billingRequestsListByUser() {
  * @summary The list of billing requests submitted by a user.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRequestsListByUserWithFilter.json
  */
-async function billingRequestsListByUserWithFilter() {
+async function billingRequestsListByUserWithFilter(): Promise<void> {
   const filter = "properties/status eq 'Approved'";
   const options: BillingRequestsListByUserOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -49,7 +49,7 @@ async function billingRequestsListByUserWithFilter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingRequestsListByUser();
   billingRequestsListByUserWithFilter();
 }

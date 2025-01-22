@@ -113,10 +113,10 @@ async function updateStatusOfASubscriptionSupportTicket() {
 }
 
 async function main() {
-  updateAdvancedDiagnosticConsentOfASubscriptionSupportTicket();
-  updateContactDetailsOfASubscriptionSupportTicket();
-  updateSeverityOfASubscriptionSupportTicket();
-  updateStatusOfASubscriptionSupportTicket();
+  await updateAdvancedDiagnosticConsentOfASubscriptionSupportTicket();
+  await updateContactDetailsOfASubscriptionSupportTicket();
+  await updateSeverityOfASubscriptionSupportTicket();
+  await updateStatusOfASubscriptionSupportTicket();
 }
 
 main().catch(console.error);

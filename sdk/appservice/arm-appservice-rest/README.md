@@ -45,10 +45,23 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import WebSiteManagementClient from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-const credential = new DefaultAzureCredential();
+
+const client = WebSiteManagementClient(new DefaultAzureCredential());
+```
+
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import WebSiteManagementClient from "@azure-rest/arm-appservice";
+
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = WebSiteManagementClient(credential);
 ```
 
@@ -58,26 +71,25 @@ The following section shows you how to initialize and authenticate your client, 
 
 ### List All App Service Plans
 
-```typescript
-import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
+```ts snippet:ListAppServicePlans
 import { DefaultAzureCredential } from "@azure/identity";
+import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
 
-async function listAppServicePlans() {
-  const subscriptionId = process.env.SUBSCRIPTION_ID as string;
-  const credential = new DefaultAzureCredential();
-  const client = WebSiteManagementClient(credential);
-  const result = [];
-  const initialResposne = await client
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms", subscriptionId)
-    .get();
-  const res = paginate(client, initialResposne);
-  for await (let item of res) {
-    result.push(item);
-  }
-  console.log(result);
+const subscriptionId = process.env.SUBSCRIPTION_ID as string;
+const credential = new DefaultAzureCredential();
+const client = WebSiteManagementClient(credential);
+
+const result = [];
+const initialResposne = await client
+  .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms", subscriptionId)
+  .get();
+const res = paginate(client, initialResposne);
+
+for await (const item of res) {
+  result.push(item);
 }
 
-listAppServicePlans().catch(console.error);
+console.log(result);
 ```
 
 ## Troubleshooting
@@ -86,7 +98,7 @@ listAppServicePlans().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

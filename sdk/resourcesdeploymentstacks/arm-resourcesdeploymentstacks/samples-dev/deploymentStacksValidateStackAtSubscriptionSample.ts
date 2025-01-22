@@ -58,7 +58,7 @@ async function deploymentStacksSubscriptionValidate() {
 }
 
 async function main() {
-  deploymentStacksSubscriptionValidate();
+  await deploymentStacksSubscriptionValidate();
 }
 
 main().catch(console.error);

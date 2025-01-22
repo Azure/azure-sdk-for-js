@@ -45,7 +45,7 @@ async function updateVirtualNetwork() {
 }
 
 async function main() {
-  updateVirtualNetwork();
+  await updateVirtualNetwork();
 }
 
 main().catch(console.error);

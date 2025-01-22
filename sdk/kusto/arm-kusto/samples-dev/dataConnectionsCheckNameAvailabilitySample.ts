@@ -47,7 +47,7 @@ async function kustoDataConnectionsCheckNameAvailability() {
 }
 
 async function main() {
-  kustoDataConnectionsCheckNameAvailability();
+  await kustoDataConnectionsCheckNameAvailability();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function certificatesCreateOrUpdate() {
 }
 
 async function main() {
-  certificatesCreateOrUpdate();
+  await certificatesCreateOrUpdate();
 }
 
 main().catch(console.error);

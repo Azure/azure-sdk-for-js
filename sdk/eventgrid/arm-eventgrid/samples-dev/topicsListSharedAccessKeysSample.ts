@@ -37,7 +37,7 @@ async function topicsListSharedAccessKeys() {
 }
 
 async function main() {
-  topicsListSharedAccessKeys();
+  await topicsListSharedAccessKeys();
 }
 
 main().catch(console.error);

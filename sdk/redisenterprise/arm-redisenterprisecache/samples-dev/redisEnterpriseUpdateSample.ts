@@ -49,7 +49,7 @@ async function redisEnterpriseUpdate() {
 }
 
 async function main() {
-  redisEnterpriseUpdate();
+  await redisEnterpriseUpdate();
 }
 
 main().catch(console.error);

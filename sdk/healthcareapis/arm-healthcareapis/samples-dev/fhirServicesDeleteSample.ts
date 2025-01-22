@@ -38,7 +38,7 @@ async function deleteAFhirService() {
 }
 
 async function main() {
-  deleteAFhirService();
+  await deleteAFhirService();
 }
 
 main().catch(console.error);

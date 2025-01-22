@@ -34,7 +34,7 @@ async function getRegistrationOperations() {
 }
 
 async function main() {
-  getRegistrationOperations();
+  await getRegistrationOperations();
 }
 
 main().catch(console.error);

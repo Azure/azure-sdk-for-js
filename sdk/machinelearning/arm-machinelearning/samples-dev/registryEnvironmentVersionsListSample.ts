@@ -55,7 +55,7 @@ async function listRegistryEnvironmentVersion() {
 }
 
 async function main() {
-  listRegistryEnvironmentVersion();
+  await listRegistryEnvironmentVersion();
 }
 
 main().catch(console.error);

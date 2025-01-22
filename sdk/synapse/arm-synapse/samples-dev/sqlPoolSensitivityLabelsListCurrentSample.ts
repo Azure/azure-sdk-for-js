@@ -41,7 +41,7 @@ async function getsTheCurrentSensitivityLabelsOfAGivenSqlAnalyticsPool() {
 }
 
 async function main() {
-  getsTheCurrentSensitivityLabelsOfAGivenSqlAnalyticsPool();
+  await getsTheCurrentSensitivityLabelsOfAGivenSqlAnalyticsPool();
 }
 
 main().catch(console.error);

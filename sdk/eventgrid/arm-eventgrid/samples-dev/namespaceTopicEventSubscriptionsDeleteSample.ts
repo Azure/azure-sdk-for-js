@@ -42,7 +42,7 @@ async function namespaceTopicEventSubscriptionsDelete() {
 }
 
 async function main() {
-  namespaceTopicEventSubscriptionsDelete();
+  await namespaceTopicEventSubscriptionsDelete();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function deleteASecurityAutomation() {
 }
 
 async function main() {
-  deleteASecurityAutomation();
+  await deleteASecurityAutomation();
 }
 
 main().catch(console.error);

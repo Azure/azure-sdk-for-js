@@ -43,7 +43,7 @@ async function storageAccountPutEncryptionScope() {
 }
 
 async function main() {
-  storageAccountPutEncryptionScope();
+  await storageAccountPutEncryptionScope();
 }
 
 main().catch(console.error);

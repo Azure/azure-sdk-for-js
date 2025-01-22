@@ -69,8 +69,8 @@ async function binaryHardeningListByFirmwareMinimumSetGen() {
 }
 
 async function main() {
-  binaryHardeningListByFirmwareMaximumSetGen();
-  binaryHardeningListByFirmwareMinimumSetGen();
+  await binaryHardeningListByFirmwareMaximumSetGen();
+  await binaryHardeningListByFirmwareMinimumSetGen();
 }
 
 main().catch(console.error);

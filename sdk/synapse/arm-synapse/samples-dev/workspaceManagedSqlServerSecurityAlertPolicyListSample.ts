@@ -39,7 +39,7 @@ async function getWorkspaceManagedSqlServerSecurityAlertPolicy() {
 }
 
 async function main() {
-  getWorkspaceManagedSqlServerSecurityAlertPolicy();
+  await getWorkspaceManagedSqlServerSecurityAlertPolicy();
 }
 
 main().catch(console.error);

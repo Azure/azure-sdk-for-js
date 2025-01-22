@@ -42,7 +42,7 @@ async function listTheDatabaseManagementOperations() {
 }
 
 async function main() {
-  listTheDatabaseManagementOperations();
+  await listTheDatabaseManagementOperations();
 }
 
 main().catch(console.error);

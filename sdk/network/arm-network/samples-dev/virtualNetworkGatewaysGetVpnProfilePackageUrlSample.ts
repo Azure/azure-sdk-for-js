@@ -35,7 +35,7 @@ async function getVirtualNetworkGatewayVpnProfilePackageUrl() {
 }
 
 async function main() {
-  getVirtualNetworkGatewayVpnProfilePackageUrl();
+  await getVirtualNetworkGatewayVpnProfilePackageUrl();
 }
 
 main().catch(console.error);

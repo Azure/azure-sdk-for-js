@@ -52,7 +52,7 @@ async function upsertForwardingRuleInADnsForwardingRuleset() {
 }
 
 async function main() {
-  upsertForwardingRuleInADnsForwardingRuleset();
+  await upsertForwardingRuleInADnsForwardingRuleset();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function patchLab() {
 }
 
 async function main() {
-  patchLab();
+  await patchLab();
 }
 
 main().catch(console.error);

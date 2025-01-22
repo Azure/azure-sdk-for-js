@@ -27,7 +27,7 @@ import {
   RaiBlocklist as RaiBlocklistMapper,
   RaiBlocklistItem as RaiBlocklistItemMapper,
   DefenderForAISetting as DefenderForAISettingMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

@@ -41,7 +41,7 @@ async function returnAReservation() {
 }
 
 async function main() {
-  returnAReservation();
+  await returnAReservation();
 }
 
 main().catch(console.error);

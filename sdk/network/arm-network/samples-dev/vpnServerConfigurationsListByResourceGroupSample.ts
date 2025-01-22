@@ -35,7 +35,7 @@ async function vpnServerConfigurationListByResourceGroup() {
 }
 
 async function main() {
-  vpnServerConfigurationListByResourceGroup();
+  await vpnServerConfigurationListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function nameSpaceCheckNameAvailability() {
 }
 
 async function main() {
-  nameSpaceCheckNameAvailability();
+  await nameSpaceCheckNameAvailability();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MaximumSet_Gen.json
  */
-async function virtualMachineImageListPublishersMaximumSetGen() {
+async function virtualMachineImageListPublishersMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaa";
@@ -36,7 +34,7 @@ async function virtualMachineImageListPublishersMaximumSetGen() {
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MinimumSet_Gen.json
  */
-async function virtualMachineImageListPublishersMinimumSetGen() {
+async function virtualMachineImageListPublishersMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -46,7 +44,7 @@ async function virtualMachineImageListPublishersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineImageListPublishersMaximumSetGen();
   virtualMachineImageListPublishersMinimumSetGen();
 }

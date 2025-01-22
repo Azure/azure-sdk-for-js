@@ -42,7 +42,7 @@ async function dataSourcesGet() {
 }
 
 async function main() {
-  dataSourcesGet();
+  await dataSourcesGet();
 }
 
 main().catch(console.error);

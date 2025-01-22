@@ -37,7 +37,7 @@ async function listRecordsetsByZone() {
 }
 
 async function main() {
-  listRecordsetsByZone();
+  await listRecordsetsByZone();
 }
 
 main().catch(console.error);

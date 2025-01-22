@@ -36,7 +36,7 @@ async function getExpressRouteCircuitAuthorization() {
 }
 
 async function main() {
-  getExpressRouteCircuitAuthorization();
+  await getExpressRouteCircuitAuthorization();
 }
 
 main().catch(console.error);

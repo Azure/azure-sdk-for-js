@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataProtectionClient } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns resource collection belonging to a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns resource collection belonging to a subscription.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/GetBackupVaultsInSubscription.json
  */
-async function getBackupVaultsInSubscription() {
+async function getBackupVaultsInSubscription(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -33,8 +31,8 @@ async function getBackupVaultsInSubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  getBackupVaultsInSubscription();
+async function main(): Promise<void> {
+  await getBackupVaultsInSubscription();
 }
 
 main().catch(console.error);

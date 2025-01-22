@@ -35,7 +35,7 @@ async function kustoListRegionSkus() {
 }
 
 async function main() {
-  kustoListRegionSkus();
+  await kustoListRegionSkus();
 }
 
 main().catch(console.error);

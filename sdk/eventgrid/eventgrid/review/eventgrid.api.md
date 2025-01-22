@@ -204,6 +204,7 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 export interface AcsEmailDeliveryReportReceivedEventData {
     deliveryAttemptTimestamp: string;
     deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
+    internetMessageId: string;
     messageId: string;
     recipient: string;
     sender: string;
@@ -215,6 +216,7 @@ export type AcsEmailDeliveryReportStatus = string;
 
 // @public
 export interface AcsEmailDeliveryReportStatusDetails {
+    recipientMailServerHostName: string;
     statusMessage: string;
 }
 
@@ -637,8 +639,9 @@ export interface AcsSmsEventBase {
 
 // @public
 export type AcsSmsReceivedEventData = AcsSmsEventBase & {
-    message: string;
-    receivedTimestamp: string;
+    message?: string;
+    receivedTimestamp?: string;
+    segmentCount: number;
 };
 
 // @public

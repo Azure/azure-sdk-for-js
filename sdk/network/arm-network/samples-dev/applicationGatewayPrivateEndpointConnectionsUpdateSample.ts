@@ -51,7 +51,7 @@ async function updateApplicationGatewayPrivateEndpointConnection() {
 }
 
 async function main() {
-  updateApplicationGatewayPrivateEndpointConnection();
+  await updateApplicationGatewayPrivateEndpointConnection();
 }
 
 main().catch(console.error);

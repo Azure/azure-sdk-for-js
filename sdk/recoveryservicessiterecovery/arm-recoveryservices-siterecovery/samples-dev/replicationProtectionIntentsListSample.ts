@@ -41,7 +41,7 @@ async function getsTheListOfReplicationProtectionIntentObjects() {
 }
 
 async function main() {
-  getsTheListOfReplicationProtectionIntentObjects();
+  await getsTheListOfReplicationProtectionIntentObjects();
 }
 
 main().catch(console.error);

@@ -52,7 +52,7 @@ async function expressRouteCrossConnectionBgpPeeringCreate() {
 }
 
 async function main() {
-  expressRouteCrossConnectionBgpPeeringCreate();
+  await expressRouteCrossConnectionBgpPeeringCreate();
 }
 
 main().catch(console.error);

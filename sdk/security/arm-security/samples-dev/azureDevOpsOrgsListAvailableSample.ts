@@ -36,7 +36,7 @@ async function listAvailableAzureDevOpsOrgs() {
 }
 
 async function main() {
-  listAvailableAzureDevOpsOrgs();
+  await listAvailableAzureDevOpsOrgs();
 }
 
 main().catch(console.error);

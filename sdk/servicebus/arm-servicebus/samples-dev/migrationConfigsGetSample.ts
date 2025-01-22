@@ -38,7 +38,7 @@ async function migrationConfigurationsGet() {
 }
 
 async function main() {
-  migrationConfigurationsGet();
+  await migrationConfigurationsGet();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function listIPv6FirewallRules() {
 }
 
 async function main() {
-  listIPv6FirewallRules();
+  await listIPv6FirewallRules();
 }
 
 main().catch(console.error);

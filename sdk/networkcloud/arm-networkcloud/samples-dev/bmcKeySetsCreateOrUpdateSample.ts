@@ -73,7 +73,7 @@ async function createOrUpdateBaseboardManagementControllerKeySetOfCluster() {
 }
 
 async function main() {
-  createOrUpdateBaseboardManagementControllerKeySetOfCluster();
+  await createOrUpdateBaseboardManagementControllerKeySetOfCluster();
 }
 
 main().catch(console.error);

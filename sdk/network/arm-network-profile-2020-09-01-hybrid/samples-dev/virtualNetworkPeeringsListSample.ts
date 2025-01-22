@@ -37,7 +37,7 @@ async function listPeerings() {
 }
 
 async function main() {
-  listPeerings();
+  await listPeerings();
 }
 
 main().catch(console.error);

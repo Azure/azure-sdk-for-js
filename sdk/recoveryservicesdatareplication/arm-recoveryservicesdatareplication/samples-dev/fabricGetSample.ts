@@ -38,7 +38,7 @@ async function fabricGet() {
 }
 
 async function main() {
-  fabricGet();
+  await fabricGet();
 }
 
 main().catch(console.error);

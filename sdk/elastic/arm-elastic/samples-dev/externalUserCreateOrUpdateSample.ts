@@ -37,7 +37,7 @@ async function externalUserCreateOrUpdate() {
 }
 
 async function main() {
-  externalUserCreateOrUpdate();
+  await externalUserCreateOrUpdate();
 }
 
 main().catch(console.error);

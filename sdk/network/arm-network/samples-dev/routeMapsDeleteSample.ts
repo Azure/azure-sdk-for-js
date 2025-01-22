@@ -36,7 +36,7 @@ async function routeMapDelete() {
 }
 
 async function main() {
-  routeMapDelete();
+  await routeMapDelete();
 }
 
 main().catch(console.error);

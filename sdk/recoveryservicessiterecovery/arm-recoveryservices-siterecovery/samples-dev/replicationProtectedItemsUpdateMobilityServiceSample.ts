@@ -52,7 +52,7 @@ async function updateTheMobilityServiceOnAProtectedItem() {
 }
 
 async function main() {
-  updateTheMobilityServiceOnAProtectedItem();
+  await updateTheMobilityServiceOnAProtectedItem();
 }
 
 main().catch(console.error);

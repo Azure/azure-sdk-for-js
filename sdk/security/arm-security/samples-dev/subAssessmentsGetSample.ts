@@ -36,7 +36,7 @@ async function getSecurityRecommendationTaskFromSecurityDataLocation() {
 }
 
 async function main() {
-  getSecurityRecommendationTaskFromSecurityDataLocation();
+  await getSecurityRecommendationTaskFromSecurityDataLocation();
 }
 
 main().catch(console.error);

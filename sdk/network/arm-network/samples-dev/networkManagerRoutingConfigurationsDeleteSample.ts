@@ -39,7 +39,7 @@ async function deleteNetworkManagerRoutingConfiguration() {
 }
 
 async function main() {
-  deleteNetworkManagerRoutingConfiguration();
+  await deleteNetworkManagerRoutingConfiguration();
 }
 
 main().catch(console.error);

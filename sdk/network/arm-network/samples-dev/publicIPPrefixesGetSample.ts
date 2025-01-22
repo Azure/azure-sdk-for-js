@@ -34,7 +34,7 @@ async function getPublicIPPrefix() {
 }
 
 async function main() {
-  getPublicIPPrefix();
+  await getPublicIPPrefix();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function deleteSecurityPolicy() {
 }
 
 async function main() {
-  deleteSecurityPolicy();
+  await deleteSecurityPolicy();
 }
 
 main().catch(console.error);

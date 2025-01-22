@@ -31,7 +31,7 @@ async function getsListOfServicesForWhichASupportTicketCanBeCreated() {
 }
 
 async function main() {
-  getsListOfServicesForWhichASupportTicketCanBeCreated();
+  await getsListOfServicesForWhichASupportTicketCanBeCreated();
 }
 
 main().catch(console.error);

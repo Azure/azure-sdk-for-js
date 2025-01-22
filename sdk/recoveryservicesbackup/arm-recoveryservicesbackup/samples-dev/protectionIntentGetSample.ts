@@ -43,7 +43,7 @@ async function getProtectionIntentForAnItem() {
 }
 
 async function main() {
-  getProtectionIntentForAnItem();
+  await getProtectionIntentForAnItem();
 }
 
 main().catch(console.error);

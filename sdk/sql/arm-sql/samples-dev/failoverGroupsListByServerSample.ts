@@ -39,7 +39,7 @@ async function listFailoverGroup() {
 }
 
 async function main() {
-  listFailoverGroup();
+  await listFailoverGroup();
 }
 
 main().catch(console.error);

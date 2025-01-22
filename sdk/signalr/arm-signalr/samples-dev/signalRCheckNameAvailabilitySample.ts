@@ -42,7 +42,7 @@ async function signalRCheckNameAvailability() {
 }
 
 async function main() {
-  signalRCheckNameAvailability();
+  await signalRCheckNameAvailability();
 }
 
 main().catch(console.error);

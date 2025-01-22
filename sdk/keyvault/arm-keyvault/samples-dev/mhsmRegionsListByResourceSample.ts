@@ -40,7 +40,7 @@ async function listManagedHsmPoolsInASubscription() {
 }
 
 async function main() {
-  listManagedHsmPoolsInASubscription();
+  await listManagedHsmPoolsInASubscription();
 }
 
 main().catch(console.error);
