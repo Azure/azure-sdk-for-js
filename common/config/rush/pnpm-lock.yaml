@@ -1364,6 +1364,10 @@ packages:
     resolution: {integrity: sha512-vGq9jXlgrJ3KaI8bepgfpk26zVY8vFZsQukF85qjjKTAR90eFOOBNaa+mc/0ViDY2lcdrU2fL/o1pQyZUtTDsw==}
     engines: {node: '>=18.0'}
 
+  '@azure/identity@4.3.0':
+    resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/identity@4.6.0':
     resolution: {integrity: sha512-ANpO1iAvcZmpD4QY7/kaE/P2n66pRXsDp3nMUC6Ow3c9KfXOZF7qMU9VgqPw8m7adP7TVIbVyrCEmD9cth3KQQ==}
     engines: {node: '>=18.0.0'}
@@ -1383,6 +1387,10 @@ packages:
   '@azure/maps-common@1.0.0-beta.2':
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
+
+  '@azure/msal-browser@3.28.1':
+    resolution: {integrity: sha512-OHHEWMB5+Zrix8yKvLVzU3rKDFvh7SOzAzXfICD7YgUXLxfHpTPX2pzOotrri1kskwhHqIj4a5LvhZlIqE7C7g==}
+    engines: {node: '>=0.8.0'}
 
   '@azure/msal-browser@4.0.1':
     resolution: {integrity: sha512-jqiwVJPArnEOUhmc+dvo481OP8b2PMcsu3EtGtxt7sxmKgFtdQyGDCndj+2me62JVG/HEgArEgKyMA7L0aNhdA==}
@@ -2477,1651 +2485,1651 @@ packages:
     os: [win32]
 
   '@rush-temp/abort-controller@file:projects/abort-controller.tgz':
-    resolution: {integrity: sha512-QRUK0l+VYxjpO6PTQ7r/3e2t17eBGGXzCvqD0FItkYHsULciSbI7Zdd9WjgtUFK5hhG8A7T9Q6hfESxaxGR0/A==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-inOK0IDzNjhJCxNtXMwY2eyj/+07PyQMbkz/iORUF4HNCdDTWa+fu5Ds7hKmYumKaBuA59OoVT8Zg0eQdI5sjQ==, tarball: file:projects/abort-controller.tgz}
     version: 0.0.0
 
   '@rush-temp/agrifood-farming@file:projects/agrifood-farming.tgz':
-    resolution: {integrity: sha512-OZ1UD3dftMcM7ULZz5v/a3qWR+UPHbs2ESUwjX5StkVtm8XpU313C78bddczEaVaIhpxMHFZcTvRf21EanfwYQ==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-XmWWhmKx063xH72obyeSwvNOGAnc1Qfs1chQxrDDHB2NseKyh0haT0zQCE3qz/x9LNKmOdXBN+v7znu8eeEQ7A==, tarball: file:projects/agrifood-farming.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-anomaly-detector@file:projects/ai-anomaly-detector.tgz':
-    resolution: {integrity: sha512-Q+Whgr+i/ivWTDoI4BhAKmQA416FaFy775n+Sxs90IM8FiHJ0NllD8goBDDstQy85biY41f/8IYzNrf7LLlQQw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-qfM+y8Kg5cH/3RwzYWFr789X/MV4e4xpMM8wJrZiS+NFX6EQ1fgCiFPHMrhJYPew3kxnbPdlcTwcTdAj/ohD/Q==, tarball: file:projects/ai-anomaly-detector.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-content-safety@file:projects/ai-content-safety.tgz':
-    resolution: {integrity: sha512-xOpgdfH/OsMtcMu4u2C8aa7uxFogy07yAmnWakmDcGburi1wqsmrBybVYuuY9rQ65yzhxNMbQGaoVJEknkWnnA==, tarball: file:projects/ai-content-safety.tgz}
+    resolution: {integrity: sha512-FX6wXp57yRGxkIA4qemWxv2tguVfwOUkkHGrPzhFWARJsJwy6/ExYslVdpgVetK93Tr5tWanhEY8xETOatcd+w==, tarball: file:projects/ai-content-safety.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz':
-    resolution: {integrity: sha512-ispYQZFiwz9Klyiwz6neFTYlCKMOl4KWEq1WMkkyVcUsGjhRuUMopJKWe6ZexqlBNmgplKAxMIHZ0wCXO6CtCQ==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-7FdhbDtNNk00dLQqseGZaEPVzjzy5TfS8pleGy6PQ9pzx5A/zKlT+AGIVWqQ9zpSdMnorZZRNw9YDrD000PYbg==, tarball: file:projects/ai-document-intelligence.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
-    resolution: {integrity: sha512-bnwr7Q34tX4tRdCVV2NzPu3aTLgPLPEtKNIMFQYGr8ouRQJ0+PM2xI/3V+k5Dc1WDIpqKk9Xe8iJOfeVdVHclg==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-IeYiViG66P0LD+9BZ7+tC5X+kwHYuDKVP11JKnRCA8kY+Fs0c407YoU93/WEhiNTmN47BzeZRR7t83QcGATjDQ==, tarball: file:projects/ai-document-translator.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-bkDBegrU9fJ8Jj3EwR71DkjpQuBAjlX8zMljitGeQbeRHek02H82i2HzGu7bttXb8WVt5p4GPFFrbjen/xPN2Q==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-x656XYfo1kYLXFDINTN5i1shyVHgmIIsF1sSDepkCl6N47azOgJsB2PeC6py6QfkPzV97k1UYApOcTEF887H6w==, tarball: file:projects/ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
-    resolution: {integrity: sha512-grn7K7vXfcTU6es2PmnD5CQuoT58UaroQPLQi8R9AyFqsfsjdMW0FvAC1oTq9iiIeLNAlbLRfsIDGk2kZk40/A==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-6ssdqmxA9GpzGnE7x+TzqZqs2KZz/Pp5iU/hNEXoKy4wkqb4bcJPUUzDode1sOxXtq8KoYd7DXI2YSNdToYxfg==, tarball: file:projects/ai-inference.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
-    resolution: {integrity: sha512-Y7ed7NEWS0EBZWnINiRB1JNibnN8mBkKJSZY4M2wI3txRkV4rZ+pkhLS7iBerdNTZuRMxSFAPXJJsbqD2OOW6g==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-egh4aM0N14kJVf290bRuh0n5p3vmU/Y1i00E/ZDD6oIctCgsVB9grS/ReFEb9FhZSnhImvtp+e0tVqZsRap/AQ==, tarball: file:projects/ai-language-conversations.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz':
-    resolution: {integrity: sha512-6aROiyfnwAX/GuRrxnLKLfQ/CKSGC9tljvcpz5OEBQS1uPEgt+BbNM/r85XM5taIQ5JwPNafXqcUv2jYsUTgLw==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-inqn21oiqUeaxoTvvYv3XPh/Et5gVw/XNxbIde0z5EJ5XXbjUSre17B/K6SZcLpCbis4WcUFTUhuNXlU+GsIMA==, tarball: file:projects/ai-language-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-textauthoring@file:projects/ai-language-textauthoring.tgz':
-    resolution: {integrity: sha512-AKfou0g1IamzUYEZVBpU8BgUfxcgog4Ovd5/JrxmJdBhSKk0V5yjP58U+DbOBToH5DYd0rVjletMjGDdv3Hekg==, tarball: file:projects/ai-language-textauthoring.tgz}
+    resolution: {integrity: sha512-/tGthE/P9/wldj5rGuBjFJFbSHv0QAIPcnSVewqB9WelkZvrIS/Uuj/HJXriUdYD6pZvoh9JG52PQPiJL0pkSA==, tarball: file:projects/ai-language-textauthoring.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-metrics-advisor@file:projects/ai-metrics-advisor.tgz':
-    resolution: {integrity: sha512-AxwsBkChyxD6pZwEvGZ+wI+pSeBCd+DeIa57nIIJdvZnIE2o/FE14B7NU1lPMlPPm7nYtXzixlZveFP1FhdOLw==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-Zo1wv1388D/aef7yAxbIsYeVShRTv2b/h5c3cFbPzAE31D+24L/xdX7kVT39ohQ4VWOM+e/O8bSYzlkf4E56rw==, tarball: file:projects/ai-metrics-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-jX9jnJ8UnjP+g782LrakXaxeKmtKHurgHsBCzJrA3Nh7zQrNJR8S4/bBemG1COmW7tD4bxO4wgahJJ77or/wtA==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-JlEqcnXPIPsXMiZGUmiZcDjnFIMv7AoG/8+RbG+KHqr4ijQsJZlbqjFYTALZ7T1jauYiF3o9zFX2xJz5EFswQg==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
-    resolution: {integrity: sha512-W8zFnKDK545BnmEU/GV8nawA/ylUxHQR4U05wtmWfIvk0x1CsQGhzy+OljNVuZjYqiWwixK5yrRRaxfWUHifAw==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-IeJ8aoVtY1Ip0TAR+4BSOJGJoNiTZvum1jEeFuYBY7Bh+gS4Nuf563Vo71iKuB7jrci9yqjZaTO3cgUjuttWMA==, tarball: file:projects/ai-text-analytics.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
-    resolution: {integrity: sha512-A4YsJqwzk9MroVkL4FLwI6a72rapOZ73c1mTIPoN1SshgCmnjSemsjM+Sb9E7tjY2zQFFRyB5x81vr8T2ld7zw==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-Ej2HpWjjJJL2Jn+pC3PToCazWb1D6HxKeVRg1jMW4E0TBOAL39/cCB0FfAsAXiL4qOWkomcj10Y4Eq9c6efkhw==, tarball: file:projects/ai-translation-document.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-text@file:projects/ai-translation-text.tgz':
-    resolution: {integrity: sha512-KTLP3Z3PXY0OE1/AiIllgWxbxgorvCR8/9hLAmg85soexVco7nbGMGAVb/29DBiZYPbUndqvz5ij0BetrZmWPg==, tarball: file:projects/ai-translation-text.tgz}
+    resolution: {integrity: sha512-Tr2CwAmumvdRKU0HWG1ChvNGvvLBW3teUhn1g41lhG4z6CCLm6J8yUqVMbFBX80EsPMXwIhkh+di3f4m23IHwg==, tarball: file:projects/ai-translation-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
-    resolution: {integrity: sha512-L8az8MtIIvL5o7FEZCaEbkp8M35tjr2hh4znuK/P7TuaN1ZbizrPw9FQHl7fgo9wgvmnsc/VVjX+KH7MZVeTvw==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-na7S41VeWaicvQxibcg4BXuDUdKCU6aZlWOgTnDVDXf9WSNuo0hfHSX0o74J0brz/mW1GmGekOdfssJwJacUbQ==, tarball: file:projects/ai-vision-face.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-image-analysis@file:projects/ai-vision-image-analysis.tgz':
-    resolution: {integrity: sha512-NFXvJWrKpUAGk4agWsBBlK6TYlzrfNyWGKTQW3998XBMalRFTbLrHC+KPdCfuCOB3yudDdgtlG2Bz0O8uhAIpw==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-sEruqE1rsLur6RAFrlFC7KsN68YHW/grDXpQcnZmio8i5M5KiW0y3I62Pw1DGkZ1xJ8aiXhaW6dx3LkYHQrlMw==, tarball: file:projects/ai-vision-image-analysis.tgz}
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz':
-    resolution: {integrity: sha512-X7hFy0az7KDpzacRqi41kddtIE8nPQYGR5tq2mdaQiZp6PN0fSemUD0F7WaLu1eOs6mjOSVkg85AX0RFgJKHgg==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-l146+DDt6eM/PkzpOoNZiqRrsE705lJFQTEOk/k58nnntl3LGcRcycpuk0qGFOsS8idC76lWLOo5/HNeGpelZw==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-tools@file:projects/api-management-custom-widgets-tools.tgz':
-    resolution: {integrity: sha512-AEfwhZUeKMqpK3TUJk5fUepqPOwwGjkKZJFyee5ooAU0KKoxONonLyznAbxVYcDLGUqzXARI8GxsEeSY6P9Isg==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-BcYvpLPrQp6jHDTFy5HKbT8MkhP4B4JBl6u651bICbCkQgWp1EEdsVekHuIzORRGebNWAqYy13aLmlmE9yO8+Q==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
-    resolution: {integrity: sha512-6nXAnRtNwDQx/CTCcCLlLdV1kd1dbR7mp7INH5/2flQMgw/K1twdg+tCIBbQEGXU2Yow/VOX8TDXXbLTF8ng0Q==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-KVwTau7QrcGuvYUSxfnkK7qnHGhK/hHhq2U5P8S/NiQixpjlPoR7ZJ6juoCPMfZeGJROEcA8YN31WJawrLcySQ==, tarball: file:projects/app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
-    resolution: {integrity: sha512-DSmDhGai4HPlrXuT+XuOo23UXk5rGNWK6MYU2DasODsLUEbzpyHacsH3vempWORzjXJ8/BQipeCTBg2AOReE0g==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-W7qIaH8z0UclOaxGQ+Y5Klw0aAYYim+HxfqeOaAsANC595oktvP8IHrcZcA5o1A90fxGCsJlqEbmwFrlVmynfg==, tarball: file:projects/arm-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-agrifood@file:projects/arm-agrifood.tgz':
-    resolution: {integrity: sha512-Kv3K2J9hLs9u3a7bAIHg32VOovsjFMkNX4YyPdtzl8nvbJDbkWbgJMldGePCsVfQT/gKt9rb4FjQkuaEOnoXAg==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-WwPWCYkdlDr5j1SSYwEkK93U2sla0ta922zjKoC55GmRF5GVqiqR63LmK1SvDHQX6nSxhWshc9eWjlmtUzOGkQ==, tarball: file:projects/arm-agrifood.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-analysisservices@file:projects/arm-analysisservices.tgz':
-    resolution: {integrity: sha512-KOPovqzxtFRHWxuynP1VXcwLHtcuPqpQucJ301SHBKEPodN5jM3699wc/Q+ByUL+Rbbda+M9vsTnUA9o4cEPxg==, tarball: file:projects/arm-analysisservices.tgz}
+    resolution: {integrity: sha512-rFCgi8YpKxwEstpA9j74Uo6xeFRhQIjzyXBC8HlcSXw9LxUp3fxEupqDtlmeATLeKkLc+zDqPQGNaSvPmUhu7w==, tarball: file:projects/arm-analysisservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-apicenter@file:projects/arm-apicenter.tgz':
-    resolution: {integrity: sha512-15A5ivtSWTZ75Ev16QNA4jGVSb8pv3EZ4jif8RhfShiTAn8EK4S6fVqB3C0254Yv05PAqqjqspplpLWHqkVZfg==, tarball: file:projects/arm-apicenter.tgz}
+    resolution: {integrity: sha512-dBkig8b1YHVfpNONzgfZoGZRxDMj/VuiH6KGfxhwqTJ2Kh7MPwpDbWN0u+tCvAKJTF4/V7zJRtP6xdGfUkyTSw==, tarball: file:projects/arm-apicenter.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-apimanagement@file:projects/arm-apimanagement.tgz':
-    resolution: {integrity: sha512-Oo7NsnCPAlo7YDMq88CdrMM+T3Ul6F7PyjMSQ3BJzua1xVx0Z3ZglwoW4ca7SNdJaPqIjdtInqMltmTdc4V4zw==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-vbMb1n4aeMuuJDQou+Sk/SaqPBbBOiomOnZn4W2XqZ65aY2kIsOm36Tc/V8EbOknf7rUMNx6vrEzVu2j1LKP9Q==, tarball: file:projects/arm-apimanagement.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appcomplianceautomation@file:projects/arm-appcomplianceautomation.tgz':
-    resolution: {integrity: sha512-zB3KF5bcZVyCGC44uZFL/cNLbx9wHvVSixB+MibWs/vUrYJkSjn/aMAla40Y2ohdvSG0MQErrrykZ6xh0/ZzEQ==, tarball: file:projects/arm-appcomplianceautomation.tgz}
+    resolution: {integrity: sha512-xGCBx6lGvFThptQt5zxEdq+v6KRukbcK7iB1IR0ENbVlfoMC0KrG6e6wgRXoPW4/MCGUfBKZRlcePoudTtDMpQ==, tarball: file:projects/arm-appcomplianceautomation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appconfiguration@file:projects/arm-appconfiguration.tgz':
-    resolution: {integrity: sha512-pmi7ap+q8tADL1LxcvhDaiEAe242HVLkZn7rmU39BiRiY7EhVUmT6BZQoSbenjXTAPtrki+wdPrnUyi3Fi5bgw==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-LM5+1v1ivRFX5IQht1RN7jQD99NtGF11Ar4793+4n74NaJWnXN73EMxk3omPhB8pVBx1N7jrzyNbKJB7KrmBJw==, tarball: file:projects/arm-appconfiguration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appcontainers@file:projects/arm-appcontainers.tgz':
-    resolution: {integrity: sha512-PEgH/7Dtajr6+Cl8EOxtfpPUqAh01KQbma54i5sPT3C3gg5H3JEKl9N0pWeqtVQkuRhjGRHVpuDglai7t7xjOA==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-rIauXlhB1t0HYn7j4efzgVcYkJtUYjGwbzBnmtT4WqLvHw5M6ByKUmx8Q8s7fyGRbI5qJDpY9ghDUJEY+9jbzw==, tarball: file:projects/arm-appcontainers.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appinsights@file:projects/arm-appinsights.tgz':
-    resolution: {integrity: sha512-r+9n5vKxjXg9Fcbk4QOD3v0a4bI9uQwKRRFyCmklf+UvOGHHDH4H3KgXLhY0U0MuY03mczERTNZeQ5itA4j6Mw==, tarball: file:projects/arm-appinsights.tgz}
+    resolution: {integrity: sha512-TgVjOU61QcSiwrUicaDXqyvYwPRNTE5FREthCZNldwmU8OEMi3DKVszRl3KeMA5xps1hbcn1mbFjw1uTPextDA==, tarball: file:projects/arm-appinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appplatform@file:projects/arm-appplatform.tgz':
-    resolution: {integrity: sha512-MAjDVwNRIa2pRHOTitorR3PglJT0Ba7mnsO0O09njccaS+HrRmQ5NNRuYtUTCgaqDQXwWmsdqW0398Fa91zQxA==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-T3CgmVmOYD9C1PxDmEp4KxKEAVH1ivpu1p3L/SDg3C7NpkYbQiCGvilceUTrkWOyjfZBjc8YU2/3phEq8OfmiA==, tarball: file:projects/arm-appplatform.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appservice-1@file:projects/arm-appservice-1.tgz':
-    resolution: {integrity: sha512-I4PTx+1nAQHr10v5BssfNbuvr8uIS0psZxPHDxXq2WjxJcH/SGHK0/o8kxg+Vlc3n9xkKUoc57CKa+HIOLImQA==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-nkUqo3/i15UtncoID2QnFt1T/WSSx724dNI93MYQqXt2/VwYKK66Kk13QmpXtHVGy8sxO+iXHWFztfXxigpcew==, tarball: file:projects/arm-appservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid@file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-lDv0cHKSGmSI+X4j0VNvpp2NbMvWbS9a0axsvkBt3IBPOGTc8wFE57AfKaf3L0fcnYMOnJ5gcpffVq4HJrgZyg==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-py40m/1TOcPHIcQvwYo5zLhLKenpT84+EbUn115vVPG4jtDaRNt5SKQ44d1ao9kHZJ5/0+0/Kl1+E2Eo0jW6nQ==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appservice@file:projects/arm-appservice.tgz':
-    resolution: {integrity: sha512-Gm6IVeuX/G1I/uOsftFAnsBpD6gRm6C6JIPLxTGuChrbgsI9a5jAe1jC9dj9ExIMjFEYvu8zsCcFuFNJTJ1qKg==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-vLrpeYbiK1GQfmMM62CraQSubDxTFxnXXEy6rDF7ieP8MgExDTDeUYdHvH3wzhqMI6PdVYJIeL5q1hplRT61NQ==, tarball: file:projects/arm-appservice.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-astro@file:projects/arm-astro.tgz':
-    resolution: {integrity: sha512-is0RVAScorqjNo3WmKSVd7HLbrap70UP3wG1tg/hBp5RS3kM6RF8M5oz5GHvFcj0m9l4JUo5+HiYawSUs+E8ow==, tarball: file:projects/arm-astro.tgz}
+    resolution: {integrity: sha512-MF8eTtvrPE2edmcg7EZGftLEJdRwUZKoMEam2d02QOOV6TbiUKzyX7qGYMs7q5Arv6UXvwlYOzCoA0G4zHYYQg==, tarball: file:projects/arm-astro.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-attestation@file:projects/arm-attestation.tgz':
-    resolution: {integrity: sha512-c49aETj0/SZkOHpP5mFVh9EUY76XyXM2wIMyqd/ZK28xpjxFkFiu4djXyHjSU16XBDL3CHZu/jhzx9JJAbtunA==, tarball: file:projects/arm-attestation.tgz}
+    resolution: {integrity: sha512-onEJ9oluZZDMYExJxX2fbRoYtoYtvU0x7PAGmoo2l/El4YGZ8Px/AoZ39oOww227pE9NulA/A02dakh6kpMXNg==, tarball: file:projects/arm-attestation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid@file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-HDgQwU6NCxxgmh84EBgMyzdicHx39dso+Wc9GVOR1sS4/O3P7TM15UomoAeiTxKWxIgZBsvjLtL+U2Reu1xyQg==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-GyetSyi0PBof6fbQVFFsgYuLkmDGtbvcybldBv993ekU2g2ol0catbN9282iGiadQ9dmPk2nedxUfrKiUgXHJQ==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-authorization@file:projects/arm-authorization.tgz':
-    resolution: {integrity: sha512-4R1UfsebEzt2b/hK4mGRlUB4qYkF9qLrdUf4bJy3MRzhXwRLnPDwO0UcHQadD4fnoONW0E/MJAFc3uOt/WG7vA==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-8SN3CCjcZ+LO/a3Ha26NzvXGAhEA2mWm6JONtRDrD7+FLGzRo7ERbUkjKVUJWz+W4mAsyLY78yOJGq8VUAQMRw==, tarball: file:projects/arm-authorization.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-automanage@file:projects/arm-automanage.tgz':
-    resolution: {integrity: sha512-Y6D6rLzH4wt38kZLGx+OYbraVF+rRmQiM796PtQImS0hgBULKliq1pi3oU0L4UN991eEkDlwaapf31fQZh/JgA==, tarball: file:projects/arm-automanage.tgz}
+    resolution: {integrity: sha512-EFIPNGVyWMuu1wYVLGEnP5RnEwkNa0305J/GoVnwQdGvykgBcDxoBrH6LEyXHY41PmOl/U+Cd541pqKBRbvaMQ==, tarball: file:projects/arm-automanage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-automation@file:projects/arm-automation.tgz':
-    resolution: {integrity: sha512-8Dopkf/qw7AOx/DSQxd2Kw7MVBORcsCnWIgtorrPzKjESPpbFd/KyGjPQ7X0geW+2tcfDp2T7PLtkW8CL62eEQ==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-MU7dIQm05f7Wx+hsryYHc/KtVsb3GS78FUusfq8VPMz1wLV/ZM7HrNojUgqSa62bz91gkhb3nUK1CD7DZsrCuQ==, tarball: file:projects/arm-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-avs@file:projects/arm-avs.tgz':
-    resolution: {integrity: sha512-wR71/JR7Oz/5U0AL6ttKi32b4blSVYQtmQscr5jwNI5OY1gqNGItcvAx1HrL8LcTlmQ0ZxLudi77I/dehOnvag==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-SwnzB4xPGkHIEIBVwpe91YjUpN3hjWC4WNjcwywI5gOZlH5djGBGMNjkM+QiHQYGwkJ+n0wHd03YqlyIof2dQw==, tarball: file:projects/arm-avs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-azureadexternalidentities@file:projects/arm-azureadexternalidentities.tgz':
-    resolution: {integrity: sha512-rY8anXxMj+nGBp+w0RykFvmVLSegL8pU5cWH1qp4HWuBc88nGCqvltxymvh5w0/IJz770tjzZwJ9UAJacEaLig==, tarball: file:projects/arm-azureadexternalidentities.tgz}
+    resolution: {integrity: sha512-6aZ6WZrsVUrwEIyKVGaXvcVjlCcYb3Xsg80qkBX+meKIeDWh9rlQPHfltPNvVEUDo642tAYKM0lmt5nFqSSd5w==, tarball: file:projects/arm-azureadexternalidentities.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-azurestack@file:projects/arm-azurestack.tgz':
-    resolution: {integrity: sha512-PsIwMRHAJA1aUJbL6XoEojSrp2yfw3b3u9eFZWWwPMzO6mEbVO/h/Q8fUNpwUbnDA14O8AIw/jFC3e96SMnN1w==, tarball: file:projects/arm-azurestack.tgz}
+    resolution: {integrity: sha512-5vLvZwRKz+WMQpjVtiiTUmQ2jt7MeGekeauHBLqaBUaO5QTUmFU4M+lx3tKBgjc3869q+WKC/S0jwLUWuNcU5g==, tarball: file:projects/arm-azurestack.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-azurestackhci@file:projects/arm-azurestackhci.tgz':
-    resolution: {integrity: sha512-yMhbE9fs6pajsrJ0DiL5YXV51TQtMT0wPNodb8o3zLmqSoldtDS3hmjvI2B9DxP42kQ4mutvNdrfQGZg1lFZ6Q==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-p0Zs2jdDLk4qBW/GnqaNa5eQuo/R3/sEg1TJJImeWTjR9z7orOgIu8iBrPllDcvxTADat+qUVt8YOf45aE7dNQ==, tarball: file:projects/arm-azurestackhci.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-baremetalinfrastructure@file:projects/arm-baremetalinfrastructure.tgz':
-    resolution: {integrity: sha512-twqtvgMZ4e7UgkVOcSc03qo/TA3dfIEDEmYSSFOxcbElCIQXu6N2m7mk6Cq/XEXMPYkXZgwzUBPrys85pFSEuw==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
+    resolution: {integrity: sha512-JmlGLVZZhch2gR9kgbyrAeIrgTn6vW7nKxnooHTkjP2NDm5VsCX6LZ+mfvuLmyRYBo3gsjNwN+VIWQo658BMfA==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz':
-    resolution: {integrity: sha512-BzB1I2O47TVQBQyrPl4R1ph4frK5KnawVL76OH4ol6tIHZRmgBlQ7MWLDiawiWIxM4VHFg6yYgAzDgrJJM+GlA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-ItoFzj9oNnregKYOdLoc345jv4hMtamQdk2U3IQsde5c16jGFt9Utz8LmIe2+265VySmcVmL4hacOPBxjiwcMA==, tarball: file:projects/arm-batch.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-billing@file:projects/arm-billing.tgz':
-    resolution: {integrity: sha512-VT2QWRjy/0LEOjE9SbnOf/HYjbG8MIyKPnDY4uzton8Rp+Nl6SINd3SxAmWt0KCeSBSdyCW8Q9gJS2jGRAgwvw==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-dS3F/qXLY+8aUsNFVHZzY5hbVBZ62kAR3g3UDmDbYxamxV0qBjmIJJ0EodkV5gVSsHmAdKkblxqOuShEVNFuRw==, tarball: file:projects/arm-billing.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-billingbenefits@file:projects/arm-billingbenefits.tgz':
-    resolution: {integrity: sha512-2fGS10irsUHukhJHyuL02Y8qdEcHVdJn12futyBta1Fg9uCGSBr4X25rKU+JURZjaSMe5eX+isIb7Ub8uoDgSA==, tarball: file:projects/arm-billingbenefits.tgz}
+    resolution: {integrity: sha512-2IZ9TmGLujrULjCeo/db7E0Spdyqscx9sao61EZdsXuvTVqU4SLiYniWe4WEMJq+2zuAyalOVtVIyx7W1EWj+Q==, tarball: file:projects/arm-billingbenefits.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-botservice@file:projects/arm-botservice.tgz':
-    resolution: {integrity: sha512-rTHRIM3Q7hmrWBYmhNA+gFW+iFRqJMfw9sduEU0DL42kxyunWGzXYq0GB464GAuGI+K2tZMRP8Rfp/jU05VKug==, tarball: file:projects/arm-botservice.tgz}
+    resolution: {integrity: sha512-VB0+7Nl3DP5bnafMc+sFkuPryPHnwIRa0/q7OPA/swbm7FbSV6863SY+aWwsYdZoY4b50MJ8209QZdWB1X+74Q==, tarball: file:projects/arm-botservice.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cdn@file:projects/arm-cdn.tgz':
-    resolution: {integrity: sha512-WrQT2JhelE7cpg5SywkXN0/rQABtPhicBmHVf53Dd0h5WCTadaiSnYhMFZwyUg2/JGBd1fKBM6FpZUafxKM6CQ==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-6JpKvzPDa8AD/5N7ccfv7ED2mVWtr6KwG61lilPNPW/5HsGRkiynUDu0W4gSFxde+6bH32pJlwaR1uTCM5D2aw==, tarball: file:projects/arm-cdn.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-changeanalysis@file:projects/arm-changeanalysis.tgz':
-    resolution: {integrity: sha512-Dl2DHZsY+AnyS0zv4KEnrMb9eAB21eR1Ihnp1tMm7jYEs3EegPN71msyMvMZszUhZbJHLHL7rUdjufzK4q5ZFQ==, tarball: file:projects/arm-changeanalysis.tgz}
+    resolution: {integrity: sha512-/6I/XvRZVkOk6KSTj9/ba7psYWDZajTxhNyc1roeCZhqWgoiLs61qXAfZxDKmwBITFnOPaBO7OGsqQ/10XAaeg==, tarball: file:projects/arm-changeanalysis.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-nLiXbh0eBfBazoWR3AWVC1Y0pFC4Bh492MGNAb9GldRpa0yOmVzjoSdDAvV9iZJQ+nh/WtXrnoAXhLSrEcLhoQ==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-6wMAvDQFnHIfoC1Bm03CRBYq9QtU+PnEFRxPIf1Mw/Q1qHLBoWqsXq0n9GuI21vY6zcGrNp6D8m8ueefA1c2PQ==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
-    resolution: {integrity: sha512-J7dLLXeu2Fevn8SlKPSQt2SWNlP8JEt2Os8x+Jp8CitAJGtP8cJtNAS2ua3kxnkC/V3P2oRLlsLdT227f2y5Ug==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-YDa/8ol9PEOOiLo+bHCgY8D729+QE3djAKzwIRdEhyAU+I17FZIlurKjkgQqlXkYzgsQ7mWThuYHwOrffy1h0A==, tarball: file:projects/arm-chaos.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cognitiveservices@file:projects/arm-cognitiveservices.tgz':
-    resolution: {integrity: sha512-/yN4NCbj4d5G+FzH6mFK+rf5lpAyD+9xoxF41lWs4POWBr08H1vFZtla1V0lttZ4bSkG5pvYxyvayfw/EYtJLA==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-dsIU46IyHVp2AeDB3a9pp43p8+ck3V0xWEaSgcJsBj2bc/WaOTh2uDcPGZEK2nthbTuhx/+angGKYBvc/dbmnA==, tarball: file:projects/arm-cognitiveservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid@file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-qbHpCPlW9aqZSg/D4IXUr+J/YAzvAgD8ujq5FQ80VPHUnw9ywUqNwf/Zh4AGuGA/AIMqeTJU6uP062YAGekT8w==, tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-bTaRR6qfRXFB4ikVCNE+JFiA0dIOPl1dFBYeBRuUIKL7Zat1M+BUiWqxOIIAtsg6UsHKQ/9FT5pRxEqpkGDJyg==, tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-commerce@file:projects/arm-commerce.tgz':
-    resolution: {integrity: sha512-G/zUXO95sa7K8wDXohSMN63cj70gNPlC6bcDXLN2m3wQzpcZZuuAR0gc/SidkjtekjjsNAWLIxeMHxvoALVzwQ==, tarball: file:projects/arm-commerce.tgz}
+    resolution: {integrity: sha512-WD/BzTMWJy8bQuexGzX/BEz/db8SjqFxoJFClA/Ho+sd8RkAXIEteWEToOa0bzWP4SYuOS0EyHfWkHJ03KMXpw==, tarball: file:projects/arm-commerce.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-commitmentplans@file:projects/arm-commitmentplans.tgz':
-    resolution: {integrity: sha512-Y/34ECLtb7OqLucqlGDMkOnvJHbr9z+XVe85pZhlVSCRToPPRAgyhqjX6Tzl7QmlW9IRpYa6VQ0BmC0/r1KoSA==, tarball: file:projects/arm-commitmentplans.tgz}
+    resolution: {integrity: sha512-dV5/sBpHe7QNHuH6T195ZS09MxRI6aHigW7X0Q7+1hv79d8NgV4xyHVECxinxQcxJceWovwfXcjBb0i4BNgXEQ==, tarball: file:projects/arm-commitmentplans.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-communication@file:projects/arm-communication.tgz':
-    resolution: {integrity: sha512-5jnCqpuY6z3rgWgy6kM49tMQ8GmBuuhmHfmTPkELkUj/SY69lfQO199xWweZNLBANjPQ1oV7RBow/mDroYiOIA==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-ImQIsrqpQcF5dmWarLDNE1ak7tCQ/fHLf08210eOFiuIvKAm6KyGRCMxHpmtj7eiRi7TzdzXGFt8j6mwTwVzIw==, tarball: file:projects/arm-communication.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
-    resolution: {integrity: sha512-KCS+2o5NlcZoySjnrvsqFeXBXVm6MuIs0Vnx/NL+/nQCnaJGPku6mDBt/PddG17CwWSKdzrTXZFL40G3wDQxcg==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-35ullpVFDzFPsCAIz31HXEIqBdmx6YAgjDY/tWGpZSu7xybaQW6FxD2Hzyky4+jP+J2cufWmNqJhNSS1SCFU8Q==, tarball: file:projects/arm-compute-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid@file:projects/arm-compute-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-wRV/k7u9s/kzyieYNmYuR2X12M8hAWAodvJKU9GMPWdqIDJ1yGlC553Zsd8FGDthMZiayOSRQk7wHp6mV3SKUQ==, tarball: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-qzvIsrkh9jyIuT/cq5m/xJDRPHkHunY704P53q90giIXgLpfl13jhfowOeHoKrEc9L6TdERQUvBT77lp6OieWg==, tarball: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute@file:projects/arm-compute.tgz':
-    resolution: {integrity: sha512-8uP5wM8iPPLrEHbLFqeJrbVXgyPTKrGEWoNKy7SZhBZ/bQSZfJ804hgllcvqSOjX4ElmcN/Oj6eaNC8lCyMzsA==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-wu81aF7P3+lPl4ZaTy0tEEcLqw7zM/m/Xnqqmaa3hpmZ4RzhK67KLrNf4JueZbddoJiHA5Z87OjEaeEY6d45lg==, tarball: file:projects/arm-compute.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-computefleet@file:projects/arm-computefleet.tgz':
-    resolution: {integrity: sha512-dHEiVJCBXoDiwRqnRqCf5ia8PtkGBLUuYc0aJSreNxdDbAAncfEfHBY2o38AGVWpCU6FlIrhVsrA2x6C3mlaUg==, tarball: file:projects/arm-computefleet.tgz}
+    resolution: {integrity: sha512-7v7SabMsYnutAoBzjnIoVv0k+7MsMil/LM7D4sspPnXEKoGsH8g9ipaN8nyKy3rOjnHbRr6tzCqwM/Bjx6V6SQ==, tarball: file:projects/arm-computefleet.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
-    resolution: {integrity: sha512-ib3pXHOqIcDQ6gtwwYl5zxa/HVC4zt6G0McgfgKemX+qsXm6XDFNsah1iDrmQh4G3Gmb2/4WDtxhsff9DCqzww==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-VmmotR5oSH9qRpsEOVqlvNa9ZwKq5uFgbcg/gcBeCH1s65/1sciVYkZG4QBPD3kQZo0zHa/KhW/UlckmUJc1+w==, tarball: file:projects/arm-computeschedule.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
-    resolution: {integrity: sha512-F9LJ1sU+TSXq23Hu0kEU0Yci+whx3ChOexjLN1Sv2Gdw1W4QGhiw4mzSCAvwCgTECs06GRT+ZJy6KWSnKTnO0g==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-PM+slzotLobrCHIJUJgtl+ZeOJPXhmRtVnqtEX4SYCgpwyznJ2CbBmWTDWG0OJ44AWUMIl/Q939eFyt1gGwe+Q==, tarball: file:projects/arm-confidentialledger.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confluent@file:projects/arm-confluent.tgz':
-    resolution: {integrity: sha512-NI//5Rm5hBgIm31n1gwgemriqVsjYM6a2d0NtQD+bVCCO1sps7DwjO/6X69xc01cqa4pewD2XzxSBAAC+Dy40g==, tarball: file:projects/arm-confluent.tgz}
+    resolution: {integrity: sha512-Iko+jxFaN1uSB76UhWs/64OH4DWUZwxLhSP49hx/s9e7bmgwS1NZvWVPHwB9wBfnAlYFu+NaNPygVZn8NFxVKQ==, tarball: file:projects/arm-confluent.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-connectedcache@file:projects/arm-connectedcache.tgz':
-    resolution: {integrity: sha512-QH7RstDF49ovdRNnFF0yGxBK8PZkptX0Q9yhkzxRia/SHN61NiUU3CcDtceE+sKBqnQuuoJLfYufWV/6QjvxnA==, tarball: file:projects/arm-connectedcache.tgz}
+    resolution: {integrity: sha512-QDkhetYqMJu1OpC+vzgxHwvggKoVZ8hPLeMDfzyBarXmq1ReTkPi2R3+NyJJzGFdUxQ9KZiFfUYKpjmaia7PXg==, tarball: file:projects/arm-connectedcache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-connectedvmware@file:projects/arm-connectedvmware.tgz':
-    resolution: {integrity: sha512-9RWmg3p1y1Qx2bqQXui+j8gRRFyrvywoO27uMR5RcSYsNpBsz4bAme3RQ/DB1qIy4CvetgDiqAQmCiFJoaGl4Q==, tarball: file:projects/arm-connectedvmware.tgz}
+    resolution: {integrity: sha512-b8Mv6N4HWXQKf3wJrzIaeflEPr5iJR+L/a+GK2cYPBnoQyyoQC50W3klBloVWHDf0aVdR68+AVJ7/9n2o2DaIQ==, tarball: file:projects/arm-connectedvmware.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-consumption@file:projects/arm-consumption.tgz':
-    resolution: {integrity: sha512-vGlGo4P6yqBrTBwd59WxwLuBJ6xzWQJwcjUBSmDW6wc7RvDlMBEGIXR2/KPQzpAOaoSU8aS0b6MsOhaf8BMdKQ==, tarball: file:projects/arm-consumption.tgz}
+    resolution: {integrity: sha512-h/Z+/X/mWYFW+8eTJS1iRblybHhbwpuPurDklp9TNTKpUOxcPG4MmJ9RYo95RT+qI3m8K57YjAnyjAiRHTzKTw==, tarball: file:projects/arm-consumption.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerinstance@file:projects/arm-containerinstance.tgz':
-    resolution: {integrity: sha512-ZTiZ115zw89oG3iDUqHUCFh5ns50TBtSHRj3DSxJRXw/4w5iIa8elkPZrnbJIth353R69oVu2gDJekNqMvbOGA==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-bloyb7QnAG9U5W8xmJ6KSeMoZQY+E6r1xPpgm3u0VkS4lig0elQN5YhrcoEgDMuIOO+dIizhkyAeTKBMJpw76g==, tarball: file:projects/arm-containerinstance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerorchestratorruntime@file:projects/arm-containerorchestratorruntime.tgz':
-    resolution: {integrity: sha512-SV+SkKPQnTrSIMI9L+tXR1XvTE/XG/QOJ6jXW83H+kfNwTkpG1AAxfXINM6NmKUb7oQrTgcpKTDSsJqyiSbkqQ==, tarball: file:projects/arm-containerorchestratorruntime.tgz}
+    resolution: {integrity: sha512-52kX+doJVrRQgCUr5rjWrugbQEP1CYCQYQo0w0oHkOnZ88B4LUdBN0EQGGJedE+wyraqb+eS29/p9O+31iIdBg==, tarball: file:projects/arm-containerorchestratorruntime.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerregistry@file:projects/arm-containerregistry.tgz':
-    resolution: {integrity: sha512-zII4fD+eeO6r8MqgydlAPLGdLyDyvmfP2QMV1QlbJToolMdzZUrVAt97PzzqYztpfkK8tAVzt33b2O00KVeZEA==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-l8xHi1ggww0KReElPbQFmyd9AvwgcPWKtfNC/c0A/W7o+l5uNTzZnx4wHh+vd/x6joaepg/hDg0W6f3sW+FLMQ==, tarball: file:projects/arm-containerregistry.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-aUqCt1gku+wISEkcKA8ar43T0PR8z53TR5CFOpLAQOD/roDVJHo2Tt8kebiMgU5N86dNi2dtzJDrapmRrdqofw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-qErAWTZDlOh/Z1QYb0qddP61d2qysWGLu/f+SIF1w8MGE//jiZQG5op5sPgn5oqz5f5f1EhjF/lFU3wCjFeVsw==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
-    resolution: {integrity: sha512-Pf64ChwuvzEi/tpkVk/HPNt43sDUfrGMiy2Hi6Z1yI9dmYLCSzQzXtnDaWvF0aT7BxGi7cKua1XEu2RnxJgZMg==, tarball: file:projects/arm-containerservice.tgz}
+    resolution: {integrity: sha512-5yXtSPzA5azi5bAAwdvslqwjLXzNzgSBb7g4cGTiHypNfC38q3bjBQjS6aE0bhh3TPlZSVzCA7l+sCq658svhw==, tarball: file:projects/arm-containerservice.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz':
-    resolution: {integrity: sha512-scmrMDs8HhZsWke92KZgJhQ0o+ABdK/vsV91EFWzf4/enz0neKkRvTK3TkNdOMnNfo+Ys0+++bP1eQvBq/rduA==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-7bOGG/WOUghopcdDrEhRfxuNa0xMqRJtjUEyjw1EjqnrOAXvqTx4Bi3hBi8YQ94hDwQ+EC9FM3tJGh2ZldOXNg==, tarball: file:projects/arm-containerservicefleet.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
-    resolution: {integrity: sha512-cSPC4jbGfSubLak2/CA0k7BZPxEe8anbRVm7Yez2jfroCkk37J+YCsulwQrb5B5MBGE2zGVN+HNFJApIh0dvQw==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-CbKpr0/z7Qe/4ldoZAP/hpzZi/UlW4NzGNLEiOUdF6XPvSyDUHk8v11suYFXCRoekNJPAm8rju6WpKCv8Hgl0Q==, tarball: file:projects/arm-cosmosdb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdbforpostgresql@file:projects/arm-cosmosdbforpostgresql.tgz':
-    resolution: {integrity: sha512-o7laq2RBuVKta1Drw7WMtk8OjzvLQZxCYrQ0jhzxfLU9hDmZDCspIPHfByV1dQ+bExxxpjBzLs6QIe1SxQUbyQ==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    resolution: {integrity: sha512-kcTx03MNvdV1SXN2HAjfI+GaHhkrpVn/arBY2Eu3iPuhT9RgneOfJb0gzCk/q7kZxlH85D0wuuIfREzx+wG5Vw==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-costmanagement@file:projects/arm-costmanagement.tgz':
-    resolution: {integrity: sha512-UU6wHgCecA7Y2sTZ2OTZGdLGTj0K4fWOpz4Y5y00uwL2TMC2kOr57H0Lc9ZcxmiLs9Bz4lT1siKyAoADMNg+Vw==, tarball: file:projects/arm-costmanagement.tgz}
+    resolution: {integrity: sha512-UGY9q8m+VBk1IZy5XSlj/b2hbuda9i2jy0mWztlCP/ZXQRzt4tvesjL9gR7JXGIhNV+a8g+MBoPi2FxI9APC4A==, tarball: file:projects/arm-costmanagement.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-customerinsights@file:projects/arm-customerinsights.tgz':
-    resolution: {integrity: sha512-+mn+4zzo/l0diLRkzZbOUP61OCbeicls9SG1t0LuNQXaNj+htwKNohQxuAhuigSkRlPZhV8VvRnok1/SUcPCKg==, tarball: file:projects/arm-customerinsights.tgz}
+    resolution: {integrity: sha512-OeypryetMTUbdENmt8sZOg+ZGr2gQ51//w2PhObjRElCKOf9cj0Mher7ZRkpdRoWuLJ+XL5CrVT//8eZInkmXw==, tarball: file:projects/arm-customerinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz':
-    resolution: {integrity: sha512-y9ECq1U/5kniSBx2bBfb/8msTMUJyBsFl6vBSGeJbadftoiTIRK4AzaeGsSdarD5/k9VYT0vJ5Tl5aM1uta7wA==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-ZM+77pEBt5jFbB/k+w9wOVUVGTSb2hDMVIMY3t1Yuyd9NvTqOyYlX1BDIi5l6uy0+h+EuTQ9CjasttB/8tNn0g==, tarball: file:projects/arm-dashboard.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
-    resolution: {integrity: sha512-0GKDdZ2OxEVLyCnV9gljwzs+kcXUjs968DImUaGJQOCppY2vKJ57g8B/K0PTsUXfaA9BwP3dcnV/8FtKSxoBFg==, tarball: file:projects/arm-databoundaries.tgz}
+    resolution: {integrity: sha512-+e7+BDeyYcWC2eDmmq9eNBryR07lxC5KomKz14uN+8b9HrthNGQ/HZmj1Mwxz4kYXzGCSaF6S2hG8BHwEuSjFw==, tarball: file:projects/arm-databoundaries.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databox@file:projects/arm-databox.tgz':
-    resolution: {integrity: sha512-zWIW0Be7/AWNdAV6FVMqzwvEDpWnVoHmTgdLpJplUttmQ7aDFMOUog4SvJpOM6KY4W7LDStegs/q/X11qBz1eA==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-zKPxsvmFoOpftZcNSGyZHiJg8igwqsg0/GidWuWhuTs5aGkTeeYjmAmPBIGo0xkGUkA2k8kkXKv/MuO1zMf8yw==, tarball: file:projects/arm-databox.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid@file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-8cZOWTTIvGGP92MXb7W3bvpo9OP0ZH/fz5hiuyHc6Uj+oTwz5Eh77yHxf8FikXF2WTscebw1d0Ec7BgBgxRVaQ==, tarball: file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-/powo6Y8zpDr7y8/1R4IzwLitCj6SGeP47K6UH1yTvaHaUaosBljOTdawXUOxr8aRv5YIaNibxAc216NdsXAIw==, tarball: file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoxedge@file:projects/arm-databoxedge.tgz':
-    resolution: {integrity: sha512-E3BsoJ4IuKuKA7ChN6uY1I6g4OxMJWKKfhb6ZdqUN+1Geh6lkGDfccHJI4QdcwPUt2xPNGPdz0aMeKAtKPYf6A==, tarball: file:projects/arm-databoxedge.tgz}
+    resolution: {integrity: sha512-Vn48TqvvMZYQqqc+eUp3/By9/NjRT/CpJgkr3nwHeqjtSasi/Wc3uhFk0YNm2yJvz9qgZ6v8xWucuBd/1XXOsQ==, tarball: file:projects/arm-databoxedge.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databricks@file:projects/arm-databricks.tgz':
-    resolution: {integrity: sha512-ds9ILNw1JcrHAGifAyOHZ3p24vdYFqLp+kjdTxvfZPedSat3QGIfC/VRidrF7g5CEwcUAZ5yvGKhOP74kT1m2w==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-tLrOF2LW1ropGNJxqMqqwsKbzOnZMe4M8iRCOSR3Ogiu5SBJ/A4T+VSAUDsvOND7YD6Bn2xnmjBBJYiJ2ZjUEQ==, tarball: file:projects/arm-databricks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datacatalog@file:projects/arm-datacatalog.tgz':
-    resolution: {integrity: sha512-Juyy8wCOH/ngnnRHyTkVYLOqacGU+4QMGagzY4Z3CJzeurLaMhi+5INIhdQrZN0R7ybgwrGRY559EXkBTzmqOw==, tarball: file:projects/arm-datacatalog.tgz}
+    resolution: {integrity: sha512-y6bVPoGdlZfGV9ldU8TFyzRoqCEr+sGnkSIPPBq30Yz9Ya2ThMoOOVONRdMymd8o5DYXaBimBJtNpVtK58taTQ==, tarball: file:projects/arm-datacatalog.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datadog@file:projects/arm-datadog.tgz':
-    resolution: {integrity: sha512-z1gO7WqrUFqiOAHUp97OO4h24nSM8PUwAeKCzljMq61LyoOBSPy1RND4xVK2z76LTyXLGMw6ekzdlcv16CkP5A==, tarball: file:projects/arm-datadog.tgz}
+    resolution: {integrity: sha512-u+WqJX0JikMj4ExRA4NjFv9c/M+1DF4hqhg4YTlAsW8YGH2P1nJRkwrkvH28/hxI/V25kjliG/yQkmKxdFLnxw==, tarball: file:projects/arm-datadog.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-Ljnciv4+ESxjA+6lZr6NXHJc1xPJV+hw0WPYTz0Fd3dCL7Mh7UhwBnHzFrIdwIngTIIMhsu6jxmAKY/9ekec8A==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-qntMLZDOaREe5BKhtx131AEwb6ZTT3j1eG9/TMCyaGvUkd0goU7DSoN6YTrPNQQIt48dxBjTJvaQGVMkSUF+tg==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
-    resolution: {integrity: sha512-EYK13CiGqVN2ImnimZy83Ai5FstWnXGyiszqR9ZrGcguOZq2fKLhBvRQzLHsViIcP+kPWzCkX6xk1sr0+apvCQ==, tarball: file:projects/arm-datalake-analytics.tgz}
+    resolution: {integrity: sha512-pkbFRrc1NF0r2/iQXWapIQ1j6Te4omRyn08GSvGq7o2CNbrrFZfYLSRd5fyVt3pbbY1jprtRO3qWtwBaHZORcg==, tarball: file:projects/arm-datalake-analytics.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datamigration@file:projects/arm-datamigration.tgz':
-    resolution: {integrity: sha512-z0yM/0IZnIIwT7AOhrOX4RuAU4hkr3/rThD6pDHgyWkBt2bNpJq8Ukw5ADv/oqaP4POsl5u52Es9mdoGj+itAw==, tarball: file:projects/arm-datamigration.tgz}
+    resolution: {integrity: sha512-3pueoKHHJTMUdVZWMIt/9qmTfdEmXe8DVXCt+nRH5b3cCSOzdaNKGRreOOtTHN4FyzONwH8bWGigXu6aUYESBw==, tarball: file:projects/arm-datamigration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz':
-    resolution: {integrity: sha512-2mdPItuuJOpSwb7doJ2+HcQNpVabyJ6Bn7SMdn4vAEOAw+9uB1ZXSiNhUKHH8MJ4UZK6tXMZBbtGpBeGYW94Yg==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-nmnhCG20VKwITaRSZZ9lxSyK1lLgVrzxoqQVsa58H+wtO77KHJsHJMwoAc4efzzID0O1FJ8WYJ8oIHNgYvFx0Q==, tarball: file:projects/arm-dataprotection.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-defendereasm@file:projects/arm-defendereasm.tgz':
-    resolution: {integrity: sha512-hvTpKCuGK4lrYHDGkTAsavozQp7CiTscZj0U0AHan179ARx5754/MUkWZa6A9O/rpohNp9p7vQZs45GiqBTx7w==, tarball: file:projects/arm-defendereasm.tgz}
+    resolution: {integrity: sha512-ZABP6lUnUIdbAuzsyNLCEWOs9C+DmzbeAwTid9YPlDeCuwDcJ2vrh0yGUqBn4+IIvlM5PnG8XaSsAR7am3KMUA==, tarball: file:projects/arm-defendereasm.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deploymentmanager@file:projects/arm-deploymentmanager.tgz':
-    resolution: {integrity: sha512-NFf9ulnSwoCLS4cmKYt3Q9XH+yn1xhcYsSJbFBys4cUXE9xqwSbjw+HLEY8Hk6uoa9//mhsN5rkBDDGWIj5BQg==, tarball: file:projects/arm-deploymentmanager.tgz}
+    resolution: {integrity: sha512-NMfoGkJmWzGMPshoInCMectMoW8CwlWqJFVG7raPT7n65F/96TMMR3V9nRLWx5i6dP/IolZ5ExjXIyktPS/wIg==, tarball: file:projects/arm-deploymentmanager.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-desktopvirtualization@file:projects/arm-desktopvirtualization.tgz':
-    resolution: {integrity: sha512-iMCmriZfgK8KBSAlKJhf/kwuf61ymQg3lB+X5Gf6tfgDN9KABblt8hXkg2T4VulE/M+YKKvKEJ0C8dEImlTIhQ==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-As8EKgLHlc3he/K29lY3mJVGyrvE5LF1EBCmHWvtmtWYqtmjAhafjN01ZOj+CwYK+xbvt3iNplqoAb5B/pauWw==, tarball: file:projects/arm-desktopvirtualization.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devcenter@file:projects/arm-devcenter.tgz':
-    resolution: {integrity: sha512-KegAubVGJuT7CSErg6x8NVg4BBjsY32Ko0iUdD/d0ZA1HyjV2ZPBMVncJFIz3MCWrok09+6No2rOPO/8ljlB/g==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-w7J25xy3yyorYdZZSg4N57NJSB2DJaWoPd2iAROFkLpahS91BgvVJrWjGCFUMZ74C29HsIhCqGTKDkakamgsHQ==, tarball: file:projects/arm-devcenter.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devhub@file:projects/arm-devhub.tgz':
-    resolution: {integrity: sha512-ZzvQ8YPJVZvs6FadlLpYBOc8uQYf2ifaIs295VvcnSqP7GeouagN/RtiqmTkq/Ka4Vq4zgcOAEXkmiRZpnFb8w==, tarball: file:projects/arm-devhub.tgz}
+    resolution: {integrity: sha512-QKQk57kZtzwk7QN9aLZWJ1dEJ4R/RWtNQd1Qg1tJAFgW6YtBmEdG81d2tdUM3nHB3b3Qtbt1YdQr+dEbaOGu5g==, tarball: file:projects/arm-devhub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deviceprovisioningservices@file:projects/arm-deviceprovisioningservices.tgz':
-    resolution: {integrity: sha512-OlrFXDQYrhoppXLxhRiBMleZtto0njDOMWFjlTHnUf4d2sXjTDem7LkdSYBarn3l+lIJ+iLvnK0yyFxtu1Mwdg==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    resolution: {integrity: sha512-3M2VgevHv6lVPoVhvxQwl5Vhy3tOThpP51TRHHz/3gWBPhdy8b94zLyZGIJJVbpxsZG3WKWmdgzYGibZxE2CCQ==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deviceregistry@file:projects/arm-deviceregistry.tgz':
-    resolution: {integrity: sha512-gD8HDKQegMa1jBfzs2LBMh9Rnsd792oaKLS7hrDx7ytSjp4RcE6yMP9bwOUZF5LWSw+3Rg4jVeRqxCqig9JezA==, tarball: file:projects/arm-deviceregistry.tgz}
+    resolution: {integrity: sha512-oCWpDzPGl8ETeVH/0VyJtJao6Gq5a30OluYhEqjaDhAFAy78Fa2soc3HcmWe39FqV9mCa2D404KDxvVxr2MZGw==, tarball: file:projects/arm-deviceregistry.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deviceupdate@file:projects/arm-deviceupdate.tgz':
-    resolution: {integrity: sha512-sfV75iaC7YnwNgPCg9M7ILBd3sm5lscMliq7S6MPxqJvgun3DhOv5/HMfpETGQ40Jqg6cRONszX4AwdNIdaCng==, tarball: file:projects/arm-deviceupdate.tgz}
+    resolution: {integrity: sha512-V240E+ErxAs2JyNlb5JoyZNOTeD4YIwGe+6WfAMgZOQ405wVFAxO0icWdtSrG5ohp1Oot5f0oUvqxHJGCqnd4g==, tarball: file:projects/arm-deviceupdate.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devopsinfrastructure@file:projects/arm-devopsinfrastructure.tgz':
-    resolution: {integrity: sha512-iifMdGlij2wUQXQs6dWr3ia32P08zN6B4uPksWAlIaIklExE2fZlWVBRlXyc/2D6OPIiIjEIDEdpOJEr6RUHJw==, tarball: file:projects/arm-devopsinfrastructure.tgz}
+    resolution: {integrity: sha512-VHLAG4tesPUNBwYs//VwyL60jmtCQr3XMZARKrWxPHvsNgAyJef22C4R0dLGFJvr/JDfRvFp7GndQfFSlxOzLA==, tarball: file:projects/arm-devopsinfrastructure.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devspaces@file:projects/arm-devspaces.tgz':
-    resolution: {integrity: sha512-3YAlBLTEM0ELe0RuuLfkA5/kROeMmwMcTd8NbEUlKeojRFmllE9srqAAhqEdFLGjyOzyqo5ORs9FGWHzMvT2iA==, tarball: file:projects/arm-devspaces.tgz}
+    resolution: {integrity: sha512-4qcku7RMhzOhb4x+yj6LGH9uOxTcD9pmGLWafRnpZeBLe7NBR719RcSUncSaNEYlqrleRPoz6hn2t8lV9t83Kw==, tarball: file:projects/arm-devspaces.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devtestlabs@file:projects/arm-devtestlabs.tgz':
-    resolution: {integrity: sha512-X2O83wjy3e+zSpWdB4MYFf+NS8U2BDqTzLePburCkuhVfDn+DVRErapBDBoZ1n925+MKk36PlHxTMASdyG87Wg==, tarball: file:projects/arm-devtestlabs.tgz}
+    resolution: {integrity: sha512-qbDIF2dlyef90sAGumiteW/4G2x7sDLuG+UCfTecXr1QIUyHBlW4qmOnHuJgdwM18Qmo0WBBwytMTT65m9nXuQ==, tarball: file:projects/arm-devtestlabs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-digitaltwins@file:projects/arm-digitaltwins.tgz':
-    resolution: {integrity: sha512-2x1m6qmOWNX6bewbmRSo3oXvPNe2XvuKnYghNd63uDx165kNcvfaIO7otMW/l2kB9uRr1AkCZ06OQ/rihhIwYQ==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-DtUeIItcfvgCoXU4Mq2Nh9kF+6h0cXUViEenw5bjAHUydXfYXbJMgF0ZT8bptExW7R9ois8F9kQz6RryHUDOig==, tarball: file:projects/arm-digitaltwins.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dns-profile-2020-09-01-hybrid@file:projects/arm-dns-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-CEhB1OAmb7SrgomYCrRpWEbRvfbBC/dQsl1UU+iMxwxlGuESbsY+DeKNiBRjL0CpXLk7cA49bE1pJsgl1OLPCQ==, tarball: file:projects/arm-dns-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-+sHS4brW0z8JfdsNjmLUGPkK4BeZvr1l1v2V3zn3MojpiKkb+UE25+f2lmWT44GPQaZGYT46pMzrrcL4FVS99A==, tarball: file:projects/arm-dns-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dns@file:projects/arm-dns.tgz':
-    resolution: {integrity: sha512-Fv1+I9t23YOn9aPQ3qJ1utd9el+iP0vXU6KaAQmDDiqnEOeTzBs7VEX6OdOmknk6mMQY4cz1jFvWXSOXrbG81w==, tarball: file:projects/arm-dns.tgz}
+    resolution: {integrity: sha512-5QUGkI0RSmQaNa2izhXsOI72+8vl1lt+dnzb5fnCYKns9a0lREB6WZ85kkPeiBGRxGVBm+msWC5PucQzwomjMA==, tarball: file:projects/arm-dns.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dnsresolver@file:projects/arm-dnsresolver.tgz':
-    resolution: {integrity: sha512-xpWvSv+gKGY1qKThdCTI0c/47qia5bpHYmulft2ldiT/cpJX/1q9Tso7xxKNE/BWw0t5BQZf2paSRtkNTUXMAQ==, tarball: file:projects/arm-dnsresolver.tgz}
+    resolution: {integrity: sha512-QzPWWLNrwBaDsUEcMBhWUyvqgTD18mcTpp2jPWJ+Bon9Zxj+6Xj6k04/dwtLtmDuYeiUCUTJR39ptjsyd7EyIw==, tarball: file:projects/arm-dnsresolver.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-domainservices@file:projects/arm-domainservices.tgz':
-    resolution: {integrity: sha512-NQwbddlbcBARuNp0948HFU37x87IX6HazeKDxs11UJEO6R61MRQQ1ce2UwwiCxHLxJwIydsrTf3LGmVKW05hdg==, tarball: file:projects/arm-domainservices.tgz}
+    resolution: {integrity: sha512-CUbD/5sYvC8oVqLTERXKMpyOyuNebp8w9hScMFeo9Um48T6R//MKTEePmgOa+nTV00D9ZTBf+K6TS2blqZCpEw==, tarball: file:projects/arm-domainservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
-    resolution: {integrity: sha512-jICt7MQw+5bf4FyrFeumvGzjCMvsoziof00iRuOTbFoe0bdYtu5ms1VU5nm4a6FMdYEgPGjViFxzejRmqD+gqA==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-wYDqn091Vy6WIWBa2T7+pQdioJb6guzejNXCyw5pSFsvy4yMwk02tcynz8whTo24qMHIn/kpejBN27tgaPThwQ==, tarball: file:projects/arm-dynatrace.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-edgezones@file:projects/arm-edgezones.tgz':
-    resolution: {integrity: sha512-NGYYgYRS0SA3f7M58Dtd73fnV2oea93+WKwVYMR7E4RRIJgv/pPpJTmyH5bcVI4C/NTgTpWZDIb/NUjEp2J2YA==, tarball: file:projects/arm-edgezones.tgz}
+    resolution: {integrity: sha512-XO7thZqvM5hIf9jRB1RgkGrSCVjDKSEKd+uRE8KKXE3Srq5Fnh6Hgr1fIL346btJvqMXK1vCBVnyA25U4OxQJw==, tarball: file:projects/arm-edgezones.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-education@file:projects/arm-education.tgz':
-    resolution: {integrity: sha512-zgdkezssOrcBmUh7p+8lhakVNR6IDF3w6xSwxxp27Pdnw+WFFu4yd5Y13Hxcq0wFpksPbFIRTMwvojykpnh8lQ==, tarball: file:projects/arm-education.tgz}
+    resolution: {integrity: sha512-sI5rzXB672Q1FZ1qt8xyDum+DO2AGnQuAP2kUWIyIwjc4GQp8woOzfgrZPwKXTphwQ3rnD340oJrZE10Mmn6+w==, tarball: file:projects/arm-education.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-elastic@file:projects/arm-elastic.tgz':
-    resolution: {integrity: sha512-B6JtLtbIk8dsI/Iq8egINVSQhJb4yazileCyk8KeiiRuudTQzSw0Z7ZeNSPrOM378UmNYoBFEinoI/u/wrBaxQ==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-I880I0vkfhFH4emZuefAfTJHKDQCuz7HGQ9idM1JE2bJLU9PQFu6GfBBiF4CnGUKKe2gC+BlSRB6UHyAt+lp/g==, tarball: file:projects/arm-elastic.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz':
-    resolution: {integrity: sha512-1qMDLi2rMl5RtIwcFp/87hIdDA7Xi1ReMgfNC5ZAFUtTAJEtxDS+LSa4EVvE5SmhV7PO1jyffD588/qqCTQVFw==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-PUpuLp9rcrh//QzrPxQ5LIFnRdExflUStSXu5GOGkodaxQrJGbadhUvDQ2+DsPrHk+g+dteRFuigq1nQ/hmJAw==, tarball: file:projects/arm-elasticsan.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
-    resolution: {integrity: sha512-XrBQvYOCJPcgRwmh+OfSW6RriM1kEJgvdHN7v7YKv7CxC1GTHPeydXjDkXdJGPytQCM/mhkXhU51BjBNBlEmJw==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-rh8GtmzN9IQG6CJL0sSNjOHTXXrGm+jqu66fY9iumkDDLPYhqrdwoqo+9ryNw+il0mW6Q915xTcYrrEBTWaaBw==, tarball: file:projects/arm-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid@file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-AP8IjPiTg9t6TKSl/lfEY1IKOtwI0z05cgW/HLsLtPeANS38CO8i4Gc7trXpueplOupT9MA+p+I4BUKLmNvaMw==, tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-I99He1hvzvnGziLjVHWZUI9pqevV1OKODt8DjHhm3HzS8VbQFxj2Ygj8BI0LbUYNTeMHN9dz4P7wqFEzgfKIsg==, tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz':
-    resolution: {integrity: sha512-ri2+qZVF92tZRkr8jIA9Z2M0cDH4IY4N02eweD9VkuMy7ljbUgOEfQPyBODwgayzEZTTypkWfYPHPkMd5cjAgQ==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-J2PQOLFf38XWAkX8Fe18GnDpypVfyFv2WY7UnKVak0kHDOoc/duFxqjN2Cd5YMmlQINRoGgsjNiKuWKK+gXGaQ==, tarball: file:projects/arm-eventhub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
-    resolution: {integrity: sha512-0Q4ERpGjiu6ysPmv81Wwia+ia1IFntKL3bxUDXRZnF/CIBWSxIJz3mc8Y4KBTBmU2hFT2XqDtRF0lEb85/mCDQ==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-tyNHyHq0uHKCOnvPnbM2w+pgBWSS1Y3WcuRAI3Vt+/UBFXRZixFA4EXODagob3KcIepvea8bkXpXNIk6mgBYFg==, tarball: file:projects/arm-extendedlocation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz':
-    resolution: {integrity: sha512-Kyj7uF0W9WuZiwZhsGWUoHiMEIKtnxcQ3Uitor3xe/snSbHxiphCowhrsJqacCpV7O1KNDye/GGJAT9zPi6aHw==, tarball: file:projects/arm-fabric.tgz}
+    resolution: {integrity: sha512-XQ98bcwmlhbamp29CfxZoHOK7R3bZ7J0Tt2zBeso9IaOYHMq+zNIJOQV5x49z1VpwSiSVRGRheL7xkvsZ9ACCA==, tarball: file:projects/arm-fabric.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-features@file:projects/arm-features.tgz':
-    resolution: {integrity: sha512-kti6F+TM3DQ/Ozti2/w9o/+20Uxa76UOFHeaffxym2Q1IyJsVxb3amRq/OSLWN++60cgbjZvsNRWxwQoO2DsUw==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-9g98ZE3f+Ifl4W1lX3nvLcDaXSNt+8VTlSnCWH1YiBJ11cv3G5/Zg2RP8SLGUoFKPyDwqHkF8R+wxagLTSGqng==, tarball: file:projects/arm-features.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fluidrelay@file:projects/arm-fluidrelay.tgz':
-    resolution: {integrity: sha512-47brk8m6avghNARU5QKN4MezZRyr2JZL+A0fov20hXxQOHBf3EEpRmDESa5d4jLreDZAdwNvddLLxCODCokxFA==, tarball: file:projects/arm-fluidrelay.tgz}
+    resolution: {integrity: sha512-pZOmddJ3gQK80scdclQBFfClcELDkamQPGoA0kupg5sQCEKqVkyyhnU/H77DQqIjTaeKZRBmFScHByZeBTxD2g==, tarball: file:projects/arm-fluidrelay.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-frontdoor@file:projects/arm-frontdoor.tgz':
-    resolution: {integrity: sha512-wMp26gijFQThYzDwxV7nktYGa7w+hfE7bqpU4Eu3NqQhxHKQjv9bYKi806hKF4KMtgUmXyUZvjCFuT/SINYpCg==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-XRaaMD5RQDh9/rQ2ujjnpuu+ng8JLkA5gsmL08fjQWe4UxiKOKdK7+vNoexYtJPXpLJ2z0fjkczz3CBzlQeFiQ==, tarball: file:projects/arm-frontdoor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-graphservices@file:projects/arm-graphservices.tgz':
-    resolution: {integrity: sha512-2M+eN+lfRPYn6HN0BHfUXy7kQoH8DvQ2qEvUPduoWKrcmGI776p9buBXpX1bX4X2SxARMPuND/fzaUVsG5m1Fw==, tarball: file:projects/arm-graphservices.tgz}
+    resolution: {integrity: sha512-P8oECMy9sfH/oKdLGdxtIop9TPG53X8roAMW67rluENUt++IGErdN64sZn7z+0f9bU/iTq+TnRMf4KJ8nenzgw==, tarball: file:projects/arm-graphservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-guestconfiguration@file:projects/arm-guestconfiguration.tgz':
-    resolution: {integrity: sha512-F1wj/nPt/Mjwn8jcyea47ScQSjhLZDfXQmwE8pOUAXDoGYNY1n08/1uGB2mQfkTzV7V+2Uwkax5Y62uuWpJEvw==, tarball: file:projects/arm-guestconfiguration.tgz}
+    resolution: {integrity: sha512-Cn+L7yPnLpujPQNfbrm8swJ4m+XMBWlYTXpMAQMcU6zeml3JM2jl5xqSHhlW6Y8MIbxxoGFNBtDyjHkwEyrA1g==, tarball: file:projects/arm-guestconfiguration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hanaonazure@file:projects/arm-hanaonazure.tgz':
-    resolution: {integrity: sha512-QZsMXKEvae/3PvdYS+HNgeJiJcLgGZTD78jkTlOJR4trC0mT3k9pABY8UdAUuNbCIzNDOdidvYvz+ShGWttqog==, tarball: file:projects/arm-hanaonazure.tgz}
+    resolution: {integrity: sha512-T+m1MIEW6y+wvEbyWXURHRK8dCUw+pzUYPPLbhow3CEGkzCGpSJobLZorKBhj166wA8iIotv0v4BibWuypQIAQ==, tarball: file:projects/arm-hanaonazure.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hardwaresecuritymodules@file:projects/arm-hardwaresecuritymodules.tgz':
-    resolution: {integrity: sha512-vaklneRcJviYUi4K9sK/q29k/Lgid62L/hH44Y6r0FS0DIgezeWgDw2+CA4lSzoNkA50FeUR6dGyuS9M4o7vVg==, tarball: file:projects/arm-hardwaresecuritymodules.tgz}
+    resolution: {integrity: sha512-fIv50uq88HvG/ah3QkX+YwB0spMWWIXSRfBCsEGPit9/fb183fx13cAcXLYsS+fymsbReuxso9gMogf3l0fJkQ==, tarball: file:projects/arm-hardwaresecuritymodules.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hdinsight@file:projects/arm-hdinsight.tgz':
-    resolution: {integrity: sha512-cFm0JaE8DE2/1wdnORgG87Wlb423ibRA2eU0Aeuwp1ruF7l8eFTb+gf3SbmFNKi84dbW3wfVn0TFqfbBUFFJdA==, tarball: file:projects/arm-hdinsight.tgz}
+    resolution: {integrity: sha512-XMsN6HuIEUt/3jSM28ONJhRYUwxPdtC+kbVZPKCuVu1Rrf3NC1oYIVJRFP9oYTwitscyEZ1YZXkHOVI3XsqQlQ==, tarball: file:projects/arm-hdinsight.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hdinsightcontainers@file:projects/arm-hdinsightcontainers.tgz':
-    resolution: {integrity: sha512-tL1unEs1FKpIJ1mSTRCQokD/GGH9NzHuDeRjoNkC7GWolbxU34GhRNtygd4NvNoSahMSBjuDKOPemITJDBYx4g==, tarball: file:projects/arm-hdinsightcontainers.tgz}
+    resolution: {integrity: sha512-H6eM4EnNWFVY+J3f6xBhfJaWM4uG37aZ1ybcMTu8FUkXn++KvM52uwv1K+zv+oX5+zt22WPNb1GPJHuIE+dHvw==, tarball: file:projects/arm-hdinsightcontainers.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-healthbot@file:projects/arm-healthbot.tgz':
-    resolution: {integrity: sha512-nYkDXZsTW28brbQs6w9oNMxPji/gj51fZXmBg8sbCiC7pscBxM91wbfkxdezb/SOBX9CvBvp3t/jrGtFvNoPeQ==, tarball: file:projects/arm-healthbot.tgz}
+    resolution: {integrity: sha512-q7TFsfs3eT6qdES2lhtvQrHA7y24wEeu2oXKm7Z/tDxpmLm84SLGeuAQAnXCZtUchPkYkHcMeBhLE4/X3JjqJg==, tarball: file:projects/arm-healthbot.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-healthcareapis@file:projects/arm-healthcareapis.tgz':
-    resolution: {integrity: sha512-lc2GPSWRF+d8vvfhOMp52C3wh1o3FrHtkvFlXAsbA5BcozgS9O+MpIYOLK2qDd5yvc9JDg97dPndUOBHMrsndA==, tarball: file:projects/arm-healthcareapis.tgz}
+    resolution: {integrity: sha512-NlVMJxV+FwvTi7cHm+88+Q2l29iGDxmGfVQYMSn4k9AqcIjaPKqfZc9DMBmv7+RCMcKOCF4hTaGncbxz0obWVw==, tarball: file:projects/arm-healthcareapis.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-healthdataaiservices@file:projects/arm-healthdataaiservices.tgz':
-    resolution: {integrity: sha512-9AfG3QekhXbPVDIqxeDy3SJ8jNMG9iEUeBOfehIwhga1WJjXnHeFzx3Xa46a7OVa3UHgPPqYQBfSPOlQ3FTJUA==, tarball: file:projects/arm-healthdataaiservices.tgz}
+    resolution: {integrity: sha512-LanlJkRxZcwAj24pxWSPJhGMbW3YWyAbOsH/TKw/iVFm7LZ9Uyi2q5BWIuGug4u2pDMiYXNNqputQjxhxhEICg==, tarball: file:projects/arm-healthdataaiservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridcompute@file:projects/arm-hybridcompute.tgz':
-    resolution: {integrity: sha512-We0JBA1TUrhWe7DI7jmmcQAmZeQpnT+8nk9BYiyzdsAH+pdr7xwgWi6CqqIwcpTQBToUqXK58ycOdn3If3i60Q==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-ftTfTNWqKnIdodxDm1pea4D3d/T/Q9OTq3iIx8mX4+WsjDHPRLwCgYVv/yKTJS1ZRlNlMXAzQs5o7q4IFKp9fQ==, tarball: file:projects/arm-hybridcompute.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridconnectivity@file:projects/arm-hybridconnectivity.tgz':
-    resolution: {integrity: sha512-SOh3A2AkiyffUGwW4Uh1jj2p8EJ0Vv1+Hqfg4t63C5unphFFauEGxKYb4ggWZAJw2qqwfurLxkZgfCXQhh7J7g==, tarball: file:projects/arm-hybridconnectivity.tgz}
+    resolution: {integrity: sha512-mt9fZ2m3XpJ2DfxvEoLT3O7yVsFUnzU09zQf6WXe+ppVtJA/vizduu1OV1+ueB1hH+S2jI0Gfoevz13DzFXKhw==, tarball: file:projects/arm-hybridconnectivity.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridcontainerservice@file:projects/arm-hybridcontainerservice.tgz':
-    resolution: {integrity: sha512-DuL2F7HCF2FOGm6QkEizwd0NEkA0i1CN6BKGhOeuYa+A/G6SMAtPAtbmh/h2mckVnscteb66Aycbcq/5UIJkiA==, tarball: file:projects/arm-hybridcontainerservice.tgz}
+    resolution: {integrity: sha512-CeYKr5pbR/IUK0z49JqCta7xZI2/IlXlBmJvGl4YaOQyhSdSOZzt+tTV4/r93WQp7V6nVmt9GkUWcYXhdGHhbw==, tarball: file:projects/arm-hybridcontainerservice.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridkubernetes@file:projects/arm-hybridkubernetes.tgz':
-    resolution: {integrity: sha512-ZCf5wnyi9Odjuo9zi4fNutKPMgbg47kGuF7ojJJMJ6LOUyCL5IuLLh/SX6039WO0j+apYIG7s7lTmBW2/Fv9aQ==, tarball: file:projects/arm-hybridkubernetes.tgz}
+    resolution: {integrity: sha512-UfFX8vxpK18SclToohX/si20qIueMY6Xv/OcFSOl7udwSrKHCh/4B3I9V1tOI3GOtzZnTcVfxWkDZT4P19Z9yg==, tarball: file:projects/arm-hybridkubernetes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridnetwork@file:projects/arm-hybridnetwork.tgz':
-    resolution: {integrity: sha512-XioKMmwABSZ/yHHr2yM9gdnxl4822IC4XiEG830v+11KXBgac0n5PYeFA+HheB2BoFLFVCP8bZeUM/mtBby7Sw==, tarball: file:projects/arm-hybridnetwork.tgz}
+    resolution: {integrity: sha512-Mtr14QxQP4K4w8K98zrm9XyWaAksUA9bqvMC1fMYqNsUzabtuS9hDm/AgJSLSkUANPThc1378taDtVVTWMWRtg==, tarball: file:projects/arm-hybridnetwork.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-imagebuilder@file:projects/arm-imagebuilder.tgz':
-    resolution: {integrity: sha512-xVMlrAkVP+4wOhBNW6yd7XT893i0I7BbmS1RdKbS453C+f8CcGe5ldoOWklofd2q0vFGqw5o9H0rK14p7rG0zQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-mp0Cdt4g7NxKDIazmf9CqkaqPffiXOghFOd0MIu3/PrIZWeEoxIr0QYhvxHNuigqFW6VPnKLh5HXFnHxIPmEig==, tarball: file:projects/arm-imagebuilder.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz':
-    resolution: {integrity: sha512-qzd7xZCaeDEQJT9aXHbhrFUofCNWra6+o3IrcY6JgkdMSn/fI5+h0pt64FguzGhnVaJRcJ3i54N6X0EiyPlcVQ==, tarball: file:projects/arm-informaticadatamanagement.tgz}
+    resolution: {integrity: sha512-H9GZ93lcmeHEYW0IhB6I/NPy/8lKy9bAOnOYv5D76QVwg79V5pbuch5V188BHJyo/oyYbkekYCOAMyZsUfGYpw==, tarball: file:projects/arm-informaticadatamanagement.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-iotcentral@file:projects/arm-iotcentral.tgz':
-    resolution: {integrity: sha512-dUHimMPtETSCEnlFIwhu8DdkB7OT8Vx/Lzxn0vYVU+lCDVbdALT2IRNqtmchbN/wd+3S7TGF1qy2/y/3R90FgA==, tarball: file:projects/arm-iotcentral.tgz}
+    resolution: {integrity: sha512-oyb6GYYFFxklW9CovkJOQA+NUgkiNSEAoMhIcfnf4dLdJpie8Ss+g/jwUpALItGzA93scgf9a8uGDbGd0Qae+A==, tarball: file:projects/arm-iotcentral.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-iotfirmwaredefense@file:projects/arm-iotfirmwaredefense.tgz':
-    resolution: {integrity: sha512-noW8/bJa/Pw9RPjsx0+IS/g+aYCVSLvd6drmug5oZ8UF/a36mCgEnwjdnEieU8ATywagaIgsmvI7tfm1R7NHNg==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
+    resolution: {integrity: sha512-SGmxpjlff2fHlUbyHHbWphFuj8LV04FOG8lJu1qF6SVifzjRdIy2yLQjHVyQQwVcNGRW9nYDP7rhNmCB64xQ8w==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-iothub-profile-2020-09-01-hybrid@file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-SMNPpYIhZiZT5a88fCk+dkGoVNRsPXm87FpnnrJWo6WDKvX79OjpivLO8mkJppAYWVOhpfaaavTEf8tFM+HlHQ==, tarball: file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-mhwWgtdbXFJ83Bsa7kPnih6hVyCSzyqOZYJUaQ475m5Zbc6dUxwZ0PVGsy2pREIFzZ9y57wtgLnYYL0vUURpQw==, tarball: file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-iothub@file:projects/arm-iothub.tgz':
-    resolution: {integrity: sha512-hZrsn5YVgcrc0hhQ0Hxw3p2KylY5/UYex3ouBK774NTRVendKUjHUwi6VTJN54FPh8OYrJO1nQUYahvXZhmh1Q==, tarball: file:projects/arm-iothub.tgz}
+    resolution: {integrity: sha512-QJwJK98ff46dC/whOyoU6Q7/15u5e6ir80hGTJC9bH64ZP6V5XTVptuL7i+XT4B7i4HmpIMo1Zs7b6r3wj/NGw==, tarball: file:projects/arm-iothub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-iotoperations@file:projects/arm-iotoperations.tgz':
-    resolution: {integrity: sha512-0dG/Ad4Jtr8ZwdSkt3Pu7qsao/aKcEQV4LPFYvys4yt4vGvYAOgt+i23sAlPPOik1SeYUE/8CCvFluVUl3VtNQ==, tarball: file:projects/arm-iotoperations.tgz}
+    resolution: {integrity: sha512-E00kO6/REUL3Asl+zHmmTW6wUd963yUPvtB4El1YVB/9Mj3jMQFVGJkHz9MoSQv4HNIXB5G/O5akaAODBttI+g==, tarball: file:projects/arm-iotoperations.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid@file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-bW8BDRZAzMLhXASzv5N8O8KzH5WQAK4RWNPvUm6E1uf9itdgXuhyst//opTJPsCJ0Rn31q/A2DsBjgIDzc2Hvw==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-+x/Ns+qahwSwOpCO56O2tpXwcGvQuss7xnAOn+xwYqCLm+hfNYn94/9qiEn449nI3ta7SNFU5L5ba+LrenDktA==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
-    resolution: {integrity: sha512-2Q/FImXfCKzvA6UphwQ5xnbvEN7Sqcjw6iYHyQ8WE4Yc1BcJA0IIsMuffcX0lbL90fmf01Z89LBAiTEmrcepRA==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-SinU+8DL4fO9kHGauP5QWH5ZHvhr022RImH7XX5hIIcqAL9LGB8qtwr/jfj0AaCyPYs5vPSWdyRGLVUlnenwVQ==, tarball: file:projects/arm-keyvault.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
-    resolution: {integrity: sha512-uMCytuhkoGwgvYyXkOb+HinlrPi+uMIMmBna4rrjSzrGK2cYd8HoGip5xnmqOF0xQ6NnOFXqSCkv9p8FsxM16A==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-GEMl4jDOzsbOdzo8yspkPx3OtnIbmwFIiaEVS6DR07qEGgbADbJvysTiVT+e73bTtrDxQJmTsOY610m0O2vVCg==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kusto@file:projects/arm-kusto.tgz':
-    resolution: {integrity: sha512-hbWGpSndYZhKYM74fPcf7RHMxtX438N+4mD28Uy9wD4ZCTJd0vZhagIyhF04gfBQWnnB9mikvB85KI6upo8mfg==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-atbTRRIHizLtWwwbvFSYAj/Jc/5mQ3vWnNPOxnC+ZDYPFIE80P4agQ9eH+DeDR4iEv3Ql2QtBg6ZX5rwk9tgCQ==, tarball: file:projects/arm-kusto.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-labservices@file:projects/arm-labservices.tgz':
-    resolution: {integrity: sha512-+odxjSvU3tYEN/noFSVHXcZDg0wctbqbOvs6KVYiaFgNshSQqhxq6xh00/R0/pamCz+jWckyFaj8zT8kPbQObQ==, tarball: file:projects/arm-labservices.tgz}
+    resolution: {integrity: sha512-AsVHr+xmO1HCZ6qfrXAlX/chHMiD27wZi0j893UDIYVaGgHBADLvfpgiMQM40fu1zdrLSpqF5rYD1DXwXv9nBQ==, tarball: file:projects/arm-labservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-largeinstance@file:projects/arm-largeinstance.tgz':
-    resolution: {integrity: sha512-UHvK9jEa5atiGKiRsEY9L3VhrynJliaHMcJREmJV1N9HI2fQIrbdaSVEyXKJAtcKU8upeGsZQy40kaaFwqScoQ==, tarball: file:projects/arm-largeinstance.tgz}
+    resolution: {integrity: sha512-U6Z+PkSHeUP+S7ubvZ1bs6eQhF8WIGB0TuxwnpBGJnYeqSyOi8sVhFP6nl7716VnI8A6Zf2dJny7sy33u9pHZw==, tarball: file:projects/arm-largeinstance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-links@file:projects/arm-links.tgz':
-    resolution: {integrity: sha512-/XShf6BZxAY/svvfBARXC+6Nlw0ek2FF6wIFaT3ttqzThdmqqzR5Vy2gVYtL1E7D1qbwnTG/oz7HXkA4OAaGpg==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-ea3SYSk0eT2mnSlr5BM30ykkBsu/LrOXJHsmP3XLNrUNQGY1Ha1vrwp3+QwL5uKNl+ELGWkOP/7822H2b7LOIA==, tarball: file:projects/arm-links.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-loadtesting@file:projects/arm-loadtesting.tgz':
-    resolution: {integrity: sha512-z7pwRfgL7Uv8JqgvrB01Z5Uy5mEvVxZnABVU6GX2PkEMnkYJQqDv5XcTxT/gHWDrxG6VKMoqqFv3vT10qA5iDA==, tarball: file:projects/arm-loadtesting.tgz}
+    resolution: {integrity: sha512-fhtKK4hQzWrx5qO7R6d7lKiZCtUAO4HJebD/XrIyEBhqxmPRLsH0421Hp/PLiQCduLzkFBmQk/5vFnDy1e+BOA==, tarball: file:projects/arm-loadtesting.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-locks-profile-2020-09-01-hybrid@file:projects/arm-locks-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-lmdozFNZ7FTEyp4SUhsFx1+jHZR4esXBJwpSewMgEbkeYMz5qnkFQ+rYtYjkpp9F7Uo10xKVU6+aqrAyY9l3Yg==, tarball: file:projects/arm-locks-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-dUJS7TtQbjxAXfdJiJRWFvhBkd2A+gq1/yYZ3VRHWd0SPsmOfbNBTSvCUQA7nz1zEQKwmYRbqfw8480lGyNcYQ==, tarball: file:projects/arm-locks-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-locks@file:projects/arm-locks.tgz':
-    resolution: {integrity: sha512-6hEhFhFro4RySLWD/sdZTG0jo4+q6FuHRXpL/5EJg+TWC4oD5LZIhQZYUgajeVqcwRZr1AP6BGJHoWeokOfN6Q==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-p/CS6s1p/5MaUI1yMuCQB0dVdWs1qQomkgFAxjOFzB/b1hT0UyyJ4ziX6R3U82KKSMxAZxmbXmb7yv3x8QMbHg==, tarball: file:projects/arm-locks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-logic@file:projects/arm-logic.tgz':
-    resolution: {integrity: sha512-vVuwj9tKT5ciOJkOTTNvpYm7YPV0DBy2/3eYHE8mAvJGuOGX8GjyF7NrRCMig4mKmooR8fgkyknOgRf+DnSIDQ==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-KbuYmHaovf+AaVI09mVmHlFoHiW3vTiGqOwCsjKmsy3HKqobCzTq4rApBwDLgWCQO88cdHgCW2rjZTMbYYqyFw==, tarball: file:projects/arm-logic.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz':
-    resolution: {integrity: sha512-kLlOT51xPOlxBK42f3di4Ax7jcN4X1850huQkMkAANJlgi2cOnPZqxtzG4yAweBE6GZAi+0AcNS+4TG9/JIUXA==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-EYwu6urM5s0BkDt4lgwASQyxZjY92thg4bWcKTXzecPIMjwMwoBOqB0HsWF9CEM8yfBGDQMWLMt09SagPSTKVw==, tarball: file:projects/arm-machinelearning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearningcompute@file:projects/arm-machinelearningcompute.tgz':
-    resolution: {integrity: sha512-aDl8y6YsdSszylh5HfV80DjzddAbp+5iKOQ+1PSanI9D1FG5Vk8dNrxLK1Dsp/7lsAy5S22HpXWG4cJtLyegFg==, tarball: file:projects/arm-machinelearningcompute.tgz}
+    resolution: {integrity: sha512-t6aEYp9LNMJBtu0i+vguY4xXj4VskHVOJo6Q7jzy1TGmLTAqWh5xZ/iUy1IGfR72wWxe0vebGRLeej/AtKYgJw==, tarball: file:projects/arm-machinelearningcompute.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearningexperimentation@file:projects/arm-machinelearningexperimentation.tgz':
-    resolution: {integrity: sha512-bK4a6uKb+thHH5iKwtVNqAKolopy2k5rk1Gj1JVoSGhdJlbbDoO0K0J+UDk0Ztd7OfNmclxg+7sUIeYf60mELg==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
+    resolution: {integrity: sha512-vjxQXJ69jYVaGig4OqtK/5nGKfHm2n0E+1qdbrtFJHUYo1U2eb1FSa00kA0FLn/I4HPmcBdMEHgyY0P/z38EvA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-maintenance@file:projects/arm-maintenance.tgz':
-    resolution: {integrity: sha512-2E6lcc3tKURk94ePQgvxjurGUd5P2JHRcbcJg+FDSKq8sF844d+jJhxMB1GmiS2ZIzWQ1HBhRtkNwkT78ILQkQ==, tarball: file:projects/arm-maintenance.tgz}
+    resolution: {integrity: sha512-CWWuz50/A/AD1DDAInBkvnS22KZo4yo6xiGJXPzK4tCT2gGn3Uw3bQuz+0c/Qk+zzMg6A1PD6rMYx5Mf1/UzfA==, tarball: file:projects/arm-maintenance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managedapplications@file:projects/arm-managedapplications.tgz':
-    resolution: {integrity: sha512-C1r0Vro0NPhvuJlOTKQEoAY+dVgznW0ar7tW58GqyLEJ/ZhsjQ72nyL0CBVfUJYb+dJBuyP5X3KN6le+LNCPDg==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-OlyeK1E9xUrWK4x/ptRpT5z4OyOBPHRULgZ/fQ5YvSM+zrW4YIL2Wdp+NviTHOdCa+Pm5nW4AFjiQ0aStXNUgg==, tarball: file:projects/arm-managedapplications.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managednetworkfabric@file:projects/arm-managednetworkfabric.tgz':
-    resolution: {integrity: sha512-M4MqiQAYXnttygDpDq8FXKDSbtuttkFsLE+GmUvzyzdrL77c3AvZeRklDrgCG9oNVGitEJHCspLsc8vSrxoNMw==, tarball: file:projects/arm-managednetworkfabric.tgz}
+    resolution: {integrity: sha512-hVywNc+cIJRZe8lI12NZ4UM/HincF7I0poOfylWCGosWAnhyyhrSJhPDjIATep16U+lox3isc1N77ojCgDv4BQ==, tarball: file:projects/arm-managednetworkfabric.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managementgroups@file:projects/arm-managementgroups.tgz':
-    resolution: {integrity: sha512-TrhL5LDt+jT88yP7+EzSnTSjY3cZxOG/AJoa+5ZDzAoOHEN/mq93t141tOKAk+uYfwZxie34TJrr9A5PJEnJ7Q==, tarball: file:projects/arm-managementgroups.tgz}
+    resolution: {integrity: sha512-1jX64pR0dcueyfrPOh6Ubed1QwUq0k1mF4hn8OyNJucHMcHL8uza+r+HaYTR8XG/4LYGy0rjzvAldGY2qhH8bA==, tarball: file:projects/arm-managementgroups.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managementpartner@file:projects/arm-managementpartner.tgz':
-    resolution: {integrity: sha512-bAtZCcfwN2IQs3tbKABmSaWM41ZGadaAteBeOuTU0N4hLx7mNeZHvzLaXgGXhfC+u2nwrcfVX+xwh4ZzG1FPmQ==, tarball: file:projects/arm-managementpartner.tgz}
+    resolution: {integrity: sha512-1r4Ia9TCcz8j0dx9MCB3MyXkApdZn/LMfx9Z77DUvPf55benlXvTY2m+ej0LFAUxzVruiMgKU/f+mkAY4VlV1A==, tarball: file:projects/arm-managementpartner.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-maps@file:projects/arm-maps.tgz':
-    resolution: {integrity: sha512-TzN282W+EsZlN2dx/qVjNxGh7T7tz+1W/z0eIWLNz46V2AV9kgKMccJnFWsJGU1hMISEIv3Pa/4iCQgwj/t/tw==, tarball: file:projects/arm-maps.tgz}
+    resolution: {integrity: sha512-J+rsohCWeNylRiXeHrqwBMMrktkNN5jIeYpXIi69GgbSXdB9Kn3eXH3xilnvHQoWTFjJ3MgqOt5mf8iG224Hmg==, tarball: file:projects/arm-maps.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-mariadb@file:projects/arm-mariadb.tgz':
-    resolution: {integrity: sha512-0vGdddMqtOg//9tMQFSVjLZ5StXQfaLM+APSEuSpZYGf3BZBGAq3VJIF6j19+Pl9lKfbQo03zzINnR0/RD59YQ==, tarball: file:projects/arm-mariadb.tgz}
+    resolution: {integrity: sha512-YG0oeCrWJ2pmdywwnq/kFAAgikhu3WJeem/WaPffQlyQz3H6imgbis56DhcsfzPi5yIifiYhlMhJ8bmvvzFIpA==, tarball: file:projects/arm-mariadb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-marketplaceordering@file:projects/arm-marketplaceordering.tgz':
-    resolution: {integrity: sha512-RTKwtzOR451jN5SPIy1MjeLIRPP5wuoCF4wcFGYtSEtpFcNl8kJCWTCeLL6a0uBIejkiGvGGhiQSCTb8K8lznw==, tarball: file:projects/arm-marketplaceordering.tgz}
+    resolution: {integrity: sha512-z/r4BGesl+sRRS4XuOFiePg+ep2vIqDgQT86ptyeyXyqArCCYNRPzu6ve41AZtfPFXyGzM5A/c2MiR1bLdIe8g==, tarball: file:projects/arm-marketplaceordering.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz':
-    resolution: {integrity: sha512-1FVu8PRCGKH2QqyiQ42d3SCxjcSpBtgEpT6y2G0HPd9MqMwmWx+GZqKCEWWN0sTzzmHrZOO9GEAuv0dRxuL4Ug==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-stSMJXowCexuojkOg/XHGatIIrvI6KZC/uRXO+BjFNRNMDHF021lSBGNS0hZFcxI18A3RU45lU+5chVUp1df7Q==, tarball: file:projects/arm-mediaservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz':
-    resolution: {integrity: sha512-m1h+0wNA/R5mOndYFAtWYlVBBHUxiMmfYSNY+0WdmEhayQMXNErFsR+Zi4ONXsZUSRDUIQAYpHkBNtD7S+04Ng==, tarball: file:projects/arm-migrate.tgz}
+    resolution: {integrity: sha512-bJZoTIBe89QcgmM/QOo7VgGAQHo4fnPleff2O1M9AG96TXxp1ANrMmkkA+aDLhTVoOoZqw0V58HvCbH2vF4+6A==, tarball: file:projects/arm-migrate.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrationdiscoverysap@file:projects/arm-migrationdiscoverysap.tgz':
-    resolution: {integrity: sha512-M5Cb89VmSlInF64axWblxeo1E9EDcj9Fk/sZiTqcr4a1gXqylvcX75zLVgTda/BFdkNhM+YhxzK4mw/bjfVUxw==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
+    resolution: {integrity: sha512-7+8sqWOU+1NcDeoAB2qNXcohc5X3lZ7DnMjwk1ebjEaFldfUnIIgHaPA4Jy3t4hUY5Tyn+goUO/WOvQmRXlRvg==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-mixedreality@file:projects/arm-mixedreality.tgz':
-    resolution: {integrity: sha512-iycDyv0JK9Pglr/9YDkx5OgDXExtABNYhwmNuJl/W6ZG3pQrAH7aTLpE68tPv6OW4dkXj67wbAiEITWYFa9WYA==, tarball: file:projects/arm-mixedreality.tgz}
+    resolution: {integrity: sha512-yNa6GS1Qfz9yDRMDW/w6P6sdgjrpX2ipvnoq988+Eop40Uo3LgJOU6Hv8ncpCy/wygM77GNMB/eWLbyL1yh6RQ==, tarball: file:projects/arm-mixedreality.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-mobilenetwork@file:projects/arm-mobilenetwork.tgz':
-    resolution: {integrity: sha512-OD/BxuKG3iLGYiZJ5wjIDDYHnMehn3RkbVgv3zE3nU6n3maNCxn2DKYY42dkdRXLgkHU6aa4/JGr7ew5GgcN6A==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-1cHpvU8BSbxl1LCUQ0b4kQUyIA2jQIsH7ym96TfLQ9jddxgjWvHCYuTg0Q+1mtWcDCBa/GkaS6FZoPRO3TK2HQ==, tarball: file:projects/arm-mobilenetwork.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz':
-    resolution: {integrity: sha512-3WU5K6IHkIJNsqg/jZsr1LPrLS4WtMEsl+S9uch4/Nlz+PsZIq6lWZSF6qpcer0NTPcZxiL9qMfr/egukutuQA==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-ElbzzXs98bLM3bEQEVQnfFbO/XLF25gm3hrN144FM11SY6IVD6EG8kQChHDa7orNu9sC+2p6IAGpWc7V6GB6Qg==, tarball: file:projects/arm-mongocluster.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid@file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-H3edbbzLNxa2QMD7GpeE+gPca5gootNTw/C4IaWHXcF+C2o5NzPndeGZCkH8msrDmIEqeVdQIadVixuHbqk8Fg==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-brRagzV5wiJzzy3G9pd+B5bDEsfkVFTDMLW25xLR9OffpkNfjlVTXKVkLtBnlAwR0Y/tUZi0j+rtdngUxB9tDw==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor@file:projects/arm-monitor.tgz':
-    resolution: {integrity: sha512-M+9Vl69s/OYxdMGIxHpf3nWXrop324ZKiBi6SCycDLTo/sPmPLaeYPN/IWo6ezxTdXEkdmbz9x2/3Q0ObsicVg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-Okjw2CKjY0acek+Mr2Gmj1TJdTpluu5LDDoqgX3xmx+887UnWLZ2chcAlLxQBnh6T/KBs+adBgHdCWSnH+yteA==, tarball: file:projects/arm-monitor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-msi@file:projects/arm-msi.tgz':
-    resolution: {integrity: sha512-FzpDNmC0LBG+LJKJp1boykhkmHdh4fnGRCOaS5nMb6MofUMZw2WjVzfGGHYfThDnz6T7AWcOi6CElyo7l2bUrA==, tarball: file:projects/arm-msi.tgz}
+    resolution: {integrity: sha512-k+O9Y0vLZj124iSpNDoB7n9sDGd7csdPeWjKwlG6F2cOVCGPTrNxJ04ZtoDZHL5g73nd9tmcZj/U6O2OQfaaIw==, tarball: file:projects/arm-msi.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-mysql-flexible@file:projects/arm-mysql-flexible.tgz':
-    resolution: {integrity: sha512-GnOkBpP30YZdy5IzHlPvehgAzD2OMlxsWVsF5wETQCEdlhStOIccPZtSVyWZ66jzB0CaDvEY58hpUSilH5MY8A==, tarball: file:projects/arm-mysql-flexible.tgz}
+    resolution: {integrity: sha512-dxEuF9Fh6dV79rp1gDr3R9rVpKAZWU82PqOALj3W8on9FsLVTKcXYpNOSk8oAefiK4BlFIj8VJvns3lTRwFPeg==, tarball: file:projects/arm-mysql-flexible.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-mysql@file:projects/arm-mysql.tgz':
-    resolution: {integrity: sha512-2XQaxtLQde8fM599JLpHLaxT5s0g48yhiH98RLapLRCeMKsJiuxhc0VYqAgIOB1x4ZuzqU2JVm3VC+ZTvsPrsA==, tarball: file:projects/arm-mysql.tgz}
+    resolution: {integrity: sha512-GGtMjPmPHWwxdH28x53gR3i/WcBvczoTO8BdC4klNV6AJVYhV/Q3W8YAWe8m8fFmoiLZpXl27wmMMRLUvppM1w==, tarball: file:projects/arm-mysql.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-neonpostgres@file:projects/arm-neonpostgres.tgz':
-    resolution: {integrity: sha512-zT/iRvScTgOIeGPE3Ibd1CI7N5q0qibiKbt2M1qhWDAwfpacjMSciy7l2ghc4bKCC94MNi1o5KMJmzgDVbuMvA==, tarball: file:projects/arm-neonpostgres.tgz}
+    resolution: {integrity: sha512-+Rawgg1Rh5Mjf626WGTWfHD11qn1Ti+lSxE9B9yf9v9MREw9xi3eLKMK1M2dAWpKpnoGcTCPrmyGpM+LD1Y6jg==, tarball: file:projects/arm-neonpostgres.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-netapp@file:projects/arm-netapp.tgz':
-    resolution: {integrity: sha512-03CPEbbBXYl1dsfIeEKBlTB+UlOfB2auq+0fFtaBWQ8+eNx6u5J5oKu0Htb9b8MXey8wLygaNk/E0Mt8xb8tVg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-eKM5k+xS3h3LpqL1ONiv8+dpoWjJDkASJqVZ31vsy80HVfn47vCS3+ALvp1Qx7rWytFTLVaF12n21X9lpn4Q8Q==, tarball: file:projects/arm-netapp.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-1@file:projects/arm-network-1.tgz':
-    resolution: {integrity: sha512-ar1Oosj8hqVBwgZ+v5w/QDMGslyj2F/aUQXQLULArSUjENHzoEGSrrfFXCHbi+iE8AE+wShw2afER5oqqHfrrQ==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-WxPaCAGaGL2PBF6bhUMSRUYys038tRz1zfurcQbPbZhMqZMd6lcdXGakgEVPDazE1xBXd1Q3NOPcrknCKlMZ4g==, tarball: file:projects/arm-network-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-profile-2020-09-01-hybrid@file:projects/arm-network-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-yFjR+QdJtlm+lIjsYDdZamwAUKqzVQ4+/5Ouc910XBn35bs+i1oIQmFdet6FB3gSm1+8fjXr8fL78YJAcqKAAw==, tarball: file:projects/arm-network-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-4FlWcR9XNEnSIbKmWqqFrBZoOOeMWU8bdJFjrmMg8rnCOB6/GJ3lnXd5y2QOGKS+uzQqKdDzRrwmP+jGhNq6fQ==, tarball: file:projects/arm-network-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network@file:projects/arm-network.tgz':
-    resolution: {integrity: sha512-ZjU+XIjTTaguHse4zsM1HqSez6tZd8MAG+zxalx6j5fDpGXpwzJhIrTGrQCRbaM90n6kEZNc71tqzFDkFtn8Fw==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-rhwerQe4+6WST5eoEmTD25sheGerDgzQXoFWzf5wBs36HCFnRSxd1/VpreL/GjQOPyB+g5VRhwa+xBPqocvwuQ==, tarball: file:projects/arm-network.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkanalytics@file:projects/arm-networkanalytics.tgz':
-    resolution: {integrity: sha512-CVhdZGn0T4l0MPDLtQwHis93CUfwiZJKi1sLIs3BFgk1T+np5uhs2zmVQnxA1jeXjBw62+ORx6teowEBGSm6Pg==, tarball: file:projects/arm-networkanalytics.tgz}
+    resolution: {integrity: sha512-Atf19nFButMW81TPDBCYAGteKUR2Ng2bHViF8jNATOEkr0kyeXoIoqp/cWiY7/msSXnB1duv/X7Gx0ehF30StA==, tarball: file:projects/arm-networkanalytics.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkcloud@file:projects/arm-networkcloud.tgz':
-    resolution: {integrity: sha512-Uuca5PWQrGA839XudtPgiWPPOYZCwBlazGmY/so4nnFhHJX8hQIaIPYIj9AxhyJ3uKy4n3d2ynWtUuGdFw++AQ==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-hBODuwdHVHDzSfcDN4oPpiokEe0EN46h/tkPj3VxStDnu8W4XaYTlkfBwciUlJd8oZyOig0zbzUBUmP/b1C7EA==, tarball: file:projects/arm-networkcloud.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkfunction@file:projects/arm-networkfunction.tgz':
-    resolution: {integrity: sha512-6Vc4p5xnvbA0wZxmQzLuozb2105KTXYO9W7Wp6U257ZPB4E1DcMJGJ2es8Be6TnAnzI+hEvj5fz7A0GTGE8m8A==, tarball: file:projects/arm-networkfunction.tgz}
+    resolution: {integrity: sha512-6ubykGoQoIakk6S0PS6E23whfOPydlu9HN30Q7i+1jvm10efeMlW+AcCX7oSuqT5I8Ed5FEotW3cauibHikhOw==, tarball: file:projects/arm-networkfunction.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-newrelicobservability@file:projects/arm-newrelicobservability.tgz':
-    resolution: {integrity: sha512-nToJd5oZM1IL70WHARvYvi7fx83soTrvtar47HHeqVjIJxY/eHuogNFcAdvMmY8Lfv4jg67WH9ApBzu8PML70w==, tarball: file:projects/arm-newrelicobservability.tgz}
+    resolution: {integrity: sha512-a1LB7nINfPOza6oMDnOP2yAS07wEKsZthMBXfom4K3EsZZO9ybHEltdlw/AWh4q09LBUoHx6ANe1cXu9jIYDzA==, tarball: file:projects/arm-newrelicobservability.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-nginx@file:projects/arm-nginx.tgz':
-    resolution: {integrity: sha512-t23y4psXT3a1C7INiX7imXwHyzC/g87OyivMXKHMS6FXt3ADOTj0QOSIniZOPPdEBVCKLRaC0XlhBwfwI5dGvQ==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-TcfHIQtKqbuyhjYzlWIqe5edXn3kkN0K64LUWurVmOSaBJAv8jUiZXTtcq+oA90WGwOdULAdrZQinUEQrXaVAA==, tarball: file:projects/arm-nginx.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-notificationhubs@file:projects/arm-notificationhubs.tgz':
-    resolution: {integrity: sha512-ua5msfiybLKnFswAGZkePiOttOsy4qTfYezZ7kqTKQqotezxmdZ39hMqo0U+bgHddMAadV1yFvwO140ax+os2Q==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-cEOgZTk5nFciy/GqxYCXDgkUqGw0ANPl+OkpRlQW7hdV5lkH8uRXVgkgQGKIAX9hyONJWOgyQfK0msa4l6wisg==, tarball: file:projects/arm-notificationhubs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-oep@file:projects/arm-oep.tgz':
-    resolution: {integrity: sha512-VVmSfmL+jMLG+Jn6PFIdTqmf+9SdwZ3I8at3oHnQEss/BTpJCDieQ76vAsNi4GoenEStJYIV2OVvY0t2Gw+U4g==, tarball: file:projects/arm-oep.tgz}
+    resolution: {integrity: sha512-ID16FqmTRXLx4EqPDIQNapXJC5KR79GBCPTrvi9vyj9Sktk7JbTjXVNtwinjA38X+cgBp8DF6pTTaLG1Aloa8A==, tarball: file:projects/arm-oep.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-operationalinsights@file:projects/arm-operationalinsights.tgz':
-    resolution: {integrity: sha512-tgicya+465vMz+klPztgXnNOdNnNsLoSRZ6mRDfRj519DP5Ad2rPmgzyExPKW7xJiehaNBRS5CqmMIp5qtKcMQ==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-uhq/fx5HYMKoGWU2BuxggWGCOgjT1RVJPd0Ogx1meLP3dLerUapEtjg0nMgcz/VPJzjEVUNaUqcAA0k/xhevEg==, tarball: file:projects/arm-operationalinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-operations@file:projects/arm-operations.tgz':
-    resolution: {integrity: sha512-0ym+MEVVrfkYzxywJKrlJAbwQM1TQ9qR90B4aXrahtjacwJ3j6S2c9Dq3Eh5pGpU97Q1NStuEohnPnXZYdrvuQ==, tarball: file:projects/arm-operations.tgz}
+    resolution: {integrity: sha512-FfZyyYPQ1y80pRHOrCJ5fGoUBW+7F2csjuBv0opoC3It8Fss3wDJOadVurnbHlPYl6ETax1wQsnoj5liaqWQ3w==, tarball: file:projects/arm-operations.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-oracledatabase@file:projects/arm-oracledatabase.tgz':
-    resolution: {integrity: sha512-l6nhCD9d1IfIC9HzCxPQ/NCMqQgzDB3L7uVpQW8GpD6pZAV4M4g0e6CX95icklgqh59KqaArZAATbzQlITZ2fg==, tarball: file:projects/arm-oracledatabase.tgz}
+    resolution: {integrity: sha512-wTwKth2HBaP4V4i2gLARtb9MsU2XjpFfdFCXwYesWqNq9qu+R0/aKEjBNfOz4ytlkfV+5AtjI4VX6EgfbBRRPQ==, tarball: file:projects/arm-oracledatabase.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-orbital@file:projects/arm-orbital.tgz':
-    resolution: {integrity: sha512-yzmZSQu+upHm5SHvDxgdjDHTke0E8YqAMA8YOA9oaNMj5HhIrktMhaVudep0PyxkgN5FFY5OjZU59KILfDhFiA==, tarball: file:projects/arm-orbital.tgz}
+    resolution: {integrity: sha512-1q30Vk5XrbrNDoDS8GBBdxD0e/CaCPons7QLBPG33PuvEzvyxLabnbH2YDb4WQ7U4KokYvN4Zjoisb/ROtsTNA==, tarball: file:projects/arm-orbital.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-paloaltonetworksngfw@file:projects/arm-paloaltonetworksngfw.tgz':
-    resolution: {integrity: sha512-88Ym9HMZ67Rd6t6jYorDcWPdKSAYtt1Pbc/9xxyUWOLquabs3YeTJ/W3nrHSUU4nNgh7QBgQHU7TtE1IsTObwA==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
+    resolution: {integrity: sha512-fR2pnR6rJPI4+rHYTW5aUxXwyyChdFdU/xAureTAz2A/hUMTovuofZuntiqz0ckpFsYPn3faDNCRjWn4k0n72w==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-peering@file:projects/arm-peering.tgz':
-    resolution: {integrity: sha512-9JSEKB20oOKAhOxeQZdYkKmlfDAyUund2pnDWzHNK+bWDBWvas7xvM1pk48VQ/7Z7KQz1cWIXzMcVW42zcX1Yw==, tarball: file:projects/arm-peering.tgz}
+    resolution: {integrity: sha512-Bq7KmYfprM/uXtn0Mi41ua4Z2Kw+1c4r4CLGOu7vJrKviKsiVwthZZfXYS/Zdij0Tm85HsltEM0Cnece3xtaaA==, tarball: file:projects/arm-peering.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
-    resolution: {integrity: sha512-oxIaZdHQE5pyV6Zh5XhcsYwlzDLBtshDwVESWn0qLQ9uOinamk673KGDpeOMt/BGF4NL5lTAxDQo57NmkyJeEw==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-BlKAizNE0tq/q3EdxTvcjdJqCsCgYzfSjF2vTcCDAb5314uiCZN5gImMOCq1Rx1AQqsCMKvCFDMpmiHbm4cfFg==, tarball: file:projects/arm-playwrighttesting.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policy-profile-2020-09-01-hybrid@file:projects/arm-policy-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-O4pesDEC4sjhSswkTPTwhI4sxSU0GEZTNXuZ3sjtzjZFDzgX8CvS6clo5Zh/tVfNNRFbfzxwa/Zx8oAHyOgpnA==, tarball: file:projects/arm-policy-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-AEdhx/QZYPTQ6d/zo5JmUPrPdiVhXpKCGvOuUOwEPWifLk2ybXWtLJX0V/H9dBYeYaUUSPODfjpZVdPl84fadQ==, tarball: file:projects/arm-policy-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-9Koyc+8sO91Ywu4/xu/Rv50lTvhq4UvJ+Sw5hA7hCgxj/s/6Skz31Ao7RNbZJyXZzBQBGjTSUWLgL/7b+o/e4A==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-jGUp4+gGdcqvaUDR/Uq/ZrN1kSK9sqdm9nViD3XHr3HFdcxAmoqT5UCvuhQ9/wI3OYCi8LylbEQjWwJkdB8GkQ==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
-    resolution: {integrity: sha512-fafG5fU14o+Avi9zeotePzRcTmhtQ5ELh2HagNek7awniwZgiJ5DgHC+LIH4ArcqMWsEDEyIFHq8ZDyC57DIEA==, tarball: file:projects/arm-policyinsights.tgz}
+    resolution: {integrity: sha512-TgqsI9F985MDFQuba0bwYgmfVPsv0y/gfKkLUKfwvyoCER2xFkgeMKGSFjLK2BQaW3tDp7UIQCB/36i0rXZqQA==, tarball: file:projects/arm-policyinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-portal@file:projects/arm-portal.tgz':
-    resolution: {integrity: sha512-1CVZceMpLsBDMJPLp31T9RUlUPw//bXFM7EaKV5BY7xoGAW60UiO5rofYnbx5KkZKYs/Gwu7DybIpGn1A9fjYw==, tarball: file:projects/arm-portal.tgz}
+    resolution: {integrity: sha512-c275RvZhKLDOj/6b4KVVXc6X+/BZN8dbTmGoaMeQDMR4S8SI+Rd3CmvQqCKEW40hpB8ms61ekUoaa66+IGBS3A==, tarball: file:projects/arm-portal.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-postgresql-flexible@file:projects/arm-postgresql-flexible.tgz':
-    resolution: {integrity: sha512-1EIDhuqD4pJnXuUeNJxM1N28RsmoI8D/NKbiF6Ryywv2+Nx1zJmYhb0o+zH1Ig3oMFPHOXCF/lodDELgzhxBbA==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-C/kg+84V3H8erQwAn4Zepx770p6+1Mw8Vr4bMLtknkT00mzo9wEh+QKGxfxDipDbk01zkJHGFfJQIOHpJQz60g==, tarball: file:projects/arm-postgresql-flexible.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-postgresql@file:projects/arm-postgresql.tgz':
-    resolution: {integrity: sha512-MR11xzqeG976J0USbgnkQZkK8XdmzhB5LqEsONnAgSTbJxhQ3JoHwrxqrAgrbqE1QUfrM1DSRy3m3bRvQzd1aA==, tarball: file:projects/arm-postgresql.tgz}
+    resolution: {integrity: sha512-+Ysi77g+kCHGtPkVGhWGmL07bdMjHgUmjJaxdYkCZN8UDbR1mlyRjV2XqQBg+C2dVrKVLs41Q2SLfINYNm1vVg==, tarball: file:projects/arm-postgresql.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-powerbidedicated@file:projects/arm-powerbidedicated.tgz':
-    resolution: {integrity: sha512-sPrwel0+Lt085jd3cl7eW9NXlQDqjtx1pIZkjDAFVskMyvrDRGtS+loTUHO/jjdFXXpgPxaMz09CqAefZGBF2w==, tarball: file:projects/arm-powerbidedicated.tgz}
+    resolution: {integrity: sha512-E5LM2+2Vw2mD9GK7TQ5xlLkOfjerlA/lFBJwqnxnMini17rF47ijwsUmV7Uh+kEefs2G7IsZb5+vDOYKki6QHQ==, tarball: file:projects/arm-powerbidedicated.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-powerbiembedded@file:projects/arm-powerbiembedded.tgz':
-    resolution: {integrity: sha512-DY97nnx3schLET8AXWCLqBNiiAlfEwOH4DWM74SzVvjmcopDi7eva1xrKm4f7a7pmPpQahxC/01UX0o5zINsog==, tarball: file:projects/arm-powerbiembedded.tgz}
+    resolution: {integrity: sha512-4OjUyANrbqGGHAXsYCARXOExhX0PP01+FWdE3mFA3DZFpUEfe9pPaeGAXcNiO6YvCYVsBrjqdFeMgmoYF9VHNw==, tarball: file:projects/arm-powerbiembedded.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-privatedns@file:projects/arm-privatedns.tgz':
-    resolution: {integrity: sha512-BdXrxvNQuZs2P/csX4G1q2ajK0TBDm9efJw6eWE0p55Km9xaulv1WHNZ4VIOWD7RnhJCNtMAuuoB1CSxZHo23Q==, tarball: file:projects/arm-privatedns.tgz}
+    resolution: {integrity: sha512-csv1+Arnt1WWbWlLivfFjyoysAh4N9F0ZuU6uZWLY+WBxZsub+CpXg1uGNOHyTkZt+MN6x2OgVFM8xKBpiXmrA==, tarball: file:projects/arm-privatedns.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-purview@file:projects/arm-purview.tgz':
-    resolution: {integrity: sha512-hxE8typvPzyVGUy+RZeNK+Q/gLEgseAG1eNsn++nQ+p4p6rU/2iPjWarJM97idBeFTHhEC25cQCqgHXK4bL8JQ==, tarball: file:projects/arm-purview.tgz}
+    resolution: {integrity: sha512-4YfhDQ6aTNxw5U4L6zokQkcmmbCGHAnUkyIelYAXaJkqLkrfowzu7vyHCj5JoDx0jMrIQdEZ3TZqFxl1QWbILA==, tarball: file:projects/arm-purview.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-quantum@file:projects/arm-quantum.tgz':
-    resolution: {integrity: sha512-gr24tljmQxyqsUH8ipDNMSeKuxzzlreZZZXh3Vkbt3WRyMg2PJsW5aef8RgTOoX1N1F/Iiur6hj0puiBt9xIJg==, tarball: file:projects/arm-quantum.tgz}
+    resolution: {integrity: sha512-1VNIbgF/GqHNaq9OJ9v4AjpdZYw7XMwT0Qo2Oaf74d1F4s/p2UACV8j18qePzUZgBK4U07tNtIqiN7Rp95sizQ==, tarball: file:projects/arm-quantum.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-qumulo@file:projects/arm-qumulo.tgz':
-    resolution: {integrity: sha512-DZs1TcFxfCOnRQ1IxlPzxCHq7H2/X1QljZ0IVbCqJ7sd1ngnWFq3U7gh09giZpSdeROGwlu0rnHNqQowjblMnA==, tarball: file:projects/arm-qumulo.tgz}
+    resolution: {integrity: sha512-cUJnz5NqopTsMSnHy8Rh5o64AVadTsTtXU1ohQuYparjfWr2RCc4sBiBObjJ8Npxn4n28djwbNngyksfbVJ80w==, tarball: file:projects/arm-qumulo.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-quota@file:projects/arm-quota.tgz':
-    resolution: {integrity: sha512-y7L0hKG1puKuCcNIdu0kivas9EGP6ND2IWgRD1qL7RubTaUCFtXicYUGGt+HdyCBk5TDFJ422ecyA21gXy+gFA==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-ohB2vBdP1wX1yeTVlypg8v25OZ7bQdbYer2vVg5VZOy3HIXpFFm+htqHDXwYxAVxHwY/vdD71NL+8pJ3kPwwPQ==, tarball: file:projects/arm-quota.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices-siterecovery@file:projects/arm-recoveryservices-siterecovery.tgz':
-    resolution: {integrity: sha512-008v5ABUzHAsibHli/ZgGJD+0jfHdFmZL778+UHDebo5SSa4J/PCqtLT1ttNg3X1sHQucz8ZxCgZIxQzHs+H9w==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-XcF+Fhc1iC85AigCE3KNtRMEPeQ6V4g26EuatjYxfelpeRYhBTzGvPYgIW9TWB4tsHkRGzR7Bm2c16veFZuoxg==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices@file:projects/arm-recoveryservices.tgz':
-    resolution: {integrity: sha512-1J764ERzMmNUSWwXC/Bft1YXJKSOOeHOz36igdHV5302XkDxjcMa+T6TOiArCzCVMJCX8FQEBpe7LjIPjcafKA==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-B2pUBEHSZal2molpUfC/gR0Hplqwuh8rko/MT742NQBl6S0kBKrLHg3oDIG+vBd4yrUmjkjpSbx9xEiZ3Dolxg==, tarball: file:projects/arm-recoveryservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservicesbackup@file:projects/arm-recoveryservicesbackup.tgz':
-    resolution: {integrity: sha512-76IF5KI/OCOCdLaKuMR+C5gCzNfBLMzBCfgQ4d5cW9DovTXxhRzO9sXzKfwmgnL1+VUyvCo3GxhzTYm6ncwd7A==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-Gu/yinzP4BielI6iX5VUNkeFBhMUWqIwj14khgrnyNgCtMaOoOOZt9V+FxsuLxqyY9gGKuRF1wg0Nn2zIU8hlg==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservicesdatareplication@file:projects/arm-recoveryservicesdatareplication.tgz':
-    resolution: {integrity: sha512-AHHJ75uI52v1CjDrAS/Vz96KjP2q1IikVmlpspeJqIidQ+/5v1CObBy0sHkynCz1Gwa6dvnCQjN4OOJZK/5LkQ==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
+    resolution: {integrity: sha512-2wTdmhSV97UliN4daOmM/yAJ8ArVUvgge4sHInXDDuFLv6pHdo6GIECD/Eq9WXnUbjDDRqymvdc2n0Q9xfAabA==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-redhatopenshift@file:projects/arm-redhatopenshift.tgz':
-    resolution: {integrity: sha512-23R0w2KiKbFf8YFP2ta7KHEAxkh72HsNiA5dknN8J1ckj343t8bYnmUB0hRKNL3H+PrxPr524F2PKNxAQkcRiQ==, tarball: file:projects/arm-redhatopenshift.tgz}
+    resolution: {integrity: sha512-yijQVEyODxb5ru2xUJIrluGXjSWDezasHf8+d4MuoOzGJRgGY/NsjlmbgAf0lwne4tyVLlZ83WTxkwsvZKq93A==, tarball: file:projects/arm-redhatopenshift.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-rediscache@file:projects/arm-rediscache.tgz':
-    resolution: {integrity: sha512-o/WavjUvSM12zp157VxQXcnBjnJCCx71op3cOmGs1G1GvlbSyctjdxh7gCC+joaQgqSbly+uLUXBWVfNKUg5JQ==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-SNM5/g3uHIdWW1+pTRNYqBssZxOAa9igPvtgf0QxrpW6hZQMMabMuhU08EFzVHh+Q4MfZW4Qky5osIh1mjjuPQ==, tarball: file:projects/arm-rediscache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-redisenterprisecache@file:projects/arm-redisenterprisecache.tgz':
-    resolution: {integrity: sha512-5Z8uYrGcW5YFRPIJu5eQREcrMDR7Q9k8wn5HCoJA1Wikzn3eU+8F4VbzZUSizYeOGDQpmb9IucwRht6ou3V34A==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-eqSufgdn1PFis9eDZLD/D4XqEWhxDqqDYmzBVu0EFi77i6mfCyBrNKret6hCSnDflvBzxtEcq0UO5r79WYtJ7g==, tarball: file:projects/arm-redisenterprisecache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-relay@file:projects/arm-relay.tgz':
-    resolution: {integrity: sha512-lMx/fFZsO2YkByAVnv7dZJQTOmM/y7M+5RHBl7qJ2NSfchb4wQxs5ToAn3NiRugl7b6JRF2l1GbQvTqsYT6RHw==, tarball: file:projects/arm-relay.tgz}
+    resolution: {integrity: sha512-V4ThHFRPmPhjN8IqPy9kCRUMV3ouPc1qP4MCV3RiKKWLVqlipCxSJkdUN5JNpu8nZ8hZoNqRaS01nWeXJ2W8OQ==, tarball: file:projects/arm-relay.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-reservations@file:projects/arm-reservations.tgz':
-    resolution: {integrity: sha512-sBNWrCCUTRq9NWEA3RXTAziFxXcPDzkvjZvhdi+L9quEvY5nbPG8opNHL7WlkF08LwI009kqwgKzDKioQknCUg==, tarball: file:projects/arm-reservations.tgz}
+    resolution: {integrity: sha512-Jtq8pT5yNIbJ44/JqDIBMwxgvqUbn5aewLeHAywOIBpXYE3nOrKSCmsn7fAGU4b3nT1ocU4DPsgFiPMq2GQkDQ==, tarball: file:projects/arm-reservations.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourceconnector@file:projects/arm-resourceconnector.tgz':
-    resolution: {integrity: sha512-SLMM7BNGlN1W6Eryz2mzeMPMiA+l3iAOtacTKlsG+sEwLcetNF+OLB12sUqgVS75BeFXo3nujpqp+NtT6AaZtw==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-fUIgjBjZAQsC1eFQpX/E5vfiY/0Fz3W5/dfouyy32VuKce5JkIRVnc/La3hnfu9/+yye49qkbcBucZHq3YnNvQ==, tarball: file:projects/arm-resourceconnector.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcegraph@file:projects/arm-resourcegraph.tgz':
-    resolution: {integrity: sha512-cqMXQAifgNf4d1YcPufETrpI6sJ81Rx0/9e+lKjqYoTavqxn8nJ9ockOR6M1nlF0iB6gqSC/ea/fwK4Hc+RSuQ==, tarball: file:projects/arm-resourcegraph.tgz}
+    resolution: {integrity: sha512-jAXhc7lzbrHKnJ+v5IRRtBDIIoxKY3PFRGRElKQtZsm1T0I92BXO7OhRNb9cMdN/7k7Ni700/tg8qqRHd/omnw==, tarball: file:projects/arm-resourcegraph.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcehealth@file:projects/arm-resourcehealth.tgz':
-    resolution: {integrity: sha512-kY5dMY1m/BXvjyc0TAVo7aMUw6hkdXO9sT9ih96CqxoxiF/NH95b2wh4W0/qwkD9CKa2njhrZFaUDNUyisZb0g==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-SYexCH+OqHChp1YvGvaGdeZCAomSqpFT7MtcK2p41O5aD9PDkj/SOixITQnZTtFXe3FcQH1Gs5IFcQVrPsP5uA==, tarball: file:projects/arm-resourcehealth.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcemover@file:projects/arm-resourcemover.tgz':
-    resolution: {integrity: sha512-WB/HObBMAeJd9pFmNZGIUzYLHkEq9h1UH5U4AJ/pIr18WbCXhWujhYcIXVbrPRvUgCNBCcIxMJhoCnokQvIf/w==, tarball: file:projects/arm-resourcemover.tgz}
+    resolution: {integrity: sha512-v/T5mLfUlNq7L1aMJ46dQgScLzJKQjj7Caxw/z6bcA05XDoRbt3R8lbIS963HJD35I/wAW+iNrbRf1GIeIQSmA==, tarball: file:projects/arm-resourcemover.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid@file:projects/arm-resources-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-0P/+Saz742+PPnAn272/Oz9v0y0FFj2F05aIU/+W/uSBWz9ojpyog25M/QPBpCYgjOHd/mXbffhraYJPTua53w==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-U5CouH1E8v32hXoIsIHf9ipgO6jSJ+swxzX5q5H11Umzt7M1nCwoUmSXoeBXj6dqNmrDU7Gw53KPW5yIo9YsJQ==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources-subscriptions@file:projects/arm-resources-subscriptions.tgz':
-    resolution: {integrity: sha512-5GnGGfzjo/OB1Uv4xsBUPOQ99svgWbgoa8peip0lvo/YzuakScDh3ATqOY8l6KF87yxNYAVUrAOfP3d6GgLynA==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-B2+I23ydzOzEAqr3He9NuJICZv9d0qrxc+XJgrkgZIrTAo8r3Ge9dTY6P4GmJkKxL9mHgrtzurLw5/lE/tIjrQ==, tarball: file:projects/arm-resources-subscriptions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources@file:projects/arm-resources.tgz':
-    resolution: {integrity: sha512-n6F4Un4OyA4z8N2Yi0OvgexVFFNNKyxfFkjw6ySSoNsrkER7zObZhxMKY9lO4tcRwE84VugFJ57k25QXGHwNPA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-xzhUQgPnJMB0ePG9E/jVZiDI8fikZvOzrcAoXGv6qkfnmw/nUfCWwTTJ65GKoR8dBJRAaPRHp5c0Bnuvy7aITA==, tarball: file:projects/arm-resources.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcesdeploymentstacks@file:projects/arm-resourcesdeploymentstacks.tgz':
-    resolution: {integrity: sha512-MKeL96dmEcCmLzFUchFUV1e3FWp8wOM2m9WfFfDFhmfvKxr56QHp3meGly2C089g2ZdDF25ARoztiPmNzOtYgg==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    resolution: {integrity: sha512-IJTN9gaKetbUa7bRYGzvyE0u1+DRYE3zw7jdQfO4ANm2OtdZ0PI5YmulVE0eZ3POze31U6ao6Fh7j7zUFOPifg==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-scvmm@file:projects/arm-scvmm.tgz':
-    resolution: {integrity: sha512-JmBrposOB3f0bULiL9yDPyOBfQAFt1KloDxGzTbmPPP7KfKbpYkkK7DZq9gzL/jMR3nlUCTxBgTHc+orTU40Fw==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-5nyg/xUJ73xHtdVJw+ytrZF4BaGwek+rrVGsUdWg3h8kCuWrJNyiXtnMa6PXakEt6PfPcNje1E9os94G6BhsbA==, tarball: file:projects/arm-scvmm.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-search@file:projects/arm-search.tgz':
-    resolution: {integrity: sha512-CSGe1ApSTZMu44mukcuUU//7eoDAtffXWDTvY3H+kIYuBwF/y7TasWB1t6Su2hcADnrczG2A7Ju1kKzZWuX5kg==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-v9bqRy8qmknVYR7mGtYgsanNuaP9ONfSqPHa33VY/NKXZfxFh0GmKmWV3pjOTUS4T3vC+hEPglRTZhnqETUIWQ==, tarball: file:projects/arm-search.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-security@file:projects/arm-security.tgz':
-    resolution: {integrity: sha512-Jg4VVVfU683pxk/R3z2/xRKZda1e0heHyWXJQQRRUNW/IMKHAI202P2ySDk8QvROlELz/cm5xDd8nBeUxyCXCg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-BwtNgOO3SMd6sIKN2PrGc3VOtFaGc7lZ70RuMcQ284FdS3Nm4EVuBbPbx8DRDEgkeDng0lZSBAz6SQt4t+WFjw==, tarball: file:projects/arm-security.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-securitydevops@file:projects/arm-securitydevops.tgz':
-    resolution: {integrity: sha512-fGTT+XyYEixb185bcZZ7LILWrxhXFuEhYdTZFUyhAhhwDe/pEZIXcfJ8UXLLYABfoBz0dRQCd8EQPYvXh8y6mw==, tarball: file:projects/arm-securitydevops.tgz}
+    resolution: {integrity: sha512-cnc+sdRjo7ZiMAKwrtyKc4YUQuIsVx6acHtLH/BzBs2SX1j0tNdQ1xDy95fVXk/ocGpUB9a3IfYbVl5vZ6bSww==, tarball: file:projects/arm-securitydevops.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-securityinsight@file:projects/arm-securityinsight.tgz':
-    resolution: {integrity: sha512-jDaUR42R/4oP75bObifhzRk/oUtQi7RoSMHxsIle8IK+nCubQ9e0qt7Q225PZTlh1c4wzdfht0t+z4mw8zFX5w==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-I5nv8WNSxOTSxGk7YsQxsob4YRbEjKYwewgGK8adFQSk9MVnTTPz5UHBT88OQmvxcdmVYwrZcDhuSeoth6duTQ==, tarball: file:projects/arm-securityinsight.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-selfhelp@file:projects/arm-selfhelp.tgz':
-    resolution: {integrity: sha512-IRo7QeAtCHYpwD3iGWu1abIstu6qUE1PHXT0CXA/ZzWLlyJ4j4gyxWGmplVXuuie7PTJ07ED20AGtqOT29dRQw==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-p+89Y5FLK8iVTs2Sl7DaKSB7b7m0b03QTDVIK5LphF7I//gZ6IN/9DxLlHPuEM8eBSr5ZO3e9JBiV6rS3wTsEw==, tarball: file:projects/arm-selfhelp.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-serialconsole@file:projects/arm-serialconsole.tgz':
-    resolution: {integrity: sha512-GypqRJaY2dP+f9cTFTRIy6qp43toqtJgR/9G/JFp7uYj8P9txtx0IyHyB0er+kfFmoOzsKS121BqksHSWGk1qA==, tarball: file:projects/arm-serialconsole.tgz}
+    resolution: {integrity: sha512-YC/QE76Tgyz/yHAH13ITumWiHbdWk+Pqr2Jd0RTORRs/s5Hwm9d5MF0/W/SLqTR7DUcU5UBJxxhLbiTD4mp3QA==, tarball: file:projects/arm-serialconsole.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicebus@file:projects/arm-servicebus.tgz':
-    resolution: {integrity: sha512-0Id22+g5s1ZTnTdTFKKyXRYwnDIuU4FKRlH4e20TmKMnGmiNQo/ib5qI5RsW2l0p33zm7H9NA+yukAc9l/TQzQ==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-wbsvK2prfRxDS6SAWBkeuG/Fbd3lHr9HtooxQeQMj/ESEQ24SqA2I6O+lpEAHeeodpRwgkSdcmGh1pjtkTimYw==, tarball: file:projects/arm-servicebus.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabric-1@file:projects/arm-servicefabric-1.tgz':
-    resolution: {integrity: sha512-yrrFIzWc99z8Gz2MOjkEBBk27F1Ry9OHDzNxZk1MbU5u4ZLcPoTm64hCjVVWfGnyEsrApqo1HVSI949KDkomsw==, tarball: file:projects/arm-servicefabric-1.tgz}
+    resolution: {integrity: sha512-+O5b4ODH9/Huq0Hc+WQb5Kh167PNzV+ic3/exeKOUsVbmpO+LwCeuacoq47u/N+qJUTMdjp1ZeCfuHdaQsY7Ow==, tarball: file:projects/arm-servicefabric-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabric@file:projects/arm-servicefabric.tgz':
-    resolution: {integrity: sha512-T6bNn8jCYAsb8rtLUdc44u0lBaehljxhAf1KcwXmNWR4PRIAZsPqx4UvF7JrgTiXBf38OwZObQkp3doLI/ly/g==, tarball: file:projects/arm-servicefabric.tgz}
+    resolution: {integrity: sha512-W1LQQ9aCmNvFAlGV2N2Q6QO/OzQa5M1qM9jilhTV/c0mCbXRf+RSGeyrFFpPtuxnW1BKmZng+7Z0wpJBT7TV8Q==, tarball: file:projects/arm-servicefabric.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmanagedclusters@file:projects/arm-servicefabricmanagedclusters.tgz':
-    resolution: {integrity: sha512-xCkGElJtVReO5TDCkZ309jB7+ZGD0zkVnvEGKd+lFb7jR7y1oFVSk9hWDQ1AX615A1L4YGJrgemVpFymZhsr+g==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
+    resolution: {integrity: sha512-VfCDvB11qVohcfaukCnVSFqCf9W9DESIp5Pz3N4wHj6wLpyXQohRm95uE14OiQllLJ0VTxB4Dfib7djtEviq/w==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmesh@file:projects/arm-servicefabricmesh.tgz':
-    resolution: {integrity: sha512-SKsvA+wOsuyrm8ksf0Pf5BPDL1Gq4Jfy+GsuQKopo9LlamEg6M0xqCApY/SN5TW3z4QrMZGuOB/J6m02kc0pKQ==, tarball: file:projects/arm-servicefabricmesh.tgz}
+    resolution: {integrity: sha512-rf4uVfZYknWKfvV3FF/x2SmftMS8VkWkpIyZPNR7RRR8XOeS1L/6f/tYPGkZ0IS7PJEZn9yuWgJP7s0H3bob/Q==, tarball: file:projects/arm-servicefabricmesh.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicelinker@file:projects/arm-servicelinker.tgz':
-    resolution: {integrity: sha512-1xg6e3Z10CmtZXgv3f/2EO9eUM5mtF9TLgx/Ei9bqiSUJn5gTJFNreLy39DeoV5tc1/RoDZMIvb7u5+xpWXSpQ==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-ov4GO0dE+dy+ZtQv52/H6yvaSJgUDIlXSCKvGYyDcR3JxgwQGfvQb3JwszBqs5k10zgfsO52HQB6oti+t0RK4g==, tarball: file:projects/arm-servicelinker.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicemap@file:projects/arm-servicemap.tgz':
-    resolution: {integrity: sha512-zjUBgTPPQX5GgV7C8Wuwmne6/iditU0oQu/UIoHiIARbaA28G2Q5sJ1/2mNu1yC8WXNuuKKROGBg7S/W319lGg==, tarball: file:projects/arm-servicemap.tgz}
+    resolution: {integrity: sha512-3CEzTLxDb93xg5ACcMBgFSQ3djGVPC5jU9neHmcmjVXLvJtYbwSg4rHCbt1ppqNM2UgiGLo/OtBALwCVbPDiTw==, tarball: file:projects/arm-servicemap.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicenetworking@file:projects/arm-servicenetworking.tgz':
-    resolution: {integrity: sha512-SrjrSzLKl8APiyM3ZtyOsQp+1jmlmZbm7TGrodgTt0G8pQQlnz8IkLqVgWt9R3lGjjRF2O0MAs9H2TchvyyXRQ==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-WzF7zZ+Vt8nB4CpRsE7i4Vqxbe5N7r/Za3ZAaNWwbvmTjZahOEE9bBrAxG0omQWs6CapyLwB70xks6v92US2WA==, tarball: file:projects/arm-servicenetworking.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-signalr@file:projects/arm-signalr.tgz':
-    resolution: {integrity: sha512-VR/RmVSR6u0nImrhL10S9GsbXbEd2h2CqbyNo/9b3VMmEAu49uz3bK7PiRXvdI4RSsI1TeEceeXjJ25e70V2ww==, tarball: file:projects/arm-signalr.tgz}
+    resolution: {integrity: sha512-fUnbWawUJw4jA8YHqxMs93YJEZTFqx6VWkzOsvrehIwC8Fc15s/mRQE8l7vTIicng4SKXRXD9MklbTXbopxpBw==, tarball: file:projects/arm-signalr.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-sphere@file:projects/arm-sphere.tgz':
-    resolution: {integrity: sha512-mAK7/5u1SglQ1F3KuYi1W58khwoQN/MHJNS5tW2k5f1rpLJKobgAwiCLVEFgfblu+JmK7NEGp/yMtwa9fugaDw==, tarball: file:projects/arm-sphere.tgz}
+    resolution: {integrity: sha512-lFRK1OC10cAmCUBkh6N1k/mmGg0+RiHrRQDDpZSYtwou8eTACA4NHaS1BhdfXcDFmAV5jThfNwRv+TtbwQl6Dw==, tarball: file:projects/arm-sphere.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-springappdiscovery@file:projects/arm-springappdiscovery.tgz':
-    resolution: {integrity: sha512-P8bpWmz6FDPevTDskX0EdEaUtVmdbL/nr18qsWCLDNRpU3JUOzCsahzCMIjpoxY0VoapSbIokOhcCs6uKwhcrA==, tarball: file:projects/arm-springappdiscovery.tgz}
+    resolution: {integrity: sha512-OVCGwOfC1qYfyWuhWWdkBfz/+3pRSaYj4eHjIFsrct0GBKlkuemDCeaFifdGpyk38zJsq+2J7j1VdvuPgDdfmA==, tarball: file:projects/arm-springappdiscovery.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-sql@file:projects/arm-sql.tgz':
-    resolution: {integrity: sha512-Y+6aa4zND6EgCIink/2aq2TA1DWTkW1YzVZajzFaynLLZ2K3zXnd7qVxb2fbSvx5WFNlS3OnZfWfKN2g/RK/mw==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-RKpE/ZCV8tAKJEMSLJzP7VVRnpRqz17SBf3KIZqcmAsn8bN2LRjJta8KxBTuHlFTEw8d44Y7+OMbUqXRzRZYKw==, tarball: file:projects/arm-sql.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-sqlvirtualmachine@file:projects/arm-sqlvirtualmachine.tgz':
-    resolution: {integrity: sha512-jaF4BXGDVHqgT+KVrUz7joRKg+lDAUlsY065kaIfsg4Nf8YCJmOAknVyCzcGR1pTvFY1UG81Gc+3fqU1rU0+Qw==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    resolution: {integrity: sha512-EKXnxX7K+dyALte+EiGianHwRIO6NwkgNCNs7S9f6nJP7DX5NwM+uXCZ40lEuD0c1ce6WrnmDcxem7qQPIElTQ==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-standbypool@file:projects/arm-standbypool.tgz':
-    resolution: {integrity: sha512-DF5wCFKQyLiFXpQgOkUmz9hReXdMUJhPkrN3AHoQXuZyLx+wA8YEdelvInjVGJ4d0vAT1/QR8TAbM4Cm0VpX+Q==, tarball: file:projects/arm-standbypool.tgz}
+    resolution: {integrity: sha512-qTsm2Z0G/shllfN9zHbDsMLXAMQfs4LDdSemSjTiMhfJkTTmP+73knT+k6fGL4dqYkfrIKfM3x+4niC+VFF6XQ==, tarball: file:projects/arm-standbypool.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid@file:projects/arm-storage-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-hTj3dx0q/yfP/Pl10XTCHJDvw0N8zyPVQMm3+VDpQkODNBahzyIflcc4cGu7FMpJi9qAqyWqJbdywj3CbPCBmg==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-ByVUS3rnE6g3fDRSDzluQQIdd4aDYeMgWBahjFWBmcSE3H9O4lS/LemQdp7G90HZcEPVxr8wUo5dW4tSXlK4DA==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storage@file:projects/arm-storage.tgz':
-    resolution: {integrity: sha512-wvvO57WHgf2fwzobLBLO7aUgVvxrJBub5pMckND8IpvYw9awqfdhP7V0kV+keZrPxhcygK2XnY32nsCPunj8sQ==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-vM/ineiV/86/v++3Ft2S9aM7AxnBBjNSPmmifSb7feu2mYMPonusAWU46T4Wu6bToyntxRD/vc4FohvlIM0mvA==, tarball: file:projects/arm-storage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
-    resolution: {integrity: sha512-Tq3PUkeMnLjdwFUfpnILuHBMG5K5NJWGiZuJ289MZZRHaq5jB5roc/Vra16nwb0aW8cAZbW/nXT7yl+z2XeHKQ==, tarball: file:projects/arm-storageactions.tgz}
+    resolution: {integrity: sha512-n//dfI9cz8bWZOWDlCF24S5Y1sXBcaHk5BogtwDcFFm5/9p3/ygoZD5iqTmWxfWzsvumK8lXgiv/J9AkgndNEg==, tarball: file:projects/arm-storageactions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagecache@file:projects/arm-storagecache.tgz':
-    resolution: {integrity: sha512-k0d7BswwX7slBNI1udId1vryA6pEcrUW1vhOxMCOr8qnTPXpBoCWGpiUgEqWAb7Ij/YbD9xFECxxGCVSU9CGOA==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-3HO/w7ub2dGkHQVtsXIKNL3BMD9iPspUGSzWg1VG7znFs7j+qCbgApcaH3lWBYhjYEmKkb3IQjC4Hcq8qJgWeA==, tarball: file:projects/arm-storagecache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageimportexport@file:projects/arm-storageimportexport.tgz':
-    resolution: {integrity: sha512-wWYXAOQzceRQrW2iNkc9hRjnRcMv1XYuL3wX2f5s9nnr4aPKsdkQd8aNjvLV9zX0qFQSsOWzkeh1a5ltTe6ISQ==, tarball: file:projects/arm-storageimportexport.tgz}
+    resolution: {integrity: sha512-Ti6AWr1GR+eQRjjJ/X0zcWZ8J0r5Cy4iQMFO+22rvWaca3h7w0eQugE6zdxUhzQB/ZGmKThf/NGqRcr5Vof7Ng==, tarball: file:projects/arm-storageimportexport.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagemover@file:projects/arm-storagemover.tgz':
-    resolution: {integrity: sha512-bCAKnCipcNgK97r9dFp6xBdMynr3/yk5qFzeddAgDwuj1Gc9mKnsDsBAi11BFdTTVr6tQLs/2ym1iQ3Nnxl1pw==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-2GGhx3qDZp8McJiHrmFUmOHhmaQOkdHcILohnv5iCTbiF42o2YWdIG/AzIy5DocwTMtHL0CAgOoIWHVC54B47w==, tarball: file:projects/arm-storagemover.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagesync@file:projects/arm-storagesync.tgz':
-    resolution: {integrity: sha512-urri/ZoULfTBbkHm92qC5hSohyDk6zABcHrqTYqRAwA9D4jeckUeZaFFFkvRUGbkM3OnlGLwHvzbJzDpzG2Bfw==, tarball: file:projects/arm-storagesync.tgz}
+    resolution: {integrity: sha512-KNTAYsL1tcvk2p58Rj65bX9YVDCoCBK3q6PQaF2+xgUKpbxc6TEvuzCeLtk52Om9RbFZ7fD8n+nG3nI+j3xI1g==, tarball: file:projects/arm-storagesync.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storsimple1200series@file:projects/arm-storsimple1200series.tgz':
-    resolution: {integrity: sha512-xqNXF6vt4FQbaTMvBT31UUE811TZ5yTosjR6tnVnIICJenSYkQm9ZDogXGP9eGPnu+1DkX1LdYgEH93glIuxyA==, tarball: file:projects/arm-storsimple1200series.tgz}
+    resolution: {integrity: sha512-3clgx+IGI0HgA/Q289ozjuXBn9iLQsCKRlujbfS09sOhQQW0ehkp/AynC3P/gYTUhvgwOcoPf/89Z+/6kISxhQ==, tarball: file:projects/arm-storsimple1200series.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storsimple8000series@file:projects/arm-storsimple8000series.tgz':
-    resolution: {integrity: sha512-dgyOy6r3SnFGag1JxxB5oo3M6qOM7Vr/Parn94alsrhmt0Wgbvb1xUBCwSKRmutKm6SXSquMjMKmMO6qrl96Pg==, tarball: file:projects/arm-storsimple8000series.tgz}
+    resolution: {integrity: sha512-tyWDJTU3krXgBqD618iUMBzV7n/AU1+Hpdj5C2O492yQVmnevEuHpwI5lVA9tdIMuVHvyfN1NG47ZnSuGFzvWA==, tarball: file:projects/arm-storsimple8000series.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-streamanalytics@file:projects/arm-streamanalytics.tgz':
-    resolution: {integrity: sha512-vlJYSwXAvefMWqB9cERmqWRD0u/mVxljKcmogcpG0TwWxp7znyjoa3Gv7HpLQVlDigJ83Hu8WG8VR5ev6Vf1PQ==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-mMmAPk9YczZU19264zYYOEt2dvMH4HIfhFh7Gwdtmf6BUy7jQgPAtU1sTJPs5RfGfE7CczMbtYPi78l0rVASmA==, tarball: file:projects/arm-streamanalytics.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-subscriptions-profile-2020-09-01-hybrid@file:projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-o/ObKWHGw1j7IQHngyT83OSlvWXXc4u0/j5J2ybjiDCRKoUBjCog2RyVJMHI6zZWYSU1IuhewPV+vUoQ4jZXZw==, tarball: file:projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-8hL31J9aBaDUen0QWTra78sroXew/12pqo8gDlAM8guTVTmuJT4c6PeTYu4yQiszk0EDtIR8ZG6D6qElXbB4KQ==, tarball: file:projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-subscriptions@file:projects/arm-subscriptions.tgz':
-    resolution: {integrity: sha512-QlgxJlUvq8R58rwwAVaeSIfUX26KHvnBldTpLhQ0LCsM9vIFhJIAFtrfzjQB64nwjSBsMTDou1RIbtkEvDzS7A==, tarball: file:projects/arm-subscriptions.tgz}
+    resolution: {integrity: sha512-yeUSmIWaI+PyPED2QZSvk17/CORl/0XvjWNYgGiFMqS2sYSaS416kQISKcwhb/JENvWmfJlpO9gme5UE90KbGQ==, tarball: file:projects/arm-subscriptions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-support@file:projects/arm-support.tgz':
-    resolution: {integrity: sha512-pJvAJkJj/3L2LY1+VysQPWkJm4z6raPlL7HvbmLBa4dB57rPMglSlJO2JuJVXJtC5Qj+NJsfJpboINb/w69yAA==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-n44Gt0IC4n7q3vQxnqiRjvoFxbT0aPuV+gAcPb6CgpPY8/zYAN5ZN1cHE4uB6elp8kuug5GXtrKKWqWN3UxSug==, tarball: file:projects/arm-support.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-synapse@file:projects/arm-synapse.tgz':
-    resolution: {integrity: sha512-Dhlh9esxP7DRkBKx1OFNfWEbiVPKC8kfejshEXcdB+Qepfps7Ut1WE4mX4+X24LYzepMbvDOMhZOz9lwmfCwRQ==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-kKrJFfcs6uBQaSB9YcuwFtm1uKyx1uATm19HlmUDGHey77/DNwkvDSCUQpe4fXq3XeZNJZjGlbgp05zJKtYlOw==, tarball: file:projects/arm-synapse.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-templatespecs@file:projects/arm-templatespecs.tgz':
-    resolution: {integrity: sha512-+W16ggQOwxAgHYavP/guVT5fJF0QZK4t0LaxL33Z67GtG1+pJoriDhG2Yx/43mzfvdbIHNmbKJlaLz/EQ213dA==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-n0AC1hHXo3Ws6t3XmanTqOrUhlIi1zM5FGxUTM9z1rLBWNUHPSspwtC3Lzv93NYIhf5xTwu7yOUTFB0He6gUfQ==, tarball: file:projects/arm-templatespecs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-terraform@file:projects/arm-terraform.tgz':
-    resolution: {integrity: sha512-iXhFnKfMa5Rm7hTlgPyDxzQjdmt3NA2udcNhsU/t+GpvTPHhPfIJn8zeA3HO47BwsYeuljHZzglE1K9/eRNliQ==, tarball: file:projects/arm-terraform.tgz}
+    resolution: {integrity: sha512-iid8JLQelnWM6vuH3M13MflV0v4cqw07/3X5M6yakFX1VUVtfYu9UKRZGGuVIcjY8WJTPkA8H58Do+GeNw5fcA==, tarball: file:projects/arm-terraform.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-timeseriesinsights@file:projects/arm-timeseriesinsights.tgz':
-    resolution: {integrity: sha512-0pTPtK7xWh5ng8bQSU3yefJS/D6uwASMwDHbK1a/FwM44T5TlOJULx3qIBQbVTGyyaGSeTqxHN9TWGHh3u6Idg==, tarball: file:projects/arm-timeseriesinsights.tgz}
+    resolution: {integrity: sha512-4hFCtWQdjC3w8Ch5py+Qt2XkOzuG3yUBoxG9lwdlIKSC7AG7IQs1DoQsgaPR1JGUgxHtHD+S5GPr859dN26SvQ==, tarball: file:projects/arm-timeseriesinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-trafficmanager@file:projects/arm-trafficmanager.tgz':
-    resolution: {integrity: sha512-E/sq0Q6UOECHqvLvzEoW71y/JiYLGQbStpmLxYRUZZWvGiKtjaydeDZB9yLx6fg+UrtUw/hgqXpfXoSvUIXgEg==, tarball: file:projects/arm-trafficmanager.tgz}
+    resolution: {integrity: sha512-884zSGnshf+B4TXJAh8kxOPj1GjvlefKI6DLK/Ute732U8wuLwkSE/BsuShMbZ2fzjJI3q/NWUnBCiUfwQ5jYA==, tarball: file:projects/arm-trafficmanager.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-trustedsigning@file:projects/arm-trustedsigning.tgz':
-    resolution: {integrity: sha512-TY0nGtBJJ/5K3tOLwkUHB94POVYbfKTGNPvdyWfkftcTOoZmjRqY9AGvIVPC+fwqtv+niWPyfuSATXDYYg6STA==, tarball: file:projects/arm-trustedsigning.tgz}
+    resolution: {integrity: sha512-Ue2myRy+pliUAGQRLSTYDj2nnsCsEKi+22YSb8Y7rDEgm5sZrnAehiXXW9BFW+wqDr3ArJNaU3eCjI0gdgnFhA==, tarball: file:projects/arm-trustedsigning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-visualstudio@file:projects/arm-visualstudio.tgz':
-    resolution: {integrity: sha512-jSMd70E8RMku4WFq8JC/IhnOE9B55X0vRL59jp8HVOHCZ6lVcynacrVpI8IuUa16gtDhvGJT7gQqp+bGlZB2FQ==, tarball: file:projects/arm-visualstudio.tgz}
+    resolution: {integrity: sha512-jHATscrpu+MJ/3Ai/j76Zy7z8V3omjQAdLURekAfuxduYutH5Ckg7t7ql4YzcMmtodt/iO1NzuYLyJaDbUFMwg==, tarball: file:projects/arm-visualstudio.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-vmwarecloudsimple@file:projects/arm-vmwarecloudsimple.tgz':
-    resolution: {integrity: sha512-3tZQi3RvQ5yfzrqSatt6cKaCqCecLYMfHY66bjzsbRa+gTp+NExBkANfU5R8emT2i6ea+UZZ2hQCWsx1AJ+C3w==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
+    resolution: {integrity: sha512-PDj1xrI3oZwsFZp0AZFX8u1c/jJ63bhCVC73rOme3W+7BvKdHHpm0FUqni/KR4H0iMdDkSWkpuLcArW7vMwyfA==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-voiceservices@file:projects/arm-voiceservices.tgz':
-    resolution: {integrity: sha512-ous/RD4PWmUKWEZai1cy64F7MaZBtAD2i5wm4rCWoXkWbkbFRrcTDdTtZx9zADsHXZE9iyBcQ4xYiKIO/w+NJQ==, tarball: file:projects/arm-voiceservices.tgz}
+    resolution: {integrity: sha512-TQlk+HY7ex+dJn+uKKsu/KKcW2UPbmzTnPp6dFw9ZgwQrKD4quy+5qqnhKcv2yqAyp/48nCtDoPQoKIqGHUDMg==, tarball: file:projects/arm-voiceservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-webpubsub@file:projects/arm-webpubsub.tgz':
-    resolution: {integrity: sha512-sLOkgBOzBOatlAJerRXIBnU1Inxh5aZ2sCnVG7APxZ8YG8VKY+tLYzo/wj91XCaPD0VAuG6yaM7wkfzVdxKGBQ==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-cDnW5GkFvS152QQdL+jFj4SxI5D8yjyI2mhoqOiQ/0t4GYjF1d/8ei0oKiD6DXwi033tN7RtzHKhqj7pzbgIbA==, tarball: file:projects/arm-webpubsub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-webservices@file:projects/arm-webservices.tgz':
-    resolution: {integrity: sha512-qUZCuYNZ5kT0ECo3thcPesQw6YbfkKu1L5kkCH4Fz6p3TExrb8pJE3cGeoi48uKPlMMGwzVwZiLjmNW++vGxEQ==, tarball: file:projects/arm-webservices.tgz}
+    resolution: {integrity: sha512-ezhVtTJSLeQAbA5gAiqEdaNOZB+d7EJe3197LXrwUKSymfptqfqCR1viJwyZYc7PrAMgy4G916brYPY4B0LLPg==, tarball: file:projects/arm-webservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-workloads@file:projects/arm-workloads.tgz':
-    resolution: {integrity: sha512-4EhAjxLQap4PUMx86F2wqpUNcfmMplws30ICt9Q6+zy2pikVEpCGurdnbYvTKiuWEHpqfqSaedDss80lAcYE9g==, tarball: file:projects/arm-workloads.tgz}
+    resolution: {integrity: sha512-hCJ5ZP0X3wqFXTi4koESOGzuCGOZGJn/tosOCBmSmXlEw05k6J0H2dMn9SGtGOjypvMRHDBDaVbGZuahGSq2Kw==, tarball: file:projects/arm-workloads.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-workloadssapvirtualinstance@file:projects/arm-workloadssapvirtualinstance.tgz':
-    resolution: {integrity: sha512-m8r1dKe3YdDt0jwICZ1uQy1WPfM62XonbFYk1TWNdqbr9MQvQB+YFkdCkBs7f0LU2q5yMj/Apr35cUyWCc/XTw==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
+    resolution: {integrity: sha512-yvF4X5BhRyVLvvRUpYn4nRCcWPTGCl/TmpLOCTu/lKHeA+BbV7Teg3NSLWhQIdMwbsjVXA4Eenj7N7+/e4uiPw==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-workspaces@file:projects/arm-workspaces.tgz':
-    resolution: {integrity: sha512-67f9NkAU5nvUWiyVz6158pq4UW/Vbcojn1iwVuK3NSQLx+12y7h8LqtQ5vBhAuhGpH3PzsfF1VacA1ChJOGV6w==, tarball: file:projects/arm-workspaces.tgz}
+    resolution: {integrity: sha512-idyGWb9CUCop31bVTKVIOAAIUqx9rkwk+L2kksInChpcGgc03dUpgts06SKFBfR9CcxV7VOO3zVGlm+CHu3KlQ==, tarball: file:projects/arm-workspaces.tgz}
     version: 0.0.0
 
   '@rush-temp/attestation@file:projects/attestation.tgz':
-    resolution: {integrity: sha512-x61g/Yyx7I3+5lL4Pm8ZmHzjSiobOio7WE0coAG3stgPyIvgBq1FRQxTxnIGh+ubgyZx5kg1smBgKVGi0gr36g==, tarball: file:projects/attestation.tgz}
+    resolution: {integrity: sha512-rD7bNOZyTSzxUQLXOAjl5F4XdaBoyHDsmxRUDKawBt6BVUHo9kK7no344Hi2jCsoIjNJ45WgH+48w9igTEFKLg==, tarball: file:projects/attestation.tgz}
     version: 0.0.0
 
   '@rush-temp/batch@file:projects/batch.tgz':
-    resolution: {integrity: sha512-FbX6dyyyrdB9TGJzof19ZXB3ESOzW7OoRFaIxj5Qfz6LRo+hY3yYN9kCoBJVxeNHLLJ4uTte5ucB3yWrsg2tIQ==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-hPSuNym6x7fNY75Mf/xjxAPduISyBfpo8rA1c4Fc8jDkspso3TxqLuWlnxlxp0HEiUiVco8LuAd8bpgBsOTb+Q==, tarball: file:projects/batch.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-alpha-ids@file:projects/communication-alpha-ids.tgz':
-    resolution: {integrity: sha512-2mCkBSd5Aq1sCmWxODVQdJY/Stvo2Y2hkYIB/qe15/BNNDB/O8mQM5DxN8n4uZQ8dYjmjsB2Cru/8lzcYmJwwg==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-VEu3k22uR1/Jk1KsfM9y0Orzihvwn+Dkx520pKHQxs6dm6Q2BMmN1CVtpAwzwuvcHf1DHRCJAb5QEMKLmXQYag==, tarball: file:projects/communication-alpha-ids.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz':
-    resolution: {integrity: sha512-F9DGlpBcYN0Ffr7Mko/qCsYUfU83yJsMaqEywR5HmJSlTTBglYab6M/XAQ+mPOu+kCV7CW1FuZpmPLwOZ3lKDg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-bT81WmBqde7nsWmXKQveV7sz/66hhW6/ojpNO9V/sWxMgSdMG9OAusnadt7LXfFwE+I2Mh4oERsInpw5csqg7A==, tarball: file:projects/communication-call-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
-    resolution: {integrity: sha512-gThm/5AqZz3gY9ictxjbunfB5SQ54wIiTJ/WmtlO/WRI6ju4JbMb1qJ7xuyNhK9445d/mijEjKEaHNS5dmJbCw==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-+fUUji1s8tIhmMZ/2tat7Ul2qvrgxlRW+gHhtOO666uSLIEUgkS6lbvUwzQ451r2TNjqCOcV9TwmTJ4qHlV48Q==, tarball: file:projects/communication-chat.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
-    resolution: {integrity: sha512-B096hJCl8KGVcAI4GLoLl0Imon8q/uo6UPQvBFGlRd+10RJqgwVuv6bwQcsIdLZGc9EtFR4dh1WpmJIk/oHkfQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-A64OdLChnrAIF9kUPjnh/LcHkWE11lvIxtENPXjCYbY+nrl3Wj/b0cHtIH/er/g77OlIuZmDKNlSOBPbRX7WLQ==, tarball: file:projects/communication-common.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz':
-    resolution: {integrity: sha512-kCtc9UyXFNIZpnxLwcKwNh4UXaKq/VL0NbDsNrAcAcMvnb/jGF00cla5XIWx/aDDP4+kKLGGAOLIP03sGlglFg==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-aucvf+ixpMvgTTzbSpxK0VyHmYUkTcRZd461Zex6BhcEAxFsWVC8QB0c/9TQf8gT5ok/7bfANMLkhpQowX93yQ==, tarball: file:projects/communication-email.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-identity@file:projects/communication-identity.tgz':
-    resolution: {integrity: sha512-GXi3SsU9e78RWIBopm7ZbFghRH0O58RuR3WbCCb1a58tkDNEwtdlb+BCUEKqmgAg1UyzsNK0DLA9ks0TTQR7tQ==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-2CS4Gg/4sGTFJw8hDCFdykSchnBCpVYtmmIVMciaUK+5bV+Qj4uRnsc9IvqaA7T5qraLF6Yeux+RN15FSyJnXA==, tarball: file:projects/communication-identity.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-job-router-1@file:projects/communication-job-router-1.tgz':
-    resolution: {integrity: sha512-n2z2bSadooX3ECLjkCFKuepcUpBcSxc2IFMRRn1DeGJhGE6ZcUtyU4+RqeSc6wqNgYR5FDyeoDUK2g4daEacmg==, tarball: file:projects/communication-job-router-1.tgz}
+    resolution: {integrity: sha512-MCxHQ1ZpBgHvNKIcnmusYCozaeJP7jnO6tGi/1XQwFMI8kasl0OGBnwcudxyOkohfvKuBU49x79M5+ks0CRJPw==, tarball: file:projects/communication-job-router-1.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-job-router@file:projects/communication-job-router.tgz':
-    resolution: {integrity: sha512-8Uocnv0mBRgp67j96CXyVlpyuk+eCN38VoH2z+7n5lPcIkyTlXALBdWXSKmfqvSyHHTR1cPpLs0HvlXEokjdjA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-rNuGVLuVDlMWGcvPSYUrafnKt+Rj0zL6rHXjqED54M3rxJSRYfKulWdVEPHrCcnPq47PT3HQ8xvDoUuOGVJg5Q==, tarball: file:projects/communication-job-router.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz':
-    resolution: {integrity: sha512-ReB7ZS3ys+VFPUzPcmiUQlhyqhaiR08drMVGcMcPYJMCfNmenW6+cZ1AzriNVY0CSio71MQyyh3WDJk/0Z3aPA==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-VRFPMwrgczgLdJ+95LxMwiXDkcwQDoikmQrTzqo8Up0XUN0YR8Xby+9DFpmX5LqjLqQzI08TlnZezcEA1HHYdw==, tarball: file:projects/communication-messages.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-phone-numbers@file:projects/communication-phone-numbers.tgz':
-    resolution: {integrity: sha512-m2kcdE07LLUjLO+pVUNAW+heNAqNJLo+FfAjbZ3Z4ZjsOH4gWkC3sDhPb2lNZBzRPH8SuBQchhseyggJPED4+A==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-tHQenZPUoGCi+QJvBrLmCRX3RJeN9Q0hvWaPEfiEX2+Qgp4fBTsW4KO2Pf+veH+2VnrfVvU89/4aDIhiLi03Qw==, tarball: file:projects/communication-phone-numbers.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-recipient-verification@file:projects/communication-recipient-verification.tgz':
-    resolution: {integrity: sha512-e2/J7CYk4aVzkAz8QrHSxZs5HwS1CaecXw08mFGI/uhDuNxmcWL1oHqRNJCDk8AMGsAzRd6u3neZkJuabfDB6w==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-UvmxKqYSquCWNatqAAG5mepODSoezVhGnCsT26eM3hDjWqH46Ct5GellyBe7OaVbQV0SbYa1ihBFXisNUmtbmw==, tarball: file:projects/communication-recipient-verification.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-PLrdNfiv+awM5bJVE7hO1uD9TQPJXkC1ScwrwthgA1i8OoQaEWn+vpskW5Mkm50At/a4tl2aAMob2Pz72dSqTw==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-Wi0xUVxE1jD351UMw+UGehSUEozealLYTtDwwCTIwnYi6W5+DsltgVHrHZSuO21OZmvU20CYhawc7y71b1wMJQ==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
-    resolution: {integrity: sha512-Ds1Js7sk+85Ato6lhobS3rv4SyE9QLtWuGcjh1okN0L61Z+oayXi6LjM5XVMD3gzlgV4S6tKgJX4G+yvqv2Mww==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-TzYttt4vZu2Crc+Qvfp6LS0lc1kXt4TsAvjsB6iJq/UfyckQcms+Q/0qJ7QCYxlvAaonyZUAya8eficpOtFV9A==, tarball: file:projects/communication-short-codes.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-sms@file:projects/communication-sms.tgz':
-    resolution: {integrity: sha512-HCXJQnm4PLnKjfZutc1vHXh9ed2iq1e5CI6rvjzRw0SzCgfs1GmtwMtt05bJyanzeunaiWLXWMfKHVoQa9MlsA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-1CGxg5Rf8P6U6bsojLzpQnkiBfUuM0C0O+fYpjSyoBlTdN5shNsnp0I/E35/7hmOPzGK+IeG1ObRHLw0LrbTnA==, tarball: file:projects/communication-sms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-tiering@file:projects/communication-tiering.tgz':
-    resolution: {integrity: sha512-UqpcP6tGe7h8mJpfdq3qLXa7F6ctb6QHGbJr1cHw7GrUeICfRd8IGX4o2YOtwi7WoRIxcakFLtR3DmJT/aS3sg==, tarball: file:projects/communication-tiering.tgz}
+    resolution: {integrity: sha512-lvXBXtnqWUV7d/Ypyk/IPKta9wHfua3/ql4QwWTZJZY5zjzoxI5PJ0ALffhQ8CmVLS7xd+L0hgK+Uwkk4dtyDA==, tarball: file:projects/communication-tiering.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-toll-free-verification@file:projects/communication-toll-free-verification.tgz':
-    resolution: {integrity: sha512-Remwrhf8Wr+z3waxN07OrU/VPbgH5ODU42JKx/a0z34FdIcJqtJky/Fdnn/UGY/dE6ID1Ft0tWSSpqjIZXOfMA==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-HZZ+epUamnNt/RWITGedzPBmtzb1b7RZRbOyNlm1GBcA41Z/2C5qeQOBph19ZLfDh+p8evz3VwlwlhCsEVaUzg==, tarball: file:projects/communication-toll-free-verification.tgz}
     version: 0.0.0
 
   '@rush-temp/confidential-ledger@file:projects/confidential-ledger.tgz':
-    resolution: {integrity: sha512-SJzc0t6IU+ncIo/2rsSt6PQzH5KpCAMYcFLxYBb4OripIcE4U5gKmotJfB7koFj1/r0T/9eZqpeD+1OTT0dJQQ==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-E/Z8rvT0hBss8DdH5hGYSiuOZLvjKLn4z2HObeCawddr/YrG0JfNeMcNHGNZi/e7jajjqYbXfRxZ10jCxtB7YQ==, tarball: file:projects/confidential-ledger.tgz}
     version: 0.0.0
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
-    resolution: {integrity: sha512-kdY7KS5+D/ak6cDTTtGkGMcJmPSvX9imMZx/XYkCwLcX9Smjf6WAenHlTrqXHusrUQbQWIpSS3wX8j/wwrAC0Q==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-m6FiWc5/o4kwCL/G26IEULNEKcpUGeWoQw+sq1n/CgnL94KyaFuqpu2PWALDgnL/udiJRlByv09gBdvNUWUQaQ==, tarball: file:projects/container-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
-    resolution: {integrity: sha512-6R/j0QXMcZDQejz7pIEGZM4qt7vIJi66XRJxjb2SZUMwQMW8KW1DI3icXWym7XbMGYe//7xN3p4WvrB8X4+ttw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-XhkofTVMsgGBpWO4dpEfsR5iB3KVW+wUrejt0rzQdMX3WlqUBls0LLWn0Q9gp9pZVuJYfhFIlveaFnnj/wWjLQ==, tarball: file:projects/core-amqp.tgz}
     version: 0.0.0
 
   '@rush-temp/core-auth@file:projects/core-auth.tgz':
-    resolution: {integrity: sha512-iEVoTzAcGaXNYMa35kTeGLpc6vDMudigPv3e8H7ScYEo65cPE5Eb8VU7g+3iIlsKy8IermU3ej6Lh+LT6c0+EQ==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-YuL3vm7mTm8VVhajM2jrFv83H5NJxyIa/pptDysCE5FNPK5aTrGcs3j4mdP1wZPjbA7nwcooHfc1gWifGhP2Ag==, tarball: file:projects/core-auth.tgz}
     version: 0.0.0
 
   '@rush-temp/core-client-1@file:projects/core-client-1.tgz':
-    resolution: {integrity: sha512-9ZEc2vKobhXoZHrfFDBvHweAMn0o59182D+Dmt0KoW6zOq9t2n01Ffs7srNsiPzD7JW6zAI97xD/YyE+oc85Xw==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-x3nn6fb5t8w/dSB0rzLvu5zEGPJwuzksBG/czIQ4kJacypGx7GUh6nXgkpejVhAyZoU+7Gx2MlpPY51P1fdxtA==, tarball: file:projects/core-client-1.tgz}
     version: 0.0.0
 
   '@rush-temp/core-client@file:projects/core-client.tgz':
-    resolution: {integrity: sha512-LTaEj+DEbgClG30/7hesDyOEuW2Q/DV9Zy2mKakMokRL+hpaNO/ZTNjE1EIITPF/YlyHkbRObEBJg0PTSMOlWQ==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-c+fiXIvvqDqbEo/s3sTlwc91ur3AEc4yvlp8duZIOsa4QWhYeSHreOBK9BeVbZyEUHL3keVXm9UzoadWE2o+WQ==, tarball: file:projects/core-client.tgz}
     version: 0.0.0
 
   '@rush-temp/core-http-compat@file:projects/core-http-compat.tgz':
-    resolution: {integrity: sha512-WCxXz29Nwezv17SRleJivtwtfJAkEnDtEHkU3dy6cz1WfHIzvdg4WNl/pYzMVaUlph7jPXnSKS3lG57jkUL6dw==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-g3c+9Gs/erf/K/1CzEuoLKQmRCDkA/DGaqzzWTikKCoIBHqAHHwwRdrvI+qhvzcV8xrFIegfcY0jH2EMqOtmlg==, tarball: file:projects/core-http-compat.tgz}
     version: 0.0.0
 
   '@rush-temp/core-lro@file:projects/core-lro.tgz':
-    resolution: {integrity: sha512-iITKW8T3h/YUBSQw1PH/UMAsGAtT9EctavUtctF18L5P0PdhwVzI4RSItZq8ZS0ON2tEsZa6lriGDSeuNx8+7w==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-hUGF8HlU6LQ5jfsTGx5tSvPY12hyAiIGKEBn2OZD7ZJ7/XhFeiuL8nJ0y+2v0jx749EETv3nMI4Zu4rHapIvBA==, tarball: file:projects/core-lro.tgz}
     version: 0.0.0
 
   '@rush-temp/core-paging@file:projects/core-paging.tgz':
-    resolution: {integrity: sha512-rqIl/vEKXgaTdblbuDtV9AjgG8LaW1sjoSzt7uNfrm/rxuE3Tje7KH8AioD3Srwq8X7zJtSFfhL6AE7kHsm7UQ==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-XkAEy67ILskZhpIAon0wph/jFc+DPWGc4TvvgkIWamJDALRoXjePbYdCu30jXymhO8ChnSnb1q5bGqwUsncakQ==, tarball: file:projects/core-paging.tgz}
     version: 0.0.0
 
   '@rush-temp/core-rest-pipeline@file:projects/core-rest-pipeline.tgz':
-    resolution: {integrity: sha512-SPxNEm9DuIbsz2a7i0Ivx024OwAn+Ev+SdNG5T63xSBxDwIwItwu+iEnOHLKOYL8z36nMfS/rsY+t2KChtvdqQ==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-oLmtHRYfxTjepuArru2Az2q1Tc1f89bIIgoaquweLzC/3SdikDgvtIiH54muytCyEqXn0gTLxGGhNs8knSXJHQ==, tarball: file:projects/core-rest-pipeline.tgz}
     version: 0.0.0
 
   '@rush-temp/core-sse@file:projects/core-sse.tgz':
-    resolution: {integrity: sha512-H/mEtruUb/MOjGHy0ztH+AQMtE9xEvwBZ9gsHBnskbqIFLCq71qjV4cC2xf2jQuhh3F4g951fVZmo8EaxVXSmA==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-gfI1MRApKpYBcVeYxjW+QjlXCqUw9iTojMbYxLfvZ+I7nOH95EU9BAADHirg2/ujTef/AglVeyzNXUOEnwGXkg==, tarball: file:projects/core-sse.tgz}
     version: 0.0.0
 
   '@rush-temp/core-tracing@file:projects/core-tracing.tgz':
-    resolution: {integrity: sha512-dZh9oD34MM1YoIH/NIz1q/te9nuqEQq3Qmy3KV11z5IIN1TK4EY2Z+itAlD8riIsovcdGdkYYYexAituZiW1oQ==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-2cPbJ1G5XWvCf4/zyOAnoiUY34vGioYhC2AtFcb1NFb3BfVSaKStMSw0VJrVxI8lu/mlv8gTwAr3NVPhE03bXQ==, tarball: file:projects/core-tracing.tgz}
     version: 0.0.0
 
   '@rush-temp/core-util@file:projects/core-util.tgz':
-    resolution: {integrity: sha512-ta2SbaLRy+PThLC/g/rO7AcVCCtCqAiAgh9zHA734k0xa9EfMwjD+OUGME6olcqUK6ysP6qxx7Fa0aMDIrAI3g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-xaN4vYSXVX6zjX+YdCvINpF9sq97Ar3y6d5imn/6+Lo3lB8z+wyiyxK8FynEm3sHzFjefNbqJ7+aRZRW4RLHIw==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
-    resolution: {integrity: sha512-fFpMAMWfycHdvc8akEBFE3f2+IIC6bwpVrDljTXC+v9iayjk7NyRZu44OYql6E9LwR9vGXhBvdQgHGpwCKFqAw==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-5Id7mO1LYO5CYuFADVAuo9WhnpY3SQLWb92cUs393pTAewokShn9FEGe/4owJ8MX7JG2M4ogKf4Ql1euowZcHg==, tarball: file:projects/core-xml.tgz}
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-v9YVLjFKbVmx5EWiE7LsPWU04QvgDtvIkB2cGhQhm+sbNsCmXtdvkuRLCU7KqB/fWUMjAmnE14leCv/9cKYr8Q==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-quS87FVhfuzJ2o8ilKx9GoODx+TH4+lTDcXvLZl8BLe/6CFuRlXmZ653Jn/Mm3jv4rzY/f9WgJw5gMJJyY3FKQ==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
-    resolution: {integrity: sha512-QReV3D7CMr9TFCztQXN83tO85v2ZprJBJsKm7CI//OFr0BqvW7GecGB3LDW7gIhkoAGo27v/kn3SVU6zd2XAxg==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-mKJNY4nLSW+jhKa4jci/Y6bhYE4DXWHtAE0vIai0nnbOzYN273u240WpQtkdMuKPU3iuP3hJLrDOqVDi3vLudQ==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
     version: 0.0.0
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz':
-    resolution: {integrity: sha512-PulQSwpxayalc1mmixBqFNgDIiHd6VvFa5b5XTYG2rTDQeT38yQkrz23VZSe39mRTBtkCJ/xmJlaM2JbmDcgrw==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-xD9vkH/Dimzxpik13symOXUlC1KOzay1ka3jSQAtMm7HyoBU05RAB1+o5udoFZnEfBMTJ8Zvh0D/JEcU+l6lpg==, tarball: file:projects/data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
-    resolution: {integrity: sha512-M7uv7x1Q+rMmXhyrmRQS18eqQ99iV6jSEEXihDGBqTW+nwu9GncFs2e29HatvijbEahAd858UdGQmnpA7vWeyA==, tarball: file:projects/defender-easm.tgz}
+    resolution: {integrity: sha512-aOOL8RwjFVLSKGPe0JCttNQk4KgM6xq17VQTZIDC/T3fIBgh7mxZKqhmPm9RaKyv0+Qt2r4uCr0RiAYc/SU9DQ==, tarball: file:projects/defender-easm.tgz}
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
-    resolution: {integrity: sha512-6fV7WmY39SJRi8hyPA9tBktoz6DCzWslblhjfRizO3oDQ1erqsBQsPPClhyl7xdufJSDzFmw/WB4882oL2syEg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-CfXIhs2S6BjwiwtnaBLVs+fo5p45CxVflydKyEAv8mu+/JVx/aWiyO/cWZz8Mr5LL4gSjeUd75SJDScqnSrJag==, tarball: file:projects/dev-tool.tgz}
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
-    resolution: {integrity: sha512-Hj9QaKgHNrm2ZQ1x65T9uFAVVTF9B7MaNMxaIQa9YaYg95aOsxX2QbfH6KZvgT147Coe6ARiU3oe/FkpG/+E+Q==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-J1p8cO/UOtniVoNYfg6Q54GYnXVKO1S0N5nTjlkUnAVnofr9rSIM+Ld92GgEN1IdF4HG0rQqylYYzIazZLWEyA==, tarball: file:projects/developer-devcenter.tgz}
     version: 0.0.0
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz':
-    resolution: {integrity: sha512-S6e0wMawtAsuNVJoGJhpD75sOVgiM90D55LPKVwgsD2XlYca+a3tgsBF2e5r3+JEsY3CIHltx1l+7V6lw594Tw==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-CQOIfMMSZRbF0H4iqwnXbO9mWqOmmfQzPNJPmDttYyP3XFOc7RCHSir/0muplNc1o5jIBhl+JaNZY3mTjo2xuQ==, tarball: file:projects/digital-twins-core.tgz}
     version: 0.0.0
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz':
-    resolution: {integrity: sha512-ROCLZAorKhg/hIo1K/jOnIJ/yxo4ihG7WdPSbDfzY1H3gs9jtUMXRs2lpGIIpHCmx3g/PNHp/aAGhq8suiuKjw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-kvhQ9PGPttI2EwU0YNrwFAIZHkLZ7BoZX8ik1L0s75eHfQ1l/90nXne5UrPm/BdH7YYVnsLt41wkQR3GZaqQ/w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
-    resolution: {integrity: sha512-/p3FxXRK6T07l5e+fAifSqMSLgU1gI5uqb6reoQSiScHLD9+wR9iB+dm/VKFYBQLQgcZaFw6+OOvNGI6FFP5zg==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-ohXysJqepVlYWAwIkpDenToqTHpJGZN/5+wZ+DoVVduYYwchk26Xhy1ZrI61hsa05O4keQqEOPPi+C1GAu/3rw==, tarball: file:projects/event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-namespaces@file:projects/eventgrid-namespaces.tgz':
-    resolution: {integrity: sha512-QWlu5P4cTrl0+sEDG59ql8auC/dlM0YQOLjS0OEPBgcaGmv+46XbJ/n+guQWn0d/QJDk2u6A/p+H2JZNWGsj8g==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-WOwTyglDAgjyAlyf0egSXcVzM9FfTomYIWnEvIp8APrgXTesYWbaKN5DkTjuBEv0m18Ffh6/SQc2LOk4uRWdwA==, tarball: file:projects/eventgrid-namespaces.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz':
-    resolution: {integrity: sha512-HI9nnixEHOC7sGLIzr5b8Ds7N9g6TJd8xPKc1/YH6GEu8yXGhnsil0b3BlPtc8AbB4e6EI0EZXVlM7g/emLeGg==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-ZLedC6aiiSYOwBXEQWWfw9CivfORuvMIwoIHmWAdjgNVKwNYBVpiX8cQaTTvZNKsGk7XyMkdyyFVkVj2PZ0iAw==, tarball: file:projects/eventgrid-system-events.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
-    resolution: {integrity: sha512-KHH8YB9Oo31Dys7ErK/ahizdOFsZbZKM1kAcHoEkyf0201fYeG97DgZNhWPsJS7dCdBIRti3JDg1zsElrq2Aew==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-GAQKYoA42vcWZZiILOsYFqTMJ08Au9FnXr2/aH4IUWdKS6teaua5DxC9WUr8z5G2KdC1qg5dWmpcamyKipjayg==, tarball: file:projects/eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
-    resolution: {integrity: sha512-oSZVENE6s+pOpKx4E+T2WD0Ix6FSFh5gu3R+Puh/uY1g8rCdflQrI5ijrj/wQJbXSuKfc/rxejXHiy9qNwpEuQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-xOMXK1pGp962HRcvSz3eWIQ61fWtcAA3HJUERNrMYciRAFL/Aa78vMPlbmRm2fVbA92ZHGz1kNR7qOvL/L9noQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-table@file:projects/eventhubs-checkpointstore-table.tgz':
-    resolution: {integrity: sha512-g/azVzFHObfBh73mZppu6VlSUxSqInhGIYXNqr0DBbGD8XLJiQt0t4+t371Gg46pPTtNGSa2LRtgrDmL6VNoiA==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-qvnOrESGmPUa2v9zJoEJsCrPdW2wSHcVcZO9bor9q28jLv0SYOkPguMKaQ3OgR/D1dqMxG9R1np5cV68riXiXQ==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     version: 0.0.0
 
   '@rush-temp/functions-authentication-events@file:projects/functions-authentication-events.tgz':
-    resolution: {integrity: sha512-eKgDeSHnl+cPQtK93TCkcXj3N01XuH1tb1gHy6l5/6GT1Wt+mtoQmab5di5f5lKw4wboNnRAAqVImmTIp3wB2A==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-mlO7T/+KuJg/oCI+YfTCPCY0tRdITM7cYFMfVZZzqT0jeV8nKYfgW+xrASAtaPQxu4oEBLHkRnLw7OESZKCk/w==, tarball: file:projects/functions-authentication-events.tgz}
     version: 0.0.0
 
   '@rush-temp/health-deidentification@file:projects/health-deidentification.tgz':
-    resolution: {integrity: sha512-WvXaEOwkm6B2rGYZa4ck2QXG5vy+hUhdVVMvcKBMQIM3Yj3s9vDOPHkNnhOUSrBr7dl4leufPwkB4XRPk/9lcw==, tarball: file:projects/health-deidentification.tgz}
+    resolution: {integrity: sha512-CPxp6g/FeE9s05UCVwde4TRZo0mtJcOH0ifWaV8zAe9y9Op7/isryMZw/tuHu189msgJSNcKY66HNtD1ZSXXUQ==, tarball: file:projects/health-deidentification.tgz}
     version: 0.0.0
 
   '@rush-temp/health-insights-cancerprofiling@file:projects/health-insights-cancerprofiling.tgz':
-    resolution: {integrity: sha512-geAt3rf6oy2p+i9m3t0cOWlu+dKCWVQASvE7DxLLakoMnsvi+aqD77AawtQHQ3XSmCPkO+5bzIY8D9/U5lIY/Q==, tarball: file:projects/health-insights-cancerprofiling.tgz}
+    resolution: {integrity: sha512-0t/FFgp41CNCgEYNyonh9PqpnAalDSNigbN8mspf/GGuIFcKPpGjjYzW+ycYwi0PwDjmFP8pbClTfv/4sXbvJw==, tarball: file:projects/health-insights-cancerprofiling.tgz}
     version: 0.0.0
 
   '@rush-temp/health-insights-clinicalmatching@file:projects/health-insights-clinicalmatching.tgz':
-    resolution: {integrity: sha512-3/mcIkHlJenLYTtm2WMMY9y9C5Pq6XPdEV2gj6KyWLxfsym2f0/xreLug7vyrBevNBBwWJ3iXdo8fAOEGHQElg==, tarball: file:projects/health-insights-clinicalmatching.tgz}
+    resolution: {integrity: sha512-lepb0XVE/JMur2AF5xZllwi7g4PMNC7Qu3g0Bg41H8QGUyHq/lopG0bdB93CjTkHwYmu0ku0jSARnGJkejZmhQ==, tarball: file:projects/health-insights-clinicalmatching.tgz}
     version: 0.0.0
 
   '@rush-temp/health-insights-radiologyinsights@file:projects/health-insights-radiologyinsights.tgz':
-    resolution: {integrity: sha512-zM22IyKb4lZZwgkDk1ayw7pFElxBFIt82Amw+eBYnSw3qGvPbxq4JHZJWWI7YJDYVXwXfI+2ntrZ7BNpceagxQ==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    resolution: {integrity: sha512-QPeE9mG5vWQ7l6bCeREkA9R4StsV1SdBVFFkQ3mct8kD0qkAWP5Cl01D0D5WIsTqNv7xsnhi0u2Gs4b4WNDlQA==, tarball: file:projects/health-insights-radiologyinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-broker@file:projects/identity-broker.tgz':
-    resolution: {integrity: sha512-VMhst9cjgRmvpOdYwWFqCa+Lk7xNUa2TJCnzJLnRylT54+pcjmIl/JDDHBXDFOp3CbtZ4XcCFOe/dqiK5EYQmg==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-eB2OgrNe2D65+ikWhFnDcaNk8thmByEkKqa5s9TOb4KanlcCzWKgUGqCEGNgeZ5G27ehHnULyjqOYX6CV0Pn6g==, tarball: file:projects/identity-broker.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz':
-    resolution: {integrity: sha512-/TJL8m6FX0cAXSPJdPAsNXE+FakKrObM5+VxTz3+StvqSSgy8XCQ9IVCtB9HMgo8B0SwX08eV26n6AsAeo4+OA==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-HCHF00NhzhsEN7i8jmJybaHPhk3PZSwEhkh3fNIEczsj2jT1wEdwxM183Kak16baTeA8M1Czti+zfJ7p/PC0Sw==, tarball: file:projects/identity-cache-persistence.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz':
-    resolution: {integrity: sha512-KkDwJxnBrnc3r5nJE19vs8qJ0mZLmPCfTXH6Pt5I+ih20byHg7GIJsPZmBIh5ELWS+9+dIIGX+oepA2Kv9SF+A==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-CSLfF6krHOjBygDYIEV8tV3LVe0K1Uig1WTseEXckxUK/7VenyICb1tiTBfo30jQol1f6g4TKhPy0Pai3IAo1w==, tarball: file:projects/identity-vscode.tgz}
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
-    resolution: {integrity: sha512-S+RnxKlda8Cu6vXPNsJPUdKbQiUOl2J5z/yXAPv2D3d/hjepBU2crvPtG9UqqaH3+ImPA1SM9FIkJJZ5gFjPYg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-mRWFqGBHZajMT2xs1R04/oP8XMybRkEOa/kJ1jJB0wB3Y/5q9kwe6gZ8s3ejUOn/5vs1iE2pOUWxVhtnmn1V+g==, tarball: file:projects/identity.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-device-update@file:projects/iot-device-update.tgz':
-    resolution: {integrity: sha512-eeVsb0qFtodJSwNYapPnN7aLyDLB7xjSdU765WGqEM9UxtjUtDEQCKmbWwF3cL/mD+/fS0pEGVUxPico8eLxZg==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-D5piZ+2RvAer5I9JazJIrI2kqZ5SeChxfn9CVIe+0JFwxr2NuRoUIKfTBLoUnzU8ENdIdF+Ym9QUqXJ7Rp7HFw==, tarball: file:projects/iot-device-update.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-modelsrepository@file:projects/iot-modelsrepository.tgz':
-    resolution: {integrity: sha512-Ykdo7/1izLksJORIsq9fZSxlmtZ+7ZmN7u1/SEEBi10tUIouGxll8IXi4DngvQh3iXBUN0Zr2SofGkwg57D/JA==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-3iovxZqV6zy+zCCiEmNa7FCNxKHaUCQPoVH9wKlfFFW5uJOQ3ihr+1d/nOC+GnzDObly3AYZbZ8IPia8YFBo1w==, tarball: file:projects/iot-modelsrepository.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz':
-    resolution: {integrity: sha512-TJLp2c5+8jmmOQU4o3J1WgjUBym+ALNt47qwn5G4Almpzn6d4fc4fvaNzIGAAEnTkmhuFGjsId4S2frOmIQyXw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-7H9q9+cEc1LP5vfAtAL6AAQAhdbz+3/SsM37n7pUTSGMfCuv/I/r8/tWeopZZOF7CLvQrPzLN1mHXHwqzn6hMg==, tarball: file:projects/keyvault-admin.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz':
-    resolution: {integrity: sha512-3NVltxrn+VzpiQ58GHXy0wRiXTva+Xoys2j6Dfx7wrmGNiGbZXrJf5nLW/H/Bzj9ZeHbzFgDY7QUIdXqqJU7lA==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-5IoxJtbQx3z+mR33gX29Ad+tyxYludvSrVUHxxRSNn7NiTQ0skGgsJsCFMxLKFmE9bE+BF2tQBCrxeTMgrTMNw==, tarball: file:projects/keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-common@file:projects/keyvault-common.tgz':
-    resolution: {integrity: sha512-/l6HCEo4TkJTquqJD0Wo/PKoyMuC1nnYWJr5fcHLFCkhzLGx0GWagh0FB/44s6O8ySHf5Yp1AtdbujTqx7LI4w==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-gYdrUIik5JvTbk52mbD33ikAFlda5BkdC/rwF8caKv/vt9EZr4l632UvCrlf7pox6UrwR77dUpNeTdrFwIOtQg==, tarball: file:projects/keyvault-common.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-keys@file:projects/keyvault-keys.tgz':
-    resolution: {integrity: sha512-NsRNSZEgu6v2GcTPI6//0ooo9j3mSW9+dRKlA9pYykNLrPHSBsOXdZDbz6+kSzN1DV/THbrEGTuuCIfcEV33Eg==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-VTzrlTG1euiwiIF7T1OEVW79bPmU5gARjX9r/AH0N1bRgGX3GHfb6NRUn9SjUNeYIGyAv8shYMdiOqsuyP/0Fg==, tarball: file:projects/keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
-    resolution: {integrity: sha512-fD04k0UvAxSf4/kzDtbAcEL4PZAeOJDy+4hJs3mAHTtDb+G/ss9VvZtH71JNW+1/dxWt4mklzSwYGew18pVpKQ==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-ZRaufTDwpb004T5heQUUYz4UwZDz6hPxO+F4qdyUccF6WVNRCLOWy5gIdKexKP7eI2MSHQPmqUV/KRKnNg7kEw==, tarball: file:projects/keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz':
-    resolution: {integrity: sha512-VM94elIsp3vzhq2d2uRJHMvLsibwQQKKTOYtKGHtPiDgWsKO0HErys9adGBnU+QWZmTlDNr5hDEOj6iKoJzB9w==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-4llTH6bFw5IVsXBdEsYa/Ky0/vj9AfMEnPntMYhQpD2xHcy7aBmuT3TVml7NwXCSmos9thK1Eay2Qu6w80TKPA==, tarball: file:projects/load-testing.tgz}
     version: 0.0.0
 
   '@rush-temp/logger@file:projects/logger.tgz':
-    resolution: {integrity: sha512-J3HH4CHq8ek7QBQUz0Zre5jHH6aXdqiHwCDPpx+IC7G03SEh35L6VQqrO4igbLzGV8tgsjAj4bcgflUOceuHPw==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-OtMDHzDSsGScZuKEfAknh++sdIEhZb87RkcZ209jWFLdhwZS0+auINKJzQm7xp35Ur6KOvHI+o6U5Gpg8TjQAQ==, tarball: file:projects/logger.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-common@file:projects/maps-common.tgz':
-    resolution: {integrity: sha512-8FYnl3Ie4WmP9cB71Qx9VEm32Xmk1zGa4vp9RfuWNv1fK6ONqkhz/kj6+8f635JvJzk4P9cNCv2rTMAfPj6VOg==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-Co4/22natf0T8p9Q1griq3quWPgyL/hSJ3eNH0GDNHxia1vXYMnm+AGuslLs7wDDZxu2D4WYNcwh8vCAp6YGag==, tarball: file:projects/maps-common.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-geolocation@file:projects/maps-geolocation.tgz':
-    resolution: {integrity: sha512-G1NK8ViOWLWEqz8fjQbwJvLzyEa33AYF1xgmizu2OUBiKnQSidwyiMWm1BAM16YAQEyGmyajrQ4ZvpeTZg900w==, tarball: file:projects/maps-geolocation.tgz}
+    resolution: {integrity: sha512-bz7/VWmB6qc9Eru8pJLVyDfpiVYnn0TRt3JQI8DCzuEKBQPE2pUX3qczigDplmoLZVRT6ID90gHmzt2FYWcvcg==, tarball: file:projects/maps-geolocation.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-render@file:projects/maps-render.tgz':
-    resolution: {integrity: sha512-nPJbDK7r/LfIUZetyVeuggG4CWMh42MLX9QuokhiGl+4SCVrTf5ESkPI+Ufk2YDXkk1IKWVqHbQMIw5GGPbGyA==, tarball: file:projects/maps-render.tgz}
+    resolution: {integrity: sha512-mSFHtTapEvxWebd4BfMvTQLfV2DRzfMHKqu11UEK+zKMFw9YUHhfk71JMklzsonX1XwOqpzM6kFNp5ZoOuS8qQ==, tarball: file:projects/maps-render.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-route@file:projects/maps-route.tgz':
-    resolution: {integrity: sha512-1NvRAfoIKOrovLRPeyF6kxZZ/mT0AMpZSIFedbXCkh/X1cfIFCr3BoqM9HyagjJDqC2C5MvDVG7kl4U2xQEwCg==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-6i1hRE23kq4S+tV7TmT2zsVLReM/9SkRrQgBCfGGuD7pkM3jIcJYitqds5wKfNEZRK88TNxmZXg7VKMAw7Djlg==, tarball: file:projects/maps-route.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-search@file:projects/maps-search.tgz':
-    resolution: {integrity: sha512-2gfYB8NHnqpxhOH7Nu2pzS+QyHj7NF+1tOoInO6ZMOFpPaRDRByDYHXUYiYalasWXw40zQ6kJNnrOKLSz1cw2g==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-veQuzTMqE9HJtpwFZPS8H3mS4H/S1PU8Z4M+Cgqkd+NO+4tY/dkXuDkS7zU4xgB2bMs3N2mzCMJYG2iCdVyLkw==, tarball: file:projects/maps-search.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-timezone@file:projects/maps-timezone.tgz':
-    resolution: {integrity: sha512-CaQjQwtyU105FlczZdgRpxVEHDtEN85AIB7AtmPBP1AYHDS571g4tVcedkGaVwI5rFGL/wkfDqul64RzY53H3g==, tarball: file:projects/maps-timezone.tgz}
+    resolution: {integrity: sha512-aclRnjtgds520fkc3SFMvxdD0Mn5JAe+BNexpuA143xzdoNZY2Shb5QTGY6OlOxO5qHwjPDVouYK2up0vebH+Q==, tarball: file:projects/maps-timezone.tgz}
     version: 0.0.0
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
-    resolution: {integrity: sha512-40h1FHAwlBMDYIlyYtNZ9p1WLtWhVWGDIJ8PC7dIS8MucwNAOKmABM5R0e1wZW9ZGeahsUV2WgGwENI1OJhmoQ==, tarball: file:projects/microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-S2EbLAyYFESqrKu/isVLmCo6owDqDiLc8XiQjS2mvvFRaKwRg+y2tMcE3VFhuuKHNK/q3pl47YBL7RQHZwoV6w==, tarball: file:projects/microsoft-playwright-testing.tgz}
     version: 0.0.0
 
   '@rush-temp/mixed-reality-authentication@file:projects/mixed-reality-authentication.tgz':
-    resolution: {integrity: sha512-QV3RN8/JaqTcMXhXtvZz0Kr+ayuk8AUkveXPBA6Lo1dOoww5reoAIdlNxcFgmAYbIwEZvFZE+F+1WZVmSym6zQ==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-8CXfsehjMhgiF9XiHnafl0Zt1oVCQvj57nBwhiRaLruB244Pf6IH1Bllatw3nzNUbEsyEe34Z6/+qil1dduKZA==, tarball: file:projects/mixed-reality-authentication.tgz}
     version: 0.0.0
 
   '@rush-temp/mixed-reality-remote-rendering@file:projects/mixed-reality-remote-rendering.tgz':
-    resolution: {integrity: sha512-GUTKfOj8N2wQUHcgwuiQym6VplQgf5yGi50sx03bFjKRDpyg0qhGW4W3yMTM+J7qneIAD0o+OlalPYfoR0eiSg==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-EV51m6eULGEMxssVlOp3nu9h6DfISl5gAv6N6tZvHEzHi7ichxYaWzpQb5Q7z8fb7rVCtz4wiIZMLCq/MG/jog==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     version: 0.0.0
 
   '@rush-temp/mock-hub@file:projects/mock-hub.tgz':
-    resolution: {integrity: sha512-7GByFgy4SONH/wN6VoSRgVGjUYkBT2u7qBE4R68mwMBjTaw6wE4Frefj1pD4m8xzT9FVPZO+1SBzLWZx6jGODw==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-xW6qtPdy9+JRfGP22ilbgJjhAtxCWTQDI0FQM+gvrytlq/btYxnkTVC6x/cjBn6R1o+BbMQ84enS45zWYW/pIw==, tarball: file:projects/mock-hub.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-ingestion@file:projects/monitor-ingestion.tgz':
-    resolution: {integrity: sha512-aCOT4gmFqqOMvPqD5Dz9LolMR+rcrdNhAQGUvKhBP2OYQN0s9vK8mqJ6F2UyZzXuA4aPDOdazw5CPZNqHwhWQA==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-Z27qCNJhft+NMkQc+jl92pUSZE7Gpthg2+wdfdABHKsGBpQvSeF+ysE25V2EekSyZy7zQGRFPUI3Z21SoBLFSg==, tarball: file:projects/monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-eUmiAUuU/sQyPAFrXkI8q1qYeUF+2STVBWK8nLWW2c4FNJ5UoqvCfbOcajLMs10n5sYJ336lPNION+/Gsn1GPA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-mja75DxsS1DEiDcck7IPHACeqj88fCbNAz5TH3Sn9MsnaQ0z1jV1/GygbF265zFvBFTQaAb3rNcvo2viQD+XdQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-Y0UPQpBAHP06qRD8SGchJ4a5eab2Yz1LIp3+hmCc6a39kTlubGYIuG2mBs8i0CZw3o40PccXgw5hd+Ty77qebQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-rsi27H7/R7MBoJqG35mLMznSDKlzuq6b2Nnu2XfHpHMeeGME+wFR4toqsxR091+yx9aDGv+h0fDIWhwwj1qyRA==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-aORZTFLRCKfSaKCnKLaDIaF7Bf6zGf94C/etdfoRzFBaPEg3J+rpCxwf7RWofQYMuBA/SM5ds30VFVB4WXnSBQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-WgKc5CVZw+LuOE6KMub0F9Ajo9FmDMCwrEQH0xrlgED3ULpwJ5ULDsG/85tI+15Q79T2fySNqje1jEErAQ3GpQ==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
-    resolution: {integrity: sha512-rrni+K92R2SzD4E1MD1LukYiFrBKY/tWMxROFXdFAwYL8OXWNU1sa8/e0NIxz7Lx0DiCrqGD98kdfxMtcxrvUA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-rrBUdG/gtQktPSUOoGhp27KTWIyHRGHwxvbYc3IZwwMPehOjaxGNeDkTal7YgucX3Q5ou22Znlnr07gZSjJ1XQ==, tarball: file:projects/notification-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-AS0oxEZNcOLMhQCDUvIyEGYJFmxXLuOTrjITjmfDiMimKX3QVHXjwSp0hM+SzV6PDgnkZxZwsxkmh3DUWWfzxw==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-XjS8pn7yi4ECJ6rcK2oLlVaSt8dNEN4B0hvCP4HHK9OezUYv840mgYbCtRNazD6LMxFfS7kX4v2SvKhoGW5Axg==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
-    resolution: {integrity: sha512-CJY4tfUvzLqTI17x7zADXetD/4Yeks9U5MVw/AI5XOpR3a/XkhQ04/enILpx3Up8lRF57YIr6PN1/jiZWCN5Bw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-m8tcJjVtFMYULYxnB/m2ICEv6hh+rdoAmkuSMWMXoStJlXcirDBt57bCb/K97bxcwhJ2bnI/l1LANGp2ycPsSw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-form-recognizer@file:projects/perf-ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-5l02xHdacovQBW7IggbnJ2biOHWh7+RueAwZCqfgdebT6UPEQ49TViMDttaFokwVt9wA6Xpw6E0KibEQD8MzUA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-WZYOQQ5gPAuRcu+xb9DcL1Zj1oxJCDBhLZRm4iF1BtqPSv7FWdF1lAuZL8WknHbwNOqS28OY3FKDcjnO7fFLTA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-language-text@file:projects/perf-ai-language-text.tgz':
-    resolution: {integrity: sha512-Xh/wwoZJC4mafg0saB8f8LwOOlHhYG02K8lLyy6xSRl9waMADwyD4SnQ4X7DL6NanJnn0BKYsBc2SiBfSszUvw==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-uGoGfqyFc61Eo7cYjQ3b206oaQEI/+urq9m3UkdI2zisPsHITVUozu+WujdoD2o9FVxr5zpuvslgSBJaXAQ5Kg==, tarball: file:projects/perf-ai-language-text.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-metrics-advisor@file:projects/perf-ai-metrics-advisor.tgz':
-    resolution: {integrity: sha512-Kttcl+ysaxcxZudTAL4yCYClloxxUlQfoGrESMYrpFN5m/+KUEe3X8DluzImROWAZ0FpXRQNabYYeuPdkk99dw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-jEnXP5hjgaBH6L4QtaG4+MZqmVpMzU4++Tz6uNKndJjadC4cFNK1uiLPRxiVro8+7rAltgcv/CiD0liMlg98vQ==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-text-analytics@file:projects/perf-ai-text-analytics.tgz':
-    resolution: {integrity: sha512-9E1jnTuWh26jbvakWincpCeAwqzs6CqslmX2Ds4GTt++ddXNHlhd2bc6ewwnL1CDYtwrG00o3cS2bBNMgksyEg==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-OpWmEOjxtt2UyeEiprbgSBD4XmZ7Nq6VrMKAkiOHoO4dKmnGROSsky2EKIQkqS7NgmH9fE1gXrch4f6vtAuBew==, tarball: file:projects/perf-ai-text-analytics.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-app-configuration@file:projects/perf-app-configuration.tgz':
-    resolution: {integrity: sha512-9H3GC0sVdaDhP8/YdQ7ATvB2uVy7duWZJF6/8mvWKXD6xrZqKOf3oY4dpS3lnB8+0TX1bWrqYoRZrvdFHT+TgA==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-SWFMgg3YukANUkDRkzgF+IMo4PKdd+/K8DE3i8SpwRNQIyg0xAvW3F1lXl82NJY1k0uwgLelQ8OqcuRW2u2+3Q==, tarball: file:projects/perf-app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-container-registry@file:projects/perf-container-registry.tgz':
-    resolution: {integrity: sha512-SbknaX6pupYx1XdhO6R4M272HobgzBq/8f46LNYO1ownvLIAdur5UAEVMGAt7DKFhmqRRaN3GCLMN8WL5y7efA==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-u2DSAaCgPjXZI4mX+ySSTqpUaG0GtJPn7ndz7VymdE9liCBmKXnsfWDBXXiQEUGt8c/TFYSaoDhqm3RPfBB5Ew==, tarball: file:projects/perf-container-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-core-rest-pipeline@file:projects/perf-core-rest-pipeline.tgz':
-    resolution: {integrity: sha512-xlzwOE4DTFjWmnsPkW9ldm8JKP8sufs5hA6K73biNAFKWowyNOFFYghua5Fv3D0uU8Dtk4X+Vo6MCyDDv8YXbQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-MsBEQQp1fBiosqcn09ylfe4E3Ea+tVUrpU2LSsiPF7rEBPH3d66aWcwedUSmUkWXPZNbh5o4x7KA03d4VyyF2Q==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-data-tables@file:projects/perf-data-tables.tgz':
-    resolution: {integrity: sha512-boakCiCUXSKFRkCP8fkJF1udh8uk3Uo9h9t1UomfCz9uaG5xYGZ1TxzzZybCyQ7RZpatx2G9W1bhhVEVMQUuwQ==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-jIe5HrS/noFadHR22Sbp641z5pKsioStSh/7wKVsHVcQz8hfiDVP87chBdonnezm0VXsJ2Z5mAuHmHEq9e+eXw==, tarball: file:projects/perf-data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz':
-    resolution: {integrity: sha512-ZOvhNgZXd8jCqjolzr1Y4T09z2T4xChB1OR2BtTsqblb8LxUVRf4+lUkHWtRgY3UY5t9uwHqvQ1bqK0E9hfvFA==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-wP9wap7ECQjan4qwjh78R3Gx9VtyQ5/Y00U+BfuIppP+Hp7pFwgfzTUt5A9b7ZDDOY8GlNcpwo/L3m5ks4cC/w==, tarball: file:projects/perf-event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
-    resolution: {integrity: sha512-3kyBKr1UtEMeDFc+CdafS64c1Kl82jVvEzat6GsGAAqhelciSvnVOy+6Wr0irQMfhwesERzZrgQIErZiUlUbkg==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-ioJjQKeSOYqHhWgGHPXvXJtOH4dmf8vIzNHQms/qA9Nt0TmJdobGFv490tueSvyYaP6b4NOkHsGAaxYlEYlqRg==, tarball: file:projects/perf-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-identity@file:projects/perf-identity.tgz':
-    resolution: {integrity: sha512-nJGzbSUcyYdQkfd6NXGSF4u+4TE1TueZHHMqpOeCr5TxC6M+Olz1UyDiwUxSwYYWtY07oR8ZBEBVHZRAje8Xpw==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-lEIWQXa21a7TnogeZKG0UDR8PRpZvAqoz0ptsSh2sVfd5Qm5nhJCGQDZf1YqKbARI09/xD7VVC8/Zt1LWxntBw==, tarball: file:projects/perf-identity.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-certificates@file:projects/perf-keyvault-certificates.tgz':
-    resolution: {integrity: sha512-C8lsx6GoI+R/QrAV1AnZ/6a/4wwoMeMmaEbkDJNL1SPeKxk0ygIfouBbivlf/vpuqUtNIEejxgg/9twXmaQ6jQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-Xi+qekjollR03Mvfa0RT0JDOiFAq7HCJrPh3CL+vMvugiiGCgMLXRiQwq6Br18v3Hvc6YyBnSK7DGnekWwNT/Q==, tarball: file:projects/perf-keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-keys@file:projects/perf-keyvault-keys.tgz':
-    resolution: {integrity: sha512-xWxVN5GP1cHPnPKdUhPzrwiPX5sCeK/Qsm8HdqWj30oJaxZWbWc4I15iesT7duWc3cb0V5dW1WtZ9aer++Llqg==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-0dDguPCBZM0oOhkMEyuqWUvlJQHcw8Nn9ke+BbqBUMNeu1+dIL4pU+gPJUUKjJ4UkSm1HF9ODrDU8MvGtMvhZQ==, tarball: file:projects/perf-keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-secrets@file:projects/perf-keyvault-secrets.tgz':
-    resolution: {integrity: sha512-M2Ju8rn2YCQnLwqxPIGo4Ei0kyDyUkNbIPnqqm6Toq50qaVT3nobDItTDC8m6s0P1RRs+7tMuZWMDQwH5Ev3Pg==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-eJ6kozJ4Bd9Uae+do0EMwLBVLIv3/jLh++sNgwzElmlyWFZ4EO1jMp2DUNJsbzS0XGLLvLisiWj8ejLLRL7WlA==, tarball: file:projects/perf-keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-ingestion@file:projects/perf-monitor-ingestion.tgz':
-    resolution: {integrity: sha512-Cjnl+CdFmJhavD6mzt03U57OCmUAwmcvfV/rW7ocSDvXIICMb1fJ2hL3AwNFNyMSxqL36hfnQXJDU9m4JNF2lw==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    resolution: {integrity: sha512-Na3wtBcVVyvoBmf70DyJc5XeHkTiMICduFTqROyzxd6hFQkVVsUbTiMfnE71gVXlXbO/pJy+5eh7H6IKePpkeQ==, tarball: file:projects/perf-monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-gfg95OZXaAe7O/vm8BNgYyZMYkhag5/sbOMwM6sS+NxHshnxsdS+Zly97riyiwsyMkTrzafbFtjoT7wkxl6Gww==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-2pJC8lU0trmhjxZtObXCHTvp/REYqexrJgztDHrYWrMTNcv0/9GCazAmK8OwcmA0MrNoQ/LUdrk2Fm5EygaEFA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
-    resolution: {integrity: sha512-tGEXrw59vNmAbXI4WfzXslMPir4s6n1B7fzPfZRY1Qsu3H9N8sPN9LzxedGnYQBnB7zpDUoS9CYIOhN7Rp2iKw==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-D6P4/3Ga/xhwiNZBKIEjSw9fZzHvwvEqg8m2I1y8Z4dVGEv20ZTSp+Ye5y0M4yyPPzMyp6XbS6CofVUmzu05BQ==, tarball: file:projects/perf-monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-schema-registry-avro@file:projects/perf-schema-registry-avro.tgz':
-    resolution: {integrity: sha512-yQJT0MLAu3zYyD7V2UW3tGS/Mjo3Mu2eL8jdf5xPcGH43rPJ/UnXrc5mLfdmCEj3DZJnnbOKLPToUNEYC0/Vdg==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    resolution: {integrity: sha512-HhEomi2ZqmjMtBg7qUOxuoJdbyPHOIYPlEb98uCT994dZsdE0JaceAkKogyuKrfFh2uTqmrKpWAxDjVzXGa1AQ==, tarball: file:projects/perf-schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-search-documents@file:projects/perf-search-documents.tgz':
-    resolution: {integrity: sha512-eWFmkBPTrISk73C/HYKJRryn0kCtgdyR4xj6pM8KE9ig2ks4fMS1xSd7QA9xla1kOsGJeUJ0mFon/v8wrKlqmw==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-JKz7Fu7iUWYSJBfDAUwzguLqYEWSoh+r7SZGoUtynHih42z/Wq6E/23qOj+KK26RbOn9chKoYDYOUE2ki48yPQ==, tarball: file:projects/perf-search-documents.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-service-bus@file:projects/perf-service-bus.tgz':
-    resolution: {integrity: sha512-+Abo4qC16bfro0DAr4r27I5p3hEi1l5K9ar0pDY8kZFYCkXatkBmrX5vv9Vc6e+Zraxra71XViLcy7e8FBondw==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-ZGrPvnEAN5dtyAdS6M9waF8l1hutc+0xEP7WA1DBRuXsgQVJZOsQ1kQPsNGbHogS32FfD4qY4afZumA79B9Amw==, tarball: file:projects/perf-service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
-    resolution: {integrity: sha512-3UhHsZ71UawKCO/y04jIb1YP12wiVpwxWsm7EjsrCRT8VrA2xSNmXYyqIz6s44mcqVNBWHzoU7QWLMl5EbDL5A==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-QoSkpz3fOGMQVZ/OFJL9JqkdhQnwR+M/uz5sloeODRA+ULFMRhJkonPJmTizQxVEx9Rjfc0/pWlQrb99Df3yRA==, tarball: file:projects/perf-storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-datalake@file:projects/perf-storage-file-datalake.tgz':
-    resolution: {integrity: sha512-wfZp6ds9Yr0kwUgDhQtgPcW84arFJL8x1lfbUU6b8Fhk8D4xkiEdfzYdHlpLahsPDhZtoyhR2d8uyXfesiEbSQ==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-KJNU6SxTQFig5ErXjRf+x05eZ1QNm4YFpjsxi/9C3TDQ5u103eWNKO+A+EpVreXAMzbPgpY2sZBz74QiI3N+AA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
-    resolution: {integrity: sha512-uTKvbLsUhsw+s5J3uC3KVzP/OVopbITUquqXBFiH2ycYDBFAy43pyELnP+ARDp3qWOp+7+VDH2BDMeioQdp+uQ==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-KPvKQ/33GTX2YeGZe4uKEDUfqU3oxteHmj6LMqUW/loRU74Pm85aA8jWbP7WD+8xCN/I1WBmxftJA9SVrW+ELw==, tarball: file:projects/perf-storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
-    resolution: {integrity: sha512-YRmoZtn/FyHky+ovqr1bmXLOYXxSj+FxvRqNyQw2CZcpFvnEdeK7YL3R1vDtRvqXYz1KrnfMm7LPTlclHHrrJQ==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-w6UM3LeKDSucQbCguRAUH+VuxtDWvgLTI3v4EROO9JHrHHIqNHsmfPVv9G2IZ/xh5Q39+FsyMKtLhirOjAU9hw==, tarball: file:projects/perf-template.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
-    resolution: {integrity: sha512-mILTmq+qK/2Tb+SslkCIWW7OU/XMpdT5g3F5TfFSPxBxJcr3ffwzQ0rwGlt9B2w2CPvA9m6tHRayhm5/OikCTA==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-RP0lW1yEQ8i9PJO11AaVfjV+FjeVsVU+wP+RXUgYVGwRJt8WLjl2vIgvYuaBKZaxU165EUlrUTQ7XpnEN0cxBA==, tarball: file:projects/purview-administration.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-catalog@file:projects/purview-catalog.tgz':
-    resolution: {integrity: sha512-zZguAY+p5nP6woyVn01/CNrb7RiXyELra7FjA8gfv9csdBL4+eb6dzWpOJxLaJQ7l3VCIqzPmVEOy2BI9NEgkg==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-XIwhuIbmdI83vZyxntEX8xwPqWX5LV8qIE2AxZq5OBULZOjTzLTcnrAey1AtVihqZ3OaFBKAvPgIPmHePaaEzg==, tarball: file:projects/purview-catalog.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-datamap@file:projects/purview-datamap.tgz':
-    resolution: {integrity: sha512-BsJd0lYCuWnjy1y/KNgf7wwuY4dzwq0grtDrnj+nn+BXdRV1AFj7AWidSWtASAPus0dEoSL31s7rGW70M0IBIw==, tarball: file:projects/purview-datamap.tgz}
+    resolution: {integrity: sha512-CQKGr8zPRnGNAtPZItxmNz1OFXeCSGF1npOPCXs/J6UP+dVTVm0Be6Q306ex3F+rgfy/9lWQjOGY5kB148PUHw==, tarball: file:projects/purview-datamap.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-scanning@file:projects/purview-scanning.tgz':
-    resolution: {integrity: sha512-HJFfAYdCIriBJK7H2DtIyP6nUNFjDorEk2NfKDYGnk/q9b/xFcTY1ypEz53vbhUkgpMFTQDZ2GgrsitXizTx5w==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-dykUkGMrt+omvGddtanpgPDNdjiUWjookbE3TZ62SlgxSCj342v0qYRqeDMpsqi5IRMO4oCVJET3xL30PvXV6g==, tarball: file:projects/purview-scanning.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-sharing@file:projects/purview-sharing.tgz':
-    resolution: {integrity: sha512-v7NxM5GqL4yD8+AYartO+vpA9uBoT7IdqVfpOdty71582+uKO5GWk3IjUSwa19yZT75QBtC3lDR4g8wpJUJpvQ==, tarball: file:projects/purview-sharing.tgz}
+    resolution: {integrity: sha512-ZI3FlVTu0XsEwGwVMKLDGZ4fy4dSfQVG/5r+pdKuW/UwIo46bFRHjknzL+ci/H5lX37+CoM2Zpyktxy7n229+w==, tarball: file:projects/purview-sharing.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-workflow@file:projects/purview-workflow.tgz':
-    resolution: {integrity: sha512-gNVEbedQwGD7veRJkqn5aDoFlq1RJQ+CLvOfAaSzX5xc5Xq8b6EV1w5Maoci71XaZiHnwM/Ap8eR/bbQsCYttw==, tarball: file:projects/purview-workflow.tgz}
+    resolution: {integrity: sha512-WxG+zU7+y16+a+gXIeTU5xkh9aBWmio06osLTyF1xxsGlTaads4MF3G9ovJ8mGlKiMlLCwy18yfkVkWj9Edo2Q==, tarball: file:projects/purview-workflow.tgz}
     version: 0.0.0
 
   '@rush-temp/quantum-jobs@file:projects/quantum-jobs.tgz':
-    resolution: {integrity: sha512-OZajlq/uUTxNTWOTXQazc8p+u5UISYkpJSzzJ/jTfDYp6xc5T0EKJ43CJvSKib4HmhwfC1tG+DpBP7J0yqb/PA==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-YPt02RO71tVLtajxE85dIYqnM6CXc5A3TDim+TiB/Ni6PuRZL3xob+9quDl8CqZIlYRFdpX4/StdaYA8brObtA==, tarball: file:projects/quantum-jobs.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
-    resolution: {integrity: sha512-QggEAS9N+U6mftm9qX/Joa575OgnOKH7njTZ/dc2sNsr2YilVKhV/r26HKaOg7Fo80/6nb9j5D3Z3uesNJ9c1Q==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-re0g3aFxc1CA4fRclbW8pJLgZ5oECYix0DTdO/7v8ygsaiJL/PaC+KCzgMdp4wCJ7SD1HEsk2I5F7JD2WLZ9gQ==, tarball: file:projects/schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-json@file:projects/schema-registry-json.tgz':
-    resolution: {integrity: sha512-ftp70PfOs/I6Lcw8B8mvJbHnVsNOCUSHbw00DpEgSHm6Nt9tlG8eM1sx4ijqDLxn/5ip9+etpuyA0apMOlppxg==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-7c2EmjaIbVdxsZcgxAUAkADWIwFKf/um+sz62ZtYhM3u6Fn4BxKQOxWkHajxLVo4VJcDjvdA1twPovEsL65Sbw==, tarball: file:projects/schema-registry-json.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry@file:projects/schema-registry.tgz':
-    resolution: {integrity: sha512-z9VF+T0gWW8kdoyzgVkf1j/FreRi4fiSakq+SAldr02BXaWJ2hAU6D1AXPLX4r8elUNUQ8ZvZEbzW+4qMI6KsA==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-Nqx7+IKHE2IxW2jkdbGxQ0qcEgC1+Bl8NZwRl59bCfDC+hSyUZRTwKfN+E8bz6efLYPtsuwncWgf2+/Jf2FY+w==, tarball: file:projects/schema-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/search-documents@file:projects/search-documents.tgz':
-    resolution: {integrity: sha512-zFAp5t+Of6V11EorzgBgCaMsT6qKsB2nvCnYLqV1GqevFBZkwmOe6645AISYLAamYpmF9kJqCCSkt7JB+3A/aw==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-JET2JYzeUIdK4Ygh+gEssZoEpb2A3Q+vM5RbRL0LPXlLIzNhXr4M3IbcNyxQpp2+dUfzL0sojIG4dAib/fvXMA==, tarball: file:projects/search-documents.tgz}
     version: 0.0.0
 
   '@rush-temp/service-bus@file:projects/service-bus.tgz':
-    resolution: {integrity: sha512-m9QW1mXNS4uxNpoDyiU5vtMR+E0RCbeXGJ5xzHr2FsrrgcM0FXqDY5kefHC7AYZcZhHVQVezhM69W2j76kDXlw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-TCUZVmTRiwW0AG6goTjmoGleLkslcu8CQFRcdAKVVc/BD3PAc1xeDT26RAIthVXD/gCBZ3rv2GQqjTkGKfXdUQ==, tarball: file:projects/service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz':
-    resolution: {integrity: sha512-e9LYdCCgBqS4gO7+JH9ZNtb2nGMRxGa2I4/3eU3uZJye/9GgWrQL40pqbgmw9wX1r3ZTpy3ueG8LijhZ6eT99A==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-XWnE+Jc2zH+zOIJ4V4MRFTGHVh/ZTR/7LCNcOhTTCTH2MY3wjX52Y+czPU8HnvUIJB2Z4w1ZAggYdIf0cXgoXg==, tarball: file:projects/storage-blob-changefeed.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
-    resolution: {integrity: sha512-ORe30xx38GMcaLB+QV/Yg3cd1lbYF7Jl3tg0a6BoeVmnyg+YMJMNO26zBgDoEZ7Tzd0lEI8UK0Yz0FsQOsV7dg==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-kUiQ8zhlb0ULc0EwE3kunizLHZAwOOjMgRu/LHD8TODfIe9awaiUeClX1OhTYqAfOQB8/DEmyUMmJ/IcOBYMFw==, tarball: file:projects/storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
-    resolution: {integrity: sha512-RRD+yKeG6Yqb5Xk63nQN89ISFwXSUHcxf2k9rCHVmvhU6dfLKDk2yZRuqYQTg/ea86trE0Rbf4tk1ssWRdkv1g==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-2FsvdY1ry8T00uMHgkk7oL0AHtQuHT+GHwF+OoYRjj3H/6UgmoxUEQOQy1kOt342oDqY1Tlzs2yDskG3pgwcEA==, tarball: file:projects/storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-share@file:projects/storage-file-share.tgz':
-    resolution: {integrity: sha512-OU0OteJc1pU34JTZ5BAMzYhUh7ML9dKXeiOP7IsgJIkGsJESUyx9AOhM5iVyzwYHWGC59tCTrF4t6FCT8ifvRg==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-vFiumXw88GMf/0pyF/q6EFtpH6g6h/dUuhms3IHT5gIJudDcnHf+NNZxUOStg6ArlnHcE6QYN84XS+mNwYO3+g==, tarball: file:projects/storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
-    resolution: {integrity: sha512-lfC0j7CsuCViDdSKW4+ZAl5SQ3rLvlA8Mdg5rVS0N37vAggkHuq3563M7zQyq3FMLxipCawUuTna4bmCPGhIcg==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-OJ92TQCEo34UEYOz6aJvuNYifrN6T4/eEWoqh9yyhD6MRqytAAsVOpgWALMe5MO4MxfHKczYVr86s/D5yToCLg==, tarball: file:projects/storage-internal-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
-    resolution: {integrity: sha512-v+YCYR/MOE4g+9q0L4DzXcW8tgO3d7kVoH04thmBUMy3U0knhEHyH1ySdSrtMgtqo2tGqd3J034dV0TiutUWMg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-a+SC2SQY+HS+HuPRDDWMCGFaT02hX8mLLqxceqlvcDzCtciXLraWttpq/hMM2n1PYxvgZLql3Wo+L8aXtbTP8Q==, tarball: file:projects/storage-queue.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
-    resolution: {integrity: sha512-vQIlLd25b2VOLFhs3TAxL/5D0sAsrlF24G4JhzIql5iBbhoWAdcV8PiOQCoXvV4Req019bLNv/3V1s1xef0iuQ==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-YTZviY16QYlGKiqV4oe2FzRc5XlEZURwHn3J79z8mQ6M4jCYJAMadVIc+bsSDxGGvjvLzLh5XUAaX27bDnVWpg==, tarball: file:projects/synapse-access-control-1.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control@file:projects/synapse-access-control.tgz':
-    resolution: {integrity: sha512-fjqWy96poos09TxHKgdgEQDUrhMZPcKUm7NwHSeqhq28wql59dCmco8gj0e7cUSMhhCg2dFOUix/+RVojkh07Q==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-YGPIL1aIYmD90dZoz0BKM0tM3uPzQqVgzbPKLR56HU5VbWVJsCIHcaMGr0QDeacqdBJiFHG8AKiQrsBYpg3Q8Q==, tarball: file:projects/synapse-access-control.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-artifacts@file:projects/synapse-artifacts.tgz':
-    resolution: {integrity: sha512-LNy3I13iPwEZcOMUA+0GlrOkcbZeuNCXU/5cAHa/ZHCuCcX/TVeSZjp4qNLyESsrFHkjkcm9H8F7HwiXAz1fZQ==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-b85PZaUB3uRyxI+S/pZwCEuB1l0upRxAJt1OVbjIaqNJNbwnvswROIH1CzADY8LreqIBkplwQGzKO+RQibUonQ==, tarball: file:projects/synapse-artifacts.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-managed-private-endpoints@file:projects/synapse-managed-private-endpoints.tgz':
-    resolution: {integrity: sha512-+AnKZbBAiAWzO9xGQIGhCuY0PIOb7Q0i0jjeJqsaSfFXYbpb96oNMSTDyiReh4zymjeIBXbk/ZDWByl0Z2YAMA==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-mQ2avCNmRG7A6QJCkOhjxukqUkqF5iN2r5Ctkfxk85tnPla+4OeFxBowV8d/xiNJEV9iAkwTV2Qk9SCCQPnCRw==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-monitoring@file:projects/synapse-monitoring.tgz':
-    resolution: {integrity: sha512-B5XKe0BYKZa+B+LBgP75lhFUwp2S/hWXRP2t7Ox+Noqp+P7cxIKbmKtuO+n+zybI3K/rGlu7EOu0Ylaph5qTZw==, tarball: file:projects/synapse-monitoring.tgz}
+    resolution: {integrity: sha512-IovwJytj22+LqBHFsg4OkVsYwFwwV44D5PECa1BzbwyjpImOLycm02aVIGSNoLVcRqRypFjDVtyXR4qb0KgwLg==, tarball: file:projects/synapse-monitoring.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-spark@file:projects/synapse-spark.tgz':
-    resolution: {integrity: sha512-LSC4aWFcmPEuH0WzIojk4Wm+g+5T+guyK00yxrao5j22vMBycfJEXM4+6L9k4W4cPY4+mM4nY+OAn+qZzsFRoQ==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-JjXn1in+Fpa+XMRv4B57KITK5SMoBUG83bUu8pzqwxg1t1r0Eusqh4yFi29dcewxJpZADr2Uku+eeK7m++S/YQ==, tarball: file:projects/synapse-spark.tgz}
     version: 0.0.0
 
   '@rush-temp/template-dpg@file:projects/template-dpg.tgz':
-    resolution: {integrity: sha512-ccgJgu44ghxTWQMdpnEdmSu/srrvSScpAzs48Ubw6V+tOYbQqhixE47aUiachQCDf5vK3IbMcZIO1fdhC3N0tg==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-kZlD5q9/Menzr7UaFLEOaGiO/JIijqhd+uSpIBg4D7Er6sQOgphqj/9rO6gOIY9EybWxR5Z70nzl9Sgxw9XljQ==, tarball: file:projects/template-dpg.tgz}
     version: 0.0.0
 
   '@rush-temp/template@file:projects/template.tgz':
-    resolution: {integrity: sha512-H2/oFMSfDxPon7Mv2v0m5p2gr9InTivwebZNiha4NU4DiNb09i2SteqEB6b+OTncit0xzIBUBMoDfSNeadUDhw==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-XVWCZIpsHzf3I7BUZW0CqBCmr2T4p30vV7X14eXh4p+qVKklEyOt21lku1e8Plxleaseeib/Y720HqM3OxrxnQ==, tarball: file:projects/template.tgz}
     version: 0.0.0
 
   '@rush-temp/test-credential@file:projects/test-credential.tgz':
-    resolution: {integrity: sha512-nxVadMKSs5/73p5DN2pi6oyVSwSxlkXWj64mhH6PpVnPCOZRvWKP7AdFbR9armmsyPxnyXo7fKAugs46VG8JcA==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-NEqBl+9ZaHQOPx9PefAvVqx+DgsOm0hk8gf8xf2ebfRS3S8HevrC9zUoJZd6VPvddy9BAOaFyzmqxGFj0x3JOw==, tarball: file:projects/test-credential.tgz}
     version: 0.0.0
 
   '@rush-temp/test-perf@file:projects/test-perf.tgz':
-    resolution: {integrity: sha512-eqtZ87NKeFIlFdJWUkgs5TkFYoaPZrcu6EL6xpYfLM0CR1PW/SKndlfo7FF/TuY4sr5CNiAyDwf2jJCkxdo1cg==, tarball: file:projects/test-perf.tgz}
+    resolution: {integrity: sha512-GU3OEE/w9Jw8aB3y4hFqZEjEgtN908aRJmaRS0mJfLIiwna7CKjBGf2FrQsYkEB9K736+rwZ0MI56xy7ElE2/g==, tarball: file:projects/test-perf.tgz}
     version: 0.0.0
 
   '@rush-temp/test-recorder@file:projects/test-recorder.tgz':
-    resolution: {integrity: sha512-14kV91XUw1IHNezuIDaYOuUTCA8uQwFXnArpt46PnzaamUUO3bjOJvpRCUeA49KzVBIhuSlCsDoMV1x+eALq3w==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-TS14XuMlilGaivNse54vasVHWv+NSdkICjeTdkbcEEeipEwNtbO+PnOnYaPQeAT4ifdVtqqiU0ty3ecQx8IUPA==, tarball: file:projects/test-recorder.tgz}
     version: 0.0.0
 
   '@rush-temp/test-utils-vitest@file:projects/test-utils-vitest.tgz':
-    resolution: {integrity: sha512-N4LL6PjUezwHgIXeWU7ZrOyLecUUz8B+lkNiuGdlvVDW5z8kdhfCuYsu/nyXkkZ0KgLZ8kLuw9pSYYrtU53hqA==, tarball: file:projects/test-utils-vitest.tgz}
+    resolution: {integrity: sha512-tB+U9Q7udWhbOVOLzpshDkW5/sCmvSzMrEDH7m7cxLeYYqNIlt609960F7+vtgNQ6ojwB5KTrNuYI0ciLLAaeQ==, tarball: file:projects/test-utils-vitest.tgz}
     version: 0.0.0
 
   '@rush-temp/test-utils@file:projects/test-utils.tgz':
-    resolution: {integrity: sha512-8ACKzmu/lFoVHoTTd6820aStaGH4Q3sPcCKqzYpu/7jDZb0nssW9pJBmxXPl5LRKNjI6VFJ2j+RhafduLaWGMQ==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-ZHzEeddi9zyq6Hd67wqLopqZ6hIJAOzdxI3qraaycAI22TXEChyJ1dCtuvbD8fdQNFNoMWL4ERWbNNn1AhjZEA==, tarball: file:projects/test-utils.tgz}
     version: 0.0.0
 
   '@rush-temp/ts-http-runtime@file:projects/ts-http-runtime.tgz':
-    resolution: {integrity: sha512-Vgx4v++LycyZ3rzuYhHMUfiAUiPQh+mzMiPg1mItc+Q5FlYCJUi3pC9T3f0PidN+8frharlC4ig/pzzVtLxPiQ==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-aMN1ox818ErnUObR8BGc9We3jOF4Ns+jg/BI75nBLNlP+4JAWjYfK5MQZwDuky9X5VlTfNOEH+B5e2teO7Lw5g==, tarball: file:projects/ts-http-runtime.tgz}
     version: 0.0.0
 
   '@rush-temp/vite-plugin-browser-test-map@file:projects/vite-plugin-browser-test-map.tgz':
-    resolution: {integrity: sha512-RQRZV814BLKC5OYc4jqgpS2QgEgsYJN5nfloGZP4KFN1gso01EaTmveUKqFjMxOQM+qZdfwEMMLBgrE4f7dSKw==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-fkOx1n//zPs9+rd8gpK/EYV9QVQzIk3LiYSUQ31BPpP6uGpYw88sEVOKj0mD06xI1etIlLLW3faSD5lxfVSfnQ==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     version: 0.0.0
 
   '@rush-temp/web-pubsub-client-protobuf@file:projects/web-pubsub-client-protobuf.tgz':
-    resolution: {integrity: sha512-ycc1Rprmc0b+yD/C2p45xLOpZa8CrviXKmD7FzSk4+l5uRWYD8rXsjXHjzBAABcj3Zkws7UVoC0Z2BQNhSf9mA==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-Z97duxsWjTd+Dl6Crcx1vR1hcdb08Jmrjm8tnvkTHr7+nxq6kparnOtq2mQ5PGgDw2Qp3hsM0/nKCyruzgTWuw==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     version: 0.0.0
 
   '@rush-temp/web-pubsub-client@file:projects/web-pubsub-client.tgz':
-    resolution: {integrity: sha512-JbCJ31buDmVnsx6j53CKj22x7b+as+PqrQO4jJxpHWwxnqhDFb+uTLtUhSl1hmoT9ohJexsJ6aX9yjyqasJfYA==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-BPEK2nSNYrb81wkLAjkH5RMUNgIYKsxb/DPxPl9syIeMIwsyKSQFVq7Xgb+HSaNHtguGpiXvQ4QJBdGNaK88Iw==, tarball: file:projects/web-pubsub-client.tgz}
     version: 0.0.0
 
   '@rush-temp/web-pubsub-express@file:projects/web-pubsub-express.tgz':
-    resolution: {integrity: sha512-86hva5A4EIZFIq9xXjdB/vzLWWpir7lyrgfXyeiXV2Si4QfI1FhTpklI0YqeIp0QUJI4tc0DaQ4dKDxA8yKTGQ==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-9ZCBYs5r4GpVg6AVUNFSckWFX09/FsvM4FkkudshVRPAiOiAnJ/cfC/dtM0YomSNR5Sx5svTij8hCQBRPOJBmA==, tarball: file:projects/web-pubsub-express.tgz}
     version: 0.0.0
 
   '@rush-temp/web-pubsub@file:projects/web-pubsub.tgz':
-    resolution: {integrity: sha512-JVdyHioMalJ0HB0A6TGGTHXrOGIHx+nbz5K3YjkVldP51Yp8cJ7+UapvPifN5FY3XE+oJd77bAlQsSLAK3ge8Q==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-2NAmvq/kdxqc1urcl8cVqa8v58YfJG7bKXT58MVplg2FQfyTSes74Npl1EYZb+COwUTmmfdZBX32WEHxso+FoQ==, tarball: file:projects/web-pubsub.tgz}
     version: 0.0.0
 
   '@rushstack/node-core-library@5.10.2':
@@ -6279,6 +6287,9 @@ packages:
   karma-env-preprocessor@0.1.1:
     resolution: {integrity: sha512-3FAuA0B1lS4DXNyOpD1Y+BjteVmnfX0WXUpsZ19aYykTk/GPz0kqnjzdApDiEe4sapreVeVSme2qTALnbHJb/A==}
 
+  karma-firefox-launcher@1.3.0:
+    resolution: {integrity: sha512-Fi7xPhwrRgr+94BnHX0F5dCl1miIW4RHnzjIGxF8GaIEp7rNqX7LSi7ok63VXs3PS/5MQaQMhGxw+bvD+pibBQ==}
+
   karma-firefox-launcher@2.1.3:
     resolution: {integrity: sha512-LMM2bseebLbYjODBOVt7TCPP9OI2vZIXCavIXhkO9m+10Uj5l7u/SKoeRmYx8FYHTVGZSpk6peX+3BMHC1WwNw==}
 
@@ -6728,6 +6739,10 @@ packages:
   nock@13.5.6:
     resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
     engines: {node: '>= 10.13'}
+
+  nock@14.0.0-beta.7:
+    resolution: {integrity: sha512-+EQMm5W9K8YnBE2Ceg4hnJynaCZmvK8ZlFXQ2fxGwtkOkBUq8GpQLTks2m1jpvse9XDxMDDOHgOWpiznFuh0bA==}
+    engines: {node: '>= 18'}
 
   node-abi@3.73.0:
     resolution: {integrity: sha512-z8iYzQGBu35ZkTQ9mtR8RqugJZ9RCLn8fv3d7LsgDBzOijGQP3RdKTX4LA7LXw03ZhU5z0l4xfhIMgSES31+cg==}
@@ -8527,6 +8542,25 @@ snapshots:
       long: 4.0.0
       undici: 5.28.5
 
+  '@azure/identity@4.3.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.18.2
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      '@azure/msal-browser': 3.28.1
+      '@azure/msal-node': 2.16.2
+      events: 3.3.0
+      jws: 4.0.0
+      open: 8.4.2
+      stoppable: 1.1.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/identity@4.6.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -8589,6 +8623,10 @@ snapshots:
       '@azure/core-rest-pipeline': 1.18.2
     transitivePeerDependencies:
       - supports-color
+
+  '@azure/msal-browser@3.28.1':
+    dependencies:
+      '@azure/msal-common': 14.16.0
 
   '@azure/msal-browser@4.0.1':
     dependencies:
@@ -16678,6 +16716,7 @@ snapshots:
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
+      '@azure/identity': 4.3.0
       '@types/node': 18.19.71
       '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -16685,7 +16724,18 @@ snapshots:
       events: 3.3.0
       inherits: 2.0.4
       jwt-decode: 4.0.0
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
       mockdate: 3.0.5
+      nock: 14.0.0-beta.7
       playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.7.3
@@ -16695,6 +16745,7 @@ snapshots:
       - '@edge-runtime/vm'
       - '@vitest/ui'
       - bufferutil
+      - debug
       - happy-dom
       - jiti
       - jsdom
@@ -23308,6 +23359,10 @@ snapshots:
 
   karma-env-preprocessor@0.1.1: {}
 
+  karma-firefox-launcher@1.3.0:
+    dependencies:
+      is-wsl: 2.2.0
+
   karma-firefox-launcher@2.1.3:
     dependencies:
       is-wsl: 2.2.0
@@ -23897,6 +23952,11 @@ snapshots:
       propagate: 2.0.1
     transitivePeerDependencies:
       - supports-color
+
+  nock@14.0.0-beta.7:
+    dependencies:
+      json-stringify-safe: 5.0.1
+      propagate: 2.0.1
 
   node-abi@3.73.0:
     dependencies:
