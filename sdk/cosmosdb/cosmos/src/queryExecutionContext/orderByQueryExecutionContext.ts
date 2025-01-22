@@ -3,7 +3,7 @@
 import type { ClientContext } from "../ClientContext";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import type { FeedOptions } from "../request/FeedOptions";
-import type { DocumentProducer } from "./documentProducer2";
+import type { DocumentProducer } from "./documentProducer";
 import type { ExecutionContext } from "./ExecutionContext";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";

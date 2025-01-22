@@ -11,7 +11,7 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import type { CosmosHeaders } from "./CosmosHeaders";
-import { DocumentProducer } from "./documentProducer2";
+import { DocumentProducer } from "./documentProducer";
 import type { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import type { SqlQuerySpec } from "./SqlQuerySpec";
