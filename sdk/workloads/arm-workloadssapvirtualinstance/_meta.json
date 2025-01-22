@@ -1,8 +1,0 @@
-{
-  "commit": "ea95dc025eef49e82a7fa88f991fb9ce328a4c30",
-  "readme": "specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/readme.md",
-  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\workloads\\resource-manager\\Microsoft.Workloads\\SAPVirtualInstance\\readme.md --use=@autorest/typescript@6.0.15 --generate-sample=true",
-  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.4",
-  "use": "@autorest/typescript@6.0.15"
-}
