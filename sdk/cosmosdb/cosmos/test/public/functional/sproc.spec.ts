@@ -11,12 +11,23 @@ import {
   removeAllDatabases,
 } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
-import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
+// import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
+import { TaskContext, RunnerTestSuite } from "vitest";
 
+function getTaskFullTitle(ctx: TaskContext): string {
+  function getTitlePath(suite: RunnerTestSuite | undefined): string[] {
+    if (suite) {
+      return [...getTitlePath(suite.suite), suite.name];
+    }
+    return [];
+  }
+
+  return [...getTitlePath(ctx.task.suite), ctx.task.name].join(" ");
+}
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
+describe("ValidatesprocCRUD", { timeout: 10000 }, () => {
   beforeEach(async function () {
     await removeAllDatabases();
   });
@@ -70,7 +81,13 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
         .replace(sproc);
 
       assert.equal(replacedSproc.id, sproc.id);
-      assert.equal(replacedSproc.body, "function () { const x = 20; console.log(x); }");
+      assert.equal(
+        replacedSproc.body,
+        `function() {
+        const x = 20;
+        console.log(x);
+      }`,
+      );
 
       // read sproc
       const { resource: sprocAfterReplace } = await container.scripts

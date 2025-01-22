@@ -1,11 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
+// import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
 import type { Container, ContainerDefinition } from "../../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import groupBySnapshot from "./groupBy.snapshot.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
+import { TaskContext, RunnerTestSuite } from "vitest";
+
+function getTaskFullTitle(ctx: TaskContext): string {
+  function getTitlePath(suite: RunnerTestSuite | undefined): string[] {
+    if (suite) {
+      return [...getTitlePath(suite.suite), suite.name];
+    }
+    return [];
+  }
+
+  return [...getTitlePath(ctx.task.suite), ctx.task.name].join(" ");
+}
 
 const options = {
   maxItemCount: 100,

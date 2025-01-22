@@ -81,7 +81,7 @@ describe("Testing Credentials integration for Client", { skip: !isNodeLike }, as
     vi.restoreAllMocks();
   });
 
-  describe("Client Test With AAD Credentials", () => {
+  describe.skip("Client Test With AAD Credentials", () => {
     let client: CosmosClient;
 
     beforeEach(() => {

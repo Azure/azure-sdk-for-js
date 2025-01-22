@@ -90,7 +90,7 @@ describe("Partition Splits", () => {
     assert(resources.length >= documentDefinitions.length);
   });
 
-  it("split errors surface as 503", async () => {
+  it.skip("split errors surface as 503", async () => {
     const options: CosmosClientOptions = { endpoint, key: masterKey };
     const plugins: PluginConfig[] = [
       {

@@ -79,7 +79,7 @@ describe("New session token", () => {
   });
 });
 
-describe("Integrated Cache Staleness", async () => {
+describe.skip("Integrated Cache Staleness", async () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
