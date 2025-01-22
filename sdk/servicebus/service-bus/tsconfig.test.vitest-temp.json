@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "lib": [
+      "DOM"
+    ],
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "importHelpers": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "composite": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "emitDeclarationOnly": false,
+    "incremental": true,
+    "tsBuildInfoFile": "/Users/matthewp/git/azure-sdk-for-js-copy/common/temp/node_modules/.pnpm/vitest@3.0.3_@types+node@18.19.71_@vitest+browser@3.0.3_msw@2.7.0_@types+node@22.7.9_typescript@5.7.3_/node_modules/vitest/dist/chunks/tsconfig.test.tmp.tsbuildinfo"
+  },
+  "include": [
+    "/Users/matthewp/git/azure-sdk-for-js-copy/sdk/servicebus/service-bus/test",
+    "/Users/matthewp/git/azure-sdk-for-js-copy/sdk/servicebus/service-bus/src"
+  ],
+  "exclude": [
+    "/Users/matthewp/git/azure-sdk-for-js-copy/sdk/servicebus/service-bus/test/stress",
+    "/Users/matthewp/git/azure-sdk-for-js-copy/sdk/servicebus/service-bus/test/snippets.spec.ts"
+  ]
+}
