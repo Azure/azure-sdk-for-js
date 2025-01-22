@@ -2211,8 +2211,8 @@ packages:
     resolution: {integrity: sha512-faYX1N0gpLhej/6nyp6bgRjzAKXn5GOEMYY7YhciSfCoITAktLUtQ36d24QEWNA1/WA1y6qQunCe0OhHRkVl9g==}
     engines: {node: '>=14'}
 
-  '@opentelemetry/resource-detector-azure@0.5.0':
-    resolution: {integrity: sha512-FKcSmAKBKTD04b0CVQxY+H32Y0sWCUD9U8v1BYXStmwiS9DfQ5Lqr73qcmXvKIs8HXZtxYfHzXZY+BgcPTFKww==}
+  '@opentelemetry/resource-detector-azure@0.6.0':
+    resolution: {integrity: sha512-cQbR/x9IhCYk47GWt4uC1G5yQN8JJ02Ec8uT38fj7uIXRbAARulwGr7Ax0dUo0eAtXEKQ+fXdzkLR1Am8cw4mg==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
@@ -2505,7 +2505,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
-    resolution: {integrity: sha512-grn7K7vXfcTU6es2PmnD5CQuoT58UaroQPLQi8R9AyFqsfsjdMW0FvAC1oTq9iiIeLNAlbLRfsIDGk2kZk40/A==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-Rut7+cMDfIlHb5lyDLayohZ8UssB2+z7RzLuoL8FyGQMN3gyW5Q6HR/5npsDdJ1WT8zRfpYPK9SgaTL9XRUDuw==, tarball: file:projects/ai-inference.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
@@ -3857,15 +3857,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-eUmiAUuU/sQyPAFrXkI8q1qYeUF+2STVBWK8nLWW2c4FNJ5UoqvCfbOcajLMs10n5sYJ336lPNION+/Gsn1GPA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-Xp+zHe20Vtw12BoUt2jDjtZgm3IG1bsfJLqGzH/Tf70QQ4zRG0J0/wd56NqbKXn3PVLhLWTvZhA4Lfyc7qhS7Q==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-Y0UPQpBAHP06qRD8SGchJ4a5eab2Yz1LIp3+hmCc6a39kTlubGYIuG2mBs8i0CZw3o40PccXgw5hd+Ty77qebQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-yj3eLTGUSFU2lGpjjYQ0n2u4DLTjaJNEZgRZpp64Be6vr0oaoFdMmLVxpe9tHG+z5qhktqW4H17mD46QZmLHrw==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-aORZTFLRCKfSaKCnKLaDIaF7Bf6zGf94C/etdfoRzFBaPEg3J+rpCxwf7RWofQYMuBA/SM5ds30VFVB4WXnSBQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-RJv0TL3+ID4FDz0hWz1+DJDCVisYwaa5mEUDQ1TvySDZZH5k1C6E6Rvue1tendb01qQbRq0VgX/8ZW7qAu2O/g==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -3877,7 +3877,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
-    resolution: {integrity: sha512-CJY4tfUvzLqTI17x7zADXetD/4Yeks9U5MVw/AI5XOpR3a/XkhQ04/enILpx3Up8lRF57YIr6PN1/jiZWCN5Bw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-sJHugId81CDPcjSee+3beIUY0F3daRiu2cTviz1VQkPnjr4f2kWl2X6mBoZ24nwKtdE4WP98sA4Og4Yhehe3oA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-form-recognizer@file:projects/perf-ai-form-recognizer.tgz':
@@ -3941,7 +3941,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-gfg95OZXaAe7O/vm8BNgYyZMYkhag5/sbOMwM6sS+NxHshnxsdS+Zly97riyiwsyMkTrzafbFtjoT7wkxl6Gww==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-byBSym/OfxQ58bVHVolF00z4GRg96yCYO7SwgMGbODClLim6M9/GJ7K4VVe4bifJ8DxljLMjdZh+9dDHL8+Q1g==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
@@ -9509,7 +9509,7 @@ snapshots:
 
   '@opentelemetry/redis-common@0.36.2': {}
 
-  '@opentelemetry/resource-detector-azure@0.5.0(@opentelemetry/api@1.9.0)':
+  '@opentelemetry/resource-detector-azure@0.6.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
@@ -19125,7 +19125,7 @@ snapshots:
       '@opentelemetry/instrumentation-redis': 0.46.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-redis-4': 0.46.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-winston': 0.44.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/resource-detector-azure': 0.5.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resource-detector-azure': 0.6.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-logs': 0.57.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-metrics': 1.30.1(@opentelemetry/api@1.9.0)
