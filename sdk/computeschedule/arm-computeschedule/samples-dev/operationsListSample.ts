@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-10-01/Operations_List.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -22,8 +22,8 @@ async function operationsList() {
   console.log(resArray);
 }
 
-async function main() {
-  operationsList();
+async function main(): Promise<void> {
+  await operationsList();
 }
 
 main().catch(console.error);
