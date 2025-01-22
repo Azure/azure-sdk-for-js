@@ -23,7 +23,7 @@ async function ispCacheNodesResourceBgpCidrsDetailsGeneratedByMaximumSetRule(): 
 }
 
 async function main(): Promise<void> {
-  ispCacheNodesResourceBgpCidrsDetailsGeneratedByMaximumSetRule();
+  await ispCacheNodesResourceBgpCidrsDetailsGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

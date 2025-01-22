@@ -29,7 +29,7 @@ async function eventsListByBillingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.eventsOperations.listByBillingProfile(
+  for await (const item of client.eventsOperations.listByBillingProfile(
     billingAccountId,
     billingProfileId,
     startDate,

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ReservationRecommendationsListOptionalParams} from "@azure/arm-consumption";
 import {
-  ReservationRecommendationsListOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function reservationRecommendationsByBillingAccountLegacy(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(scope)) {
+  for await (const item of client.reservationRecommendations.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -50,7 +51,7 @@ async function reservationRecommendationsByBillingProfileModern(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(scope)) {
+  for await (const item of client.reservationRecommendations.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -71,7 +72,7 @@ async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(scope)) {
+  for await (const item of client.reservationRecommendations.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -91,7 +92,7 @@ async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(scope)) {
+  for await (const item of client.reservationRecommendations.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -114,7 +115,7 @@ async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPer
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(
+  for await (const item of client.reservationRecommendations.list(
     scope,
     options
   )) {

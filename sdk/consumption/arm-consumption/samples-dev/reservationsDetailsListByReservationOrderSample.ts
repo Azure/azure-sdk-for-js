@@ -28,7 +28,7 @@ async function reservationDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsDetails.listByReservationOrder(
+  for await (const item of client.reservationsDetails.listByReservationOrder(
     reservationOrderId,
     filter
   )) {

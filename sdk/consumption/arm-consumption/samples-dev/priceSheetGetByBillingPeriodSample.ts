@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PriceSheetGetByBillingPeriodOptionalParams} from "@azure/arm-consumption";
 import {
-  PriceSheetGetByBillingPeriodOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";

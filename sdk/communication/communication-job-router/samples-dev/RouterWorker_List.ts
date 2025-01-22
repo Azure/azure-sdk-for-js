@@ -3,11 +3,11 @@
 /**
  * @summary router worker crud
  */
-import { JobRouterClient, RouterWorkerItem } from "@azure/communication-job-router";
+import type { RouterWorkerItem } from "@azure/communication-job-router";
+import { JobRouterClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 

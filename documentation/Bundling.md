@@ -181,14 +181,44 @@ In order to use Azure SDK libraries inside JS, you need to import code from the 
 
 ```js
 // src/index.js
+import { SomeClient } from "@azure/some-sdk-package";
+// Now do something interesting with the client
+```
+
+Next we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.mjs` file next to your `package.json` file you created earlier:
+
+```js
+// rollup.config.mjs
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+export default {
+  input: "src/main.js",
+  output: {
+    file: "dist/bundle.js",
+    format: "esm",
+    name: "main",
+  },
+  plugins: [nodeResolve({ browser: true })],
+};
+```
+
+We also need to install the plugins we referenced in the above file:
+
+```sh
+npm install --save-dev @rollup/plugin-node-resolve
+```
+
+This configuration should work for most of our SDK packages.  However, if the package that you are using have runtime dependencies that are not available on browsers, you may need a more complex configuration.  For example, bundling `@azure/storage-blob` usage
+
+```js
+// src/index.js
 const { BlobServiceClient } = require("@azure/storage-blob");
 // Now do something interesting with BlobServiceClient :)
 ```
 
-Next we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
+requires the follow
 
 ```js
-// rollup.config.js
+// rollup.config.mjs
 import resolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -198,7 +228,7 @@ export default {
   input: "src/index.js",
   output: {
     file: "dist/bundle.js",
-    format: "iife",
+    format: "esm",
     name: "main"
   },
   plugins: [
@@ -283,10 +313,10 @@ import { BlobServiceClient } from "@azure/storage-blob";
 // Now do something interesting with BlobServiceClient :)
 ```
 
-Next we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
+Next we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.mjs` file next to your `package.json` file you created earlier:
 
 ```js
-// rollup.config.js
+// rollup.config.mjs
 import resolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -297,7 +327,7 @@ export default {
   input: "src/index.ts",
   output: {
     file: "dist/bundle.js",
-    format: "iife",
+    format: "esm",
     name: "main"
   },
   plugins: [
@@ -357,7 +387,7 @@ Now you can use this bundled output file inside an html page via a script tag:
 First, you need to install [parcel](https://parceljs.org/) globally:
 
 ```sh
-npm install -g parcel-bundler
+npm install -g parcel
 ```
 
 Once this is done, you can use parcel by configuring your project in the way that parcel expects.
