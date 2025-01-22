@@ -6,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  UsageDetailsListOptionalParams} from "@azure/arm-consumption";
-import {
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { UsageDetailsListOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -24,8 +19,7 @@ import "dotenv/config";
  */
 async function billingAccountUsageDetailsListLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/BillingAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -44,8 +38,7 @@ async function billingAccountUsageDetailsListLegacy(): Promise<void> {
  */
 async function billingAccountUsageDetailsListModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/BillingAccounts/1234:56789";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -64,8 +57,7 @@ async function billingAccountUsageDetailsListModern(): Promise<void> {
  */
 async function billingAccountUsageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/BillingAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -84,10 +76,8 @@ async function billingAccountUsageDetailsListForBillingPeriodLegacy(): Promise<v
  */
 async function billingProfileUsageDetailsListModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2468";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2468";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -105,8 +95,7 @@ async function billingProfileUsageDetailsListModern(): Promise<void> {
  */
 async function customerUsageDetailsListModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -126,8 +115,7 @@ async function customerUsageDetailsListModern(): Promise<void> {
  */
 async function departmentUsageDetailsListLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/Departments/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -146,8 +134,7 @@ async function departmentUsageDetailsListLegacy(): Promise<void> {
  */
 async function departmentUsageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/Departments/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -166,8 +153,7 @@ async function departmentUsageDetailsListForBillingPeriodLegacy(): Promise<void>
  */
 async function enrollmentAccountUsageDetailsListLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/EnrollmentAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -186,8 +172,7 @@ async function enrollmentAccountUsageDetailsListLegacy(): Promise<void> {
  */
 async function enrollmentAccountUsageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/EnrollmentAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -206,10 +191,8 @@ async function enrollmentAccountUsageDetailsListForBillingPeriodLegacy(): Promis
  */
 async function invoiceSectionUsageDetailsListModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/98765";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/98765";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -227,8 +210,7 @@ async function invoiceSectionUsageDetailsListModern(): Promise<void> {
  */
 async function managementGroupUsageDetailsListLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -247,8 +229,7 @@ async function managementGroupUsageDetailsListLegacy(): Promise<void> {
  */
 async function managementGroupUsageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -267,8 +248,7 @@ async function managementGroupUsageDetailsListForBillingPeriodLegacy(): Promise<
  */
 async function usageDetailsExpandLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const expand = "meterDetails,additionalInfo";
   const filter = "tags eq 'dev:tools'";
@@ -291,8 +271,7 @@ async function usageDetailsExpandLegacy(): Promise<void> {
  */
 async function usageDetailsListLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -311,8 +290,7 @@ async function usageDetailsListLegacy(): Promise<void> {
  */
 async function usageDetailsListByMetricActualCostLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const metric = "actualcost";
   const options: UsageDetailsListOptionalParams = { metric };
@@ -333,8 +311,7 @@ async function usageDetailsListByMetricActualCostLegacy(): Promise<void> {
  */
 async function usageDetailsListByMetricAmortizedCostLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const metric = "amortizedcost";
   const options: UsageDetailsListOptionalParams = { metric };
@@ -355,8 +332,7 @@ async function usageDetailsListByMetricAmortizedCostLegacy(): Promise<void> {
  */
 async function usageDetailsListByMetricUsageLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const metric = "usage";
   const options: UsageDetailsListOptionalParams = { metric };
@@ -377,8 +353,7 @@ async function usageDetailsListByMetricUsageLegacy(): Promise<void> {
  */
 async function usageDetailsListFilterByTagLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const filter = "tags eq 'dev:tools'";
   const options: UsageDetailsListOptionalParams = { filter };
@@ -399,8 +374,7 @@ async function usageDetailsListFilterByTagLegacy(): Promise<void> {
  */
 async function usageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -412,25 +386,25 @@ async function usageDetailsListForBillingPeriodLegacy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountUsageDetailsListLegacy();
-  billingAccountUsageDetailsListModern();
-  billingAccountUsageDetailsListForBillingPeriodLegacy();
-  billingProfileUsageDetailsListModern();
-  customerUsageDetailsListModern();
-  departmentUsageDetailsListLegacy();
-  departmentUsageDetailsListForBillingPeriodLegacy();
-  enrollmentAccountUsageDetailsListLegacy();
-  enrollmentAccountUsageDetailsListForBillingPeriodLegacy();
-  invoiceSectionUsageDetailsListModern();
-  managementGroupUsageDetailsListLegacy();
-  managementGroupUsageDetailsListForBillingPeriodLegacy();
-  usageDetailsExpandLegacy();
-  usageDetailsListLegacy();
-  usageDetailsListByMetricActualCostLegacy();
-  usageDetailsListByMetricAmortizedCostLegacy();
-  usageDetailsListByMetricUsageLegacy();
-  usageDetailsListFilterByTagLegacy();
-  usageDetailsListForBillingPeriodLegacy();
+  await billingAccountUsageDetailsListLegacy();
+  await billingAccountUsageDetailsListModern();
+  await billingAccountUsageDetailsListForBillingPeriodLegacy();
+  await billingProfileUsageDetailsListModern();
+  await customerUsageDetailsListModern();
+  await departmentUsageDetailsListLegacy();
+  await departmentUsageDetailsListForBillingPeriodLegacy();
+  await enrollmentAccountUsageDetailsListLegacy();
+  await enrollmentAccountUsageDetailsListForBillingPeriodLegacy();
+  await invoiceSectionUsageDetailsListModern();
+  await managementGroupUsageDetailsListLegacy();
+  await managementGroupUsageDetailsListForBillingPeriodLegacy();
+  await usageDetailsExpandLegacy();
+  await usageDetailsListLegacy();
+  await usageDetailsListByMetricActualCostLegacy();
+  await usageDetailsListByMetricAmortizedCostLegacy();
+  await usageDetailsListByMetricUsageLegacy();
+  await usageDetailsListFilterByTagLegacy();
+  await usageDetailsListForBillingPeriodLegacy();
 }
 
 main().catch(console.error);
