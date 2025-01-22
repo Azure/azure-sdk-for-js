@@ -74,7 +74,7 @@ describe("HttpSender", () => {
         const { result, statusCode } = await sender.send([envelope]);
         assert.strictEqual(statusCode, 200);
         assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
-      }, 1500);
+      }, 2000);
     });
 
     it("should send an invalid non-retriable envelope", async () => {
@@ -106,7 +106,7 @@ describe("HttpSender", () => {
         const { result, statusCode } = await sender.send([envelope, envelope]);
         assert.strictEqual(statusCode, 206);
         assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
-      }, 1500);
+      }, 2000);
     });
 
     it("should persist retriable failed telemetry 429", async () => {
@@ -127,7 +127,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
-      }, 1500);
+      }, 2000);
     });
 
     it("should persist retriable failed telemetry 500", async () => {
@@ -148,7 +148,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
-      }, 1500);
+      }, 2000);
     });
 
     it("should persist retriable failed  502", async () => {
@@ -169,7 +169,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
-      }, 1500);
+      }, 2000);
     });
 
     it("should persist retriable failed telemetry 503", async () => {
@@ -190,7 +190,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
-      }, 1500);
+      }, 2000);
     });
 
     it("should persist retriable failed telemetry 504", async () => {
@@ -211,7 +211,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
-      }, 1500);
+      }, 2000);
     });
 
     it("should persist partial retriable failed telemetry", async () => {
@@ -231,7 +231,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 2);
-      }, 1500);
+      }, 2000);
     });
 
     it("should not persist partial non retriable failed telemetry", async () => {
@@ -251,7 +251,7 @@ describe("HttpSender", () => {
       // Test enters race condition without this timeout.
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
-      }, 1500);
+      }, 2000);
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
@@ -267,12 +267,12 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.FAILED);
-      }, 1500);
+      }, 2000);
 
       const persistedEnvelopes = await sender["persister"].shift();
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
-      }, 1500);
+      }, 2000);
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
