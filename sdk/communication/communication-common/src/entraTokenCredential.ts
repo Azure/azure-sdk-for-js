@@ -65,7 +65,9 @@ export class EntraTokenCredential implements AcsTokenCredential {
     this.client = getClient(options.resourceEndpoint);
     this.httpClient = createDefaultHttpClient();
     this.options = options;
-    this.options.scopes = this.options.scopes || ["https://communication.azure.com/clients/.default"];
+    this.options.scopes = this.options.scopes || [
+      "https://communication.azure.com/clients/.default",
+    ];
 
     // immediately fetch the token to pre-warm
     this.isPending = this.getToken();
@@ -163,23 +165,27 @@ export class EntraTokenCredential implements AcsTokenCredential {
     };
   }
 
-  private createRequestUri(resourceEndpoint : string) : string {
+  private createRequestUri(resourceEndpoint: string): string {
     const [endpoint, apiVersion] = this.determineEndpointAndApiVersion();
     const requestUri = `${resourceEndpoint}${endpoint}?api-version=${apiVersion}`;
-    return requestUri; 
+    return requestUri;
   }
 
-  private determineEndpointAndApiVersion() : [string, string] {
+  private determineEndpointAndApiVersion(): [string, string] {
     if (!this.options.scopes || this.options.scopes.length === 0) {
       throw new Error(
         `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {ComunicationClientsScopePrefix}.`,
       );
-    } else if (this.options.scopes.every(scope => scope.startsWith(TeamsExtensionScopePrefix))) {
+    } else if (this.options.scopes.every((scope) => scope.startsWith(TeamsExtensionScopePrefix))) {
       return [TeamsExtensionEndpoint, TeamsExtensionApiVersion];
-    } else if (this.options.scopes.every(scope => scope.startsWith(ComunicationClientsScopePrefix))) {
+    } else if (
+      this.options.scopes.every((scope) => scope.startsWith(ComunicationClientsScopePrefix))
+    ) {
       return [ComunicationClientsEndpoint, ComunicationClientsApiVersion];
     } else {
-      throw new Error(`Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {ComunicationClientsScopePrefix}.`);
+      throw new Error(
+        `Scopes validation failed. Ensure all scopes start with either {TeamsExtensionScopePrefix} or {ComunicationClientsScopePrefix}.`,
+      );
     }
   }
 }
