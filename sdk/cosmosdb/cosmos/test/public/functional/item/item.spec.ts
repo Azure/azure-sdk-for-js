@@ -551,7 +551,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     });
   });
 
-  describe("Test diagnostics for item CRUD", async function () {
+  describe("Test diagnostics for item CRUD", async () => {
     const container = await getTestContainer("db1", undefined, {
       throughput: 20000,
       partitionKey: "/id",
