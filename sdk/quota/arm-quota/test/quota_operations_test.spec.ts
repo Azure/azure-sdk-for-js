@@ -36,27 +36,21 @@ describe("quota test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureQuotaExtensionAPI;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
   let scope: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || "";
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new AzureQuotaExtensionAPI(credential, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "StandardSkuPublicIpAddresses";
-      scope = "subscriptions/" + subscriptionId + "/providers/Microsoft.Network/locations/eastus";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new AzureQuotaExtensionAPI(credential, recorder.configureClientOptions({}));
+    scope = "subscriptions/" + subscriptionId + "/providers/Microsoft.Network/locations/eastus";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("quota list test", async function () {
     const resArray = new Array();
