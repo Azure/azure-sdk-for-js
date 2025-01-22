@@ -41,8 +41,8 @@ async function sAPVirtualInstancesTrustedAccessEnableUpdate() {
 }
 
 async function main() {
-  sAPVirtualInstancesUpdate();
-  sAPVirtualInstancesTrustedAccessEnableUpdate();
+  await sAPVirtualInstancesUpdate();
+  await sAPVirtualInstancesTrustedAccessEnableUpdate();
 }
 
 main().catch(console.error);

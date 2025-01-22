@@ -37,8 +37,8 @@ async function stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS(
 }
 
 async function main() {
-  stopTheSapCentralServicesInstance();
-  stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS();
+  await stopTheSapCentralServicesInstance();
+  await stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS();
 }
 
 main().catch(console.error);

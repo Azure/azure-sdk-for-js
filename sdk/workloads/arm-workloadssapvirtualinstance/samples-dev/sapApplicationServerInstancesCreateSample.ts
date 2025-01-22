@@ -41,8 +41,8 @@ async function createSapApplicationServerInstancesForHaSystemWithAvailabilitySet
 }
 
 async function main() {
-  sAPApplicationServerInstancesCreate();
-  createSapApplicationServerInstancesForHaSystemWithAvailabilitySet();
+  await sAPApplicationServerInstancesCreate();
+  await createSapApplicationServerInstancesForHaSystemWithAvailabilitySet();
 }
 
 main().catch(console.error);

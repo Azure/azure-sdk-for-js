@@ -19,7 +19,7 @@ async function sapCentralServerInstancesGet() {
 }
 
 async function main() {
-  sapCentralServerInstancesGet();
+  await sapCentralServerInstancesGet();
 }
 
 main().catch(console.error);

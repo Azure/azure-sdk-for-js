@@ -23,7 +23,7 @@ async function sAPVirtualInstancesListByResourceGroup() {
 }
 
 async function main() {
-  sAPVirtualInstancesListByResourceGroup();
+  await sAPVirtualInstancesListByResourceGroup();
 }
 
 main().catch(console.error);

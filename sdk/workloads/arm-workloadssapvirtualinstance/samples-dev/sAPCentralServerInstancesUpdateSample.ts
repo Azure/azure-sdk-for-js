@@ -21,7 +21,7 @@ async function sapCentralServerInstancesUpdate() {
 }
 
 async function main() {
-  sapCentralServerInstancesUpdate();
+  await sapCentralServerInstancesUpdate();
 }
 
 main().catch(console.error);

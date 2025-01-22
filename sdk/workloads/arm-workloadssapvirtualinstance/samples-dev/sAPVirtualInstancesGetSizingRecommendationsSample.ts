@@ -99,10 +99,10 @@ async function sapSizingRecommendationsForSingleServer() {
 }
 
 async function main() {
-  sapSizingRecommendationsForNonHaDistributedSystem();
-  sapSizingRecommendationsForHaWithAvailabilitySet();
-  sapSizingRecommendationsForHaWithAvailabilityZone();
-  sapSizingRecommendationsForSingleServer();
+  await sapSizingRecommendationsForNonHaDistributedSystem();
+  await sapSizingRecommendationsForHaWithAvailabilitySet();
+  await sapSizingRecommendationsForHaWithAvailabilityZone();
+  await sapSizingRecommendationsForSingleServer();
 }
 
 main().catch(console.error);

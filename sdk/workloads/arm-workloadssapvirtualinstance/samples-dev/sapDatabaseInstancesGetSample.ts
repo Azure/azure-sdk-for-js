@@ -19,7 +19,7 @@ async function sAPDatabaseInstancesGet() {
 }
 
 async function main() {
-  sAPDatabaseInstancesGet();
+  await sAPDatabaseInstancesGet();
 }
 
 main().catch(console.error);

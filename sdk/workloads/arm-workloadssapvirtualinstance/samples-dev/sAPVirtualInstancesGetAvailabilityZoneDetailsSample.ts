@@ -41,8 +41,8 @@ async function sapAvailabilityZoneDetailsInNorthEurope() {
 }
 
 async function main() {
-  sapAvailabilityZoneDetailsInEastUs();
-  sapAvailabilityZoneDetailsInNorthEurope();
+  await sapAvailabilityZoneDetailsInEastUs();
+  await sapAvailabilityZoneDetailsInNorthEurope();
 }
 
 main().catch(console.error);

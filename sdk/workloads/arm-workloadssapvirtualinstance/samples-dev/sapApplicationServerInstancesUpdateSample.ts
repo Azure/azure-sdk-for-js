@@ -21,7 +21,7 @@ async function sAPApplicationServerInstancesUpdate() {
 }
 
 async function main() {
-  sAPApplicationServerInstancesUpdate();
+  await sAPApplicationServerInstancesUpdate();
 }
 
 main().catch(console.error);

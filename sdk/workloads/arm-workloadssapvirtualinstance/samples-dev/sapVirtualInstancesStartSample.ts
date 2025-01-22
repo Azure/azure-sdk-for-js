@@ -37,8 +37,8 @@ async function sAPVirtualInstancesStartWithInfraOperations() {
 }
 
 async function main() {
-  sAPVirtualInstancesStart();
-  sAPVirtualInstancesStartWithInfraOperations();
+  await sAPVirtualInstancesStart();
+  await sAPVirtualInstancesStartWithInfraOperations();
 }
 
 main().catch(console.error);

@@ -87,10 +87,10 @@ async function sapSupportedSKUsForSingleServer() {
 }
 
 async function main() {
-  sapSupportedSKUsForDistributedNonHaEnvironment();
-  sapSupportedSKUsForDistributedHaEnvironmentWithAvailabilitySet();
-  sapSupportedSkusForHaWithAvailabilityZone();
-  sapSupportedSKUsForSingleServer();
+  await sapSupportedSKUsForDistributedNonHaEnvironment();
+  await sapSupportedSKUsForDistributedHaEnvironmentWithAvailabilitySet();
+  await sapSupportedSkusForHaWithAvailabilityZone();
+  await sapSupportedSKUsForSingleServer();
 }
 
 main().catch(console.error);

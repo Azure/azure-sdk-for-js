@@ -18,7 +18,7 @@ async function sAPDatabaseInstancesDelete() {
 }
 
 async function main() {
-  sAPDatabaseInstancesDelete();
+  await sAPDatabaseInstancesDelete();
 }
 
 main().catch(console.error);

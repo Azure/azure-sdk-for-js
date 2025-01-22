@@ -41,8 +41,8 @@ async function createSapCentralInstancesForHaSystemWithAvailabilitySet() {
 }
 
 async function main() {
-  sapCentralServerInstancesCreate();
-  createSapCentralInstancesForHaSystemWithAvailabilitySet();
+  await sapCentralServerInstancesCreate();
+  await createSapCentralInstancesForHaSystemWithAvailabilitySet();
 }
 
 main().catch(console.error);

@@ -37,8 +37,8 @@ async function startTheVirtualMachineSAndTheSapCentralServicesInstanceOnIt() {
 }
 
 async function main() {
-  startTheSapCentralServicesInstance();
-  startTheVirtualMachineSAndTheSapCentralServicesInstanceOnIt();
+  await startTheSapCentralServicesInstance();
+  await startTheVirtualMachineSAndTheSapCentralServicesInstanceOnIt();
 }
 
 main().catch(console.error);

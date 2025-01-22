@@ -37,8 +37,8 @@ async function startVirtualMachineAndTheSapApplicationServerInstanceOnIt() {
 }
 
 async function main() {
-  startTheSapApplicationServerInstance();
-  startVirtualMachineAndTheSapApplicationServerInstanceOnIt();
+  await startTheSapApplicationServerInstance();
+  await startVirtualMachineAndTheSapApplicationServerInstanceOnIt();
 }
 
 main().catch(console.error);

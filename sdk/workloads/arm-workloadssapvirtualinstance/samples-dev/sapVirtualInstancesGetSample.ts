@@ -33,8 +33,8 @@ async function sAPVirtualInstancesGetWithAcssInstallationBlocked() {
 }
 
 async function main() {
-  sAPVirtualInstancesGet();
-  sAPVirtualInstancesGetWithAcssInstallationBlocked();
+  await sAPVirtualInstancesGet();
+  await sAPVirtualInstancesGetWithAcssInstallationBlocked();
 }
 
 main().catch(console.error);

@@ -19,7 +19,7 @@ async function sAPApplicationServerInstancesGet() {
 }
 
 async function main() {
-  sAPApplicationServerInstancesGet();
+  await sAPApplicationServerInstancesGet();
 }
 
 main().catch(console.error);

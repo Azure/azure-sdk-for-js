@@ -69,10 +69,10 @@ async function stopTheVirtualMachineSAndTheSapSystemOnIt() {
 }
 
 async function main() {
-  softStopOfSapVirtualInstancesStop();
-  softStopTheVirtualMachineSAndTheSapSystemOnIt();
-  sAPVirtualInstancesStop();
-  stopTheVirtualMachineSAndTheSapSystemOnIt();
+  await softStopOfSapVirtualInstancesStop();
+  await softStopTheVirtualMachineSAndTheSapSystemOnIt();
+  await sAPVirtualInstancesStop();
+  await stopTheVirtualMachineSAndTheSapSystemOnIt();
 }
 
 main().catch(console.error);

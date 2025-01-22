@@ -47,8 +47,8 @@ async function sapDiskConfigurationsForInputEnvironmentProd() {
 }
 
 async function main() {
-  sapDiskConfigurationsForInputEnvironmentNonProd();
-  sapDiskConfigurationsForInputEnvironmentProd();
+  await sapDiskConfigurationsForInputEnvironmentNonProd();
+  await sapDiskConfigurationsForInputEnvironmentProd();
 }
 
 main().catch(console.error);

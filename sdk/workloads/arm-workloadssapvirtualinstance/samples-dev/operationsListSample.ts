@@ -23,7 +23,7 @@ async function listTheOperationsForTheProvider() {
 }
 
 async function main() {
-  listTheOperationsForTheProvider();
+  await listTheOperationsForTheProvider();
 }
 
 main().catch(console.error);

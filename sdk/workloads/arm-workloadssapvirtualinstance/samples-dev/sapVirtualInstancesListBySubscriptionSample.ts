@@ -23,7 +23,7 @@ async function sAPVirtualInstancesListBySubscription() {
 }
 
 async function main() {
-  sAPVirtualInstancesListBySubscription();
+  await sAPVirtualInstancesListBySubscription();
 }
 
 main().catch(console.error);

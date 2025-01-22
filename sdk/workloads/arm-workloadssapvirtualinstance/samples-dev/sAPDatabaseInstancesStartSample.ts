@@ -35,8 +35,8 @@ async function startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt() {
 }
 
 async function main() {
-  startTheDatabaseInstanceOfTheSapSystem();
-  startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt();
+  await startTheDatabaseInstanceOfTheSapSystem();
+  await startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt();
 }
 
 main().catch(console.error);

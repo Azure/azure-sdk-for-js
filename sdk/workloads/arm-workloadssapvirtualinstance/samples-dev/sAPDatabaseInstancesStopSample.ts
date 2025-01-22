@@ -69,10 +69,10 @@ async function stopTheDatabaseInstanceOfTheSapSystemAndTheUnderlyingVirtualMachi
 }
 
 async function main() {
-  stopTheDatabaseInstanceOfTheSapSystem();
-  softStopTheDatabaseInstanceOfTheSapSystem();
-  softStopTheDatabaseInstanceOfTheSapSystemAndTheUnderlyingVirtualMachineS();
-  stopTheDatabaseInstanceOfTheSapSystemAndTheUnderlyingVirtualMachineS();
+  await stopTheDatabaseInstanceOfTheSapSystem();
+  await softStopTheDatabaseInstanceOfTheSapSystem();
+  await softStopTheDatabaseInstanceOfTheSapSystemAndTheUnderlyingVirtualMachineS();
+  await stopTheDatabaseInstanceOfTheSapSystemAndTheUnderlyingVirtualMachineS();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function sapApplicationServerInstancesListBySapVirtualInstance() {
 }
 
 async function main() {
-  sapApplicationServerInstancesListBySapVirtualInstance();
+  await sapApplicationServerInstancesListBySapVirtualInstance();
 }
 
 main().catch(console.error);

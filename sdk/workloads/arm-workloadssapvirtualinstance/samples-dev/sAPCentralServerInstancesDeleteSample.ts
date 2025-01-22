@@ -18,7 +18,7 @@ async function sapCentralServerInstancesDelete() {
 }
 
 async function main() {
-  sapCentralServerInstancesDelete();
+  await sapCentralServerInstancesDelete();
 }
 
 main().catch(console.error);

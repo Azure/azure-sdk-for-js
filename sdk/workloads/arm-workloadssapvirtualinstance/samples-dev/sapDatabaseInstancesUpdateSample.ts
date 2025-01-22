@@ -21,7 +21,7 @@ async function sAPDatabaseInstancesUpdate() {
 }
 
 async function main() {
-  sAPDatabaseInstancesUpdate();
+  await sAPDatabaseInstancesUpdate();
 }
 
 main().catch(console.error);

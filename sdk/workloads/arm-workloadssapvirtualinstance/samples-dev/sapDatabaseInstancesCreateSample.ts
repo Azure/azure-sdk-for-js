@@ -41,8 +41,8 @@ async function createSapDatabaseInstancesForHaSystemWithAvailabilitySet() {
 }
 
 async function main() {
-  sAPDatabaseInstancesCreate();
-  createSapDatabaseInstancesForHaSystemWithAvailabilitySet();
+  await sAPDatabaseInstancesCreate();
+  await createSapDatabaseInstancesForHaSystemWithAvailabilitySet();
 }
 
 main().catch(console.error);

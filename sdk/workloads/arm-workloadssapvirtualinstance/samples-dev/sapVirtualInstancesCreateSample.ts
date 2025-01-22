@@ -2837,36 +2837,36 @@ async function registerWithTrustedAccessEnabled() {
 }
 
 async function main() {
-  detectSapSoftwareInstallationOnADistributedSystem();
-  detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();
-  detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone();
-  detectSapSoftwareInstallationOnASingleServerSystem();
-  createInfrastructureWithDiskAndOsConfigurationForDistributedSystemRecommended();
-  createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvailabilitySetRecommended();
-  createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvailabilityZoneRecommended();
-  createInfrastructureWithDiskAndOsConfigurationsForSingleServerSystemRecommended();
-  createInfrastructureOnlyForDistributedSystem();
-  createInfrastructureOnlyForHaSystemWithAvailabilitySet();
-  createInfrastructureOnlyForHaSystemWithAvailabilityZone();
-  createInfrastructureWithOsConfigurationWithAzureComputeGalleryImage();
-  createInfrastructureWithOsConfigurationWithCustomResourceNamesForDistributedSystem();
-  createInfrastructureWithOsConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet();
-  createInfrastructureWithOsConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone();
-  createInfrastructureWithOsConfigurationWithCustomResourceNamesForSingleServerSystem();
-  createInfrastructureWithOsConfigurationForDistributedSystemRecommended();
-  createInfrastructureWithOsConfigurationForHaSystemWithAvailabilitySetRecommended();
-  createInfrastructureWithOsConfigurationForHaSystemWithAvailabilityZoneRecommended();
-  createInfrastructureWithOsConfigurationForSingleServerSystemRecommended();
-  createInfrastructureOnlyForSingleServerSystem();
-  createInfrastructureWithAnExistingSapTransportDirectoryFileshare();
-  createInfrastructureWithANewSapTransportDirectoryFileshare();
-  createInfrastructureWithOsConfigurationWithTrustedAccessEnabled();
-  createInfrastructureWithoutASapTransportDirectoryFileshare();
-  installSapSoftwareOnDistributedSystem();
-  installSapSoftwareOnSingleServerSystem();
-  registerExistingSapSystemAsVirtualInstanceForSapSolutions();
-  registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations();
-  registerWithTrustedAccessEnabled();
+  await detectSapSoftwareInstallationOnADistributedSystem();
+  await detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();
+  await detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone();
+  await detectSapSoftwareInstallationOnASingleServerSystem();
+  await createInfrastructureWithDiskAndOsConfigurationForDistributedSystemRecommended();
+  await createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvailabilitySetRecommended();
+  await createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvailabilityZoneRecommended();
+  await createInfrastructureWithDiskAndOsConfigurationsForSingleServerSystemRecommended();
+  await createInfrastructureOnlyForDistributedSystem();
+  await createInfrastructureOnlyForHaSystemWithAvailabilitySet();
+  await createInfrastructureOnlyForHaSystemWithAvailabilityZone();
+  await createInfrastructureWithOsConfigurationWithAzureComputeGalleryImage();
+  await createInfrastructureWithOsConfigurationWithCustomResourceNamesForDistributedSystem();
+  await createInfrastructureWithOsConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet();
+  await createInfrastructureWithOsConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone();
+  await createInfrastructureWithOsConfigurationWithCustomResourceNamesForSingleServerSystem();
+  await createInfrastructureWithOsConfigurationForDistributedSystemRecommended();
+  await createInfrastructureWithOsConfigurationForHaSystemWithAvailabilitySetRecommended();
+  await createInfrastructureWithOsConfigurationForHaSystemWithAvailabilityZoneRecommended();
+  await createInfrastructureWithOsConfigurationForSingleServerSystemRecommended();
+  await createInfrastructureOnlyForSingleServerSystem();
+  await createInfrastructureWithAnExistingSapTransportDirectoryFileshare();
+  await createInfrastructureWithANewSapTransportDirectoryFileshare();
+  await createInfrastructureWithOsConfigurationWithTrustedAccessEnabled();
+  await createInfrastructureWithoutASapTransportDirectoryFileshare();
+  await installSapSoftwareOnDistributedSystem();
+  await installSapSoftwareOnSingleServerSystem();
+  await registerExistingSapSystemAsVirtualInstanceForSapSolutions();
+  await registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations();
+  await registerWithTrustedAccessEnabled();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function sAPCentralInstancesListBySapVirtualInstance() {
 }
 
 async function main() {
-  sAPCentralInstancesListBySapVirtualInstance();
+  await sAPCentralInstancesListBySapVirtualInstance();
 }
 
 main().catch(console.error);

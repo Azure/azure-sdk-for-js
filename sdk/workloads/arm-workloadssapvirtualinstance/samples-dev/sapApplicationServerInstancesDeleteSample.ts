@@ -18,7 +18,7 @@ async function sAPApplicationServerInstancesDelete() {
 }
 
 async function main() {
-  sAPApplicationServerInstancesDelete();
+  await sAPApplicationServerInstancesDelete();
 }
 
 main().catch(console.error);

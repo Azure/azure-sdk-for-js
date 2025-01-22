@@ -18,7 +18,7 @@ async function sAPVirtualInstancesDelete() {
 }
 
 async function main() {
-  sAPVirtualInstancesDelete();
+  await sAPVirtualInstancesDelete();
 }
 
 main().catch(console.error);

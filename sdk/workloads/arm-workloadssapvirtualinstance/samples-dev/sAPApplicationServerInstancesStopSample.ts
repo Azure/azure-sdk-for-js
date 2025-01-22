@@ -69,10 +69,10 @@ async function softStopTheSapApplicationServerInstanceAndItInfrastructure() {
 }
 
 async function main() {
-  stopTheSapApplicationServerInstance();
-  stopTheSapApplicationServerInstanceAndItInfrastructure();
-  softStopTheSapApplicationServerInstance();
-  softStopTheSapApplicationServerInstanceAndItInfrastructure();
+  await stopTheSapApplicationServerInstance();
+  await stopTheSapApplicationServerInstanceAndItInfrastructure();
+  await softStopTheSapApplicationServerInstance();
+  await softStopTheSapApplicationServerInstanceAndItInfrastructure();
 }
 
 main().catch(console.error);
