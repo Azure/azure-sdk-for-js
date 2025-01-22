@@ -35,7 +35,9 @@ export interface Batch {
 }
 
 export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
-
+/**
+ * response for streamed bulk operation
+ */
 export type BulkStreamerResponse = BulkOperationResult[] & { diagnostics: CosmosDiagnostics };
 
 export interface OperationResponse {
