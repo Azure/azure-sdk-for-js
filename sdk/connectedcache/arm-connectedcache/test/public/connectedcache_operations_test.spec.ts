@@ -34,9 +34,9 @@ describe("ConnectedCache test", () => {
     );
   });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operations list test", async function () {
     const resArray = new Array();
