@@ -284,7 +284,10 @@ describe("HttpSender", () => {
       });
       const response = failedBreezeResponse(1, 404);
       scope.reply(404, JSON.stringify(response));
-      
+      const x = 5;
+      if (!x) {
+        return;
+      }
 
       const result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
