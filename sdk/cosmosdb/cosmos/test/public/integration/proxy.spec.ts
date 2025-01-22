@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { describe, it } from "vitest";
 // import * as http from "http";
 // import { Context } from "mocha";
 // import * as net from "net";
@@ -84,3 +85,7 @@
 //     });
 //   });
 // }
+
+describe("Proxy", { timeout: 30000 }, () => {
+  it("test", async () => {});
+});

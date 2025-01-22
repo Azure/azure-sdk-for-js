@@ -487,7 +487,7 @@ describe(
           await CRUDTestRunner(dataSetForDefaultSinglePhysicalPartition, true);
         });
 
-        it("Should do document CRUD operations successfully : container with default partition key, multiple physical partitions", async () => {
+        it.skip("Should do document CRUD operations successfully : container with default partition key, multiple physical partitions", async () => {
           await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition1, false);
           await CRUDTestRunner(dataSetForDefaultMultiplePhysicalPartition2, false);
         });

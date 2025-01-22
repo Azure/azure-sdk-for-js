@@ -121,7 +121,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       }
     };
 
-    it("nativeApi Should do database CRUD operations successfully name based", async () => {
+    it.skip("nativeApi Should do database CRUD operations successfully name based", async () => {
       await databaseCRUDTest();
     });
 

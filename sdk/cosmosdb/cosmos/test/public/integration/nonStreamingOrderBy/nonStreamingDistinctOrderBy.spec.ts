@@ -5,7 +5,7 @@ import type { Container } from "../../../../src/index.js";
 import { CosmosClient } from "../../../../src/index.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
-import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
+import { getTestContainer } from "../../common/TestHelpers.js";
 import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src/index.js";
 import {
   VectorEmbeddingDataType,
@@ -608,6 +608,6 @@ describe("Test nonStreaming Queries", { timeout: 30000 }, () => {
   });
 
   afterAll(async () => {
-    await removeAllDatabases();
+    // await removeAllDatabases();
   });
 });
