@@ -183,15 +183,13 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 }
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
-  const result = runCommand(await getTestProxyExecutable(), argv, {
+  await runCommand(await getTestProxyExecutable(), argv, {
     stdio: "inherit",
     env: { ...process.env },
   }).result;
   if (await fs.pathExists("assets.json")) {
     await linkRecordingsDirectory();
   }
-
-  return result;
 }
 
 export function createAssetsJson(project: ProjectInfo): Promise<void> {
