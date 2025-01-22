@@ -12,6 +12,7 @@ export default defineConfig({
   },
   test: {
     testTimeout: 100000,
+    hookTimeout: 50000,
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
