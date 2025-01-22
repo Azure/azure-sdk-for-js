@@ -73,7 +73,9 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
       span.setStatus({ status: "success" });
       return result as ReturnType<typeof withSpan>;
     } catch (err: any) {
-      span.setStatus({ status: "error", error: err });
+      if (isRecordableError(err)) {
+        span.setStatus({ status: "error", error: err });
+      }
       throw err;
     } finally {
       span.end();
@@ -118,4 +120,19 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     parseTraceparentHeader,
     createRequestHeaders,
   };
+}
+
+/**
+ * Determines if an error should be recorded on the span.
+ *
+ * By default, all errors will mark the span status as error
+ * except for {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/304} which is expected
+ * when the cached resource is still valid in a conditional request.
+ */
+function isRecordableError(err: unknown): boolean {
+  if (err !== null && typeof err === "object" && "statusCode" in err) {
+    return err.statusCode !== 304;
+  }
+
+  return true;
 }

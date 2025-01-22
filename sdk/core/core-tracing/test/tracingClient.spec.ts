@@ -198,6 +198,35 @@ describe("TracingClient", () => {
 
         assert.isTrue(errorThrown);
       });
+
+      describe("with a 304 RestError", () => {
+        /**
+         * A subset of the RestError class from core-rest-pipeline.
+         */
+        class RestError extends Error {
+          public statusCode: number | undefined = 304;
+        }
+        it("sets status on the span", async () => {
+          // Set our instrumenter to always return the same span and context so we
+          // can inspect them.
+          instrumenter.startSpan = () => {
+            return {
+              span,
+              tracingContext: context,
+            };
+          };
+          const setStatusSpy = vi.spyOn(span, "setStatus");
+          let errorThrown = false;
+          try {
+            await client.withSpan(spanName, {}, () => Promise.reject(new RestError("test")));
+          } catch (err: any) {
+            errorThrown = true;
+            expect(setStatusSpy).not.toHaveBeenCalled();
+          }
+
+          assert.isTrue(errorThrown);
+        });
+      });
     });
   });
 });
