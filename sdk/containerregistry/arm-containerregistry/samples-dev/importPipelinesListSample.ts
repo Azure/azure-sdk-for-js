@@ -41,7 +41,7 @@ async function importPipelineList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  importPipelineList();
+  await importPipelineList();
 }
 
 main().catch(console.error);

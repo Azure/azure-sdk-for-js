@@ -43,7 +43,7 @@ async function archiveList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  archiveList();
+  await archiveList();
 }
 
 main().catch(console.error);

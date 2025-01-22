@@ -40,7 +40,7 @@ async function scopeMapDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scopeMapDelete();
+  await scopeMapDelete();
 }
 
 main().catch(console.error);

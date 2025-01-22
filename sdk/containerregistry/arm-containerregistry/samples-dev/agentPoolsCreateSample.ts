@@ -52,7 +52,7 @@ async function agentPoolsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  agentPoolsCreate();
+  await agentPoolsCreate();
 }
 
 main().catch(console.error);

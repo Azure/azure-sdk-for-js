@@ -52,7 +52,7 @@ async function scopeMapCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scopeMapCreate();
+  await scopeMapCreate();
 }
 
 main().catch(console.error);

@@ -353,13 +353,13 @@ async function registriesScheduleRunWithLogTemplate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registriesScheduleRun();
-  registriesScheduleRunEncodedTaskRun();
-  registriesScheduleRunFileTaskRun();
-  registriesScheduleRunTask();
-  registriesScheduleRunTaskWithCustomCredentials();
-  registriesScheduleRunWithCustomCredentials();
-  registriesScheduleRunWithLogTemplate();
+  await registriesScheduleRun();
+  await registriesScheduleRunEncodedTaskRun();
+  await registriesScheduleRunFileTaskRun();
+  await registriesScheduleRunTask();
+  await registriesScheduleRunTaskWithCustomCredentials();
+  await registriesScheduleRunWithCustomCredentials();
+  await registriesScheduleRunWithLogTemplate();
 }
 
 main().catch(console.error);

@@ -83,8 +83,8 @@ async function replicationCreateZoneRedundant(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  replicationCreate();
-  replicationCreateZoneRedundant();
+  await replicationCreate();
+  await replicationCreateZoneRedundant();
 }
 
 main().catch(console.error);

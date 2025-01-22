@@ -35,7 +35,7 @@ async function registryList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryList();
+  await registryList();
 }
 
 main().catch(console.error);

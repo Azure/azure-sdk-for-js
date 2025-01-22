@@ -48,7 +48,7 @@ async function registryUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryUpdate();
+  await registryUpdate();
 }
 
 main().catch(console.error);

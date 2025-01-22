@@ -49,7 +49,7 @@ async function runsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  runsList();
+  await runsList();
 }
 
 main().catch(console.error);

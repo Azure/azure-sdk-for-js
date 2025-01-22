@@ -56,7 +56,7 @@ async function credentialSetUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  credentialSetUpdate();
+  await credentialSetUpdate();
 }
 
 main().catch(console.error);

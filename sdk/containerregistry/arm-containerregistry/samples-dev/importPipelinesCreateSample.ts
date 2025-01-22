@@ -60,7 +60,7 @@ async function importPipelineCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  importPipelineCreate();
+  await importPipelineCreate();
 }
 
 main().catch(console.error);

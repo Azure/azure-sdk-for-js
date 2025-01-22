@@ -49,7 +49,7 @@ async function cacheRuleUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cacheRuleUpdate();
+  await cacheRuleUpdate();
 }
 
 main().catch(console.error);

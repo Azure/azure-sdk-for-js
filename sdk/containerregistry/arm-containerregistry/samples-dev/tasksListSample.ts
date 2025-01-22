@@ -38,7 +38,7 @@ async function tasksList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tasksList();
+  await tasksList();
 }
 
 main().catch(console.error);

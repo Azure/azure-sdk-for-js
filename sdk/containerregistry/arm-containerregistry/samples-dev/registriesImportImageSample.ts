@@ -125,9 +125,9 @@ async function importImageFromPublicRegistry(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  importImageByManifestDigest();
-  importImageByTag();
-  importImageFromPublicRegistry();
+  await importImageByManifestDigest();
+  await importImageByTag();
+  await importImageFromPublicRegistry();
 }
 
 main().catch(console.error);

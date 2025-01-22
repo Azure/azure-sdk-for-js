@@ -41,7 +41,7 @@ async function registryListPrivateLinkResources(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryListPrivateLinkResources();
+  await registryListPrivateLinkResources();
 }
 
 main().catch(console.error);

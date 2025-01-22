@@ -38,7 +38,7 @@ async function registriesGetBuildSourceUploadUrl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registriesGetBuildSourceUploadUrl();
+  await registriesGetBuildSourceUploadUrl();
 }
 
 main().catch(console.error);

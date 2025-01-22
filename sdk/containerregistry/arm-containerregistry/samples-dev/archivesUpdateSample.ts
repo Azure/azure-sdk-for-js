@@ -50,7 +50,7 @@ async function archiveUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  archiveUpdate();
+  await archiveUpdate();
 }
 
 main().catch(console.error);

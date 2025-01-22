@@ -38,7 +38,7 @@ async function tokenList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tokenList();
+  await tokenList();
 }
 
 main().catch(console.error);

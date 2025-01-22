@@ -59,7 +59,7 @@ async function tokenCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tokenCreate();
+  await tokenCreate();
 }
 
 main().catch(console.error);

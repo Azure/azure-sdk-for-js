@@ -35,7 +35,7 @@ async function registryGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryGet();
+  await registryGet();
 }
 
 main().catch(console.error);

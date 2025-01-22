@@ -52,7 +52,7 @@ async function archiveCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  archiveCreate();
+  await archiveCreate();
 }
 
 main().catch(console.error);

@@ -81,8 +81,8 @@ async function registryCreateZoneRedundant(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryCreate();
-  registryCreateZoneRedundant();
+  await registryCreate();
+  await registryCreateZoneRedundant();
 }
 
 main().catch(console.error);
