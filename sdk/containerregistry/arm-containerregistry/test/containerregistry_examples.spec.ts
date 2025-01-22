@@ -47,24 +47,24 @@ describe("ContainerRegistry test", () => {
   // let exportPipelineName: string;
   let taskName: string
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ContainerRegistryManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    registryName = "myregistryxxxyy";
-    // importPipelineName = "myimportpipelinexxx";
-    // exportPipelineName = 'myexportpipelinexxx';
-    taskName = "mytaskxxx";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ContainerRegistryManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      registryName = "myregistryxxxyy";
+      // importPipelineName = "myimportpipelinexxx";
+      // exportPipelineName = 'myexportpipelinexxx';
+      taskName = "mytaskxxx";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("registries create test", async function () {
     const res = await client.registries.beginCreateAndWait(resourceGroup, registryName, {
