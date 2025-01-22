@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EventsListByBillingAccountOptionalParams} from "@azure/arm-consumption";
 import {
-  EventsListByBillingAccountOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function eventsGetByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.eventsOperations.listByBillingAccount(
+  for await (const item of client.eventsOperations.listByBillingAccount(
     billingAccountId
   )) {
     resArray.push(item);
@@ -54,7 +55,7 @@ async function eventsGetByBillingAccountWithFilters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.eventsOperations.listByBillingAccount(
+  for await (const item of client.eventsOperations.listByBillingAccount(
     billingAccountId,
     options
   )) {

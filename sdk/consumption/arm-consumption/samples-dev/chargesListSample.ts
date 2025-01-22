@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ChargesListOptionalParams} from "@azure/arm-consumption";
 import {
-  ChargesListOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";

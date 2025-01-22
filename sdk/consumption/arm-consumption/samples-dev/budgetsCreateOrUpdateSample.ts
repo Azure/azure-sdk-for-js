@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Budget, ConsumptionManagementClient } from "@azure/arm-consumption";
+import type { Budget} from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

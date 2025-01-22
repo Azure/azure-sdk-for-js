@@ -26,7 +26,7 @@ async function budgetsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.budgets.list(scope)) {
+  for await (const item of client.budgets.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

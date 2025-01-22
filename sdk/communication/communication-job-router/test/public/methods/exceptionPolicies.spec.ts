@@ -22,10 +22,8 @@ describe("JobRouterClient", () => {
         await createRecordedRouterClientWithConnectionString(ctx));
     });
 
-    afterEach(async (ctx) => {
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
     it("should create an exception policy", { timeout: timeoutMs }, async () => {

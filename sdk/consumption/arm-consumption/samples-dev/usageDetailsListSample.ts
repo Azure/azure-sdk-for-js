@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  UsageDetailsListOptionalParams} from "@azure/arm-consumption";
 import {
-  UsageDetailsListOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function billingAccountUsageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -49,7 +50,7 @@ async function billingAccountUsageDetailsListModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -69,7 +70,7 @@ async function billingAccountUsageDetailsListForBillingPeriodLegacy(): Promise<v
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -90,7 +91,7 @@ async function billingProfileUsageDetailsListModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -111,7 +112,7 @@ async function customerUsageDetailsListModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -131,7 +132,7 @@ async function departmentUsageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -151,7 +152,7 @@ async function departmentUsageDetailsListForBillingPeriodLegacy(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -171,7 +172,7 @@ async function enrollmentAccountUsageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -191,7 +192,7 @@ async function enrollmentAccountUsageDetailsListForBillingPeriodLegacy(): Promis
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -212,7 +213,7 @@ async function invoiceSectionUsageDetailsListModern(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -232,7 +233,7 @@ async function managementGroupUsageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -252,7 +253,7 @@ async function managementGroupUsageDetailsListForBillingPeriodLegacy(): Promise<
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -276,7 +277,7 @@ async function usageDetailsExpandLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope, options)) {
+  for await (const item of client.usageDetails.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -296,7 +297,7 @@ async function usageDetailsListLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -318,7 +319,7 @@ async function usageDetailsListByMetricActualCostLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope, options)) {
+  for await (const item of client.usageDetails.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -340,7 +341,7 @@ async function usageDetailsListByMetricAmortizedCostLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope, options)) {
+  for await (const item of client.usageDetails.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -362,7 +363,7 @@ async function usageDetailsListByMetricUsageLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope, options)) {
+  for await (const item of client.usageDetails.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -384,7 +385,7 @@ async function usageDetailsListFilterByTagLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope, options)) {
+  for await (const item of client.usageDetails.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -404,7 +405,7 @@ async function usageDetailsListForBillingPeriodLegacy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageDetails.list(scope)) {
+  for await (const item of client.usageDetails.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

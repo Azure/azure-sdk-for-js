@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ReservationsSummariesListByReservationOrderOptionalParams} from "@azure/arm-consumption";
 import {
-  ReservationsSummariesListByReservationOrderOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function reservationSummariesDaily(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsSummaries.listByReservationOrder(
+  for await (const item of client.reservationsSummaries.listByReservationOrder(
     reservationOrderId,
     grain,
     options
@@ -60,7 +61,7 @@ async function reservationSummariesMonthly(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsSummaries.listByReservationOrder(
+  for await (const item of client.reservationsSummaries.listByReservationOrder(
     reservationOrderId,
     grain
   )) {
