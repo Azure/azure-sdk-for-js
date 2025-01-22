@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CallAutomationClient, CallInvite, FileSource } from "../src/index.js";
+import { CallAutomationClient, FileSource } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -71,7 +71,8 @@ describe("snippets", () => {
     const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
     // @ts-preserve-whitespace
     // send out the invitation, creating call
-    const callInvite: CallInvite = { targetParticipant: { communicationUserId: "8:acs:..." } };
+    const target = { communicationUserId: "8:acs:..." };
+    const callInvite = { targetParticipant: target };
     const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
     const callResult = await callAutomationClient.createCall(callInvite, callbackUrl);
     // @ts-preserve-whitespace

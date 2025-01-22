@@ -122,7 +122,7 @@ See below for example: where you are making a call with CreateCall, and wait for
 
 ```ts snippet:ReadmeSampleEventProcessorExample
 import { DefaultAzureCredential } from "@azure/identity";
-import { CallAutomationClient, CallInvite } from "@azure/communication-call-automation";
+import { CallAutomationClient } from "@azure/communication-call-automation";
 
 // Your unique Azure Communication service endpoint
 const credential = new DefaultAzureCredential();
@@ -130,7 +130,8 @@ const endpointUrl = "<ENDPOINT>";
 const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
 
 // send out the invitation, creating call
-const callInvite: CallInvite = { targetParticipant: { communicationUserId: "8:acs:..." } };
+const target = { communicationUserId: "8:acs:..." };
+const callInvite = { targetParticipant: target };
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
 const callResult = await callAutomationClient.createCall(callInvite, callbackUrl);
 
