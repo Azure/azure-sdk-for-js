@@ -32,7 +32,7 @@ async function workspaceGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspaceGet();
+  await workspaceGet();
 }
 
 main().catch(console.error);

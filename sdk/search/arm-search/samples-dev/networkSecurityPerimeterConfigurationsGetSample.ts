@@ -36,7 +36,7 @@ async function getAnNspConfigByName() {
 }
 
 async function main() {
-  getAnNspConfigByName();
+  await getAnNspConfigByName();
 }
 
 main().catch(console.error);

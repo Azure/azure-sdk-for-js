@@ -60,7 +60,7 @@ async function reachabilityAnalysisIntentCreate() {
 }
 
 async function main() {
-  reachabilityAnalysisIntentCreate();
+  await reachabilityAnalysisIntentCreate();
 }
 
 main().catch(console.error);

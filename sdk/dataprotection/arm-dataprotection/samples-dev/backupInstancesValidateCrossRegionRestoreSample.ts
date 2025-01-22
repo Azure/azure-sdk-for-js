@@ -86,7 +86,7 @@ async function validateCrossRegionRestore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateCrossRegionRestore();
+  await validateCrossRegionRestore();
 }
 
 main().catch(console.error);

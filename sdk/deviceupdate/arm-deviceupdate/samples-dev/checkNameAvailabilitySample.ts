@@ -56,8 +56,8 @@ async function checkNameAvailabilityAvailable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkNameAvailabilityAlreadyExists();
-  checkNameAvailabilityAvailable();
+  await checkNameAvailabilityAlreadyExists();
+  await checkNameAvailabilityAvailable();
 }
 
 main().catch(console.error);

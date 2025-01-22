@@ -39,7 +39,7 @@ async function dpsListKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsListKeys();
+  await dpsListKeys();
 }
 
 main().catch(console.error);

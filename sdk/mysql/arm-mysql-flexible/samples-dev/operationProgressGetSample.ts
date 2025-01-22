@@ -57,8 +57,8 @@ async function operationProgressGetImportFromStorage() {
 }
 
 async function main() {
-  operationProgressGetBackupAndExport();
-  operationProgressGetImportFromStorage();
+  await operationProgressGetBackupAndExport();
+  await operationProgressGetImportFromStorage();
 }
 
 main().catch(console.error);

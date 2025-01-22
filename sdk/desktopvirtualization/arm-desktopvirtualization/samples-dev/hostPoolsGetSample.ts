@@ -32,7 +32,7 @@ async function hostPoolGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hostPoolGet();
+  await hostPoolGet();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function listRoutingInformationForThePacketCore() {
 }
 
 async function main() {
-  listRoutingInformationForThePacketCore();
+  await listRoutingInformationForThePacketCore();
 }
 
 main().catch(console.error);

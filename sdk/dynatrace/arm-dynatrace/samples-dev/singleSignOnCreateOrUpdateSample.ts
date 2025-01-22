@@ -79,8 +79,8 @@ async function singleSignOnCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  singleSignOnCreateOrUpdateMaximumSetGen();
-  singleSignOnCreateOrUpdateMinimumSetGen();
+  await singleSignOnCreateOrUpdateMaximumSetGen();
+  await singleSignOnCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -70,7 +70,7 @@ async function hostPoolCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hostPoolCreate();
+  await hostPoolCreate();
 }
 
 main().catch(console.error);

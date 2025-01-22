@@ -43,7 +43,7 @@ async function redisEnterpriseDatabasesListByCluster() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesListByCluster();
+  await redisEnterpriseDatabasesListByCluster();
 }
 
 main().catch(console.error);

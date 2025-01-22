@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a role instance from a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceRoleInstance_Get.json
  */
-async function getCloudServiceRoleInstance() {
+async function getCloudServiceRoleInstance(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const roleInstanceName = "{roleInstance-name}";
@@ -35,7 +35,7 @@ async function getCloudServiceRoleInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCloudServiceRoleInstance();
 }
 

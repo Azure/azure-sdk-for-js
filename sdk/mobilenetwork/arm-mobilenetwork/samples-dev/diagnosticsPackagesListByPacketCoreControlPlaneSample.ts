@@ -40,7 +40,7 @@ async function listDiagnosticsPackagesUnderAPacketCoreControlPlane() {
 }
 
 async function main() {
-  listDiagnosticsPackagesUnderAPacketCoreControlPlane();
+  await listDiagnosticsPackagesUnderAPacketCoreControlPlane();
 }
 
 main().catch(console.error);

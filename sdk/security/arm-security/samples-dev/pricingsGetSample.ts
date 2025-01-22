@@ -106,12 +106,12 @@ async function getPricingsOnSubscriptionVirtualMachinesPlan() {
 }
 
 async function main() {
-  getPricingsOnResourceVirtualMachinesPlan();
-  getPricingsOnSubscriptionCloudPosturePlan();
-  getPricingsOnSubscriptionContainersPlan();
-  getPricingsOnSubscriptionDnsPlan();
-  getPricingsOnSubscriptionStorageAccountsPlan();
-  getPricingsOnSubscriptionVirtualMachinesPlan();
+  await getPricingsOnResourceVirtualMachinesPlan();
+  await getPricingsOnSubscriptionCloudPosturePlan();
+  await getPricingsOnSubscriptionContainersPlan();
+  await getPricingsOnSubscriptionDnsPlan();
+  await getPricingsOnSubscriptionStorageAccountsPlan();
+  await getPricingsOnSubscriptionVirtualMachinesPlan();
 }
 
 main().catch(console.error);

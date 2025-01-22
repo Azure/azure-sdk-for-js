@@ -34,7 +34,7 @@ async function deleteNetworkWatcher() {
 }
 
 async function main() {
-  deleteNetworkWatcher();
+  await deleteNetworkWatcher();
 }
 
 main().catch(console.error);

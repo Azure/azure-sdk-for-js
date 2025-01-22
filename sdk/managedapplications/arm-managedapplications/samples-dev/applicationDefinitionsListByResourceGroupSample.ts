@@ -37,7 +37,7 @@ async function listsTheManagedApplicationDefinitionsInAResourceGroup() {
 }
 
 async function main() {
-  listsTheManagedApplicationDefinitionsInAResourceGroup();
+  await listsTheManagedApplicationDefinitionsInAResourceGroup();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function expressRoutePortDelete() {
 }
 
 async function main() {
-  expressRoutePortDelete();
+  await expressRoutePortDelete();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function dataFlowDebugSessionDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataFlowDebugSessionDelete();
+  await dataFlowDebugSessionDelete();
 }
 
 main().catch(console.error);

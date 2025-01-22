@@ -42,7 +42,7 @@ async function deleteAnApplicationType() {
 }
 
 async function main() {
-  deleteAnApplicationType();
+  await deleteAnApplicationType();
 }
 
 main().catch(console.error);

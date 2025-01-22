@@ -36,7 +36,7 @@ async function deleteAnIoTSecuritySolution() {
 }
 
 async function main() {
-  deleteAnIoTSecuritySolution();
+  await deleteAnIoTSecuritySolution();
 }
 
 main().catch(console.error);

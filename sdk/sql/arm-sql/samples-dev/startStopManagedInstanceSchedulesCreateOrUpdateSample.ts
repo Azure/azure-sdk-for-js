@@ -100,8 +100,8 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOption
 }
 
 async function main() {
-  createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptionalParametersSpecified();
-  createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOptionalParametersSpecified();
+  await createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptionalParametersSpecified();
+  await createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOptionalParametersSpecified();
 }
 
 main().catch(console.error);

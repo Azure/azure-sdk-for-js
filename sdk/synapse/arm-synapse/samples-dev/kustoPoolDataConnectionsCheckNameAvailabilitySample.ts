@@ -49,7 +49,7 @@ async function kustoPoolDataConnectionsCheckNameAvailability() {
 }
 
 async function main() {
-  kustoPoolDataConnectionsCheckNameAvailability();
+  await kustoPoolDataConnectionsCheckNameAvailability();
 }
 
 main().catch(console.error);

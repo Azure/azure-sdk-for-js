@@ -45,8 +45,8 @@ async function postRulesGetMinimumSetGen() {
 }
 
 async function main() {
-  postRulesGetMaximumSetGen();
-  postRulesGetMinimumSetGen();
+  await postRulesGetMaximumSetGen();
+  await postRulesGetMinimumSetGen();
 }
 
 main().catch(console.error);

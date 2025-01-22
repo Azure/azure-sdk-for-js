@@ -41,7 +41,7 @@ async function getsTheRecommendedSensitivityLabelsOfAGivenDatabase() {
 }
 
 async function main() {
-  getsTheRecommendedSensitivityLabelsOfAGivenDatabase();
+  await getsTheRecommendedSensitivityLabelsOfAGivenDatabase();
 }
 
 main().catch(console.error);

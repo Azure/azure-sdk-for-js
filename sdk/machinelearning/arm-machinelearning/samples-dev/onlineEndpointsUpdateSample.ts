@@ -53,7 +53,7 @@ async function updateWorkspaceOnlineEndpoint() {
 }
 
 async function main() {
-  updateWorkspaceOnlineEndpoint();
+  await updateWorkspaceOnlineEndpoint();
 }
 
 main().catch(console.error);

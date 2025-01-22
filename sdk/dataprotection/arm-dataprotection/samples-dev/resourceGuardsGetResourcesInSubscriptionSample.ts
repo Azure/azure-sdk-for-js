@@ -32,7 +32,7 @@ async function getResourceGuardsInSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getResourceGuardsInSubscription();
+  await getResourceGuardsInSubscription();
 }
 
 main().catch(console.error);

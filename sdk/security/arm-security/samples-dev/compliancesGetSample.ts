@@ -30,7 +30,7 @@ async function getSecurityComplianceDataForADay() {
 }
 
 async function main() {
-  getSecurityComplianceDataForADay();
+  await getSecurityComplianceDataForADay();
 }
 
 main().catch(console.error);

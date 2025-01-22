@@ -34,7 +34,7 @@ async function getCustomIPPrefix() {
 }
 
 async function main() {
-  getCustomIPPrefix();
+  await getCustomIPPrefix();
 }
 
 main().catch(console.error);

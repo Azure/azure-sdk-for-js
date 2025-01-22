@@ -39,7 +39,7 @@ async function signalRSharedPrivateLinkResourcesDelete() {
 }
 
 async function main() {
-  signalRSharedPrivateLinkResourcesDelete();
+  await signalRSharedPrivateLinkResourcesDelete();
 }
 
 main().catch(console.error);

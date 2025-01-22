@@ -38,7 +38,7 @@ async function getsListOfInstancesByAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsListOfInstancesByAccount();
+  await getsListOfInstancesByAccount();
 }
 
 main().catch(console.error);

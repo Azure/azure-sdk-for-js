@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { RunCommandInput, ComputeManagementClient } from "@azure/arm-compute";
+import type { RunCommandInput } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -20,10 +19,8 @@ import "dotenv/config";
  */
 async function virtualMachineRunCommand(): Promise<void> {
   const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
-    "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "crptestar98131";
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "crptestar98131";
   const vmName = "vm3036";
   const parameters: RunCommandInput = { commandId: "RunPowerShellScript" };
   const credential = new DefaultAzureCredential();
@@ -37,7 +34,7 @@ async function virtualMachineRunCommand(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachineRunCommand();
+  await virtualMachineRunCommand();
 }
 
 main().catch(console.error);

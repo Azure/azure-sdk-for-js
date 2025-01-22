@@ -34,7 +34,7 @@ async function getNetworkVirtualAppliance() {
 }
 
 async function main() {
-  getNetworkVirtualAppliance();
+  await getNetworkVirtualAppliance();
 }
 
 main().catch(console.error);

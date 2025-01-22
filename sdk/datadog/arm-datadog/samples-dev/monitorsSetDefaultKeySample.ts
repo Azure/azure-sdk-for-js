@@ -42,7 +42,7 @@ async function monitorsSetDefaultKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsSetDefaultKey();
+  await monitorsSetDefaultKey();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Get.json
  */
-async function getInformationAboutASnapshot() {
+async function getInformationAboutASnapshot(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function getInformationAboutASnapshot() {
  * @summary Gets information about a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_GetIncrementalSnapshot.json
  */
-async function getInformationAboutAnIncrementalSnapshot() {
+async function getInformationAboutAnIncrementalSnapshot(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -48,7 +48,7 @@ async function getInformationAboutAnIncrementalSnapshot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getInformationAboutASnapshot();
   getInformationAboutAnIncrementalSnapshot();
 }

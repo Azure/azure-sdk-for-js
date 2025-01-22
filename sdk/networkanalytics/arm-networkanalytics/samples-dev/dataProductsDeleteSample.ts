@@ -59,8 +59,8 @@ async function dataProductsDeleteMaximumSetGenGeneratedByMinimumSetRuleMinimumSe
 }
 
 async function main() {
-  dataProductsDeleteMaximumSetGen();
-  dataProductsDeleteMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsDeleteMaximumSetGen();
+  await dataProductsDeleteMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

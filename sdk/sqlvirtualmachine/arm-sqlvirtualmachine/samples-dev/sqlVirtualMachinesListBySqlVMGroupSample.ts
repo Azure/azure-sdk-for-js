@@ -43,7 +43,7 @@ async function getsTheListOfSqlVirtualMachinesInASqlVirtualMachineGroup() {
 }
 
 async function main() {
-  getsTheListOfSqlVirtualMachinesInASqlVirtualMachineGroup();
+  await getsTheListOfSqlVirtualMachinesInASqlVirtualMachineGroup();
 }
 
 main().catch(console.error);

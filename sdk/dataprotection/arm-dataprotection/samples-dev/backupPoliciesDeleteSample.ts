@@ -37,7 +37,7 @@ async function deleteBackupPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteBackupPolicy();
+  await deleteBackupPolicy();
 }
 
 main().catch(console.error);

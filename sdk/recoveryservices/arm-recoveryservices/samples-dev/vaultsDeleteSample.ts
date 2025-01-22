@@ -38,7 +38,7 @@ async function deleteRecoveryServicesVault() {
 }
 
 async function main() {
-  deleteRecoveryServicesVault();
+  await deleteRecoveryServicesVault();
 }
 
 main().catch(console.error);

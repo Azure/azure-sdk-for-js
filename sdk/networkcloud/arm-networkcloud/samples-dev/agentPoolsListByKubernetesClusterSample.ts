@@ -40,7 +40,7 @@ async function listAgentPoolsOfTheKubernetesCluster() {
 }
 
 async function main() {
-  listAgentPoolsOfTheKubernetesCluster();
+  await listAgentPoolsOfTheKubernetesCluster();
 }
 
 main().catch(console.error);

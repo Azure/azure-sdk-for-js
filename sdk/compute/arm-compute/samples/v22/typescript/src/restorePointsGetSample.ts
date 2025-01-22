@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to get the restore point.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePoint_Get.json
  */
-async function getARestorePoint() {
+async function getARestorePoint(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function getARestorePoint() {
  * @summary The operation to get the restore point.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePoint_Get_WithInstanceView.json
  */
-async function getRestorePointWithInstanceView() {
+async function getRestorePointWithInstanceView(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -58,7 +58,7 @@ async function getRestorePointWithInstanceView() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getARestorePoint();
   getRestorePointWithInstanceView();
 }

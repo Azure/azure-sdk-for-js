@@ -42,7 +42,7 @@ async function getWorkspaceEnvironmentContainer() {
 }
 
 async function main() {
-  getWorkspaceEnvironmentContainer();
+  await getWorkspaceEnvironmentContainer();
 }
 
 main().catch(console.error);

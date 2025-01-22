@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update a gallery inVMAccessControlProfile version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Update.json
  */
-async function updateAGalleryInVMAccessControlProfileVersion() {
+async function updateAGalleryInVMAccessControlProfileVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -53,7 +53,7 @@ async function updateAGalleryInVMAccessControlProfileVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAGalleryInVMAccessControlProfileVersion();
 }
 

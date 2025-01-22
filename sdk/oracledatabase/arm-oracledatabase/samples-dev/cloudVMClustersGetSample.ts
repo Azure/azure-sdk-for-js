@@ -37,7 +37,7 @@ async function getVMCluster() {
 }
 
 async function main() {
-  getVMCluster();
+  await getVMCluster();
 }
 
 main().catch(console.error);

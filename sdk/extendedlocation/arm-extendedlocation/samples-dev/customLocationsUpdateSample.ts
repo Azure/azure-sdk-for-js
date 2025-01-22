@@ -47,7 +47,7 @@ async function updateCustomLocation() {
 }
 
 async function main() {
-  updateCustomLocation();
+  await updateCustomLocation();
 }
 
 main().catch(console.error);

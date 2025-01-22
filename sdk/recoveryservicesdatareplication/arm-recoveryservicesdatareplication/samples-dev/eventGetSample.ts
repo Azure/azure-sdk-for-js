@@ -43,7 +43,7 @@ async function eventGet() {
 }
 
 async function main() {
-  eventGet();
+  await eventGet();
 }
 
 main().catch(console.error);

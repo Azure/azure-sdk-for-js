@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GalleryInVMAccessControlProfileVersionUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { GalleryInVMAccessControlProfileVersionUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,39 +18,31 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Update.json
  */
 async function updateAGalleryInVMAccessControlProfileVersion(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const inVMAccessControlProfileName = "myInVMAccessControlProfileName";
   const inVMAccessControlProfileVersionName = "1.0.0";
-  const galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate =
-  {
+  const galleryInVMAccessControlProfileVersion: GalleryInVMAccessControlProfileVersionUpdate = {
     defaultAccess: "Allow",
     excludeFromLatest: false,
     mode: "Audit",
-    targetLocations: [
-      { name: "West US" },
-      { name: "South Central US" },
-      { name: "East US" },
-    ],
+    targetLocations: [{ name: "West US" }, { name: "South Central US" }, { name: "East US" }],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.galleryInVMAccessControlProfileVersions.beginUpdateAndWait(
-      resourceGroupName,
-      galleryName,
-      inVMAccessControlProfileName,
-      inVMAccessControlProfileVersionName,
-      galleryInVMAccessControlProfileVersion,
-    );
+  const result = await client.galleryInVMAccessControlProfileVersions.beginUpdateAndWait(
+    resourceGroupName,
+    galleryName,
+    inVMAccessControlProfileName,
+    inVMAccessControlProfileVersionName,
+    galleryInVMAccessControlProfileVersion,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  updateAGalleryInVMAccessControlProfileVersion();
+  await updateAGalleryInVMAccessControlProfileVersion();
 }
 
 main().catch(console.error);

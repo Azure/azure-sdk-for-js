@@ -39,7 +39,7 @@ async function listManagedServerDnsAliases() {
 }
 
 async function main() {
-  listManagedServerDnsAliases();
+  await listManagedServerDnsAliases();
 }
 
 main().catch(console.error);

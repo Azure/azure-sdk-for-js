@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_ApproveRollingUpgrade.json
  */
-async function virtualMachineScaleSetVMApproveRollingUpgrade() {
+async function virtualMachineScaleSetVMApproveRollingUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function virtualMachineScaleSetVMApproveRollingUpgrade() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetVMApproveRollingUpgrade();
 }
 

@@ -37,7 +37,7 @@ async function desktopGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  desktopGet();
+  await desktopGet();
 }
 
 main().catch(console.error);

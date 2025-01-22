@@ -51,8 +51,8 @@ async function getsTheDiagnosticSettingForCategory() {
 }
 
 async function main() {
-  getsTheDiagnosticSetting();
-  getsTheDiagnosticSettingForCategory();
+  await getsTheDiagnosticSetting();
+  await getsTheDiagnosticSettingForCategory();
 }
 
 main().catch(console.error);

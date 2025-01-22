@@ -41,7 +41,7 @@ async function getAConnectionPolicyOfASqlAnalyticsPool() {
 }
 
 async function main() {
-  getAConnectionPolicyOfASqlAnalyticsPool();
+  await getAConnectionPolicyOfASqlAnalyticsPool();
 }
 
 main().catch(console.error);

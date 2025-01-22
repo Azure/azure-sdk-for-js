@@ -33,7 +33,7 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    if (!/\.ts$/.test(context.filename)) {
+    if (!/\.ts|\.mts|\.cts$/.test(context.filename)) {
       return {};
     }
     return {

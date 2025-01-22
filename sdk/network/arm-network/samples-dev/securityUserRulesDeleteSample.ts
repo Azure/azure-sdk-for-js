@@ -48,7 +48,7 @@ async function deleteASecurityUserRule() {
 }
 
 async function main() {
-  deleteASecurityUserRule();
+  await deleteASecurityUserRule();
 }
 
 main().catch(console.error);

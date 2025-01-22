@@ -41,7 +41,7 @@ async function exportJobsOperationResults() {
 }
 
 async function main() {
-  exportJobsOperationResults();
+  await exportJobsOperationResults();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listManagedClusters() {
 }
 
 async function main() {
-  listManagedClusters();
+  await listManagedClusters();
 }
 
 main().catch(console.error);

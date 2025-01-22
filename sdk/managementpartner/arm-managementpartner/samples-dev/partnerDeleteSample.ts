@@ -29,7 +29,7 @@ async function deletePartnerDetails() {
 }
 
 async function main() {
-  deletePartnerDetails();
+  await deletePartnerDetails();
 }
 
 main().catch(console.error);

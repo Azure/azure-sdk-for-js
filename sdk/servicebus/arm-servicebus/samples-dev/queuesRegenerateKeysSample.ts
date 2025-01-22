@@ -46,7 +46,7 @@ async function queueAuthorizationRuleRegenerateKey() {
 }
 
 async function main() {
-  queueAuthorizationRuleRegenerateKey();
+  await queueAuthorizationRuleRegenerateKey();
 }
 
 main().catch(console.error);

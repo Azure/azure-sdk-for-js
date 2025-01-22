@@ -109,8 +109,8 @@ async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInsta
 }
 
 async function main(): Promise<void> {
-  createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity();
-  createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstance();
+  await createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity();
+  await createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstance();
 }
 
 main().catch(console.error);

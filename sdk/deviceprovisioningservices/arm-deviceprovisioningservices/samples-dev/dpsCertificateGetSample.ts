@@ -38,7 +38,7 @@ async function dpsGetCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsGetCertificate();
+  await dpsGetCertificate();
 }
 
 main().catch(console.error);

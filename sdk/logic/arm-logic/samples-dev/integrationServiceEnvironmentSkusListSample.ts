@@ -39,7 +39,7 @@ async function listIntegrationServiceEnvironmentSkus() {
 }
 
 async function main() {
-  listIntegrationServiceEnvironmentSkus();
+  await listIntegrationServiceEnvironmentSkus();
 }
 
 main().catch(console.error);

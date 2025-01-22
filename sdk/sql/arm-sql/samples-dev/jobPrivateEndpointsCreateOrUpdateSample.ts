@@ -45,7 +45,7 @@ async function createAPrivateEndpoint() {
 }
 
 async function main() {
-  createAPrivateEndpoint();
+  await createAPrivateEndpoint();
 }
 
 main().catch(console.error);

@@ -81,9 +81,9 @@ async function getAPaymentHsmWith20181031PreviewApiVersion() {
 }
 
 async function main() {
-  getADedicatedHsm();
-  getAPaymentHsm();
-  getAPaymentHsmWith20181031PreviewApiVersion();
+  await getADedicatedHsm();
+  await getAPaymentHsm();
+  await getAPaymentHsmWith20181031PreviewApiVersion();
 }
 
 main().catch(console.error);

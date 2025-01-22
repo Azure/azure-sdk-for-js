@@ -40,7 +40,7 @@ async function networkSecurityPerimeterConfigurationReconcile() {
 }
 
 async function main() {
-  networkSecurityPerimeterConfigurationReconcile();
+  await networkSecurityPerimeterConfigurationReconcile();
 }
 
 main().catch(console.error);

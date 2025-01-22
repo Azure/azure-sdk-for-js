@@ -41,7 +41,7 @@ async function createManagementLockAtScope() {
 }
 
 async function main() {
-  createManagementLockAtScope();
+  await createManagementLockAtScope();
 }
 
 main().catch(console.error);

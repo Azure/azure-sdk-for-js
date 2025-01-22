@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary The operation that retrieves information about the capacity reservation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservation_Get.json
  */
-async function getACapacityReservation() {
+async function getACapacityReservation(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function getACapacityReservation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getACapacityReservation();
 }
 

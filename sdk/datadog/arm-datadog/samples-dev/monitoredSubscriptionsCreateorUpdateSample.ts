@@ -84,7 +84,7 @@ async function monitorsAddMonitoredSubscriptions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsAddMonitoredSubscriptions();
+  await monitorsAddMonitoredSubscriptions();
 }
 
 main().catch(console.error);

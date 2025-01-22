@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { VirtualMachine, ComputeManagementClient } from "@azure/arm-compute";
+import type { VirtualMachine } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -19,10 +18,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
  */
 async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
@@ -76,10 +73,8 @@ async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault(): Pr
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
  */
 async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
@@ -140,10 +135,8 @@ async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndA
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
  */
 async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
@@ -197,10 +190,8 @@ async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault(): Promise
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
  */
 async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
@@ -257,10 +248,8 @@ async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAu
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
  */
 async function createAVMFromACommunityGalleryImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -308,10 +297,8 @@ async function createAVMFromACommunityGalleryImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
  */
 async function createAVMFromASharedGalleryImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -359,17 +346,14 @@ async function createAVMFromASharedGalleryImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskControllerType.json
  */
 async function createAVMWithDiskControllerType(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
     hardwareProfile: { vmSize: "Standard_D4_v3" },
@@ -428,18 +412,15 @@ async function createAVMWithDiskControllerType(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
  */
 async function createAVMWithHibernationEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "{vm-name}";
   const parameters: VirtualMachine = {
     additionalCapabilities: { hibernationEnabled: true },
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
@@ -489,10 +470,8 @@ async function createAVMWithHibernationEnabled(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithProxyAgentSettings.json
  */
 async function createAVMWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
@@ -543,10 +522,8 @@ async function createAVMWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> 
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
  */
 async function createAVMWithUefiSettingsOfSecureBootAndVTpm(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
@@ -600,17 +577,14 @@ async function createAVMWithUefiSettingsOfSecureBootAndVTpm(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
  */
 async function createAVMWithUserData(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "{vm-name}";
   const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -661,17 +635,14 @@ async function createAVMWithUserData(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithVMSizeProperties.json
  */
 async function createAVMWithVMSizeProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
     hardwareProfile: {
@@ -725,10 +696,8 @@ async function createAVMWithVMSizeProperties(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionIdentity.json
  */
 async function createAVMWithEncryptionIdentity(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2s_v3" },
@@ -791,10 +760,8 @@ async function createAVMWithEncryptionIdentity(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
  */
 async function createAVMWithNetworkInterfaceConfiguration(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -858,10 +825,8 @@ async function createAVMWithNetworkInterfaceConfiguration(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfigurationDnsSettings.json
  */
 async function createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -929,10 +894,8 @@ async function createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsS
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
  */
 async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DC2as_v5" },
@@ -994,10 +957,8 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys():
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
  */
 async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurityEncryptionType(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DC2es_v5" },
@@ -1054,10 +1015,8 @@ async function createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurit
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
  */
 async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DC2as_v5" },
@@ -1114,10 +1073,8 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys():
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
  */
 async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1172,10 +1129,8 @@ async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault(): 
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
  */
 async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1230,10 +1185,8 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS(): Prom
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
  */
 async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1295,10 +1248,8 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
  */
 async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1356,10 +1307,8 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
  */
 async function createAWindowsVMWithAPatchSettingPatchModeOfManual(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1414,10 +1363,8 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfManual(): Promise<voi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
  */
 async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1475,10 +1422,8 @@ async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToA
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
  */
 async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "{vm-name}";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1528,10 +1473,8 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
  */
 async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "{vm-name}";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2_v2" },
@@ -1601,10 +1544,8 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
  */
 async function createAVMFromACustomImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1651,10 +1592,8 @@ async function createAVMFromACustomImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
  */
 async function createAVMFromAGeneralizedSharedImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1701,10 +1640,8 @@ async function createAVMFromAGeneralizedSharedImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
  */
 async function createAVMFromASpecializedSharedImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1746,10 +1683,8 @@ async function createAVMFromASpecializedSharedImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
  */
 async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -1803,10 +1738,8 @@ async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
  */
 async function createAVMInAnAvailabilitySet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     availabilitySet: {
@@ -1859,10 +1792,8 @@ async function createAVMInAnAvailabilitySet(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
  */
 async function createAVMWithApplicationProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     applicationProfile: {
@@ -1930,10 +1861,8 @@ async function createAVMWithApplicationProfile(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
  */
 async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2012,10 +1941,8 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk():
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
  */
 async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2071,17 +1998,14 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
  */
 async function createAVMWithScheduledEventsProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2142,10 +2066,8 @@ async function createAVMWithScheduledEventsProfile(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
  */
 async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2200,17 +2122,14 @@ async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
  */
 async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
     extensionsTimeBudget: "PT30M",
@@ -2261,17 +2180,14 @@ async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithBootDiagnostics.json
  */
 async function createAVMWithBootDiagnostics(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: {
       bootDiagnostics: {
         enabled: true,
-        storageUri:
-          "http://{existing-storage-account-name}.blob.core.windows.net",
+        storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
       },
     },
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2321,10 +2237,8 @@ async function createAVMWithBootDiagnostics(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDataDisksFromSourceResource.json
  */
 async function createAVMWithDataDisksUsingCopyAndRestoreOptions(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2_v2" },
@@ -2400,10 +2314,8 @@ async function createAVMWithDataDisksUsingCopyAndRestoreOptions(): Promise<void>
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
  */
 async function createAVMWithEmptyDataDisks(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D2_v2" },
@@ -2457,10 +2369,8 @@ async function createAVMWithEmptyDataDisks(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
  */
 async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2516,10 +2426,8 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
  */
 async function createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2575,10 +2483,8 @@ async function createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementP
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
  */
 async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2634,10 +2540,8 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
  */
 async function createAVMWithEphemeralOSDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_DS1_v2" },
@@ -2693,10 +2597,8 @@ async function createAVMWithEphemeralOSDisk(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
  */
 async function createAVMWithManagedBootDiagnostics(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     diagnosticsProfile: { bootDiagnostics: { enabled: true } },
@@ -2747,10 +2649,8 @@ async function createAVMWithManagedBootDiagnostics(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
  */
 async function createAVMWithPasswordAuthentication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2800,10 +2700,8 @@ async function createAVMWithPasswordAuthentication(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
  */
 async function createAVMWithPremiumStorage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2853,10 +2751,8 @@ async function createAVMWithPremiumStorage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
  */
 async function createAVMWithSshAuthentication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     hardwareProfile: { vmSize: "Standard_D1_v2" },
@@ -2917,10 +2813,8 @@ async function createAVMWithSshAuthentication(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
  */
 async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachine = {
     capacityReservation: {
@@ -2974,55 +2868,55 @@ async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault();
-  createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
-  createALinuxVMWithAPatchSettingPatchModeOfImageDefault();
-  createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform();
-  createAVMFromACommunityGalleryImage();
-  createAVMFromASharedGalleryImage();
-  createAVMWithDiskControllerType();
-  createAVMWithHibernationEnabled();
-  createAVMWithProxyAgentSettingsOfEnabledAndMode();
-  createAVMWithUefiSettingsOfSecureBootAndVTpm();
-  createAVMWithUserData();
-  createAVMWithVMSizeProperties();
-  createAVMWithEncryptionIdentity();
-  createAVMWithNetworkInterfaceConfiguration();
-  createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsSettings();
-  createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys();
-  createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurityEncryptionType();
-  createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys();
-  createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault();
-  createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS();
-  createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
-  createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue();
-  createAWindowsVMWithAPatchSettingPatchModeOfManual();
-  createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform();
-  createACustomImageVMFromAnUnmanagedGeneralizedOSImage();
-  createAPlatformImageVMWithUnmanagedOSAndDataDisks();
-  createAVMFromACustomImage();
-  createAVMFromAGeneralizedSharedImage();
-  createAVMFromASpecializedSharedImage();
-  createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain();
-  createAVMInAnAvailabilitySet();
-  createAVMWithApplicationProfile();
-  createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk();
-  createAVMWithHostEncryptionUsingEncryptionAtHostProperty();
-  createAVMWithScheduledEventsProfile();
-  createAVMWithAMarketplaceImagePlan();
-  createAVMWithAnExtensionsTimeBudget();
-  createAVMWithBootDiagnostics();
-  createAVMWithDataDisksUsingCopyAndRestoreOptions();
-  createAVMWithEmptyDataDisks();
-  createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty();
-  createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty();
-  createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty();
-  createAVMWithEphemeralOSDisk();
-  createAVMWithManagedBootDiagnostics();
-  createAVMWithPasswordAuthentication();
-  createAVMWithPremiumStorage();
-  createAVMWithSshAuthentication();
-  createOrUpdateAVMWithCapacityReservation();
+  await createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault();
+  await createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
+  await createALinuxVMWithAPatchSettingPatchModeOfImageDefault();
+  await createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform();
+  await createAVMFromACommunityGalleryImage();
+  await createAVMFromASharedGalleryImage();
+  await createAVMWithDiskControllerType();
+  await createAVMWithHibernationEnabled();
+  await createAVMWithProxyAgentSettingsOfEnabledAndMode();
+  await createAVMWithUefiSettingsOfSecureBootAndVTpm();
+  await createAVMWithUserData();
+  await createAVMWithVMSizeProperties();
+  await createAVMWithEncryptionIdentity();
+  await createAVMWithNetworkInterfaceConfiguration();
+  await createAVMWithNetworkInterfaceConfigurationWithPublicIPAddressDnsSettings();
+  await createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys();
+  await createAVMWithSecurityTypeConfidentialVMWithNonPersistedTpmSecurityEncryptionType();
+  await createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys();
+  await createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault();
+  await createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS();
+  await createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings();
+  await createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue();
+  await createAWindowsVMWithAPatchSettingPatchModeOfManual();
+  await createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform();
+  await createACustomImageVMFromAnUnmanagedGeneralizedOSImage();
+  await createAPlatformImageVMWithUnmanagedOSAndDataDisks();
+  await createAVMFromACustomImage();
+  await createAVMFromAGeneralizedSharedImage();
+  await createAVMFromASpecializedSharedImage();
+  await createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain();
+  await createAVMInAnAvailabilitySet();
+  await createAVMWithApplicationProfile();
+  await createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk();
+  await createAVMWithHostEncryptionUsingEncryptionAtHostProperty();
+  await createAVMWithScheduledEventsProfile();
+  await createAVMWithAMarketplaceImagePlan();
+  await createAVMWithAnExtensionsTimeBudget();
+  await createAVMWithBootDiagnostics();
+  await createAVMWithDataDisksUsingCopyAndRestoreOptions();
+  await createAVMWithEmptyDataDisks();
+  await createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty();
+  await createAVMWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty();
+  await createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty();
+  await createAVMWithEphemeralOSDisk();
+  await createAVMWithManagedBootDiagnostics();
+  await createAVMWithPasswordAuthentication();
+  await createAVMWithPremiumStorage();
+  await createAVMWithSshAuthentication();
+  await createOrUpdateAVMWithCapacityReservation();
 }
 
 main().catch(console.error);

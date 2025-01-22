@@ -34,7 +34,7 @@ async function deletesAWafPolicyWithinAResourceGroup() {
 }
 
 async function main() {
-  deletesAWafPolicyWithinAResourceGroup();
+  await deletesAWafPolicyWithinAResourceGroup();
 }
 
 main().catch(console.error);

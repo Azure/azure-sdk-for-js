@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a disk access resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_Delete.json
  */
-async function deleteADiskAccessResource() {
+async function deleteADiskAccessResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function deleteADiskAccessResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteADiskAccessResource();
 }
 

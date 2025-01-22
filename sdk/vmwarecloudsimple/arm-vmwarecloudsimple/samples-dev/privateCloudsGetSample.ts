@@ -32,7 +32,7 @@ async function getPrivateCloud() {
 }
 
 async function main() {
-  getPrivateCloud();
+  await getPrivateCloud();
 }
 
 main().catch(console.error);

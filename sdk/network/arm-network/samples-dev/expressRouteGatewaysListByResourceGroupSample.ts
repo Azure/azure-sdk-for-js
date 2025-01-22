@@ -32,7 +32,7 @@ async function expressRouteGatewayListByResourceGroup() {
 }
 
 async function main() {
-  expressRouteGatewayListByResourceGroup();
+  await expressRouteGatewayListByResourceGroup();
 }
 
 main().catch(console.error);

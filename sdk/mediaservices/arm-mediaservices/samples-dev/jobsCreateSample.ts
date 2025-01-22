@@ -55,7 +55,7 @@ async function createAJob() {
 }
 
 async function main() {
-  createAJob();
+  await createAJob();
 }
 
 main().catch(console.error);

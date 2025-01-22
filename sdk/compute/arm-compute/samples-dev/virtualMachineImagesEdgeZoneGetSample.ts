@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,8 +17,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_Get_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneGetMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaa";
@@ -47,8 +44,7 @@ async function virtualMachineImagesEdgeZoneGetMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_Get_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneGetMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -69,8 +65,8 @@ async function virtualMachineImagesEdgeZoneGetMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachineImagesEdgeZoneGetMaximumSetGen();
-  virtualMachineImagesEdgeZoneGetMinimumSetGen();
+  await virtualMachineImagesEdgeZoneGetMaximumSetGen();
+  await virtualMachineImagesEdgeZoneGetMinimumSetGen();
 }
 
 main().catch(console.error);

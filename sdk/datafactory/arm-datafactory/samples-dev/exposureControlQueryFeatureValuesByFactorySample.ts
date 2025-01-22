@@ -48,7 +48,7 @@ async function exposureControlQueryFeatureValuesByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exposureControlQueryFeatureValuesByFactory();
+  await exposureControlQueryFeatureValuesByFactory();
 }
 
 main().catch(console.error);

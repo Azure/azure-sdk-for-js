@@ -39,7 +39,7 @@ async function domainEventSubscriptionsDelete() {
 }
 
 async function main() {
-  domainEventSubscriptionsDelete();
+  await domainEventSubscriptionsDelete();
 }
 
 main().catch(console.error);

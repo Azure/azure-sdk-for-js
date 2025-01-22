@@ -41,7 +41,7 @@ async function getAWorkflowTriggerHistory() {
 }
 
 async function main() {
-  getAWorkflowTriggerHistory();
+  await getAWorkflowTriggerHistory();
 }
 
 main().catch(console.error);

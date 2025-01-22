@@ -38,7 +38,7 @@ async function getVaultStorageConfiguration() {
 }
 
 async function main() {
-  getVaultStorageConfiguration();
+  await getVaultStorageConfiguration();
 }
 
 main().catch(console.error);

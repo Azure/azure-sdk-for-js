@@ -38,7 +38,7 @@ async function listGitLabSubgroups() {
 }
 
 async function main() {
-  listGitLabSubgroups();
+  await listGitLabSubgroups();
 }
 
 main().catch(console.error);

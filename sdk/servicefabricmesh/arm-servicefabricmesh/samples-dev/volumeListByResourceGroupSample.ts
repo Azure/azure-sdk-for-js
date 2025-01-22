@@ -39,7 +39,7 @@ async function listVolumesByResourceGroup() {
 }
 
 async function main() {
-  listVolumesByResourceGroup();
+  await listVolumesByResourceGroup();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves information about an SSH public key.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_Get.json
  */
-async function getAnSshPublicKey() {
+async function getAnSshPublicKey(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function getAnSshPublicKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAnSshPublicKey();
 }
 

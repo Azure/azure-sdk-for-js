@@ -35,7 +35,7 @@ async function getFluidRelayServerDetails() {
 }
 
 async function main() {
-  getFluidRelayServerDetails();
+  await getFluidRelayServerDetails();
 }
 
 main().catch(console.error);

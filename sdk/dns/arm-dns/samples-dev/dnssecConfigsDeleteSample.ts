@@ -34,7 +34,7 @@ async function deleteDnssecConfig() {
 }
 
 async function main() {
-  deleteDnssecConfig();
+  await deleteDnssecConfig();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listApplicationsBySubscriptionId() {
 }
 
 async function main() {
-  listApplicationsBySubscriptionId();
+  await listApplicationsBySubscriptionId();
 }
 
 main().catch(console.error);

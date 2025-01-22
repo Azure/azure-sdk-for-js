@@ -37,7 +37,7 @@ async function importASapMigrationDiscoverySiteResourceAndItChildResources() {
 }
 
 async function main() {
-  importASapMigrationDiscoverySiteResourceAndItChildResources();
+  await importASapMigrationDiscoverySiteResourceAndItChildResources();
 }
 
 main().catch(console.error);

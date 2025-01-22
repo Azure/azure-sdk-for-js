@@ -31,7 +31,7 @@ async function deleteRemediationAtManagementGroupScope() {
 }
 
 async function main() {
-  deleteRemediationAtManagementGroupScope();
+  await deleteRemediationAtManagementGroupScope();
 }
 
 main().catch(console.error);

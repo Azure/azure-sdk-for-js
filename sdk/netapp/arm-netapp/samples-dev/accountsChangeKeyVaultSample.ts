@@ -56,7 +56,7 @@ async function accountsChangeKeyVault() {
 }
 
 async function main() {
-  accountsChangeKeyVault();
+  await accountsChangeKeyVault();
 }
 
 main().catch(console.error);

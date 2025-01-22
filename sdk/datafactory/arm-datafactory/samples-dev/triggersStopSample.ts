@@ -37,7 +37,7 @@ async function triggersStop(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersStop();
+  await triggersStop();
 }
 
 main().catch(console.error);

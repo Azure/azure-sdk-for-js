@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a gallery Application Definition.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_Create.json
  */
-async function createOrUpdateASimpleGalleryApplication() {
+async function createOrUpdateASimpleGalleryApplication(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -63,7 +63,7 @@ async function createOrUpdateASimpleGalleryApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateASimpleGalleryApplication();
 }
 

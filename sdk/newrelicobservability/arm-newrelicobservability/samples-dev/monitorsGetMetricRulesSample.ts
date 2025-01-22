@@ -66,8 +66,8 @@ async function monitorsGetMetricRulesMinimumSetGen() {
 }
 
 async function main() {
-  monitorsGetMetricRulesMaximumSetGen();
-  monitorsGetMetricRulesMinimumSetGen();
+  await monitorsGetMetricRulesMaximumSetGen();
+  await monitorsGetMetricRulesMinimumSetGen();
 }
 
 main().catch(console.error);

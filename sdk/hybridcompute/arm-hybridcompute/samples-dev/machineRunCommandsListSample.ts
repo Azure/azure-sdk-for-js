@@ -39,7 +39,7 @@ async function getAllMachineRunCommands() {
 }
 
 async function main() {
-  getAllMachineRunCommands();
+  await getAllMachineRunCommands();
 }
 
 main().catch(console.error);

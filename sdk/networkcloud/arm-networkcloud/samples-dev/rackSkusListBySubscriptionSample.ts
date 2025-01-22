@@ -34,7 +34,7 @@ async function listRackSkUsForSubscription() {
 }
 
 async function main() {
-  listRackSkUsForSubscription();
+  await listRackSkUsForSubscription();
 }
 
 main().catch(console.error);

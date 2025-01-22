@@ -65,7 +65,7 @@ async function privateEndpointConnectionProxyCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionProxyCreateOrUpdate();
+  await privateEndpointConnectionProxyCreateOrUpdate();
 }
 
 main().catch(console.error);

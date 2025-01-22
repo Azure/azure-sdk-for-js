@@ -37,7 +37,7 @@ async function getDataCollectionRule() {
 }
 
 async function main() {
-  getDataCollectionRule();
+  await getDataCollectionRule();
 }
 
 main().catch(console.error);

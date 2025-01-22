@@ -48,7 +48,7 @@ async function createPrivateDnsZoneGroup() {
 }
 
 async function main() {
-  createPrivateDnsZoneGroup();
+  await createPrivateDnsZoneGroup();
 }
 
 main().catch(console.error);

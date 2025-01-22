@@ -45,7 +45,7 @@ async function updateAServer() {
 }
 
 async function main() {
-  updateAServer();
+  await updateAServer();
 }
 
 main().catch(console.error);

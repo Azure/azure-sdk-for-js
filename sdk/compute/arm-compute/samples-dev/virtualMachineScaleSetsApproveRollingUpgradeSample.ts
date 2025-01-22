@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams,
-  ComputeManagementClient,
 } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +21,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
  */
 async function virtualMachineScaleSetApproveRollingUpgrade(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "vmssToApproveRollingUpgradeOn";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
     instanceIds: ["0", "1", "2"],
@@ -36,17 +32,16 @@ async function virtualMachineScaleSetApproveRollingUpgrade(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginApproveRollingUpgradeAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      options,
-    );
+  const result = await client.virtualMachineScaleSets.beginApproveRollingUpgradeAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    options,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  virtualMachineScaleSetApproveRollingUpgrade();
+  await virtualMachineScaleSetApproveRollingUpgrade();
 }
 
 main().catch(console.error);

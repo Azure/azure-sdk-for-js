@@ -61,8 +61,8 @@ async function firewallsListByResourceGroupMinimumSetGen() {
 }
 
 async function main() {
-  firewallsListByResourceGroupMaximumSetGen();
-  firewallsListByResourceGroupMinimumSetGen();
+  await firewallsListByResourceGroupMaximumSetGen();
+  await firewallsListByResourceGroupMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function createBackupForAServer() {
 }
 
 async function main() {
-  createBackupForAServer();
+  await createBackupForAServer();
 }
 
 main().catch(console.error);

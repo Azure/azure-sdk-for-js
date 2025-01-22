@@ -32,7 +32,7 @@ async function getsListOfProblemClassificationsForAServiceForWhichASupportTicket
 }
 
 async function main() {
-  getsListOfProblemClassificationsForAServiceForWhichASupportTicketCanBeCreated();
+  await getsListOfProblemClassificationsForAServiceForWhichASupportTicketCanBeCreated();
 }
 
 main().catch(console.error);

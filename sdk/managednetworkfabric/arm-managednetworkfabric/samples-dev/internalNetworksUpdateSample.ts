@@ -92,7 +92,7 @@ async function internalNetworksUpdateMaximumSetGen() {
 }
 
 async function main() {
-  internalNetworksUpdateMaximumSetGen();
+  await internalNetworksUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

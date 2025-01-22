@@ -600,14 +600,14 @@ async function createOrUpdateSimpleAzureVMProtectionPolicy() {
 }
 
 async function main() {
-  createOrUpdateAzureStorageVaultStandardProtectionPolicy();
-  createOrUpdateDailyAzureStorageProtectionPolicy();
-  createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup();
-  createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup();
-  createOrUpdateFullAzureVMProtectionPolicy();
-  createOrUpdateFullAzureWorkloadProtectionPolicy();
-  createOrUpdateHourlyAzureStorageProtectionPolicy();
-  createOrUpdateSimpleAzureVMProtectionPolicy();
+  await createOrUpdateAzureStorageVaultStandardProtectionPolicy();
+  await createOrUpdateDailyAzureStorageProtectionPolicy();
+  await createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup();
+  await createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup();
+  await createOrUpdateFullAzureVMProtectionPolicy();
+  await createOrUpdateFullAzureWorkloadProtectionPolicy();
+  await createOrUpdateHourlyAzureStorageProtectionPolicy();
+  await createOrUpdateSimpleAzureVMProtectionPolicy();
 }
 
 main().catch(console.error);

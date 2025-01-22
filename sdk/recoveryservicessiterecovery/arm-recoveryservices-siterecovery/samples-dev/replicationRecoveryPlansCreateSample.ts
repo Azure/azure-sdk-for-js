@@ -65,7 +65,7 @@ async function createsARecoveryPlanWithTheGivenDetails() {
 }
 
 async function main() {
-  createsARecoveryPlanWithTheGivenDetails();
+  await createsARecoveryPlanWithTheGivenDetails();
 }
 
 main().catch(console.error);

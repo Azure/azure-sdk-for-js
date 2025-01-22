@@ -44,7 +44,7 @@ async function attachedNetworksCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  attachedNetworksCreate();
+  await attachedNetworksCreate();
 }
 
 main().catch(console.error);

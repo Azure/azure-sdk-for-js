@@ -35,7 +35,7 @@ async function monitorsGetDefaultKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsGetDefaultKey();
+  await monitorsGetDefaultKey();
 }
 
 main().catch(console.error);

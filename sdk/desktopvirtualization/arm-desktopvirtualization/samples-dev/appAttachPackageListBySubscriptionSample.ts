@@ -39,7 +39,7 @@ async function appAttachPackageListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appAttachPackageListBySubscription();
+  await appAttachPackageListBySubscription();
 }
 
 main().catch(console.error);

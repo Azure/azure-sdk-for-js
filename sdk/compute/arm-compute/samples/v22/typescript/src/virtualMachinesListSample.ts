@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_List_MaximumSet_Gen.json
  */
-async function virtualMachineListMaximumSetGen() {
+async function virtualMachineListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -46,7 +46,7 @@ async function virtualMachineListMaximumSetGen() {
  * @summary Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_List_MinimumSet_Gen.json
  */
-async function virtualMachineListMinimumSetGen() {
+async function virtualMachineListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,7 +60,7 @@ async function virtualMachineListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineListMaximumSetGen();
   virtualMachineListMinimumSetGen();
 }

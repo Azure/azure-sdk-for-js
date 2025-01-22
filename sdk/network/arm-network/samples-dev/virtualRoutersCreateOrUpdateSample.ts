@@ -42,7 +42,7 @@ async function createVirtualRouter() {
 }
 
 async function main() {
-  createVirtualRouter();
+  await createVirtualRouter();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function moveCollectionsCommit() {
 }
 
 async function main() {
-  moveCollectionsCommit();
+  await moveCollectionsCommit();
 }
 
 main().catch(console.error);

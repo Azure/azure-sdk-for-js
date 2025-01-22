@@ -33,7 +33,7 @@ async function getQuotaUsagesList() {
 }
 
 async function main() {
-  getQuotaUsagesList();
+  await getQuotaUsagesList();
 }
 
 main().catch(console.error);

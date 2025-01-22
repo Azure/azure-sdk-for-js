@@ -49,7 +49,7 @@ async function sendRequestToNetworkFunctionServices() {
 }
 
 async function main() {
-  sendRequestToNetworkFunctionServices();
+  await sendRequestToNetworkFunctionServices();
 }
 
 main().catch(console.error);

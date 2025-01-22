@@ -37,7 +37,7 @@ async function privateEndpointConnectionProxyDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionProxyDelete();
+  await privateEndpointConnectionProxyDelete();
 }
 
 main().catch(console.error);

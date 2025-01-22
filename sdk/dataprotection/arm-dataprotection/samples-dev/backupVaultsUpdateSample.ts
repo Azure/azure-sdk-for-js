@@ -91,8 +91,8 @@ async function patchBackupVaultWithCmk(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchBackupVault();
-  patchBackupVaultWithCmk();
+  await patchBackupVault();
+  await patchBackupVaultWithCmk();
 }
 
 main().catch(console.error);

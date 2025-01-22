@@ -37,7 +37,7 @@ async function listPrivateEndpointConnectionsByService() {
 }
 
 async function main() {
-  listPrivateEndpointConnectionsByService();
+  await listPrivateEndpointConnectionsByService();
 }
 
 main().catch(console.error);

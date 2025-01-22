@@ -42,7 +42,7 @@ async function listKeysWorkspaceBatchEndpoint() {
 }
 
 async function main() {
-  listKeysWorkspaceBatchEndpoint();
+  await listKeysWorkspaceBatchEndpoint();
 }
 
 main().catch(console.error);

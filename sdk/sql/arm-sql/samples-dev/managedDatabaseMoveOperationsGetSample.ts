@@ -38,7 +38,7 @@ async function getsAManagedDatabaseMoveOperation() {
 }
 
 async function main() {
-  getsAManagedDatabaseMoveOperation();
+  await getsAManagedDatabaseMoveOperation();
 }
 
 main().catch(console.error);

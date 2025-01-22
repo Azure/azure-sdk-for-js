@@ -38,7 +38,7 @@ async function startMenuItemList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startMenuItemList();
+  await startMenuItemList();
 }
 
 main().catch(console.error);

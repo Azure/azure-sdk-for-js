@@ -41,7 +41,7 @@ async function listApplicationsByResourceGroup() {
 }
 
 async function main() {
-  listApplicationsByResourceGroup();
+  await listApplicationsByResourceGroup();
 }
 
 main().catch(console.error);

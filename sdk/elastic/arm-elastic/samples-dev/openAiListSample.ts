@@ -37,7 +37,7 @@ async function openAiList() {
 }
 
 async function main() {
-  openAiList();
+  await openAiList();
 }
 
 main().catch(console.error);

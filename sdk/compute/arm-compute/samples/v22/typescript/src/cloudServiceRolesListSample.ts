@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next page of roles. Do this till nextLink is null to fetch all the roles.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceRole_List.json
  */
-async function listRolesInACloudService() {
+async function listRolesInACloudService(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function listRolesInACloudService() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRolesInACloudService();
 }
 

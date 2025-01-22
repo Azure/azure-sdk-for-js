@@ -34,7 +34,7 @@ async function kustoOperationsList() {
 }
 
 async function main() {
-  kustoOperationsList();
+  await kustoOperationsList();
 }
 
 main().catch(console.error);

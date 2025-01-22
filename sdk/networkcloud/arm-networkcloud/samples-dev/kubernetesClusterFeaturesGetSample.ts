@@ -39,7 +39,7 @@ async function getKubernetesClusterFeature() {
 }
 
 async function main() {
-  getKubernetesClusterFeature();
+  await getKubernetesClusterFeature();
 }
 
 main().catch(console.error);

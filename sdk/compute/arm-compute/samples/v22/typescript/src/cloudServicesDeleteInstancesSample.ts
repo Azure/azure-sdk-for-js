@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Deletes role instances in a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceRoleInstance_Delete_ByCloudService.json
  */
-async function deleteCloudServiceRoleInstancesInACloudService() {
+async function deleteCloudServiceRoleInstancesInACloudService(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function deleteCloudServiceRoleInstancesInACloudService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteCloudServiceRoleInstancesInACloudService();
 }
 

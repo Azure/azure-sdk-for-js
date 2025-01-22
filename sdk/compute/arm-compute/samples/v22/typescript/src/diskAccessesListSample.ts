@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the disk access resources under a subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_ListBySubscription.json
  */
-async function listAllDiskAccessResourcesInASubscription() {
+async function listAllDiskAccessResourcesInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listAllDiskAccessResourcesInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllDiskAccessResourcesInASubscription();
 }
 

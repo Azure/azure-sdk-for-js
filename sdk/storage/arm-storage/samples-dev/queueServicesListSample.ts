@@ -35,7 +35,7 @@ async function queueServicesList() {
 }
 
 async function main() {
-  queueServicesList();
+  await queueServicesList();
 }
 
 main().catch(console.error);

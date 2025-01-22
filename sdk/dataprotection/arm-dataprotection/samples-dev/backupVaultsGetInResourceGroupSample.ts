@@ -36,7 +36,7 @@ async function getBackupVaultsInResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBackupVaultsInResourceGroup();
+  await getBackupVaultsInResourceGroup();
 }
 
 main().catch(console.error);

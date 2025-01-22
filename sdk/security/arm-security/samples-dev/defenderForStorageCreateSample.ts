@@ -42,7 +42,7 @@ async function createsOrUpdatesTheDefenderForStorageSettingsOnASpecifiedResource
 }
 
 async function main() {
-  createsOrUpdatesTheDefenderForStorageSettingsOnASpecifiedResource();
+  await createsOrUpdatesTheDefenderForStorageSettingsOnASpecifiedResource();
 }
 
 main().catch(console.error);

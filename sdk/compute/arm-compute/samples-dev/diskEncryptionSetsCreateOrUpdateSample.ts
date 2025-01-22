@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { DiskEncryptionSet, ComputeManagementClient } from "@azure/arm-compute";
+import type { DiskEncryptionSet } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -19,10 +18,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSet = {
     activeKey: {
@@ -49,15 +46,12 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription():
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSet = {
     activeKey: {
-      keyUrl:
-        "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}",
+      keyUrl: "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}",
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     federatedClientId: "00000000-0000-0000-0000-000000000000",
@@ -87,10 +81,8 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant(): Promi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
  */
 async function createADiskEncryptionSet(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSet = {
     activeKey: {
@@ -114,9 +106,9 @@ async function createADiskEncryptionSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createADiskEncryptionSetWithKeyVaultFromADifferentSubscription();
-  createADiskEncryptionSetWithKeyVaultFromADifferentTenant();
-  createADiskEncryptionSet();
+  await createADiskEncryptionSetWithKeyVaultFromADifferentSubscription();
+  await createADiskEncryptionSetWithKeyVaultFromADifferentTenant();
+  await createADiskEncryptionSet();
 }
 
 main().catch(console.error);

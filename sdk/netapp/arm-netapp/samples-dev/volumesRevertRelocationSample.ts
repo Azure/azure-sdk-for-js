@@ -40,7 +40,7 @@ async function volumesRevertRelocation() {
 }
 
 async function main() {
-  volumesRevertRelocation();
+  await volumesRevertRelocation();
 }
 
 main().catch(console.error);

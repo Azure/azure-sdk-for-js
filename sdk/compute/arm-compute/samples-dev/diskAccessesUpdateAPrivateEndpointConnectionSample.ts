@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  PrivateEndpointConnection,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { PrivateEndpointConnection } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +18,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_Approve.json
  */
 async function approveAPrivateEndpointConnectionUnderADiskAccessResource(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskAccessName = "myDiskAccess";
   const privateEndpointConnectionName = "myPrivateEndpointConnection";
   const privateEndpointConnection: PrivateEndpointConnection = {
@@ -36,18 +30,17 @@ async function approveAPrivateEndpointConnectionUnderADiskAccessResource(): Prom
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.diskAccesses.beginUpdateAPrivateEndpointConnectionAndWait(
-      resourceGroupName,
-      diskAccessName,
-      privateEndpointConnectionName,
-      privateEndpointConnection,
-    );
+  const result = await client.diskAccesses.beginUpdateAPrivateEndpointConnectionAndWait(
+    resourceGroupName,
+    diskAccessName,
+    privateEndpointConnectionName,
+    privateEndpointConnection,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  approveAPrivateEndpointConnectionUnderADiskAccessResource();
+  await approveAPrivateEndpointConnectionUnderADiskAccessResource();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function workspaceDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspaceDelete();
+  await workspaceDelete();
 }
 
 main().catch(console.error);

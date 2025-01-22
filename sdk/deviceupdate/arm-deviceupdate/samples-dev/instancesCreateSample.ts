@@ -54,7 +54,7 @@ async function createsOrUpdatesInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createsOrUpdatesInstance();
+  await createsOrUpdatesInstance();
 }
 
 main().catch(console.error);

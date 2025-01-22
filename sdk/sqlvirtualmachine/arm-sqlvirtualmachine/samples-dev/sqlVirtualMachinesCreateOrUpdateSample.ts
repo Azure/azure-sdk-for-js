@@ -337,12 +337,12 @@ async function createsOrUpdatesASqlVirtualMachineWithMinParameters() {
 }
 
 async function main() {
-  createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup();
-  createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp();
-  createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool();
-  createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool();
-  createsOrUpdatesASqlVirtualMachineWithMaxParameters();
-  createsOrUpdatesASqlVirtualMachineWithMinParameters();
+  await createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup();
+  await createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp();
+  await createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool();
+  await createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool();
+  await createsOrUpdatesASqlVirtualMachineWithMaxParameters();
+  await createsOrUpdatesASqlVirtualMachineWithMinParameters();
 }
 
 main().catch(console.error);

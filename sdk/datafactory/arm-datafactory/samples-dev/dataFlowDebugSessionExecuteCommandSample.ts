@@ -44,7 +44,7 @@ async function dataFlowDebugSessionExecuteCommand(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataFlowDebugSessionExecuteCommand();
+  await dataFlowDebugSessionExecuteCommand();
 }
 
 main().catch(console.error);

@@ -52,7 +52,7 @@ async function pauseReplication() {
 }
 
 async function main() {
-  pauseReplication();
+  await pauseReplication();
 }
 
 main().catch(console.error);

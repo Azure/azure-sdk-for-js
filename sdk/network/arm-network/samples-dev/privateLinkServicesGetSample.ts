@@ -34,7 +34,7 @@ async function getPrivateLinkService() {
 }
 
 async function main() {
-  getPrivateLinkService();
+  await getPrivateLinkService();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function checksWhetherAccountExists(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checksWhetherAccountExists();
+  await checksWhetherAccountExists();
 }
 
 main().catch(console.error);

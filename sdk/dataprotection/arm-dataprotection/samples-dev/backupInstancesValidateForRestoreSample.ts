@@ -82,7 +82,7 @@ async function validateRestore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateRestore();
+  await validateRestore();
 }
 
 main().catch(console.error);

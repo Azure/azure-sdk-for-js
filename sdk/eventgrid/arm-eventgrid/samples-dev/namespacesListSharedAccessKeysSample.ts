@@ -37,7 +37,7 @@ async function namespacesListSharedAccessKeys() {
 }
 
 async function main() {
-  namespacesListSharedAccessKeys();
+  await namespacesListSharedAccessKeys();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function configurationsGet() {
 }
 
 async function main() {
-  configurationsGet();
+  await configurationsGet();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Performs maintenance on a virtual machine in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_PerformMaintenance_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMPerformMaintenanceMaximumSetGen() {
+async function virtualMachineScaleSetVMPerformMaintenanceMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function virtualMachineScaleSetVMPerformMaintenanceMaximumSetGen() {
  * @summary Performs maintenance on a virtual machine in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_PerformMaintenance_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMPerformMaintenanceMinimumSetGen() {
+async function virtualMachineScaleSetVMPerformMaintenanceMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,7 +60,7 @@ async function virtualMachineScaleSetVMPerformMaintenanceMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetVMPerformMaintenanceMaximumSetGen();
   virtualMachineScaleSetVMPerformMaintenanceMinimumSetGen();
 }

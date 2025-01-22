@@ -75,9 +75,9 @@ async function deleteVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
 }
 
 async function main() {
-  deleteNetworkFunctionResource();
-  deleteVirtualNetworkFunctionResourceOnAzureCore();
-  deleteVirtualNetworkFunctionResourceOnAzureOperatorNexus();
+  await deleteNetworkFunctionResource();
+  await deleteVirtualNetworkFunctionResourceOnAzureCore();
+  await deleteVirtualNetworkFunctionResourceOnAzureOperatorNexus();
 }
 
 main().catch(console.error);

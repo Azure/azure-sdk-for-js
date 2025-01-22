@@ -44,7 +44,7 @@ async function topicsListEventTypes() {
 }
 
 async function main() {
-  topicsListEventTypes();
+  await topicsListEventTypes();
 }
 
 main().catch(console.error);

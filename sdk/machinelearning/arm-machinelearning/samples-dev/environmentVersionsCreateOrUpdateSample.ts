@@ -68,7 +68,7 @@ async function createOrUpdateWorkspaceEnvironmentVersion() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceEnvironmentVersion();
+  await createOrUpdateWorkspaceEnvironmentVersion();
 }
 
 main().catch(console.error);

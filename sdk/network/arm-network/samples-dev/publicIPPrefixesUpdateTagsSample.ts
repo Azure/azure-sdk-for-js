@@ -36,7 +36,7 @@ async function updatePublicIPPrefixTags() {
 }
 
 async function main() {
-  updatePublicIPPrefixTags();
+  await updatePublicIPPrefixTags();
 }
 
 main().catch(console.error);

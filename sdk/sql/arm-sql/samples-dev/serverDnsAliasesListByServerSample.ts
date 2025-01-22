@@ -39,7 +39,7 @@ async function listServerDnsAliases() {
 }
 
 async function main() {
-  listServerDnsAliases();
+  await listServerDnsAliases();
 }
 
 main().catch(console.error);

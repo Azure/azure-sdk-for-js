@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Power off the cloud service. Note that resources are still attached and you are getting charged for the resources.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_PowerOff.json
  */
-async function stopOrPowerOffCloudService() {
+async function stopOrPowerOffCloudService(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function stopOrPowerOffCloudService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopOrPowerOffCloudService();
 }
 

@@ -41,7 +41,7 @@ async function getAnEntityRelation() {
 }
 
 async function main() {
-  getAnEntityRelation();
+  await getAnEntityRelation();
 }
 
 main().catch(console.error);

@@ -63,8 +63,8 @@ async function monitorsDeleteMinimumSetGen() {
 }
 
 async function main() {
-  monitorsDeleteMaximumSetGen();
-  monitorsDeleteMinimumSetGen();
+  await monitorsDeleteMaximumSetGen();
+  await monitorsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

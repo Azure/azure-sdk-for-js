@@ -35,7 +35,7 @@ async function listDeploymentsForARemediationAtSubscriptionScope() {
 }
 
 async function main() {
-  listDeploymentsForARemediationAtSubscriptionScope();
+  await listDeploymentsForARemediationAtSubscriptionScope();
 }
 
 main().catch(console.error);

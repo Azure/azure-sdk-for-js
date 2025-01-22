@@ -39,7 +39,7 @@ async function signalRListReplicaSkus() {
 }
 
 async function main() {
-  signalRListReplicaSkus();
+  await signalRListReplicaSkus();
 }
 
 main().catch(console.error);

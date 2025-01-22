@@ -142,9 +142,9 @@ async function kustoDataConnectionsEventGridCreateOrUpdate() {
 }
 
 async function main() {
-  kustoDataConnectionsCosmosDbCreateOrUpdate();
-  kustoDataConnectionsCreateOrUpdate();
-  kustoDataConnectionsEventGridCreateOrUpdate();
+  await kustoDataConnectionsCosmosDbCreateOrUpdate();
+  await kustoDataConnectionsCreateOrUpdate();
+  await kustoDataConnectionsEventGridCreateOrUpdate();
 }
 
 main().catch(console.error);

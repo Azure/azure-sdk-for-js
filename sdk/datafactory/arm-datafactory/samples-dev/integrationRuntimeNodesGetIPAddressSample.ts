@@ -39,7 +39,7 @@ async function integrationRuntimeNodesGetIPAddress(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimeNodesGetIPAddress();
+  await integrationRuntimeNodesGetIPAddress();
 }
 
 main().catch(console.error);

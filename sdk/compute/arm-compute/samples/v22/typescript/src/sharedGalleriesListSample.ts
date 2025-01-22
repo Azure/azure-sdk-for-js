@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List shared galleries by subscription id or tenant id.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/sharedGalleryExamples/SharedGallery_List.json
  */
-async function listSharedGalleries() {
+async function listSharedGalleries(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
@@ -31,7 +31,7 @@ async function listSharedGalleries() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSharedGalleries();
 }
 

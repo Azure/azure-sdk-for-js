@@ -43,7 +43,7 @@ async function checkBackupVaultsNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkBackupVaultsNameAvailability();
+  await checkBackupVaultsNameAvailability();
 }
 
 main().catch(console.error);

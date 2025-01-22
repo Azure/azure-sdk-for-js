@@ -34,7 +34,7 @@ async function getExternalSecuritySolutionsOnASubscription() {
 }
 
 async function main() {
-  getExternalSecuritySolutionsOnASubscription();
+  await getExternalSecuritySolutionsOnASubscription();
 }
 
 main().catch(console.error);

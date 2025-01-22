@@ -47,7 +47,7 @@ async function triggerAdhocBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerAdhocBackup();
+  await triggerAdhocBackup();
 }
 
 main().catch(console.error);

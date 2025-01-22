@@ -42,7 +42,7 @@ async function listAllFirewallRulesInAServer() {
 }
 
 async function main() {
-  listAllFirewallRulesInAServer();
+  await listAllFirewallRulesInAServer();
 }
 
 main().catch(console.error);

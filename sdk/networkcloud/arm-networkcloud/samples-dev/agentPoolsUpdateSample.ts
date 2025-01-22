@@ -58,7 +58,7 @@ async function patchKubernetesClusterAgentPool() {
 }
 
 async function main() {
-  patchKubernetesClusterAgentPool();
+  await patchKubernetesClusterAgentPool();
 }
 
 main().catch(console.error);

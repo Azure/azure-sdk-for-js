@@ -35,7 +35,7 @@ async function appAttachPackageUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appAttachPackageUpdate();
+  await appAttachPackageUpdate();
 }
 
 main().catch(console.error);

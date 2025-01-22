@@ -47,7 +47,7 @@ async function volumesBreakReplication() {
 }
 
 async function main() {
-  volumesBreakReplication();
+  await volumesBreakReplication();
 }
 
 main().catch(console.error);

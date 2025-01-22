@@ -78,8 +78,8 @@ async function createAttestationAtSubscriptionScopeWithAllProperties() {
 }
 
 async function main() {
-  createAttestationAtSubscriptionScope();
-  createAttestationAtSubscriptionScopeWithAllProperties();
+  await createAttestationAtSubscriptionScope();
+  await createAttestationAtSubscriptionScopeWithAllProperties();
 }
 
 main().catch(console.error);

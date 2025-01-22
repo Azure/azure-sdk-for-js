@@ -37,7 +37,7 @@ async function msixPackageDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  msixPackageDelete();
+  await msixPackageDelete();
 }
 
 main().catch(console.error);

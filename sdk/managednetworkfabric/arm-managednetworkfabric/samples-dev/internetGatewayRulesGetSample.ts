@@ -40,7 +40,7 @@ async function internetGatewayRulesGetMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewayRulesGetMaximumSetGen();
+  await internetGatewayRulesGetMaximumSetGen();
 }
 
 main().catch(console.error);

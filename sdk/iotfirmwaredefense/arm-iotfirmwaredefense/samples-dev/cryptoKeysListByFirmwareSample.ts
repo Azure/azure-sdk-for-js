@@ -69,8 +69,8 @@ async function cryptoKeysListByFirmwareMinimumSetGen() {
 }
 
 async function main() {
-  cryptoKeysListByFirmwareMaximumSetGen();
-  cryptoKeysListByFirmwareMinimumSetGen();
+  await cryptoKeysListByFirmwareMaximumSetGen();
+  await cryptoKeysListByFirmwareMinimumSetGen();
 }
 
 main().catch(console.error);

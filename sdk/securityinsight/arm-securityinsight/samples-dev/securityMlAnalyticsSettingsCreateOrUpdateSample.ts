@@ -102,7 +102,7 @@ async function createsOrUpdatesAAnomalySecurityMlAnalyticsSettings() {
 }
 
 async function main() {
-  createsOrUpdatesAAnomalySecurityMlAnalyticsSettings();
+  await createsOrUpdatesAAnomalySecurityMlAnalyticsSettings();
 }
 
 main().catch(console.error);

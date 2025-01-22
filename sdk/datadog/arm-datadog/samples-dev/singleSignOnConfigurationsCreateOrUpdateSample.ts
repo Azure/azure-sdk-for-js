@@ -51,7 +51,7 @@ async function singleSignOnConfigurationsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  singleSignOnConfigurationsCreateOrUpdate();
+  await singleSignOnConfigurationsCreateOrUpdate();
 }
 
 main().catch(console.error);

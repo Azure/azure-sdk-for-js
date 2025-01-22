@@ -37,7 +37,7 @@ async function listPrivateLinkServiceInResourceGroup() {
 }
 
 async function main() {
-  listPrivateLinkServiceInResourceGroup();
+  await listPrivateLinkServiceInResourceGroup();
 }
 
 main().catch(console.error);

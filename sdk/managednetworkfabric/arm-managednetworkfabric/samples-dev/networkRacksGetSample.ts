@@ -40,7 +40,7 @@ async function networkRacksGetMaximumSetGen() {
 }
 
 async function main() {
-  networkRacksGetMaximumSetGen();
+  await networkRacksGetMaximumSetGen();
 }
 
 main().catch(console.error);

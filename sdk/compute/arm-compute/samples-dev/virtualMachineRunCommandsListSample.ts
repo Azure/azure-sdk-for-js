@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,14 +22,14 @@ async function virtualMachineRunCommandList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineRunCommands.list(location)) {
+  for await (const item of client.virtualMachineRunCommands.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  virtualMachineRunCommandList();
+  await virtualMachineRunCommandList();
 }
 
 main().catch(console.error);

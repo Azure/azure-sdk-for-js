@@ -87,7 +87,7 @@ async function createOrUpdateWorkspaceBatchDeployment() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceBatchDeployment();
+  await createOrUpdateWorkspaceBatchDeployment();
 }
 
 main().catch(console.error);

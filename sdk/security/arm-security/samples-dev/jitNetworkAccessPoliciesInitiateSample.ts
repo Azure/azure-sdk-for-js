@@ -51,7 +51,7 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
 }
 
 async function main() {
-  initiateAnActionOnAJitNetworkAccessPolicy();
+  await initiateAnActionOnAJitNetworkAccessPolicy();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getVirtualMachineConsole() {
 }
 
 async function main() {
-  getVirtualMachineConsole();
+  await getVirtualMachineConsole();
 }
 
 main().catch(console.error);

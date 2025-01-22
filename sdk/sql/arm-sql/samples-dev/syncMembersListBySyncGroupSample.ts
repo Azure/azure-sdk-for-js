@@ -44,7 +44,7 @@ async function listSyncMembersUnderASyncGroup() {
 }
 
 async function main() {
-  listSyncMembersUnderASyncGroup();
+  await listSyncMembersUnderASyncGroup();
 }
 
 main().catch(console.error);

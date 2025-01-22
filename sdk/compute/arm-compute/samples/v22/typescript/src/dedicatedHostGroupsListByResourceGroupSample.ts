@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function dedicatedHostGroupListByResourceGroupMaximumSetGen() {
+async function dedicatedHostGroupListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -40,7 +40,7 @@ async function dedicatedHostGroupListByResourceGroupMaximumSetGen() {
  * @summary Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function dedicatedHostGroupListByResourceGroupMinimumSetGen() {
+async function dedicatedHostGroupListByResourceGroupMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,7 +56,7 @@ async function dedicatedHostGroupListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dedicatedHostGroupListByResourceGroupMaximumSetGen();
   dedicatedHostGroupListByResourceGroupMinimumSetGen();
 }

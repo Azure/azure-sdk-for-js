@@ -34,7 +34,7 @@ async function networkConnectionsRunHealthChecks(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsRunHealthChecks();
+  await networkConnectionsRunHealthChecks();
 }
 
 main().catch(console.error);

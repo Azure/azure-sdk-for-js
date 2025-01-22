@@ -34,7 +34,7 @@ async function getTelemetryConfigAppliance() {
 }
 
 async function main() {
-  getTelemetryConfigAppliance();
+  await getTelemetryConfigAppliance();
 }
 
 main().catch(console.error);

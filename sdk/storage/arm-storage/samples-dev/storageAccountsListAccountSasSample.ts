@@ -48,7 +48,7 @@ async function storageAccountListAccountSas() {
 }
 
 async function main() {
-  storageAccountListAccountSas();
+  await storageAccountListAccountSas();
 }
 
 main().catch(console.error);

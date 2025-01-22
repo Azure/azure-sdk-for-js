@@ -50,7 +50,7 @@ async function networkToNetworkInterconnectsUpdateAdministrativeStateMaximumSetG
 }
 
 async function main() {
-  networkToNetworkInterconnectsUpdateAdministrativeStateMaximumSetGen();
+  await networkToNetworkInterconnectsUpdateAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

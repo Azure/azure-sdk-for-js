@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of all extensions in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionListMaximumSetGen() {
+async function virtualMachineScaleSetExtensionListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function virtualMachineScaleSetExtensionListMaximumSetGen() {
  * @summary Gets a list of all extensions in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetExtensionListMinimumSetGen() {
+async function virtualMachineScaleSetExtensionListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,7 +60,7 @@ async function virtualMachineScaleSetExtensionListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetExtensionListMaximumSetGen();
   virtualMachineScaleSetExtensionListMinimumSetGen();
 }

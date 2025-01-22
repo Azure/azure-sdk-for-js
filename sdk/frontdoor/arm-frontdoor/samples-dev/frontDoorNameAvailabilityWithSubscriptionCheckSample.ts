@@ -38,7 +38,7 @@ async function checkNameAvailabilityWithSubscription() {
 }
 
 async function main() {
-  checkNameAvailabilityWithSubscription();
+  await checkNameAvailabilityWithSubscription();
 }
 
 main().catch(console.error);

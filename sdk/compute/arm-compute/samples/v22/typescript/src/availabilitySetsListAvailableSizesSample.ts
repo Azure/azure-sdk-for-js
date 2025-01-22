@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MaximumSet_Gen.json
  */
-async function availabilitySetListAvailableSizesMaximumSetGen() {
+async function availabilitySetListAvailableSizesMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function availabilitySetListAvailableSizesMaximumSetGen() {
  * @summary Lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MinimumSet_Gen.json
  */
-async function availabilitySetListAvailableSizesMinimumSetGen() {
+async function availabilitySetListAvailableSizesMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -60,7 +60,7 @@ async function availabilitySetListAvailableSizesMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   availabilitySetListAvailableSizesMaximumSetGen();
   availabilitySetListAvailableSizesMinimumSetGen();
 }

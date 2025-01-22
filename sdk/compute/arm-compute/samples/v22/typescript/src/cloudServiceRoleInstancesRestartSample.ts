@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceRoleInstance_Restart.json
  */
-async function restartCloudServiceRoleInstance() {
+async function restartCloudServiceRoleInstance(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const roleInstanceName = "{roleInstance-name}";
@@ -35,7 +35,7 @@ async function restartCloudServiceRoleInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   restartCloudServiceRoleInstance();
 }
 

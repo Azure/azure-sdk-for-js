@@ -33,7 +33,7 @@ async function listZonesByResourceGroup() {
 }
 
 async function main() {
-  listZonesByResourceGroup();
+  await listZonesByResourceGroup();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function imageVersionsListByImage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  imageVersionsListByImage();
+  await imageVersionsListByImage();
 }
 
 main().catch(console.error);

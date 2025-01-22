@@ -32,7 +32,7 @@ async function groupQuotasListRequestForCompute() {
 }
 
 async function main() {
-  groupQuotasListRequestForCompute();
+  await groupQuotasListRequestForCompute();
 }
 
 main().catch(console.error);

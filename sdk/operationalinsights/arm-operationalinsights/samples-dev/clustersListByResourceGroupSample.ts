@@ -41,7 +41,7 @@ async function clustersGet() {
 }
 
 async function main() {
-  clustersGet();
+  await clustersGet();
 }
 
 main().catch(console.error);

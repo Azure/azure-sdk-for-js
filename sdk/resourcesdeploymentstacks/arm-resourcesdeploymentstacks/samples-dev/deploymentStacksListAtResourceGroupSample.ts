@@ -39,7 +39,7 @@ async function deploymentStacksResourceGroupList() {
 }
 
 async function main() {
-  deploymentStacksResourceGroupList();
+  await deploymentStacksResourceGroupList();
 }
 
 main().catch(console.error);

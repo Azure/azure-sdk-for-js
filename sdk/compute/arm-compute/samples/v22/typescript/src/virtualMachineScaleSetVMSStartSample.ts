@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Starts a virtual machine in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMStartMaximumSetGen() {
+async function virtualMachineScaleSetVMStartMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function virtualMachineScaleSetVMStartMaximumSetGen() {
  * @summary Starts a virtual machine in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMStartMinimumSetGen() {
+async function virtualMachineScaleSetVMStartMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -58,7 +58,7 @@ async function virtualMachineScaleSetVMStartMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetVMStartMaximumSetGen();
   virtualMachineScaleSetVMStartMinimumSetGen();
 }

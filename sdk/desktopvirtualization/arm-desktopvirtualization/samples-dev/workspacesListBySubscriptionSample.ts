@@ -32,7 +32,7 @@ async function workspaceListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspaceListBySubscription();
+  await workspaceListBySubscription();
 }
 
 main().catch(console.error);

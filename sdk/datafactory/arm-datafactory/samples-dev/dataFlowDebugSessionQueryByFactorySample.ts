@@ -38,7 +38,7 @@ async function dataFlowDebugSessionQueryByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataFlowDebugSessionQueryByFactory();
+  await dataFlowDebugSessionQueryByFactory();
 }
 
 main().catch(console.error);

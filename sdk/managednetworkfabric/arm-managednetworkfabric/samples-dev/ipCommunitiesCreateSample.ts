@@ -57,7 +57,7 @@ async function ipCommunitiesCreateMaximumSetGen() {
 }
 
 async function main() {
-  ipCommunitiesCreateMaximumSetGen();
+  await ipCommunitiesCreateMaximumSetGen();
 }
 
 main().catch(console.error);

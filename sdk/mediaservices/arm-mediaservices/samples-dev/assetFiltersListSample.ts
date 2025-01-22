@@ -42,7 +42,7 @@ async function listAllAssetFilters() {
 }
 
 async function main() {
-  listAllAssetFilters();
+  await listAllAssetFilters();
 }
 
 main().catch(console.error);

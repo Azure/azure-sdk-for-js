@@ -40,7 +40,7 @@ async function deleteAStreamingJob() {
 }
 
 async function main() {
-  deleteAStreamingJob();
+  await deleteAStreamingJob();
 }
 
 main().catch(console.error);

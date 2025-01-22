@@ -42,7 +42,7 @@ async function getAllActionsOfAlertRule() {
 }
 
 async function main() {
-  getAllActionsOfAlertRule();
+  await getAllActionsOfAlertRule();
 }
 
 main().catch(console.error);

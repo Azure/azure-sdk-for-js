@@ -41,7 +41,7 @@ async function backupsUnderBackupVaultDelete() {
 }
 
 async function main() {
-  backupsUnderBackupVaultDelete();
+  await backupsUnderBackupVaultDelete();
 }
 
 main().catch(console.error);

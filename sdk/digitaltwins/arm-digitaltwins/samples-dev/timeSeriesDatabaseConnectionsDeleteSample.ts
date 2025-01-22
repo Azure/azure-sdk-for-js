@@ -40,7 +40,7 @@ async function deleteATimeSeriesDatabaseConnectionForADigitalTwinsInstance(): Pr
 }
 
 async function main(): Promise<void> {
-  deleteATimeSeriesDatabaseConnectionForADigitalTwinsInstance();
+  await deleteATimeSeriesDatabaseConnectionForADigitalTwinsInstance();
 }
 
 main().catch(console.error);

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,12 +18,11 @@ import "dotenv/config";
  */
 async function operationsListMaximumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -39,20 +36,19 @@ async function operationsListMaximumSetGen(): Promise<void> {
  */
 async function operationsListMinimumSetGen(): Promise<void> {
   const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  operationsListMaximumSetGen();
-  operationsListMinimumSetGen();
+  await operationsListMaximumSetGen();
+  await operationsListMinimumSetGen();
 }
 
 main().catch(console.error);

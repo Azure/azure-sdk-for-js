@@ -51,7 +51,7 @@ async function vaultUpdate() {
 }
 
 async function main() {
-  vaultUpdate();
+  await vaultUpdate();
 }
 
 main().catch(console.error);

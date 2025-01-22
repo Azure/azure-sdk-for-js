@@ -36,7 +36,7 @@ async function getResourceGuardsInResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getResourceGuardsInResourceGroup();
+  await getResourceGuardsInResourceGroup();
 }
 
 main().catch(console.error);

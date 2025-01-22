@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary The operation to update a capacity reservation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
  */
-async function capacityReservationUpdateMaximumSetGen() {
+async function capacityReservationUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -61,7 +61,7 @@ async function capacityReservationUpdateMaximumSetGen() {
  * @summary The operation to update a capacity reservation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
  */
-async function capacityReservationUpdateMinimumSetGen() {
+async function capacityReservationUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -80,7 +80,7 @@ async function capacityReservationUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   capacityReservationUpdateMaximumSetGen();
   capacityReservationUpdateMinimumSetGen();
 }

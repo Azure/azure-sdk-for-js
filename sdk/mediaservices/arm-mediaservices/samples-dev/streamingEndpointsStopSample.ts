@@ -39,7 +39,7 @@ async function stopAStreamingEndpoint() {
 }
 
 async function main() {
-  stopAStreamingEndpoint();
+  await stopAStreamingEndpoint();
 }
 
 main().catch(console.error);

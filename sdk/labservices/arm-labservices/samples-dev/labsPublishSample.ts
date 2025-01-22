@@ -37,7 +37,7 @@ async function publishLab() {
 }
 
 async function main() {
-  publishLab();
+  await publishLab();
 }
 
 main().catch(console.error);

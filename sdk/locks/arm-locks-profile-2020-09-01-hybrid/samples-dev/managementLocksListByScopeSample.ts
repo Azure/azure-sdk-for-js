@@ -35,7 +35,7 @@ async function listManagementLocksAtScope() {
 }
 
 async function main() {
-  listManagementLocksAtScope();
+  await listManagementLocksAtScope();
 }
 
 main().catch(console.error);

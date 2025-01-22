@@ -38,7 +38,7 @@ async function privateLinkResourcesListByHostPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateLinkResourcesListByHostPool();
+  await privateLinkResourcesListByHostPool();
 }
 
 main().catch(console.error);

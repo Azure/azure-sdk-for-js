@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Grants access to a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_BeginGetAccess.json
  */
-async function getASasOnAManagedDisk() {
+async function getASasOnAManagedDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -45,7 +45,7 @@ async function getASasOnAManagedDisk() {
  * @summary Grants access to a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
  */
-async function getSasOnManagedDiskAndVMGuestState() {
+async function getSasOnManagedDiskAndVMGuestState(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -66,7 +66,7 @@ async function getSasOnManagedDiskAndVMGuestState() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getASasOnAManagedDisk();
   getSasOnManagedDiskAndVMGuestState();
 }

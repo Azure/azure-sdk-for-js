@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineScaleSet,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineScaleSet } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +18,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
  */
 async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -36,8 +30,7 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       extensionProfile: {
@@ -92,12 +85,11 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -108,10 +100,8 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled(): Promi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
  */
 async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -122,8 +112,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       extensionProfile: {
@@ -184,12 +173,11 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -200,10 +188,8 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault(): Pr
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
  */
 async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -247,12 +233,11 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage(): Pr
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -263,10 +248,8 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage(): Pr
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
  */
 async function createAPlatformImageScaleSetWithUnmanagedOSDisks(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -320,12 +303,11 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks(): Promise<void>
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -336,10 +318,8 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks(): Promise<void>
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
  */
 async function createAScaleSetFromACustomImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -383,12 +363,11 @@ async function createAScaleSetFromACustomImage(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -399,10 +378,8 @@ async function createAScaleSetFromACustomImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
  */
 async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -446,12 +423,11 @@ async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -462,10 +438,8 @@ async function createAScaleSetFromAGeneralizedSharedImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
  */
 async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -504,12 +478,11 @@ async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -520,10 +493,8 @@ async function createAScaleSetFromASpecializedSharedImage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
  */
 async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -586,12 +557,11 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -602,10 +572,8 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
  */
 async function createAScaleSetWithApplicationProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -670,12 +638,11 @@ async function createAScaleSetWithApplicationProfile(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -686,10 +653,8 @@ async function createAScaleSetWithApplicationProfile(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
  */
 async function createAScaleSetWithDiskControllerType(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -748,12 +713,11 @@ async function createAScaleSetWithDiskControllerType(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -764,10 +728,8 @@ async function createAScaleSetWithDiskControllerType(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
  */
 async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -830,12 +792,11 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -846,10 +807,8 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
  */
 async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -910,12 +869,11 @@ async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -926,10 +884,8 @@ async function createAScaleSetWithFpgaNetworkInterfaces(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
  */
 async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -982,12 +938,11 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty():
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -998,10 +953,8 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty():
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithNetworkInterfaceWithDnsSettings.json
  */
 async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1074,12 +1027,11 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSetting
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1090,10 +1042,8 @@ async function createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSetting
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithOSImageScheduledEventEnabled.json
  */
 async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1143,12 +1093,11 @@ async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void>
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1159,10 +1108,8 @@ async function createAScaleSetWithOSImageScheduledEventsEnabled(): Promise<void>
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProxyAgentSettings.json
  */
 async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1212,12 +1159,11 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1228,10 +1174,8 @@ async function createAScaleSetWithProxyAgentSettingsOfEnabledAndMode(): Promise<
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMCreationPolicy.json
  */
 async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1279,12 +1223,11 @@ async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1295,10 +1238,8 @@ async function createAScaleSetWithResilientVMCreationEnabled(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithResilientVMDeletionPolicy.json
  */
 async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1346,12 +1287,11 @@ async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1362,10 +1302,8 @@ async function createAScaleSetWithResilientVMDeletionEnabled(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityPostureReference.json
  */
 async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "eastus2euap",
@@ -1418,12 +1356,11 @@ async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1434,10 +1371,8 @@ async function createAScaleSetWithSecurityPostureReference(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1491,12 +1426,11 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> 
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1507,10 +1441,8 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM(): Promise<void> 
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVMWithNonPersistedTPM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpmSecurityEncryptionType(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1564,12 +1496,11 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpm
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1580,10 +1511,8 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpm
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithServiceArtifactReference.json
  */
 async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "eastus2euap",
@@ -1636,12 +1565,11 @@ async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1652,10 +1580,8 @@ async function createAScaleSetWithServiceArtifactReference(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
  */
 async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1706,12 +1632,11 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm(): Promise<voi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1722,10 +1647,8 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm(): Promise<voi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
  */
 async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1777,12 +1700,11 @@ async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1793,10 +1715,8 @@ async function createAScaleSetWithAMarketplaceImagePlan(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
  */
 async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1848,12 +1768,11 @@ async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1864,10 +1783,8 @@ async function createAScaleSetWithAnAzureApplicationGateway(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
  */
 async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -1928,12 +1845,11 @@ async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -1944,10 +1860,8 @@ async function createAScaleSetWithAnAzureLoadBalancer(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
  */
 async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     automaticRepairsPolicy: { enabled: true, gracePeriod: "PT10M" },
@@ -2002,12 +1916,11 @@ async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2018,10 +1931,8 @@ async function createAScaleSetWithAutomaticRepairsEnabled(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
  */
 async function createAScaleSetWithBootDiagnostics(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2032,8 +1943,7 @@ async function createAScaleSetWithBootDiagnostics(): Promise<void> {
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       networkProfile: {
@@ -2075,12 +1985,11 @@ async function createAScaleSetWithBootDiagnostics(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2091,10 +2000,8 @@ async function createAScaleSetWithBootDiagnostics(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
  */
 async function createAScaleSetWithEmptyDataDisksOnEachVM(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2146,12 +2053,11 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2162,10 +2068,8 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacementAsNvmeDisk.json
  */
 async function createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2218,12 +2122,11 @@ async function createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlac
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2234,10 +2137,8 @@ async function createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlac
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
  */
 async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2290,12 +2191,11 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty(): Prom
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2306,10 +2206,8 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty(): Prom
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
  */
 async function createAScaleSetWithEphemeralOSDisks(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2362,12 +2260,11 @@ async function createAScaleSetWithEphemeralOSDisks(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2378,10 +2275,8 @@ async function createAScaleSetWithEphemeralOSDisks(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
  */
 async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2392,8 +2287,7 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       extensionProfile: {
@@ -2448,12 +2342,11 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2464,10 +2357,8 @@ async function createAScaleSetWithExtensionTimeBudget(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
  */
 async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2515,12 +2406,11 @@ async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2531,10 +2421,8 @@ async function createAScaleSetWithManagedBootDiagnostics(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
  */
 async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2581,12 +2469,11 @@ async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2597,10 +2484,8 @@ async function createAScaleSetWithPasswordAuthentication(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
  */
 async function createAScaleSetWithPremiumStorage(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2647,12 +2532,11 @@ async function createAScaleSetWithPremiumStorage(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2663,10 +2547,8 @@ async function createAScaleSetWithPremiumStorage(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
  */
 async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2727,12 +2609,11 @@ async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2743,10 +2624,8 @@ async function createAScaleSetWithPriorityMixPolicy(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
  */
 async function createAScaleSetWithScaleInPolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2794,12 +2673,11 @@ async function createAScaleSetWithScaleInPolicy(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2810,10 +2688,8 @@ async function createAScaleSetWithScaleInPolicy(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSkuProfile.json
  */
 async function createAScaleSetWithSkuProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2875,12 +2751,11 @@ async function createAScaleSetWithSkuProfile(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2891,10 +2766,8 @@ async function createAScaleSetWithSkuProfile(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
  */
 async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -2945,12 +2818,11 @@ async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -2961,10 +2833,8 @@ async function createAScaleSetWithSpotRestorePolicy(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
  */
 async function createAScaleSetWithSshAuthentication(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3022,12 +2892,11 @@ async function createAScaleSetWithSshAuthentication(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -3038,10 +2907,8 @@ async function createAScaleSetWithSshAuthentication(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
  */
 async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3094,12 +2961,11 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<voi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -3110,10 +2976,8 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled(): Promise<voi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
  */
 async function createAScaleSetWithUserData(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3161,12 +3025,11 @@ async function createAScaleSetWithUserData(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -3177,10 +3040,8 @@ async function createAScaleSetWithUserData(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
  */
 async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "centralus",
@@ -3233,12 +3094,11 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<voi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -3249,10 +3109,8 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<voi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
  */
 async function createAScaleSetWithVMSizeProperties(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3303,12 +3161,11 @@ async function createAScaleSetWithVMSizeProperties(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -3319,10 +3176,8 @@ async function createAScaleSetWithVMSizeProperties(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithZonalPlatformFaultDomainAlignMode.json
  */
 async function createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3377,12 +3232,11 @@ async function createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned(): 
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -3393,10 +3247,8 @@ async function createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned(): 
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
  */
 async function createOrUpdateAScaleSetWithCapacityReservation(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "{vmss-name}";
   const parameters: VirtualMachineScaleSet = {
     location: "westus",
@@ -3448,63 +3300,62 @@ async function createOrUpdateAScaleSetWithCapacityReservation(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createAVmssWithAnExtensionThatHasSuppressFailuresEnabled();
-  createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault();
-  createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage();
-  createAPlatformImageScaleSetWithUnmanagedOSDisks();
-  createAScaleSetFromACustomImage();
-  createAScaleSetFromAGeneralizedSharedImage();
-  createAScaleSetFromASpecializedSharedImage();
-  createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty();
-  createAScaleSetWithApplicationProfile();
-  createAScaleSetWithDiskControllerType();
-  createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk();
-  createAScaleSetWithFpgaNetworkInterfaces();
-  createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty();
-  createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSettings();
-  createAScaleSetWithOSImageScheduledEventsEnabled();
-  createAScaleSetWithProxyAgentSettingsOfEnabledAndMode();
-  createAScaleSetWithResilientVMCreationEnabled();
-  createAScaleSetWithResilientVMDeletionEnabled();
-  createAScaleSetWithSecurityPostureReference();
-  createAScaleSetWithSecurityTypeAsConfidentialVM();
-  createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpmSecurityEncryptionType();
-  createAScaleSetWithServiceArtifactReference();
-  createAScaleSetWithUefiSettingsOfSecureBootAndVTpm();
-  createAScaleSetWithAMarketplaceImagePlan();
-  createAScaleSetWithAnAzureApplicationGateway();
-  createAScaleSetWithAnAzureLoadBalancer();
-  createAScaleSetWithAutomaticRepairsEnabled();
-  createAScaleSetWithBootDiagnostics();
-  createAScaleSetWithEmptyDataDisksOnEachVM();
-  createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty();
-  createAScaleSetWithEphemeralOSDisksUsingPlacementProperty();
-  createAScaleSetWithEphemeralOSDisks();
-  createAScaleSetWithExtensionTimeBudget();
-  createAScaleSetWithManagedBootDiagnostics();
-  createAScaleSetWithPasswordAuthentication();
-  createAScaleSetWithPremiumStorage();
-  createAScaleSetWithPriorityMixPolicy();
-  createAScaleSetWithScaleInPolicy();
-  createAScaleSetWithSkuProfile();
-  createAScaleSetWithSpotRestorePolicy();
-  createAScaleSetWithSshAuthentication();
-  createAScaleSetWithTerminateScheduledEventsEnabled();
-  createAScaleSetWithUserData();
-  createAScaleSetWithVirtualMachinesInDifferentZones();
-  createAScaleSetWithVMSizeProperties();
-  createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned();
-  createOrUpdateAScaleSetWithCapacityReservation();
+  await createAVmssWithAnExtensionThatHasSuppressFailuresEnabled();
+  await createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault();
+  await createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage();
+  await createAPlatformImageScaleSetWithUnmanagedOSDisks();
+  await createAScaleSetFromACustomImage();
+  await createAScaleSetFromAGeneralizedSharedImage();
+  await createAScaleSetFromASpecializedSharedImage();
+  await createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty();
+  await createAScaleSetWithApplicationProfile();
+  await createAScaleSetWithDiskControllerType();
+  await createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk();
+  await createAScaleSetWithFpgaNetworkInterfaces();
+  await createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty();
+  await createAScaleSetWithNetworkInterfacesWithPublicIPAddressDnsSettings();
+  await createAScaleSetWithOSImageScheduledEventsEnabled();
+  await createAScaleSetWithProxyAgentSettingsOfEnabledAndMode();
+  await createAScaleSetWithResilientVMCreationEnabled();
+  await createAScaleSetWithResilientVMDeletionEnabled();
+  await createAScaleSetWithSecurityPostureReference();
+  await createAScaleSetWithSecurityTypeAsConfidentialVM();
+  await createAScaleSetWithSecurityTypeAsConfidentialVMAndNonPersistedTpmSecurityEncryptionType();
+  await createAScaleSetWithServiceArtifactReference();
+  await createAScaleSetWithUefiSettingsOfSecureBootAndVTpm();
+  await createAScaleSetWithAMarketplaceImagePlan();
+  await createAScaleSetWithAnAzureApplicationGateway();
+  await createAScaleSetWithAnAzureLoadBalancer();
+  await createAScaleSetWithAutomaticRepairsEnabled();
+  await createAScaleSetWithBootDiagnostics();
+  await createAScaleSetWithEmptyDataDisksOnEachVM();
+  await createAScaleSetWithEphemeralOSDiskProvisioningInNvmeDiskUsingPlacementProperty();
+  await createAScaleSetWithEphemeralOSDisksUsingPlacementProperty();
+  await createAScaleSetWithEphemeralOSDisks();
+  await createAScaleSetWithExtensionTimeBudget();
+  await createAScaleSetWithManagedBootDiagnostics();
+  await createAScaleSetWithPasswordAuthentication();
+  await createAScaleSetWithPremiumStorage();
+  await createAScaleSetWithPriorityMixPolicy();
+  await createAScaleSetWithScaleInPolicy();
+  await createAScaleSetWithSkuProfile();
+  await createAScaleSetWithSpotRestorePolicy();
+  await createAScaleSetWithSshAuthentication();
+  await createAScaleSetWithTerminateScheduledEventsEnabled();
+  await createAScaleSetWithUserData();
+  await createAScaleSetWithVirtualMachinesInDifferentZones();
+  await createAScaleSetWithVMSizeProperties();
+  await createAScaleSetWithZonalPlatformFaultDomainAlignModeAsAligned();
+  await createOrUpdateAScaleSetWithCapacityReservation();
 }
 
 main().catch(console.error);

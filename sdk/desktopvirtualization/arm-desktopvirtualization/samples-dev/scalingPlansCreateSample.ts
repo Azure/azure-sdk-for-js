@@ -76,7 +76,7 @@ async function scalingPlansCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlansCreate();
+  await scalingPlansCreate();
 }
 
 main().catch(console.error);

@@ -15,7 +15,7 @@ async function fleetsListVirtualMachineScaleSets(): Promise<void> {
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fleets.listVirtualMachineScaleSets("rgazurefleet", "myFleet")) {
+  for await (const item of client.fleets.listVirtualMachineScaleSets("rgazurefleet", "myFleet")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function fleetsListVirtualMachineScaleSets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsListVirtualMachineScaleSets();
+  await fleetsListVirtualMachineScaleSets();
 }
 
 main().catch(console.error);

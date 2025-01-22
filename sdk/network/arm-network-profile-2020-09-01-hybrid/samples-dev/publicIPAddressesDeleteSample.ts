@@ -34,7 +34,7 @@ async function deletePublicIPAddress() {
 }
 
 async function main() {
-  deletePublicIPAddress();
+  await deletePublicIPAddress();
 }
 
 main().catch(console.error);

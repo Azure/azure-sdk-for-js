@@ -53,8 +53,8 @@ async function operationsListMinimumSetGen() {
 }
 
 async function main() {
-  operationsList();
-  operationsListMinimumSetGen();
+  await operationsList();
+  await operationsListMinimumSetGen();
 }
 
 main().catch(console.error);

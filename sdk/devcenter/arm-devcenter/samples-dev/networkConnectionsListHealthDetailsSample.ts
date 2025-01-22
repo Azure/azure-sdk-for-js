@@ -37,7 +37,7 @@ async function networkConnectionsListHealthDetails(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsListHealthDetails();
+  await networkConnectionsListHealthDetails();
 }
 
 main().catch(console.error);

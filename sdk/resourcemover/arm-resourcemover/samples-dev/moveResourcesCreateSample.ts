@@ -69,7 +69,7 @@ async function moveResourcesCreate() {
 }
 
 async function main() {
-  moveResourcesCreate();
+  await moveResourcesCreate();
 }
 
 main().catch(console.error);

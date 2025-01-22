@@ -54,7 +54,7 @@ async function createOrUpdateAMachineExtension() {
 }
 
 async function main() {
-  createOrUpdateAMachineExtension();
+  await createOrUpdateAMachineExtension();
 }
 
 main().catch(console.error);

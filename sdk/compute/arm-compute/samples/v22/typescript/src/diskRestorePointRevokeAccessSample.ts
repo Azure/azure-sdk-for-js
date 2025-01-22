@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Revokes access to a diskRestorePoint.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
  */
-async function revokesAccessToADiskRestorePoint() {
+async function revokesAccessToADiskRestorePoint(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function revokesAccessToADiskRestorePoint() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   revokesAccessToADiskRestorePoint();
 }
 

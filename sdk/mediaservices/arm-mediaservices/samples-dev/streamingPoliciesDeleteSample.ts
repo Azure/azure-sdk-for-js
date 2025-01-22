@@ -40,7 +40,7 @@ async function deleteAStreamingPolicy() {
 }
 
 async function main() {
-  deleteAStreamingPolicy();
+  await deleteAStreamingPolicy();
 }
 
 main().catch(console.error);

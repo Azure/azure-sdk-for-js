@@ -89,8 +89,8 @@ async function preRulesCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  preRulesCreateOrUpdateMaximumSetGen();
-  preRulesCreateOrUpdateMinimumSetGen();
+  await preRulesCreateOrUpdateMaximumSetGen();
+  await preRulesCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

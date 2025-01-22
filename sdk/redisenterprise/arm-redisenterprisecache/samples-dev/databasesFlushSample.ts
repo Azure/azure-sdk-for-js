@@ -51,7 +51,7 @@ async function howToFlushAllTheKeysInTheDatabase() {
 }
 
 async function main() {
-  howToFlushAllTheKeysInTheDatabase();
+  await howToFlushAllTheKeysInTheDatabase();
 }
 
 main().catch(console.error);

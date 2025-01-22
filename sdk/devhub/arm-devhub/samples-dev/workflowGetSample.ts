@@ -34,7 +34,7 @@ async function getWorkflow(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWorkflow();
+  await getWorkflow();
 }
 
 main().catch(console.error);

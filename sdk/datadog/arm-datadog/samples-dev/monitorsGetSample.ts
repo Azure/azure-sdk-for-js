@@ -32,7 +32,7 @@ async function monitorsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsGet();
+  await monitorsGet();
 }
 
 main().catch(console.error);

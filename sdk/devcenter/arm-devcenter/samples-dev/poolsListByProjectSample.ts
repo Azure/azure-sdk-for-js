@@ -37,7 +37,7 @@ async function poolsListByProject(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  poolsListByProject();
+  await poolsListByProject();
 }
 
 main().catch(console.error);

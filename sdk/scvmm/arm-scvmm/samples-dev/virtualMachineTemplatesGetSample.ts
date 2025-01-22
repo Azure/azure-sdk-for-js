@@ -57,8 +57,8 @@ async function virtualMachineTemplatesGetMinimumSet() {
 }
 
 async function main() {
-  virtualMachineTemplatesGetMaximumSet();
-  virtualMachineTemplatesGetMinimumSet();
+  await virtualMachineTemplatesGetMaximumSet();
+  await virtualMachineTemplatesGetMinimumSet();
 }
 
 main().catch(console.error);

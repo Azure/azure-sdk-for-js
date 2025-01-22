@@ -51,7 +51,7 @@ async function signalRPrivateEndpointConnectionsUpdate() {
 }
 
 async function main() {
-  signalRPrivateEndpointConnectionsUpdate();
+  await signalRPrivateEndpointConnectionsUpdate();
 }
 
 main().catch(console.error);

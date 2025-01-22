@@ -45,8 +45,8 @@ async function virtualMachineInstancesRestartMinimumSet() {
 }
 
 async function main() {
-  virtualMachineInstancesRestartMaximumSet();
-  virtualMachineInstancesRestartMinimumSet();
+  await virtualMachineInstancesRestartMaximumSet();
+  await virtualMachineInstancesRestartMinimumSet();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getsAnEndpointCertificate() {
 }
 
 async function main() {
-  getsAnEndpointCertificate();
+  await getsAnEndpointCertificate();
 }
 
 main().catch(console.error);

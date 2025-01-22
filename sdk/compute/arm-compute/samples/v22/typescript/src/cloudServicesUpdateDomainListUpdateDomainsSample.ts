@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of all update domains in a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceUpdateDomain_List.json
  */
-async function listUpdateDomainsInCloudService() {
+async function listUpdateDomainsInCloudService(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function listUpdateDomainsInCloudService() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listUpdateDomainsInCloudService();
 }
 

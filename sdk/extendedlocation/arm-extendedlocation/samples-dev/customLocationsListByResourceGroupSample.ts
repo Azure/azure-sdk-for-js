@@ -41,7 +41,7 @@ async function listCustomLocationsByResourceGroup() {
 }
 
 async function main() {
-  listCustomLocationsByResourceGroup();
+  await listCustomLocationsByResourceGroup();
 }
 
 main().catch(console.error);

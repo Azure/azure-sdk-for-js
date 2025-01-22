@@ -54,7 +54,7 @@ async function kustoPoolDataConnectionsCreateOrUpdateJson() {
 }
 
 async function main() {
-  kustoPoolDataConnectionsCreateOrUpdateJson();
+  await kustoPoolDataConnectionsCreateOrUpdateJson();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function projectsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectsDelete();
+  await projectsDelete();
 }
 
 main().catch(console.error);

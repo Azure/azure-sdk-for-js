@@ -40,7 +40,7 @@ async function signalRCustomCertificatesList() {
 }
 
 async function main() {
-  signalRCustomCertificatesList();
+  await signalRCustomCertificatesList();
 }
 
 main().catch(console.error);

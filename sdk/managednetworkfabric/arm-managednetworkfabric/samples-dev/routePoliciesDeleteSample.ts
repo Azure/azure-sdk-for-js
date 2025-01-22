@@ -40,7 +40,7 @@ async function routePoliciesDeleteMaximumSetGen() {
 }
 
 async function main() {
-  routePoliciesDeleteMaximumSetGen();
+  await routePoliciesDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

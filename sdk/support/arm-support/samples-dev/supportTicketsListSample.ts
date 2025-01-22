@@ -164,13 +164,13 @@ async function listSupportTicketsWithACertainServiceIdForASubscription() {
 }
 
 async function main() {
-  listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenStateForASubscription();
-  listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingStateForASubscription();
-  listSupportTicketsForASubscription();
-  listSupportTicketsInOpenStateForASubscription();
-  listSupportTicketsInUpdatingStateForASubscription();
-  listSupportTicketsWithACertainProblemClassificationIdForASubscription();
-  listSupportTicketsWithACertainServiceIdForASubscription();
+  await listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenStateForASubscription();
+  await listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingStateForASubscription();
+  await listSupportTicketsForASubscription();
+  await listSupportTicketsInOpenStateForASubscription();
+  await listSupportTicketsInUpdatingStateForASubscription();
+  await listSupportTicketsWithACertainProblemClassificationIdForASubscription();
+  await listSupportTicketsWithACertainServiceIdForASubscription();
 }
 
 main().catch(console.error);

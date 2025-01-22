@@ -36,7 +36,7 @@ async function updateNetworkVirtualAppliance() {
 }
 
 async function main() {
-  updateNetworkVirtualAppliance();
+  await updateNetworkVirtualAppliance();
 }
 
 main().catch(console.error);

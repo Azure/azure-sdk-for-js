@@ -39,7 +39,7 @@ async function getAListOfEndpointCertificates() {
 }
 
 async function main() {
-  getAListOfEndpointCertificates();
+  await getAListOfEndpointCertificates();
 }
 
 main().catch(console.error);

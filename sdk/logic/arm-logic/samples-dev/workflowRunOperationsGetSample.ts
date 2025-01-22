@@ -41,7 +41,7 @@ async function getARunOperation() {
 }
 
 async function main() {
-  getARunOperation();
+  await getARunOperation();
 }
 
 main().catch(console.error);

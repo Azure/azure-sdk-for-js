@@ -36,7 +36,7 @@ async function projectEnvironmentTypesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectEnvironmentTypesGet();
+  await projectEnvironmentTypesGet();
 }
 
 main().catch(console.error);

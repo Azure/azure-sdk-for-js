@@ -30,7 +30,7 @@ async function creationSupportedGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  creationSupportedGet();
+  await creationSupportedGet();
 }
 
 main().catch(console.error);

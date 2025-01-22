@@ -65,8 +65,8 @@ async function firewallsGetSupportInfoMinimumSetGen() {
 }
 
 async function main() {
-  firewallsGetSupportInfoMaximumSetGen();
-  firewallsGetSupportInfoMinimumSetGen();
+  await firewallsGetSupportInfoMaximumSetGen();
+  await firewallsGetSupportInfoMinimumSetGen();
 }
 
 main().catch(console.error);

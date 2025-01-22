@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to get the VMSS VM run command.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Get.json
  */
-async function getVirtualMachineScaleSetVMRunCommands() {
+async function getVirtualMachineScaleSetVMRunCommands(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -37,7 +37,7 @@ async function getVirtualMachineScaleSetVMRunCommands() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getVirtualMachineScaleSetVMRunCommands();
 }
 

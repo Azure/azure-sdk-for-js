@@ -65,8 +65,8 @@ async function firmwaresDeleteMinimumSetGen() {
 }
 
 async function main() {
-  firmwaresDeleteMaximumSetGen();
-  firmwaresDeleteMinimumSetGen();
+  await firmwaresDeleteMaximumSetGen();
+  await firmwaresDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

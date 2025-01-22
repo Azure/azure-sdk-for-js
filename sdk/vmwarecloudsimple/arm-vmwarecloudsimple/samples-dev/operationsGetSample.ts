@@ -51,8 +51,8 @@ async function getOperationResult() {
 }
 
 async function main() {
-  getFailedOperationResult();
-  getOperationResult();
+  await getFailedOperationResult();
+  await getOperationResult();
 }
 
 main().catch(console.error);

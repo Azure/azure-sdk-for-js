@@ -44,7 +44,7 @@ async function smMachinesProcessesGet() {
 }
 
 async function main() {
-  smMachinesProcessesGet();
+  await smMachinesProcessesGet();
 }
 
 main().catch(console.error);

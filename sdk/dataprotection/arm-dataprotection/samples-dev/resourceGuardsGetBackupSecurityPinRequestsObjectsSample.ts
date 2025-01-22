@@ -38,7 +38,7 @@ async function listOperationsRequestObject(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listOperationsRequestObject();
+  await listOperationsRequestObject();
 }
 
 main().catch(console.error);

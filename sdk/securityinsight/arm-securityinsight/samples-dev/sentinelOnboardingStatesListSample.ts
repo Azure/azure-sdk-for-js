@@ -37,7 +37,7 @@ async function getAllSentinelOnboardingStates() {
 }
 
 async function main() {
-  getAllSentinelOnboardingStates();
+  await getAllSentinelOnboardingStates();
 }
 
 main().catch(console.error);

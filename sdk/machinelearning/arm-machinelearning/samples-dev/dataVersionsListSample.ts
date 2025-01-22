@@ -53,7 +53,7 @@ async function listWorkspaceDataVersionBase() {
 }
 
 async function main() {
-  listWorkspaceDataVersionBase();
+  await listWorkspaceDataVersionBase();
 }
 
 main().catch(console.error);

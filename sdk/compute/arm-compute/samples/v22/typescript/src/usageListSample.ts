@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
  */
-async function usageListMaximumSetGen() {
+async function usageListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "4_.";
@@ -37,7 +37,7 @@ async function usageListMaximumSetGen() {
  * @summary Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
  */
-async function usageListMinimumSetGen() {
+async function usageListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "_--";
@@ -50,7 +50,7 @@ async function usageListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   usageListMaximumSetGen();
   usageListMinimumSetGen();
 }

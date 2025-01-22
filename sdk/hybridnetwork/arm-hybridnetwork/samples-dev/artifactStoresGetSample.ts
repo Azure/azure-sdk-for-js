@@ -37,7 +37,7 @@ async function getAArtifactStoreResource() {
 }
 
 async function main() {
-  getAArtifactStoreResource();
+  await getAArtifactStoreResource();
 }
 
 main().catch(console.error);

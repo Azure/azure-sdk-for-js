@@ -34,7 +34,7 @@ async function networkConnectionsGetHealthDetails(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsGetHealthDetails();
+  await networkConnectionsGetHealthDetails();
 }
 
 main().catch(console.error);

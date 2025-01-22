@@ -53,7 +53,7 @@ async function createOrUpdateSecret() {
 }
 
 async function main() {
-  createOrUpdateSecret();
+  await createOrUpdateSecret();
 }
 
 main().catch(console.error);

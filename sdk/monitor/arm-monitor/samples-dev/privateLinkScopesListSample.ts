@@ -34,7 +34,7 @@ async function privateLinkScopesListJson() {
 }
 
 async function main() {
-  privateLinkScopesListJson();
+  await privateLinkScopesListJson();
 }
 
 main().catch(console.error);

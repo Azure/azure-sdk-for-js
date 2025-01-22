@@ -45,7 +45,7 @@ async function disablesTheSensitivityRecommendationsOnAGivenColumn() {
 }
 
 async function main() {
-  disablesTheSensitivityRecommendationsOnAGivenColumn();
+  await disablesTheSensitivityRecommendationsOnAGivenColumn();
 }
 
 main().catch(console.error);

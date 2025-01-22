@@ -32,7 +32,7 @@ async function monitorsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitorsList();
+  await monitorsList();
 }
 
 main().catch(console.error);

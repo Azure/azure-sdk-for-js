@@ -38,7 +38,7 @@ async function createsAnNetworkExperimentProfileInAResourceGroup() {
 }
 
 async function main() {
-  createsAnNetworkExperimentProfileInAResourceGroup();
+  await createsAnNetworkExperimentProfileInAResourceGroup();
 }
 
 main().catch(console.error);

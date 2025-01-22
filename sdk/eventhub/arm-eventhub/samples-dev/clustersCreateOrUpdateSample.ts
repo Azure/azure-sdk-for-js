@@ -43,7 +43,7 @@ async function clusterPut() {
 }
 
 async function main() {
-  clusterPut();
+  await clusterPut();
 }
 
 main().catch(console.error);

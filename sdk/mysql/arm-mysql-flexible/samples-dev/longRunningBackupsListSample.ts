@@ -42,7 +42,7 @@ async function listBackupsForAServer() {
 }
 
 async function main() {
-  listBackupsForAServer();
+  await listBackupsForAServer();
 }
 
 main().catch(console.error);

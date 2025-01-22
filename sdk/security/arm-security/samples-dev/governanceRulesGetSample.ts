@@ -61,9 +61,9 @@ async function getAGovernanceRuleOverSubscriptionScope() {
 }
 
 async function main() {
-  getAGovernanceRuleOverManagementGroupScope();
-  getAGovernanceRuleOverSecurityConnectorScope();
-  getAGovernanceRuleOverSubscriptionScope();
+  await getAGovernanceRuleOverManagementGroupScope();
+  await getAGovernanceRuleOverSecurityConnectorScope();
+  await getAGovernanceRuleOverSubscriptionScope();
 }
 
 main().catch(console.error);

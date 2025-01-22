@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the role instances in the specified update domain.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceUpdateDomain_Update.json
  */
-async function updateCloudServiceToSpecifiedDomain() {
+async function updateCloudServiceToSpecifiedDomain(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function updateCloudServiceToSpecifiedDomain() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateCloudServiceToSpecifiedDomain();
 }
 

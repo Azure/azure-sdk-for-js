@@ -65,8 +65,8 @@ async function springbootsitesDeleteMinimumSetGen() {
 }
 
 async function main() {
-  springbootsitesDeleteMaximumSetGen();
-  springbootsitesDeleteMinimumSetGen();
+  await springbootsitesDeleteMaximumSetGen();
+  await springbootsitesDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

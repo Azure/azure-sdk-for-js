@@ -36,7 +36,7 @@ async function listAvailableGitHubOwners() {
 }
 
 async function main() {
-  listAvailableGitHubOwners();
+  await listAvailableGitHubOwners();
 }
 
 main().catch(console.error);

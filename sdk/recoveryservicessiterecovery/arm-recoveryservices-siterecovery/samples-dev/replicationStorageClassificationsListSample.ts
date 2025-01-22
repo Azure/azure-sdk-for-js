@@ -41,7 +41,7 @@ async function getsTheListOfStorageClassificationObjectsUnderAVault() {
 }
 
 async function main() {
-  getsTheListOfStorageClassificationObjectsUnderAVault();
+  await getsTheListOfStorageClassificationObjectsUnderAVault();
 }
 
 main().catch(console.error);

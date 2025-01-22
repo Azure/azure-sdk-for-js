@@ -40,7 +40,7 @@ async function sharedKeysList() {
 }
 
 async function main() {
-  sharedKeysList();
+  await sharedKeysList();
 }
 
 main().catch(console.error);

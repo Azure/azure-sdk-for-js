@@ -38,7 +38,7 @@ async function getNetworkServiceDesignGroupsUnderPublisherResource() {
 }
 
 async function main() {
-  getNetworkServiceDesignGroupsUnderPublisherResource();
+  await getNetworkServiceDesignGroupsUnderPublisherResource();
 }
 
 main().catch(console.error);

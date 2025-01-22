@@ -41,7 +41,7 @@ async function deleteAWorkloadGroupOfASqlAnalyticsPool() {
 }
 
 async function main() {
-  deleteAWorkloadGroupOfASqlAnalyticsPool();
+  await deleteAWorkloadGroupOfASqlAnalyticsPool();
 }
 
 main().catch(console.error);

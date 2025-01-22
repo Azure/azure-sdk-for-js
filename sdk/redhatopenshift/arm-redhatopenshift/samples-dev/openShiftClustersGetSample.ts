@@ -36,7 +36,7 @@ async function getsAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAnd
 }
 
 async function main() {
-  getsAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await getsAOpenShiftClusterWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function accountsList() {
 }
 
 async function main() {
-  accountsList();
+  await accountsList();
 }
 
 main().catch(console.error);

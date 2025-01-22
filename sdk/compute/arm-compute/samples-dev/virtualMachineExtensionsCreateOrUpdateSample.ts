@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineExtension,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineExtension } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +18,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionCreateOrUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const vmExtensionName = "aaaaaaaaaaaaa";
   const extensionParameters: VirtualMachineExtension = {
@@ -66,13 +60,12 @@ async function virtualMachineExtensionCreateOrUpdateMaximumSetGen(): Promise<voi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmName,
-      vmExtensionName,
-      extensionParameters,
-    );
+  const result = await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmName,
+    vmExtensionName,
+    extensionParameters,
+  );
   console.log(result);
 }
 
@@ -83,28 +76,25 @@ async function virtualMachineExtensionCreateOrUpdateMaximumSetGen(): Promise<voi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionCreateOrUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "myVM";
   const vmExtensionName = "myVMExtension";
   const extensionParameters: VirtualMachineExtension = { location: "westus" };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      vmName,
-      vmExtensionName,
-      extensionParameters,
-    );
+  const result = await client.virtualMachineExtensions.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmName,
+    vmExtensionName,
+    extensionParameters,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  virtualMachineExtensionCreateOrUpdateMaximumSetGen();
-  virtualMachineExtensionCreateOrUpdateMinimumSetGen();
+  await virtualMachineExtensionCreateOrUpdateMaximumSetGen();
+  await virtualMachineExtensionCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

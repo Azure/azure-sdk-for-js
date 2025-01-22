@@ -222,9 +222,9 @@ async function createOrUpdateAScheduledQueryRuleOnSubscription() {
 }
 
 async function main() {
-  createOrUpdateAScheduledQueryRuleForSingleResource();
-  createOrUpdateAScheduledQueryRuleOnResourceGroupS();
-  createOrUpdateAScheduledQueryRuleOnSubscription();
+  await createOrUpdateAScheduledQueryRuleForSingleResource();
+  await createOrUpdateAScheduledQueryRuleOnResourceGroupS();
+  await createOrUpdateAScheduledQueryRuleOnSubscription();
 }
 
 main().catch(console.error);

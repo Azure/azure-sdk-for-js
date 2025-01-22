@@ -44,7 +44,7 @@ async function amlFilesystemsArchive() {
 }
 
 async function main() {
-  amlFilesystemsArchive();
+  await amlFilesystemsArchive();
 }
 
 main().catch(console.error);

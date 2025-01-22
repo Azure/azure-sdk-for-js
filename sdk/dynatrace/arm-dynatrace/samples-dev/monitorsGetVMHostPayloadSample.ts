@@ -59,8 +59,8 @@ async function monitorsGetVMHostPayloadMinimumSetGen() {
 }
 
 async function main() {
-  monitorsGetVMHostPayloadMaximumSetGen();
-  monitorsGetVMHostPayloadMinimumSetGen();
+  await monitorsGetVMHostPayloadMaximumSetGen();
+  await monitorsGetVMHostPayloadMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function devBoxDefinitionsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devBoxDefinitionsCreate();
+  await devBoxDefinitionsCreate();
 }
 
 main().catch(console.error);

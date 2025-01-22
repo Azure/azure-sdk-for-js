@@ -34,7 +34,7 @@ async function deleteApplicationSecurityGroup() {
 }
 
 async function main() {
-  deleteApplicationSecurityGroup();
+  await deleteApplicationSecurityGroup();
 }
 
 main().catch(console.error);

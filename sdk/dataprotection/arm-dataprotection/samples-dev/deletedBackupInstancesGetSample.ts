@@ -37,7 +37,7 @@ async function getDeletedBackupInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDeletedBackupInstance();
+  await getDeletedBackupInstance();
 }
 
 main().catch(console.error);

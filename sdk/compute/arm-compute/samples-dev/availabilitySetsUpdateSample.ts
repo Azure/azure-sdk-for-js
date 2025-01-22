@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  AvailabilitySetUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { AvailabilitySetUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +18,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Update_MaximumSet_Gen.json
  */
 async function availabilitySetUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaa";
   const parameters: AvailabilitySetUpdate = {
     platformFaultDomainCount: 2,
@@ -58,10 +52,8 @@ async function availabilitySetUpdateMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Update_MinimumSet_Gen.json
  */
 async function availabilitySetUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: AvailabilitySetUpdate = {};
   const credential = new DefaultAzureCredential();
@@ -75,8 +67,8 @@ async function availabilitySetUpdateMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  availabilitySetUpdateMaximumSetGen();
-  availabilitySetUpdateMinimumSetGen();
+  await availabilitySetUpdateMaximumSetGen();
+  await availabilitySetUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

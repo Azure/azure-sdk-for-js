@@ -42,7 +42,7 @@ async function workspacePurgeOperation() {
 }
 
 async function main() {
-  workspacePurgeOperation();
+  await workspacePurgeOperation();
 }
 
 main().catch(console.error);

@@ -147,10 +147,10 @@ async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFai
 }
 
 async function main() {
-  createADeploymentThatWillDeployATemplateWithAUriAndQueryString();
-  createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId();
-  createADeploymentThatWillRedeployAnotherDeploymentOnFailure();
-  createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure();
+  await createADeploymentThatWillDeployATemplateWithAUriAndQueryString();
+  await createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId();
+  await createADeploymentThatWillRedeployAnotherDeploymentOnFailure();
+  await createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure();
 }
 
 main().catch(console.error);

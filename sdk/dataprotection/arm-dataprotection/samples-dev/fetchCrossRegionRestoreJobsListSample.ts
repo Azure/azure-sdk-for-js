@@ -47,7 +47,7 @@ async function listCrossRegionRestoreJobs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCrossRegionRestoreJobs();
+  await listCrossRegionRestoreJobs();
 }
 
 main().catch(console.error);

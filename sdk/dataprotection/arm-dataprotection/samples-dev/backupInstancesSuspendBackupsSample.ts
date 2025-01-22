@@ -72,8 +72,8 @@ async function suspendBackupsWithMua(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  suspendBackups();
-  suspendBackupsWithMua();
+  await suspendBackups();
+  await suspendBackupsWithMua();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function sessionHostGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sessionHostGet();
+  await sessionHostGet();
 }
 
 main().catch(console.error);

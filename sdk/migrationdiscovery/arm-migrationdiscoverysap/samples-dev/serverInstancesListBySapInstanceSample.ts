@@ -42,7 +42,7 @@ async function listsTheServerInstanceResourcesForTheGivenSapInstanceResource() {
 }
 
 async function main() {
-  listsTheServerInstanceResourcesForTheGivenSapInstanceResource();
+  await listsTheServerInstanceResourcesForTheGivenSapInstanceResource();
 }
 
 main().catch(console.error);

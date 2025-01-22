@@ -81,8 +81,8 @@ async function listManagedDatabaseColumns() {
 }
 
 async function main() {
-  filterManagedDatabaseColumns();
-  listManagedDatabaseColumns();
+  await filterManagedDatabaseColumns();
+  await listManagedDatabaseColumns();
 }
 
 main().catch(console.error);

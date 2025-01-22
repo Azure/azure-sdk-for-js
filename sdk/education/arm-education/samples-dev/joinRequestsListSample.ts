@@ -44,7 +44,7 @@ async function joinRequestList() {
 }
 
 async function main() {
-  joinRequestList();
+  await joinRequestList();
 }
 
 main().catch(console.error);

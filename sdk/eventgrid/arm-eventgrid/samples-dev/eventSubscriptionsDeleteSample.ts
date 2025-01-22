@@ -90,10 +90,10 @@ async function eventSubscriptionsDeleteForSubscription() {
 }
 
 async function main() {
-  eventSubscriptionsDeleteForCustomTopic();
-  eventSubscriptionsDeleteForResource();
-  eventSubscriptionsDeleteForResourceGroup();
-  eventSubscriptionsDeleteForSubscription();
+  await eventSubscriptionsDeleteForCustomTopic();
+  await eventSubscriptionsDeleteForResource();
+  await eventSubscriptionsDeleteForResourceGroup();
+  await eventSubscriptionsDeleteForSubscription();
 }
 
 main().catch(console.error);

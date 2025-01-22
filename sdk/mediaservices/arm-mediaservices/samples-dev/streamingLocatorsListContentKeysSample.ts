@@ -39,7 +39,7 @@ async function listContentKeys() {
 }
 
 async function main() {
-  listContentKeys();
+  await listContentKeys();
 }
 
 main().catch(console.error);

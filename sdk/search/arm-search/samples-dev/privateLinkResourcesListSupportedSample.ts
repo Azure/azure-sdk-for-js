@@ -37,7 +37,7 @@ async function listSupportedPrivateLinkResources() {
 }
 
 async function main() {
-  listSupportedPrivateLinkResources();
+  await listSupportedPrivateLinkResources();
 }
 
 main().catch(console.error);

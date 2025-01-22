@@ -33,7 +33,7 @@ async function listVMSkus() {
 }
 
 async function main() {
-  listVMSkus();
+  await listVMSkus();
 }
 
 main().catch(console.error);

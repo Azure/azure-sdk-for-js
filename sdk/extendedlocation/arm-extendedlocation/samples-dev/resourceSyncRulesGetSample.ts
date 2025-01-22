@@ -42,7 +42,7 @@ async function getCustomLocation() {
 }
 
 async function main() {
-  getCustomLocation();
+  await getCustomLocation();
 }
 
 main().catch(console.error);

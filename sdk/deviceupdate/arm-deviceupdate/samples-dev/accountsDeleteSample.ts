@@ -35,7 +35,7 @@ async function deletesAnAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletesAnAccount();
+  await deletesAnAccount();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function volumesSplitClone() {
 }
 
 async function main() {
-  volumesSplitClone();
+  await volumesSplitClone();
 }
 
 main().catch(console.error);

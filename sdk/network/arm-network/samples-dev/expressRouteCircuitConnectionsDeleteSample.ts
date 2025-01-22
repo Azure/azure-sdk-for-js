@@ -38,7 +38,7 @@ async function deleteExpressRouteCircuit() {
 }
 
 async function main() {
-  deleteExpressRouteCircuit();
+  await deleteExpressRouteCircuit();
 }
 
 main().catch(console.error);

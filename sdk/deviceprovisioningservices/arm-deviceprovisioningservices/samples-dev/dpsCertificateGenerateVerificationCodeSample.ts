@@ -40,7 +40,7 @@ async function dpsGenerateVerificationCode(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsGenerateVerificationCode();
+  await dpsGenerateVerificationCode();
 }
 
 main().catch(console.error);

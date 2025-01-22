@@ -38,7 +38,7 @@ async function ehAliasFailOver() {
 }
 
 async function main() {
-  ehAliasFailOver();
+  await ehAliasFailOver();
 }
 
 main().catch(console.error);

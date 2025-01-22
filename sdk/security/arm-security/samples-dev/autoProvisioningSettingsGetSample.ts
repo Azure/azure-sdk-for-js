@@ -32,7 +32,7 @@ async function getAnAutoProvisioningSettingForSubscription() {
 }
 
 async function main() {
-  getAnAutoProvisioningSettingForSubscription();
+  await getAnAutoProvisioningSettingForSubscription();
 }
 
 main().catch(console.error);

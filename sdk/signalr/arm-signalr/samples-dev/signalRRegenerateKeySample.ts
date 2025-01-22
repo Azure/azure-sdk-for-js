@@ -42,7 +42,7 @@ async function signalRRegenerateKey() {
 }
 
 async function main() {
-  signalRRegenerateKey();
+  await signalRRegenerateKey();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function updateDnsForwardingRuleset() {
 }
 
 async function main() {
-  updateDnsForwardingRuleset();
+  await updateDnsForwardingRuleset();
 }
 
 main().catch(console.error);

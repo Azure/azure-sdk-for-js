@@ -40,7 +40,7 @@ async function volumesAuthorizeExternalReplication() {
 }
 
 async function main() {
-  volumesAuthorizeExternalReplication();
+  await volumesAuthorizeExternalReplication();
 }
 
 main().catch(console.error);

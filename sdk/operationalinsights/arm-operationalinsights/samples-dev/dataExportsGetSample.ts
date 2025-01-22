@@ -42,7 +42,7 @@ async function dataExportGet() {
 }
 
 async function main() {
-  dataExportGet();
+  await dataExportGet();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function nameSpaceGet() {
 }
 
 async function main() {
-  nameSpaceGet();
+  await nameSpaceGet();
 }
 
 main().catch(console.error);

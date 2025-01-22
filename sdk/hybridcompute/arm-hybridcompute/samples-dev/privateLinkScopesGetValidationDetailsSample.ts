@@ -36,7 +36,7 @@ async function privateLinkScopeGet() {
 }
 
 async function main() {
-  privateLinkScopeGet();
+  await privateLinkScopeGet();
 }
 
 main().catch(console.error);

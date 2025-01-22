@@ -40,7 +40,7 @@ async function productsListByCatalog() {
 }
 
 async function main() {
-  productsListByCatalog();
+  await productsListByCatalog();
 }
 
 main().catch(console.error);

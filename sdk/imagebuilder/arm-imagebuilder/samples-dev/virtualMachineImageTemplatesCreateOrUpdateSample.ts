@@ -204,8 +204,8 @@ async function createAnImageTemplateForWindows() {
 }
 
 async function main() {
-  createAnImageTemplateForLinux();
-  createAnImageTemplateForWindows();
+  await createAnImageTemplateForLinux();
+  await createAnImageTemplateForWindows();
 }
 
 main().catch(console.error);

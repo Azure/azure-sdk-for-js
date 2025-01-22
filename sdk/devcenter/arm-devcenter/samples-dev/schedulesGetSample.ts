@@ -38,7 +38,7 @@ async function schedulesGetByPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  schedulesGetByPool();
+  await schedulesGetByPool();
 }
 
 main().catch(console.error);

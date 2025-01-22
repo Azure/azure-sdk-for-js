@@ -39,7 +39,7 @@ async function deleteMobileNetworkSite() {
 }
 
 async function main() {
-  deleteMobileNetworkSite();
+  await deleteMobileNetworkSite();
 }
 
 main().catch(console.error);

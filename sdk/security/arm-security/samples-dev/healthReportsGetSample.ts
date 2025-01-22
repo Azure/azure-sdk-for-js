@@ -31,7 +31,7 @@ async function getHealthReportOfResource() {
 }
 
 async function main() {
-  getHealthReportOfResource();
+  await getHealthReportOfResource();
 }
 
 main().catch(console.error);

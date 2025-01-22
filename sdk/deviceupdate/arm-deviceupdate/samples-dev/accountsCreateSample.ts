@@ -50,7 +50,7 @@ async function createsOrUpdatesAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createsOrUpdatesAccount();
+  await createsOrUpdatesAccount();
 }
 
 main().catch(console.error);

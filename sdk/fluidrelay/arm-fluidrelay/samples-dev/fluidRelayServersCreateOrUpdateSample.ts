@@ -121,9 +121,9 @@ async function createAFluidRelayServerWithCmk() {
 }
 
 async function main() {
-  createAFluidRelayServer();
-  createAFluidRelayServerWithAmi();
-  createAFluidRelayServerWithCmk();
+  await createAFluidRelayServer();
+  await createAFluidRelayServerWithAmi();
+  await createAFluidRelayServerWithCmk();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function listForwardingRulesInADnsForwardingRuleset() {
 }
 
 async function main() {
-  listForwardingRulesInADnsForwardingRuleset();
+  await listForwardingRulesInADnsForwardingRuleset();
 }
 
 main().catch(console.error);

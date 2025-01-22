@@ -6,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  CloudServiceUpdate,
-  CloudServicesUpdateOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { CloudServiceUpdate, CloudServicesUpdateOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -20,13 +15,11 @@ import "dotenv/config";
  * This sample demonstrates how to Update a cloud service.
  *
  * @summary Update a cloud service.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Update_ToIncludeTags.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-09-04/examples/CloudService_Update_ToIncludeTags.json
  */
 async function updateExistingCloudServiceToAddTags(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters: CloudServiceUpdate = { tags: { documentation: "RestAPI" } };
   const options: CloudServicesUpdateOptionalParams = { parameters };
@@ -41,7 +34,7 @@ async function updateExistingCloudServiceToAddTags(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateExistingCloudServiceToAddTags();
+  await updateExistingCloudServiceToAddTags();
 }
 
 main().catch(console.error);

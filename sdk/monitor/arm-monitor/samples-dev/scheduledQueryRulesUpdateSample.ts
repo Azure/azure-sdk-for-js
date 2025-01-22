@@ -42,7 +42,7 @@ async function createOrUpdateAScheduledQueryRule() {
 }
 
 async function main() {
-  createOrUpdateAScheduledQueryRule();
+  await createOrUpdateAScheduledQueryRule();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function getADnsPrivateViewByName() {
 }
 
 async function main() {
-  getADnsPrivateViewByName();
+  await getADnsPrivateViewByName();
 }
 
 main().catch(console.error);

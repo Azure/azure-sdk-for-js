@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Assess patches on the VM.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AssessPatches.json
  */
-async function assessPatchStateOfAVirtualMachine() {
+async function assessPatchStateOfAVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function assessPatchStateOfAVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   assessPatchStateOfAVirtualMachine();
 }
 

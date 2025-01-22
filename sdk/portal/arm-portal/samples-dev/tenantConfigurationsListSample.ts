@@ -34,7 +34,7 @@ async function getListOfTenantConfigurations() {
 }
 
 async function main() {
-  getListOfTenantConfigurations();
+  await getListOfTenantConfigurations();
 }
 
 main().catch(console.error);

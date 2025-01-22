@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists diskRestorePoints under a vmRestorePoint.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
  */
-async function getAnIncrementalDiskRestorePointResource() {
+async function getAnIncrementalDiskRestorePointResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function getAnIncrementalDiskRestorePointResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAnIncrementalDiskRestorePointResource();
 }
 

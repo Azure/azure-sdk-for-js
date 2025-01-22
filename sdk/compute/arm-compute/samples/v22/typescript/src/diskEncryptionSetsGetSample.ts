@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
  */
-async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() {
+async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() 
  * @summary Gets information about a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
  */
-async function getInformationAboutADiskEncryptionSet() {
+async function getInformationAboutADiskEncryptionSet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -54,7 +54,7 @@ async function getInformationAboutADiskEncryptionSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed();
   getInformationAboutADiskEncryptionSet();
 }

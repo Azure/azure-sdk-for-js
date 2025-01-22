@@ -49,7 +49,7 @@ async function solutionCreate() {
 }
 
 async function main() {
-  solutionCreate();
+  await solutionCreate();
 }
 
 main().catch(console.error);

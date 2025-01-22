@@ -48,7 +48,7 @@ async function exportsTheDetailsOfTheAzureSiteRecoveryJobsOfTheVault() {
 }
 
 async function main() {
-  exportsTheDetailsOfTheAzureSiteRecoveryJobsOfTheVault();
+  await exportsTheDetailsOfTheAzureSiteRecoveryJobsOfTheVault();
 }
 
 main().catch(console.error);

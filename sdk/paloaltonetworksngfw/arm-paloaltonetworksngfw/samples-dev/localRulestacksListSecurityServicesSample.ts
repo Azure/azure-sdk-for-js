@@ -73,8 +73,8 @@ async function localRulestacksListSecurityServicesMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksListSecurityServicesMaximumSetGen();
-  localRulestacksListSecurityServicesMinimumSetGen();
+  await localRulestacksListSecurityServicesMaximumSetGen();
+  await localRulestacksListSecurityServicesMinimumSetGen();
 }
 
 main().catch(console.error);

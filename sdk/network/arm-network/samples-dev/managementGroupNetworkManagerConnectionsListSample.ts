@@ -34,7 +34,7 @@ async function listManagementGroupNetworkManagerConnection() {
 }
 
 async function main() {
-  listManagementGroupNetworkManagerConnection();
+  await listManagementGroupNetworkManagerConnection();
 }
 
 main().catch(console.error);

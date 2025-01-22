@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Attach and detach data disks to/from a virtual machine in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen() {
+async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -82,7 +82,7 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen() {
  * @summary Attach and detach data disks to/from a virtual machine in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen() {
+async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -115,7 +115,7 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen();
   virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen();
 }

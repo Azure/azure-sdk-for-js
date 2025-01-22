@@ -36,7 +36,7 @@ async function environmentTypesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentTypesGet();
+  await environmentTypesGet();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function updateAttachedDataNetworkTags() {
 }
 
 async function main() {
-  updateAttachedDataNetworkTags();
+  await updateAttachedDataNetworkTags();
 }
 
 main().catch(console.error);

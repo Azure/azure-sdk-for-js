@@ -108,9 +108,9 @@ async function putADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty()
 }
 
 async function main(): Promise<void> {
-  putADigitalTwinsInstanceResource();
-  putADigitalTwinsInstanceResourceWithIdentity();
-  putADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty();
+  await putADigitalTwinsInstanceResource();
+  await putADigitalTwinsInstanceResourceWithIdentity();
+  await putADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty();
 }
 
 main().catch(console.error);

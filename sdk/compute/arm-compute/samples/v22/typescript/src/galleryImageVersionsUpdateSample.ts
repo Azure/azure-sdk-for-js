@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update_RestoreSoftDeleted.json
  */
-async function restoreASoftDeletedGalleryImageVersion() {
+async function restoreASoftDeletedGalleryImageVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -51,7 +51,7 @@ async function restoreASoftDeletedGalleryImageVersion() {
  * @summary Update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update.json
  */
-async function updateASimpleGalleryImageVersionManagedImageAsSource() {
+async function updateASimpleGalleryImageVersionManagedImageAsSource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -94,7 +94,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
  * @summary Update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
  */
-async function updateASimpleGalleryImageVersionWithoutSourceId() {
+async function updateASimpleGalleryImageVersionWithoutSourceId(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -127,7 +127,7 @@ async function updateASimpleGalleryImageVersionWithoutSourceId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   restoreASoftDeletedGalleryImageVersion();
   updateASimpleGalleryImageVersionManagedImageAsSource();
   updateASimpleGalleryImageVersionWithoutSourceId();

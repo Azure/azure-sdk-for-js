@@ -37,7 +37,7 @@ async function credentialsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  credentialsGet();
+  await credentialsGet();
 }
 
 main().catch(console.error);

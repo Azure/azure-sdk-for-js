@@ -34,7 +34,7 @@ async function deployFirewallPolicyDraft() {
 }
 
 async function main() {
-  deployFirewallPolicyDraft();
+  await deployFirewallPolicyDraft();
 }
 
 main().catch(console.error);

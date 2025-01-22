@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Deallocate_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMDeallocateMaximumSetGen() {
+async function virtualMachineScaleSetVMDeallocateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function virtualMachineScaleSetVMDeallocateMaximumSetGen() {
  * @summary Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Deallocate_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMDeallocateMinimumSetGen() {
+async function virtualMachineScaleSetVMDeallocateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -58,7 +58,7 @@ async function virtualMachineScaleSetVMDeallocateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetVMDeallocateMaximumSetGen();
   virtualMachineScaleSetVMDeallocateMinimumSetGen();
 }

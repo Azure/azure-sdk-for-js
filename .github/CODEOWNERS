@@ -151,7 +151,7 @@
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/azure-health-deidentification/ @GrahamMThomas @alexathomases
+/sdk/healthdataaiservices/ @GrahamMThomas @alexathomases @Azure/healthdatadeidentification
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity

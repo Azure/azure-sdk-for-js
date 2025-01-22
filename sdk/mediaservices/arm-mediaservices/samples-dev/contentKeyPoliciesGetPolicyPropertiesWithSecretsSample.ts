@@ -39,7 +39,7 @@ async function getAnContentKeyPolicyWithSecrets() {
 }
 
 async function main() {
-  getAnContentKeyPolicyWithSecrets();
+  await getAnContentKeyPolicyWithSecrets();
 }
 
 main().catch(console.error);

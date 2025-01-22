@@ -40,7 +40,7 @@ async function networkRacksDeleteMaximumSetGen() {
 }
 
 async function main() {
-  networkRacksDeleteMaximumSetGen();
+  await networkRacksDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

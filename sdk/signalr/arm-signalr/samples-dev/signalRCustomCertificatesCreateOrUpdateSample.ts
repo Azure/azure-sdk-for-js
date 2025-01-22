@@ -45,7 +45,7 @@ async function signalRCustomCertificatesCreateOrUpdate() {
 }
 
 async function main() {
-  signalRCustomCertificatesCreateOrUpdate();
+  await signalRCustomCertificatesCreateOrUpdate();
 }
 
 main().catch(console.error);

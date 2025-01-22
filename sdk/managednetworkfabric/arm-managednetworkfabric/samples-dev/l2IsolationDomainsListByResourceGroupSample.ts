@@ -41,7 +41,7 @@ async function l2IsolationDomainsListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  l2IsolationDomainsListByResourceGroupMaximumSetGen();
+  await l2IsolationDomainsListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

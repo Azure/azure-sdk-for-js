@@ -50,7 +50,7 @@ async function triggerRunsQueryByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerRunsQueryByFactory();
+  await triggerRunsQueryByFactory();
 }
 
 main().catch(console.error);

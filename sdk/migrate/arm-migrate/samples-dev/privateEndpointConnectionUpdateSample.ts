@@ -58,7 +58,7 @@ async function privateEndpointConnectionsCreate() {
 }
 
 async function main() {
-  privateEndpointConnectionsCreate();
+  await privateEndpointConnectionsCreate();
 }
 
 main().catch(console.error);

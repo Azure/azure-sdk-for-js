@@ -47,7 +47,7 @@ async function createOrUpdateDataCollectionEndpoint() {
 }
 
 async function main() {
-  createOrUpdateDataCollectionEndpoint();
+  await createOrUpdateDataCollectionEndpoint();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function triggerDataMove() {
 }
 
 async function main() {
-  triggerDataMove();
+  await triggerDataMove();
 }
 
 main().catch(console.error);

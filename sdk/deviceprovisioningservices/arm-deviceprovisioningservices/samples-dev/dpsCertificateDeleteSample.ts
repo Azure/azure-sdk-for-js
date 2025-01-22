@@ -40,7 +40,7 @@ async function dpsDeleteCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsDeleteCertificate();
+  await dpsDeleteCertificate();
 }
 
 main().catch(console.error);

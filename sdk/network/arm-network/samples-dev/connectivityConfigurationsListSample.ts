@@ -40,7 +40,7 @@ async function connectivityConfigurationsList() {
 }
 
 async function main() {
-  connectivityConfigurationsList();
+  await connectivityConfigurationsList();
 }
 
 main().catch(console.error);

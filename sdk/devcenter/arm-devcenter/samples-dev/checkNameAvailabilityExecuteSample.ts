@@ -38,7 +38,7 @@ async function nameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameAvailability();
+  await nameAvailability();
 }
 
 main().catch(console.error);

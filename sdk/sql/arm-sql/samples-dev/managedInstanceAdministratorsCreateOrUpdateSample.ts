@@ -82,8 +82,8 @@ async function updateAdministratorOfManagedInstance() {
 }
 
 async function main() {
-  createAdministratorOfManagedInstance();
-  updateAdministratorOfManagedInstance();
+  await createAdministratorOfManagedInstance();
+  await updateAdministratorOfManagedInstance();
 }
 
 main().catch(console.error);

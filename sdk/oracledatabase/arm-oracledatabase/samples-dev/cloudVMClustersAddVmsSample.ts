@@ -42,7 +42,7 @@ async function addVMSToVMCluster() {
 }
 
 async function main() {
-  addVMSToVMCluster();
+  await addVMSToVMCluster();
 }
 
 main().catch(console.error);

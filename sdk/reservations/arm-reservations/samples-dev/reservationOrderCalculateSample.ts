@@ -41,7 +41,7 @@ async function calculatePrice() {
 }
 
 async function main() {
-  calculatePrice();
+  await calculatePrice();
 }
 
 main().catch(console.error);

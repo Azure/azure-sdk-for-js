@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GalleryInVMAccessControlProfile,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { GalleryInVMAccessControlProfile } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +18,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfile_Create.json
  */
 async function createOrUpdateAGalleryInVMAccessControlProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const inVMAccessControlProfileName = "myInVMAccessControlProfileName";
   const galleryInVMAccessControlProfile: GalleryInVMAccessControlProfile = {
@@ -34,18 +28,17 @@ async function createOrUpdateAGalleryInVMAccessControlProfile(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.galleryInVMAccessControlProfiles.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      galleryName,
-      inVMAccessControlProfileName,
-      galleryInVMAccessControlProfile,
-    );
+  const result = await client.galleryInVMAccessControlProfiles.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    galleryName,
+    inVMAccessControlProfileName,
+    galleryInVMAccessControlProfile,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAGalleryInVMAccessControlProfile();
+  await createOrUpdateAGalleryInVMAccessControlProfile();
 }
 
 main().catch(console.error);

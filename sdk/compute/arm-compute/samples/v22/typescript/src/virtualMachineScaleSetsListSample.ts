@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of all VM scale sets under a resource group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetListMaximumSetGen() {
+async function virtualMachineScaleSetListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -40,7 +40,7 @@ async function virtualMachineScaleSetListMaximumSetGen() {
  * @summary Gets a list of all VM scale sets under a resource group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetListMinimumSetGen() {
+async function virtualMachineScaleSetListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,7 +56,7 @@ async function virtualMachineScaleSetListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetListMaximumSetGen();
   virtualMachineScaleSetListMinimumSetGen();
 }

@@ -44,7 +44,7 @@ async function deleteRegistryDataVersionBase() {
 }
 
 async function main() {
-  deleteRegistryDataVersionBase();
+  await deleteRegistryDataVersionBase();
 }
 
 main().catch(console.error);

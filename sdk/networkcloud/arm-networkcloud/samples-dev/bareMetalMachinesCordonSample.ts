@@ -48,7 +48,7 @@ async function cordonBareMetalMachine() {
 }
 
 async function main() {
-  cordonBareMetalMachine();
+  await cordonBareMetalMachine();
 }
 
 main().catch(console.error);

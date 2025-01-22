@@ -34,7 +34,7 @@ async function getSecurityAlertsOnASubscription() {
 }
 
 async function main() {
-  getSecurityAlertsOnASubscription();
+  await getSecurityAlertsOnASubscription();
 }
 
 main().catch(console.error);

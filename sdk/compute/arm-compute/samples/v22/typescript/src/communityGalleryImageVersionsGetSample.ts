@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a community gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
  */
-async function getACommunityGalleryImageVersion() {
+async function getACommunityGalleryImageVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
@@ -36,7 +36,7 @@ async function getACommunityGalleryImageVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getACommunityGalleryImageVersion();
 }
 

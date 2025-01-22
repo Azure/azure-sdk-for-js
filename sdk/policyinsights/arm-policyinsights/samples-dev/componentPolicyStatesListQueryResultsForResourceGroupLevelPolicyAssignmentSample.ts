@@ -37,7 +37,7 @@ async function queryLatestAtResourceGroupLevelPolicyAssignmentScope() {
 }
 
 async function main() {
-  queryLatestAtResourceGroupLevelPolicyAssignmentScope();
+  await queryLatestAtResourceGroupLevelPolicyAssignmentScope();
 }
 
 main().catch(console.error);

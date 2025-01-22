@@ -34,7 +34,7 @@ async function listFluidRelayServerOperations() {
 }
 
 async function main() {
-  listFluidRelayServerOperations();
+  await listFluidRelayServerOperations();
 }
 
 main().catch(console.error);

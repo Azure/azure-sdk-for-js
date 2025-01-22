@@ -44,7 +44,7 @@ async function backupsUnderAccountMigrate() {
 }
 
 async function main() {
-  backupsUnderAccountMigrate();
+  await backupsUnderAccountMigrate();
 }
 
 main().catch(console.error);

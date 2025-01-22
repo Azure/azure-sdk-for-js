@@ -31,7 +31,7 @@ async function vpnSiteGet() {
 }
 
 async function main() {
-  vpnSiteGet();
+  await vpnSiteGet();
 }
 
 main().catch(console.error);

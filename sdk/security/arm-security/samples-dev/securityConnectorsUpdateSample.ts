@@ -54,7 +54,7 @@ async function updateASecurityConnector() {
 }
 
 async function main() {
-  updateASecurityConnector();
+  await updateASecurityConnector();
 }
 
 main().catch(console.error);

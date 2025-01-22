@@ -39,7 +39,7 @@ async function deleteAnIncident() {
 }
 
 async function main() {
-  deleteAnIncident();
+  await deleteAnIncident();
 }
 
 main().catch(console.error);

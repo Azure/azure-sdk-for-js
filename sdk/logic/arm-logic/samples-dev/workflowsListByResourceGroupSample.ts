@@ -38,7 +38,7 @@ async function listAllWorkflowsInAResourceGroup() {
 }
 
 async function main() {
-  listAllWorkflowsInAResourceGroup();
+  await listAllWorkflowsInAResourceGroup();
 }
 
 main().catch(console.error);
