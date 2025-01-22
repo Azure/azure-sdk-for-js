@@ -116,7 +116,10 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     scope: string,
     options?: QuotaRequestStatusGetOptionalParams,
   ): Promise<QuotaRequestStatusGetResponse> {
-    return this.client.sendOperationRequest({ id, scope, options }, getOperationSpec);
+    return this.client.sendOperationRequest(
+      { id, scope, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -133,7 +136,10 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     scope: string,
     options?: QuotaRequestStatusListOptionalParams,
   ): Promise<QuotaRequestStatusListResponse> {
-    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { scope, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -151,7 +157,10 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     nextLink: string,
     options?: QuotaRequestStatusListNextOptionalParams,
   ): Promise<QuotaRequestStatusListNextResponse> {
-    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { scope, nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications

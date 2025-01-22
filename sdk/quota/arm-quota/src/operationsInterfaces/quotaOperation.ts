@@ -16,5 +16,7 @@ export interface QuotaOperation {
    * List all the operations supported by the Microsoft.Quota resource provider.
    * @param options The options parameters.
    */
-  list(options?: QuotaOperationListOptionalParams): PagedAsyncIterableIterator<OperationResponse>;
+  list(
+    options?: QuotaOperationListOptionalParams,
+  ): PagedAsyncIterableIterator<OperationResponse>;
 }

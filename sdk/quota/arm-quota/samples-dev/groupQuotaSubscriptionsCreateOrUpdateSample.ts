@@ -18,24 +18,26 @@ dotenv.config();
  * This sample demonstrates how to Adds a subscription to GroupQuotas. The subscriptions will be validated based on the additionalAttributes defined in the GroupQuota. The additionalAttributes works as filter for the subscriptions, which can be included in the GroupQuotas. The request's TenantId is validated against the subscription's TenantId.
  *
  * @summary Adds a subscription to GroupQuotas. The subscriptions will be validated based on the additionalAttributes defined in the GroupQuota. The additionalAttributes works as filter for the subscriptions, which can be included in the GroupQuotas. The request's TenantId is validated against the subscription's TenantId.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotasSubscriptions/PutGroupQuotasSubscription.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GroupQuotasSubscriptions/PutGroupQuotasSubscription.json
  */
 async function groupQuotaSubscriptionsPutSubscriptions() {
   const subscriptionId =
-    process.env["QUOTA_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+    process.env["QUOTA_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
-  const result = await client.groupQuotaSubscriptions.beginCreateOrUpdateAndWait(
-    managementGroupId,
-    groupQuotaName,
-  );
+  const result =
+    await client.groupQuotaSubscriptions.beginCreateOrUpdateAndWait(
+      managementGroupId,
+      groupQuotaName,
+    );
   console.log(result);
 }
 
 async function main() {
-  await groupQuotaSubscriptionsPutSubscriptions();
+  groupQuotaSubscriptionsPutSubscriptions();
 }
 
 main().catch(console.error);

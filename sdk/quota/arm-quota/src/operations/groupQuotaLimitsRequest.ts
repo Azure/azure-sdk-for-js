@@ -13,15 +13,17 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   SubmittedResourceRequestStatus,
   GroupQuotaLimitsRequestListNextOptionalParams,
   GroupQuotaLimitsRequestListOptionalParams,
   GroupQuotaLimitsRequestListResponse,
-  GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
-  GroupQuotaLimitsRequestCreateOrUpdateResponse,
   GroupQuotaLimitsRequestUpdateOptionalParams,
   GroupQuotaLimitsRequestUpdateResponse,
   GroupQuotaLimitsRequestGetOptionalParams,
@@ -150,9 +152,9 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
   }
 
   /**
-   * Put the GroupQuota requests for a specific ResourceProvider/Location/Resource. the location and
-   * resourceName ("name": {"value" : "resourceName") properties are specified in the request body. Only
-   * 1 resource quota can be requested.
+   * Create the GroupQuota requests for a specific ResourceProvider/Location/Resource. The resourceName
+   * properties are specified in the request body. Only 1 resource quota can be requested. Please note
+   * that patch request creates a new groupQuota request.
    * Use the polling API - OperationsStatus URI specified in Azure-AsyncOperation header field, with
    * retry-after duration in seconds to check the intermediate status. This API provides the finals
    * status with the request details and status.
@@ -161,133 +163,14 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GroupQuotaLimitsRequestCreateOrUpdateResponse>,
-      GroupQuotaLimitsRequestCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<GroupQuotaLimitsRequestCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        managementGroupId,
-        groupQuotaName,
-        resourceProviderName,
-        resourceName,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      GroupQuotaLimitsRequestCreateOrUpdateResponse,
-      OperationState<GroupQuotaLimitsRequestCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Put the GroupQuota requests for a specific ResourceProvider/Location/Resource. the location and
-   * resourceName ("name": {"value" : "resourceName") properties are specified in the request body. Only
-   * 1 resource quota can be requested.
-   * Use the polling API - OperationsStatus URI specified in Azure-AsyncOperation header field, with
-   * retry-after duration in seconds to check the intermediate status. This API provides the finals
-   * status with the request details and status.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
-  ): Promise<GroupQuotaLimitsRequestCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      managementGroupId,
-      groupQuotaName,
-      resourceProviderName,
-      resourceName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Create the GroupQuota requests for a specific ResourceProvider/Location/Resource. the location and
-   * resourceName properties are specified in the request body. Only 1 resource quota can be requested.
-   * Please note that patch request creates a new groupQuota request.
-   * Use the polling API - OperationsStatus URI specified in Azure-AsyncOperation header field, with
-   * retry-after duration in seconds to check the intermediate status. This API provides the finals
-   * status with the request details and status.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   async beginUpdate(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
+    location: string,
     options?: GroupQuotaLimitsRequestUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -305,7 +188,8 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -338,7 +222,7 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
         managementGroupId,
         groupQuotaName,
         resourceProviderName,
-        resourceName,
+        location,
         options,
       },
       spec: updateOperationSpec,
@@ -356,9 +240,9 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
   }
 
   /**
-   * Create the GroupQuota requests for a specific ResourceProvider/Location/Resource. the location and
-   * resourceName properties are specified in the request body. Only 1 resource quota can be requested.
-   * Please note that patch request creates a new groupQuota request.
+   * Create the GroupQuota requests for a specific ResourceProvider/Location/Resource. The resourceName
+   * properties are specified in the request body. Only 1 resource quota can be requested. Please note
+   * that patch request creates a new groupQuota request.
    * Use the polling API - OperationsStatus URI specified in Azure-AsyncOperation header field, with
    * retry-after duration in seconds to check the intermediate status. This API provides the finals
    * status with the request details and status.
@@ -367,21 +251,21 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
+    location: string,
     options?: GroupQuotaLimitsRequestUpdateOptionalParams,
   ): Promise<GroupQuotaLimitsRequestUpdateResponse> {
     const poller = await this.beginUpdate(
       managementGroupId,
       groupQuotaName,
       resourceProviderName,
-      resourceName,
+      location,
       options,
     );
     return poller.pollUntilDone();
@@ -472,54 +356,21 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/groupQuotaRequests/{resourceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SubmittedResourceRequestStatus,
-    },
-    201: {
-      bodyMapper: Mappers.SubmittedResourceRequestStatus,
-    },
-    202: {
-      bodyMapper: Mappers.SubmittedResourceRequestStatus,
-    },
-    204: {
-      bodyMapper: Mappers.SubmittedResourceRequestStatus,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.groupQuotaRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-    Parameters.resourceProviderName,
-    Parameters.resourceName,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/groupQuotaRequests/{resourceName}",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/groupQuotaLimits/{location}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SubmittedResourceRequestStatus,
+      bodyMapper: Mappers.GroupQuotaLimitList,
     },
     201: {
-      bodyMapper: Mappers.SubmittedResourceRequestStatus,
+      bodyMapper: Mappers.GroupQuotaLimitList,
     },
     202: {
-      bodyMapper: Mappers.SubmittedResourceRequestStatus,
+      bodyMapper: Mappers.GroupQuotaLimitList,
     },
     204: {
-      bodyMapper: Mappers.SubmittedResourceRequestStatus,
+      bodyMapper: Mappers.GroupQuotaLimitList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -532,7 +383,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.managementGroupId,
     Parameters.groupQuotaName,
     Parameters.resourceProviderName,
-    Parameters.resourceName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",

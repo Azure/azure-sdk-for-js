@@ -13,19 +13,22 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   QuotaAllocationRequestStatus,
   GroupQuotaSubscriptionAllocationRequestListNextOptionalParams,
   GroupQuotaSubscriptionAllocationRequestListOptionalParams,
   GroupQuotaSubscriptionAllocationRequestListResponse,
-  GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
-  GroupQuotaSubscriptionAllocationRequestGetResponse,
-  GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
-  GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse,
+  SubscriptionQuotaAllocationsList,
   GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
   GroupQuotaSubscriptionAllocationRequestUpdateResponse,
+  GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
+  GroupQuotaSubscriptionAllocationRequestGetResponse,
   GroupQuotaSubscriptionAllocationRequestListNextResponse,
 } from "../models";
 
@@ -153,21 +156,156 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
   }
 
   /**
+   * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
+   * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
+   * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
+   * unused quota to group quota, which can be assigned to another subscriptions in the GroupQuota. User
+   * can collect unused quotas from multiple subscriptions within the groupQuota and assign the
+   * groupQuota to the subscription, where it's needed.
+   * @param managementGroupId Management Group Id.
+   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
+   *                       tenantId/MgId.
+   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
+   *                             Microsoft.Compute resource provider supports this API.
+   * @param location The name of the Azure region.
+   * @param allocateQuotaRequest Quota requests payload.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    managementGroupId: string,
+    groupQuotaName: string,
+    resourceProviderName: string,
+    location: string,
+    allocateQuotaRequest: SubscriptionQuotaAllocationsList,
+    options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GroupQuotaSubscriptionAllocationRequestUpdateResponse>,
+      GroupQuotaSubscriptionAllocationRequestUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        managementGroupId,
+        groupQuotaName,
+        resourceProviderName,
+        location,
+        allocateQuotaRequest,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      GroupQuotaSubscriptionAllocationRequestUpdateResponse,
+      OperationState<GroupQuotaSubscriptionAllocationRequestUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
+   * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
+   * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
+   * unused quota to group quota, which can be assigned to another subscriptions in the GroupQuota. User
+   * can collect unused quotas from multiple subscriptions within the groupQuota and assign the
+   * groupQuota to the subscription, where it's needed.
+   * @param managementGroupId Management Group Id.
+   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
+   *                       tenantId/MgId.
+   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
+   *                             Microsoft.Compute resource provider supports this API.
+   * @param location The name of the Azure region.
+   * @param allocateQuotaRequest Quota requests payload.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    managementGroupId: string,
+    groupQuotaName: string,
+    resourceProviderName: string,
+    location: string,
+    allocateQuotaRequest: SubscriptionQuotaAllocationsList,
+    options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
+  ): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse> {
+    const poller = await this.beginUpdate(
+      managementGroupId,
+      groupQuotaName,
+      resourceProviderName,
+      location,
+      allocateQuotaRequest,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Get the quota allocation request status for the subscriptionId by allocationId.
    * @param managementGroupId Management Group Id.
    * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
    *                       tenantId/MgId.
+   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
+   *                             Microsoft.Compute resource provider supports this API.
    * @param allocationId Request Id.
    * @param options The options parameters.
    */
   get(
     managementGroupId: string,
     groupQuotaName: string,
+    resourceProviderName: string,
     allocationId: string,
     options?: GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
   ): Promise<GroupQuotaSubscriptionAllocationRequestGetResponse> {
     return this.client.sendOperationRequest(
-      { managementGroupId, groupQuotaName, allocationId, options },
+      {
+        managementGroupId,
+        groupQuotaName,
+        resourceProviderName,
+        allocationId,
+        options,
+      },
       getOperationSpec,
     );
   }
@@ -207,252 +345,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
   }
 
   /**
-   * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
-   * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
-   * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
-   * unused quota to group quota, which can be assigned to another subscriptions in the GroupQuota.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param allocateQuotaRequest Quota requests payload.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    allocateQuotaRequest: QuotaAllocationRequestStatus,
-    options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>,
-      GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        managementGroupId,
-        groupQuotaName,
-        resourceProviderName,
-        resourceName,
-        allocateQuotaRequest,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse,
-      OperationState<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
-   * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
-   * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
-   * unused quota to group quota, which can be assigned to another subscriptions in the GroupQuota.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param allocateQuotaRequest Quota requests payload.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    allocateQuotaRequest: QuotaAllocationRequestStatus,
-    options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
-  ): Promise<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      managementGroupId,
-      groupQuotaName,
-      resourceProviderName,
-      resourceName,
-      allocateQuotaRequest,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
-   * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
-   * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
-   * unused quota to group quota, which can be assigned to another subscriptions in the GroupQuota. User
-   * can collect unused quotas from multiple subscriptions within the groupQuota and assign the
-   * groupQuota to the subscription, where it's needed.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param allocateQuotaRequest Quota requests payload.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    allocateQuotaRequest: QuotaAllocationRequestStatus,
-    options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GroupQuotaSubscriptionAllocationRequestUpdateResponse>,
-      GroupQuotaSubscriptionAllocationRequestUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        managementGroupId,
-        groupQuotaName,
-        resourceProviderName,
-        resourceName,
-        allocateQuotaRequest,
-        options,
-      },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      GroupQuotaSubscriptionAllocationRequestUpdateResponse,
-      OperationState<GroupQuotaSubscriptionAllocationRequestUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
-   * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
-   * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
-   * unused quota to group quota, which can be assigned to another subscriptions in the GroupQuota. User
-   * can collect unused quotas from multiple subscriptions within the groupQuota and assign the
-   * groupQuota to the subscription, where it's needed.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param allocateQuotaRequest Quota requests payload.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    allocateQuotaRequest: QuotaAllocationRequestStatus,
-    options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
-  ): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse> {
-    const poller = await this.beginUpdate(
-      managementGroupId,
-      groupQuotaName,
-      resourceProviderName,
-      resourceName,
-      allocateQuotaRequest,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListNext
    * @param managementGroupId Management Group Id.
    * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
@@ -484,8 +376,42 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocations/{location}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionQuotaAllocationsList,
+    },
+    201: {
+      bodyMapper: Mappers.SubscriptionQuotaAllocationsList,
+    },
+    202: {
+      bodyMapper: Mappers.SubscriptionQuotaAllocationsList,
+    },
+    204: {
+      bodyMapper: Mappers.SubscriptionQuotaAllocationsList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.allocateQuotaRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.managementGroupId,
+    Parameters.groupQuotaName,
+    Parameters.subscriptionId,
+    Parameters.resourceProviderName,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/quotaAllocationRequests/{allocationId}",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests/{allocationId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -501,6 +427,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.managementGroupId,
     Parameters.groupQuotaName,
     Parameters.subscriptionId,
+    Parameters.resourceProviderName,
     Parameters.allocationId,
   ],
   headerParameters: [Parameters.accept],
@@ -526,74 +453,6 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderName,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests/{resourceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QuotaAllocationRequestStatus,
-    },
-    201: {
-      bodyMapper: Mappers.QuotaAllocationRequestStatus,
-    },
-    202: {
-      bodyMapper: Mappers.QuotaAllocationRequestStatus,
-    },
-    204: {
-      bodyMapper: Mappers.QuotaAllocationRequestStatus,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.allocateQuotaRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-    Parameters.subscriptionId,
-    Parameters.resourceProviderName,
-    Parameters.resourceName,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests/{resourceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QuotaAllocationRequestStatus,
-    },
-    201: {
-      bodyMapper: Mappers.QuotaAllocationRequestStatus,
-    },
-    202: {
-      bodyMapper: Mappers.QuotaAllocationRequestStatus,
-    },
-    204: {
-      bodyMapper: Mappers.QuotaAllocationRequestStatus,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.allocateQuotaRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-    Parameters.subscriptionId,
-    Parameters.resourceProviderName,
-    Parameters.resourceName,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

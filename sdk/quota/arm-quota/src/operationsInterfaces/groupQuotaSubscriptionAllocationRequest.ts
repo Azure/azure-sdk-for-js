@@ -11,12 +11,11 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   QuotaAllocationRequestStatus,
   GroupQuotaSubscriptionAllocationRequestListOptionalParams,
-  GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
-  GroupQuotaSubscriptionAllocationRequestGetResponse,
-  GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
-  GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse,
+  SubscriptionQuotaAllocationsList,
   GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
   GroupQuotaSubscriptionAllocationRequestUpdateResponse,
+  GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
+  GroupQuotaSubscriptionAllocationRequestGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,69 +44,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
     options?: GroupQuotaSubscriptionAllocationRequestListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaAllocationRequestStatus>;
   /**
-   * Get the quota allocation request status for the subscriptionId by allocationId.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param allocationId Request Id.
-   * @param options The options parameters.
-   */
-  get(
-    managementGroupId: string,
-    groupQuotaName: string,
-    allocationId: string,
-    options?: GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
-  ): Promise<GroupQuotaSubscriptionAllocationRequestGetResponse>;
-  /**
-   * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
-   * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
-   * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
-   * unused quota to group quota, which can be assigned to another subscriptions in the GroupQuota.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param allocateQuotaRequest Quota requests payload.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    allocateQuotaRequest: QuotaAllocationRequestStatus,
-    options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>,
-      GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
-   * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
-   * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
-   * unused quota to group quota, which can be assigned to another subscriptions in the GroupQuota.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param allocateQuotaRequest Quota requests payload.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    allocateQuotaRequest: QuotaAllocationRequestStatus,
-    options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
-  ): Promise<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>;
-  /**
    * Request to assign quota from group quota to a specific Subscription. The assign GroupQuota to
    * subscriptions or reduce the quota allocated to subscription to give back the unused quota ( quota >=
    * usages) to the groupQuota. So, this API can be used to assign Quota to subscriptions and assign back
@@ -119,7 +55,7 @@ export interface GroupQuotaSubscriptionAllocationRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
+   * @param location The name of the Azure region.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -127,8 +63,8 @@ export interface GroupQuotaSubscriptionAllocationRequest {
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
-    allocateQuotaRequest: QuotaAllocationRequestStatus,
+    location: string,
+    allocateQuotaRequest: SubscriptionQuotaAllocationsList,
     options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -148,7 +84,7 @@ export interface GroupQuotaSubscriptionAllocationRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
+   * @param location The name of the Azure region.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -156,8 +92,25 @@ export interface GroupQuotaSubscriptionAllocationRequest {
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
-    allocateQuotaRequest: QuotaAllocationRequestStatus,
+    location: string,
+    allocateQuotaRequest: SubscriptionQuotaAllocationsList,
     options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
   ): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse>;
+  /**
+   * Get the quota allocation request status for the subscriptionId by allocationId.
+   * @param managementGroupId Management Group Id.
+   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
+   *                       tenantId/MgId.
+   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
+   *                             Microsoft.Compute resource provider supports this API.
+   * @param allocationId Request Id.
+   * @param options The options parameters.
+   */
+  get(
+    managementGroupId: string,
+    groupQuotaName: string,
+    resourceProviderName: string,
+    allocationId: string,
+    options?: GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
+  ): Promise<GroupQuotaSubscriptionAllocationRequestGetResponse>;
 }

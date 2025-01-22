@@ -8,18 +8,20 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   GroupQuotasImpl,
   GroupQuotaSubscriptionsImpl,
   GroupQuotaSubscriptionRequestsImpl,
-  GroupQuotaLimitsImpl,
   GroupQuotaLimitsRequestImpl,
-  GroupQuotaSubscriptionAllocationImpl,
+  GroupQuotaLimitsImpl,
   GroupQuotaSubscriptionAllocationRequestImpl,
-  GroupQuotaUsagesImpl,
-  GroupQuotaLocationSettingsImpl,
+  GroupQuotaSubscriptionAllocationImpl,
   UsagesImpl,
   QuotaImpl,
   QuotaRequestStatusImpl,
@@ -29,12 +31,10 @@ import {
   GroupQuotas,
   GroupQuotaSubscriptions,
   GroupQuotaSubscriptionRequests,
-  GroupQuotaLimits,
   GroupQuotaLimitsRequest,
-  GroupQuotaSubscriptionAllocation,
+  GroupQuotaLimits,
   GroupQuotaSubscriptionAllocationRequest,
-  GroupQuotaUsages,
-  GroupQuotaLocationSettings,
+  GroupQuotaSubscriptionAllocation,
   Usages,
   Quota,
   QuotaRequestStatus,
@@ -88,7 +88,7 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-quota/1.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-quota/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -100,7 +100,8 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -110,7 +111,8 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -126,9 +128,11 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -138,18 +142,17 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01-preview";
+    this.apiVersion = options.apiVersion || "2024-12-18-preview";
     this.groupQuotas = new GroupQuotasImpl(this);
     this.groupQuotaSubscriptions = new GroupQuotaSubscriptionsImpl(this);
-    this.groupQuotaSubscriptionRequests = new GroupQuotaSubscriptionRequestsImpl(this);
-    this.groupQuotaLimits = new GroupQuotaLimitsImpl(this);
+    this.groupQuotaSubscriptionRequests =
+      new GroupQuotaSubscriptionRequestsImpl(this);
     this.groupQuotaLimitsRequest = new GroupQuotaLimitsRequestImpl(this);
-    this.groupQuotaSubscriptionAllocation = new GroupQuotaSubscriptionAllocationImpl(this);
-    this.groupQuotaSubscriptionAllocationRequest = new GroupQuotaSubscriptionAllocationRequestImpl(
-      this,
-    );
-    this.groupQuotaUsages = new GroupQuotaUsagesImpl(this);
-    this.groupQuotaLocationSettings = new GroupQuotaLocationSettingsImpl(this);
+    this.groupQuotaLimits = new GroupQuotaLimitsImpl(this);
+    this.groupQuotaSubscriptionAllocationRequest =
+      new GroupQuotaSubscriptionAllocationRequestImpl(this);
+    this.groupQuotaSubscriptionAllocation =
+      new GroupQuotaSubscriptionAllocationImpl(this);
     this.usages = new UsagesImpl(this);
     this.quota = new QuotaImpl(this);
     this.quotaRequestStatus = new QuotaRequestStatusImpl(this);
@@ -164,7 +167,10 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -185,12 +191,10 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
   groupQuotas: GroupQuotas;
   groupQuotaSubscriptions: GroupQuotaSubscriptions;
   groupQuotaSubscriptionRequests: GroupQuotaSubscriptionRequests;
-  groupQuotaLimits: GroupQuotaLimits;
   groupQuotaLimitsRequest: GroupQuotaLimitsRequest;
-  groupQuotaSubscriptionAllocation: GroupQuotaSubscriptionAllocation;
+  groupQuotaLimits: GroupQuotaLimits;
   groupQuotaSubscriptionAllocationRequest: GroupQuotaSubscriptionAllocationRequest;
-  groupQuotaUsages: GroupQuotaUsages;
-  groupQuotaLocationSettings: GroupQuotaLocationSettings;
+  groupQuotaSubscriptionAllocation: GroupQuotaSubscriptionAllocation;
   usages: Usages;
   quota: Quota;
   quotaRequestStatus: QuotaRequestStatus;

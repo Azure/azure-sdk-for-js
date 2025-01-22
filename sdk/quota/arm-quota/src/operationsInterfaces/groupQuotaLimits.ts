@@ -6,62 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  GroupQuotaLimit,
   GroupQuotaLimitsListOptionalParams,
-  GroupQuotaLimitsGetOptionalParams,
-  GroupQuotaLimitsGetResponse,
+  GroupQuotaLimitsListResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a GroupQuotaLimits. */
 export interface GroupQuotaLimits {
   /**
-   * Gets the GroupQuotaLimits for the all resource for a specific  resourceProvider and $filter passed.
-   * The $filter=location eq {location} is required to location specific resources groupQuota.
+   * Gets the GroupQuotaLimits for the specified resource provider and location for resource names passed
+   * in $filter=resourceName eq {SKU}.
    * @param managementGroupId Management Group Id.
    * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param filter | Field | Supported operators
-   *               |---------------------|------------------------
-   *
-   *                location eq {location}
-   *                Example: $filter=location eq eastus
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   list(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    filter: string,
+    location: string,
     options?: GroupQuotaLimitsListOptionalParams,
-  ): PagedAsyncIterableIterator<GroupQuotaLimit>;
-  /**
-   * Gets the GroupQuotaLimits for the specific resource for a specific resource based on the
-   * resourceProviders, resourceName and $filter passed.
-   * The $filter=location eq {location} is required to location specific resources groupQuota.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
-   *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
-   * @param filter | Field | Supported operators
-   *               |---------------------|------------------------
-   *
-   *                location eq {location}
-   *                Example: $filter=location eq eastus
-   * @param options The options parameters.
-   */
-  get(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceProviderName: string,
-    resourceName: string,
-    filter: string,
-    options?: GroupQuotaLimitsGetOptionalParams,
-  ): Promise<GroupQuotaLimitsGetResponse>;
+  ): Promise<GroupQuotaLimitsListResponse>;
 }

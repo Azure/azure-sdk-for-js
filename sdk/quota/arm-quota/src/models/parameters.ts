@@ -14,9 +14,8 @@ import {
 import {
   GroupQuotasEntity as GroupQuotasEntityMapper,
   GroupQuotasEntityPatch as GroupQuotasEntityPatchMapper,
-  SubmittedResourceRequestStatus as SubmittedResourceRequestStatusMapper,
-  QuotaAllocationRequestStatus as QuotaAllocationRequestStatusMapper,
-  GroupQuotasEnforcementResponse as GroupQuotasEnforcementResponseMapper,
+  GroupQuotaLimitList as GroupQuotaLimitListMapper,
+  SubscriptionQuotaAllocationsList as SubscriptionQuotaAllocationsListMapper,
   CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper,
 } from "../models/mappers";
 
@@ -95,7 +94,7 @@ export const groupQuotaName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01-preview",
+    defaultValue: "2024-12-18-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -143,11 +142,18 @@ export const requestId: OperationURLParameter = {
   },
 };
 
+export const groupQuotaRequest: OperationParameter = {
+  parameterPath: ["options", "groupQuotaRequest"],
+  mapper: GroupQuotaLimitListMapper,
+};
+
 export const resourceProviderName: OperationURLParameter = {
   parameterPath: "resourceProviderName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\\.)+[a-zA-Z]{2,63}$"),
+      Pattern: new RegExp(
+        "^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\\.)+[a-zA-Z]{2,63}$",
+      ),
     },
     serializedName: "resourceProviderName",
     required: true,
@@ -157,15 +163,13 @@ export const resourceProviderName: OperationURLParameter = {
   },
 };
 
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
-      MaxLength: 63,
-      MinLength: 3,
+      MinLength: 1,
     },
-    serializedName: "resourceName",
+    serializedName: "location",
     required: true,
     type: {
       name: "String",
@@ -187,9 +191,9 @@ export const filter: OperationQueryParameter = {
   },
 };
 
-export const groupQuotaRequest: OperationParameter = {
-  parameterPath: ["options", "groupQuotaRequest"],
-  mapper: SubmittedResourceRequestStatusMapper,
+export const allocateQuotaRequest: OperationParameter = {
+  parameterPath: "allocateQuotaRequest",
+  mapper: SubscriptionQuotaAllocationsListMapper,
 };
 
 export const allocationId: OperationURLParameter = {
@@ -203,31 +207,7 @@ export const allocationId: OperationURLParameter = {
   },
 };
 
-export const allocateQuotaRequest: OperationParameter = {
-  parameterPath: "allocateQuotaRequest",
-  mapper: QuotaAllocationRequestStatusMapper,
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      MinLength: 1,
-    },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const locationSettings: OperationParameter = {
-  parameterPath: ["options", "locationSettings"],
-  mapper: GroupQuotasEnforcementResponseMapper,
-};
-
-export const resourceName1: OperationURLParameter = {
+export const resourceName: OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
     serializedName: "resourceName",

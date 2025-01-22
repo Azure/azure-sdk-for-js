@@ -6,26 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
 import { GroupQuotaSubscriptionAllocation } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
 import {
-  SubscriptionQuotaAllocations,
-  GroupQuotaSubscriptionAllocationListNextOptionalParams,
   GroupQuotaSubscriptionAllocationListOptionalParams,
   GroupQuotaSubscriptionAllocationListResponse,
-  GroupQuotaSubscriptionAllocationGetOptionalParams,
-  GroupQuotaSubscriptionAllocationGetResponse,
-  GroupQuotaSubscriptionAllocationListNextResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing GroupQuotaSubscriptionAllocation operations. */
-export class GroupQuotaSubscriptionAllocationImpl implements GroupQuotaSubscriptionAllocation {
+export class GroupQuotaSubscriptionAllocationImpl
+  implements GroupQuotaSubscriptionAllocation
+{
   private readonly client: AzureQuotaExtensionAPI;
 
   /**
@@ -37,158 +31,34 @@ export class GroupQuotaSubscriptionAllocationImpl implements GroupQuotaSubscript
   }
 
   /**
-   * Gets all the quota allocated to a subscription for the specific Resource Provider, Location. This
-   * will include the GroupQuota and total quota allocated to the subscription. Only the Group quota
-   * allocated to the subscription can be allocated back to the MG Group Quota. Use the $filter parameter
-   * to filter out the specific resource based on the ResourceProvider/Location. $filter is a required
-   * parameter.
+   * Gets all the quota allocated to a subscription for the specified resource provider and location for
+   * resource names passed in $filter=resourceName eq {SKU}. This will include the GroupQuota and total
+   * quota allocated to the subscription. Only the Group quota allocated to the subscription can be
+   * allocated back to the MG Group Quota.
    * @param managementGroupId Management Group Id.
    * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
    *                       tenantId/MgId.
-   * @param filter | Field | Supported operators
-   *               |---------------------|------------------------
-   *
-   *                location eq {location}
-   *                Example: $filter=location eq eastus
+   * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
+   *                             Microsoft.Compute resource provider supports this API.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  public list(
+  list(
     managementGroupId: string,
     groupQuotaName: string,
-    filter: string,
-    options?: GroupQuotaSubscriptionAllocationListOptionalParams,
-  ): PagedAsyncIterableIterator<SubscriptionQuotaAllocations> {
-    const iter = this.listPagingAll(managementGroupId, groupQuotaName, filter, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(managementGroupId, groupQuotaName, filter, options, settings);
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    managementGroupId: string,
-    groupQuotaName: string,
-    filter: string,
-    options?: GroupQuotaSubscriptionAllocationListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<SubscriptionQuotaAllocations[]> {
-    let result: GroupQuotaSubscriptionAllocationListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(managementGroupId, groupQuotaName, filter, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(managementGroupId, groupQuotaName, continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    managementGroupId: string,
-    groupQuotaName: string,
-    filter: string,
-    options?: GroupQuotaSubscriptionAllocationListOptionalParams,
-  ): AsyncIterableIterator<SubscriptionQuotaAllocations> {
-    for await (const page of this.listPagingPage(
-      managementGroupId,
-      groupQuotaName,
-      filter,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets all the quota allocated to a subscription for the specific Resource Provider, Location. This
-   * will include the GroupQuota and total quota allocated to the subscription. Only the Group quota
-   * allocated to the subscription can be allocated back to the MG Group Quota. Use the $filter parameter
-   * to filter out the specific resource based on the ResourceProvider/Location. $filter is a required
-   * parameter.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param filter | Field | Supported operators
-   *               |---------------------|------------------------
-   *
-   *                location eq {location}
-   *                Example: $filter=location eq eastus
-   * @param options The options parameters.
-   */
-  private _list(
-    managementGroupId: string,
-    groupQuotaName: string,
-    filter: string,
+    resourceProviderName: string,
+    location: string,
     options?: GroupQuotaSubscriptionAllocationListOptionalParams,
   ): Promise<GroupQuotaSubscriptionAllocationListResponse> {
     return this.client.sendOperationRequest(
-      { managementGroupId, groupQuotaName, filter, options },
+      {
+        managementGroupId,
+        groupQuotaName,
+        resourceProviderName,
+        location,
+        options,
+      },
       listOperationSpec,
-    );
-  }
-
-  /**
-   * Gets Quota allocated to a subscription for the specific Resource Provider, Location, ResourceName.
-   * This will include the GroupQuota and total quota allocated to the subscription. Only the Group quota
-   * allocated to the subscription can be allocated back to the MG Group Quota.
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param resourceName Resource name.
-   * @param filter | Field | Supported operators
-   *               |---------------------|------------------------
-   *
-   *                location eq {location}
-   *                Example: $filter=location eq eastus
-   * @param options The options parameters.
-   */
-  get(
-    managementGroupId: string,
-    groupQuotaName: string,
-    resourceName: string,
-    filter: string,
-    options?: GroupQuotaSubscriptionAllocationGetOptionalParams,
-  ): Promise<GroupQuotaSubscriptionAllocationGetResponse> {
-    return this.client.sendOperationRequest(
-      { managementGroupId, groupQuotaName, resourceName, filter, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * ListNext
-   * @param managementGroupId Management Group Id.
-   * @param groupQuotaName The GroupQuota name. The name should be unique for the provided context
-   *                       tenantId/MgId.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    managementGroupId: string,
-    groupQuotaName: string,
-    nextLink: string,
-    options?: GroupQuotaSubscriptionAllocationListNextOptionalParams,
-  ): Promise<GroupQuotaSubscriptionAllocationListNextResponse> {
-    return this.client.sendOperationRequest(
-      { managementGroupId, groupQuotaName, nextLink, options },
-      listNextOperationSpec,
     );
   }
 }
@@ -196,7 +66,7 @@ export class GroupQuotaSubscriptionAllocationImpl implements GroupQuotaSubscript
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/quotaAllocations",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocations/{location}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -206,55 +76,14 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupId,
     Parameters.groupQuotaName,
     Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/quotaAllocations/{resourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SubscriptionQuotaAllocations,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SubscriptionQuotaAllocationsList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
+    Parameters.resourceProviderName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
