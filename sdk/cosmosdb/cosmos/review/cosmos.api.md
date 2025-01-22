@@ -1933,9 +1933,7 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
-    consistencyLevel?: string;
     disableAutomaticIdGeneration?: boolean;
-    disableRUPerMinuteUsage?: boolean;
     enableScriptLogging?: boolean;
     indexingDirective?: string;
     offerThroughput?: number;
@@ -2197,6 +2195,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 export interface SharedOptions {
     abortSignal?: AbortSignal;
     bypassIntegratedCache?: boolean;
+    consistencyLevel?: string;
+    disableRUPerMinuteUsage?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
