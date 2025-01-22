@@ -8,7 +8,7 @@ import type { PluginConfig } from "./plugins/Plugin";
 import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import type { HttpClient } from "@azure/core-rest-pipeline";
-import { EncryptionKeyResolver, EncryptionTimeToLive } from "./encryption";
+import type { EncryptionPolicy } from "./encryption/EncryptionPolicy";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {
@@ -59,16 +59,11 @@ export interface CosmosClientOptions {
   /** A custom string to append to the default SDK user agent. */
   userAgentSuffix?: string;
   diagnosticLevel?: CosmosDbDiagnosticLevel;
-  /** boolean flag to support operations involving client side encryption */
-  enableEncryption?: boolean;
-  /** resolver that allows interaction with key encryption keys. */
-  keyEncryptionKeyResolver?: EncryptionKeyResolver;
-  /** time for which encryption keys and settings will be cached. Default is 2 hour */
-  encryptionKeyTimeToLive?: EncryptionTimeToLive;
-  /** name of the resolver to use for client side encryption.
-   * Currently only AzureKeyVault implementation is supported.
+  /** encryption policy for operations involving encryption
+   * must be set on the client if using client-side encryption
+   * @see {@link EncryptionPolicy}
    */
-  encryptionKeyResolverName?: string;
+  encryptionPolicy?: EncryptionPolicy;
   /** @internal */
   plugins?: PluginConfig[];
   /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */

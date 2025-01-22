@@ -790,12 +790,10 @@ export interface CosmosClientOptions {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     enableEncryption?: boolean;
     encryptionKeyResolverName?: string;
-    // (undocumented)
-    encryptionKeyTimeToLiveInHours?: number;
     endpoint?: string;
+    encryptionPolicy?: EncryptionPolicy;
     httpClient?: HttpClient;
     key?: string;
-    keyEncryptionKeyResolver?: EncryptionKeyResolver;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
         [resourcePath: string]: string;
@@ -1088,11 +1086,19 @@ export enum EncryptionKeyResolverName {
 
 // @public
 export class EncryptionKeyWrapMetadata {
-    constructor(type: EncryptionKeyResolverName, name: string, value: string, algorithm: KeyEncryptionKeyAlgorithm);
-    algorithm: KeyEncryptionKeyAlgorithm;
+    constructor(type: EncryptionKeyResolverName, name: string, value: string, algorithm: KeyEncryptionAlgorithm);
+    algorithm: KeyEncryptionAlgorithm;
     name: string;
     type: EncryptionKeyResolverName;
     value: string;
+}
+
+// @public
+export interface EncryptionPolicy {
+    enableEncryption: boolean;
+    encryptionKeyResolverName?: string;
+    encryptionKeyTimeToLive?: EncryptionTimeToLive;
+    keyEncryptionKeyResolver?: EncryptionKeyResolver;
 }
 
 // @public
@@ -1456,7 +1462,7 @@ export interface JSONObject {
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject | Date;
 
 // @public
-export enum KeyEncryptionKeyAlgorithm {
+export enum KeyEncryptionAlgorithm {
     RSA_OAEP = "RSA-OAEP"
 }
 

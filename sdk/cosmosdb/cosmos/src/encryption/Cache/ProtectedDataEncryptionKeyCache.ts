@@ -6,6 +6,11 @@ import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryp
 import type { KeyEncryptionKey } from "../KeyEncryptionKey";
 import { Constants } from "../../common";
 
+/**
+ * The cache used to store the protected data encryption key.
+ * see {@link ProtectedDataEncryptionKey}
+ * @hidden
+ */
 export class ProtectedDataEncryptionKeyCache {
   // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue.toString("hex")])
   private protectedDataEncryptionKeyCache: Map<string, [Date, ProtectedDataEncryptionKey]>;

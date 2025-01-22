@@ -4,6 +4,11 @@
 import type { EncryptionKeyStoreProvider } from "../EncryptionKeyStoreProvider";
 import { KeyEncryptionKey } from "../KeyEncryptionKey";
 
+/**
+ * The cache used to store the key encryption keys.
+ * see {@link KeyEncryptionKey}
+ * @hidden
+ */
 export class KeyEncryptionKeyCache {
   // key is JSON.stringify([name, path])
   public keyEncryptionKeyCache: Map<string, KeyEncryptionKey>;

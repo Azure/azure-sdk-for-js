@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
-import { KeyClient, KeyWrapAlgorithm } from "@azure/keyvault-keys";
+import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
+import type { KeyWrapAlgorithm } from "@azure/keyvault-keys";
+import { KeyClient } from "@azure/keyvault-keys";
 
 /**
  * Implementation of EncryptionKeyResolver that uses Azure Key Vault for customer managed keys.
@@ -16,6 +17,10 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
   }
   /**
    * wraps the given key using the specified key encryption key path and algorithm.
+   * @param encryptionKeyId - path to the customer managed key to be used for wrapping.
+   * @param algorithm - algorithm to be used for wrapping.
+   * @param key - dek to be wrapped.
+   * @returns wrapped DEK.
    */
   public async wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
     const origin = this.getOrigin(encryptionKeyId);
@@ -29,6 +34,10 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
   }
   /**
    * Unwraps the given wrapped key using the specified key encryption key path and algorithm.
+   * @param encryptionKeyId - path to the customer managed key to be used for unwrapping.
+   * @param algorithm - algorithm to be used for unwrapping.
+   * @param wrappedKey - wrapped DEK.
+   * @returns unwrapped DEK.
    */
   public async unwrapKey(
     encryptionKeyId: string,

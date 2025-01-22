@@ -5,6 +5,7 @@ import type { ClientEncryptionKeyProperties } from "../ClientEncryptionKey";
 
 /**
  * The cache used to store the properties of the client encryption key
+ * see {@link ClientEncryptionKeyProperties}
  * @hidden
  */
 

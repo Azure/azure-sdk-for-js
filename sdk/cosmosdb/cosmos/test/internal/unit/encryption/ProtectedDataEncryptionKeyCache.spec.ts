@@ -18,11 +18,11 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
   private keyInfo: { [key: string]: number } = {
     tempmetadata1: 1,
     tempmetadata2: 2,
-    "revokedKek-metadata": 3,
-    mymetadata1: 4,
-    mymetadata2: 5,
-    testmetadata1: 6,
-    metadataupdatedmetadata: 7,
+    revokedcmkpath: 3,
+    cmkpath3: 4,
+    cmkpath4: 5,
+    cmkpath5: 6,
+    cmkpath6: 7,
     metadataPath: 8,
   };
   revokeAccessSet = false;
@@ -31,7 +31,7 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
   }
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
     algorithm;
-    if (encryptionKeyId === "revokedKek-metadata" && this.revokeAccessSet) {
+    if (encryptionKeyId === "revokedcmkpath" && this.revokeAccessSet) {
       const errorResponse = new ErrorResponse("Forbidden");
       errorResponse.statusCode = StatusCodes.Forbidden;
       throw errorResponse;

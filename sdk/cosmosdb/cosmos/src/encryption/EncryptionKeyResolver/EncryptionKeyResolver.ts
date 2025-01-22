@@ -7,17 +7,17 @@
 export interface EncryptionKeyResolver {
   /**
    * Wraps the input key using the key encryption key.
-   * @param encryptionKeyId - Identifier of the key to be used for wrapping.
+   * @param encryptionKeyId - Identifier of the customer managed key to be used for wrapping.
    * @param algorithm - Algorithm to be used for wrapping.
-   * @param key - Key to be wrapped.
+   * @param key - Data Encryption Key to be wrapped.
    * @returns Wrapped key.
    */
   wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
   /**
    * Unwraps the input wrapped key using the key encryption key.
-   * @param encryptionKeyId - Identifier of the key to be used for unwrapping.
+   * @param encryptionKeyId - Identifier of the customer managed key to be used for unwrapping.
    * @param algorithm - Algorithm to be used for unwrapping.
-   * @param wrappedKey - wrapped key.
+   * @param wrappedKey - wrapped Data Encryption key.
    * @returns Unwrapped Key.
    */
   unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;

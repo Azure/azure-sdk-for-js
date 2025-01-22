@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyEncryptionKeyAlgorithm } from "./enums/KeyEncryptionKeyAlgorithm";
-import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
+import { KeyEncryptionAlgorithm } from "./enums/KeyEncryptionAlgorithm";
+import type { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
 /**
  * A wrapper class containing the info about the key-protecting key stored in an external key provider
  * and provides interface to wrap and unwrap the key.
  */
 export class KeyEncryptionKey {
-  private encryptionAlgorithm: KeyEncryptionKeyAlgorithm;
+  private encryptionAlgorithm: KeyEncryptionAlgorithm;
 
   public name: string;
 
@@ -20,7 +20,7 @@ export class KeyEncryptionKey {
     this.name = name;
     this.path = path;
     this.keyStoreProvider = keyStoreProvider;
-    this.encryptionAlgorithm = KeyEncryptionKeyAlgorithm.RSA_OAEP;
+    this.encryptionAlgorithm = KeyEncryptionAlgorithm.RSA_OAEP;
   }
 
   public async wrapEncryptionKey(plainTextEncryptionKey: Buffer): Promise<Buffer> {

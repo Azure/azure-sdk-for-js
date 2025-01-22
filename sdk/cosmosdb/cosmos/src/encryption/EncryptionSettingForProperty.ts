@@ -1,16 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
-import { ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
-import { EncryptionAlgorithm, EncryptionType } from "./enums";
+import type { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
+import type { ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
+import type { EncryptionAlgorithm, EncryptionType } from "./enums";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
-import { ProtectedDataEncryptionKey } from "./EncryptionKey";
-import { EncryptionManager } from "./EncryptionManager";
+import type { ProtectedDataEncryptionKey } from "./EncryptionKey";
+import type { EncryptionManager } from "./EncryptionManager";
 
+/**
+ * Represents the encryption setting for a property.
+ * @hidden
+ */
 export class EncryptionSettingForProperty {
+  // client encryption key id.
   encryptionKeyId: string;
+  // encryption type - Deterministic/Randomized.
   encryptionType: EncryptionType;
+  // encryption algorithm - AEAD_AES_256_CBC_HMAC_SHA256
   encryptionAlgorithm: EncryptionAlgorithm;
 
   constructor(clientEncryptionIncludedPath: ClientEncryptionIncludedPath) {
