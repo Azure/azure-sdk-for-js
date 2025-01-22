@@ -26,7 +26,7 @@ async function ispCacheNodesOperationsListByIspCustomerResource(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  ispCacheNodesOperationsListByIspCustomerResource();
+  await ispCacheNodesOperationsListByIspCustomerResource();
 }
 
 main().catch(console.error);

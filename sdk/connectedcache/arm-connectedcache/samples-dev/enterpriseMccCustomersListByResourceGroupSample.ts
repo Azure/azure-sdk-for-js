@@ -23,7 +23,7 @@ async function enterpriseMccCustomersListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCustomersListByResourceGroup();
+  await enterpriseMccCustomersListByResourceGroup();
 }
 
 main().catch(console.error);

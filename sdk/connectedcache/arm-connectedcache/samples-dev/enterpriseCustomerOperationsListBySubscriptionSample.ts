@@ -23,7 +23,7 @@ async function enterpriseCustomerOperationsListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseCustomerOperationsListBySubscription();
+  await enterpriseCustomerOperationsListBySubscription();
 }
 
 main().catch(console.error);

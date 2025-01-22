@@ -24,7 +24,7 @@ async function ispCacheNodesOperationsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ispCacheNodesOperationsUpdate();
+  await ispCacheNodesOperationsUpdate();
 }
 
 main().catch(console.error);

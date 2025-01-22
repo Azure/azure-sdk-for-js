@@ -23,7 +23,7 @@ async function enterpriseMccCustomersListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCustomersListBySubscription();
+  await enterpriseMccCustomersListBySubscription();
 }
 
 main().catch(console.error);

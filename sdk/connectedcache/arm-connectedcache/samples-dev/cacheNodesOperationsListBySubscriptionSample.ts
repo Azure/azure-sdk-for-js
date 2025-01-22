@@ -23,7 +23,7 @@ async function cacheNodesPrivatePreviewLegacyResourceListBySubscriptionGenerated
 }
 
 async function main(): Promise<void> {
-  cacheNodesPrivatePreviewLegacyResourceListBySubscriptionGeneratedByMaximumSetRule();
+  await cacheNodesPrivatePreviewLegacyResourceListBySubscriptionGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

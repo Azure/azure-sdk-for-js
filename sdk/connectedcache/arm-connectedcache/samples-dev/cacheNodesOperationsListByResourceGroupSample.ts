@@ -23,7 +23,7 @@ async function cacheNodesPrivatePreviewLegacyGetOperationListByResourceGroupGene
 }
 
 async function main(): Promise<void> {
-  cacheNodesPrivatePreviewLegacyGetOperationListByResourceGroupGeneratedByMaximumSetRule();
+  await cacheNodesPrivatePreviewLegacyGetOperationListByResourceGroupGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

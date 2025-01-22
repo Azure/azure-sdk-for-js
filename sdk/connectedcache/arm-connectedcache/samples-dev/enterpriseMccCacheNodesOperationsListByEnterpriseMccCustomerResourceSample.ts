@@ -26,7 +26,7 @@ async function enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResou
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResource();
+  await enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResource();
 }
 
 main().catch(console.error);

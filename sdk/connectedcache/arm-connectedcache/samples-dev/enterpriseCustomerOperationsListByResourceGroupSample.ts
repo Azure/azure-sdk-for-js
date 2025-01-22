@@ -25,7 +25,7 @@ async function enterpriseCustomerOperationsListByResourceGroup(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  enterpriseCustomerOperationsListByResourceGroup();
+  await enterpriseCustomerOperationsListByResourceGroup();
 }
 
 main().catch(console.error);

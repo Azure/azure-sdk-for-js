@@ -23,7 +23,7 @@ async function ispCustomerListBySubscriptionGeneratedByMaximumSetRule(): Promise
 }
 
 async function main(): Promise<void> {
-  ispCustomerListBySubscriptionGeneratedByMaximumSetRule();
+  await ispCustomerListBySubscriptionGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

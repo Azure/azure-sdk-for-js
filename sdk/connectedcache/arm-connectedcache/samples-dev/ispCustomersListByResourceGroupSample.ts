@@ -23,7 +23,7 @@ async function ispCustomersResourceListByResourceGroupGeneratedByMaximumSetRule(
 }
 
 async function main(): Promise<void> {
-  ispCustomersResourceListByResourceGroupGeneratedByMaximumSetRule();
+  await ispCustomersResourceListByResourceGroupGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

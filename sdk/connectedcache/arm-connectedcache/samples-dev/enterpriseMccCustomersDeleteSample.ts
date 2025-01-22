@@ -18,7 +18,7 @@ async function enterpriseMccCustomersDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCustomersDelete();
+  await enterpriseMccCustomersDelete();
 }
 
 main().catch(console.error);

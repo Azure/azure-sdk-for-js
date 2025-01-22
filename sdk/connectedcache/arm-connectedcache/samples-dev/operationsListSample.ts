@@ -23,7 +23,7 @@ async function listTheOperationsForTheProviderGeneratedByMaximumSetRule(): Promi
 }
 
 async function main(): Promise<void> {
-  listTheOperationsForTheProviderGeneratedByMaximumSetRule();
+  await listTheOperationsForTheProviderGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
