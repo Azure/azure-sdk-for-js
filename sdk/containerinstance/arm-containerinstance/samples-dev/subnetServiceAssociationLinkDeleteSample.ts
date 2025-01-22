@@ -20,17 +20,12 @@ import "dotenv/config";
  */
 async function subnetServiceAssociationLinkDelete(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const virtualNetworkName = "demo2";
   const subnetName = "demo3";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.subnetServiceAssociationLink.beginDeleteAndWait(
     resourceGroupName,
     virtualNetworkName,
@@ -40,7 +35,7 @@ async function subnetServiceAssociationLinkDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  subnetServiceAssociationLinkDelete();
+  await subnetServiceAssociationLinkDelete();
 }
 
 main().catch(console.error);
