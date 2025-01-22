@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken } from "@azure/core-auth";
-import { TokenCredential } from "@azure/identity";
+import { type AccessToken } from "@azure/core-auth";
+import { type TokenCredential } from "@azure/identity";
 import {
-  TokenCredential as AcsTokenCredential,
-  CommunicationGetTokenOptions,
-} from "./communicationTokenCredential";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { Client, getClient } from "@azure-rest/core-client";
+  type TokenCredential as AcsTokenCredential,
+  type CommunicationGetTokenOptions,
+} from "./communicationTokenCredential.js";
+import { type AbortSignalLike } from "@azure/abort-controller";
+import { type Client, getClient } from "@azure-rest/core-client";
 import {
-  HttpClient,
+  type HttpClient,
   createDefaultHttpClient,
   createHttpHeaders,
   createPipelineRequest,
