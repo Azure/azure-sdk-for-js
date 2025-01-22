@@ -45,7 +45,7 @@ async function containerGroupProfilesPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupProfilesPatch();
+  await containerGroupProfilesPatch();
 }
 
 main().catch(console.error);

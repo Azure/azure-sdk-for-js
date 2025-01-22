@@ -40,7 +40,7 @@ async function subnetServiceAssociationLinkDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  subnetServiceAssociationLinkDelete();
+  await subnetServiceAssociationLinkDelete();
 }
 
 main().catch(console.error);

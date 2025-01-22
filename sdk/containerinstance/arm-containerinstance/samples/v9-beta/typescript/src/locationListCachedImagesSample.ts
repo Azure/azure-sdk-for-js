@@ -36,7 +36,7 @@ async function cachedImages(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cachedImages();
+  await cachedImages();
 }
 
 main().catch(console.error);

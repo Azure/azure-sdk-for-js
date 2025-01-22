@@ -88,7 +88,7 @@ async function containerGroupsGetSucceeded(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupsGetWithPriority();
+  await containerGroupsGetWithPriority();
   containerGroupsGetFailed();
   containerGroupsGetSucceeded();
 }

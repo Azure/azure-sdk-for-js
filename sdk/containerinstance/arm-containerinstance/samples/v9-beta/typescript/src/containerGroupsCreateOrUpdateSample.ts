@@ -363,7 +363,7 @@ async function containerGroupsCreateWithPriority(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialContainerGroup();
+  await confidentialContainerGroup();
   containerGroupCreateOrUpdateWithStandbyPool();
   containerGroupCreateWithExtensions();
   containerGroupWithEncryptionProperties();

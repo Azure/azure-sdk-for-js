@@ -46,7 +46,7 @@ async function containerListLogs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerListLogs();
+  await containerListLogs();
 }
 
 main().catch(console.error);

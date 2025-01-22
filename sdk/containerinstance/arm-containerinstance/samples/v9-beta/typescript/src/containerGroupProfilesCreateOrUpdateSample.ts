@@ -294,7 +294,7 @@ async function containerGroupsCreateWithPriority(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialContainerGroupProfile();
+  await confidentialContainerGroupProfile();
   containerGroupProfileCreateWithExtensions();
   containerGroupProfileWithEncryptionProperties();
   containerGroupProfilesCreateOrUpdate();

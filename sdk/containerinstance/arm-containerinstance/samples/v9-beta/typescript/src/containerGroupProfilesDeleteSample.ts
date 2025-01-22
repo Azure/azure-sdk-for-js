@@ -38,7 +38,7 @@ async function containerGroupProfilesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupProfilesDelete();
+  await containerGroupProfilesDelete();
 }
 
 main().catch(console.error);

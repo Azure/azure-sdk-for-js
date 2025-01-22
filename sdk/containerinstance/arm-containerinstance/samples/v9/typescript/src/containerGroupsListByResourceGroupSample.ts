@@ -38,7 +38,7 @@ async function containerGroupsListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupsListByResourceGroup();
+  await containerGroupsListByResourceGroup();
 }
 
 main().catch(console.error);

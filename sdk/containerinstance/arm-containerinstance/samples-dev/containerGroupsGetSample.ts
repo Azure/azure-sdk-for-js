@@ -20,20 +20,12 @@ import "dotenv/config";
  */
 async function containerGroupsGetWithPriority(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.containerGroups.get(
-    resourceGroupName,
-    containerGroupName,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
+  const result = await client.containerGroups.get(resourceGroupName, containerGroupName);
   console.log(result);
 }
 
@@ -45,20 +37,12 @@ async function containerGroupsGetWithPriority(): Promise<void> {
  */
 async function containerGroupsGetFailed(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.containerGroups.get(
-    resourceGroupName,
-    containerGroupName,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
+  const result = await client.containerGroups.get(resourceGroupName, containerGroupName);
   console.log(result);
 }
 
@@ -70,27 +54,19 @@ async function containerGroupsGetFailed(): Promise<void> {
  */
 async function containerGroupsGetSucceeded(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.containerGroups.get(
-    resourceGroupName,
-    containerGroupName,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
+  const result = await client.containerGroups.get(resourceGroupName, containerGroupName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  containerGroupsGetWithPriority();
-  containerGroupsGetFailed();
-  containerGroupsGetSucceeded();
+  await containerGroupsGetWithPriority();
+  await containerGroupsGetFailed();
+  await containerGroupsGetSucceeded();
 }
 
 main().catch(console.error);

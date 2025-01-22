@@ -45,7 +45,7 @@ async function containerGroupsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupsUpdate();
+  await containerGroupsUpdate();
 }
 
 main().catch(console.error);

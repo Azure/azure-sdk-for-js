@@ -38,7 +38,7 @@ async function containerGroupsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupsDelete();
+  await containerGroupsDelete();
 }
 
 main().catch(console.error);

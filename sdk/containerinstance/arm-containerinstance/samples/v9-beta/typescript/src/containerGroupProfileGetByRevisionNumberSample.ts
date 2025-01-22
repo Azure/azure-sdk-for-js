@@ -41,7 +41,7 @@ async function containerGroupProfileGetByRevisionNumber(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupProfileGetByRevisionNumber();
+  await containerGroupProfileGetByRevisionNumber();
 }
 
 main().catch(console.error);

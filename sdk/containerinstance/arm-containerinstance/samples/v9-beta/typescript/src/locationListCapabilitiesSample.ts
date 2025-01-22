@@ -36,7 +36,7 @@ async function getCapabilities(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCapabilities();
+  await getCapabilities();
 }
 
 main().catch(console.error);

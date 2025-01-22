@@ -63,7 +63,7 @@ async function containerGroupProfilesGetSucceeded(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupProfilesGetWithPriority();
+  await containerGroupProfilesGetWithPriority();
   containerGroupProfilesGetSucceeded();
 }
 

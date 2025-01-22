@@ -39,7 +39,7 @@ async function containerGroupProfilesListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupProfilesListByResourceGroup();
+  await containerGroupProfilesListByResourceGroup();
 }
 
 main().catch(console.error);

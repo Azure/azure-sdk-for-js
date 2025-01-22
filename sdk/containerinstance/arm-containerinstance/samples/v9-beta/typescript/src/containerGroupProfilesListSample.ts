@@ -35,7 +35,7 @@ async function containerGroupProfilesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupProfilesList();
+  await containerGroupProfilesList();
 }
 
 main().catch(console.error);

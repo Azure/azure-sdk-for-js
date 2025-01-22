@@ -39,7 +39,7 @@ async function containerAttach(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerAttach();
+  await containerAttach();
 }
 
 main().catch(console.error);

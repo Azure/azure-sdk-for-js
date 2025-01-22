@@ -35,7 +35,7 @@ async function containerUsage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerUsage();
+  await containerUsage();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function containerRestart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerRestart();
+  await containerRestart();
 }
 
 main().catch(console.error);

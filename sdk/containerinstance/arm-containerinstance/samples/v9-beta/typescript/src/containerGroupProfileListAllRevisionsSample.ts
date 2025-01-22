@@ -41,7 +41,7 @@ async function containerGroupProfileListAllRevisions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGroupProfileListAllRevisions();
+  await containerGroupProfileListAllRevisions();
 }
 
 main().catch(console.error);
