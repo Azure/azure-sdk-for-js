@@ -22,7 +22,7 @@ async function ispCacheNodesDeleteOperationGeneratedByMaximumSetRule(): Promise<
 }
 
 async function main(): Promise<void> {
-  ispCacheNodesDeleteOperationGeneratedByMaximumSetRule();
+  await ispCacheNodesDeleteOperationGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
