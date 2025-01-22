@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,8 +18,7 @@ import "dotenv/config";
  */
 async function lotsListByBillingProfile(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const billingProfileId = "2468";
   const credential = new DefaultAzureCredential();
@@ -29,7 +26,7 @@ async function lotsListByBillingProfile(): Promise<void> {
   const resArray = new Array();
   for await (const item of client.lotsOperations.listByBillingProfile(
     billingAccountId,
-    billingProfileId
+    billingProfileId,
   )) {
     resArray.push(item);
   }
@@ -37,7 +34,7 @@ async function lotsListByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  lotsListByBillingProfile();
+  await lotsListByBillingProfile();
 }
 
 main().catch(console.error);

@@ -6,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  ReservationsDetailsListOptionalParams} from "@azure/arm-consumption";
-import {
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { ReservationsDetailsListOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -24,11 +19,9 @@ import "dotenv/config";
  */
 async function reservationDetailsByBillingAccountId(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/12345";
-  const filter =
-    "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05";
+  const filter = "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05";
   const options: ReservationsDetailsListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -47,10 +40,8 @@ async function reservationDetailsByBillingAccountId(): Promise<void> {
  */
 async function reservationDetailsByBillingProfileId(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579";
   const startDate = "2019-09-01";
   const endDate = "2019-10-31";
   const options: ReservationsDetailsListOptionalParams = { startDate, endDate };
@@ -71,10 +62,8 @@ async function reservationDetailsByBillingProfileId(): Promise<void> {
  */
 async function reservationDetailsByBillingProfileIdReservationId(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579";
   const startDate = "2019-09-01";
   const endDate = "2019-10-31";
   const reservationId = "1c6b6358-709f-484c-85f1-72e862a0cf3b";
@@ -83,7 +72,7 @@ async function reservationDetailsByBillingProfileIdReservationId(): Promise<void
     startDate,
     endDate,
     reservationId,
-    reservationOrderId
+    reservationOrderId,
   };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -95,9 +84,9 @@ async function reservationDetailsByBillingProfileIdReservationId(): Promise<void
 }
 
 async function main(): Promise<void> {
-  reservationDetailsByBillingAccountId();
-  reservationDetailsByBillingProfileId();
-  reservationDetailsByBillingProfileIdReservationId();
+  await reservationDetailsByBillingAccountId();
+  await reservationDetailsByBillingProfileId();
+  await reservationDetailsByBillingProfileIdReservationId();
 }
 
 main().catch(console.error);

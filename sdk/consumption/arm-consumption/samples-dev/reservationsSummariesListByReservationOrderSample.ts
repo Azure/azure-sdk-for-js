@@ -6,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  ReservationsSummariesListByReservationOrderOptionalParams} from "@azure/arm-consumption";
-import {
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { ReservationsSummariesListByReservationOrderOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -24,14 +19,12 @@ import "dotenv/config";
  */
 async function reservationSummariesDaily(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const reservationOrderId = "00000000-0000-0000-0000-000000000000";
   const grain = "daily";
-  const filter =
-    "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20";
+  const filter = "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20";
   const options: ReservationsSummariesListByReservationOrderOptionalParams = {
-    filter
+    filter,
   };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -39,7 +32,7 @@ async function reservationSummariesDaily(): Promise<void> {
   for await (const item of client.reservationsSummaries.listByReservationOrder(
     reservationOrderId,
     grain,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -54,8 +47,7 @@ async function reservationSummariesDaily(): Promise<void> {
  */
 async function reservationSummariesMonthly(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const reservationOrderId = "00000000-0000-0000-0000-000000000000";
   const grain = "monthly";
   const credential = new DefaultAzureCredential();
@@ -63,7 +55,7 @@ async function reservationSummariesMonthly(): Promise<void> {
   const resArray = new Array();
   for await (const item of client.reservationsSummaries.listByReservationOrder(
     reservationOrderId,
-    grain
+    grain,
   )) {
     resArray.push(item);
   }
@@ -71,8 +63,8 @@ async function reservationSummariesMonthly(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reservationSummariesDaily();
-  reservationSummariesMonthly();
+  await reservationSummariesDaily();
+  await reservationSummariesMonthly();
 }
 
 main().catch(console.error);
