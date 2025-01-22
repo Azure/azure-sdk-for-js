@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,28 +18,20 @@ import "dotenv/config";
  */
 async function inventoryItemsListByVCenter(): Promise<void> {
   const subscriptionId =
-    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
-    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName =
-    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const vcenterName = "ContosoVCenter";
   const credential = new DefaultAzureCredential();
-  const client = new AzureArcVMwareManagementServiceAPI(
-    credential,
-    subscriptionId
-  );
+  const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.inventoryItems.listByVCenter(
-    resourceGroupName,
-    vcenterName
-  )) {
+  for await (const item of client.inventoryItems.listByVCenter(resourceGroupName, vcenterName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  inventoryItemsListByVCenter();
+  await inventoryItemsListByVCenter();
 }
 
 main().catch(console.error);

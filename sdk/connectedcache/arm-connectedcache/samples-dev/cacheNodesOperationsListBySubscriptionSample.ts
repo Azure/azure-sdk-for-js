@@ -15,7 +15,7 @@ async function cacheNodesPrivatePreviewLegacyResourceListBySubscriptionGenerated
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cacheNodesOperations.listBySubscription()) {
+  for await (const item of client.cacheNodesOperations.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function cacheNodesPrivatePreviewLegacyResourceListBySubscriptionGenerated
 }
 
 async function main(): Promise<void> {
-  cacheNodesPrivatePreviewLegacyResourceListBySubscriptionGeneratedByMaximumSetRule();
+  await cacheNodesPrivatePreviewLegacyResourceListBySubscriptionGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
