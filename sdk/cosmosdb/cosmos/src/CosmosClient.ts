@@ -101,10 +101,9 @@ export class CosmosClient {
         optionsOrConnectionString.consistencyLevel;
     }
 
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent(
-      optionsOrConnectionString.userAgentSuffix,
-      optionsOrConnectionString.hostFramework,
-    );
+    const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;
 
     const globalEndpointManager = new GlobalEndpointManager(
       optionsOrConnectionString,
@@ -283,9 +282,9 @@ export class CosmosClient {
   /**
    * Update the host framework. If provided host framework will be used to generate the defualt SDK user agent.
    * @param hostFramework - A custom string.
-   * @hidden
+   * @internal
    */
   public async updateHostFramework(hostFramework: string): Promise<void> {
-    this.clientContext.updateHostFramework(hostFramework);
+    this.clientContext.refreshUserAgent(hostFramework);
   }
 }

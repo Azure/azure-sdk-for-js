@@ -280,6 +280,8 @@ export class ClientContext {
     // (undocumented)
     recordDiagnostics(diagnostic: CosmosDiagnostics): void;
     // (undocumented)
+    refreshUserAgent(hostFramework: string): void;
+    // (undocumented)
     replace<T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
         body: any;
         path: string;
@@ -289,8 +291,6 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
-    // (undocumented)
-    updateHostFramework(hostFramework: string): void;
     // (undocumented)
     upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, diagnosticNode, }: {
         body: T;
@@ -435,6 +435,7 @@ export const Constants: {
         ContentEncoding: string;
         CharacterSet: string;
         UserAgent: string;
+        CustomUserAgent: string;
         IfModifiedSince: string;
         IfMatch: string;
         IfNoneMatch: string;
@@ -701,7 +702,6 @@ export class CosmosClient {
     getWriteEndpoints(): Promise<readonly string[]>;
     offer(id: string): Offer;
     readonly offers: Offers;
-    updateHostFramework(hostFramework: string): Promise<void>;
 }
 
 // @public (undocumented)
@@ -718,7 +718,6 @@ export interface CosmosClientOptions {
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint?: string;
-    hostFramework?: string;
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];

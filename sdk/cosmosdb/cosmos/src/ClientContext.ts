@@ -980,16 +980,10 @@ export class ClientContext {
     return this.clientConfig;
   }
 
-  private refreshUserAgent(): void {
-    const updatedUserAgent = getUserAgent(
-      this.cosmosClientOptions.userAgentSuffix,
-      this.cosmosClientOptions.hostFramework,
-    );
+  public refreshUserAgent(hostFramework: string): void {
+    const updatedUserAgent = getUserAgent(this.cosmosClientOptions.userAgentSuffix, hostFramework);
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;
-  }
-
-  public updateHostFramework(hostFramework: string): void {
-    this.cosmosClientOptions.hostFramework = hostFramework;
-    this.refreshUserAgent();
+    this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] =
+      updatedUserAgent;
   }
 }
