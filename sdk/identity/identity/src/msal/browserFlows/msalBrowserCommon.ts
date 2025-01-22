@@ -283,7 +283,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   /**
    * Attempts to retrieve the token in the browser through interactive methods.
    */
-  async function getInteractiveToken(
+  async function getTokenInteractive(
     scopes: string[],
     getTokenOptions?: CredentialFlowGetTokenOptions,
   ): Promise<AccessToken> {
@@ -358,7 +358,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
         });
       }
       logger.info(`Silent authentication failed, falling back to interactive method ${loginStyle}`);
-      return getInteractiveToken(scopes, getTokenOptions);
+      return getTokenInteractive(scopes, getTokenOptions);
     }
   }
   return {
