@@ -26,10 +26,8 @@ describe("JobRouterClient", () => {
       ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(ctx));
     });
 
-    afterEach(async (ctx) => {
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
     it("should create a distribution policy", { timeout: timeoutMs }, async () => {

@@ -94,9 +94,7 @@ describe("JobRouterClient", () => {
         { retries: 5, retryIntervalMs: 1500 },
       );
 
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+      await recorder.stop();
     });
 
     it("should create a job", { timeout: timeoutMs }, async () => {

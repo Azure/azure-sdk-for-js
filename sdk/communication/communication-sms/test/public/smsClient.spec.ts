@@ -41,9 +41,7 @@ matrix([[false, true]], async function (useAad: boolean) {
       });
 
       afterEach(async function (ctx) {
-        if (!ctx.task.pending) {
-          await recorder.stop();
-        }
+        await recorder.stop();
         if (isPlaybackMode()) {
           vi.restoreAllMocks();
         }

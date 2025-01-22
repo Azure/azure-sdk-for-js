@@ -43,15 +43,13 @@ describe("JobRouterClient", () => {
       );
     });
 
-    afterEach(async (ctx) => {
+    afterEach(async () => {
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);
 
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+      await recorder.stop();
     });
 
     it("should create a classification policy", { timeout: timeoutMs }, async () => {
