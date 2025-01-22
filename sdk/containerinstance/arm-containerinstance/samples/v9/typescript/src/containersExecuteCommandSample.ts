@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Executes a command for a specific container instance in a specified resource group and container group.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerExec.json
  */
-async function containerExec() {
+async function containerExec(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -46,7 +46,7 @@ async function containerExec() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   containerExec();
 }
 

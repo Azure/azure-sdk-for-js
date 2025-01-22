@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsGetPriority.json
  */
-async function containerGroupsGetWithPriority() {
+async function containerGroupsGetWithPriority(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function containerGroupsGetWithPriority() {
  * @summary Gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsGet_Failed.json
  */
-async function containerGroupsGetFailed() {
+async function containerGroupsGetFailed(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -66,7 +66,7 @@ async function containerGroupsGetFailed() {
  * @summary Gets the properties of the specified container group in the specified subscription and resource group. The operation returns the properties of each container group including containers, image registry credentials, restart policy, IP address type, OS type, state, and volumes.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsGet_Succeeded.json
  */
-async function containerGroupsGetSucceeded() {
+async function containerGroupsGetSucceeded(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -84,7 +84,7 @@ async function containerGroupsGetSucceeded() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   containerGroupsGetWithPriority();
   containerGroupsGetFailed();
   containerGroupsGetSucceeded();

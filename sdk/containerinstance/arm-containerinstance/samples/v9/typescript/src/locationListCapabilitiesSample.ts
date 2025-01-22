@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the list of CPU/memory/GPU capabilities of a region.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/CapabilitiesList.json
  */
-async function getCapabilities() {
+async function getCapabilities(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
@@ -34,7 +34,7 @@ async function getCapabilities() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCapabilities();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Attach to the output stream of a specific container instance in a specified resource group and container group.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerAttach.json
  */
-async function containerAttach() {
+async function containerAttach(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function containerAttach() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   containerAttach();
 }
 

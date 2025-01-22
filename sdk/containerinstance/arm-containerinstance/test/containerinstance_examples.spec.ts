@@ -42,22 +42,22 @@ describe("ContainerInstance test", () => {
   let containerGroupName: string;
   let containerInstanceName: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ContainerInstanceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2";
-    resourceGroup = "myjstest";
-    containerGroupName = "mycontainerGroupxxx";
-    containerInstanceName = "my-containerinstancexx";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ContainerInstanceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus2";
+      resourceGroup = "myjstest";
+      containerGroupName = "mycontainerGroupxxx";
+      containerInstanceName = "my-containerinstancexx";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("containerGroups create test", async function () {
     const res = await client.containerGroups.beginCreateOrUpdateAndWait(resourceGroup, containerGroupName, {
