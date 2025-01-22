@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary stops the SAP Application Server Instance.
  * x-ms-original-file: 2024-09-01/SapApplicationServerInstances_StopInstance.json
  */
-async function stopTheSapApplicationServerInstance() {
+async function stopTheSapApplicationServerInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function stopTheSapApplicationServerInstance() {
  * @summary stops the SAP Application Server Instance.
  * x-ms-original-file: 2024-09-01/SapApplicationServerInstances_StopInstanceInfrastructure.json
  */
-async function stopTheSapApplicationServerInstanceAndItInfrastructure() {
+async function stopTheSapApplicationServerInstanceAndItInfrastructure(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function stopTheSapApplicationServerInstanceAndItInfrastructure() {
  * @summary stops the SAP Application Server Instance.
  * x-ms-original-file: 2024-09-01/SapApplicationServerInstances_StopInstanceSoft.json
  */
-async function softStopTheSapApplicationServerInstance() {
+async function softStopTheSapApplicationServerInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -58,7 +58,7 @@ async function softStopTheSapApplicationServerInstance() {
  * @summary stops the SAP Application Server Instance.
  * x-ms-original-file: 2024-09-01/SapApplicationServerInstances_StopInstanceSoftInfrastructure.json
  */
-async function softStopTheSapApplicationServerInstanceAndItInfrastructure() {
+async function softStopTheSapApplicationServerInstanceAndItInfrastructure(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -68,7 +68,7 @@ async function softStopTheSapApplicationServerInstanceAndItInfrastructure() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await stopTheSapApplicationServerInstance();
   await stopTheSapApplicationServerInstanceAndItInfrastructure();
   await softStopTheSapApplicationServerInstance();

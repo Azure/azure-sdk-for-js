@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary stops the SAP Application, that is the Application server instances and Central Services instance.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_SoftStop.json
  */
-async function softStopOfSapVirtualInstancesStop() {
+async function softStopOfSapVirtualInstancesStop(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function softStopOfSapVirtualInstancesStop() {
  * @summary stops the SAP Application, that is the Application server instances and Central Services instance.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_SoftStopVMAndSystem.json
  */
-async function softStopTheVirtualMachineSAndTheSapSystemOnIt() {
+async function softStopTheVirtualMachineSAndTheSapSystemOnIt(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function softStopTheVirtualMachineSAndTheSapSystemOnIt() {
  * @summary stops the SAP Application, that is the Application server instances and Central Services instance.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_Stop.json
  */
-async function sAPVirtualInstancesStop() {
+async function sAPVirtualInstancesStop(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -58,7 +58,7 @@ async function sAPVirtualInstancesStop() {
  * @summary stops the SAP Application, that is the Application server instances and Central Services instance.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_StopVMAndSystem.json
  */
-async function stopTheVirtualMachineSAndTheSapSystemOnIt() {
+async function stopTheVirtualMachineSAndTheSapSystemOnIt(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -68,7 +68,7 @@ async function stopTheVirtualMachineSAndTheSapSystemOnIt() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await softStopOfSapVirtualInstancesStop();
   await softStopTheVirtualMachineSAndTheSapSystemOnIt();
   await sAPVirtualInstancesStop();

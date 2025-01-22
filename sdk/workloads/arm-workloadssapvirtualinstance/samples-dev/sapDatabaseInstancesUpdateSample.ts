@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary updates the Database resource.
  * x-ms-original-file: 2024-09-01/SapDatabaseInstances_Update.json
  */
-async function sAPDatabaseInstancesUpdate() {
+async function sAPDatabaseInstancesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -20,7 +20,7 @@ async function sAPDatabaseInstancesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sAPDatabaseInstancesUpdate();
 }
 

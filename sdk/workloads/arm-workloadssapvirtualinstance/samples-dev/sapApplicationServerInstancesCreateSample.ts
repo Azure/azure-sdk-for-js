@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request error.
  * x-ms-original-file: 2024-09-01/SapApplicationServerInstances_Create.json
  */
-async function sAPApplicationServerInstancesCreate() {
+async function sAPApplicationServerInstancesCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function sAPApplicationServerInstancesCreate() {
  * @summary puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request error.
  * x-ms-original-file: 2024-09-01/SapApplicationServerInstances_CreateForHaWithAvailabilitySet.json
  */
-async function createSapApplicationServerInstancesForHaSystemWithAvailabilitySet() {
+async function createSapApplicationServerInstancesForHaSystemWithAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function createSapApplicationServerInstancesForHaSystemWithAvailabilitySet
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sAPApplicationServerInstancesCreate();
   await createSapApplicationServerInstancesForHaSystemWithAvailabilitySet();
 }

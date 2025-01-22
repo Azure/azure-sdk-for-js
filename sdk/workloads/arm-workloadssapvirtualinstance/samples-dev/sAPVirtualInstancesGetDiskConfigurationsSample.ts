@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get the SAP Disk Configuration Layout prod/non-prod SAP System.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeDiskConfigurations_NonProd.json
  */
-async function sapDiskConfigurationsForInputEnvironmentNonProd() {
+async function sapDiskConfigurationsForInputEnvironmentNonProd(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -31,7 +31,7 @@ async function sapDiskConfigurationsForInputEnvironmentNonProd() {
  * @summary get the SAP Disk Configuration Layout prod/non-prod SAP System.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeDiskConfigurations_Prod.json
  */
-async function sapDiskConfigurationsForInputEnvironmentProd() {
+async function sapDiskConfigurationsForInputEnvironmentProd(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function sapDiskConfigurationsForInputEnvironmentProd() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sapDiskConfigurationsForInputEnvironmentNonProd();
   await sapDiskConfigurationsForInputEnvironmentProd();
 }

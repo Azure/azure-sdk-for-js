@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary updates a Virtual Instance for SAP solutions resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_Update.json
  */
-async function sAPVirtualInstancesUpdate() {
+async function sAPVirtualInstancesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function sAPVirtualInstancesUpdate() {
  * @summary updates a Virtual Instance for SAP solutions resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_UpdateTrustedAccess.json
  */
-async function sAPVirtualInstancesTrustedAccessEnableUpdate() {
+async function sAPVirtualInstancesTrustedAccessEnableUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function sAPVirtualInstancesTrustedAccessEnableUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sAPVirtualInstancesUpdate();
   await sAPVirtualInstancesTrustedAccessEnableUpdate();
 }

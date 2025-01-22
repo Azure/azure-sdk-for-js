@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions resource.
  * x-ms-original-file: 2024-09-01/SapCentralServerInstances_ListBySapVirtualInstance.json
  */
-async function sAPCentralInstancesListBySapVirtualInstance() {
+async function sAPCentralInstancesListBySapVirtualInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function sAPCentralInstancesListBySapVirtualInstance() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sAPCentralInstancesListBySapVirtualInstance();
 }
 

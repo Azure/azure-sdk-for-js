@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets the SAP Central Services Instance resource.
  * x-ms-original-file: 2024-09-01/SapCentralInstances_Get.json
  */
-async function sapCentralServerInstancesGet() {
+async function sapCentralServerInstancesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function sapCentralServerInstancesGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sapCentralServerInstancesGet();
 }
 

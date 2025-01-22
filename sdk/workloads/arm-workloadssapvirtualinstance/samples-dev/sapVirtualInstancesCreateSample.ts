@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateDetectDS.json
  */
-async function detectSapSoftwareInstallationOnADistributedSystem() {
+async function detectSapSoftwareInstallationOnADistributedSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -121,7 +121,7 @@ async function detectSapSoftwareInstallationOnADistributedSystem() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateDetectHaAvailabilitySet.json
  */
-async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
+async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -224,7 +224,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateDetectHaAvailabilityZone.json
  */
-async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
+async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -327,7 +327,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateDetectSingleServer.json
  */
-async function detectSapSoftwareInstallationOnASingleServerSystem() {
+async function detectSapSoftwareInstallationOnASingleServerSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -383,7 +383,7 @@ async function detectSapSoftwareInstallationOnASingleServerSystem() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraDiskOsDSRecommended.json
  */
-async function createInfrastructureWithDiskAndOsConfigurationForDistributedSystemRecommended() {
+async function createInfrastructureWithDiskAndOsConfigurationForDistributedSystemRecommended(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -510,7 +510,7 @@ async function createInfrastructureWithDiskAndOsConfigurationForDistributedSyste
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraDiskOsHaAvailabilitySetRecommended.json
  */
-async function createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvailabilitySetRecommended() {
+async function createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvailabilitySetRecommended(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -638,7 +638,7 @@ async function createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvai
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraDiskOsHaAvailabilityZoneRecommended.json
  */
-async function createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvailabilityZoneRecommended() {
+async function createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvailabilityZoneRecommended(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -766,7 +766,7 @@ async function createInfrastructureWithDiskAndOsConfigurationForHaSystemWithAvai
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraDiskOsSingleServerRecommended.json
  */
-async function createInfrastructureWithDiskAndOsConfigurationsForSingleServerSystemRecommended() {
+async function createInfrastructureWithDiskAndOsConfigurationsForSingleServerSystemRecommended(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -847,7 +847,7 @@ async function createInfrastructureWithDiskAndOsConfigurationsForSingleServerSys
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraDS.json
  */
-async function createInfrastructureOnlyForDistributedSystem() {
+async function createInfrastructureOnlyForDistributedSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -943,7 +943,7 @@ async function createInfrastructureOnlyForDistributedSystem() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraHaAvailabilitySet.json
  */
-async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
+async function createInfrastructureOnlyForHaSystemWithAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1040,7 +1040,7 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraHaAvailabilityZone.json
  */
-async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
+async function createInfrastructureOnlyForHaSystemWithAvailabilityZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1137,7 +1137,7 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsComputeGalleryImage.json
  */
-async function createInfrastructureWithOsConfigurationWithAzureComputeGalleryImage() {
+async function createInfrastructureWithOsConfigurationWithAzureComputeGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1225,7 +1225,7 @@ async function createInfrastructureWithOsConfigurationWithAzureComputeGalleryIma
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsCustomResourceNamesDS.json
  */
-async function createInfrastructureWithOsConfigurationWithCustomResourceNamesForDistributedSystem() {
+async function createInfrastructureWithOsConfigurationWithCustomResourceNamesForDistributedSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1375,7 +1375,7 @@ async function createInfrastructureWithOsConfigurationWithCustomResourceNamesFor
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsCustomResourceNamesHaAvailabilitySet.json
  */
-async function createInfrastructureWithOsConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet() {
+async function createInfrastructureWithOsConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1557,7 +1557,7 @@ async function createInfrastructureWithOsConfigurationWithCustomResourceNamesFor
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsCustomResourceNamesHaAvailabilityZone.json
  */
-async function createInfrastructureWithOsConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone() {
+async function createInfrastructureWithOsConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1736,7 +1736,7 @@ async function createInfrastructureWithOsConfigurationWithCustomResourceNamesFor
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsCustomResourceNamesSingleServer.json
  */
-async function createInfrastructureWithOsConfigurationWithCustomResourceNamesForSingleServerSystem() {
+async function createInfrastructureWithOsConfigurationWithCustomResourceNamesForSingleServerSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1787,7 +1787,7 @@ async function createInfrastructureWithOsConfigurationWithCustomResourceNamesFor
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsDSRecommended.json
  */
-async function createInfrastructureWithOsConfigurationForDistributedSystemRecommended() {
+async function createInfrastructureWithOsConfigurationForDistributedSystemRecommended(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1884,7 +1884,7 @@ async function createInfrastructureWithOsConfigurationForDistributedSystemRecomm
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsHaAvailabilitySetRecommended.json
  */
-async function createInfrastructureWithOsConfigurationForHaSystemWithAvailabilitySetRecommended() {
+async function createInfrastructureWithOsConfigurationForHaSystemWithAvailabilitySetRecommended(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -1982,7 +1982,7 @@ async function createInfrastructureWithOsConfigurationForHaSystemWithAvailabilit
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsHaAvailabilityZoneRecommended.json
  */
-async function createInfrastructureWithOsConfigurationForHaSystemWithAvailabilityZoneRecommended() {
+async function createInfrastructureWithOsConfigurationForHaSystemWithAvailabilityZoneRecommended(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2080,7 +2080,7 @@ async function createInfrastructureWithOsConfigurationForHaSystemWithAvailabilit
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraOsSIngleServerRecommended.json
  */
-async function createInfrastructureWithOsConfigurationForSingleServerSystemRecommended() {
+async function createInfrastructureWithOsConfigurationForSingleServerSystemRecommended(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2131,7 +2131,7 @@ async function createInfrastructureWithOsConfigurationForSingleServerSystemRecom
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraSingleServer.json
  */
-async function createInfrastructureOnlyForSingleServerSystem() {
+async function createInfrastructureOnlyForSingleServerSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2181,7 +2181,7 @@ async function createInfrastructureOnlyForSingleServerSystem() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraWithExistingFileshare.json
  */
-async function createInfrastructureWithAnExistingSapTransportDirectoryFileshare() {
+async function createInfrastructureWithAnExistingSapTransportDirectoryFileshare(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2286,7 +2286,7 @@ async function createInfrastructureWithAnExistingSapTransportDirectoryFileshare(
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraWithNewFileshare.json
  */
-async function createInfrastructureWithANewSapTransportDirectoryFileshare() {
+async function createInfrastructureWithANewSapTransportDirectoryFileshare(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2390,7 +2390,7 @@ async function createInfrastructureWithANewSapTransportDirectoryFileshare() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraWithOsTrustedAccess.json
  */
-async function createInfrastructureWithOsConfigurationWithTrustedAccessEnabled() {
+async function createInfrastructureWithOsConfigurationWithTrustedAccessEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2488,7 +2488,7 @@ async function createInfrastructureWithOsConfigurationWithTrustedAccessEnabled()
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInfraWithoutFileshare.json
  */
-async function createInfrastructureWithoutASapTransportDirectoryFileshare() {
+async function createInfrastructureWithoutASapTransportDirectoryFileshare(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2588,7 +2588,7 @@ async function createInfrastructureWithoutASapTransportDirectoryFileshare() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInstallDS.json
  */
-async function installSapSoftwareOnDistributedSystem() {
+async function installSapSoftwareOnDistributedSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2702,7 +2702,7 @@ async function installSapSoftwareOnDistributedSystem() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateInstallSingleServer.json
  */
-async function installSapSoftwareOnSingleServerSystem() {
+async function installSapSoftwareOnSingleServerSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2762,7 +2762,7 @@ async function installSapSoftwareOnSingleServerSystem() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateRegisterSapSolutions.json
  */
-async function registerExistingSapSystemAsVirtualInstanceForSapSolutions() {
+async function registerExistingSapSystemAsVirtualInstanceForSapSolutions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2788,7 +2788,7 @@ async function registerExistingSapSystemAsVirtualInstanceForSapSolutions() {
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateRegisterSapSolutionsCustom.json
  */
-async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations() {
+async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2815,7 +2815,7 @@ async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOpti
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateRegisterWithTrustedAccess.json
  */
-async function registerWithTrustedAccessEnabled() {
+async function registerWithTrustedAccessEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -2836,7 +2836,7 @@ async function registerWithTrustedAccessEnabled() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await detectSapSoftwareInstallationOnADistributedSystem();
   await detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();
   await detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone();

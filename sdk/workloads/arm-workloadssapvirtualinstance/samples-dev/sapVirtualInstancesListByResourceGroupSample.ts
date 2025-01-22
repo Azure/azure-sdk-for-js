@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets all Virtual Instances for SAP solutions resources in a Resource Group.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_ListByResourceGroup.json
  */
-async function sAPVirtualInstancesListByResourceGroup() {
+async function sAPVirtualInstancesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function sAPVirtualInstancesListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sAPVirtualInstancesListByResourceGroup();
 }
 

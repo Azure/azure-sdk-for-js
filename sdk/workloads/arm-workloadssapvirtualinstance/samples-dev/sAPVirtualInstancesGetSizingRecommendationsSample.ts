@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets the sizing recommendations.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSizingRecommendations_S4HANA_Distributed.json
  */
-async function sapSizingRecommendationsForNonHaDistributedSystem() {
+async function sapSizingRecommendationsForNonHaDistributedSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -33,7 +33,7 @@ async function sapSizingRecommendationsForNonHaDistributedSystem() {
  * @summary gets the sizing recommendations.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSizingRecommendations_S4HANA_HA_AvSet.json
  */
-async function sapSizingRecommendationsForHaWithAvailabilitySet() {
+async function sapSizingRecommendationsForHaWithAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -57,7 +57,7 @@ async function sapSizingRecommendationsForHaWithAvailabilitySet() {
  * @summary gets the sizing recommendations.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSizingRecommendations_S4HANA_HA_AvZone.json
  */
-async function sapSizingRecommendationsForHaWithAvailabilityZone() {
+async function sapSizingRecommendationsForHaWithAvailabilityZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -81,7 +81,7 @@ async function sapSizingRecommendationsForHaWithAvailabilityZone() {
  * @summary gets the sizing recommendations.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSizingRecommendations_S4HANA_SingleServer.json
  */
-async function sapSizingRecommendationsForSingleServer() {
+async function sapSizingRecommendationsForSingleServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -98,7 +98,7 @@ async function sapSizingRecommendationsForSingleServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sapSizingRecommendationsForNonHaDistributedSystem();
   await sapSizingRecommendationsForHaWithAvailabilitySet();
   await sapSizingRecommendationsForHaWithAvailabilityZone();

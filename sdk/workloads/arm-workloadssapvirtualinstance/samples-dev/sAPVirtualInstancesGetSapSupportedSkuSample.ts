@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a list of SAP supported SKUs for ASCS, Application and Database tier.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSapSupportedSku_Distributed.json
  */
-async function sapSupportedSKUsForDistributedNonHaEnvironment() {
+async function sapSupportedSKUsForDistributedNonHaEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -30,7 +30,7 @@ async function sapSupportedSKUsForDistributedNonHaEnvironment() {
  * @summary get a list of SAP supported SKUs for ASCS, Application and Database tier.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSapSupportedSku_DistributedHA_AvSet.json
  */
-async function sapSupportedSKUsForDistributedHaEnvironmentWithAvailabilitySet() {
+async function sapSupportedSKUsForDistributedHaEnvironmentWithAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -51,7 +51,7 @@ async function sapSupportedSKUsForDistributedHaEnvironmentWithAvailabilitySet() 
  * @summary get a list of SAP supported SKUs for ASCS, Application and Database tier.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSapSupportedSku_DistributedHA_AvZone.json
  */
-async function sapSupportedSkusForHaWithAvailabilityZone() {
+async function sapSupportedSkusForHaWithAvailabilityZone(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -72,7 +72,7 @@ async function sapSupportedSkusForHaWithAvailabilityZone() {
  * @summary get a list of SAP supported SKUs for ASCS, Application and Database tier.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSapSupportedSku_SingleServer.json
  */
-async function sapSupportedSKUsForSingleServer() {
+async function sapSupportedSKUsForSingleServer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -86,7 +86,7 @@ async function sapSupportedSKUsForSingleServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sapSupportedSKUsForDistributedNonHaEnvironment();
   await sapSupportedSKUsForDistributedHaEnvironmentWithAvailabilitySet();
   await sapSupportedSkusForHaWithAvailabilityZone();

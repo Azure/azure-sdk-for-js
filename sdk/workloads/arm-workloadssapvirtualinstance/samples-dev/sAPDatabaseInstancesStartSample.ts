@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary starts the database instance of the SAP system.
  * x-ms-original-file: 2024-09-01/SapDatabaseInstances_StartInstance.json
  */
-async function startTheDatabaseInstanceOfTheSapSystem() {
+async function startTheDatabaseInstanceOfTheSapSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function startTheDatabaseInstanceOfTheSapSystem() {
  * @summary starts the database instance of the SAP system.
  * x-ms-original-file: 2024-09-01/SapDatabaseInstances_StartInstanceVM.json
  */
-async function startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt() {
+async function startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -34,7 +34,7 @@ async function startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await startTheDatabaseInstanceOfTheSapSystem();
   await startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt();
 }

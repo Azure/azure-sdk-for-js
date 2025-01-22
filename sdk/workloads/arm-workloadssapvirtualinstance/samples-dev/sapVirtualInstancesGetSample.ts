@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets a Virtual Instance for SAP solutions resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_Get.json
  */
-async function sAPVirtualInstancesGet() {
+async function sAPVirtualInstancesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function sAPVirtualInstancesGet() {
  * @summary gets a Virtual Instance for SAP solutions resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_GetAcssInstallationBlocked.json
  */
-async function sAPVirtualInstancesGetWithAcssInstallationBlocked() {
+async function sAPVirtualInstancesGetWithAcssInstallationBlocked(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -32,7 +32,7 @@ async function sAPVirtualInstancesGetWithAcssInstallationBlocked() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sAPVirtualInstancesGet();
   await sAPVirtualInstancesGetWithAcssInstallationBlocked();
 }

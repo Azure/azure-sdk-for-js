@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get the recommended SAP Availability Zone Pair Details for your region.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeAvailabilityZoneDetails_eastus.json
  */
-async function sapAvailabilityZoneDetailsInEastUs() {
+async function sapAvailabilityZoneDetailsInEastUs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function sapAvailabilityZoneDetailsInEastUs() {
  * @summary get the recommended SAP Availability Zone Pair Details for your region.
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeAvailabilityZoneDetails_northeurope.json
  */
-async function sapAvailabilityZoneDetailsInNorthEurope() {
+async function sapAvailabilityZoneDetailsInNorthEurope(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function sapAvailabilityZoneDetailsInNorthEurope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await sapAvailabilityZoneDetailsInEastUs();
   await sapAvailabilityZoneDetailsInNorthEurope();
 }

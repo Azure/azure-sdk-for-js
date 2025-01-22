@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary stops the SAP Central Services Instance.
  * x-ms-original-file: 2024-09-01/SapCentralInstances_StopInstance.json
  */
-async function stopTheSapCentralServicesInstance() {
+async function stopTheSapCentralServicesInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function stopTheSapCentralServicesInstance() {
  * @summary stops the SAP Central Services Instance.
  * x-ms-original-file: 2024-09-01/SapCentralInstances_StopInstanceVM.json
  */
-async function stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS() {
+async function stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -36,7 +36,7 @@ async function stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS(
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await stopTheSapCentralServicesInstance();
   await stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS();
 }

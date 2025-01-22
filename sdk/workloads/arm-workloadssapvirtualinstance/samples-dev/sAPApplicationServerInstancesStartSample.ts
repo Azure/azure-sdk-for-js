@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary starts the SAP Application Server Instance.
  * x-ms-original-file: 2024-09-01/SapApplicationServerInstances_StartInstance.json
  */
-async function startTheSapApplicationServerInstance() {
+async function startTheSapApplicationServerInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function startTheSapApplicationServerInstance() {
  * @summary starts the SAP Application Server Instance.
  * x-ms-original-file: 2024-09-01/SapApplicationServerInstances_StartInstanceVM.json
  */
-async function startVirtualMachineAndTheSapApplicationServerInstanceOnIt() {
+async function startVirtualMachineAndTheSapApplicationServerInstanceOnIt(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
@@ -36,7 +36,7 @@ async function startVirtualMachineAndTheSapApplicationServerInstanceOnIt() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await startTheSapApplicationServerInstance();
   await startVirtualMachineAndTheSapApplicationServerInstanceOnIt();
 }
