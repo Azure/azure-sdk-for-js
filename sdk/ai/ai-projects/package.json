@@ -82,15 +82,15 @@
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/instrumentation": "0.57.0",
     "@opentelemetry/sdk-trace-node": "^1.30.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "prettier": "^3.2.5",
     "playwright": "^1.41.2",
     "typescript": "~5.7.2",
-    "vitest": "^2.0.5"
+    "vitest": "^3.0.3"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
