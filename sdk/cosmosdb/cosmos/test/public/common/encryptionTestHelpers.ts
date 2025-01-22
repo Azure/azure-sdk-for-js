@@ -4,17 +4,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import { randomUUID } from "@azure/core-util";
-import {
+import type {
   ClientEncryptionKeyResponse,
-  Constants,
   Container,
   CosmosDiagnostics,
   Database,
-  EncryptionAlgorithm,
   EncryptionKeyResolver,
   EncryptionKeyWrapMetadata,
-  EncryptionQueryBuilder,
-  ErrorResponse,
   ItemDefinition,
   ItemResponse,
   PatchOperation,
@@ -22,18 +18,24 @@ import {
   RequestOptions,
   SqlQuerySpec,
   StatusCode,
+} from "../../../src";
+import {
+  Constants,
+  EncryptionAlgorithm,
+  EncryptionQueryBuilder,
+  ErrorResponse,
   StatusCodes,
 } from "../../../src";
 import { assert } from "chai";
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   private keyInfo: { [key: string]: number } = {
-    tempmetadata1: 1,
-    tempmetadata2: 2,
-    "revokedKek-metadata": 3,
-    mymetadata1: 4,
-    mymetadata2: 5,
-    testmetadata1: 6,
-    metadataupdatedmetadata: 7,
+    cmkpath1: 1,
+    cmkpath2: 2,
+    revokedcmkpath: 3,
+    cmkpath3: 4,
+    cmkpath4: 5,
+    cmkpath5: 6,
+    cmkpath6: 7,
   };
   revokeAccessSet = false;
   wrapKeyCallsCount: { [key: string]: any };
@@ -45,7 +47,7 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
   }
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
     algorithm;
-    if (encryptionKeyId === "revokedKek-metadata" && this.revokeAccessSet) {
+    if (encryptionKeyId === "revokedcmkpath" && this.revokeAccessSet) {
       const errorResponse = new ErrorResponse("Forbidden");
       errorResponse.statusCode = StatusCodes.Forbidden;
       throw errorResponse;

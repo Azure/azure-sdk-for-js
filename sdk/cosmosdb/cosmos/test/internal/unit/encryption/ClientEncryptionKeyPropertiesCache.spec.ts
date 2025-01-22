@@ -7,7 +7,7 @@ import {
   ClientEncryptionKeyProperties,
   EncryptionKeyResolverName,
   EncryptionKeyWrapMetadata,
-  KeyEncryptionKeyAlgorithm,
+  KeyEncryptionAlgorithm,
 } from "../../../../src";
 
 describe("ClientEncryptionKeyPropertiesCache", () => {
@@ -25,7 +25,7 @@ describe("ClientEncryptionKeyPropertiesCache", () => {
       EncryptionKeyResolverName.AzureKeyVault,
       "testName",
       "testValue",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     const clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
       id,

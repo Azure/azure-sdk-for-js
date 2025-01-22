@@ -6,6 +6,7 @@ import { EncryptionSettings } from "../EncryptionSettings";
 import { EncryptionSettingForProperty } from "../EncryptionSettingForProperty";
 /**
  * The cache used to store encryption settings for a container.
+ * see {@link EncryptionSettings}
  * @hidden
  */
 export class EncryptionSettingsCache {

@@ -12,16 +12,14 @@ import {
   StatusCodes,
   SubStatusCodes,
 } from "../../common";
-import {
-  convertToInternalPartitionKey,
-  PartitionKey,
-  PartitionKeyDefinition,
-} from "../../documents";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { convertToInternalPartitionKey } from "../../documents";
 import type { SqlQuerySpec } from "../../queryExecutionContext";
 import type { QueryIterator } from "../../queryIterator";
 import type { FeedOptions, RequestOptions, Response } from "../../request";
 import { ResourceResponse } from "../../request";
-import { ErrorResponse, PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
+import type { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
+import { ErrorResponse } from "../../request/ErrorResponse";
 import { Conflict, Conflicts } from "../Conflict";
 import type { Database } from "../Database";
 import { Item, Items } from "../Item";
@@ -42,8 +40,9 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
-import { EncryptionProcessor, EncryptionSettingForProperty } from "../../encryption";
-import { EncryptionManager } from "../../encryption/EncryptionManager";
+import type { EncryptionSettingForProperty } from "../../encryption";
+import { EncryptionProcessor } from "../../encryption";
+import type { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -428,6 +427,11 @@ export class Container {
     } else {
       await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const readResponse = await this.readInternal(diagnosticNode);
+        if (!readResponse.resource) {
+          throw new ErrorResponse(
+            "Failed to initialize encryption: The container's resource definition could not be retrieved.",
+          );
+        }
         this._rid = readResponse.resource._rid;
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         if (!clientEncryptionPolicy) return;

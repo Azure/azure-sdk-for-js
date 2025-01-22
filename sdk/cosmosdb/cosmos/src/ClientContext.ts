@@ -62,7 +62,7 @@ export class ClientContext {
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
-    this.enableEncryption = cosmosClientOptions.enableEncryption ? true : false;
+    this.enableEncryption = cosmosClientOptions.encryptionPolicy?.enableEncryption ? true : false;
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};

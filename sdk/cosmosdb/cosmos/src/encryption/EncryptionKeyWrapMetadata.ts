@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionKeyResolverName, KeyEncryptionKeyAlgorithm } from "./enums";
+import type { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "./enums";
 
 /**
  * Metadata used to wrap/unwrap data encryption key using a customer managed key
@@ -14,13 +14,13 @@ export class EncryptionKeyWrapMetadata {
   /** Path to customer managed key */
   public value: string;
   /** Algorithm to be used for wrapping/unwrapping the data encryption key */
-  public algorithm: KeyEncryptionKeyAlgorithm;
+  public algorithm: KeyEncryptionAlgorithm;
 
   constructor(
     type: EncryptionKeyResolverName,
     name: string,
     value: string,
-    algorithm: KeyEncryptionKeyAlgorithm,
+    algorithm: KeyEncryptionAlgorithm,
   ) {
     this.type = type;
     this.name = name;

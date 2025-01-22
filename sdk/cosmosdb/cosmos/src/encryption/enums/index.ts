@@ -4,4 +4,4 @@
 export { EncryptionType } from "./EncryptionType";
 export { EncryptionAlgorithm } from "./EncryptionAlgorithm";
 export { EncryptionKeyResolverName } from "./EncryptionKeyResolverName";
-export { KeyEncryptionKeyAlgorithm } from "./KeyEncryptionKeyAlgorithm";
+export { KeyEncryptionAlgorithm } from "./KeyEncryptionAlgorithm";

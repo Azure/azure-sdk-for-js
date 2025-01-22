@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { Constants } from "../common";
-import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
-import { KeyEncryptionKeyAlgorithm } from "./enums";
+import type { EncryptionKeyResolver } from "./EncryptionKeyResolver";
+import type { KeyEncryptionAlgorithm } from "./enums";
 /**
  * Class to store encryption keys in unwrapped form and provide an interface for wrapping and unwrapping the keys.
  */
@@ -29,7 +29,7 @@ export class EncryptionKeyStoreProvider {
 
   public async wrapKey(
     encryptionKeyId: string,
-    algorithm: KeyEncryptionKeyAlgorithm,
+    algorithm: KeyEncryptionAlgorithm,
     key: Buffer,
   ): Promise<Buffer> {
     const wrappedEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
@@ -42,7 +42,7 @@ export class EncryptionKeyStoreProvider {
 
   public async unwrapKey(
     encryptionKeyId: string,
-    algorithm: KeyEncryptionKeyAlgorithm,
+    algorithm: KeyEncryptionAlgorithm,
     wrappedKey: Buffer,
   ): Promise<Buffer> {
     if (this.cacheTimeToLive === 0) {

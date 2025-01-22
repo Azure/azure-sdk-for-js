@@ -18,17 +18,19 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
+import type {
+  ClientEncryptionKeyRequest,
+  KeyEncryptionKey,
+  EncryptionKeyWrapMetadata,
+} from "../../encryption";
 import {
   ClientEncryptionKeyResponse,
-  ClientEncryptionKeyRequest,
   ClientEncryptionKeyProperties,
-  KeyEncryptionKey,
   EncryptionAlgorithm,
-  EncryptionKeyWrapMetadata,
-  KeyEncryptionKeyAlgorithm,
+  KeyEncryptionAlgorithm,
   EncryptionKeyResolverName,
 } from "../../encryption";
-import { EncryptionManager } from "../../encryption/EncryptionManager";
+import type { EncryptionManager } from "../../encryption/EncryptionManager";
 /**
  * Operations for reading or deleting an existing database.
  *
@@ -220,7 +222,7 @@ export class Database {
     if (!keyWrapMetadata) {
       throw new Error("encryptionKeyWrapMetadata cannot be null.");
     }
-    if (keyWrapMetadata.algorithm !== KeyEncryptionKeyAlgorithm.RSA_OAEP) {
+    if (keyWrapMetadata.algorithm !== KeyEncryptionAlgorithm.RSA_OAEP) {
       throw new Error(`Invalid key wrap algorithm '${keyWrapMetadata.algorithm}' passed.`);
     }
     if (!this.clientContext.enableEncryption) {
@@ -327,7 +329,7 @@ export class Database {
     if (!newKeyWrapMetadata) {
       throw new Error("encryptionKeyWrapMetadata cannot be null.");
     }
-    if (newKeyWrapMetadata.algorithm !== KeyEncryptionKeyAlgorithm.RSA_OAEP) {
+    if (newKeyWrapMetadata.algorithm !== KeyEncryptionAlgorithm.RSA_OAEP) {
       throw new Error(`Invalid key wrap algorithm '${newKeyWrapMetadata.algorithm}' passed.`);
     }
     if (!this.clientContext.enableEncryption) {

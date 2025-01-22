@@ -14,7 +14,7 @@ import {
   CosmosClient,
   EncryptionKeyWrapMetadata,
   ClientEncryptionPolicy,
-  KeyEncryptionKeyAlgorithm,
+  KeyEncryptionAlgorithm,
   ClientEncryptionIncludedPath,
   EncryptionType,
   EncryptionAlgorithm,
@@ -65,36 +65,38 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
-describe("Client Side Encryption", function (this: Suite) {
+describe("ClientSideEncryption", function (this: Suite) {
   before(async () => {
     await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     metadata1 = new EncryptionKeyWrapMetadata(
       testKeyVault,
       "key1",
-      "tempmetadata1",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      "cmkpath1",
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     metadata2 = new EncryptionKeyWrapMetadata(
       testKeyVault,
       "key2",
-      "tempmetadata2",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      "cmkpath2",
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     encryptionClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
-      encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
+        encryptionKeyResolverName: testKeyVault,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      },
     });
     database = (await encryptionClient.databases.createIfNotExists({ id: randomUUID() })).database;
     const revokedKekMetadata = new EncryptionKeyWrapMetadata(
       testKeyVault,
       "revokedKek",
-      "revokedKek-metadata",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      "revokedcmkpath",
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     await testCreateClientEncryptionKey(database, "key1", metadata1);
     await testCreateClientEncryptionKey(database, "key2", metadata2);
@@ -160,8 +162,8 @@ describe("Client Side Encryption", function (this: Suite) {
     encryptionContainerForChangeFeed = (
       await database.containers.createIfNotExists(containerDefinitionForChangeFeed)
     ).container;
-
-    await encryptionContainer.initializeEncryption();
+    // initialize Encryption will warm up the cache beforehand
+    // not calling it for encryptionContainer as cache will be initialized with first encryption operation
     await encryptionContainerForChangeFeed.initializeEncryption();
   });
 
@@ -312,10 +314,12 @@ describe("Client Side Encryption", function (this: Suite) {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: testKeyResolver,
-      encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: testKeyResolver,
+        encryptionKeyResolverName: testKeyVault,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
+      },
     });
     const newDatabase = newClient.database(database.id);
     const newContainer = newDatabase.container(encryptionContainer.id);
@@ -323,7 +327,7 @@ describe("Client Side Encryption", function (this: Suite) {
       await testCreateItem(newContainer);
     }
     // expecting just one unwrap, since the key should be cached for 1 min
-    assert.ok(testKeyResolver.unwrapKeyCallsCount["tempmetadata1"] === 1);
+    assert.ok(testKeyResolver.unwrapKeyCallsCount["cmkpath1"] === 1);
     // wait for some to ensure that cache is cleared
     await new Promise((resolve) => setTimeout(resolve, 120000));
 
@@ -331,7 +335,7 @@ describe("Client Side Encryption", function (this: Suite) {
       await testCreateItem(newContainer);
     }
     // again the unwrap key should be called once, since the cache has cleared
-    assert.equal(testKeyResolver.unwrapKeyCallsCount["tempmetadata1"], 2);
+    assert.equal(testKeyResolver.unwrapKeyCallsCount["cmkpath1"], 2);
     newClient.dispose();
   });
 
@@ -354,9 +358,11 @@ describe("Client Side Encryption", function (this: Suite) {
     const clientWithBulk = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
 
     const databaseWithBulk = clientWithBulk.database(database.id);
@@ -407,29 +413,27 @@ describe("Client Side Encryption", function (this: Suite) {
 
   it("encryption create client encryption key", async () => {
     let cekId = "anotherCek";
-    let testmetadata1 = new EncryptionKeyWrapMetadata(
+    let cmkpath5 = new EncryptionKeyWrapMetadata(
       testKeyVault,
       cekId,
-      "testmetadata1",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      "cmkpath5",
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     const clientEncryptionKeyProperties = (
-      await testCreateClientEncryptionKey(database, cekId, testmetadata1)
+      await testCreateClientEncryptionKey(database, cekId, cmkpath5)
     ).clientEncryptionKeyProperties;
 
-    assert.ok(
-      compareMetadata(testmetadata1, clientEncryptionKeyProperties.encryptionKeyWrapMetadata),
-    );
+    assert.ok(compareMetadata(cmkpath5, clientEncryptionKeyProperties.encryptionKeyWrapMetadata));
 
     // creating another key with same id should fail
-    testmetadata1 = new EncryptionKeyWrapMetadata(
+    cmkpath5 = new EncryptionKeyWrapMetadata(
       testKeyVault,
       cekId,
       "testmetadata2",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     try {
-      await testCreateClientEncryptionKey(database, cekId, testmetadata1);
+      await testCreateClientEncryptionKey(database, cekId, cmkpath5);
       assert.fail("creating another key with same encryption key id should fail");
     } catch (error) {
       assert.equal(StatusCodes.Conflict, error.code);
@@ -439,16 +443,18 @@ describe("Client Side Encryption", function (this: Suite) {
     const encryptionCosmosClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      },
     });
     let metadata = new EncryptionKeyWrapMetadata(
       EncryptionKeyResolverName.AzureKeyVault,
       "key1",
       "https://testkeyvault.vault.azure.net/keys/testkey/12345678",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     const database1 = (
       await encryptionCosmosClient.databases.createIfNotExists({ id: randomUUID() })
@@ -463,7 +469,7 @@ describe("Client Side Encryption", function (this: Suite) {
       EncryptionKeyResolverName.AzureKeyVault,
       "key1",
       "https://testkeyvault.vault.azure.net/keys/testkey/9101112",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     clientEncryptionKeyResponse = await database1.rewrapClientEncryptionKey(cekId, metadata);
     assert.equal(StatusCodes.Ok, clientEncryptionKeyResponse.statusCode);
@@ -475,8 +481,8 @@ describe("Client Side Encryption", function (this: Suite) {
     const metadata = new EncryptionKeyWrapMetadata(
       testKeyVault,
       cekId,
-      "testmetadata1",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      "cmkpath5",
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     let clientEncryptionKeyProperties = (
       await testCreateClientEncryptionKey(database, cekId, metadata)
@@ -487,7 +493,7 @@ describe("Client Side Encryption", function (this: Suite) {
           testKeyVault,
           cekId,
           metadata.value,
-          KeyEncryptionKeyAlgorithm.RSA_OAEP,
+          KeyEncryptionAlgorithm.RSA_OAEP,
         ),
         clientEncryptionKeyProperties.encryptionKeyWrapMetadata,
       ),
@@ -496,7 +502,7 @@ describe("Client Side Encryption", function (this: Suite) {
       testKeyVault,
       cekId,
       "metadata" + "updatedmetadata",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     clientEncryptionKeyProperties = (
       await testRewrapClientEncryptionKey(database, cekId, updatedMetadata)
@@ -508,7 +514,7 @@ describe("Client Side Encryption", function (this: Suite) {
           testKeyVault,
           cekId,
           updatedMetadata.value,
-          KeyEncryptionKeyAlgorithm.RSA_OAEP,
+          KeyEncryptionAlgorithm.RSA_OAEP,
         ),
         clientEncryptionKeyProperties.encryptionKeyWrapMetadata,
       ),
@@ -520,10 +526,12 @@ describe("Client Side Encryption", function (this: Suite) {
     const client = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
-      encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
+        encryptionKeyResolverName: testKeyVault,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      },
     });
     const testdatabase = client.database(database.id);
     const testcontainer = testdatabase.container(encryptionContainer.id);
@@ -1186,9 +1194,11 @@ describe("Client Side Encryption", function (this: Suite) {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
     const newDatabase = newClient.database(database.id);
     const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
@@ -1287,9 +1297,11 @@ describe("Client Side Encryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
     const otherDatabase = otherClient.database(database.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
@@ -1460,9 +1472,11 @@ describe("Client Side Encryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
     const otherDatabase = otherClient.database(database.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
@@ -1570,9 +1584,11 @@ describe("Client Side Encryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
     const otherDatabase = otherClient.database(database.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
@@ -1692,9 +1708,11 @@ describe("Client Side Encryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
     const otherDatabase = otherClient.database(database.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
@@ -1791,16 +1809,18 @@ describe("Client Side Encryption", function (this: Suite) {
     const mainCLient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(30),
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(30),
+      },
     });
     let keyWrapMetadata = new EncryptionKeyWrapMetadata(
       testKeyVault,
       "myCek",
-      "mymetadata1",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      "cmkpath3",
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     let mainDatabase = (await mainCLient.databases.createIfNotExists({ id: "databaseToBeDeleted" }))
       .database;
@@ -1840,10 +1860,12 @@ describe("Client Side Encryption", function (this: Suite) {
     const otherClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      },
     });
     const otherDatabase = otherClient.database(mainDatabase.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
@@ -1857,8 +1879,8 @@ describe("Client Side Encryption", function (this: Suite) {
     keyWrapMetadata = new EncryptionKeyWrapMetadata(
       testKeyVault,
       "myCek",
-      "mymetadata2",
-      KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      "cmkpath4",
+      KeyEncryptionAlgorithm.RSA_OAEP,
     );
     await mainDatabase.createClientEncryptionKey(
       keyWrapMetadata.name,
@@ -1933,10 +1955,12 @@ describe("Client Side Encryption", function (this: Suite) {
     const otherClient2 = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.FromHours(1),
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.FromHours(1),
+      },
     });
     const otherDatabase2 = otherClient2.database(mainDatabase.id);
     const otherEncryptionContainer3 = otherDatabase2.container(otherEncryptionContainer2.id);
@@ -2152,9 +2176,11 @@ describe("Client Side Encryption", function (this: Suite) {
     const restrictedClient = new CosmosClient({
       endpoint: endpoint,
       resourceTokens: resourceTokens,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
 
     const datbaseForRestrictedUser = restrictedClient.database(database.id);
@@ -2164,8 +2190,8 @@ describe("Client Side Encryption", function (this: Suite) {
       const metadata = new EncryptionKeyWrapMetadata(
         testKeyVault,
         cekId,
-        "testmetadata1",
-        KeyEncryptionKeyAlgorithm.RSA_OAEP,
+        "cmkpath5",
+        KeyEncryptionAlgorithm.RSA_OAEP,
       );
       await datbaseForRestrictedUser.createClientEncryptionKey(
         cekId,
@@ -2182,8 +2208,8 @@ describe("Client Side Encryption", function (this: Suite) {
       const metadata = new EncryptionKeyWrapMetadata(
         testKeyVault,
         cekId,
-        "testmetadata1" + "updated",
-        KeyEncryptionKeyAlgorithm.RSA_OAEP,
+        "cmkpath5" + "updated",
+        KeyEncryptionAlgorithm.RSA_OAEP,
       );
       await datbaseForRestrictedUser.rewrapClientEncryptionKey(cekId, metadata);
       assert.fail("RewrapClientEncryptionKey should have failed due to restrictions");
@@ -2198,10 +2224,12 @@ describe("Client Side Encryption", function (this: Suite) {
     const encryptionTestClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: keyEncryptionKeyResolver,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: keyEncryptionKeyResolver,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
     const testdatabase = encryptionTestClient.database(database.id);
 
@@ -2307,17 +2335,19 @@ describe("Client Side Encryption", function (this: Suite) {
     let newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: testKeyResolver1,
-      encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: testKeyResolver1,
+        encryptionKeyResolverName: testKeyVault,
+        encryptionKeyTimeToLive: EncryptionTimeToLive.NoTTL(),
+      },
     });
     let newDatabase = newClient.database(database.id);
     let newContainer = newDatabase.container(encryptionContainer.id);
     for (let i = 0; i < 2; i++) {
       await testCreateItem(newContainer);
     }
-    let unwrapCount = testKeyResolver1.unwrapKeyCallsCount["tempmetadata1"];
+    let unwrapCount = testKeyResolver1.unwrapKeyCallsCount["cmkpath1"];
     assert.ok(unwrapCount > 1);
     const testKeyResolver2 = new MockKeyVaultEncryptionKeyResolver();
     // default cache ttl is 2 hrs
@@ -2325,16 +2355,18 @@ describe("Client Side Encryption", function (this: Suite) {
     newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
-      enableEncryption: true,
-      keyEncryptionKeyResolver: testKeyResolver2,
-      encryptionKeyResolverName: testKeyVault,
+      encryptionPolicy: {
+        enableEncryption: true,
+        keyEncryptionKeyResolver: testKeyResolver2,
+        encryptionKeyResolverName: testKeyVault,
+      },
     });
     newDatabase = newClient.database(database.id);
     newContainer = newDatabase.container(encryptionContainer.id);
     for (let i = 0; i < 2; i++) {
       await testCreateItem(newContainer);
     }
-    unwrapCount = testKeyResolver2.unwrapKeyCallsCount["tempmetadata1"];
+    unwrapCount = testKeyResolver2.unwrapKeyCallsCount["cmkpath1"];
     // expecting just one unwrap
     assert.ok(unwrapCount === 1);
     newClient.dispose();

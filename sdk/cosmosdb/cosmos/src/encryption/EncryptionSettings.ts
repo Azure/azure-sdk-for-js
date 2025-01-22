@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
+import type { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 
+/**
+ * stores partitionKeyPaths, all the pathsToEncrypt, and encryption settings (cekId, encryption type, and algorithm) for each property.
+ * see {@link EncryptionSettingForProperty}
+ * @hidden
+ */
 export class EncryptionSettings {
   public id: string; // databaseRid + '/' + containerRid
 

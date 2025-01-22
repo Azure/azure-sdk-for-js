@@ -16,7 +16,7 @@ import {
   EncryptionKeyResolverName,
   EncryptionTimeToLive,
   EncryptionAlgorithm,
-  KeyEncryptionKeyAlgorithm,
+  KeyEncryptionAlgorithm,
   EncryptionKeyWrapMetadata,
   ClientEncryptionIncludedPath,
   EncryptionType,
@@ -42,12 +42,14 @@ async function run() {
   client = new CosmosClient({
     endpoint: endpoint,
     key: key,
-    enableEncryption: true,
-    keyEncryptionKeyResolver: keyResolver,
-    encryptionKeyResolverName: EncryptionKeyResolverName.AzureKeyVault,
-    // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),
-    //  minutes (EncryptionTimeToLive.FromMinutes), and with no ttl (EncryptiontimeToLive.NoTTL)
-    encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(10),
+    encryptionPolicy: {
+      enableEncryption: true,
+      keyEncryptionKeyResolver: keyResolver,
+      encryptionKeyResolverName: EncryptionKeyResolverName.AzureKeyVault,
+      // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),
+      //  minutes (EncryptionTimeToLive.FromMinutes), and with no ttl (EncryptiontimeToLive.NoTTL)
+      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(10),
+    }
   });
 
   logStep("Create database and client encryption key");
@@ -59,7 +61,7 @@ async function run() {
     EncryptionKeyResolverName.AzureKeyVault,
     "akvKey",
     "https://<my-key-vault-1>.vault.azure.net/keys/cmk1/<version>", // key-vault url
-    KeyEncryptionKeyAlgorithm.RSA_OAEP,
+    KeyEncryptionAlgorithm.RSA_OAEP,
   );
   await database.createClientEncryptionKey(
     "cek1",
@@ -148,7 +150,7 @@ async function run() {
     EncryptionKeyResolverName.AzureKeyVault,
     "v4key",
     "https://<my-key-vault-1>.vault.azure.net/keys/cmk2/<version>",
-    KeyEncryptionKeyAlgorithm.RSA_OAEP,
+    KeyEncryptionAlgorithm.RSA_OAEP,
   );
   await database.rewrapClientEncryptionKey("cek1", newMetadata);
   console.log(`rewrapped client encryption key with id cek1`);
