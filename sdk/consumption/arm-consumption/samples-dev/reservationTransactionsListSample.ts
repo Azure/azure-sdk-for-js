@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ReservationTransactionsListOptionalParams} from "@azure/arm-consumption";
 import {
-  ReservationTransactionsListOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function reservationTransactionsByEnrollmentNumber(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationTransactions.list(
+  for await (const item of client.reservationTransactions.list(
     billingAccountId,
     options
   )) {

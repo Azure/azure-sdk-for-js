@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AggregatedCostGetByManagementGroupOptionalParams} from "@azure/arm-consumption";
 import {
-  AggregatedCostGetByManagementGroupOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";

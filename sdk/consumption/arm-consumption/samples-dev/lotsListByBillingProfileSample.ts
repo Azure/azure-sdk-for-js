@@ -27,7 +27,7 @@ async function lotsListByBillingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.lotsOperations.listByBillingProfile(
+  for await (const item of client.lotsOperations.listByBillingProfile(
     billingAccountId,
     billingProfileId
   )) {

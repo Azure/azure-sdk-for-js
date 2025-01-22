@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ReservationsSummariesListOptionalParams} from "@azure/arm-consumption";
 import {
-  ReservationsSummariesListOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function reservationSummariesDailyWithBillingAccountId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsSummaries.list(
+  for await (const item of client.reservationsSummaries.list(
     scope,
     grain,
     options
@@ -65,7 +66,7 @@ async function reservationSummariesDailyWithBillingProfileId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsSummaries.list(
+  for await (const item of client.reservationsSummaries.list(
     scope,
     grain,
     options
@@ -90,7 +91,7 @@ async function reservationSummariesMonthlyWithBillingAccountId(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsSummaries.list(scope, grain)) {
+  for await (const item of client.reservationsSummaries.list(scope, grain)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -112,7 +113,7 @@ async function reservationSummariesMonthlyWithBillingProfileId(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsSummaries.list(scope, grain)) {
+  for await (const item of client.reservationsSummaries.list(scope, grain)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -140,7 +141,7 @@ async function reservationSummariesMonthlyWithBillingProfileIdReservationId(): P
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsSummaries.list(
+  for await (const item of client.reservationsSummaries.list(
     scope,
     grain,
     options
