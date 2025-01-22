@@ -544,6 +544,9 @@ export const Constants: {
         ForceRefresh: string;
         PriorityLevel: string;
     };
+    ThrottledRequestMaxRetryAttemptCount: number;
+    ThrottledRequestMaxWaitTimeInSeconds: number;
+    ThrottledRequestFixedRetryIntervalInMs: number;
     WritableLocations: string;
     ReadableLocations: string;
     LocationUnavailableExpirationTimeInMs: number;
@@ -2028,9 +2031,9 @@ export type RetryDiagnostics = {
 
 // @public
 export interface RetryOptions {
-    fixedRetryIntervalInMilliseconds: number;
-    maxRetryAttemptCount: number;
-    maxWaitTimeInSeconds: number;
+    fixedRetryIntervalInMilliseconds?: number;
+    maxRetryAttemptCount?: number;
+    maxWaitTimeInSeconds?: number;
 }
 
 // @public (undocumented)

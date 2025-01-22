@@ -70,7 +70,7 @@ export class CIInfoProvider {
           ? parseInt(process.env["RELEASE_ATTEMPTNUMBER"], 10)
           : parseInt(process.env["SYSTEM_JOBATTEMPT"] ?? "", 10),
         jobName:
-          process.env["SYSTEM_JOBDISPLAYNAME"] ?? process.env["RELEASE_DEPLOYMENTID"] ?? null,
+          process.env["SYSTEM_JOBDISPLAYNAME"] || process.env["RELEASE_DEPLOYMENTID"] || null,
       };
     } else {
       // Handle unsupported CI provider
