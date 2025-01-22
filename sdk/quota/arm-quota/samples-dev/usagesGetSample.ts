@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the current usage of a resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the current usage of a resource.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getComputeOneSkuUsages.json
  */
-async function quotasUsagesRequestForCompute() {
+async function quotasUsagesRequestForCompute(): Promise<void> {
   const resourceName = "standardNDSFamily";
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus";
@@ -36,7 +34,7 @@ async function quotasUsagesRequestForCompute() {
  * @summary Get the current usage of a resource.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getNetworkOneSkuUsages.json
  */
-async function quotasUsagesRequestForNetwork() {
+async function quotasUsagesRequestForNetwork(): Promise<void> {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus";
@@ -46,7 +44,7 @@ async function quotasUsagesRequestForNetwork() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotasUsagesRequestForCompute();
   quotasUsagesRequestForNetwork();
 }

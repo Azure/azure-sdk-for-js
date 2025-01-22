@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the GroupQuotas with the subscription to add to the subscriptions list. The subscriptions will be validated if additionalAttributes are defined in the GroupQuota. The request's TenantId is validated against the subscription's TenantId.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates the GroupQuotas with the subscription to add to the subscriptions list. The subscriptions will be validated if additionalAttributes are defined in the GroupQuota. The request's TenantId is validated against the subscription's TenantId.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GroupQuotasSubscriptions/PatchGroupQuotasSubscription.json
  */
-async function groupQuotaSubscriptionsPatchSubscriptions() {
+async function groupQuotaSubscriptionsPatchSubscriptions(): Promise<void> {
   const subscriptionId =
     process.env["QUOTA_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +33,7 @@ async function groupQuotaSubscriptionsPatchSubscriptions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   groupQuotaSubscriptionsPatchSubscriptions();
 }
 

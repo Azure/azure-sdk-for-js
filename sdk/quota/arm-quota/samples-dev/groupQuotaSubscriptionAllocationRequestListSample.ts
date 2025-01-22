@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all the quotaAllocationRequests for a resourceProvider/location. The filter paramter for location is required.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all the quotaAllocationRequests for a resourceProvider/location. The filter paramter for location is required.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/SubscriptionQuotaAllocationRequests/SubscriptionQuotaAllocationRequests_List-Compute.json
  */
-async function subscriptionQuotaAllocationListRequestForCompute() {
+async function subscriptionQuotaAllocationListRequestForCompute(): Promise<void> {
   const subscriptionId =
     process.env["QUOTA_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function subscriptionQuotaAllocationListRequestForCompute() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   subscriptionQuotaAllocationListRequestForCompute();
 }
 

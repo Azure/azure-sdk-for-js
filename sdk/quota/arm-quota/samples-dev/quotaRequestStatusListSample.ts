@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to For the specified scope, get the current quota requests for a one year period ending at the time is made. Use the **oData** filter to select quota requests.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary For the specified scope, get the current quota requests for a one year period ending at the time is made. Use the **oData** filter to select quota requests.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getQuotaRequestsHistory.json
  */
-async function quotaRequestHistory() {
+async function quotaRequestHistory(): Promise<void> {
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function quotaRequestHistory() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotaRequestHistory();
 }
 

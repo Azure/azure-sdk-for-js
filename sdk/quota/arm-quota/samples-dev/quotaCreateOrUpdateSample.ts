@@ -13,9 +13,7 @@ import {
   AzureQuotaExtensionAPI,
 } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
@@ -27,7 +25,7 @@ dotenv.config();
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/putNetworkOneSkuQuotaRequest.json
  */
-async function quotasPutRequestForNetwork() {
+async function quotasPutRequestForNetwork(): Promise<void> {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus";
@@ -58,7 +56,7 @@ async function quotasPutRequestForNetwork() {
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/putNetworkOneSkuQuotaRequestStandardSkuPublicIpAddresses.json
  */
-async function quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource() {
+async function quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource(): Promise<void> {
   const resourceName = "StandardSkuPublicIpAddresses";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus";
@@ -89,7 +87,7 @@ async function quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource() 
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/putComputeOneSkuQuotaRequest.json
  */
-async function quotasPutRequestForCompute() {
+async function quotasPutRequestForCompute(): Promise<void> {
   const resourceName = "standardFSv2Family";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus";
@@ -119,7 +117,7 @@ async function quotasPutRequestForCompute() {
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/putMachineLearningServicesQuotaRequestLowPriority.json
  */
-async function quotasRequestForMachineLearningServicesLowPriorityResource() {
+async function quotasRequestForMachineLearningServicesLowPriorityResource(): Promise<void> {
   const resourceName = "TotalLowPriorityCores";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.MachineLearningServices/locations/eastus";
@@ -140,7 +138,7 @@ async function quotasRequestForMachineLearningServicesLowPriorityResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotasPutRequestForNetwork();
   quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource();
   quotasPutRequestForCompute();

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the quota allocation request status for the subscriptionId by allocationId.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the quota allocation request status for the subscriptionId by allocationId.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/SubscriptionQuotaAllocationRequests/SubscriptionQuotaAllocationRequests_Get-Compute.json
  */
-async function subscriptionQuotaAllocationRequestsGetRequestForCompute() {
+async function subscriptionQuotaAllocationRequestsGetRequestForCompute(): Promise<void> {
   const subscriptionId =
     process.env["QUOTA_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function subscriptionQuotaAllocationRequestsGetRequestForCompute() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   subscriptionQuotaAllocationRequestsGetRequestForCompute();
 }
 

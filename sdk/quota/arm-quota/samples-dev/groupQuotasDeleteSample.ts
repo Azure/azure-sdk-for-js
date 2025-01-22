@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be lost.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be lost.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GroupQuotas/DeleteGroupQuotas.json
  */
-async function groupQuotasDeleteRequestForCompute() {
+async function groupQuotasDeleteRequestForCompute(): Promise<void> {
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function groupQuotasDeleteRequestForCompute() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   groupQuotasDeleteRequestForCompute();
 }
 

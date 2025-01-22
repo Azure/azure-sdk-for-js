@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the operations supported by the Microsoft.Quota resource provider.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all the operations supported by the Microsoft.Quota resource provider.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GetOperations.json
  */
-async function getOperations() {
+async function getOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function getOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getOperations();
 }
 

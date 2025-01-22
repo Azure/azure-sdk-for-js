@@ -26,7 +26,7 @@ import {
   QuotaImpl,
   QuotaRequestStatusImpl,
   QuotaOperationImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   GroupQuotas,
   GroupQuotaSubscriptions,
@@ -39,8 +39,8 @@ import {
   Quota,
   QuotaRequestStatus,
   QuotaOperation,
-} from "./operationsInterfaces";
-import { AzureQuotaExtensionAPIOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureQuotaExtensionAPIOptionalParams } from "./models/index.js";
 
 export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
   $host: string;

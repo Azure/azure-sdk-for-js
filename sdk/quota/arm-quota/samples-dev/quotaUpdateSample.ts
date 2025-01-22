@@ -13,9 +13,7 @@ import {
   AzureQuotaExtensionAPI,
 } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the quota limit for a specific resource to the specified value:
@@ -27,7 +25,7 @@ dotenv.config();
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/patchComputeQuotaRequest.json
  */
-async function quotasRequestPatchForCompute() {
+async function quotasRequestPatchForCompute(): Promise<void> {
   const resourceName = "standardFSv2Family";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus";
@@ -57,7 +55,7 @@ async function quotasRequestPatchForCompute() {
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/patchNetworkOneSkuQuotaRequest.json
  */
-async function quotasRequestPatchForNetwork() {
+async function quotasRequestPatchForNetwork(): Promise<void> {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus";
@@ -78,7 +76,7 @@ async function quotasRequestPatchForNetwork() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotasRequestPatchForCompute();
   quotasRequestPatchForNetwork();
 }
