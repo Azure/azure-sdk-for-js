@@ -40,7 +40,7 @@ matrix([[false, true]], async function (useAad: boolean) {
         }
       });
 
-      afterEach(async function (ctx) {
+      afterEach(async function () {
         await recorder.stop();
         if (isPlaybackMode()) {
           vi.restoreAllMocks();
