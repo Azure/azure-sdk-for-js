@@ -34,7 +34,7 @@ async function deleteNatGateway() {
 }
 
 async function main() {
-  deleteNatGateway();
+  await deleteNatGateway();
 }
 
 main().catch(console.error);

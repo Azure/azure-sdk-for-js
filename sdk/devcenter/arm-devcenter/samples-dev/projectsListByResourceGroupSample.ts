@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all projects in the resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all projects in the resource group.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_ListByResourceGroup.json
  */
-async function projectsListByResourceGroup() {
+async function projectsListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -36,8 +34,8 @@ async function projectsListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
-  projectsListByResourceGroup();
+async function main(): Promise<void> {
+  await projectsListByResourceGroup();
 }
 
 main().catch(console.error);

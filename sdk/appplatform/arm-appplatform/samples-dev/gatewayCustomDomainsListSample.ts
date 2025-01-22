@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Handle requests to list all Spring Cloud Gateway custom domains.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/GatewayCustomDomains_List.json
  */
-async function gatewayCustomDomainsList() {
+async function gatewayCustomDomainsList(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ async function gatewayCustomDomainsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   gatewayCustomDomainsList();
 }
 

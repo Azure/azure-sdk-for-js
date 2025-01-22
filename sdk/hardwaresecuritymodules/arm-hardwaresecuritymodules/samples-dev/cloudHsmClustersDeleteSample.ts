@@ -37,7 +37,7 @@ async function cloudHsmClusterDeleteMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterDeleteMaximumSetGen();
+  await cloudHsmClusterDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

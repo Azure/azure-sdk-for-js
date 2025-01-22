@@ -38,7 +38,7 @@ async function poolsDelete() {
 }
 
 async function main() {
-  poolsDelete();
+  await poolsDelete();
 }
 
 main().catch(console.error);

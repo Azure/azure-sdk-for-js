@@ -48,7 +48,7 @@ async function entityTimeline() {
 }
 
 async function main() {
-  entityTimeline();
+  await entityTimeline();
 }
 
 main().catch(console.error);

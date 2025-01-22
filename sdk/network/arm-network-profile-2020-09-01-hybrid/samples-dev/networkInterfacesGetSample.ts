@@ -34,7 +34,7 @@ async function getNetworkInterface() {
 }
 
 async function main() {
-  getNetworkInterface();
+  await getNetworkInterface();
 }
 
 main().catch(console.error);

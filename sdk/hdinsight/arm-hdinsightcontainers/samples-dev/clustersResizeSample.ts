@@ -50,7 +50,7 @@ async function hdInsightClusterResize() {
 }
 
 async function main() {
-  hdInsightClusterResize();
+  await hdInsightClusterResize();
 }
 
 main().catch(console.error);

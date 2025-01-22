@@ -37,7 +37,7 @@ async function getVirtualMachineTemplate() {
 }
 
 async function main() {
-  getVirtualMachineTemplate();
+  await getVirtualMachineTemplate();
 }
 
 main().catch(console.error);

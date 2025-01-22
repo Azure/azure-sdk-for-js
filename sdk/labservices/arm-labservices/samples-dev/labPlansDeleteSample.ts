@@ -37,7 +37,7 @@ async function deleteLabPlan() {
 }
 
 async function main() {
-  deleteLabPlan();
+  await deleteLabPlan();
 }
 
 main().catch(console.error);

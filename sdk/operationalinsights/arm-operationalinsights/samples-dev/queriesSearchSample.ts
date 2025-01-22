@@ -56,7 +56,7 @@ async function querySearch() {
 }
 
 async function main() {
-  querySearch();
+  await querySearch();
 }
 
 main().catch(console.error);

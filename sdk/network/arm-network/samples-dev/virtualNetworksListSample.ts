@@ -33,7 +33,7 @@ async function listVirtualNetworksInResourceGroup() {
 }
 
 async function main() {
-  listVirtualNetworksInResourceGroup();
+  await listVirtualNetworksInResourceGroup();
 }
 
 main().catch(console.error);

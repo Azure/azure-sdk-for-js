@@ -54,7 +54,7 @@ async function queryPatch() {
 }
 
 async function main() {
-  queryPatch();
+  await queryPatch();
 }
 
 main().catch(console.error);

@@ -183,9 +183,9 @@ async function createConnectionMonitorWithArcNetwork() {
 }
 
 async function main() {
-  createConnectionMonitorV1();
-  createConnectionMonitorV2();
-  createConnectionMonitorWithArcNetwork();
+  await createConnectionMonitorV1();
+  await createConnectionMonitorV2();
+  await createConnectionMonitorWithArcNetwork();
 }
 
 main().catch(console.error);

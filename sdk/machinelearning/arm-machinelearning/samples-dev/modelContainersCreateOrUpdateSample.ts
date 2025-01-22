@@ -52,7 +52,7 @@ async function createOrUpdateWorkspaceModelContainer() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceModelContainer();
+  await createOrUpdateWorkspaceModelContainer();
 }
 
 main().catch(console.error);

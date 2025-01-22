@@ -143,13 +143,13 @@ async function listSupportTicketsWithACertainServiceId() {
 }
 
 async function main() {
-  listSupportTickets();
-  listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenState();
-  listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingState();
-  listSupportTicketsInOpenState();
-  listSupportTicketsInUpdatingState();
-  listSupportTicketsWithACertainProblemClassificationId();
-  listSupportTicketsWithACertainServiceId();
+  await listSupportTickets();
+  await listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenState();
+  await listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingState();
+  await listSupportTicketsInOpenState();
+  await listSupportTicketsInUpdatingState();
+  await listSupportTicketsWithACertainProblemClassificationId();
+  await listSupportTicketsWithACertainServiceId();
 }
 
 main().catch(console.error);

@@ -54,7 +54,7 @@ async function policyCreate() {
 }
 
 async function main() {
-  policyCreate();
+  await policyCreate();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function maintenanceConfigurationsList() {
 }
 
 async function main() {
-  maintenanceConfigurationsList();
+  await maintenanceConfigurationsList();
 }
 
 main().catch(console.error);

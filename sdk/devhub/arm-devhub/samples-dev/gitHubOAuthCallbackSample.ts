@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuthCallback.json
  */
-async function gitHubOAuthCallback() {
+async function gitHubOAuthCallback(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const location = "eastus2euap";
@@ -32,8 +30,8 @@ async function gitHubOAuthCallback() {
   console.log(result);
 }
 
-async function main() {
-  gitHubOAuthCallback();
+async function main(): Promise<void> {
+  await gitHubOAuthCallback();
 }
 
 main().catch(console.error);

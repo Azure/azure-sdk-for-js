@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the list of CPU/memory/GPU capabilities of a region.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the list of CPU/memory/GPU capabilities of a region.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/CapabilitiesList.json
  */
-async function getCapabilities() {
+async function getCapabilities(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function getCapabilities() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCapabilities();
 }
 

@@ -54,7 +54,7 @@ async function smMachinesProcessesListConnectionsGet() {
 }
 
 async function main() {
-  smMachinesProcessesListConnectionsGet();
+  await smMachinesProcessesListConnectionsGet();
 }
 
 main().catch(console.error);

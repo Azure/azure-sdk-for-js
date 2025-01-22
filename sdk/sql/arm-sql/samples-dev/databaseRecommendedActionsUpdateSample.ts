@@ -45,7 +45,7 @@ async function updateDatabaseRecommendedAction() {
 }
 
 async function main() {
-  updateDatabaseRecommendedAction();
+  await updateDatabaseRecommendedAction();
 }
 
 main().catch(console.error);

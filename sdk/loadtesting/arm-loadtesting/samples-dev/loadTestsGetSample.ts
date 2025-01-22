@@ -34,7 +34,7 @@ async function loadTestsGet() {
 }
 
 async function main() {
-  loadTestsGet();
+  await loadTestsGet();
 }
 
 main().catch(console.error);

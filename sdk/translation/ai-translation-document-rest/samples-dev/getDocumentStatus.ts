@@ -68,8 +68,8 @@ export async function main() {
     console.log("Document created dateTime = " + documentStatusOutput.createdDateTimeUtc);
     console.log("Document last action date time = " + documentStatusOutput.lastActionDateTimeUtc);
   }
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

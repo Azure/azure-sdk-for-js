@@ -49,7 +49,7 @@ async function kustoPoolDataConnectionValidation() {
 }
 
 async function main() {
-  kustoPoolDataConnectionValidation();
+  await kustoPoolDataConnectionValidation();
 }
 
 main().catch(console.error);

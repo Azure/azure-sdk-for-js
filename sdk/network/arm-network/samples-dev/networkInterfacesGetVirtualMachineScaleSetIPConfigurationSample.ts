@@ -41,7 +41,7 @@ async function getVirtualMachineScaleSetNetworkInterface() {
 }
 
 async function main() {
-  getVirtualMachineScaleSetNetworkInterface();
+  await getVirtualMachineScaleSetNetworkInterface();
 }
 
 main().catch(console.error);

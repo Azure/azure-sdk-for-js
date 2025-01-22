@@ -33,7 +33,7 @@ async function getLicense() {
 }
 
 async function main() {
-  getLicense();
+  await getLicense();
 }
 
 main().catch(console.error);

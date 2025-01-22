@@ -40,7 +40,7 @@ async function azureDevOpsRepoListByConnector() {
 }
 
 async function main() {
-  azureDevOpsRepoListByConnector();
+  await azureDevOpsRepoListByConnector();
 }
 
 main().catch(console.error);

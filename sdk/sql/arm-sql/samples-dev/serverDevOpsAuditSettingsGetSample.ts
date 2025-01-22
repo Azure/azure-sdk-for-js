@@ -39,7 +39,7 @@ async function getAServerDevOpsAuditSettings() {
 }
 
 async function main() {
-  getAServerDevOpsAuditSettings();
+  await getAServerDevOpsAuditSettings();
 }
 
 main().catch(console.error);

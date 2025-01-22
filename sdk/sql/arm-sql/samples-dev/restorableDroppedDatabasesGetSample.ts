@@ -69,8 +69,8 @@ async function getsARestorableDroppedDatabase() {
 }
 
 async function main() {
-  getsARestorableDroppedDatabaseWithExpandEqualsKeys();
-  getsARestorableDroppedDatabase();
+  await getsARestorableDroppedDatabaseWithExpandEqualsKeys();
+  await getsARestorableDroppedDatabase();
 }
 
 main().catch(console.error);

@@ -64,11 +64,13 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
-```javascript
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
+```ts snippet:ReadmeSampleCreateClient_Node
+import { AzureKeyCredential } from "@azure/core-auth";
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
 
-const client = new ConversationAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+const credential = new AzureKeyCredential("<api key>");
+const client = new ConversationAnalysisClient(endpoint, credential);
 ```
 
 ### JavaScript Bundle
@@ -87,8 +89,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
 setLogLevel("info");
 ```
 

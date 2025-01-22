@@ -40,7 +40,7 @@ async function iotHubResourceListKeys() {
 }
 
 async function main() {
-  iotHubResourceListKeys();
+  await iotHubResourceListKeys();
 }
 
 main().catch(console.error);

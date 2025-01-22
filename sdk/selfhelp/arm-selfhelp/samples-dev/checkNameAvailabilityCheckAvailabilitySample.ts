@@ -67,8 +67,8 @@ async function exampleWhenNameIsNotAvailableForADiagnosticResource() {
 }
 
 async function main() {
-  exampleWhenNameIsAvailableForADiagnosticResource();
-  exampleWhenNameIsNotAvailableForADiagnosticResource();
+  await exampleWhenNameIsAvailableForADiagnosticResource();
+  await exampleWhenNameIsNotAvailableForADiagnosticResource();
 }
 
 main().catch(console.error);

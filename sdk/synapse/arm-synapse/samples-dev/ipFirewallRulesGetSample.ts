@@ -39,7 +39,7 @@ async function getIPFirewallRule() {
 }
 
 async function main() {
-  getIPFirewallRule();
+  await getIPFirewallRule();
 }
 
 main().catch(console.error);

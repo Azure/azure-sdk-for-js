@@ -36,7 +36,7 @@ async function getFlowLog() {
 }
 
 async function main() {
-  getFlowLog();
+  await getFlowLog();
 }
 
 main().catch(console.error);

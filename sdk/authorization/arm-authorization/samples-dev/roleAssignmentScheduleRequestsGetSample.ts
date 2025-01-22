@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the specified role assignment schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/GetRoleAssignmentScheduleRequestByName.json
  */
-async function getRoleAssignmentScheduleRequestByName() {
+async function getRoleAssignmentScheduleRequestByName(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";
   const roleAssignmentScheduleRequestName =
@@ -32,7 +32,7 @@ async function getRoleAssignmentScheduleRequestByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getRoleAssignmentScheduleRequestByName();
 }
 

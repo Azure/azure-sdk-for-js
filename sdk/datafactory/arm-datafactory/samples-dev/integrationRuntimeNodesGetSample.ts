@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a self-hosted integration runtime node.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a self-hosted integration runtime node.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimeNodes_Get.json
  */
-async function integrationRuntimeNodesGet() {
+async function integrationRuntimeNodesGet(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -40,8 +38,8 @@ async function integrationRuntimeNodesGet() {
   console.log(result);
 }
 
-async function main() {
-  integrationRuntimeNodesGet();
+async function main(): Promise<void> {
+  await integrationRuntimeNodesGet();
 }
 
 main().catch(console.error);

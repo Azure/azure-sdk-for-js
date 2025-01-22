@@ -37,7 +37,7 @@ async function getAzureMonitorWorkspace() {
 }
 
 async function main() {
-  getAzureMonitorWorkspace();
+  await getAzureMonitorWorkspace();
 }
 
 main().catch(console.error);

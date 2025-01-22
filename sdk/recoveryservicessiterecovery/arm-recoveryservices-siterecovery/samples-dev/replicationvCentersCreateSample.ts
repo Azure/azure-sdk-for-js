@@ -54,7 +54,7 @@ async function addVCenter() {
 }
 
 async function main() {
-  addVCenter();
+  await addVCenter();
 }
 
 main().catch(console.error);

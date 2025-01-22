@@ -42,7 +42,7 @@ async function getsRoutingRule() {
 }
 
 async function main() {
-  getsRoutingRule();
+  await getsRoutingRule();
 }
 
 main().catch(console.error);

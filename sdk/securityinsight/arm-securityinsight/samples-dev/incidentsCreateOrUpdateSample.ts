@@ -53,7 +53,7 @@ async function createsOrUpdatesAnIncident() {
 }
 
 async function main() {
-  createsOrUpdatesAnIncident();
+  await createsOrUpdatesAnIncident();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getWorkspacesByResourceGroup() {
 }
 
 async function main() {
-  getWorkspacesByResourceGroup();
+  await getWorkspacesByResourceGroup();
 }
 
 main().catch(console.error);

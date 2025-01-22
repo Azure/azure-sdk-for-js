@@ -41,7 +41,7 @@ async function queueAuthorizationRuleGet() {
 }
 
 async function main() {
-  queueAuthorizationRuleGet();
+  await queueAuthorizationRuleGet();
 }
 
 main().catch(console.error);

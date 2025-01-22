@@ -75,7 +75,7 @@ async function createOrUpdateANetworkServiceDesignVersionResource() {
 }
 
 async function main() {
-  createOrUpdateANetworkServiceDesignVersionResource();
+  await createOrUpdateANetworkServiceDesignVersionResource();
 }
 
 main().catch(console.error);

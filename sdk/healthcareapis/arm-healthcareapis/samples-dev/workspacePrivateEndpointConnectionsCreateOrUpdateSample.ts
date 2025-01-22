@@ -49,7 +49,7 @@ async function workspacePrivateEndpointConnectionCreateOrUpdate() {
 }
 
 async function main() {
-  workspacePrivateEndpointConnectionCreateOrUpdate();
+  await workspacePrivateEndpointConnectionCreateOrUpdate();
 }
 
 main().catch(console.error);

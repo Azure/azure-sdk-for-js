@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the subscriptions for a customer at billing account level. The operation is supported only for billing accounts with agreement type Microsoft Partner Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionsListByCustomerAtBillingAccount.json
  */
-async function billingSubscriptionsListByCustomerAtBillingAccount() {
+async function billingSubscriptionsListByCustomerAtBillingAccount(): Promise<void> {
   const billingAccountName =
     "a1a9c77e-4cec-4a6c-a089-867d973a6074:a80d3b1f-c626-4e5e-82ed-1173bd91c838_2019-05-31";
   const customerName = "Q7GV-UUVA-PJA-TGB";
@@ -34,7 +34,7 @@ async function billingSubscriptionsListByCustomerAtBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingSubscriptionsListByCustomerAtBillingAccount();
 }
 

@@ -39,7 +39,7 @@ async function deleteBaseboardManagementControllerKeySetOfCluster() {
 }
 
 async function main() {
-  deleteBaseboardManagementControllerKeySetOfCluster();
+  await deleteBaseboardManagementControllerKeySetOfCluster();
 }
 
 main().catch(console.error);

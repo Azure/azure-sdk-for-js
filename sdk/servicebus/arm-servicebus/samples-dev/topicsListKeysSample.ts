@@ -41,7 +41,7 @@ async function topicAuthorizationRuleListKey() {
 }
 
 async function main() {
-  topicAuthorizationRuleListKey();
+  await topicAuthorizationRuleListKey();
 }
 
 main().catch(console.error);

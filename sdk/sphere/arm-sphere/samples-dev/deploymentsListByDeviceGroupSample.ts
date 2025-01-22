@@ -44,7 +44,7 @@ async function deploymentsListByDeviceGroup() {
 }
 
 async function main() {
-  deploymentsListByDeviceGroup();
+  await deploymentsListByDeviceGroup();
 }
 
 main().catch(console.error);

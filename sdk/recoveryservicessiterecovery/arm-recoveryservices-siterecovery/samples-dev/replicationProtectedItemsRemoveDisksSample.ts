@@ -58,7 +58,7 @@ async function removesDiskS() {
 }
 
 async function main() {
-  removesDiskS();
+  await removesDiskS();
 }
 
 main().catch(console.error);

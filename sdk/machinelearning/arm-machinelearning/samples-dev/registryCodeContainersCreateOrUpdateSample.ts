@@ -52,7 +52,7 @@ async function createOrUpdateRegistryCodeContainer() {
 }
 
 async function main() {
-  createOrUpdateRegistryCodeContainer();
+  await createOrUpdateRegistryCodeContainer();
 }
 
 main().catch(console.error);

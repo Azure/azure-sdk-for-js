@@ -69,7 +69,7 @@ async function createOrUpdateWorkspaceOnlineEndpoint() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceOnlineEndpoint();
+  await createOrUpdateWorkspaceOnlineEndpoint();
 }
 
 main().catch(console.error);

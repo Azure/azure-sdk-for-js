@@ -57,8 +57,8 @@ async function getAServerWithVnet() {
 }
 
 async function main() {
-  getAServer();
-  getAServerWithVnet();
+  await getAServer();
+  await getAServerWithVnet();
 }
 
 main().catch(console.error);

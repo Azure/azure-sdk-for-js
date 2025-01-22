@@ -39,7 +39,7 @@ async function getAnOfficeConsent() {
 }
 
 async function main() {
-  getAnOfficeConsent();
+  await getAnOfficeConsent();
 }
 
 main().catch(console.error);

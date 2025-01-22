@@ -15,7 +15,7 @@ import {
   SenderUsernamesCreateOrUpdateOptionalParams,
   SenderUsernamesCreateOrUpdateResponse,
   SenderUsernamesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SenderUsernames. */

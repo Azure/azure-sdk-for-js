@@ -37,7 +37,7 @@ async function returnsTheListOfAvailableOperations() {
 }
 
 async function main() {
-  returnsTheListOfAvailableOperations();
+  await returnsTheListOfAvailableOperations();
 }
 
 main().catch(console.error);

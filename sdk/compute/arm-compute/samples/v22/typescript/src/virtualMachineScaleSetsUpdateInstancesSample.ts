@@ -13,9 +13,7 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
+async function virtualMachineScaleSetUpdateInstancesMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -49,7 +47,7 @@ async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
  * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetUpdateInstancesMinimumSetGen() {
+async function virtualMachineScaleSetUpdateInstancesMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -69,7 +67,7 @@ async function virtualMachineScaleSetUpdateInstancesMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetUpdateInstancesMaximumSetGen();
   virtualMachineScaleSetUpdateInstancesMinimumSetGen();
 }

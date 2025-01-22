@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./policyTrackedResources";
-export * from "./remediations";
-export * from "./policyEvents";
-export * from "./policyStates";
-export * from "./policyMetadataOperations";
-export * from "./policyRestrictions";
-export * from "./componentPolicyStates";
-export * from "./operations";
-export * from "./attestations";
+export * from "./policyTrackedResources.js";
+export * from "./remediations.js";
+export * from "./policyEvents.js";
+export * from "./policyStates.js";
+export * from "./policyMetadataOperations.js";
+export * from "./policyRestrictions.js";
+export * from "./componentPolicyStates.js";
+export * from "./operations.js";
+export * from "./attestations.js";

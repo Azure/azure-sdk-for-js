@@ -42,7 +42,7 @@ async function getASingleAdaptiveNetworkHardeningResource() {
 }
 
 async function main() {
-  getASingleAdaptiveNetworkHardeningResource();
+  await getASingleAdaptiveNetworkHardeningResource();
 }
 
 main().catch(console.error);

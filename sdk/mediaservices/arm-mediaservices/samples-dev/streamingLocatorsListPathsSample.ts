@@ -63,8 +63,8 @@ async function listPathsWhichHasStreamingPathsOnly() {
 }
 
 async function main() {
-  listPathsWhichHasStreamingPathsAndDownloadPaths();
-  listPathsWhichHasStreamingPathsOnly();
+  await listPathsWhichHasStreamingPathsAndDownloadPaths();
+  await listPathsWhichHasStreamingPathsOnly();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a shared gallery image version by subscription id or tenant id.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a shared gallery image version by subscription id or tenant id.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/sharedGalleryExamples/SharedGalleryImageVersion_Get.json
  */
-async function getASharedGalleryImageVersion() {
+async function getASharedGalleryImageVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
@@ -38,7 +36,7 @@ async function getASharedGalleryImageVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getASharedGalleryImageVersion();
 }
 

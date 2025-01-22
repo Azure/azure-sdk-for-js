@@ -93,8 +93,8 @@ async function tagRulesUpdateMinimumSetGen() {
 }
 
 async function main() {
-  tagRulesUpdateMaximumSetGen();
-  tagRulesUpdateMinimumSetGen();
+  await tagRulesUpdateMaximumSetGen();
+  await tagRulesUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

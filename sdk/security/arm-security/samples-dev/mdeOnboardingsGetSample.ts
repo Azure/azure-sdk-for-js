@@ -31,7 +31,7 @@ async function theDefaultConfigurationOrDataNeededToOnboardTheMachineToMde() {
 }
 
 async function main() {
-  theDefaultConfigurationOrDataNeededToOnboardTheMachineToMde();
+  await theDefaultConfigurationOrDataNeededToOnboardTheMachineToMde();
 }
 
 main().catch(console.error);

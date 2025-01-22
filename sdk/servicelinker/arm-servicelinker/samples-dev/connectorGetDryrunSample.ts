@@ -38,7 +38,7 @@ async function connectorDryrunGet() {
 }
 
 async function main() {
-  connectorDryrunGet();
+  await connectorDryrunGet();
 }
 
 main().catch(console.error);

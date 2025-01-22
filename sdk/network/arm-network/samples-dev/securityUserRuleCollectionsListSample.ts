@@ -41,7 +41,7 @@ async function listRuleCollectionsInASecurityConfiguration() {
 }
 
 async function main() {
-  listRuleCollectionsInASecurityConfiguration();
+  await listRuleCollectionsInASecurityConfiguration();
 }
 
 main().catch(console.error);

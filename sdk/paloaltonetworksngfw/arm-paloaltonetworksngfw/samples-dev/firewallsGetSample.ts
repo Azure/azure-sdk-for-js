@@ -53,8 +53,8 @@ async function firewallsGetMinimumSetGen() {
 }
 
 async function main() {
-  firewallsGetMaximumSetGen();
-  firewallsGetMinimumSetGen();
+  await firewallsGetMaximumSetGen();
+  await firewallsGetMinimumSetGen();
 }
 
 main().catch(console.error);

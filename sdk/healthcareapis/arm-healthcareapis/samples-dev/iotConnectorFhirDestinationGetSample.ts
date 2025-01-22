@@ -40,7 +40,7 @@ async function getAnIoTConnectorDestination() {
 }
 
 async function main() {
-  getAnIoTConnectorDestination();
+  await getAnIoTConnectorDestination();
 }
 
 main().catch(console.error);

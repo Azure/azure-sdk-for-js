@@ -39,7 +39,7 @@ async function signalRCustomDomainsDelete() {
 }
 
 async function main() {
-  signalRCustomDomainsDelete();
+  await signalRCustomDomainsDelete();
 }
 
 main().catch(console.error);

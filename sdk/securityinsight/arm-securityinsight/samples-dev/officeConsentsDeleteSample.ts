@@ -39,7 +39,7 @@ async function deleteAnOfficeConsent() {
 }
 
 async function main() {
-  deleteAnOfficeConsent();
+  await deleteAnOfficeConsent();
 }
 
 main().catch(console.error);

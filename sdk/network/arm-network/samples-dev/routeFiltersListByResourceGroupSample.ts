@@ -35,7 +35,7 @@ async function routeFilterListByResourceGroup() {
 }
 
 async function main() {
-  routeFilterListByResourceGroup();
+  await routeFilterListByResourceGroup();
 }
 
 main().catch(console.error);

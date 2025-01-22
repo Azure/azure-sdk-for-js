@@ -34,7 +34,7 @@ async function getFirewallPolicyDraft() {
 }
 
 async function main() {
-  getFirewallPolicyDraft();
+  await getFirewallPolicyDraft();
 }
 
 main().catch(console.error);

@@ -67,8 +67,8 @@ async function errorSummariesGetMinimumSetGen() {
 }
 
 async function main() {
-  errorSummariesGetMaximumSetGen();
-  errorSummariesGetMinimumSetGen();
+  await errorSummariesGetMaximumSetGen();
+  await errorSummariesGetMinimumSetGen();
 }
 
 main().catch(console.error);

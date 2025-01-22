@@ -38,7 +38,7 @@ async function updateSecurityAlertStateOnAResourceGroupFromASecurityDataLocation
 }
 
 async function main() {
-  updateSecurityAlertStateOnAResourceGroupFromASecurityDataLocation();
+  await updateSecurityAlertStateOnAResourceGroupFromASecurityDataLocation();
 }
 
 main().catch(console.error);

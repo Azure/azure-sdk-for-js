@@ -34,7 +34,7 @@ async function deleteFrontDoor() {
 }
 
 async function main() {
-  deleteFrontDoor();
+  await deleteFrontDoor();
 }
 
 main().catch(console.error);

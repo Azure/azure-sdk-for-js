@@ -139,10 +139,10 @@ async function listSweepJob() {
 }
 
 async function main() {
-  listAutoMlJob();
-  listCommandJob();
-  listPipelineJob();
-  listSweepJob();
+  await listAutoMlJob();
+  await listCommandJob();
+  await listPipelineJob();
+  await listSweepJob();
 }
 
 main().catch(console.error);

@@ -52,7 +52,7 @@ async function validateEnableProtectionOnAzureVM() {
 }
 
 async function main() {
-  validateEnableProtectionOnAzureVM();
+  await validateEnableProtectionOnAzureVM();
 }
 
 main().catch(console.error);

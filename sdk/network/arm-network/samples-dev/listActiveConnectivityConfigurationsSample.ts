@@ -45,7 +45,7 @@ async function listActiveConnectivityConfigurations() {
 }
 
 async function main() {
-  listActiveConnectivityConfigurations();
+  await listActiveConnectivityConfigurations();
 }
 
 main().catch(console.error);

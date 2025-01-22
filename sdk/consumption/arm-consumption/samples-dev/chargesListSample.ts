@@ -13,9 +13,7 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesForBillingPeriodByDepartment.json
  */
-async function changesForBillingPeriodByDepartmentLegacy() {
+async function changesForBillingPeriodByDepartmentLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function changesForBillingPeriodByDepartmentLegacy() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesForBillingPeriodByEnrollmentAccount.json
  */
-async function changesForBillingPeriodByEnrollmentAccountLegacy() {
+async function changesForBillingPeriodByEnrollmentAccountLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -59,7 +57,7 @@ async function changesForBillingPeriodByEnrollmentAccountLegacy() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccount.json
  */
-async function chargesListByBillingAccountModern() {
+async function chargesListByBillingAccountModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -79,7 +77,7 @@ async function chargesListByBillingAccountModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByBillingProfileId.json
  */
-async function chargesListByBillingAccountGroupByBillingProfileIdModern() {
+async function chargesListByBillingAccountGroupByBillingProfileIdModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -100,7 +98,7 @@ async function chargesListByBillingAccountGroupByBillingProfileIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByCustomerId.json
  */
-async function chargesListByBillingAccountGroupByCustomerIdModern() {
+async function chargesListByBillingAccountGroupByCustomerIdModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -121,7 +119,7 @@ async function chargesListByBillingAccountGroupByCustomerIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByInvoiceSectionId.json
  */
-async function chargesListByBillingAccountGroupByInvoiceSectionIdModern() {
+async function chargesListByBillingAccountGroupByInvoiceSectionIdModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -143,7 +141,7 @@ async function chargesListByBillingAccountGroupByInvoiceSectionIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfile.json
  */
-async function chargesListByBillingProfileModern() {
+async function chargesListByBillingProfileModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -161,7 +159,7 @@ async function chargesListByBillingProfileModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfileGroupByInvoiceSectionId.json
  */
-async function chargesListByBillingProfileGroupByInvoiceSectionIdModern() {
+async function chargesListByBillingProfileGroupByInvoiceSectionIdModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -183,7 +181,7 @@ async function chargesListByBillingProfileGroupByInvoiceSectionIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfileInvoiceSection.json
  */
-async function chargesListByBillingProfileInvoiceSectionModern() {
+async function chargesListByBillingProfileInvoiceSectionModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -204,7 +202,7 @@ async function chargesListByBillingProfileInvoiceSectionModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernCustomer.json
  */
-async function chargesListByCustomerModern() {
+async function chargesListByCustomerModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -222,7 +220,7 @@ async function chargesListByCustomerModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListForDepartmentFilterByStartEndDate.json
  */
-async function chargesListByDepartmentLegacy() {
+async function chargesListByDepartmentLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -242,7 +240,7 @@ async function chargesListByDepartmentLegacy() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernInvoiceSectionId.json
  */
-async function chargesListByInvoiceSectionIdModern() {
+async function chargesListByInvoiceSectionIdModern(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -260,7 +258,7 @@ async function chargesListByInvoiceSectionIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListForEnrollmentAccountFilterByStartEndDate.json
  */
-async function chargesListForEnrollmentAccountLegacy() {
+async function chargesListForEnrollmentAccountLegacy(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -272,7 +270,7 @@ async function chargesListForEnrollmentAccountLegacy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   changesForBillingPeriodByDepartmentLegacy();
   changesForBillingPeriodByEnrollmentAccountLegacy();
   chargesListByBillingAccountModern();

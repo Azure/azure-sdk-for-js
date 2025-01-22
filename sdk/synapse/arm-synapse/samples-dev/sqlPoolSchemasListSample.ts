@@ -41,7 +41,7 @@ async function listTheSchemaInASqlAnalyticsPool() {
 }
 
 async function main() {
-  listTheSchemaInASqlAnalyticsPool();
+  await listTheSchemaInASqlAnalyticsPool();
 }
 
 main().catch(console.error);

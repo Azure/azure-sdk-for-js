@@ -48,7 +48,7 @@ async function moveCollectionsBulkRemove() {
 }
 
 async function main() {
-  moveCollectionsBulkRemove();
+  await moveCollectionsBulkRemove();
 }
 
 main().catch(console.error);

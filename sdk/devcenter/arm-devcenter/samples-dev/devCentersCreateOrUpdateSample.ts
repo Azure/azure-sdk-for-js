@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DevCenter, DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a devcenter resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a devcenter resource
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_Create.json
  */
-async function devCentersCreate() {
+async function devCentersCreate(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -47,7 +45,7 @@ async function devCentersCreate() {
  * @summary Creates or updates a devcenter resource
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_CreateWithEncryption.json
  */
-async function devCentersCreateWithEncryption() {
+async function devCentersCreateWithEncryption(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -92,7 +90,7 @@ async function devCentersCreateWithEncryption() {
  * @summary Creates or updates a devcenter resource
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevCenters_CreateWithUserIdentity.json
  */
-async function devCentersCreateWithUserIdentity() {
+async function devCentersCreateWithUserIdentity(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -120,10 +118,10 @@ async function devCentersCreateWithUserIdentity() {
   console.log(result);
 }
 
-async function main() {
-  devCentersCreate();
-  devCentersCreateWithEncryption();
-  devCentersCreateWithUserIdentity();
+async function main(): Promise<void> {
+  await devCentersCreate();
+  await devCentersCreateWithEncryption();
+  await devCentersCreateWithUserIdentity();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getsCurrentInstanceSqlAgentConfiguration() {
 }
 
 async function main() {
-  getsCurrentInstanceSqlAgentConfiguration();
+  await getsCurrentInstanceSqlAgentConfiguration();
 }
 
 main().catch(console.error);

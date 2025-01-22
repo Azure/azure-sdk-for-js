@@ -38,7 +38,7 @@ async function p2SVpnGatewayUpdate() {
 }
 
 async function main() {
-  p2SVpnGatewayUpdate();
+  await p2SVpnGatewayUpdate();
 }
 
 main().catch(console.error);

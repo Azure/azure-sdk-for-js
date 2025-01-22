@@ -33,7 +33,7 @@ async function listDedicatedCloudNodes() {
 }
 
 async function main() {
-  listDedicatedCloudNodes();
+  await listDedicatedCloudNodes();
 }
 
 main().catch(console.error);

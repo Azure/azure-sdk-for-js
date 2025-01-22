@@ -41,7 +41,7 @@ async function staticCidrsList() {
 }
 
 async function main() {
-  staticCidrsList();
+  await staticCidrsList();
 }
 
 main().catch(console.error);

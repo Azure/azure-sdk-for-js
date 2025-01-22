@@ -44,7 +44,7 @@ async function deleteWorkspaceEnvironmentVersion() {
 }
 
 async function main() {
-  deleteWorkspaceEnvironmentVersion();
+  await deleteWorkspaceEnvironmentVersion();
 }
 
 main().catch(console.error);

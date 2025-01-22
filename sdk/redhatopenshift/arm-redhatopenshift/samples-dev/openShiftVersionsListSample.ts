@@ -34,7 +34,7 @@ async function listsAllOpenShiftVersionsAvailableToInstallInTheSpecifiedLocation
 }
 
 async function main() {
-  listsAllOpenShiftVersionsAvailableToInstallInTheSpecifiedLocation();
+  await listsAllOpenShiftVersionsAvailableToInstallInTheSpecifiedLocation();
 }
 
 main().catch(console.error);

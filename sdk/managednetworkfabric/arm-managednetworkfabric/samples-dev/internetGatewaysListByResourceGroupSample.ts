@@ -41,7 +41,7 @@ async function internetGatewaysListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewaysListByResourceGroupMaximumSetGen();
+  await internetGatewaysListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

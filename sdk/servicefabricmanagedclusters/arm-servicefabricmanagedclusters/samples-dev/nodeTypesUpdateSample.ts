@@ -79,8 +79,8 @@ async function patchANodeTypeWhileAutoScaling() {
 }
 
 async function main() {
-  patchANodeType();
-  patchANodeTypeWhileAutoScaling();
+  await patchANodeType();
+  await patchANodeTypeWhileAutoScaling();
 }
 
 main().catch(console.error);

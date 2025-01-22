@@ -37,7 +37,7 @@ async function deleteAnActionGroup() {
 }
 
 async function main() {
-  deleteAnActionGroup();
+  await deleteAnActionGroup();
 }
 
 main().catch(console.error);

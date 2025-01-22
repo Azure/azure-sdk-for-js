@@ -51,8 +51,8 @@ async function virtualMachineInstancesStopMinimumSet() {
 }
 
 async function main() {
-  virtualMachineInstancesStopMaximumSet();
-  virtualMachineInstancesStopMinimumSet();
+  await virtualMachineInstancesStopMaximumSet();
+  await virtualMachineInstancesStopMinimumSet();
 }
 
 main().catch(console.error);

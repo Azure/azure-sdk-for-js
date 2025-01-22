@@ -34,7 +34,7 @@ async function listAutoscaleSettingsBySubs() {
 }
 
 async function main() {
-  listAutoscaleSettingsBySubs();
+  await listAutoscaleSettingsBySubs();
 }
 
 main().catch(console.error);

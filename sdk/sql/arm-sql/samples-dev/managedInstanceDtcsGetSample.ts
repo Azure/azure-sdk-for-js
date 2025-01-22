@@ -38,7 +38,7 @@ async function getsManagedInstanceDtcSettings() {
 }
 
 async function main() {
-  getsManagedInstanceDtcSettings();
+  await getsManagedInstanceDtcSettings();
 }
 
 main().catch(console.error);

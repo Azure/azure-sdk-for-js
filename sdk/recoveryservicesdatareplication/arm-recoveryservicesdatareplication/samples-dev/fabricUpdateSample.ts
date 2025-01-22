@@ -53,7 +53,7 @@ async function fabricUpdate() {
 }
 
 async function main() {
-  fabricUpdate();
+  await fabricUpdate();
 }
 
 main().catch(console.error);

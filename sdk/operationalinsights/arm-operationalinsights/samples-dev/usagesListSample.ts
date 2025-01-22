@@ -40,7 +40,7 @@ async function usagesList() {
 }
 
 async function main() {
-  usagesList();
+  await usagesList();
 }
 
 main().catch(console.error);

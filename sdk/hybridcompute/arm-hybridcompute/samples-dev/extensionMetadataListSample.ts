@@ -41,7 +41,7 @@ async function getAListOfExtensions() {
 }
 
 async function main() {
-  getAListOfExtensions();
+  await getAListOfExtensions();
 }
 
 main().catch(console.error);

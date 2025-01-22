@@ -33,7 +33,7 @@ async function getSpecificSubscriptionUsageInTheGivenLocation() {
 }
 
 async function main() {
-  getSpecificSubscriptionUsageInTheGivenLocation();
+  await getSpecificSubscriptionUsageInTheGivenLocation();
 }
 
 main().catch(console.error);

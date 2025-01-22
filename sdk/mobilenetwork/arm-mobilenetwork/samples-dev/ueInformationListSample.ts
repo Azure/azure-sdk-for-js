@@ -40,7 +40,7 @@ async function getUeInformation() {
 }
 
 async function main() {
-  getUeInformation();
+  await getUeInformation();
 }
 
 main().catch(console.error);

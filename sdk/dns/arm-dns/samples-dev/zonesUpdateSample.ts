@@ -36,7 +36,7 @@ async function patchZone() {
 }
 
 async function main() {
-  patchZone();
+  await patchZone();
 }
 
 main().catch(console.error);

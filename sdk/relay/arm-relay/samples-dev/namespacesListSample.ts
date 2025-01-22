@@ -34,7 +34,7 @@ async function relayNameSpaceListBySubscription() {
 }
 
 async function main() {
-  relayNameSpaceListBySubscription();
+  await relayNameSpaceListBySubscription();
 }
 
 main().catch(console.error);

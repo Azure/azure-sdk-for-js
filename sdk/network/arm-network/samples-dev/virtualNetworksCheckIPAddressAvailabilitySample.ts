@@ -36,7 +36,7 @@ async function checkIPAddressAvailability() {
 }
 
 async function main() {
-  checkIPAddressAvailability();
+  await checkIPAddressAvailability();
 }
 
 main().catch(console.error);

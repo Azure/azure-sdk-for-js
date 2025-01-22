@@ -28,7 +28,7 @@ async function getPartnerDetails() {
 }
 
 async function main() {
-  getPartnerDetails();
+  await getPartnerDetails();
 }
 
 main().catch(console.error);

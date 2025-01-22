@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary An action to accept recommendations for decision in an access review instance.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/AccessReviewInstanceAcceptRecommendations.json
  */
-async function getAccessReview() {
+async function getAccessReview(): Promise<void> {
   const scheduleDefinitionId = "488a6d0e-0a63-4946-86e3-1f5bbc934661";
   const id = "d9b9e056-7004-470b-bf21-1635e98487da";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function getAccessReview() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAccessReview();
 }
 

@@ -50,7 +50,7 @@ async function kustoPoolDatabasePrincipalAssignmentsCheckNameAvailability() {
 }
 
 async function main() {
-  kustoPoolDatabasePrincipalAssignmentsCheckNameAvailability();
+  await kustoPoolDatabasePrincipalAssignmentsCheckNameAvailability();
 }
 
 main().catch(console.error);

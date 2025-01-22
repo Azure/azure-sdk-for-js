@@ -37,7 +37,7 @@ async function deleteStorageTask() {
 }
 
 async function main() {
-  deleteStorageTask();
+  await deleteStorageTask();
 }
 
 main().catch(console.error);

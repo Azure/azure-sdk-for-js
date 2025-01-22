@@ -37,7 +37,7 @@ async function listAllHybridNetworkConfigurationGroupValuesInASubscription() {
 }
 
 async function main() {
-  listAllHybridNetworkConfigurationGroupValuesInASubscription();
+  await listAllHybridNetworkConfigurationGroupValuesInASubscription();
 }
 
 main().catch(console.error);

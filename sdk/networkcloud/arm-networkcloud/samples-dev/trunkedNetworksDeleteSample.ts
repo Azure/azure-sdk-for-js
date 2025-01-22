@@ -37,7 +37,7 @@ async function deleteTrunkedNetwork() {
 }
 
 async function main() {
-  deleteTrunkedNetwork();
+  await deleteTrunkedNetwork();
 }
 
 main().catch(console.error);

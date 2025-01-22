@@ -37,7 +37,7 @@ async function listMetricAlertRules() {
 }
 
 async function main() {
-  listMetricAlertRules();
+  await listMetricAlertRules();
 }
 
 main().catch(console.error);

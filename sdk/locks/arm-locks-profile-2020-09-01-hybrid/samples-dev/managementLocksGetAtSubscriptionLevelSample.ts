@@ -31,7 +31,7 @@ async function getManagementLockAtSubscriptionLevel() {
 }
 
 async function main() {
-  getManagementLockAtSubscriptionLevel();
+  await getManagementLockAtSubscriptionLevel();
 }
 
 main().catch(console.error);

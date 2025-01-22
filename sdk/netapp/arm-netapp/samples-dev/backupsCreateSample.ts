@@ -46,7 +46,7 @@ async function backupsUnderBackupVaultCreate() {
 }
 
 async function main() {
-  backupsUnderBackupVaultCreate();
+  await backupsUnderBackupVaultCreate();
 }
 
 main().catch(console.error);

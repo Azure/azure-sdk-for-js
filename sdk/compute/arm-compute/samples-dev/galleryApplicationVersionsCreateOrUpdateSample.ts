@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GalleryApplicationVersion,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { GalleryApplicationVersion } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a gallery Application Version.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Create or update a gallery Application Version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplicationVersion_Create.json
  */
-async function createOrUpdateASimpleGalleryApplicationVersion() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createOrUpdateASimpleGalleryApplicationVersion(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplicationVersionName = "1.0.0";
@@ -75,19 +67,18 @@ async function createOrUpdateASimpleGalleryApplicationVersion() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.galleryApplicationVersions.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      galleryName,
-      galleryApplicationName,
-      galleryApplicationVersionName,
-      galleryApplicationVersion,
-    );
+  const result = await client.galleryApplicationVersions.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    galleryName,
+    galleryApplicationName,
+    galleryApplicationVersionName,
+    galleryApplicationVersion,
+  );
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateASimpleGalleryApplicationVersion();
+async function main(): Promise<void> {
+  await createOrUpdateASimpleGalleryApplicationVersion();
 }
 
 main().catch(console.error);

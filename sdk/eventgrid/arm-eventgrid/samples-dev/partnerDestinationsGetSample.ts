@@ -37,7 +37,7 @@ async function partnerDestinationsGet() {
 }
 
 async function main() {
-  partnerDestinationsGet();
+  await partnerDestinationsGet();
 }
 
 main().catch(console.error);

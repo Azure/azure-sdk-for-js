@@ -53,7 +53,7 @@ async function createsOrUpdatesAWatchlistItem() {
 }
 
 async function main() {
-  createsOrUpdatesAWatchlistItem();
+  await createsOrUpdatesAWatchlistItem();
 }
 
 main().catch(console.error);

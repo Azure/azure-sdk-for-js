@@ -36,7 +36,7 @@ async function retrieveAnImageTemplate() {
 }
 
 async function main() {
-  retrieveAnImageTemplate();
+  await retrieveAnImageTemplate();
 }
 
 main().catch(console.error);

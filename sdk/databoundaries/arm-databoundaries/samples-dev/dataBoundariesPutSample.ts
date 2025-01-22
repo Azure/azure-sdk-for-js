@@ -13,9 +13,7 @@ import {
   DataboundariesManegementClient,
 } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Opt-in tenant to data boundary.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Opt-in tenant to data boundary.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/PutDataBoundary.json
  */
-async function optInToDataBoundary() {
+async function optInToDataBoundary(): Promise<void> {
   const defaultParam = "default";
   const dataBoundaryDefinition: DataBoundaryDefinition = {
     properties: { dataBoundary: "EU" },
@@ -37,7 +35,7 @@ async function optInToDataBoundary() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   optInToDataBoundary();
 }
 

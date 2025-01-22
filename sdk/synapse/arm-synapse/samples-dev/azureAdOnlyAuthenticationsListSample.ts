@@ -40,7 +40,7 @@ async function getAListOfAzureActiveDirectoryOnlyAuthenticationProperty() {
 }
 
 async function main() {
-  getAListOfAzureActiveDirectoryOnlyAuthenticationProperty();
+  await getAListOfAzureActiveDirectoryOnlyAuthenticationProperty();
 }
 
 main().catch(console.error);

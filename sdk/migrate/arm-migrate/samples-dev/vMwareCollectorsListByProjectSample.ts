@@ -40,7 +40,7 @@ async function vMwareCollectorsListByProject() {
 }
 
 async function main() {
-  vMwareCollectorsListByProject();
+  await vMwareCollectorsListByProject();
 }
 
 main().catch(console.error);

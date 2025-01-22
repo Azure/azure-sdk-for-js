@@ -36,7 +36,7 @@ async function deleteASecurityConnector() {
 }
 
 async function main() {
-  deleteASecurityConnector();
+  await deleteASecurityConnector();
 }
 
 main().catch(console.error);

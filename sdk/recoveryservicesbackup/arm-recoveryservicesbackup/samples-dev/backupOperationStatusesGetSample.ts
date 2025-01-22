@@ -44,7 +44,7 @@ async function getProtectedItemDeleteOperationStatus() {
 }
 
 async function main() {
-  getProtectedItemDeleteOperationStatus();
+  await getProtectedItemDeleteOperationStatus();
 }
 
 main().catch(console.error);

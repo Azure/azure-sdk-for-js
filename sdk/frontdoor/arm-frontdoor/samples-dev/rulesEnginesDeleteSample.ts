@@ -36,7 +36,7 @@ async function deleteRulesEngineConfiguration() {
 }
 
 async function main() {
-  deleteRulesEngineConfiguration();
+  await deleteRulesEngineConfiguration();
 }
 
 main().catch(console.error);

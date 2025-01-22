@@ -33,7 +33,7 @@ async function listImagesBySubscription() {
 }
 
 async function main() {
-  listImagesBySubscription();
+  await listImagesBySubscription();
 }
 
 main().catch(console.error);

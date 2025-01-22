@@ -62,7 +62,7 @@ async function createOrUpdateGuestConfigurationAssignment() {
 }
 
 async function main() {
-  createOrUpdateGuestConfigurationAssignment();
+  await createOrUpdateGuestConfigurationAssignment();
 }
 
 main().catch(console.error);

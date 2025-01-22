@@ -39,7 +39,7 @@ async function getsALatencyScorecardForAGivenExperiment() {
 }
 
 async function main() {
-  getsALatencyScorecardForAGivenExperiment();
+  await getsALatencyScorecardForAGivenExperiment();
 }
 
 main().catch(console.error);

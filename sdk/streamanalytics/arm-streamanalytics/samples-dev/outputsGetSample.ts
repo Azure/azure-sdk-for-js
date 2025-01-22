@@ -339,18 +339,18 @@ async function getAnEventHubOutputWithJsonSerialization() {
 }
 
 async function main() {
-  getADeltaLakeOutput();
-  getADocumentDbOutput();
-  getAPowerBiOutput();
-  getAServiceBusQueueOutputWithAvroSerialization();
-  getAServiceBusTopicOutputWithCsvSerialization();
-  getABlobOutputWithCsvSerialization();
-  getAnAzureDataLakeStoreOutputWithJsonSerialization();
-  getAnAzureDataWarehouseOutput();
-  getAnAzureFunctionOutput();
-  getAnAzureSqlDatabaseOutput();
-  getAnAzureTableOutput();
-  getAnEventHubOutputWithJsonSerialization();
+  await getADeltaLakeOutput();
+  await getADocumentDbOutput();
+  await getAPowerBiOutput();
+  await getAServiceBusQueueOutputWithAvroSerialization();
+  await getAServiceBusTopicOutputWithCsvSerialization();
+  await getABlobOutputWithCsvSerialization();
+  await getAnAzureDataLakeStoreOutputWithJsonSerialization();
+  await getAnAzureDataWarehouseOutput();
+  await getAnAzureFunctionOutput();
+  await getAnAzureSqlDatabaseOutput();
+  await getAnAzureTableOutput();
+  await getAnEventHubOutputWithJsonSerialization();
 }
 
 main().catch(console.error);

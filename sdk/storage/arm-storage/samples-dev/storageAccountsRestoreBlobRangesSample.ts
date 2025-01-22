@@ -46,7 +46,7 @@ async function blobRangesRestore() {
 }
 
 async function main() {
-  blobRangesRestore();
+  await blobRangesRestore();
 }
 
 main().catch(console.error);

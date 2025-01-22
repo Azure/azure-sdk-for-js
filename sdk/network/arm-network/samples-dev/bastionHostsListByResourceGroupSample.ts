@@ -35,7 +35,7 @@ async function listAllBastionHostsForAGivenResourceGroup() {
 }
 
 async function main() {
-  listAllBastionHostsForAGivenResourceGroup();
+  await listAllBastionHostsForAGivenResourceGroup();
 }
 
 main().catch(console.error);

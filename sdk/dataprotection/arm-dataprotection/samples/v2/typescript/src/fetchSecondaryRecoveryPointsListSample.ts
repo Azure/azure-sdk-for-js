@@ -13,9 +13,7 @@ import {
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.

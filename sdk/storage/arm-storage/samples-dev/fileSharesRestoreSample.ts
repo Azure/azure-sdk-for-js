@@ -42,7 +42,7 @@ async function restoreShares() {
 }
 
 async function main() {
-  restoreShares();
+  await restoreShares();
 }
 
 main().catch(console.error);

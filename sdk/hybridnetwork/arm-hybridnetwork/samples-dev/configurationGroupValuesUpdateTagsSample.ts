@@ -41,7 +41,7 @@ async function updateHybridConfigurationGroupTags() {
 }
 
 async function main() {
-  updateHybridConfigurationGroupTags();
+  await updateHybridConfigurationGroupTags();
 }
 
 main().catch(console.error);

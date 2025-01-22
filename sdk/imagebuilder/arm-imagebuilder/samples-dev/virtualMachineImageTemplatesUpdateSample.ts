@@ -103,9 +103,9 @@ async function updateTheTagsForAnImageTemplate() {
 }
 
 async function main() {
-  removeIdentitiesForAnImageTemplate();
-  updateParametersForVMProfile();
-  updateTheTagsForAnImageTemplate();
+  await removeIdentitiesForAnImageTemplate();
+  await updateParametersForVMProfile();
+  await updateTheTagsForAnImageTemplate();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function snapshotsUpdate() {
 }
 
 async function main() {
-  snapshotsUpdate();
+  await snapshotsUpdate();
 }
 
 main().catch(console.error);

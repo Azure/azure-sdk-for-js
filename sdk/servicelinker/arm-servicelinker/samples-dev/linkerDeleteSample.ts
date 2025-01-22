@@ -34,7 +34,7 @@ async function deleteLinker() {
 }
 
 async function main() {
-  deleteLinker();
+  await deleteLinker();
 }
 
 main().catch(console.error);

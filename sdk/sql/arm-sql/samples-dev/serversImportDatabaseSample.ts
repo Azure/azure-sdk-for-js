@@ -90,8 +90,8 @@ async function importsToANewDatabase() {
 }
 
 async function main() {
-  importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAccount();
-  importsToANewDatabase();
+  await importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAccount();
+  await importsToANewDatabase();
 }
 
 main().catch(console.error);

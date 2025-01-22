@@ -42,7 +42,7 @@ async function listReplicasForAServer() {
 }
 
 async function main() {
-  listReplicasForAServer();
+  await listReplicasForAServer();
 }
 
 main().catch(console.error);

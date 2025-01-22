@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a dataset.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a dataset.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Get.json
  */
-async function datasetsGet() {
+async function datasetsGet(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -38,8 +36,8 @@ async function datasetsGet() {
   console.log(result);
 }
 
-async function main() {
-  datasetsGet();
+async function main(): Promise<void> {
+  await datasetsGet();
 }
 
 main().catch(console.error);

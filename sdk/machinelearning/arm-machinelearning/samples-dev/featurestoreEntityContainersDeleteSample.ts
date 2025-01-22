@@ -42,7 +42,7 @@ async function deleteWorkspaceFeaturestoreEntityContainer() {
 }
 
 async function main() {
-  deleteWorkspaceFeaturestoreEntityContainer();
+  await deleteWorkspaceFeaturestoreEntityContainer();
 }
 
 main().catch(console.error);

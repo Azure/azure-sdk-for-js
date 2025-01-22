@@ -38,7 +38,7 @@ async function vpnSiteLinkConnectionGet() {
 }
 
 async function main() {
-  vpnSiteLinkConnectionGet();
+  await vpnSiteLinkConnectionGet();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function volumesDeleteReplication() {
 }
 
 async function main() {
-  volumesDeleteReplication();
+  await volumesDeleteReplication();
 }
 
 main().catch(console.error);

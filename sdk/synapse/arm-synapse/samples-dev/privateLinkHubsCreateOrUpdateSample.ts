@@ -42,7 +42,7 @@ async function createOrUpdateAPrivateLinkHub() {
 }
 
 async function main() {
-  createOrUpdateAPrivateLinkHub();
+  await createOrUpdateAPrivateLinkHub();
 }
 
 main().catch(console.error);

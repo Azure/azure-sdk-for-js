@@ -38,7 +38,7 @@ async function getApplicationGroupsUnderAPublisherResource() {
 }
 
 async function main() {
-  getApplicationGroupsUnderAPublisherResource();
+  await getApplicationGroupsUnderAPublisherResource();
 }
 
 main().catch(console.error);

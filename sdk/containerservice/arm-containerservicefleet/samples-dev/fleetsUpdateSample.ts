@@ -14,9 +14,7 @@ import {
   ContainerServiceFleetClient,
 } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Fleet
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Update a Fleet
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/Fleets_PatchTags.json
  */
-async function updateAFleet() {
+async function updateAFleet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -44,7 +42,7 @@ async function updateAFleet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAFleet();
 }
 

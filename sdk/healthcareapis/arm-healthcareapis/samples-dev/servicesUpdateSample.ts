@@ -43,7 +43,7 @@ async function patchService() {
 }
 
 async function main() {
-  patchService();
+  await patchService();
 }
 
 main().catch(console.error);

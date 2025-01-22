@@ -66,8 +66,8 @@ async function updateImportJob() {
 }
 
 async function main() {
-  updateExportJob();
-  updateImportJob();
+  await updateExportJob();
+  await updateImportJob();
 }
 
 main().catch(console.error);

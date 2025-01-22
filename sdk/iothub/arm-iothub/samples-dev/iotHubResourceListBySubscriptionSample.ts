@@ -34,7 +34,7 @@ async function iotHubResourceListBySubscription() {
 }
 
 async function main() {
-  iotHubResourceListBySubscription();
+  await iotHubResourceListBySubscription();
 }
 
 main().catch(console.error);

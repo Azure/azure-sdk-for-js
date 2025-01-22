@@ -39,7 +39,7 @@ async function getATransformByName() {
 }
 
 async function main() {
-  getATransformByName();
+  await getATransformByName();
 }
 
 main().catch(console.error);

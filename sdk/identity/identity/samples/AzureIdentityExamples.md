@@ -719,17 +719,7 @@ function withAzurePipelinesCredential() {
 
 ## Chaining credentials
 
-The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. The following example demonstrates creating a credential that will attempt to authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using managed identity and fall back to certificate authentication if a managed identity is unavailable in the current environment.
-
-```ts
-function withChainedTokenCredential() {
-  const credential = new ChainedTokenCredential(
-    new ManagedIdentityCredential("<YOUR_CLIENT_ID>"),
-    new ClientSecretCredential("<YOUR_TENANT_ID>", "<YOUR_CLIENT_ID>", "<YOUR_CLIENT_SECRET>"),
-  );
-  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
-}
-```
+The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. For more information, see [ChainedTokenCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-chainedtokencredential-for-granularity).
 
 ## Authenticating With Azure Stack using Azure Identity
 

@@ -60,7 +60,7 @@ async function updateASecurityAutomation() {
 }
 
 async function main() {
-  updateASecurityAutomation();
+  await updateASecurityAutomation();
 }
 
 main().catch(console.error);

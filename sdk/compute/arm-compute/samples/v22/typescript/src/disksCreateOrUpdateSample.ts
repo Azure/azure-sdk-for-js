@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Disk, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a disk.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_ConfidentialVMSupportedDiskEncryptedWithCMK.json
  */
-async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey() {
+async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -57,7 +55,7 @@ async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithDiskAccess.json
  */
-async function createAManagedDiskAndAssociateWithDiskAccessResource() {
+async function createAManagedDiskAndAssociateWithDiskAccessResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -87,7 +85,7 @@ async function createAManagedDiskAndAssociateWithDiskAccessResource() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithDiskEncryptionSet.json
  */
-async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
+async function createAManagedDiskAndAssociateWithDiskEncryptionSet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -118,7 +116,7 @@ async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_ByCopyingASnapshot.json
  */
-async function createAManagedDiskByCopyingASnapshot() {
+async function createAManagedDiskByCopyingASnapshot(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -148,7 +146,7 @@ async function createAManagedDiskByCopyingASnapshot() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_ByImportingBlobFromADifferentSubscription.json
  */
-async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription() {
+async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -180,7 +178,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscri
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_ByImportingBlobFromTheSameSubscription.json
  */
-async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription() {
+async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -210,7 +208,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscripti
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_FromImportSecure.json
  */
-async function createAManagedDiskFromImportSecureCreateOption() {
+async function createAManagedDiskFromImportSecureCreateOption(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -248,7 +246,7 @@ async function createAManagedDiskFromImportSecureCreateOption() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_FromUploadPreparedSecure.json
  */
-async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
+async function createAManagedDiskFromUploadPreparedSecureCreateOption(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -279,7 +277,7 @@ async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_FromAPlatformImage.json
  */
-async function createAManagedDiskFromAPlatformImage() {
+async function createAManagedDiskFromAPlatformImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -311,7 +309,7 @@ async function createAManagedDiskFromAPlatformImage() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryCommunityImage.json
  */
-async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
+async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -344,7 +342,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryDirectSharedImage.json
  */
-async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
+async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -377,7 +375,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryImage.json
  */
-async function createAManagedDiskFromAnAzureComputeGalleryImage() {
+async function createAManagedDiskFromAnAzureComputeGalleryImage(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -409,7 +407,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryImage() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_FromAnExistingManagedDisk.json
  */
-async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription() {
+async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -439,7 +437,7 @@ async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSu
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_FromAnElasticSanVolumeSnapshot.json
  */
-async function createAManagedDiskFromElasticSanVolumeSnapshot() {
+async function createAManagedDiskFromElasticSanVolumeSnapshot(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -469,7 +467,7 @@ async function createAManagedDiskFromElasticSanVolumeSnapshot() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithDataAccessAuthMode.json
  */
-async function createAManagedDiskWithDataAccessAuthMode() {
+async function createAManagedDiskWithDataAccessAuthMode(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -497,7 +495,7 @@ async function createAManagedDiskWithDataAccessAuthMode() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithOptimizedForFrequentAttach.json
  */
-async function createAManagedDiskWithOptimizedForFrequentAttach() {
+async function createAManagedDiskWithOptimizedForFrequentAttach(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -525,7 +523,7 @@ async function createAManagedDiskWithOptimizedForFrequentAttach() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_PerformancePlus.json
  */
-async function createAManagedDiskWithPerformancePlus() {
+async function createAManagedDiskWithPerformancePlus(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -551,7 +549,7 @@ async function createAManagedDiskWithPerformancePlus() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithPremiumV2_LRSAccountType.json
  */
-async function createAManagedDiskWithPremiumV2AccountType() {
+async function createAManagedDiskWithPremiumV2AccountType(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -581,7 +579,7 @@ async function createAManagedDiskWithPremiumV2AccountType() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithSecurityProfile.json
  */
-async function createAManagedDiskWithSecurityProfile() {
+async function createAManagedDiskWithSecurityProfile(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -614,7 +612,7 @@ async function createAManagedDiskWithSecurityProfile() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithSSDZRSAccountType.json
  */
-async function createAManagedDiskWithSsdZrsAccountType() {
+async function createAManagedDiskWithSsdZrsAccountType(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -642,7 +640,7 @@ async function createAManagedDiskWithSsdZrsAccountType() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithUltraSSD_ReadOnly.json
  */
-async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
+async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -673,7 +671,7 @@ async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_UploadDisk.json
  */
-async function createAManagedUploadDisk() {
+async function createAManagedUploadDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -699,7 +697,7 @@ async function createAManagedUploadDisk() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_InExtendedLocation.json
  */
-async function createAnEmptyManagedDiskInExtendedLocation() {
+async function createAnEmptyManagedDiskInExtendedLocation(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -727,7 +725,7 @@ async function createAnEmptyManagedDiskInExtendedLocation() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_Empty.json
  */
-async function createAnEmptyManagedDisk() {
+async function createAnEmptyManagedDisk(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -754,7 +752,7 @@ async function createAnEmptyManagedDisk() {
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Create_WithLogicalSectorSize.json
  */
-async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
+async function createAnUltraManagedDiskWithLogicalSectorSize512E(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -776,7 +774,7 @@ async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey();
   createAManagedDiskAndAssociateWithDiskAccessResource();
   createAManagedDiskAndAssociateWithDiskEncryptionSet();

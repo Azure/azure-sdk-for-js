@@ -47,7 +47,7 @@ async function createExpressRouteCircuitPeerings() {
 }
 
 async function main() {
-  createExpressRouteCircuitPeerings();
+  await createExpressRouteCircuitPeerings();
 }
 
 main().catch(console.error);

@@ -56,7 +56,7 @@ async function compileTheStreamAnalyticsQuery() {
 }
 
 async function main() {
-  compileTheStreamAnalyticsQuery();
+  await compileTheStreamAnalyticsQuery();
 }
 
 main().catch(console.error);

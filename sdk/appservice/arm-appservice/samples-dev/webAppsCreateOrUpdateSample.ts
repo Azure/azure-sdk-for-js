@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CloneWebApp.json
  */
-async function cloneWebApp() {
+async function cloneWebApp(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -57,7 +57,7 @@ async function cloneWebApp() {
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateFunctionAppFlexConsumption.json
  */
-async function createOrUpdateFlexConsumptionFunctionApp() {
+async function createOrUpdateFlexConsumptionFunctionApp(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -116,7 +116,7 @@ async function createOrUpdateFlexConsumptionFunctionApp() {
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateFunctionAppFlexConsumptionWithDetails.json
  */
-async function createOrUpdateFlexConsumptionFunctionAppWithDetails() {
+async function createOrUpdateFlexConsumptionFunctionAppWithDetails(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -177,7 +177,7 @@ async function createOrUpdateFlexConsumptionFunctionAppWithDetails() {
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateWebApp.json
  */
-async function createOrUpdateWebApp() {
+async function createOrUpdateWebApp(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -200,7 +200,7 @@ async function createOrUpdateWebApp() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cloneWebApp();
   createOrUpdateFlexConsumptionFunctionApp();
   createOrUpdateFlexConsumptionFunctionAppWithDetails();

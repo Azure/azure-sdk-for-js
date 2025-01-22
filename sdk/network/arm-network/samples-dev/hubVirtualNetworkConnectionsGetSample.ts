@@ -36,7 +36,7 @@ async function hubVirtualNetworkConnectionGet() {
 }
 
 async function main() {
-  hubVirtualNetworkConnectionGet();
+  await hubVirtualNetworkConnectionGet();
 }
 
 main().catch(console.error);

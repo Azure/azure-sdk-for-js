@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes an existing AzureFrontDoor rule set with the specified rule set name under the specified subscription, resource group and profile.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/RuleSets_Delete.json
  */
-async function ruleSetsDelete() {
+async function ruleSetsDelete(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -33,7 +33,7 @@ async function ruleSetsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   ruleSetsDelete();
 }
 

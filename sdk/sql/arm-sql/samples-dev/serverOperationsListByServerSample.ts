@@ -40,7 +40,7 @@ async function listTheServerManagementOperations() {
 }
 
 async function main() {
-  listTheServerManagementOperations();
+  await listTheServerManagementOperations();
 }
 
 main().catch(console.error);

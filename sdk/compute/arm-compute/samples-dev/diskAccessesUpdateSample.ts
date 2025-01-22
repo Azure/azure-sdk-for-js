@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { DiskAccessUpdate, ComputeManagementClient } from "@azure/arm-compute";
+import type { DiskAccessUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a disk access resource.
@@ -20,11 +17,9 @@ dotenv.config();
  * @summary Updates (patches) a disk access resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_Update.json
  */
-async function updateADiskAccessResource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateADiskAccessResource(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskAccessName = "myDiskAccess";
   const diskAccess: DiskAccessUpdate = {
     tags: { department: "Development", project: "PrivateEndpoints" },
@@ -39,8 +34,8 @@ async function updateADiskAccessResource() {
   console.log(result);
 }
 
-async function main() {
-  updateADiskAccessResource();
+async function main(): Promise<void> {
+  await updateADiskAccessResource();
 }
 
 main().catch(console.error);

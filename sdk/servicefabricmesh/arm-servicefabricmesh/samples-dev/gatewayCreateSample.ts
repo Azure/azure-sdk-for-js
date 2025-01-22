@@ -89,7 +89,7 @@ async function createOrUpdateGateway() {
 }
 
 async function main() {
-  createOrUpdateGateway();
+  await createOrUpdateGateway();
 }
 
 main().catch(console.error);

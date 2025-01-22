@@ -40,7 +40,7 @@ async function listSparkConfigurationsInAWorkspace() {
 }
 
 async function main() {
-  listSparkConfigurationsInAWorkspace();
+  await listSparkConfigurationsInAWorkspace();
 }
 
 main().catch(console.error);

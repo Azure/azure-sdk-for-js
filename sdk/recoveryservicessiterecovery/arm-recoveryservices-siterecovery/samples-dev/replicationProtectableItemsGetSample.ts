@@ -44,7 +44,7 @@ async function getsTheDetailsOfAProtectableItem() {
 }
 
 async function main() {
-  getsTheDetailsOfAProtectableItem();
+  await getsTheDetailsOfAProtectableItem();
 }
 
 main().catch(console.error);

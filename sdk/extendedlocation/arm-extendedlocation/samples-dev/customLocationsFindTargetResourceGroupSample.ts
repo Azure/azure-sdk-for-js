@@ -47,7 +47,7 @@ async function postCustomLocationFindTargetResourceGroup() {
 }
 
 async function main() {
-  postCustomLocationFindTargetResourceGroup();
+  await postCustomLocationFindTargetResourceGroup();
 }
 
 main().catch(console.error);

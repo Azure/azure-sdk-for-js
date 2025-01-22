@@ -22,7 +22,7 @@ import {
   FleetsDeleteOptionalParams,
   FleetsListCredentialsOptionalParams,
   FleetsListCredentialsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Fleets. */

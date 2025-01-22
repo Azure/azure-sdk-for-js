@@ -47,7 +47,7 @@ async function extensionAsyncOperationStatusGet() {
 }
 
 async function main() {
-  extensionAsyncOperationStatusGet();
+  await extensionAsyncOperationStatusGet();
 }
 
 main().catch(console.error);

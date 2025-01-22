@@ -40,7 +40,7 @@ async function deletesTheSpecifiedRecoveryPlan() {
 }
 
 async function main() {
-  deletesTheSpecifiedRecoveryPlan();
+  await deletesTheSpecifiedRecoveryPlan();
 }
 
 main().catch(console.error);

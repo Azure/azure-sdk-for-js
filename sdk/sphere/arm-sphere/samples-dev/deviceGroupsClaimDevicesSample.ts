@@ -50,7 +50,7 @@ async function deviceGroupsClaimDevices() {
 }
 
 async function main() {
-  deviceGroupsClaimDevices();
+  await deviceGroupsClaimDevices();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function getSecurityPolicy() {
 }
 
 async function main() {
-  getSecurityPolicy();
+  await getSecurityPolicy();
 }
 
 main().catch(console.error);

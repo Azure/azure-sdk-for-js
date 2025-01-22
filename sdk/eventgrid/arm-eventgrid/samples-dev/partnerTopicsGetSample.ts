@@ -37,7 +37,7 @@ async function partnerTopicsGet() {
 }
 
 async function main() {
-  partnerTopicsGet();
+  await partnerTopicsGet();
 }
 
 main().catch(console.error);

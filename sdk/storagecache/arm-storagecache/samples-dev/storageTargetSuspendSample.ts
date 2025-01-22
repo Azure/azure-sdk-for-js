@@ -39,7 +39,7 @@ async function storageTargetsSuspend() {
 }
 
 async function main() {
-  storageTargetsSuspend();
+  await storageTargetsSuspend();
 }
 
 main().catch(console.error);

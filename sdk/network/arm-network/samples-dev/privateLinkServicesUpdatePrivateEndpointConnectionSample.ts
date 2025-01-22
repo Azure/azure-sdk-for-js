@@ -51,7 +51,7 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService() 
 }
 
 async function main() {
-  approveOrRejectPrivateEndPointConnectionForAPrivateLinkService();
+  await approveOrRejectPrivateEndPointConnectionForAPrivateLinkService();
 }
 
 main().catch(console.error);

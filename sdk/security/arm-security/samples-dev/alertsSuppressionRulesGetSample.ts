@@ -34,7 +34,7 @@ async function getSuppressionAlertRuleForSubscription() {
 }
 
 async function main() {
-  getSuppressionAlertRuleForSubscription();
+  await getSuppressionAlertRuleForSubscription();
 }
 
 main().catch(console.error);

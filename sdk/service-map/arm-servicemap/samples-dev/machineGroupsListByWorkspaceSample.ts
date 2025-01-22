@@ -50,7 +50,7 @@ async function smMachineGroupsListByWorkspaceGet() {
 }
 
 async function main() {
-  smMachineGroupsListByWorkspaceGet();
+  await smMachineGroupsListByWorkspaceGet();
 }
 
 main().catch(console.error);

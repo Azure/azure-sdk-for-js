@@ -47,7 +47,7 @@ async function updateATransformation() {
 }
 
 async function main() {
-  updateATransformation();
+  await updateATransformation();
 }
 
 main().catch(console.error);

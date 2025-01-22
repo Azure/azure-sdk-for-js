@@ -40,7 +40,7 @@ async function listServerTrustGroupsByManagedInstance() {
 }
 
 async function main() {
-  listServerTrustGroupsByManagedInstance();
+  await listServerTrustGroupsByManagedInstance();
 }
 
 main().catch(console.error);

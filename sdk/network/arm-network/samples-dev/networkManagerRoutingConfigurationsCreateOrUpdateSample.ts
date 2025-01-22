@@ -46,7 +46,7 @@ async function createNetworkManagerRoutingConfiguration() {
 }
 
 async function main() {
-  createNetworkManagerRoutingConfiguration();
+  await createNetworkManagerRoutingConfiguration();
 }
 
 main().catch(console.error);

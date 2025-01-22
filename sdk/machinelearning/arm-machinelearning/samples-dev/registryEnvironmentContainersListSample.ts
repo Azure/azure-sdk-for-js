@@ -43,7 +43,7 @@ async function listRegistryEnvironmentContainer() {
 }
 
 async function main() {
-  listRegistryEnvironmentContainer();
+  await listRegistryEnvironmentContainer();
 }
 
 main().catch(console.error);

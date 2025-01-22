@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Handles requests to list all resources in a Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ConfigurationServices_List.json
  */
-async function configurationServicesList() {
+async function configurationServicesList(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function configurationServicesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   configurationServicesList();
 }
 

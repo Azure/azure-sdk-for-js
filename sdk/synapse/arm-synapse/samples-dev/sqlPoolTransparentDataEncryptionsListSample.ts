@@ -42,7 +42,7 @@ async function getListOfTransparentDataEncryptionConfigurationsOfASqlAnalyticsPo
 }
 
 async function main() {
-  getListOfTransparentDataEncryptionConfigurationsOfASqlAnalyticsPool();
+  await getListOfTransparentDataEncryptionConfigurationsOfASqlAnalyticsPool();
 }
 
 main().catch(console.error);

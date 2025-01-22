@@ -63,8 +63,8 @@ async function tagRulesGetMinimumSetGen() {
 }
 
 async function main() {
-  tagRulesGetMaximumSetGen();
-  tagRulesGetMinimumSetGen();
+  await tagRulesGetMaximumSetGen();
+  await tagRulesGetMinimumSetGen();
 }
 
 main().catch(console.error);

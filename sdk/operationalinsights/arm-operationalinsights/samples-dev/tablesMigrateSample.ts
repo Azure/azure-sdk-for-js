@@ -42,7 +42,7 @@ async function tablesMigrate() {
 }
 
 async function main() {
-  tablesMigrate();
+  await tablesMigrate();
 }
 
 main().catch(console.error);

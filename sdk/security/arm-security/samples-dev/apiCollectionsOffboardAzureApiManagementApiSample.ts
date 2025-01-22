@@ -38,7 +38,7 @@ async function offboardAnAzureApiManagementApiFromMicrosoftDefenderForApIs() {
 }
 
 async function main() {
-  offboardAnAzureApiManagementApiFromMicrosoftDefenderForApIs();
+  await offboardAnAzureApiManagementApiFromMicrosoftDefenderForApIs();
 }
 
 main().catch(console.error);

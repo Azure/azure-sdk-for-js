@@ -40,7 +40,7 @@ async function listPrivateLinkResources() {
 }
 
 async function main() {
-  listPrivateLinkResources();
+  await listPrivateLinkResources();
 }
 
 main().catch(console.error);

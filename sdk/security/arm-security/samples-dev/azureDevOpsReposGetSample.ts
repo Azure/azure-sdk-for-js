@@ -42,7 +42,7 @@ async function getAzureDevOpsRepos() {
 }
 
 async function main() {
-  getAzureDevOpsRepos();
+  await getAzureDevOpsRepos();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function storageAccountRevokeUserDelegationKeys() {
 }
 
 async function main() {
-  storageAccountRevokeUserDelegationKeys();
+  await storageAccountRevokeUserDelegationKeys();
 }
 
 main().catch(console.error);

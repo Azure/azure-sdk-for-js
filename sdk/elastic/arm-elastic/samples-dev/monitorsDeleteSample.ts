@@ -37,7 +37,7 @@ async function monitorsDelete() {
 }
 
 async function main() {
-  monitorsDelete();
+  await monitorsDelete();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function nameSpaceCreate() {
 }
 
 async function main() {
-  nameSpaceCreate();
+  await nameSpaceCreate();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function relayAutorizationRuleListAll() {
 }
 
 async function main() {
-  relayAutorizationRuleListAll();
+  await relayAutorizationRuleListAll();
 }
 
 main().catch(console.error);

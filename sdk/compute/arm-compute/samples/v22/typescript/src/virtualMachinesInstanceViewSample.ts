@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about the run-time state of a virtual machine.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves information about the run-time state of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceView.json
  */
-async function getVirtualMachineInstanceView() {
+async function getVirtualMachineInstanceView(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,7 +39,7 @@ async function getVirtualMachineInstanceView() {
  * @summary Retrieves information about the run-time state of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
  */
-async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,7 +54,7 @@ async function getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroug
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getVirtualMachineInstanceView();
   getInstanceViewOfAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement();
 }

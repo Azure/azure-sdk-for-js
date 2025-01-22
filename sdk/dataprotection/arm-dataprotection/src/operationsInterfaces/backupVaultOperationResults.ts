@@ -9,7 +9,7 @@
 import {
   BackupVaultOperationResultsGetOptionalParams,
   BackupVaultOperationResultsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BackupVaultOperationResults. */
 export interface BackupVaultOperationResults {

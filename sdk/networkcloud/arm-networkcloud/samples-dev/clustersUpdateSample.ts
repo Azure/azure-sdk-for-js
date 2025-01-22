@@ -254,12 +254,12 @@ async function patchUpdateStrategy() {
 }
 
 async function main() {
-  patchClusterAggregatorOrSingleRackDefinition();
-  patchClusterCommandOutput();
-  patchClusterLocation();
-  patchRuntimeProtectionConfiguration();
-  patchSecretArchive();
-  patchUpdateStrategy();
+  await patchClusterAggregatorOrSingleRackDefinition();
+  await patchClusterCommandOutput();
+  await patchClusterLocation();
+  await patchRuntimeProtectionConfiguration();
+  await patchSecretArchive();
+  await patchUpdateStrategy();
 }
 
 main().catch(console.error);

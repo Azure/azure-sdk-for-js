@@ -38,7 +38,7 @@ async function changeDirectory() {
 }
 
 async function main() {
-  changeDirectory();
+  await changeDirectory();
 }
 
 main().catch(console.error);

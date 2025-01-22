@@ -45,7 +45,7 @@ async function createsTheSapInstanceResource() {
 }
 
 async function main() {
-  createsTheSapInstanceResource();
+  await createsTheSapInstanceResource();
 }
 
 main().catch(console.error);

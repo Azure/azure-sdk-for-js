@@ -46,7 +46,7 @@ async function listRepetitionRequestHistory() {
 }
 
 async function main() {
-  listRepetitionRequestHistory();
+  await listRepetitionRequestHistory();
 }
 
 main().catch(console.error);

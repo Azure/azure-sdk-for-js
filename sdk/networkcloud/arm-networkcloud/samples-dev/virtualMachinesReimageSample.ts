@@ -37,7 +37,7 @@ async function reimageVirtualMachine() {
 }
 
 async function main() {
-  reimageVirtualMachine();
+  await reimageVirtualMachine();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function listAllFirewallPoliciesForAGivenResourceGroup() {
 }
 
 async function main() {
-  listAllFirewallPoliciesForAGivenResourceGroup();
+  await listAllFirewallPoliciesForAGivenResourceGroup();
 }
 
 main().catch(console.error);

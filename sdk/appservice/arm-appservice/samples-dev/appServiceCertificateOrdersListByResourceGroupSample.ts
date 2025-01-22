@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get certificate orders in a resource group.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/ListAppServiceCertificateOrdersByResourceGroup.json
  */
-async function listAppServiceCertificateOrdersByResourceGroup() {
+async function listAppServiceCertificateOrdersByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,7 +35,7 @@ async function listAppServiceCertificateOrdersByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAppServiceCertificateOrdersByResourceGroup();
 }
 

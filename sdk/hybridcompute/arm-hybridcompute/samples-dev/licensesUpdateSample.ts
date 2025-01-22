@@ -48,7 +48,7 @@ async function updateALicense() {
 }
 
 async function main() {
-  updateALicense();
+  await updateALicense();
 }
 
 main().catch(console.error);

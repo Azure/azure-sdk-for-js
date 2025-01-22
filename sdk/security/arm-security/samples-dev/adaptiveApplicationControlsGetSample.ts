@@ -36,7 +36,7 @@ async function getsAConfiguredApplicationControlVMOrServerGroup() {
 }
 
 async function main() {
-  getsAConfiguredApplicationControlVMOrServerGroup();
+  await getsAConfiguredApplicationControlVMOrServerGroup();
 }
 
 main().catch(console.error);

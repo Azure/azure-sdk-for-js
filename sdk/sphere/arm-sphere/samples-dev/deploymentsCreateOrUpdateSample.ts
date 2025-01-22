@@ -45,7 +45,7 @@ async function deploymentsCreateOrUpdate() {
 }
 
 async function main() {
-  deploymentsCreateOrUpdate();
+  await deploymentsCreateOrUpdate();
 }
 
 main().catch(console.error);

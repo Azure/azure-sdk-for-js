@@ -37,7 +37,7 @@ async function azureLargeInstanceRestart() {
 }
 
 async function main() {
-  azureLargeInstanceRestart();
+  await azureLargeInstanceRestart();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function serverlessRuntimesDelete() {
 }
 
 async function main() {
-  serverlessRuntimesDelete();
+  await serverlessRuntimesDelete();
 }
 
 main().catch(console.error);

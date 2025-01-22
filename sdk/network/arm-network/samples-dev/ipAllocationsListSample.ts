@@ -32,7 +32,7 @@ async function listAllIPAllocations() {
 }
 
 async function main() {
-  listAllIPAllocations();
+  await listAllIPAllocations();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function deleteAPricingOnResource() {
 }
 
 async function main() {
-  deleteAPricingOnResource();
+  await deleteAPricingOnResource();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function expressRouteGatewayCreate() {
 }
 
 async function main() {
-  expressRouteGatewayCreate();
+  await expressRouteGatewayCreate();
 }
 
 main().catch(console.error);

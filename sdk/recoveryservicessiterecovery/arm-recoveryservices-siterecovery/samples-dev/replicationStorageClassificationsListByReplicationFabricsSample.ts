@@ -44,7 +44,7 @@ async function getsTheListOfStorageClassificationObjectsUnderAFabric() {
 }
 
 async function main() {
-  getsTheListOfStorageClassificationObjectsUnderAFabric();
+  await getsTheListOfStorageClassificationObjectsUnderAFabric();
 }
 
 main().catch(console.error);

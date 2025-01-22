@@ -37,7 +37,7 @@ async function getAScheduledQueryRuleForSingleResource() {
 }
 
 async function main() {
-  getAScheduledQueryRuleForSingleResource();
+  await getAScheduledQueryRuleForSingleResource();
 }
 
 main().catch(console.error);

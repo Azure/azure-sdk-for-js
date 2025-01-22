@@ -49,7 +49,7 @@ async function protectedItemDelete() {
 }
 
 async function main() {
-  protectedItemDelete();
+  await protectedItemDelete();
 }
 
 main().catch(console.error);

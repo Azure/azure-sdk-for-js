@@ -40,7 +40,7 @@ async function internetGatewaysDeleteMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewaysDeleteMaximumSetGen();
+  await internetGatewaysDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

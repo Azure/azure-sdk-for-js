@@ -30,7 +30,7 @@ async function listsAllJitRequestsWithinTheSubscription() {
 }
 
 async function main() {
-  listsAllJitRequestsWithinTheSubscription();
+  await listsAllJitRequestsWithinTheSubscription();
 }
 
 main().catch(console.error);

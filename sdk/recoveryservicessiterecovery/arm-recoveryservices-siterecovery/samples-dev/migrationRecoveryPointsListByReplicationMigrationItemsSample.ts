@@ -47,7 +47,7 @@ async function getsTheRecoveryPointsForAMigrationItem() {
 }
 
 async function main() {
-  getsTheRecoveryPointsForAMigrationItem();
+  await getsTheRecoveryPointsForAMigrationItem();
 }
 
 main().catch(console.error);

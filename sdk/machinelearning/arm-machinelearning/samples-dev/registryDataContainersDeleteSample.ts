@@ -42,7 +42,7 @@ async function deleteRegistryDataContainer() {
 }
 
 async function main() {
-  deleteRegistryDataContainer();
+  await deleteRegistryDataContainer();
 }
 
 main().catch(console.error);

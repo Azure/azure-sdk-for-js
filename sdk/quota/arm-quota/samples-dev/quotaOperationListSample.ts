@@ -31,7 +31,7 @@ async function getOperations() {
 }
 
 async function main() {
-  getOperations();
+  await getOperations();
 }
 
 main().catch(console.error);

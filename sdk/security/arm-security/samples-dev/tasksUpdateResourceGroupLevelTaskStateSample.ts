@@ -40,7 +40,7 @@ async function changeSecurityRecommendationTaskState() {
 }
 
 async function main() {
-  changeSecurityRecommendationTaskState();
+  await changeSecurityRecommendationTaskState();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getAWorkspaceKey() {
 }
 
 async function main() {
-  getAWorkspaceKey();
+  await getAWorkspaceKey();
 }
 
 main().catch(console.error);

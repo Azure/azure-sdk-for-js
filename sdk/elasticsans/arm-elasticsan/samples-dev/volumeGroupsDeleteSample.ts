@@ -61,8 +61,8 @@ async function volumeGroupsDeleteMinimumSetGen() {
 }
 
 async function main() {
-  volumeGroupsDeleteMaximumSetGen();
-  volumeGroupsDeleteMinimumSetGen();
+  await volumeGroupsDeleteMaximumSetGen();
+  await volumeGroupsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

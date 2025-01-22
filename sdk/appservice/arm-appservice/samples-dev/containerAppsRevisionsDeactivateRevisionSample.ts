@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deactivates a revision for a Container App
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DeactivateRevision.json
  */
-async function deactivateContainerAppRevision() {
+async function deactivateContainerAppRevision(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,7 +35,7 @@ async function deactivateContainerAppRevision() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deactivateContainerAppRevision();
 }
 

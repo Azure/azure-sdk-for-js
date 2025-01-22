@@ -32,7 +32,7 @@ async function relayCheckNameAvailability() {
 }
 
 async function main() {
-  relayCheckNameAvailability();
+  await relayCheckNameAvailability();
 }
 
 main().catch(console.error);

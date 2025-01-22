@@ -39,7 +39,7 @@ async function topicSpacesDelete() {
 }
 
 async function main() {
-  topicSpacesDelete();
+  await topicSpacesDelete();
 }
 
 main().catch(console.error);

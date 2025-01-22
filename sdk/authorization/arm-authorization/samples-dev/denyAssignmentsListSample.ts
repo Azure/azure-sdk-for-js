@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all deny assignments for the subscription.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/GetAllDenyAssignments.json
  */
-async function listDenyAssignmentsForSubscription() {
+async function listDenyAssignmentsForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subId";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listDenyAssignmentsForSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDenyAssignmentsForSubscription();
 }
 

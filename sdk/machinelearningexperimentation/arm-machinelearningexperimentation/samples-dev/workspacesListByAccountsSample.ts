@@ -41,7 +41,7 @@ async function listWorkspacesByAccounts() {
 }
 
 async function main() {
-  listWorkspacesByAccounts();
+  await listWorkspacesByAccounts();
 }
 
 main().catch(console.error);

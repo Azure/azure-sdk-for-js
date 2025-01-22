@@ -32,7 +32,7 @@ async function listExpressRouteCircuitsInASubscription() {
 }
 
 async function main() {
-  listExpressRouteCircuitsInASubscription();
+  await listExpressRouteCircuitsInASubscription();
 }
 
 main().catch(console.error);

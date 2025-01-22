@@ -37,7 +37,7 @@ async function reimageBareMetalMachine() {
 }
 
 async function main() {
-  reimageBareMetalMachine();
+  await reimageBareMetalMachine();
 }
 
 main().catch(console.error);

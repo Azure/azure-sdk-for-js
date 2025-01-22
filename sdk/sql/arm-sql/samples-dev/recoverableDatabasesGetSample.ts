@@ -69,8 +69,8 @@ async function getsARecoverableDatabaseWithExpandEqualsKeys() {
 }
 
 async function main() {
-  getARecoverableDatabase();
-  getsARecoverableDatabaseWithExpandEqualsKeys();
+  await getARecoverableDatabase();
+  await getsARecoverableDatabaseWithExpandEqualsKeys();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function serverlessRuntimesListByInformaticaOrganizationResource() {
 }
 
 async function main() {
-  serverlessRuntimesListByInformaticaOrganizationResource();
+  await serverlessRuntimesListByInformaticaOrganizationResource();
 }
 
 main().catch(console.error);

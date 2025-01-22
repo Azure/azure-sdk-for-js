@@ -40,7 +40,7 @@ async function createsOrUpdatesASecretWithTheSpecifiedSubscriptionResourceGroupA
 }
 
 async function main() {
-  createsOrUpdatesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await createsOrUpdatesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

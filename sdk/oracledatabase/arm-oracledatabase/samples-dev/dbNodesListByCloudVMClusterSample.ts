@@ -40,7 +40,7 @@ async function listDbNodesByVMCluster() {
 }
 
 async function main() {
-  listDbNodesByVMCluster();
+  await listDbNodesByVMCluster();
 }
 
 main().catch(console.error);

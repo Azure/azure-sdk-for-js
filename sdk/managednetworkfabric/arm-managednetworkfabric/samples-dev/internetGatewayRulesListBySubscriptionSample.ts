@@ -37,7 +37,7 @@ async function internetGatewayRulesListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  internetGatewayRulesListBySubscriptionMaximumSetGen();
+  await internetGatewayRulesListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

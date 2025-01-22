@@ -32,7 +32,7 @@ async function getLogProfile() {
 }
 
 async function main() {
-  getLogProfile();
+  await getLogProfile();
 }
 
 main().catch(console.error);

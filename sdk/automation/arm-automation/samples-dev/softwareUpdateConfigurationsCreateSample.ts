@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a new software update configuration with the name given in the URI.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfiguration/createSoftwareUpdateConfiguration.json
  */
-async function createSoftwareUpdateConfiguration() {
+async function createSoftwareUpdateConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -94,7 +94,7 @@ async function createSoftwareUpdateConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createSoftwareUpdateConfiguration();
 }
 

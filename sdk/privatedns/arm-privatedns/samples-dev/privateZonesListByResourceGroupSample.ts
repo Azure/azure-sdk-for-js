@@ -37,7 +37,7 @@ async function getPrivateDnsZoneByResourceGroup() {
 }
 
 async function main() {
-  getPrivateDnsZoneByResourceGroup();
+  await getPrivateDnsZoneByResourceGroup();
 }
 
 main().catch(console.error);

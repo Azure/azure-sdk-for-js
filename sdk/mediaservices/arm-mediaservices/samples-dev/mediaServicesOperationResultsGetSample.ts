@@ -36,7 +36,7 @@ async function getStatusOfAsynchronousOperation() {
 }
 
 async function main() {
-  getStatusOfAsynchronousOperation();
+  await getStatusOfAsynchronousOperation();
 }
 
 main().catch(console.error);

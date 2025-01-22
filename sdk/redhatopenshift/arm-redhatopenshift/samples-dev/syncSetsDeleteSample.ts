@@ -38,7 +38,7 @@ async function deletesASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResour
 }
 
 async function main() {
-  deletesASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await deletesASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

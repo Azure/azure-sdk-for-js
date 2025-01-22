@@ -41,7 +41,7 @@ async function relayNameSpaceUpdate() {
 }
 
 async function main() {
-  relayNameSpaceUpdate();
+  await relayNameSpaceUpdate();
 }
 
 main().catch(console.error);

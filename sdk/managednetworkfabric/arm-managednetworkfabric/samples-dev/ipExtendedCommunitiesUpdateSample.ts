@@ -54,7 +54,7 @@ async function ipExtendedCommunitiesUpdateMaximumSetGen() {
 }
 
 async function main() {
-  ipExtendedCommunitiesUpdateMaximumSetGen();
+  await ipExtendedCommunitiesUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

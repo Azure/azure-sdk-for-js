@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Invite user to the organization
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_InviteUser.json
  */
-async function accessInviteUser() {
+async function accessInviteUser(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +44,7 @@ async function accessInviteUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   accessInviteUser();
 }
 

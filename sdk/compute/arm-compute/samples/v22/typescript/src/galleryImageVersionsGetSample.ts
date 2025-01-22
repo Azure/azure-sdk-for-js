@@ -13,9 +13,7 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery image version.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
  */
-async function getAGalleryImageVersionWithReplicationStatus() {
+async function getAGalleryImageVersionWithReplicationStatus(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -51,7 +49,7 @@ async function getAGalleryImageVersionWithReplicationStatus() {
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
  */
-async function getAGalleryImageVersionWithSnapshotsAsASource() {
+async function getAGalleryImageVersionWithSnapshotsAsASource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -76,7 +74,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithValidationProfileAndReplicationStatus.json
  */
-async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus() {
+async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -104,7 +102,7 @@ async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus(
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithValidationProfile.json
  */
-async function getAGalleryImageVersionWithValidationProfile() {
+async function getAGalleryImageVersionWithValidationProfile(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -132,7 +130,7 @@ async function getAGalleryImageVersionWithValidationProfile() {
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
  */
-async function getAGalleryImageVersionWithVhdAsASource() {
+async function getAGalleryImageVersionWithVhdAsASource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -157,7 +155,7 @@ async function getAGalleryImageVersionWithVhdAsASource() {
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Get.json
  */
-async function getAGalleryImageVersion() {
+async function getAGalleryImageVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -176,7 +174,7 @@ async function getAGalleryImageVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAGalleryImageVersionWithReplicationStatus();
   getAGalleryImageVersionWithSnapshotsAsASource();
   getAGalleryImageVersionWithValidationProfileAndReplicationStatus();

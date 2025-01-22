@@ -58,7 +58,7 @@ async function createOrUpdateWorkspaceDataVersionBase() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceDataVersionBase();
+  await createOrUpdateWorkspaceDataVersionBase();
 }
 
 main().catch(console.error);

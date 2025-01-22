@@ -107,7 +107,7 @@ async function createFirewallPolicy() {
 }
 
 async function main() {
-  createFirewallPolicy();
+  await createFirewallPolicy();
 }
 
 main().catch(console.error);

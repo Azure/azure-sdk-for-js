@@ -38,7 +38,7 @@ async function getsAListOfPreconfiguredEndpoints() {
 }
 
 async function main() {
-  getsAListOfPreconfiguredEndpoints();
+  await getsAListOfPreconfiguredEndpoints();
 }
 
 main().catch(console.error);
