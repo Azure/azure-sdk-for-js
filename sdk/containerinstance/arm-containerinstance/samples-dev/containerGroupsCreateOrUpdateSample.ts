@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ContainerGroup,
-  ContainerInstanceManagementClient,
-} from "@azure/arm-containerinstance";
+import type { ContainerGroup } from "@azure/arm-containerinstance";
+import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +21,8 @@ import "dotenv/config";
  */
 async function confidentialContainerGroup(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerGroup: ContainerGroup = {
     confidentialComputeProperties: {
@@ -54,10 +50,7 @@ async function confidentialContainerGroup(): Promise<void> {
     sku: "Confidential",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -74,29 +67,22 @@ async function confidentialContainerGroup(): Promise<void> {
  */
 async function containerGroupCreateOrUpdateWithStandbyPool(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerGroup: ContainerGroup = {
     containerGroupProfile: {
       id: "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroupProfiles/democgp",
       revision: 1,
     },
-    containers: [
-      { name: "demo1", configMap: { keyValuePairs: { newkey: "value" } } },
-    ],
+    containers: [{ name: "demo1", configMap: { keyValuePairs: { newkey: "value" } } }],
     location: "west us",
     standbyPoolProfile: {
       id: "/subscriptions/subid/resourceGroups/demo/providers/Microsoft.StandbyPool/standbyContainerGroupPools/demopool",
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -113,10 +99,8 @@ async function containerGroupCreateOrUpdateWithStandbyPool(): Promise<void> {
  */
 async function containerGroupCreateWithExtensions(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerGroup: ContainerGroup = {
     containers: [
@@ -154,10 +138,7 @@ async function containerGroupCreateWithExtensions(): Promise<void> {
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -174,10 +155,8 @@ async function containerGroupCreateWithExtensions(): Promise<void> {
  */
 async function containerGroupWithEncryptionProperties(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerGroup: ContainerGroup = {
     containers: [
@@ -210,10 +189,7 @@ async function containerGroupWithEncryptionProperties(): Promise<void> {
     osType: "Linux",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -230,10 +206,8 @@ async function containerGroupWithEncryptionProperties(): Promise<void> {
  */
 async function containerGroupsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerGroup: ContainerGroup = {
     containers: [
@@ -309,10 +283,7 @@ async function containerGroupsCreateOrUpdate(): Promise<void> {
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -329,10 +300,8 @@ async function containerGroupsCreateOrUpdate(): Promise<void> {
  */
 async function containerGroupsCreateWithPriority(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerGroup: ContainerGroup = {
     containers: [
@@ -350,10 +319,7 @@ async function containerGroupsCreateWithPriority(): Promise<void> {
     sku: "Standard",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -363,12 +329,12 @@ async function containerGroupsCreateWithPriority(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialContainerGroup();
-  containerGroupCreateOrUpdateWithStandbyPool();
-  containerGroupCreateWithExtensions();
-  containerGroupWithEncryptionProperties();
-  containerGroupsCreateOrUpdate();
-  containerGroupsCreateWithPriority();
+  await confidentialContainerGroup();
+  await containerGroupCreateOrUpdateWithStandbyPool();
+  await containerGroupCreateWithExtensions();
+  await containerGroupWithEncryptionProperties();
+  await containerGroupsCreateOrUpdate();
+  await containerGroupsCreateWithPriority();
 }
 
 main().catch(console.error);
