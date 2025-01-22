@@ -36,14 +36,12 @@ describe("JobRouterClient", () => {
       await administrationClient.createQueue(queueId, queueRequest);
     });
 
-    afterEach(async (ctx) => {
+    afterEach(async () => {
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);
 
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+      await recorder.stop();
     });
 
     it("should create a queue", { timeout: timeoutMs }, async () => {

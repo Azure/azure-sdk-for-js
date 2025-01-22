@@ -5,21 +5,17 @@
  * @summary Create a new user and a token simultaneously.
  */
 
-import {
-  CommunicationIdentityClient,
-  TokenScope,
-  CreateUserAndTokenOptions,
-} from "@azure/communication-identity";
+import type { TokenScope, CreateUserAndTokenOptions } from "@azure/communication-identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Create User and Token Sample ==\n");
   const client = new CommunicationIdentityClient(connectionString);
   const scopes: TokenScope[] = ["chat"];

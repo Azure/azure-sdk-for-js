@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-connectedvmware": [
-        "./dist/esm"
-      ]
+      "@azure/arm-connectedvmware": ["./dist/esm"]
     }
   }
 }

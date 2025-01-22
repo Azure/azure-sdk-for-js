@@ -4,12 +4,9 @@
  * @summary Distribution policy crud
  */
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-import {
-  DistributionPolicyItem,
-  JobRouterAdministrationClient,
-} from "@azure/communication-job-router";
-dotenv.config();
+import "dotenv/config";
+import type { DistributionPolicyItem } from "@azure/communication-job-router";
+import { JobRouterAdministrationClient } from "@azure/communication-job-router";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 

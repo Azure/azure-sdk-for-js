@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   VirtualMachineInstanceUpdate,
   VirtualMachineInstancesUpdateOptionalParams,
-  AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -26,20 +24,17 @@ async function updateVirtualMachine(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM";
   const body: VirtualMachineInstanceUpdate = {
-    hardwareProfile: { memorySizeMB: 4196, numCPUs: 4 }
+    hardwareProfile: { memorySizeMB: 4196, numCPUs: 4 },
   };
   const options: VirtualMachineInstancesUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential);
-  const result = await client.virtualMachineInstances.beginUpdateAndWait(
-    resourceUri,
-    options
-  );
+  const result = await client.virtualMachineInstances.beginUpdateAndWait(resourceUri, options);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  updateVirtualMachine();
+  await updateVirtualMachine();
 }
 
 main().catch(console.error);

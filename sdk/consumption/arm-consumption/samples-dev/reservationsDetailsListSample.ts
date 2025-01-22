@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ReservationsDetailsListOptionalParams} from "@azure/arm-consumption";
 import {
-  ReservationsDetailsListOptionalParams,
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function reservationDetailsByBillingAccountId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsDetails.list(scope, options)) {
+  for await (const item of client.reservationsDetails.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -56,7 +57,7 @@ async function reservationDetailsByBillingProfileId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsDetails.list(scope, options)) {
+  for await (const item of client.reservationsDetails.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -87,7 +88,7 @@ async function reservationDetailsByBillingProfileIdReservationId(): Promise<void
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationsDetails.list(scope, options)) {
+  for await (const item of client.reservationsDetails.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);

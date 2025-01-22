@@ -28,7 +28,7 @@ async function enterpriseCustomerOperationsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseCustomerOperationsCreateOrUpdate();
+  await enterpriseCustomerOperationsCreateOrUpdate();
 }
 
 main().catch(console.error);

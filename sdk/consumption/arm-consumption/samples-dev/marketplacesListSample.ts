@@ -26,7 +26,7 @@ async function billingAccountMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function billingAccountMarketplacesListForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -66,7 +66,7 @@ async function departmentMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -86,7 +86,7 @@ async function departmentMarketplacesListForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -106,7 +106,7 @@ async function enrollmentAccountMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -126,7 +126,7 @@ async function enrollmentAccountMarketplacesListForBillingPeriod(): Promise<void
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -146,7 +146,7 @@ async function managementGroupMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -166,7 +166,7 @@ async function managementGroupMarketplacesListForBillingPeriod(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -186,7 +186,7 @@ async function subscriptionMarketplacesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -206,7 +206,7 @@ async function subscriptionMarketplacesListForBillingPeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

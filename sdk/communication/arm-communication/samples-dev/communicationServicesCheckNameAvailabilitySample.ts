@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  NameAvailabilityParameters,
-  CommunicationServiceManagementClient,
-} from "@azure/arm-communication";
+import type { NameAvailabilityParameters } from "@azure/arm-communication";
+import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,17 +21,13 @@ import "dotenv/config";
  */
 async function checkNameAvailabilityAvailable(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "MyCommunicationService",
     type: "Microsoft.Communication/CommunicationServices",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.checkNameAvailability(
     nameAvailabilityParameters,
   );
@@ -48,17 +42,13 @@ async function checkNameAvailabilityAvailable(): Promise<void> {
  */
 async function checkNameAvailabilityUnavailable(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "MyCommunicationService",
     type: "Microsoft.Communication/CommunicationServices",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.checkNameAvailability(
     nameAvailabilityParameters,
   );
@@ -66,8 +56,8 @@ async function checkNameAvailabilityUnavailable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkNameAvailabilityAvailable();
-  checkNameAvailabilityUnavailable();
+  await checkNameAvailabilityAvailable();
+  await checkNameAvailabilityUnavailable();
 }
 
 main().catch(console.error);
