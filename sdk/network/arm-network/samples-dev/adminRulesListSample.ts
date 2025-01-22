@@ -43,7 +43,7 @@ async function listSecurityAdminRules() {
 }
 
 async function main() {
-  listSecurityAdminRules();
+  await listSecurityAdminRules();
 }
 
 main().catch(console.error);

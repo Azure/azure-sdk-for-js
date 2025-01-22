@@ -49,7 +49,7 @@ async function workspacesPatch() {
 }
 
 async function main() {
-  workspacesPatch();
+  await workspacesPatch();
 }
 
 main().catch(console.error);

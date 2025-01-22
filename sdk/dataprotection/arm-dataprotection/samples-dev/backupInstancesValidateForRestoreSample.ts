@@ -13,9 +13,7 @@ import {
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validates if Restore can be triggered for a DataSource
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Validates if Restore can be triggered for a DataSource
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ValidateRestore.json
  */
-async function validateRestore() {
+async function validateRestore(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -83,8 +81,8 @@ async function validateRestore() {
   console.log(result);
 }
 
-async function main() {
-  validateRestore();
+async function main(): Promise<void> {
+  await validateRestore();
 }
 
 main().catch(console.error);

@@ -108,9 +108,9 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorklo
 }
 
 async function main() {
-  listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM();
-  listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVMWithBothV1AndV2Policies();
-  listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorkload();
+  await listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM();
+  await listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVMWithBothV1AndV2Policies();
+  await listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorkload();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function patchL3Network() {
 }
 
 async function main() {
-  patchL3Network();
+  await patchL3Network();
 }
 
 main().catch(console.error);

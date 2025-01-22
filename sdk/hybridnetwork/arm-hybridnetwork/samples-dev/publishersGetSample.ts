@@ -32,7 +32,7 @@ async function getAPublisherResource() {
 }
 
 async function main() {
-  getAPublisherResource();
+  await getAPublisherResource();
 }
 
 main().catch(console.error);

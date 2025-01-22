@@ -39,7 +39,7 @@ async function deletesAScopedResourceWithAGivenName() {
 }
 
 async function main() {
-  deletesAScopedResourceWithAGivenName();
+  await deletesAScopedResourceWithAGivenName();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function listRoutingRuleCollections() {
 }
 
 async function main() {
-  listRoutingRuleCollections();
+  await listRoutingRuleCollections();
 }
 
 main().catch(console.error);

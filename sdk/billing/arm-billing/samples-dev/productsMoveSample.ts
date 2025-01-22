@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Moves a product's charges to a new invoice section. The new invoice section must belong to the same billing profile as the existing invoice section. This operation is supported only for products that are purchased with a recurring charge and for billing accounts with agreement type Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/productMove.json
  */
-async function productMove() {
+async function productMove(): Promise<void> {
   const billingAccountName =
     "a1a9c77e-4cec-4a6c-a089-867d973a6074:a80d3b1f-c626-4e5e-82ed-1173bd91c838_2019-05-31";
   const productName = "6b96d3f2-9008-4a9d-912f-f87744185aa3";
@@ -39,7 +39,7 @@ async function productMove() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   productMove();
 }
 

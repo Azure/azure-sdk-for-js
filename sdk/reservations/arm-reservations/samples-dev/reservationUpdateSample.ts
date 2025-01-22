@@ -38,7 +38,7 @@ async function patchReservation() {
 }
 
 async function main() {
-  patchReservation();
+  await patchReservation();
 }
 
 main().catch(console.error);

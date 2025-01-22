@@ -36,7 +36,7 @@ async function nameSpaceDelete() {
 }
 
 async function main() {
-  nameSpaceDelete();
+  await nameSpaceDelete();
 }
 
 main().catch(console.error);

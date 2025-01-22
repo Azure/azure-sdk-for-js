@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates an association between a VM and Automanage configuration profile
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfileAssignment.json
  */
-async function createOrUpdateConfigurationProfileAssignment() {
+async function createOrUpdateConfigurationProfileAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileAssignmentName = "default";
@@ -45,7 +45,7 @@ async function createOrUpdateConfigurationProfileAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateConfigurationProfileAssignment();
 }
 

@@ -50,7 +50,7 @@ async function internalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSet
 }
 
 async function main() {
-  internalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSetGen();
+  await internalNetworksUpdateStaticRouteBfdAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

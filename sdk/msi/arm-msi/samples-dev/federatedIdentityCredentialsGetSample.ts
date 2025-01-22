@@ -38,7 +38,7 @@ async function federatedIdentityCredentialGet() {
 }
 
 async function main() {
-  federatedIdentityCredentialGet();
+  await federatedIdentityCredentialGet();
 }
 
 main().catch(console.error);

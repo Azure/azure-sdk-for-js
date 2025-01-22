@@ -39,7 +39,7 @@ async function getAWatchlist() {
 }
 
 async function main() {
-  getAWatchlist();
+  await getAWatchlist();
 }
 
 main().catch(console.error);

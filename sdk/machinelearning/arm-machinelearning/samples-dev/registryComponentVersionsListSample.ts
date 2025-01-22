@@ -52,7 +52,7 @@ async function listRegistryComponentVersion() {
 }
 
 async function main() {
-  listRegistryComponentVersion();
+  await listRegistryComponentVersion();
 }
 
 main().catch(console.error);

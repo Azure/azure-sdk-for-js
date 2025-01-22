@@ -31,7 +31,7 @@ async function getAvailableRequestHeaders() {
 }
 
 async function main() {
-  getAvailableRequestHeaders();
+  await getAvailableRequestHeaders();
 }
 
 main().catch(console.error);

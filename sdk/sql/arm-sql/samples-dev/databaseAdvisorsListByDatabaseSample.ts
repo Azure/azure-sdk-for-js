@@ -69,8 +69,8 @@ async function listOfDatabaseRecommendedActionsForAllAdvisors() {
 }
 
 async function main() {
-  listOfDatabaseAdvisors();
-  listOfDatabaseRecommendedActionsForAllAdvisors();
+  await listOfDatabaseAdvisors();
+  await listOfDatabaseRecommendedActionsForAllAdvisors();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function openAiDelete() {
 }
 
 async function main() {
-  openAiDelete();
+  await openAiDelete();
 }
 
 main().catch(console.error);

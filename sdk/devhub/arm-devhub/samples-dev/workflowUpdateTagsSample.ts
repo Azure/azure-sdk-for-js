@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TagsObject, DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates tags on a workflow.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates tags on a workflow.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_UpdateTags.json
  */
-async function updateManagedClusterTags() {
+async function updateManagedClusterTags(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const resourceGroupName =
@@ -39,8 +37,8 @@ async function updateManagedClusterTags() {
   console.log(result);
 }
 
-async function main() {
-  updateManagedClusterTags();
+async function main(): Promise<void> {
+  await updateManagedClusterTags();
 }
 
 main().catch(console.error);

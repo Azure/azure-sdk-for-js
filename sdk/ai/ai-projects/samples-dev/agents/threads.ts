@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
 
   console.log(`Retrieved thread, thread ID : ${_thread.id}`);
 
-  client.agents.deleteThread(thread.id);
+  await client.agents.deleteThread(thread.id);
 
   console.log(`Deleted thread, thread ID : ${_thread.id}`);
 }

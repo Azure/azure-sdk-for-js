@@ -38,7 +38,7 @@ async function deleteAnIoTConnector() {
 }
 
 async function main() {
-  deleteAnIoTConnector();
+  await deleteAnIoTConnector();
 }
 
 main().catch(console.error);

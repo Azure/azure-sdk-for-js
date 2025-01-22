@@ -37,7 +37,7 @@ async function deleteADedicatedHsm() {
 }
 
 async function main() {
-  deleteADedicatedHsm();
+  await deleteADedicatedHsm();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get Site Analysis
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetSiteAnalysis.json
  */
-async function getAppAnalysis() {
+async function getAppAnalysis(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -44,7 +44,7 @@ async function getAppAnalysis() {
  * @summary Description for Get Site Analysis
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetSiteAnalysisSlot.json
  */
-async function getAppSlotAnalysis() {
+async function getAppSlotAnalysis(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -64,7 +64,7 @@ async function getAppSlotAnalysis() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAppAnalysis();
   getAppSlotAnalysis();
 }

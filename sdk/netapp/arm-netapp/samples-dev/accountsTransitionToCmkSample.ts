@@ -48,7 +48,7 @@ async function accountsMigrateEncryptionKey() {
 }
 
 async function main() {
-  accountsMigrateEncryptionKey();
+  await accountsMigrateEncryptionKey();
 }
 
 main().catch(console.error);

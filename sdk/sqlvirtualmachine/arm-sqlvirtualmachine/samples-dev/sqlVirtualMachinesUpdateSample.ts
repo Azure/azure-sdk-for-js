@@ -45,7 +45,7 @@ async function updatesASqlVirtualMachineTags() {
 }
 
 async function main() {
-  updatesASqlVirtualMachineTags();
+  await updatesASqlVirtualMachineTags();
 }
 
 main().catch(console.error);

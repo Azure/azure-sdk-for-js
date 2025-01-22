@@ -53,8 +53,8 @@ async function fqdnListGlobalRulestackListMinimumSetGen() {
 }
 
 async function main() {
-  fqdnListGlobalRulestackListMaximumSetGen();
-  fqdnListGlobalRulestackListMinimumSetGen();
+  await fqdnListGlobalRulestackListMaximumSetGen();
+  await fqdnListGlobalRulestackListMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getHttpSettings() {
 }
 
 async function main() {
-  getHttpSettings();
+  await getHttpSettings();
 }
 
 main().catch(console.error);

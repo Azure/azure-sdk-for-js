@@ -56,7 +56,7 @@ async function kustoDatabaseInviteFollower() {
 }
 
 async function main() {
-  kustoDatabaseInviteFollower();
+  await kustoDatabaseInviteFollower();
 }
 
 main().catch(console.error);

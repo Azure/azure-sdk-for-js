@@ -50,7 +50,7 @@ async function regenerateKeysWorkspaceServerlessEndpoint() {
 }
 
 async function main() {
-  regenerateKeysWorkspaceServerlessEndpoint();
+  await regenerateKeysWorkspaceServerlessEndpoint();
 }
 
 main().catch(console.error);

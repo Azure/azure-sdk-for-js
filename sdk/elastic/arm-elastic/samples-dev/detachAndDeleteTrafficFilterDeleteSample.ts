@@ -45,7 +45,7 @@ async function detachAndDeleteTrafficFilterDelete() {
 }
 
 async function main() {
-  detachAndDeleteTrafficFilterDelete();
+  await detachAndDeleteTrafficFilterDelete();
 }
 
 main().catch(console.error);

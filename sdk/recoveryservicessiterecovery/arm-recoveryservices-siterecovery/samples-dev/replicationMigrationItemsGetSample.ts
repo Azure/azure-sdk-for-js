@@ -44,7 +44,7 @@ async function getsTheDetailsOfAMigrationItem() {
 }
 
 async function main() {
-  getsTheDetailsOfAMigrationItem();
+  await getsTheDetailsOfAMigrationItem();
 }
 
 main().catch(console.error);

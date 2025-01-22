@@ -39,7 +39,7 @@ async function revalidatesTheEncryptionProtector() {
 }
 
 async function main() {
-  revalidatesTheEncryptionProtector();
+  await revalidatesTheEncryptionProtector();
 }
 
 main().catch(console.error);

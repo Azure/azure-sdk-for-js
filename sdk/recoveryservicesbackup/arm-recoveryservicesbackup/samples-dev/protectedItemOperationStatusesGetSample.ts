@@ -50,7 +50,7 @@ async function getOperationStatusOfProtectedVM() {
 }
 
 async function main() {
-  getOperationStatusOfProtectedVM();
+  await getOperationStatusOfProtectedVM();
 }
 
 main().catch(console.error);

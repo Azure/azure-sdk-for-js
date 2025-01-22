@@ -46,7 +46,7 @@ async function updatesASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResour
 }
 
 async function main() {
-  updatesASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await updatesASyncSetWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

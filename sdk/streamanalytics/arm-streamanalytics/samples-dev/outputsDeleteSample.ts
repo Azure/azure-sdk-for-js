@@ -42,7 +42,7 @@ async function deleteAnOutput() {
 }
 
 async function main() {
-  deleteAnOutput();
+  await deleteAnOutput();
 }
 
 main().catch(console.error);

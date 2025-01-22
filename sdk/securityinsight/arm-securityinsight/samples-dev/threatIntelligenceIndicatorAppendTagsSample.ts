@@ -46,7 +46,7 @@ async function appendTagsToAThreatIntelligenceIndicator() {
 }
 
 async function main() {
-  appendTagsToAThreatIntelligenceIndicator();
+  await appendTagsToAThreatIntelligenceIndicator();
 }
 
 main().catch(console.error);

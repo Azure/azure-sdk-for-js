@@ -44,7 +44,7 @@ async function updatesTheSapInstanceResource() {
 }
 
 async function main() {
-  updatesTheSapInstanceResource();
+  await updatesTheSapInstanceResource();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function retrieveDnsResolver() {
 }
 
 async function main() {
-  retrieveDnsResolver();
+  await retrieveDnsResolver();
 }
 
 main().catch(console.error);

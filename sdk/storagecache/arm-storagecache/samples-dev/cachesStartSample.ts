@@ -37,7 +37,7 @@ async function cachesStart() {
 }
 
 async function main() {
-  cachesStart();
+  await cachesStart();
 }
 
 main().catch(console.error);

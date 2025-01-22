@@ -65,8 +65,8 @@ async function fqdnListLocalRulestackListByLocalRulestacksMinimumSetGen() {
 }
 
 async function main() {
-  fqdnListLocalRulestackListByLocalRulestacksMaximumSetGen();
-  fqdnListLocalRulestackListByLocalRulestacksMinimumSetGen();
+  await fqdnListLocalRulestackListByLocalRulestacksMaximumSetGen();
+  await fqdnListLocalRulestackListByLocalRulestacksMinimumSetGen();
 }
 
 main().catch(console.error);

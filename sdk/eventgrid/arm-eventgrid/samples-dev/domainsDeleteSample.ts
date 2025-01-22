@@ -37,7 +37,7 @@ async function domainsDelete() {
 }
 
 async function main() {
-  domainsDelete();
+  await domainsDelete();
 }
 
 main().catch(console.error);

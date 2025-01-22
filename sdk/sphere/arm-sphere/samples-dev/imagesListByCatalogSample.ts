@@ -40,7 +40,7 @@ async function imagesListByCatalog() {
 }
 
 async function main() {
-  imagesListByCatalog();
+  await imagesListByCatalog();
 }
 
 main().catch(console.error);

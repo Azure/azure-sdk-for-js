@@ -38,7 +38,7 @@ async function listL2NetworksForResourceGroup() {
 }
 
 async function main() {
-  listL2NetworksForResourceGroup();
+  await listL2NetworksForResourceGroup();
 }
 
 main().catch(console.error);

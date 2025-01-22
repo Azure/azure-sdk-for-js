@@ -65,8 +65,8 @@ async function listOfServerRecommendedActionsForAllAdvisors() {
 }
 
 async function main() {
-  listOfServerAdvisors();
-  listOfServerRecommendedActionsForAllAdvisors();
+  await listOfServerAdvisors();
+  await listOfServerRecommendedActionsForAllAdvisors();
 }
 
 main().catch(console.error);

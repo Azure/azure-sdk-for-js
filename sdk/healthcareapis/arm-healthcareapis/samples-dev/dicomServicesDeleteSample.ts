@@ -38,7 +38,7 @@ async function deleteADicomservice() {
 }
 
 async function main() {
-  deleteADicomservice();
+  await deleteADicomservice();
 }
 
 main().catch(console.error);

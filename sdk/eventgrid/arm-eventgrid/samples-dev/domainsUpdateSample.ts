@@ -49,7 +49,7 @@ async function domainsUpdate() {
 }
 
 async function main() {
-  domainsUpdate();
+  await domainsUpdate();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function getPrivateDnsZoneGroup() {
 }
 
 async function main() {
-  getPrivateDnsZoneGroup();
+  await getPrivateDnsZoneGroup();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function getOperationStatus() {
 }
 
 async function main() {
-  getOperationStatus();
+  await getOperationStatus();
 }
 
 main().catch(console.error);

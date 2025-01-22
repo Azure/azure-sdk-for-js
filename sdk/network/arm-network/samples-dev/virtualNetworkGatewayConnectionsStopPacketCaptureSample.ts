@@ -43,7 +43,7 @@ async function stopPacketCaptureOnVirtualNetworkGatewayConnection() {
 }
 
 async function main() {
-  stopPacketCaptureOnVirtualNetworkGatewayConnection();
+  await stopPacketCaptureOnVirtualNetworkGatewayConnection();
 }
 
 main().catch(console.error);

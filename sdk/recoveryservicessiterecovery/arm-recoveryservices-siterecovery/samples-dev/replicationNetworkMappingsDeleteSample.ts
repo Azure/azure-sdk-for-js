@@ -45,7 +45,7 @@ async function deleteNetworkMapping() {
 }
 
 async function main() {
-  deleteNetworkMapping();
+  await deleteNetworkMapping();
 }
 
 main().catch(console.error);

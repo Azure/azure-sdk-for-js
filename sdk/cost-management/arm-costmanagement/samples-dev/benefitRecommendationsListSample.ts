@@ -13,9 +13,7 @@ import {
   CostManagementClient
 } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of recommendations for purchasing savings plan.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List of recommendations for purchasing savings plan.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BenefitRecommendationsByBillingAccount.json
  */
-async function benefitRecommendationsBillingAccountList() {
+async function benefitRecommendationsBillingAccountList(): Promise<void> {
   const filter =
     "properties/lookBackPeriod eq 'Last7Days' AND properties/term eq 'P1Y'";
   const expand = "properties/usage,properties/allRecommendationDetails";
@@ -41,7 +39,7 @@ async function benefitRecommendationsBillingAccountList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   benefitRecommendationsBillingAccountList();
 }
 

@@ -47,7 +47,7 @@ async function createSecurityRule() {
 }
 
 async function main() {
-  createSecurityRule();
+  await createSecurityRule();
 }
 
 main().catch(console.error);

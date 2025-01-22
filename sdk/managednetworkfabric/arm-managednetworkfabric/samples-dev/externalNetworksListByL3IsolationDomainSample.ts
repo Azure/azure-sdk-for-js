@@ -43,7 +43,7 @@ async function externalNetworksListByL3IsolationDomainMaximumSetGen() {
 }
 
 async function main() {
-  externalNetworksListByL3IsolationDomainMaximumSetGen();
+  await externalNetworksListByL3IsolationDomainMaximumSetGen();
 }
 
 main().catch(console.error);

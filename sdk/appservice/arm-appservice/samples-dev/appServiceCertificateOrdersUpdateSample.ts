@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Create or update a certificate purchase order.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/UpdateAppServiceCertificateOrder.json
  */
-async function updateCertificateOrder() {
+async function updateCertificateOrder(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -29,25 +29,25 @@ async function updateCertificateOrder() {
     process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const certificateOrderName = "SampleCertificateOrderName";
   const certificateDistinguishedName: AppServiceCertificateOrderPatchResource =
-    {
-      autoRenew: true,
-      certificates: {
-        sampleCertName1: {
-          keyVaultId:
-            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/microsoft.keyvault/vaults/SamplevaultName",
-          keyVaultSecretName: "SampleSecretName1",
-        },
-        sampleCertName2: {
-          keyVaultId:
-            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/microsoft.keyvault/vaults/SamplevaultName",
-          keyVaultSecretName: "SampleSecretName2",
-        },
+  {
+    autoRenew: true,
+    certificates: {
+      sampleCertName1: {
+        keyVaultId:
+          "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/microsoft.keyvault/vaults/SamplevaultName",
+        keyVaultSecretName: "SampleSecretName1",
       },
-      distinguishedName: "CN=SampleCustomDomain.com",
-      keySize: 2048,
-      productType: "StandardDomainValidatedSsl",
-      validityInYears: 2,
-    };
+      sampleCertName2: {
+        keyVaultId:
+          "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/microsoft.keyvault/vaults/SamplevaultName",
+        keyVaultSecretName: "SampleSecretName2",
+      },
+    },
+    distinguishedName: "CN=SampleCustomDomain.com",
+    keySize: 2048,
+    productType: "StandardDomainValidatedSsl",
+    validityInYears: 2,
+  };
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.appServiceCertificateOrders.update(
@@ -58,7 +58,7 @@ async function updateCertificateOrder() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateCertificateOrder();
 }
 

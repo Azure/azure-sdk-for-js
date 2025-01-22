@@ -42,7 +42,7 @@ async function getAllIncidentRelations() {
 }
 
 async function main() {
-  getAllIncidentRelations();
+  await getAllIncidentRelations();
 }
 
 main().catch(console.error);

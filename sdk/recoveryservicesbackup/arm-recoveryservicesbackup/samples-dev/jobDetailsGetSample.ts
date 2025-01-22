@@ -39,7 +39,7 @@ async function getJobDetails() {
 }
 
 async function main() {
-  getJobDetails();
+  await getJobDetails();
 }
 
 main().catch(console.error);

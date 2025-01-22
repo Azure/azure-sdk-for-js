@@ -51,8 +51,8 @@ async function getMetadataForCmkEnabledServiceInDataSovereignRegion() {
 }
 
 async function main() {
-  getMetadata();
-  getMetadataForCmkEnabledServiceInDataSovereignRegion();
+  await getMetadata();
+  await getMetadataForCmkEnabledServiceInDataSovereignRegion();
 }
 
 main().catch(console.error);

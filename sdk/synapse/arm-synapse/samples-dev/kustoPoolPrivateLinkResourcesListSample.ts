@@ -41,7 +41,7 @@ async function kustoPoolPrivateLinkResourcesList() {
 }
 
 async function main() {
-  kustoPoolPrivateLinkResourcesList();
+  await kustoPoolPrivateLinkResourcesList();
 }
 
 main().catch(console.error);

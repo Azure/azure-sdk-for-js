@@ -34,7 +34,7 @@ async function getApplicationSecurityGroup() {
 }
 
 async function main() {
-  getApplicationSecurityGroup();
+  await getApplicationSecurityGroup();
 }
 
 main().catch(console.error);

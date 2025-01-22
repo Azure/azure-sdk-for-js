@@ -38,7 +38,7 @@ async function snapshotPoliciesListVolumes() {
 }
 
 async function main() {
-  snapshotPoliciesListVolumes();
+  await snapshotPoliciesListVolumes();
 }
 
 main().catch(console.error);

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List private link resources for the given provisioning service
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List private link resources for the given provisioning service
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSListPrivateLinkResources.json
  */
-async function privateLinkResourcesList() {
+async function privateLinkResourcesList(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -37,8 +35,8 @@ async function privateLinkResourcesList() {
   console.log(result);
 }
 
-async function main() {
-  privateLinkResourcesList();
+async function main(): Promise<void> {
+  await privateLinkResourcesList();
 }
 
 main().catch(console.error);

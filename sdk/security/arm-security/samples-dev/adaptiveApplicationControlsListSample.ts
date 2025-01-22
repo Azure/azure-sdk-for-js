@@ -40,7 +40,7 @@ async function getsAListOfApplicationControlGroupsOfMachinesForTheSubscription()
 }
 
 async function main() {
-  getsAListOfApplicationControlGroupsOfMachinesForTheSubscription();
+  await getsAListOfApplicationControlGroupsOfMachinesForTheSubscription();
 }
 
 main().catch(console.error);

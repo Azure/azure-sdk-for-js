@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about the given detector for a given Batch account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/DetectorGet.json
  */
-async function getDetector() {
+async function getDetector(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -34,7 +34,7 @@ async function getDetector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDetector();
 }
 

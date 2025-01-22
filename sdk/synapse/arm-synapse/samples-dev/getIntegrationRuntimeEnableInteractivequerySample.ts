@@ -41,7 +41,7 @@ async function getIntegrationRuntimeOperationStatus() {
 }
 
 async function main() {
-  getIntegrationRuntimeOperationStatus();
+  await getIntegrationRuntimeOperationStatus();
 }
 
 main().catch(console.error);

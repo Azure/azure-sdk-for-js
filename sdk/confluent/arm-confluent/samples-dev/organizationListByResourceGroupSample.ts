@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all Organizations under the specified resource group.
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_ListByResourceGroup.json
  */
-async function organizationListByResourceGroup() {
+async function organizationListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +35,7 @@ async function organizationListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationListByResourceGroup();
 }
 

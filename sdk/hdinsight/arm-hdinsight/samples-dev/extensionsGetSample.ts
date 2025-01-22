@@ -36,7 +36,7 @@ async function getAnExtension() {
 }
 
 async function main() {
-  getAnExtension();
+  await getAnExtension();
 }
 
 main().catch(console.error);

@@ -60,7 +60,7 @@ async function createOrUpdateAIoTSecuritySolution() {
 }
 
 async function main() {
-  createOrUpdateAIoTSecuritySolution();
+  await createOrUpdateAIoTSecuritySolution();
 }
 
 main().catch(console.error);

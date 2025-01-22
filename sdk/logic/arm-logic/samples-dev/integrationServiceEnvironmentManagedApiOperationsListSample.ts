@@ -41,7 +41,7 @@ async function getsTheIntegrationServiceEnvironmentManagedApis() {
 }
 
 async function main() {
-  getsTheIntegrationServiceEnvironmentManagedApis();
+  await getsTheIntegrationServiceEnvironmentManagedApis();
 }
 
 main().catch(console.error);

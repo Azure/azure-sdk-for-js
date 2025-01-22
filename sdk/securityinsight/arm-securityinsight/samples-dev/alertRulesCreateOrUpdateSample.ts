@@ -494,11 +494,11 @@ async function createsOrUpdatesAScheduledAlertRule() {
 }
 
 async function main() {
-  createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern();
-  createsOrUpdatesAFusionAlertRule();
-  createsOrUpdatesAMicrosoftSecurityIncidentCreationRule();
-  createsOrUpdatesANrtAlertRule();
-  createsOrUpdatesAScheduledAlertRule();
+  await createsOrUpdatesAFusionAlertRuleWithScenarioExclusionPattern();
+  await createsOrUpdatesAFusionAlertRule();
+  await createsOrUpdatesAMicrosoftSecurityIncidentCreationRule();
+  await createsOrUpdatesANrtAlertRule();
+  await createsOrUpdatesAScheduledAlertRule();
 }
 
 main().catch(console.error);

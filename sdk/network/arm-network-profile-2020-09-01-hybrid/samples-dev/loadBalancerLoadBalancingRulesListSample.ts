@@ -37,7 +37,7 @@ async function loadBalancerLoadBalancingRuleList() {
 }
 
 async function main() {
-  loadBalancerLoadBalancingRuleList();
+  await loadBalancerLoadBalancingRuleList();
 }
 
 main().catch(console.error);

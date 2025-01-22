@@ -61,8 +61,8 @@ async function dataProductsListByResourceGroupMaximumSetGenGeneratedByMinimumSet
 }
 
 async function main() {
-  dataProductsListByResourceGroupMaximumSetGen();
-  dataProductsListByResourceGroupMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsListByResourceGroupMaximumSetGen();
+  await dataProductsListByResourceGroupMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

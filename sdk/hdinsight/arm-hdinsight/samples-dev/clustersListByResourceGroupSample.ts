@@ -35,7 +35,7 @@ async function getAllHadoopOnLinuxClustersInAResourceGroup() {
 }
 
 async function main() {
-  getAllHadoopOnLinuxClustersInAResourceGroup();
+  await getAllHadoopOnLinuxClustersInAResourceGroup();
 }
 
 main().catch(console.error);

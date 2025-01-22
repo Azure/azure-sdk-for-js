@@ -38,7 +38,7 @@ async function listAutoscaleSettings() {
 }
 
 async function main() {
-  listAutoscaleSettings();
+  await listAutoscaleSettings();
 }
 
 main().catch(console.error);

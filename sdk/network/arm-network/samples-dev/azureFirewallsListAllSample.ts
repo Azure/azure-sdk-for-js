@@ -32,7 +32,7 @@ async function listAllAzureFirewallsForAGivenSubscription() {
 }
 
 async function main() {
-  listAllAzureFirewallsForAGivenSubscription();
+  await listAllAzureFirewallsForAGivenSubscription();
 }
 
 main().catch(console.error);

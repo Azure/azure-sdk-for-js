@@ -46,7 +46,7 @@ async function kustoClusterDetachFollowerDatabases() {
 }
 
 async function main() {
-  kustoClusterDetachFollowerDatabases();
+  await kustoClusterDetachFollowerDatabases();
 }
 
 main().catch(console.error);

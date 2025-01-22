@@ -42,7 +42,7 @@ async function getEntityWorkspaceFeaturesetContainer() {
 }
 
 async function main() {
-  getEntityWorkspaceFeaturesetContainer();
+  await getEntityWorkspaceFeaturesetContainer();
 }
 
 main().catch(console.error);

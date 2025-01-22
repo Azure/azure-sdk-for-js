@@ -34,7 +34,7 @@ async function kustoClustersGet() {
 }
 
 async function main() {
-  kustoClustersGet();
+  await kustoClustersGet();
 }
 
 main().catch(console.error);

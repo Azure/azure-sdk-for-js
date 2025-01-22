@@ -63,8 +63,8 @@ async function getUeInformation5G() {
 }
 
 async function main() {
-  getUeInformation4G();
-  getUeInformation5G();
+  await getUeInformation4G();
+  await getUeInformation5G();
 }
 
 main().catch(console.error);

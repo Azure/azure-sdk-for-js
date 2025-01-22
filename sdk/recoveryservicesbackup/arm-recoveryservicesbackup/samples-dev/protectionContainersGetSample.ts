@@ -41,7 +41,7 @@ async function getProtectionContainerDetails() {
 }
 
 async function main() {
-  getProtectionContainerDetails();
+  await getProtectionContainerDetails();
 }
 
 main().catch(console.error);

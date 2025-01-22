@@ -38,7 +38,7 @@ async function listDataCollectionRulesByResourceGroup() {
 }
 
 async function main() {
-  listDataCollectionRulesByResourceGroup();
+  await listDataCollectionRulesByResourceGroup();
 }
 
 main().catch(console.error);

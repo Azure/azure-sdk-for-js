@@ -36,7 +36,7 @@ async function getManagedApplicationDefinition() {
 }
 
 async function main() {
-  getManagedApplicationDefinition();
+  await getManagedApplicationDefinition();
 }
 
 main().catch(console.error);

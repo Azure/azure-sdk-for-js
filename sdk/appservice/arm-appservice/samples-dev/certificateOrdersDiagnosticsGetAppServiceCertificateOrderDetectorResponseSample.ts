@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
  */
-async function getAppServiceCertificateOrderDetectorResponse() {
+async function getAppServiceCertificateOrderDetectorResponse(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "5700fc96-77b4-4f8d-afce-c353d8c443bd";
@@ -37,7 +37,7 @@ async function getAppServiceCertificateOrderDetectorResponse() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAppServiceCertificateOrderDetectorResponse();
 }
 

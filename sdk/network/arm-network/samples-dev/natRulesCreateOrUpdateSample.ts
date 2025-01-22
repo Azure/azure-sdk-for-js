@@ -45,7 +45,7 @@ async function natRulePut() {
 }
 
 async function main() {
-  natRulePut();
+  await natRulePut();
 }
 
 main().catch(console.error);

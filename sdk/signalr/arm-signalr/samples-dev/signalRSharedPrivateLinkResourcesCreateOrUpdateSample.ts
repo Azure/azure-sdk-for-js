@@ -49,7 +49,7 @@ async function signalRSharedPrivateLinkResourcesCreateOrUpdate() {
 }
 
 async function main() {
-  signalRSharedPrivateLinkResourcesCreateOrUpdate();
+  await signalRSharedPrivateLinkResourcesCreateOrUpdate();
 }
 
 main().catch(console.error);

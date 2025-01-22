@@ -36,7 +36,7 @@ async function updateApplicationGatewayTags() {
 }
 
 async function main() {
-  updateApplicationGatewayTags();
+  await updateApplicationGatewayTags();
 }
 
 main().catch(console.error);

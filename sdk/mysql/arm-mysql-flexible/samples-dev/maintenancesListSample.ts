@@ -42,7 +42,7 @@ async function listMaintenancesOnAServer() {
 }
 
 async function main() {
-  listMaintenancesOnAServer();
+  await listMaintenancesOnAServer();
 }
 
 main().catch(console.error);

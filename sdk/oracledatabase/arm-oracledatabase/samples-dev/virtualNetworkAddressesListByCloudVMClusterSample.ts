@@ -40,7 +40,7 @@ async function listVirtualNetworkAddressesByVMCluster() {
 }
 
 async function main() {
-  listVirtualNetworkAddressesByVMCluster();
+  await listVirtualNetworkAddressesByVMCluster();
 }
 
 main().catch(console.error);

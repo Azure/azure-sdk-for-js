@@ -46,7 +46,7 @@ async function getAzureReachabilityReport() {
 }
 
 async function main() {
-  getAzureReachabilityReport();
+  await getAzureReachabilityReport();
 }
 
 main().catch(console.error);

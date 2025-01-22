@@ -37,7 +37,7 @@ async function refreshExternalGovernanceEnablementStatus() {
 }
 
 async function main() {
-  refreshExternalGovernanceEnablementStatus();
+  await refreshExternalGovernanceEnablementStatus();
 }
 
 main().catch(console.error);

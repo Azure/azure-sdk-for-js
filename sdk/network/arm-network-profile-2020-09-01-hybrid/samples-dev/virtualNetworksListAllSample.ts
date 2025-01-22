@@ -32,7 +32,7 @@ async function listAllVirtualNetworks() {
 }
 
 async function main() {
-  listAllVirtualNetworks();
+  await listAllVirtualNetworks();
 }
 
 main().catch(console.error);

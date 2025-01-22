@@ -59,8 +59,8 @@ async function fileSystemsDeleteMinimumSetGen() {
 }
 
 async function main() {
-  fileSystemsDelete();
-  fileSystemsDeleteMinimumSetGen();
+  await fileSystemsDelete();
+  await fileSystemsDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

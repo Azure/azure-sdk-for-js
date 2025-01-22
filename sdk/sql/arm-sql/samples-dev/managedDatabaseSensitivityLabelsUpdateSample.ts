@@ -71,7 +71,7 @@ async function updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
 }
 
 async function main() {
-  updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch();
+  await updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch();
 }
 
 main().catch(console.error);

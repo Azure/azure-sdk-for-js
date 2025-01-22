@@ -40,7 +40,7 @@ async function prepareNotebook() {
 }
 
 async function main() {
-  prepareNotebook();
+  await prepareNotebook();
 }
 
 main().catch(console.error);

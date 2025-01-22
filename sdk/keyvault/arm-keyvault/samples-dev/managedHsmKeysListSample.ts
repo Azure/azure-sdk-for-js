@@ -37,7 +37,7 @@ async function listKeysInTheManagedHsm() {
 }
 
 async function main() {
-  listKeysInTheManagedHsm();
+  await listKeysInTheManagedHsm();
 }
 
 main().catch(console.error);

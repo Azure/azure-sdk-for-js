@@ -46,7 +46,7 @@ async function patchSignatureOverrides() {
 }
 
 async function main() {
-  patchSignatureOverrides();
+  await patchSignatureOverrides();
 }
 
 main().catch(console.error);

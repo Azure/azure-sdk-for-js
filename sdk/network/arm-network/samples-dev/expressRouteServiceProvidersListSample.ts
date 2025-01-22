@@ -32,7 +32,7 @@ async function listExpressRouteProviders() {
 }
 
 async function main() {
-  listExpressRouteProviders();
+  await listExpressRouteProviders();
 }
 
 main().catch(console.error);

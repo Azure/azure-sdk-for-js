@@ -42,7 +42,7 @@ async function synchronizesStorageAccountKeys() {
 }
 
 async function main() {
-  synchronizesStorageAccountKeys();
+  await synchronizesStorageAccountKeys();
 }
 
 main().catch(console.error);

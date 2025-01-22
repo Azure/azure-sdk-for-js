@@ -38,7 +38,7 @@ async function listActionGroupsAtResourceGroupLevel() {
 }
 
 async function main() {
-  listActionGroupsAtResourceGroupLevel();
+  await listActionGroupsAtResourceGroupLevel();
 }
 
 main().catch(console.error);

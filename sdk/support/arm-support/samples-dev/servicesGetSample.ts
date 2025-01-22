@@ -29,7 +29,7 @@ async function getsDetailsOfTheAzureService() {
 }
 
 async function main() {
-  getsDetailsOfTheAzureService();
+  await getsDetailsOfTheAzureService();
 }
 
 main().catch(console.error);

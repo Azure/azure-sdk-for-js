@@ -76,8 +76,8 @@ async function vmmServersCreateOrUpdateMinimumSet() {
 }
 
 async function main() {
-  vmmServersCreateOrUpdateMaximumSet();
-  vmmServersCreateOrUpdateMinimumSet();
+  await vmmServersCreateOrUpdateMaximumSet();
+  await vmmServersCreateOrUpdateMinimumSet();
 }
 
 main().catch(console.error);

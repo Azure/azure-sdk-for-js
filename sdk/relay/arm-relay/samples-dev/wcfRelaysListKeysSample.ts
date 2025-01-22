@@ -41,7 +41,7 @@ async function relayAuthorizationRuleListKeyJson() {
 }
 
 async function main() {
-  relayAuthorizationRuleListKeyJson();
+  await relayAuthorizationRuleListKeyJson();
 }
 
 main().catch(console.error);

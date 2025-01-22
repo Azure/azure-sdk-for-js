@@ -39,7 +39,7 @@ async function listVaultsInTheSpecifiedSubscription() {
 }
 
 async function main() {
-  listVaultsInTheSpecifiedSubscription();
+  await listVaultsInTheSpecifiedSubscription();
 }
 
 main().catch(console.error);

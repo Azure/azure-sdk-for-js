@@ -10,32 +10,27 @@
 // Licensed under the MIT License.
 import {
   PolicyStatesListQueryResultsForResourceOptionalParams,
-  PolicyInsightsClient
+  PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryNestedResourceScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryNestedResourceScope.json
  */
 async function queryAllPolicyStatesAtNestedResourceScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
-    resourceId
+    resourceId,
   )) {
     resArray.push(item);
   }
@@ -46,21 +41,18 @@ async function queryAllPolicyStatesAtNestedResourceScope() {
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryResourceScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScope.json
  */
 async function queryAllPolicyStatesAtResourceScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
-    resourceId
+    resourceId,
   )) {
     resArray.push(item);
   }
@@ -71,26 +63,23 @@ async function queryAllPolicyStatesAtResourceScope() {
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryResourceScopeExpandPolicyEvaluationDetails.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScopeExpandPolicyEvaluationDetails.json
  */
 async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const expand = "PolicyEvaluationDetails";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    queryOptions: { expand: expand }
+    expand,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -101,26 +90,23 @@ async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetai
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryResourceScopeNextLink.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScopeNextLink.json
  */
 async function queryAllPolicyStatesAtResourceScopeWithNextLink() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    queryOptions: { skipToken: skipToken }
+    skipToken,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -131,21 +117,18 @@ async function queryAllPolicyStatesAtResourceScopeWithNextLink() {
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionLevelNestedResourceScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QuerySubscriptionLevelNestedResourceScope.json
  */
 async function queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
-    resourceId
+    resourceId,
   )) {
     resArray.push(item);
   }
@@ -156,21 +139,18 @@ async function queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope() {
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionLevelResourceScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QuerySubscriptionLevelResourceScope.json
  */
 async function queryAllPolicyStatesAtSubscriptionLevelResourceScope() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "default";
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName";
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
-    resourceId
+    resourceId,
   )) {
     resArray.push(item);
   }
@@ -181,12 +161,9 @@ async function queryAllPolicyStatesAtSubscriptionLevelResourceScope() {
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryResourceScopeExpandComponents.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScopeExpandComponents.json
  */
 async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGivenAssignment() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
   const resourceId =
     "subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
@@ -195,15 +172,16 @@ async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGiven
   const expand =
     "components($filter=ComplianceState eq 'NonCompliant' or ComplianceState eq 'Compliant')";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    queryOptions: { filter: filter, expand: expand }
+    filter,
+    expand,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -214,12 +192,9 @@ async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGiven
  * This sample demonstrates how to Queries policy states for the resource.
  *
  * @summary Queries policy states for the resource.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QueryResourceScopeExpandComponentsGroupByWithAggregate.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_QueryResourceScopeExpandComponentsGroupByWithAggregate.json
  */
 async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResourceScopeFilteredByGivenAssignment() {
-  const subscriptionId =
-    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
   const resourceId =
     "subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
@@ -228,15 +203,16 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
   const expand =
     "components($filter=ComplianceState eq 'NonCompliant' or ComplianceState eq 'Compliant';$apply=groupby((complianceState),aggregate($count as count)))";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    queryOptions: { filter: filter, expand: expand }
+    filter,
+    expand,
   };
   const credential = new DefaultAzureCredential();
-  const client = new PolicyInsightsClient(credential, subscriptionId);
+  const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -244,14 +220,14 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
 }
 
 async function main() {
-  queryAllPolicyStatesAtNestedResourceScope();
-  queryAllPolicyStatesAtResourceScope();
-  queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails();
-  queryAllPolicyStatesAtResourceScopeWithNextLink();
-  queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope();
-  queryAllPolicyStatesAtSubscriptionLevelResourceScope();
-  queryComponentPolicyComplianceStateAtResourceScopeFilteredByGivenAssignment();
-  queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResourceScopeFilteredByGivenAssignment();
+  await queryAllPolicyStatesAtNestedResourceScope();
+  await queryAllPolicyStatesAtResourceScope();
+  await queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails();
+  await queryAllPolicyStatesAtResourceScopeWithNextLink();
+  await queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope();
+  await queryAllPolicyStatesAtSubscriptionLevelResourceScope();
+  await queryComponentPolicyComplianceStateAtResourceScopeFilteredByGivenAssignment();
+  await queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResourceScopeFilteredByGivenAssignment();
 }
 
 main().catch(console.error);

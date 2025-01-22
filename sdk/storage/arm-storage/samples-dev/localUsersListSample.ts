@@ -67,8 +67,8 @@ async function listNfSv3EnabledLocalUsers() {
 }
 
 async function main() {
-  listLocalUsers();
-  listNfSv3EnabledLocalUsers();
+  await listLocalUsers();
+  await listNfSv3EnabledLocalUsers();
 }
 
 main().catch(console.error);

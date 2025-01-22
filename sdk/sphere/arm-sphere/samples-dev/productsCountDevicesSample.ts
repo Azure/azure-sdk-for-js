@@ -39,7 +39,7 @@ async function productsCountDevices() {
 }
 
 async function main() {
-  productsCountDevices();
+  await productsCountDevices();
 }
 
 main().catch(console.error);

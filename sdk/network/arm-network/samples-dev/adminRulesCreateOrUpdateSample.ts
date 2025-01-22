@@ -101,8 +101,8 @@ async function createAnAdminRule() {
 }
 
 async function main() {
-  createAAdminRuleWithNetworkGroupAsSourceOrDestination();
-  createAnAdminRule();
+  await createAAdminRuleWithNetworkGroupAsSourceOrDestination();
+  await createAnAdminRule();
 }
 
 main().catch(console.error);

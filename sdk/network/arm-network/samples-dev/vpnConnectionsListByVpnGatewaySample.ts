@@ -37,7 +37,7 @@ async function vpnConnectionList() {
 }
 
 async function main() {
-  vpnConnectionList();
+  await vpnConnectionList();
 }
 
 main().catch(console.error);

@@ -88,9 +88,9 @@ async function createPublicIPAddressDefaults() {
 }
 
 async function main() {
-  createPublicIPAddressDns();
-  createPublicIPAddressAllocationMethod();
-  createPublicIPAddressDefaults();
+  await createPublicIPAddressDns();
+  await createPublicIPAddressAllocationMethod();
+  await createPublicIPAddressDefaults();
 }
 
 main().catch(console.error);

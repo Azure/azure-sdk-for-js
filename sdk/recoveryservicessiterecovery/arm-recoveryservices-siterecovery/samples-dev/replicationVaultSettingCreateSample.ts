@@ -50,7 +50,7 @@ async function updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIs
 }
 
 async function main() {
-  updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIsAlwaysPresentByDefault();
+  await updatesVaultSettingAVaultSettingObjectIsASingletonPerVaultAndItIsAlwaysPresentByDefault();
 }
 
 main().catch(console.error);

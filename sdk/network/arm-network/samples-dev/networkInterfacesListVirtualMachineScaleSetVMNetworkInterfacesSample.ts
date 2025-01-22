@@ -39,7 +39,7 @@ async function listVirtualMachineScaleSetVMNetworkInterfaces() {
 }
 
 async function main() {
-  listVirtualMachineScaleSetVMNetworkInterfaces();
+  await listVirtualMachineScaleSetVMNetworkInterfaces();
 }
 
 main().catch(console.error);

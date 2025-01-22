@@ -35,7 +35,7 @@ async function unarchive() {
 }
 
 async function main() {
-  unarchive();
+  await unarchive();
 }
 
 main().catch(console.error);

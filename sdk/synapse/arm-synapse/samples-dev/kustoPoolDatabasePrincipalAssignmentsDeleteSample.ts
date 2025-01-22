@@ -43,7 +43,7 @@ async function kustoPoolDatabasePrincipalAssignmentsDelete() {
 }
 
 async function main() {
-  kustoPoolDatabasePrincipalAssignmentsDelete();
+  await kustoPoolDatabasePrincipalAssignmentsDelete();
 }
 
 main().catch(console.error);

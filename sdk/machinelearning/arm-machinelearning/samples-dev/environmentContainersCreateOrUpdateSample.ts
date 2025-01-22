@@ -61,7 +61,7 @@ async function createOrUpdateWorkspaceEnvironmentContainer() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceEnvironmentContainer();
+  await createOrUpdateWorkspaceEnvironmentContainer();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getStorageAppliance() {
 }
 
 async function main() {
-  getStorageAppliance();
+  await getStorageAppliance();
 }
 
 main().catch(console.error);

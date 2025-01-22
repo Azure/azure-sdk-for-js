@@ -89,8 +89,8 @@ async function postRulesCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  postRulesCreateOrUpdateMaximumSetGen();
-  postRulesCreateOrUpdateMinimumSetGen();
+  await postRulesCreateOrUpdateMaximumSetGen();
+  await postRulesCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

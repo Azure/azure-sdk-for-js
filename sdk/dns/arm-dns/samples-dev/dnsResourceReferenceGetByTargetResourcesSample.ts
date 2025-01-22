@@ -42,7 +42,7 @@ async function getDnsResourceReference() {
 }
 
 async function main() {
-  getDnsResourceReference();
+  await getDnsResourceReference();
 }
 
 main().catch(console.error);

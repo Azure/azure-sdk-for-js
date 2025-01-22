@@ -39,7 +39,7 @@ async function runAWorkflowTrigger() {
 }
 
 async function main() {
-  runAWorkflowTrigger();
+  await runAWorkflowTrigger();
 }
 
 main().catch(console.error);

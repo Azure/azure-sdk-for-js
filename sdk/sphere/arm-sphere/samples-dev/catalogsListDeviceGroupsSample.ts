@@ -47,7 +47,7 @@ async function catalogsListDeviceGroups() {
 }
 
 async function main() {
-  catalogsListDeviceGroups();
+  await catalogsListDeviceGroups();
 }
 
 main().catch(console.error);

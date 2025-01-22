@@ -42,7 +42,7 @@ async function getWorkspaceBatchEndpoint() {
 }
 
 async function main() {
-  getWorkspaceBatchEndpoint();
+  await getWorkspaceBatchEndpoint();
 }
 
 main().catch(console.error);

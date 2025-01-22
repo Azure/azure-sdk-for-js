@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Creates a new static site in an existing resource group, or updates an existing static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateStaticSite.json
  */
-async function createOrUpdateAStaticSite() {
+async function createOrUpdateAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -49,7 +49,7 @@ async function createOrUpdateAStaticSite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAStaticSite();
 }
 

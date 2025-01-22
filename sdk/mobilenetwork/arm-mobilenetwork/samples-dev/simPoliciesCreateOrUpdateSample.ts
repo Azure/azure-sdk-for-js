@@ -81,7 +81,7 @@ async function createSimPolicy() {
 }
 
 async function main() {
-  createSimPolicy();
+  await createSimPolicy();
 }
 
 main().catch(console.error);

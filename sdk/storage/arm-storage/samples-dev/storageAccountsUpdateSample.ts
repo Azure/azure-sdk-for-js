@@ -375,14 +375,14 @@ async function storageAccountUpdateWithImmutabilityPolicy() {
 }
 
 async function main() {
-  storageAccountEnableAd();
-  storageAccountEnableCmk();
-  storageAccountUpdate();
-  storageAccountUpdateAllowedCopyScopeToAad();
-  storageAccountUpdateDisablePublicNetworkAccess();
-  storageAccountUpdateUserAssignedEncryptionIdentityWithCmk();
-  storageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId();
-  storageAccountUpdateWithImmutabilityPolicy();
+  await storageAccountEnableAd();
+  await storageAccountEnableCmk();
+  await storageAccountUpdate();
+  await storageAccountUpdateAllowedCopyScopeToAad();
+  await storageAccountUpdateDisablePublicNetworkAccess();
+  await storageAccountUpdateUserAssignedEncryptionIdentityWithCmk();
+  await storageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId();
+  await storageAccountUpdateWithImmutabilityPolicy();
 }
 
 main().catch(console.error);

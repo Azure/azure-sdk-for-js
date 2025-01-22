@@ -41,7 +41,7 @@ async function removeVCenterOperation() {
 }
 
 async function main() {
-  removeVCenterOperation();
+  await removeVCenterOperation();
 }
 
 main().catch(console.error);

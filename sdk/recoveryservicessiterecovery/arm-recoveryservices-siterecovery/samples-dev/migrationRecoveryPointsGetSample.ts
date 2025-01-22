@@ -46,7 +46,7 @@ async function getsARecoveryPointForAMigrationItem() {
 }
 
 async function main() {
-  getsARecoveryPointForAMigrationItem();
+  await getsARecoveryPointForAMigrationItem();
 }
 
 main().catch(console.error);

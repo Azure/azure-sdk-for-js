@@ -13,9 +13,7 @@ import {
   CosmosDBForPostgreSQL,
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates configuration of coordinator in a cluster
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates configuration of coordinator in a cluster
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationUpdateCoordinator.json
  */
-async function updateSingleConfigurationOfCoordinator() {
+async function updateSingleConfigurationOfCoordinator(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -43,7 +41,7 @@ async function updateSingleConfigurationOfCoordinator() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateSingleConfigurationOfCoordinator();
 }
 

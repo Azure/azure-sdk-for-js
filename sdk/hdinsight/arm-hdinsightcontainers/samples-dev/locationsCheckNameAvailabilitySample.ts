@@ -45,7 +45,7 @@ async function locationsNameAvailability() {
 }
 
 async function main() {
-  locationsNameAvailability();
+  await locationsNameAvailability();
 }
 
 main().catch(console.error);

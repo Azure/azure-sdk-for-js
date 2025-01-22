@@ -72,9 +72,9 @@ async function getPrivateEndpointWithManualApprovalConnection() {
 }
 
 async function main() {
-  getPrivateEndpoint();
-  getPrivateEndpointWithApplicationSecurityGroups();
-  getPrivateEndpointWithManualApprovalConnection();
+  await getPrivateEndpoint();
+  await getPrivateEndpointWithApplicationSecurityGroups();
+  await getPrivateEndpointWithManualApprovalConnection();
 }
 
 main().catch(console.error);

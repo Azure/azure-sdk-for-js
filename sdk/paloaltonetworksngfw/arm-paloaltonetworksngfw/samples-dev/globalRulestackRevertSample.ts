@@ -43,8 +43,8 @@ async function globalRulestackRevertMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackRevertMaximumSetGen();
-  globalRulestackRevertMinimumSetGen();
+  await globalRulestackRevertMaximumSetGen();
+  await globalRulestackRevertMinimumSetGen();
 }
 
 main().catch(console.error);

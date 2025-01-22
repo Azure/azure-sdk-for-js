@@ -57,7 +57,7 @@ async function createOrUpdateWorkspaceComponentVersion() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceComponentVersion();
+  await createOrUpdateWorkspaceComponentVersion();
 }
 
 main().catch(console.error);

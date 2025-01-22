@@ -38,7 +38,7 @@ async function gitHubConnectorListByResourceGroup() {
 }
 
 async function main() {
-  gitHubConnectorListByResourceGroup();
+  await gitHubConnectorListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function getsDetailsOfProblemClassificationForAzureService() {
 }
 
 async function main() {
-  getsDetailsOfProblemClassificationForAzureService();
+  await getsDetailsOfProblemClassificationForAzureService();
 }
 
 main().catch(console.error);

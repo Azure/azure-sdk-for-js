@@ -42,7 +42,7 @@ async function enableAzureMonitor() {
 }
 
 async function main() {
-  enableAzureMonitor();
+  await enableAzureMonitor();
 }
 
 main().catch(console.error);

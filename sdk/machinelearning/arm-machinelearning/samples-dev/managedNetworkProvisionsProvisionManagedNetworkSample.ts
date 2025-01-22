@@ -49,7 +49,7 @@ async function provisionManagedNetwork() {
 }
 
 async function main() {
-  provisionManagedNetwork();
+  await provisionManagedNetwork();
 }
 
 main().catch(console.error);

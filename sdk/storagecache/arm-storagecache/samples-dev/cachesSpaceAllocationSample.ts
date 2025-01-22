@@ -48,7 +48,7 @@ async function spaceAllocationPost() {
 }
 
 async function main() {
-  spaceAllocationPost();
+  await spaceAllocationPost();
 }
 
 main().catch(console.error);

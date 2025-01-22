@@ -34,7 +34,7 @@ async function deleteLoadBalancer() {
 }
 
 async function main() {
-  deleteLoadBalancer();
+  await deleteLoadBalancer();
 }
 
 main().catch(console.error);

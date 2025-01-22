@@ -32,7 +32,7 @@ async function listAllNetworkInterfaces() {
 }
 
 async function main() {
-  listAllNetworkInterfaces();
+  await listAllNetworkInterfaces();
 }
 
 main().catch(console.error);

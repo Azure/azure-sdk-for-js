@@ -39,7 +39,7 @@ async function tryPlannedBeforeForcedFailoverOfAFailoverGroup() {
 }
 
 async function main() {
-  tryPlannedBeforeForcedFailoverOfAFailoverGroup();
+  await tryPlannedBeforeForcedFailoverOfAFailoverGroup();
 }
 
 main().catch(console.error);

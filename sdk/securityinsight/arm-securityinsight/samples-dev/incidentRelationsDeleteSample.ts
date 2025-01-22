@@ -41,7 +41,7 @@ async function deleteTheIncidentRelation() {
 }
 
 async function main() {
-  deleteTheIncidentRelation();
+  await deleteTheIncidentRelation();
 }
 
 main().catch(console.error);

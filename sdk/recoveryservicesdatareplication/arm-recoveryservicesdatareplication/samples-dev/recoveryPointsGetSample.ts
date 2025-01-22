@@ -45,7 +45,7 @@ async function recoveryPointsGet() {
 }
 
 async function main() {
-  recoveryPointsGet();
+  await recoveryPointsGet();
 }
 
 main().catch(console.error);

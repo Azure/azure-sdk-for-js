@@ -44,7 +44,7 @@ async function snapshotsCreate() {
 }
 
 async function main() {
-  snapshotsCreate();
+  await snapshotsCreate();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function managedPrivateEndpointsDelete() {
 }
 
 async function main() {
-  managedPrivateEndpointsDelete();
+  await managedPrivateEndpointsDelete();
 }
 
 main().catch(console.error);

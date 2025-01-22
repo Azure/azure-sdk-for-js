@@ -39,7 +39,7 @@ async function retrieveDnsSecurityRuleForDnsResolverPolicy() {
 }
 
 async function main() {
-  retrieveDnsSecurityRuleForDnsResolverPolicy();
+  await retrieveDnsSecurityRuleForDnsResolverPolicy();
 }
 
 main().catch(console.error);

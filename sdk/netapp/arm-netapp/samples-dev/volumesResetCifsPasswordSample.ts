@@ -40,7 +40,7 @@ async function volumesResetCifsPassword() {
 }
 
 async function main() {
-  volumesResetCifsPassword();
+  await volumesResetCifsPassword();
 }
 
 main().catch(console.error);

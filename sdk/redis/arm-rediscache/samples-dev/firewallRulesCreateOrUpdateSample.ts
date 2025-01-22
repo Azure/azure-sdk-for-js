@@ -44,7 +44,7 @@ async function redisCacheFirewallRuleCreate() {
 }
 
 async function main() {
-  redisCacheFirewallRuleCreate();
+  await redisCacheFirewallRuleCreate();
 }
 
 main().catch(console.error);

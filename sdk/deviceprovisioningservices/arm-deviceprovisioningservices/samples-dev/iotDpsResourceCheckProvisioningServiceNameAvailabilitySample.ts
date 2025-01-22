@@ -13,9 +13,7 @@ import {
   IotDpsClient
 } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSCheckNameAvailability.json
  */
-async function dpsCheckName() {
+async function dpsCheckName(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -36,8 +34,8 @@ async function dpsCheckName() {
   console.log(result);
 }
 
-async function main() {
-  dpsCheckName();
+async function main(): Promise<void> {
+  await dpsCheckName();
 }
 
 main().catch(console.error);

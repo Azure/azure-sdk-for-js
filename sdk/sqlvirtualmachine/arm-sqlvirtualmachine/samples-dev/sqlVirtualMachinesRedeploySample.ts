@@ -40,7 +40,7 @@ async function uninstallsAndReinstallsTheSqlIaaSExtension() {
 }
 
 async function main() {
-  uninstallsAndReinstallsTheSqlIaaSExtension();
+  await uninstallsAndReinstallsTheSqlIaaSExtension();
 }
 
 main().catch(console.error);

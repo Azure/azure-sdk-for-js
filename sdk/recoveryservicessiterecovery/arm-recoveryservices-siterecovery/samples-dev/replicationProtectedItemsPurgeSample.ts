@@ -44,7 +44,7 @@ async function purgesProtection() {
 }
 
 async function main() {
-  purgesProtection();
+  await purgesProtection();
 }
 
 main().catch(console.error);

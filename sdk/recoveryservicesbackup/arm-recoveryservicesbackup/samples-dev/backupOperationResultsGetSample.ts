@@ -46,7 +46,7 @@ async function getResultForProtectedItemDeleteOperation() {
 }
 
 async function main() {
-  getResultForProtectedItemDeleteOperation();
+  await getResultForProtectedItemDeleteOperation();
 }
 
 main().catch(console.error);

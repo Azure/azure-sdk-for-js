@@ -39,7 +39,7 @@ async function createOrUpdateAResourceGroup() {
 }
 
 async function main() {
-  createOrUpdateAResourceGroup();
+  await createOrUpdateAResourceGroup();
 }
 
 main().catch(console.error);

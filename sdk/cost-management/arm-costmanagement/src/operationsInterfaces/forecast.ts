@@ -13,7 +13,7 @@ import {
   ExternalCloudProviderType,
   ForecastExternalCloudProviderUsageOptionalParams,
   ForecastExternalCloudProviderUsageResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Forecast. */
 export interface Forecast {

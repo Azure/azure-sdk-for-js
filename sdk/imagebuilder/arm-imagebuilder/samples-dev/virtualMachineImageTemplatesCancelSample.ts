@@ -36,7 +36,7 @@ async function cancelTheImageBuildBasedOnTheImageTemplate() {
 }
 
 async function main() {
-  cancelTheImageBuildBasedOnTheImageTemplate();
+  await cancelTheImageBuildBasedOnTheImageTemplate();
 }
 
 main().catch(console.error);

@@ -59,8 +59,8 @@ async function dataProductsGetMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGe
 }
 
 async function main() {
-  dataProductsGetMaximumSetGen();
-  dataProductsGetMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsGetMaximumSetGen();
+  await dataProductsGetMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

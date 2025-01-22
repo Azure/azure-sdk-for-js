@@ -42,7 +42,7 @@ async function listDatabasesInAServer() {
 }
 
 async function main() {
-  listDatabasesInAServer();
+  await listDatabasesInAServer();
 }
 
 main().catch(console.error);

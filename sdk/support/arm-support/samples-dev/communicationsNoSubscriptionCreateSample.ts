@@ -39,7 +39,7 @@ async function addCommunicationToNoSubscriptionTicket() {
 }
 
 async function main() {
-  addCommunicationToNoSubscriptionTicket();
+  await addCommunicationToNoSubscriptionTicket();
 }
 
 main().catch(console.error);

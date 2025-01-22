@@ -59,8 +59,8 @@ async function vmmServersListByResourceGroupMinimumSet() {
 }
 
 async function main() {
-  vmmServersListByResourceGroupMaximumSet();
-  vmmServersListByResourceGroupMinimumSet();
+  await vmmServersListByResourceGroupMaximumSet();
+  await vmmServersListByResourceGroupMinimumSet();
 }
 
 main().catch(console.error);

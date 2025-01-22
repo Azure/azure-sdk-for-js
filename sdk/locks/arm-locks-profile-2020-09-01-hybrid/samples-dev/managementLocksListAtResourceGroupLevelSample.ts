@@ -37,7 +37,7 @@ async function listManagementGroupsAtResourceGroupLevel() {
 }
 
 async function main() {
-  listManagementGroupsAtResourceGroupLevel();
+  await listManagementGroupsAtResourceGroupLevel();
 }
 
 main().catch(console.error);

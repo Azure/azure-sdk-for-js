@@ -37,7 +37,7 @@ async function restartBareMetalMachine() {
 }
 
 async function main() {
-  restartBareMetalMachine();
+  await restartBareMetalMachine();
 }
 
 main().catch(console.error);

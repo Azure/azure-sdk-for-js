@@ -39,7 +39,7 @@ async function namespaceTopicsDelete() {
 }
 
 async function main() {
-  namespaceTopicsDelete();
+  await namespaceTopicsDelete();
 }
 
 main().catch(console.error);

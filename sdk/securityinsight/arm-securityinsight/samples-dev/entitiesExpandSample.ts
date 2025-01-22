@@ -48,7 +48,7 @@ async function expandAnEntity() {
 }
 
 async function main() {
-  expandAnEntity();
+  await expandAnEntity();
 }
 
 main().catch(console.error);

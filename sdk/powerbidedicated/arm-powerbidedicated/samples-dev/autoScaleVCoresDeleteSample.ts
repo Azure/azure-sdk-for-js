@@ -37,7 +37,7 @@ async function deleteAnAutoScaleVCore() {
 }
 
 async function main() {
-  deleteAnAutoScaleVCore();
+  await deleteAnAutoScaleVCore();
 }
 
 main().catch(console.error);

@@ -103,8 +103,8 @@ async function organizationsUpdateMin() {
 }
 
 async function main() {
-  organizationsUpdate();
-  organizationsUpdateMin();
+  await organizationsUpdate();
+  await organizationsUpdateMin();
 }
 
 main().catch(console.error);

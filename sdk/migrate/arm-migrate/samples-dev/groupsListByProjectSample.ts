@@ -40,7 +40,7 @@ async function groupsListByProject() {
 }
 
 async function main() {
-  groupsListByProject();
+  await groupsListByProject();
 }
 
 main().catch(console.error);

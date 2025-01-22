@@ -44,7 +44,7 @@ async function redisEnterpriseAccessPolicyAssignmentGet() {
 }
 
 async function main() {
-  redisEnterpriseAccessPolicyAssignmentGet();
+  await redisEnterpriseAccessPolicyAssignmentGet();
 }
 
 main().catch(console.error);

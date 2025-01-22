@@ -43,7 +43,7 @@ async function storageMoversCreateOrUpdate() {
 }
 
 async function main() {
-  storageMoversCreateOrUpdate();
+  await storageMoversCreateOrUpdate();
 }
 
 main().catch(console.error);

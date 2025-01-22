@@ -40,7 +40,7 @@ async function deleteDnsResolverPolicyVirtualNetworkLink() {
 }
 
 async function main() {
-  deleteDnsResolverPolicyVirtualNetworkLink();
+  await deleteDnsResolverPolicyVirtualNetworkLink();
 }
 
 main().catch(console.error);

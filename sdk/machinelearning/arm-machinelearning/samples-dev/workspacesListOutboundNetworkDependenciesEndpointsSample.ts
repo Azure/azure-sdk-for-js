@@ -41,7 +41,7 @@ async function listOutboundNetworkDependenciesEndpoints() {
 }
 
 async function main() {
-  listOutboundNetworkDependenciesEndpoints();
+  await listOutboundNetworkDependenciesEndpoints();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ import {
   TaskRunUpdateParameters as TaskRunUpdateParametersMapper,
   Task as TaskMapper,
   TaskUpdateParameters as TaskUpdateParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

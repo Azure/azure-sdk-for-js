@@ -39,7 +39,7 @@ async function listSecurityUserConfigurationsInANetworkManager() {
 }
 
 async function main() {
-  listSecurityUserConfigurationsInANetworkManager();
+  await listSecurityUserConfigurationsInANetworkManager();
 }
 
 main().catch(console.error);

@@ -53,7 +53,7 @@ async function upsertDnsForwardingRuleset() {
 }
 
 async function main() {
-  upsertDnsForwardingRuleset();
+  await upsertDnsForwardingRuleset();
 }
 
 main().catch(console.error);

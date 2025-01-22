@@ -117,9 +117,9 @@ async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequ
 }
 
 async function main() {
-  obtainQueryExecutionStatistics();
-  obtainQueryExecutionStatisticsExampleWithAllRequestParameters();
-  obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters();
+  await obtainQueryExecutionStatistics();
+  await obtainQueryExecutionStatisticsExampleWithAllRequestParameters();
+  await obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters();
 }
 
 main().catch(console.error);

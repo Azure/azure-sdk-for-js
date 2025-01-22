@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an existing remediation at resource group scope.
  *
  * @summary Gets an existing remediation at resource group scope.
- * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_GetResourceGroupScope.json
+ * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_GetResourceGroupScope.json
  */
 async function getRemediationAtResourceGroupScope() {
   const subscriptionId =
@@ -31,13 +29,13 @@ async function getRemediationAtResourceGroupScope() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.remediations.getAtResourceGroup(
     resourceGroupName,
-    remediationName
+    remediationName,
   );
   console.log(result);
 }
 
 async function main() {
-  getRemediationAtResourceGroupScope();
+  await getRemediationAtResourceGroupScope();
 }
 
 main().catch(console.error);

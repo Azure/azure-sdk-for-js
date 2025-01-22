@@ -35,7 +35,7 @@ async function listCustomizationPolicies() {
 }
 
 async function main() {
-  listCustomizationPolicies();
+  await listCustomizationPolicies();
 }
 
 main().catch(console.error);

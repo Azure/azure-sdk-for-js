@@ -37,7 +37,7 @@ async function getKubernetesCluster() {
 }
 
 async function main() {
-  getKubernetesCluster();
+  await getKubernetesCluster();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function exchange() {
 }
 
 async function main() {
-  exchange();
+  await exchange();
 }
 
 main().catch(console.error);

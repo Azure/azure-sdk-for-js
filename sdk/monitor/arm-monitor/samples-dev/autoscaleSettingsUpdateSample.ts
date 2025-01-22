@@ -162,7 +162,7 @@ async function patchAnAutoscaleSetting() {
 }
 
 async function main() {
-  patchAnAutoscaleSetting();
+  await patchAnAutoscaleSetting();
 }
 
 main().catch(console.error);

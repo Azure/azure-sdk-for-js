@@ -42,7 +42,7 @@ async function getManagedNetworkSettingsRule() {
 }
 
 async function main() {
-  getManagedNetworkSettingsRule();
+  await getManagedNetworkSettingsRule();
 }
 
 main().catch(console.error);

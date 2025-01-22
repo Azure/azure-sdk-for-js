@@ -43,7 +43,7 @@ async function trafficFiltersDelete() {
 }
 
 async function main() {
-  trafficFiltersDelete();
+  await trafficFiltersDelete();
 }
 
 main().catch(console.error);

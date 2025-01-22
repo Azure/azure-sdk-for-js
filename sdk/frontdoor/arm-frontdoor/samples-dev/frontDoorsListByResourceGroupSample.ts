@@ -35,7 +35,7 @@ async function listFrontDoorsInAResourceGroup() {
 }
 
 async function main() {
-  listFrontDoorsInAResourceGroup();
+  await listFrontDoorsInAResourceGroup();
 }
 
 main().catch(console.error);

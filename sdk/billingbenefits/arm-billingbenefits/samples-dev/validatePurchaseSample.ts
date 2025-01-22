@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Validate savings plan purchase.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanValidatePurchase.json
  */
-async function savingsPlanValidatePurchase() {
+async function savingsPlanValidatePurchase(): Promise<void> {
   const body: SavingsPlanPurchaseValidateRequest = {
     benefits: [
       {

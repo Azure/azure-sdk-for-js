@@ -32,7 +32,7 @@ async function listFilesUnderAWorkspace() {
 }
 
 async function main() {
-  listFilesUnderAWorkspace();
+  await listFilesUnderAWorkspace();
 }
 
 main().catch(console.error);

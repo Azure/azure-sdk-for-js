@@ -40,7 +40,7 @@ async function routePoliciesValidateConfigurationMaximumSetGen() {
 }
 
 async function main() {
-  routePoliciesValidateConfigurationMaximumSetGen();
+  await routePoliciesValidateConfigurationMaximumSetGen();
 }
 
 main().catch(console.error);

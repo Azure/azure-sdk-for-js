@@ -35,7 +35,7 @@ async function listAssociationsForSpecifiedResource() {
 }
 
 async function main() {
-  listAssociationsForSpecifiedResource();
+  await listAssociationsForSpecifiedResource();
 }
 
 main().catch(console.error);

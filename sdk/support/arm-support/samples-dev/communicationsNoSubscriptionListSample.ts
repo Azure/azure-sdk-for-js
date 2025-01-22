@@ -82,9 +82,9 @@ async function listWebCommunicationsForANoSubscriptionSupportTicket() {
 }
 
 async function main() {
-  listCommunicationsForANoSubscriptionSupportTicket();
-  listWebCommunicationCreatedOnOrAfterASpecificDateForANoSubscriptionSupportTicket();
-  listWebCommunicationsForANoSubscriptionSupportTicket();
+  await listCommunicationsForANoSubscriptionSupportTicket();
+  await listWebCommunicationCreatedOnOrAfterASpecificDateForANoSubscriptionSupportTicket();
+  await listWebCommunicationsForANoSubscriptionSupportTicket();
 }
 
 main().catch(console.error);

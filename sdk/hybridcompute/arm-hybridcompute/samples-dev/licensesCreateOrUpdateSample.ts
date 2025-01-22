@@ -51,7 +51,7 @@ async function createOrUpdateALicense() {
 }
 
 async function main() {
-  createOrUpdateALicense();
+  await createOrUpdateALicense();
 }
 
 main().catch(console.error);

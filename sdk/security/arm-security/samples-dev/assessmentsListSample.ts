@@ -32,7 +32,7 @@ async function listSecurityAssessments() {
 }
 
 async function main() {
-  listSecurityAssessments();
+  await listSecurityAssessments();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function deleteVMCluster() {
 }
 
 async function main() {
-  deleteVMCluster();
+  await deleteVMCluster();
 }
 
 main().catch(console.error);

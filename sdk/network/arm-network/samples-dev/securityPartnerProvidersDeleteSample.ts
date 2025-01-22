@@ -34,7 +34,7 @@ async function deleteSecurityPartnerProvider() {
 }
 
 async function main() {
-  deleteSecurityPartnerProvider();
+  await deleteSecurityPartnerProvider();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function listAllLiveOutputs() {
 }
 
 async function main() {
-  listAllLiveOutputs();
+  await listAllLiveOutputs();
 }
 
 main().catch(console.error);

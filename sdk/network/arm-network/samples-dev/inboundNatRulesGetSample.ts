@@ -36,7 +36,7 @@ async function inboundNatRuleGet() {
 }
 
 async function main() {
-  inboundNatRuleGet();
+  await inboundNatRuleGet();
 }
 
 main().catch(console.error);

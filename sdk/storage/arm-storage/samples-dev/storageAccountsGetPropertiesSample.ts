@@ -144,12 +144,12 @@ async function storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue() {
 }
 
 async function main() {
-  storageAccountGetAsyncSkuConversionStatus();
-  storageAccountGetProperties();
-  storageAccountGetPropertiesCmkEnabled();
-  storageAccountGetPropertiesCmkVersionExpirationTime();
-  storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse();
-  storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue();
+  await storageAccountGetAsyncSkuConversionStatus();
+  await storageAccountGetProperties();
+  await storageAccountGetPropertiesCmkEnabled();
+  await storageAccountGetPropertiesCmkVersionExpirationTime();
+  await storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse();
+  await storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue();
 }
 
 main().catch(console.error);

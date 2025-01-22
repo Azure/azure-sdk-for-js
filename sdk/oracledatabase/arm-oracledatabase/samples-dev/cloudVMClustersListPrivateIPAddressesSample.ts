@@ -45,7 +45,7 @@ async function listPrivateIPAddressesForVMCluster() {
 }
 
 async function main() {
-  listPrivateIPAddressesForVMCluster();
+  await listPrivateIPAddressesForVMCluster();
 }
 
 main().catch(console.error);

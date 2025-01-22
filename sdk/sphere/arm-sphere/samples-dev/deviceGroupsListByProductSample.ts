@@ -42,7 +42,7 @@ async function deviceGroupsListByProduct() {
 }
 
 async function main() {
-  deviceGroupsListByProduct();
+  await deviceGroupsListByProduct();
 }
 
 main().catch(console.error);

@@ -65,7 +65,7 @@ async function triggerValidateOperation() {
 }
 
 async function main() {
-  triggerValidateOperation();
+  await triggerValidateOperation();
 }
 
 main().catch(console.error);

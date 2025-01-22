@@ -53,7 +53,7 @@ async function changeTheLongTermRetentionBackupStorageAccessTierForAResourceGrou
 }
 
 async function main() {
-  changeTheLongTermRetentionBackupStorageAccessTierForAResourceGroup();
+  await changeTheLongTermRetentionBackupStorageAccessTierForAResourceGroup();
 }
 
 main().catch(console.error);

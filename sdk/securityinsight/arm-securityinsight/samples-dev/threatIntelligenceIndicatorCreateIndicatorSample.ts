@@ -61,7 +61,7 @@ async function createANewThreatIntelligence() {
 }
 
 async function main() {
-  createANewThreatIntelligence();
+  await createANewThreatIntelligence();
 }
 
 main().catch(console.error);

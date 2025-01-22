@@ -41,7 +41,7 @@ async function getsTheListOfJobs() {
 }
 
 async function main() {
-  getsTheListOfJobs();
+  await getsTheListOfJobs();
 }
 
 main().catch(console.error);

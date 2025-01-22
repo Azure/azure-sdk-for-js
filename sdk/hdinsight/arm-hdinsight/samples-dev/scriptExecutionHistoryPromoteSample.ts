@@ -36,7 +36,7 @@ async function promoteAScriptActionOnHdInsightCluster() {
 }
 
 async function main() {
-  promoteAScriptActionOnHdInsightCluster();
+  await promoteAScriptActionOnHdInsightCluster();
 }
 
 main().catch(console.error);

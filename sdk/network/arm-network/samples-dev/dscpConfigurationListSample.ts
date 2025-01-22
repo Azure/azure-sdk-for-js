@@ -35,7 +35,7 @@ async function getDscpConfiguration() {
 }
 
 async function main() {
-  getDscpConfiguration();
+  await getDscpConfiguration();
 }
 
 main().catch(console.error);

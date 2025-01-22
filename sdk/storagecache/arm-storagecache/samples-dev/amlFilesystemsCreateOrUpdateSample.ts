@@ -82,7 +82,7 @@ async function amlFilesystemsCreateOrUpdate() {
 }
 
 async function main() {
-  amlFilesystemsCreateOrUpdate();
+  await amlFilesystemsCreateOrUpdate();
 }
 
 main().catch(console.error);

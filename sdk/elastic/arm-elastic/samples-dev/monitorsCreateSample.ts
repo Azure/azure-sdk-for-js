@@ -37,7 +37,7 @@ async function monitorsCreate() {
 }
 
 async function main() {
-  monitorsCreate();
+  await monitorsCreate();
 }
 
 main().catch(console.error);

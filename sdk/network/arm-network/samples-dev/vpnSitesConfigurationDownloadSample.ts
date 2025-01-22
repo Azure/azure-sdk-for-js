@@ -45,7 +45,7 @@ async function vpnSitesConfigurationDownload() {
 }
 
 async function main() {
-  vpnSitesConfigurationDownload();
+  await vpnSitesConfigurationDownload();
 }
 
 main().catch(console.error);

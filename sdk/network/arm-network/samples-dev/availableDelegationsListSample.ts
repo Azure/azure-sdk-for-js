@@ -33,7 +33,7 @@ async function getAvailableDelegations() {
 }
 
 async function main() {
-  getAvailableDelegations();
+  await getAvailableDelegations();
 }
 
 main().catch(console.error);

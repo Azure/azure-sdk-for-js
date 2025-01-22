@@ -41,7 +41,7 @@ async function domainTopicEventSubscriptionsGet() {
 }
 
 async function main() {
-  domainTopicEventSubscriptionsGet();
+  await domainTopicEventSubscriptionsGet();
 }
 
 main().catch(console.error);

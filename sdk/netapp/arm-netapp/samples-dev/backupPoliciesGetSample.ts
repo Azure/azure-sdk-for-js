@@ -38,7 +38,7 @@ async function backupsGet() {
 }
 
 async function main() {
-  backupsGet();
+  await backupsGet();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a replica.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresDeleteReplica.json
  */
-async function replicasDelete() {
+async function replicasDelete(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -39,7 +39,7 @@ async function replicasDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   replicasDelete();
 }
 

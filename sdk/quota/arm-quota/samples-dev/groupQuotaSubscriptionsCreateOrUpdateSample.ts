@@ -35,7 +35,7 @@ async function groupQuotaSubscriptionsPutSubscriptions() {
 }
 
 async function main() {
-  groupQuotaSubscriptionsPutSubscriptions();
+  await groupQuotaSubscriptionsPutSubscriptions();
 }
 
 main().catch(console.error);

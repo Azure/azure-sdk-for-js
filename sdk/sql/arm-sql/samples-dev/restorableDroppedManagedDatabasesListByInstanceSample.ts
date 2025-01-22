@@ -39,7 +39,7 @@ async function listRestorableDroppedDatabasesByManagedInstances() {
 }
 
 async function main() {
-  listRestorableDroppedDatabasesByManagedInstances();
+  await listRestorableDroppedDatabasesByManagedInstances();
 }
 
 main().catch(console.error);

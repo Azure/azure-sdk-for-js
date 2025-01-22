@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Removes an existing Azure Cosmos DB database account from a throughput pool.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/throughputPool/CosmosDBThroughputPoolAccountDelete.json
  */
-async function cosmosDbThroughputPoolAccountDelete() {
+async function cosmosDbThroughputPoolAccountDelete(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -35,7 +35,7 @@ async function cosmosDbThroughputPoolAccountDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbThroughputPoolAccountDelete();
 }
 

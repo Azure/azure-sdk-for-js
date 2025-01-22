@@ -34,7 +34,7 @@ async function listTrunkedNetworksForSubscription() {
 }
 
 async function main() {
-  listTrunkedNetworksForSubscription();
+  await listTrunkedNetworksForSubscription();
 }
 
 main().catch(console.error);

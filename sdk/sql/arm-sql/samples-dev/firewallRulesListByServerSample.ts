@@ -40,7 +40,7 @@ async function listFirewallRules() {
 }
 
 async function main() {
-  listFirewallRules();
+  await listFirewallRules();
 }
 
 main().catch(console.error);

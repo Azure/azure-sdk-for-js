@@ -49,7 +49,7 @@ async function privateEndpointConnectionCreateOrUpdate() {
 }
 
 async function main() {
-  privateEndpointConnectionCreateOrUpdate();
+  await privateEndpointConnectionCreateOrUpdate();
 }
 
 main().catch(console.error);

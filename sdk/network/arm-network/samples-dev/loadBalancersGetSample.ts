@@ -53,8 +53,8 @@ async function getLoadBalancerWithInboundNatRulePortMapping() {
 }
 
 async function main() {
-  getLoadBalancer();
-  getLoadBalancerWithInboundNatRulePortMapping();
+  await getLoadBalancer();
+  await getLoadBalancerWithInboundNatRulePortMapping();
 }
 
 main().catch(console.error);

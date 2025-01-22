@@ -29,7 +29,7 @@ async function patchPartnerDetails() {
 }
 
 async function main() {
-  patchPartnerDetails();
+  await patchPartnerDetails();
 }
 
 main().catch(console.error);

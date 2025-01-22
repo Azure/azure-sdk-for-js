@@ -34,7 +34,7 @@ async function searchDeleteService() {
 }
 
 async function main() {
-  searchDeleteService();
+  await searchDeleteService();
 }
 
 main().catch(console.error);

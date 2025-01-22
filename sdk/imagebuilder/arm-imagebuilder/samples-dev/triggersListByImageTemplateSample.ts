@@ -39,7 +39,7 @@ async function listTriggersByImageTemplate() {
 }
 
 async function main() {
-  listTriggersByImageTemplate();
+  await listTriggersByImageTemplate();
 }
 
 main().catch(console.error);

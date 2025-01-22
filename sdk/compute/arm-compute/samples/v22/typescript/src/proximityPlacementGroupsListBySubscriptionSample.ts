@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all proximity placement groups in a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all proximity placement groups in a subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_ListBySubscription.json
  */
-async function listProximityPlacementGroups() {
+async function listProximityPlacementGroups(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function listProximityPlacementGroups() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listProximityPlacementGroups();
 }
 

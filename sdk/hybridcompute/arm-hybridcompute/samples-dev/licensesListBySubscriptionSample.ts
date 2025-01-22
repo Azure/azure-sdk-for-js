@@ -33,7 +33,7 @@ async function listLicensesBySubscription() {
 }
 
 async function main() {
-  listLicensesBySubscription();
+  await listLicensesBySubscription();
 }
 
 main().catch(console.error);

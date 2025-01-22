@@ -34,7 +34,7 @@ async function deleteZone() {
 }
 
 async function main() {
-  deleteZone();
+  await deleteZone();
 }
 
 main().catch(console.error);

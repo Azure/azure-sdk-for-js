@@ -49,7 +49,7 @@ async function kustoClusterPrincipalAssignmentsCreateOrUpdate() {
 }
 
 async function main() {
-  kustoClusterPrincipalAssignmentsCreateOrUpdate();
+  await kustoClusterPrincipalAssignmentsCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function getASyncDatabaseId() {
 }
 
 async function main() {
-  getASyncDatabaseId();
+  await getASyncDatabaseId();
 }
 
 main().catch(console.error);

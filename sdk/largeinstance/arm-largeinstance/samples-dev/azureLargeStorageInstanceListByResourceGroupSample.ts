@@ -42,7 +42,7 @@ async function azureLargeStorageInstanceListByResourceGroup() {
 }
 
 async function main() {
-  azureLargeStorageInstanceListByResourceGroup();
+  await azureLargeStorageInstanceListByResourceGroup();
 }
 
 main().catch(console.error);

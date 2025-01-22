@@ -39,7 +39,7 @@ async function deleteBareMetalMachineKeySetOfCluster() {
 }
 
 async function main() {
-  deleteBareMetalMachineKeySetOfCluster();
+  await deleteBareMetalMachineKeySetOfCluster();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function backupsUnderVolumeMigrate() {
 }
 
 async function main() {
-  backupsUnderVolumeMigrate();
+  await backupsUnderVolumeMigrate();
 }
 
 main().catch(console.error);

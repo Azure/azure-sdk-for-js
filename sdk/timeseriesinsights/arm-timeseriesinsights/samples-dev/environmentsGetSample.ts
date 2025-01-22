@@ -36,7 +36,7 @@ async function environmentsGet() {
 }
 
 async function main() {
-  environmentsGet();
+  await environmentsGet();
 }
 
 main().catch(console.error);

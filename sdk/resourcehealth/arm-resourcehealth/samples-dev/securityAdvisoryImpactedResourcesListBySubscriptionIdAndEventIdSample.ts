@@ -36,7 +36,7 @@ async function listSecurityAdvisoryImpactedResourcesBySubscriptionId() {
 }
 
 async function main() {
-  listSecurityAdvisoryImpactedResourcesBySubscriptionId();
+  await listSecurityAdvisoryImpactedResourcesBySubscriptionId();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function topicAuthorizationRuleListAll() {
 }
 
 async function main() {
-  topicAuthorizationRuleListAll();
+  await topicAuthorizationRuleListAll();
 }
 
 main().catch(console.error);

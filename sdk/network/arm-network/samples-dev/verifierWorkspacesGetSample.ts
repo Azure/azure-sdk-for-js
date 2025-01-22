@@ -38,7 +38,7 @@ async function verifierWorkspaceGet() {
 }
 
 async function main() {
-  verifierWorkspaceGet();
+  await verifierWorkspaceGet();
 }
 
 main().catch(console.error);

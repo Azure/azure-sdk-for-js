@@ -34,7 +34,7 @@ async function getDDoSProtectionPlan() {
 }
 
 async function main() {
-  getDDoSProtectionPlan();
+  await getDDoSProtectionPlan();
 }
 
 main().catch(console.error);

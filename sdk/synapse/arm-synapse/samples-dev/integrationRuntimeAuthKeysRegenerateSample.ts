@@ -46,7 +46,7 @@ async function regenerateAuthKey() {
 }
 
 async function main() {
-  regenerateAuthKey();
+  await regenerateAuthKey();
 }
 
 main().catch(console.error);

@@ -15,15 +15,15 @@ import {
   PolicyDefinitionsImpl,
   PolicySetDefinitionsImpl,
   PolicyExemptionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   DataPolicyManifests,
   PolicyAssignments,
   PolicyDefinitions,
   PolicySetDefinitions,
   PolicyExemptions
-} from "./operationsInterfaces";
-import { PolicyClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PolicyClientOptionalParams } from "./models/index.js";
 
 export class PolicyClient extends coreClient.ServiceClient {
   $host: string;
@@ -71,7 +71,7 @@ export class PolicyClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-policy/5.1.1`;
+    const packageDetails = `azsdk-js-arm-policy/5.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

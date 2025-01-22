@@ -34,7 +34,7 @@ async function getListOfAllActivityLogAlertRulesUnderASubscription() {
 }
 
 async function main() {
-  getListOfAllActivityLogAlertRulesUnderASubscription();
+  await getListOfAllActivityLogAlertRulesUnderASubscription();
 }
 
 main().catch(console.error);

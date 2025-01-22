@@ -36,7 +36,7 @@ async function searchDeleteQueryKey() {
 }
 
 async function main() {
-  searchDeleteQueryKey();
+  await searchDeleteQueryKey();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function nameSpaceNetworkRuleSetGet() {
 }
 
 async function main() {
-  nameSpaceNetworkRuleSetGet();
+  await nameSpaceNetworkRuleSetGet();
 }
 
 main().catch(console.error);

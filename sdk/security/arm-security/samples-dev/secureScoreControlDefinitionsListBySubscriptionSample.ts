@@ -34,7 +34,7 @@ async function listSecurityControlsDefinitionBySubscription() {
 }
 
 async function main() {
-  listSecurityControlsDefinitionBySubscription();
+  await listSecurityControlsDefinitionBySubscription();
 }
 
 main().catch(console.error);

@@ -54,7 +54,7 @@ async function createOrUpdateAzureVMProtectionIntent() {
 }
 
 async function main() {
-  createOrUpdateAzureVMProtectionIntent();
+  await createOrUpdateAzureVMProtectionIntent();
 }
 
 main().catch(console.error);

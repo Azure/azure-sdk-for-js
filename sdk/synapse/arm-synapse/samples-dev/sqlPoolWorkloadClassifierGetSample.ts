@@ -43,7 +43,7 @@ async function getAWorkloadClassifierForSqlAnalyticsPoolWorkloadGroup() {
 }
 
 async function main() {
-  getAWorkloadClassifierForSqlAnalyticsPoolWorkloadGroup();
+  await getAWorkloadClassifierForSqlAnalyticsPoolWorkloadGroup();
 }
 
 main().catch(console.error);

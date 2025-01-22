@@ -101,7 +101,7 @@ async function createOrUpdateFirewallPolicyDraft() {
 }
 
 async function main() {
-  createOrUpdateFirewallPolicyDraft();
+  await createOrUpdateFirewallPolicyDraft();
 }
 
 main().catch(console.error);

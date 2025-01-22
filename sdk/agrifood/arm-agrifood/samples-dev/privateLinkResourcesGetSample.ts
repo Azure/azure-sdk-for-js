@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get Private link resource object.
  * x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/PrivateLinkResources_Get.json
  */
-async function privateLinkResourcesGet() {
+async function privateLinkResourcesGet(): Promise<void> {
   const subscriptionId = "11111111-2222-3333-4444-555555555555";
   const resourceGroupName = "examples-rg";
   const farmBeatsResourceName = "examples-farmbeatsResourceName";

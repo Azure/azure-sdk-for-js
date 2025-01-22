@@ -42,7 +42,7 @@ async function getAllLongTermRetentionBackupsUnderTheServerBasedOnResourceGroup(
 }
 
 async function main() {
-  getAllLongTermRetentionBackupsUnderTheServerBasedOnResourceGroup();
+  await getAllLongTermRetentionBackupsUnderTheServerBasedOnResourceGroup();
 }
 
 main().catch(console.error);

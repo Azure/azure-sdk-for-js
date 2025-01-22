@@ -80,8 +80,8 @@ async function clusterPoolsUpgradeNodeOS() {
 }
 
 async function main() {
-  clusterPoolsUpgradeAksPatchVersion();
-  clusterPoolsUpgradeNodeOS();
+  await clusterPoolsUpgradeAksPatchVersion();
+  await clusterPoolsUpgradeNodeOS();
 }
 
 main().catch(console.error);

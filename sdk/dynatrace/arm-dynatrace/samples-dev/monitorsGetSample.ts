@@ -53,8 +53,8 @@ async function monitorsGetMinimumSetGen() {
 }
 
 async function main() {
-  monitorsGetMaximumSetGen();
-  monitorsGetMinimumSetGen();
+  await monitorsGetMaximumSetGen();
+  await monitorsGetMinimumSetGen();
 }
 
 main().catch(console.error);

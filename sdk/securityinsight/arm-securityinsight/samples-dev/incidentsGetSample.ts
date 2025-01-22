@@ -39,7 +39,7 @@ async function getAnIncident() {
 }
 
 async function main() {
-  getAnIncident();
+  await getAnIncident();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function redisCacheAsyncOperationStatus() {
 }
 
 async function main() {
-  redisCacheAsyncOperationStatus();
+  await redisCacheAsyncOperationStatus();
 }
 
 main().catch(console.error);

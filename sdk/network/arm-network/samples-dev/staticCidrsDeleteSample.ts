@@ -40,7 +40,7 @@ async function staticCidrsDelete() {
 }
 
 async function main() {
-  staticCidrsDelete();
+  await staticCidrsDelete();
 }
 
 main().catch(console.error);

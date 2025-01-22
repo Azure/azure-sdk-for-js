@@ -147,12 +147,11 @@ export class AttestationClient {
    * Creates an instance of AttestationClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:Attestation_Constructor_NoCreds
    * import { AttestationClient } from "@azure/attestation";
    *
-   * const client = new AttestationClient(
-   *    "<service endpoint>"
-   * );
+   * const endpoint = "https://<attestation-instance>.<region>.attest.azure.net";
+   * const client = new AttestationClient(endpoint);
    * ```
    *
    * @param endpoint - The attestation instance base URI, for example https://mytenant.attest.azure.net.
@@ -165,14 +164,13 @@ export class AttestationClient {
    * Creates an instance of AttestationClient with options and credentials.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:Attestation_Constructor_Creds
+   * import { DefaultAzureCredential } from "@azure/identity";
    * import { AttestationClient } from "@azure/attestation";
    *
-   * const client = new AttestationClient(
-   *    "<service endpoint>",
-   *    new TokenCredential("<>"),
-   *    { tokenValidationOptions: { validateToken: false } }
-   * );
+   * const endpoint = "https://<attestation-instance>.<region>.attest.azure.net";
+   * const credentials = new DefaultAzureCredential();
+   * const client = new AttestationClient(endpoint, credentials);
    * ```
    *
    * Note that credentials are required to call the `attestTpm` API.
@@ -398,7 +396,7 @@ export class AttestationClient {
    * @example
    * For example, the initial call for a TPM attestation operation is:
    * 
-   * ```js
+   * ```snippet:AttestationClient_AttestTpm
    * const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
    * const result = await client.attestTpm(encodedPayload);
    * ```

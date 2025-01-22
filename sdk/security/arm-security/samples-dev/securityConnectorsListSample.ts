@@ -34,7 +34,7 @@ async function listAllSecurityConnectorsOfASpecifiedSubscription() {
 }
 
 async function main() {
-  listAllSecurityConnectorsOfASpecifiedSubscription();
+  await listAllSecurityConnectorsOfASpecifiedSubscription();
 }
 
 main().catch(console.error);

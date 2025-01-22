@@ -39,7 +39,7 @@ async function listUsagesMetricForTheWorkspaceManagedSqlServer() {
 }
 
 async function main() {
-  listUsagesMetricForTheWorkspaceManagedSqlServer();
+  await listUsagesMetricForTheWorkspaceManagedSqlServer();
 }
 
 main().catch(console.error);

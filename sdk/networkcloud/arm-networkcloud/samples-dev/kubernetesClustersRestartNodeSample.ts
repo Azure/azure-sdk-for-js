@@ -43,7 +43,7 @@ async function restartAKubernetesClusterNode() {
 }
 
 async function main() {
-  restartAKubernetesClusterNode();
+  await restartAKubernetesClusterNode();
 }
 
 main().catch(console.error);

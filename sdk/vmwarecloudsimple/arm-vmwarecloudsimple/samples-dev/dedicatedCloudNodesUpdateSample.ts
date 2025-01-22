@@ -40,7 +40,7 @@ async function patchDedicatedCloudNode() {
 }
 
 async function main() {
-  patchDedicatedCloudNode();
+  await patchDedicatedCloudNode();
 }
 
 main().catch(console.error);

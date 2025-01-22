@@ -73,7 +73,7 @@ async function updateAWorkspace() {
 }
 
 async function main() {
-  updateAWorkspace();
+  await updateAWorkspace();
 }
 
 main().catch(console.error);

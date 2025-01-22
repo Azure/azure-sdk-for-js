@@ -5,7 +5,7 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
-import type * as coreClient from '@azure/core-client';
+import type * as coreClient from '@azure-rest/core-client';
 import type { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
