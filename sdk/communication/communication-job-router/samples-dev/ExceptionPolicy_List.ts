@@ -5,12 +5,9 @@
  */
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-import {
-  ExceptionPolicyItem,
-  JobRouterAdministrationClient,
-} from "@azure/communication-job-router";
-dotenv.config();
+import "dotenv/config";
+import type { ExceptionPolicyItem } from "@azure/communication-job-router";
+import { JobRouterAdministrationClient } from "@azure/communication-job-router";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 

@@ -6,9 +6,8 @@
 import { JobRouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-import { ExceptionPolicy, QueueLengthExceptionTrigger } from "@azure/communication-job-router";
-dotenv.config();
+import "dotenv/config";
+import type { ExceptionPolicy, QueueLengthExceptionTrigger } from "@azure/communication-job-router";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 

@@ -20,19 +20,15 @@ import "dotenv/config";
  */
 async function getVerifiedExchangeOnlineDomains(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.emailServices.listVerifiedExchangeOnlineDomains();
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  getVerifiedExchangeOnlineDomains();
+  await getVerifiedExchangeOnlineDomains();
 }
 
 main().catch(console.error);

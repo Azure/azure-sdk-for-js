@@ -75,23 +75,30 @@ First we need to construct a `jobRouterAdministrationClient` and a `jobRouterCli
 - `jobRouterAdministrationClient` provides methods for Classification Policies, Distribution Policies, Exception Policies, and Queues.
 - `jobRouterClient` provides methods for Jobs and Workers.
 
-```js
-const {
-  JobRouterClient,
-  JobRouterAdministrationClient,
-} = require("@azure/communication-job-router");
+```ts snippet:ReadmeSampleCreateClient
+import { JobRouterClient, JobRouterAdministrationClient } from "@azure/communication-job-router";
 
-const acsConnectionString =
+const connectionString =
   "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const jobRouterClient = new JobRouterClient(acsConnectionString);
-const jobRouterAdministrationClient = new JobRouterAdministrationClient(acsConnectionString);
+
+// Create router client
+const jobRouterClient = new JobRouterClient(connectionString);
+
+// Create router administration client
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
 ```
 
 ### Create a Distribution Policy
 
 This policy determines which workers will receive job offers as jobs are distributed off their queues.
 
-```js
+```ts snippet:ReadmeSampleCreateDistributionPolicy
+import { JobRouterAdministrationClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
+
 const distributionPolicy = await jobRouterAdministrationClient.createDistributionPolicy(
   "default-distribution-policy-id",
   {
@@ -112,22 +119,28 @@ This policy classifies jobs upon creation.
 
 - Refer to our [rules documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/router-rule-concepts?pivots=programming-language-javascript#rule-engine-types) to better understand prioritization rules.
 
-```js
+```ts snippet:ReadmeSampleCreateClassificationPolicy
+import { JobRouterAdministrationClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
+
 const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy(
   "default-classification-policy-id",
   {
     name: "Default Classification Policy",
-    fallbackQueueId: salesQueueResponse.id,
+    fallbackQueueId: "<salesQueueResponse.id>",
     queueSelectors: [
       {
         kind: "static",
-        labelSelector: { key: "department", labelOperator: "equal", value: "xbox" },
+        queueSelector: { key: "department", labelOperator: "equal", value: "xbox" },
       },
     ],
     workerSelectors: [
       {
         kind: "static",
-        labelSelector: { key: "english", labelOperator: "greaterThan", value: 5 },
+        workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 },
       },
     ],
     prioritizationRule: {
@@ -143,10 +156,16 @@ const classificationPolicy = await jobRouterAdministrationClient.createClassific
 
 This queue offers jobs to workers according to our previously created distribution policy.
 
-```js
+```ts snippet:ReadmeSampleCreateQueue
+import { JobRouterAdministrationClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const jobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
+
 const salesQueueResponse = await jobRouterAdministrationClient.createQueue("sales-queue-id", {
   name: "Sales",
-  distributionPolicyId: distributionPolicy.id,
+  distributionPolicyId: "<distributionPolicy.id>",
   labels: {
     department: "xbox",
   },
@@ -160,8 +179,16 @@ These workers are assigned to our previously created "Sales" queue and have some
 - setting `availableForOffers` to `true` means these workers are ready to accept job offers.
 - refer to our [labels documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts#labels) to better understand labels and label selectors.
 
-```js
+```ts snippet:ReadmeSampleCreateWorkers
+import { JobRouterClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+
+const jobRouterClient = new JobRouterClient(connectionString);
+
 // Create worker "Alice".
+const salesQueueResponseIdAlice = "sales-queue-id";
 const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
 const workerAliceResponse = await jobRouterClient.createWorker(workerAliceId, {
   totalCapacity: 120,
@@ -170,11 +197,12 @@ const workerAliceResponse = await jobRouterClient.createWorker(workerAliceId, {
     german: 4,
     name: "Alice",
   },
-  queueAssignments: { [salesQueueResponse.id]: {} },
+  queueAssignments: { [`${salesQueueResponseIdAlice}`]: {} },
   availableForOffers: true,
 });
 
 // Create worker "Bob".
+const salesQueueResponseIdBob = "sales-queue-id";
 const workerBobId = "21837c88-6967-4078-86b9-1207821a8392";
 const workerBobResponse = await jobRouterClient.createWorker(workerBobId, {
   totalCapacity: 100,
@@ -183,7 +211,7 @@ const workerBobResponse = await jobRouterClient.createWorker(workerBobId, {
     english: 3,
     name: "Bob",
   },
-  queueAssignments: { [salesQueueResponse.id]: {} },
+  queueAssignments: { [`${salesQueueResponseIdBob}`]: {} },
   availableForOffers: true,
 });
 ```
@@ -196,13 +224,20 @@ Refer to our [job lifecycle documentation](https://learn.microsoft.com/azure/com
 
 This job is enqueued on our previously created "Sales" queue.
 
-```js
+```ts snippet:ReadmeSampleCreateJob
+import { JobRouterClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+
+const jobRouterClient = new JobRouterClient(connectionString);
+
 const job = await jobRouterClient.createJob("job-id", {
   // e.g. callId or chat threadId
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   channelId: "voice",
   priority: 2,
-  queueId: salesQueueResponse.id,
+  queueId: "<salesQueueResponse.id>",
 });
 ```
 
@@ -210,12 +245,19 @@ const job = await jobRouterClient.createJob("job-id", {
 
 This job will be classified with our previously created classification policy. It also has a label.
 
-```js
+```ts snippet:ReadmeSampleCreateJobWithClassificationPolicy
+import { JobRouterClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+
+const jobRouterClient = new JobRouterClient(connectionString);
+
 const classificationJob = await jobRouterClient.createJob("classification-job-id", {
   // e.g. callId or chat threadId
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   channelId: "voice",
-  classificationPolicyId: classificationPolicy.id,
+  classificationPolicyId: "<classificationPolicy.id>",
   labels: {
     department: "xbox",
   },
@@ -276,14 +318,12 @@ One way to subscribe to Azure Communication Services Job Router events is throug
 
 Refer to our ["subscribe to Job Router events" documentation](https://learn.microsoft.com/azure/communication-services/how-tos/router-sdk/subscribe-events) to better understand subscribing to Job Router events.
 
-The route in your NodeJS application that receives events may look something like this:
-
-```js
+```ts snippet:ignore
 app.post('/event', (req, res) => {
     req.body.forEach(eventGridEvent => {
         // Deserialize the event data into the appropriate type
         if (eventGridEvent.eventType === "Microsoft.EventGrid.SubscriptionValidationEvent") {
-            res.send({ validationResponse: eventGridEvent.data.validationCode };
+            res.send({ validationResponse: eventGridEvent.data.validationCode });
         } else if (eventGridEvent.eventType === "Microsoft.Azure.CommunicationServices.RouterWorkerOfferIssued") {
            // RouterWorkerOfferIssued handling logic;
         } else if ...
@@ -299,7 +339,17 @@ Once you receive a `RouterWorkerOfferIssued` event you can accept or decline the
 - `workerid` - The id of the worker accepting the job offer.
 - `offerId` - The id of the offer being accepted or declined.
 
-```js
+```ts snippet:ReadmeSampleAcceptOrDeclineJobOffer
+import { JobRouterClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+
+const jobRouterClient = new JobRouterClient(connectionString);
+
+const workerId = "773accfb-476e-42f9-a202-b211b41a4ea4";
+const offerId = "offer-id";
+
 const acceptResponse = await jobRouterClient.acceptJobOffer(workerId, offerId);
 // or
 const declineResponse = await jobRouterClient.declineJobOffer(workerId, offerId);
@@ -309,7 +359,18 @@ const declineResponse = await jobRouterClient.declineJobOffer(workerId, offerId)
 
 The `assignmentId` received from the previous step's response is required to complete the job.
 
-```js
+```ts snippet:ReadmeSampleCompleteJob
+import { JobRouterClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+
+const jobRouterClient = new JobRouterClient(connectionString);
+
+const jobId = "job-id";
+const assignmentId = "assignment-id";
+
+// Complete the job
 await jobRouterClient.completeJob(jobId, assignmentId);
 ```
 
@@ -317,8 +378,31 @@ await jobRouterClient.completeJob(jobId, assignmentId);
 
 Once the worker has completed the wrap-up phase of the job the `jobRouterClient` can close the job and attach a disposition code to it for future reference.
 
-```js
+```ts snippet:ReadmeSampleCloseJob
+import { JobRouterClient } from "@azure/communication-job-router";
+
+const connectionString =
+  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+
+const jobRouterClient = new JobRouterClient(connectionString);
+
+const jobId = "job-id";
+const assignmentId = "assignment-id";
+
+// Close the job
 await jobRouterClient.closeJob(jobId, assignmentId, { dispositionCode: "Resolved" });
+```
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
 ```
 
 ## Next steps
