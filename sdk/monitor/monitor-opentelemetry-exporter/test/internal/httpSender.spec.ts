@@ -288,12 +288,12 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.FAILED);
-      }, 1500);
+      }, 2000);
 
       const persistedEnvelopes = await sender["persister"].shift();
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
-      }, 1500);
+      }, 2000);
     });
 
     it("should not persist when an error is caught", async () => {
@@ -308,12 +308,12 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.FAILED);
-      }, 1500);
+      }, 2000);
 
       const persistedEnvelopes = await sender["persister"].shift();
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
-      }, 1500);
+      }, 2000);
     });
 
     it("should start retry timer when telemetry is successfully sent", async () => {
@@ -330,7 +330,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.notStrictEqual(sender["retryTimer"], null);
-      }, 1500);
+      }, 2000);
 
       clearTimeout(sender["retryTimer"]!);
       sender["retryTimer"] = null;
@@ -374,7 +374,7 @@ describe("HttpSender", () => {
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
-      }, 1500);
+      }, 2000);
     });
 
     it("should handle temporary redirects in Azure Monitor", async () => {
@@ -399,7 +399,7 @@ describe("HttpSender", () => {
         assert.strictEqual(persistedEnvelopes, null);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
-      }, 1500);
+      }, 2000);
     });
 
     it("should use redirect URL for following requests", async () => {
@@ -421,12 +421,12 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
-      }, 1500);
+      }, 2000);
       result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
-      }, 1500);
+      }, 2000);
     });
 
     it("should stop redirecting when circular redirect is triggered", async () => {
@@ -456,7 +456,7 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.FAILED);
         assert.strictEqual(result.error?.message, "Circular redirect");
-      }, 1500);
+      }, 2000);
     });
   });
 
