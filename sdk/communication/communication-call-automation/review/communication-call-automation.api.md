@@ -98,13 +98,12 @@ export interface AnswerFailed extends Omit<RestAnswerFailed, "callConnectionId" 
 }
 
 // @public
-interface AudioData_2 {
+export interface AudioData {
     data: string;
     isSilent?: boolean;
     participant?: CommunicationIdentifier | undefined;
     timestamp?: Date;
 }
-export { AudioData_2 as AudioData }
 
 // @public
 export interface AudioMetadata {
@@ -772,7 +771,7 @@ export interface MuteParticipantResult {
 // @public (undocumented)
 export class OutStreamingData {
     constructor(kind: MediaKind);
-    audioData?: AudioData_2;
+    audioData?: AudioData;
     static getStopAudioForOutbound(): string;
     static getStreamingDataForOutbound(data: string): string;
     kind: MediaKind;
@@ -838,6 +837,7 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 
 // @public
 export interface PlayOptions extends OperationOptions {
+    interruptHoldAudio?: boolean;
     loop?: boolean;
     operationCallbackUrl?: string;
     operationContext?: string;
@@ -1212,7 +1212,7 @@ export enum StreamingDataKind {
 }
 
 // @public (undocumented)
-export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
+export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata;
 
 // @public
 export enum TextFormat {
