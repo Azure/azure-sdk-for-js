@@ -562,6 +562,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
       const startTimestamp = getCurrentTimestampInMs();
       await testForDiagnostics(
         async () => {
+          console.log("///////");
           return container.items.create({ id: itemId });
         },
         {
