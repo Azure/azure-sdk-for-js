@@ -183,6 +183,10 @@ export const Constants = {
     // Priority Based throttling header
     PriorityLevel: "x-ms-cosmos-priority-level",
   },
+  // ThrottledRequests Retry policy default values
+  ThrottledRequestMaxRetryAttemptCount: 9,
+  ThrottledRequestMaxWaitTimeInSeconds: 30,
+  ThrottledRequestFixedRetryIntervalInMs: 0,
 
   // GlobalDB related constants
   WritableLocations: "writableLocations",
