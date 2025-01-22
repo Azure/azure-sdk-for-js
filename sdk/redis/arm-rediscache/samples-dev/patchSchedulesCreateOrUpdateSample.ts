@@ -44,7 +44,7 @@ async function redisCachePatchSchedulesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCachePatchSchedulesCreateOrUpdate();
+  await redisCachePatchSchedulesCreateOrUpdate();
 }
 
 main().catch(console.error);

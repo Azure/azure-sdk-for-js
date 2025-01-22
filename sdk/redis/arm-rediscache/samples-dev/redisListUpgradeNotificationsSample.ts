@@ -37,7 +37,7 @@ async function redisCacheListUpgradeNotifications(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheListUpgradeNotifications();
+  await redisCacheListUpgradeNotifications();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function redisCacheImport(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheImport();
+  await redisCacheImport();
 }
 
 main().catch(console.error);

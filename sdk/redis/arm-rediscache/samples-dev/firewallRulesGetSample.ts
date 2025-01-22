@@ -34,7 +34,7 @@ async function redisCacheFirewallRuleGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheFirewallRuleGet();
+  await redisCacheFirewallRuleGet();
 }
 
 main().catch(console.error);

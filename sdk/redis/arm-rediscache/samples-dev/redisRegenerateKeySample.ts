@@ -37,7 +37,7 @@ async function redisCacheRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheRegenerateKey();
+  await redisCacheRegenerateKey();
 }
 
 main().catch(console.error);

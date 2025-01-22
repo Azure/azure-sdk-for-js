@@ -34,7 +34,7 @@ async function redisCacheAccessPolicyGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheAccessPolicyGet();
+  await redisCacheAccessPolicyGet();
 }
 
 main().catch(console.error);

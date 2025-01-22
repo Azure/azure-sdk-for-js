@@ -218,7 +218,7 @@ async function redisCacheCreateUserDefinedZonalAllocationPolicy(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  redisCacheCreate();
+  await redisCacheCreate();
   redisCacheCreateAutomaticZonalAllocationPolicy();
   redisCacheCreateDefaultVersion();
   redisCacheCreateLatestVersion();

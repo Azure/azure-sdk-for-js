@@ -34,7 +34,7 @@ async function linkedServerDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkedServerDelete();
+  await linkedServerDelete();
 }
 
 main().catch(console.error);

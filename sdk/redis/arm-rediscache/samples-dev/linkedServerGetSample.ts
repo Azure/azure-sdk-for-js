@@ -34,7 +34,7 @@ async function linkedServerGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkedServerGet();
+  await linkedServerGet();
 }
 
 main().catch(console.error);

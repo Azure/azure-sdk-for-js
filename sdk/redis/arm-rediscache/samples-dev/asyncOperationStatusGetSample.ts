@@ -29,7 +29,7 @@ async function redisCacheAsyncOperationStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheAsyncOperationStatus();
+  await redisCacheAsyncOperationStatus();
 }
 
 main().catch(console.error);

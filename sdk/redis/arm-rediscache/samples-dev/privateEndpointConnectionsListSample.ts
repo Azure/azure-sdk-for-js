@@ -36,7 +36,7 @@ async function redisCacheListPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheListPrivateEndpointConnection();
+  await redisCacheListPrivateEndpointConnection();
 }
 
 main().catch(console.error);

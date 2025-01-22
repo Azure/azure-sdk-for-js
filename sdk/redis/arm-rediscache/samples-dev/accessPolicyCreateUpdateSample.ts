@@ -39,7 +39,7 @@ async function redisCacheAccessPolicyCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheAccessPolicyCreateUpdate();
+  await redisCacheAccessPolicyCreateUpdate();
 }
 
 main().catch(console.error);

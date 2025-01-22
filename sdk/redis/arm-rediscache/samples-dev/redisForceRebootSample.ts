@@ -41,7 +41,7 @@ async function redisCacheForceReboot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheForceReboot();
+  await redisCacheForceReboot();
 }
 
 main().catch(console.error);

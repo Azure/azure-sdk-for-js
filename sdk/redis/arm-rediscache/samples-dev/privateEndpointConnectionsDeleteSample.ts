@@ -35,7 +35,7 @@ async function redisCacheDeletePrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheDeletePrivateEndpointConnection();
+  await redisCacheDeletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

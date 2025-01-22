@@ -30,7 +30,7 @@ async function redisCacheList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheList();
+  await redisCacheList();
 }
 
 main().catch(console.error);

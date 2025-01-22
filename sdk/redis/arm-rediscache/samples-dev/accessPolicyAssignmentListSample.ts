@@ -35,7 +35,7 @@ async function redisCacheAccessPolicyAssignmentList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheAccessPolicyAssignmentList();
+  await redisCacheAccessPolicyAssignmentList();
 }
 
 main().catch(console.error);
