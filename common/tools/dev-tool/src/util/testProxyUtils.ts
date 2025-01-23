@@ -183,7 +183,8 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 }
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
-  await runCommand(await getTestProxyExecutable(), argv, {
+  const executable = await getTestProxyExecutable();
+  await runCommand(executable, argv, {
     stdio: "inherit",
     env: { ...process.env },
   }).result;
