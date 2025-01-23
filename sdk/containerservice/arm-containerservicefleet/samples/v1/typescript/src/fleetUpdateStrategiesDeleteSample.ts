@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a FleetUpdateStrategy
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateStrategies_Delete.json
  */
-async function deleteAFleetUpdateStrategyResource() {
+async function deleteAFleetUpdateStrategyResource(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function deleteAFleetUpdateStrategyResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAFleetUpdateStrategyResource();
 }
 

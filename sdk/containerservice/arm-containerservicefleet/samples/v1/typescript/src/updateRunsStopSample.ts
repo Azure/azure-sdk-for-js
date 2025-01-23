@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Stops an UpdateRun.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_Stop.json
  */
-async function stopsAnUpdateRun() {
+async function stopsAnUpdateRun(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function stopsAnUpdateRun() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopsAnUpdateRun();
 }
 
