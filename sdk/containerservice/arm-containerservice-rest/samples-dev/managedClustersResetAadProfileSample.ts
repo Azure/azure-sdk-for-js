@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type { ManagedClustersResetAADProfileParameters } from "@azure-rest/arm-containerservice";
 import ContainerServiceManagementClient, {
   getLongRunningPoller,
-  ManagedClustersResetAADProfileParameters,
 } from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 

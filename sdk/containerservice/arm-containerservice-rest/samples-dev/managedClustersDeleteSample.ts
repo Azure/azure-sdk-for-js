@@ -6,11 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import ContainerServiceManagementClient, {
-  ContainerServiceClient,
-} from "@azure-rest/arm-containerservice";
+import type { ContainerServiceClient } from "@azure-rest/arm-containerservice";
+import ContainerServiceManagementClient from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

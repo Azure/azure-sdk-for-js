@@ -51,7 +51,7 @@ describe("My test", () => {
   });
 
   // skip this test as test recorder
-  it.skip("managedClusters create test", async function () {
+  it.skip("managedClusters create test", async () => {
     const initalResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
@@ -92,7 +92,7 @@ describe("My test", () => {
     assert.equal((result.body as ManagedClusterOutput).name, resourceName);
   });
 
-  it("managedClusters get test", async function () {
+  it("managedClusters get test", async () => {
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
@@ -105,7 +105,7 @@ describe("My test", () => {
     assert.equal((res.body as ManagedClusterOutput).name, resourceName);
   });
 
-  it("managedClusters getUpgradeProfile test", async function () {
+  it("managedClusters getUpgradeProfile test", async () => {
     const res = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
@@ -118,7 +118,7 @@ describe("My test", () => {
     assert.equal((res.body as ManagedClusterUpgradeProfileOutput).name, "default");
   });
 
-  it("managedClusters list test", async function () {
+  it("managedClusters list test", async () => {
     const initialResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
@@ -133,7 +133,7 @@ describe("My test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("managedClusters update test", async function () {
+  it("managedClusters update test", async () => {
     const initialResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
@@ -155,7 +155,7 @@ describe("My test", () => {
     );
   });
 
-  it("managedClusters delete test", async function () {
+  it("managedClusters delete test", async () => {
     const initialResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",

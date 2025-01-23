@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import ContainerServiceManagementClient, { paginate } from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -33,7 +31,7 @@ async function listOutboundNetworkDependenciesEndpointsByManagedCluster(): Promi
     .get();
   const result = paginate(client, initialResponse);
   const resArray = new Array();
-  for await (let item of result) {
+  for await (const item of result) {
     resArray.push(item);
   }
   console.log(resArray);
