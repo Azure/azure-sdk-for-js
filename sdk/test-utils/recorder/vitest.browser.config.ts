@@ -18,16 +18,16 @@ export default defineConfig({
       junit: "test-results.browser.xml",
     },
     browser: {
-      enabled: true,
-      headless: true,
       instances: [
         {
-          browser: "chromium"
+          browser: "chromium",
           launch: {
-            args: ["--disable-web-security"]
+            args: ["--disable-web-security"],
           },
         },
       ],
+      enabled: true,
+      headless: true,
       provider: "playwright",
     },
     fakeTimers: {
