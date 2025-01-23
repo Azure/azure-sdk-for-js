@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list Association resources by TrafficController
  * x-ms-original-file: 2025-01-01/AssociationsGet.json
  */
-async function getAssociations() {
+async function getAssociations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(
@@ -28,7 +28,7 @@ async function getAssociations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAssociations();
 }
 

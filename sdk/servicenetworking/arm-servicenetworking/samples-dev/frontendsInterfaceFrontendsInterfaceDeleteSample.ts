@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a Frontend
  * x-ms-original-file: 2025-01-01/FrontendDelete.json
  */
-async function deleteFrontend() {
+async function deleteFrontend(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(
@@ -24,7 +24,7 @@ async function deleteFrontend() {
   );
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteFrontend();
 }
 

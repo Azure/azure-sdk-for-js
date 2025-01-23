@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a SecurityPolicy
  * x-ms-original-file: 2025-01-01/SecurityPolicyDelete.json
  */
-async function deleteSecurityPolicy() {
+async function deleteSecurityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(
@@ -24,7 +24,7 @@ async function deleteSecurityPolicy() {
   );
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteSecurityPolicy();
 }
 

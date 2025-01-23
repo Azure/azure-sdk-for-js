@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a Association
  * x-ms-original-file: 2025-01-01/AssociationDelete.json
  */
-async function deleteAssociation() {
+async function deleteAssociation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(
@@ -24,7 +24,7 @@ async function deleteAssociation() {
   );
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAssociation();
 }
 

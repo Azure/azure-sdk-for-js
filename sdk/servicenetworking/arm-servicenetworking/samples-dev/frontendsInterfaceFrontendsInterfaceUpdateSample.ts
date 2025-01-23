@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a Frontend
  * x-ms-original-file: 2025-01-01/FrontendPatch.json
  */
-async function updateFrontend() {
+async function updateFrontend(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(
@@ -26,7 +26,7 @@ async function updateFrontend() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateFrontend();
 }
 

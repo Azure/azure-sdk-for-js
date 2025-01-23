@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a TrafficController
  * x-ms-original-file: 2025-01-01/TrafficControllerPut.json
  */
-async function putTrafficController() {
+async function putTrafficController(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(
@@ -26,7 +26,7 @@ async function putTrafficController() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putTrafficController();
 }
 
