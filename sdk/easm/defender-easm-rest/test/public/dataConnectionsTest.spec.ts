@@ -42,9 +42,9 @@ describe("Data Connections Test", () => {
     database_name = "sample-db";
   });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("Should list data connections", async () => {
     const dataConnectionsResponse = await client.path("/dataConnections").get();
