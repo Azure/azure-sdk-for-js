@@ -49,22 +49,22 @@ describe("ContainerService test", () => {
   let resourceGroupName: string;
   let resourceName: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    clientId = env.AZURE_CLIENT_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ContainerServiceClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroupName = "myjstest";
-    resourceName = "myreourcexyz";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      clientId = env.AZURE_CLIENT_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ContainerServiceClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroupName = "myjstest";
+      resourceName = "myreourcexyz";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operation list test", async function () {
     const resArray = new Array();

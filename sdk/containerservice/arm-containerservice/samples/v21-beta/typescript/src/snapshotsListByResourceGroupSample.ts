@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists snapshots in the specified subscription and resource group.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/SnapshotsListByResourceGroup.json
  */
-async function listSnapshotsByResourceGroup() {
+async function listSnapshotsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +35,7 @@ async function listSnapshotsByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSnapshotsByResourceGroup();
 }
 
