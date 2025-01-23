@@ -45,7 +45,7 @@ async function replicationExtensionOperationStatusGet() {
 }
 
 async function main() {
-  replicationExtensionOperationStatusGet();
+  await replicationExtensionOperationStatusGet();
 }
 
 main().catch(console.error);

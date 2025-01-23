@@ -37,7 +37,7 @@ async function joinRequestApprove() {
 }
 
 async function main() {
-  joinRequestApprove();
+  await joinRequestApprove();
 }
 
 main().catch(console.error);

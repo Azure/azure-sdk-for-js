@@ -43,7 +43,7 @@ async function listAllStreamingJobsInCluster() {
 }
 
 async function main() {
-  listAllStreamingJobsInCluster();
+  await listAllStreamingJobsInCluster();
 }
 
 main().catch(console.error);

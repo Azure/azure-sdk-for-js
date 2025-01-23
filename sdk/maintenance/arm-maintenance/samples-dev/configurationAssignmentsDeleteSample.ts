@@ -43,7 +43,7 @@ async function configurationAssignmentsDelete() {
 }
 
 async function main() {
-  configurationAssignmentsDelete();
+  await configurationAssignmentsDelete();
 }
 
 main().catch(console.error);

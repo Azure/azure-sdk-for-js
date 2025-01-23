@@ -116,15 +116,15 @@
     "@typescript-eslint/parser": "~8.16.0",
     "@typescript-eslint/rule-tester": "~8.16.0",
     "@typescript-eslint/utils": "~8.16.0",
-    "@vitest/browser": "^2.1.8",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "eslint": "^9.9.0",
     "eslint-plugin-markdown": "^5.0.0",
     "playwright": "^1.49.1",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.3"
   },
   "tshy": {
     "exports": {

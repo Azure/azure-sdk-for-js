@@ -48,7 +48,7 @@ async function createDeploymentAtManagementGroupScope() {
 }
 
 async function main() {
-  createDeploymentAtManagementGroupScope();
+  await createDeploymentAtManagementGroupScope();
 }
 
 main().catch(console.error);

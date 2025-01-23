@@ -39,7 +39,7 @@ async function getRecoveryPoint(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRecoveryPoint();
+  await getRecoveryPoint();
 }
 
 main().catch(console.error);

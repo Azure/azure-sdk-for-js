@@ -61,8 +61,8 @@ async function workspacesListByResourceGroupMinimumSetGen() {
 }
 
 async function main() {
-  workspacesListByResourceGroupMaximumSetGen();
-  workspacesListByResourceGroupMinimumSetGen();
+  await workspacesListByResourceGroupMaximumSetGen();
+  await workspacesListByResourceGroupMinimumSetGen();
 }
 
 main().catch(console.error);

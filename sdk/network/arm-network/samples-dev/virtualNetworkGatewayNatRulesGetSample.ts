@@ -36,7 +36,7 @@ async function virtualNetworkGatewayNatRuleGet() {
 }
 
 async function main() {
-  virtualNetworkGatewayNatRuleGet();
+  await virtualNetworkGatewayNatRuleGet();
 }
 
 main().catch(console.error);

@@ -63,8 +63,8 @@ async function virtualMachineTemplatesDeleteMinimumSet() {
 }
 
 async function main() {
-  virtualMachineTemplatesDeleteMaximumSet();
-  virtualMachineTemplatesDeleteMinimumSet();
+  await virtualMachineTemplatesDeleteMaximumSet();
+  await virtualMachineTemplatesDeleteMinimumSet();
 }
 
 main().catch(console.error);

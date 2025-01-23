@@ -37,7 +37,7 @@ async function catalogsListByDevCenter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  catalogsListByDevCenter();
+  await catalogsListByDevCenter();
 }
 
 main().catch(console.error);

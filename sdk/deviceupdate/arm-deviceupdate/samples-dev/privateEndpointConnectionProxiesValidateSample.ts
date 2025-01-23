@@ -65,7 +65,7 @@ async function privateEndpointConnectionProxyValidate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionProxyValidate();
+  await privateEndpointConnectionProxyValidate();
 }
 
 main().catch(console.error);

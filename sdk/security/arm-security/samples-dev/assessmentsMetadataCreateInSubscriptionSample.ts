@@ -52,7 +52,7 @@ async function createSecurityAssessmentMetadataForSubscription() {
 }
 
 async function main() {
-  createSecurityAssessmentMetadataForSubscription();
+  await createSecurityAssessmentMetadataForSubscription();
 }
 
 main().catch(console.error);

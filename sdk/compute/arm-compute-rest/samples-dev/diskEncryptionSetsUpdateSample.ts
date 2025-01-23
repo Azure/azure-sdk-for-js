@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  DiskEncryptionSetsUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { DiskEncryptionSetsUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
  */
-async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded() {
+async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -57,7 +53,7 @@ updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded(
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
  */
-async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating() {
+async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -98,7 +94,7 @@ updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating()
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
  */
-async function updateADiskEncryptionSet() {
+async function updateADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

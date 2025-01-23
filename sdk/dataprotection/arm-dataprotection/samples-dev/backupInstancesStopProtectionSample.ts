@@ -72,8 +72,8 @@ async function stopProtectionWithMua(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopProtection();
-  stopProtectionWithMua();
+  await stopProtection();
+  await stopProtectionWithMua();
 }
 
 main().catch(console.error);

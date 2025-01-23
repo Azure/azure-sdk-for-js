@@ -39,7 +39,7 @@ async function deleteATransform() {
 }
 
 async function main() {
-  deleteATransform();
+  await deleteATransform();
 }
 
 main().catch(console.error);

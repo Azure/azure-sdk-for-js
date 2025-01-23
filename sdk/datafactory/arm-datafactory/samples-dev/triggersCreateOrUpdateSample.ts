@@ -109,8 +109,8 @@ async function triggersUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggersCreate();
-  triggersUpdate();
+  await triggersCreate();
+  await triggersUpdate();
 }
 
 main().catch(console.error);

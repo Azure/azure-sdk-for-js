@@ -39,7 +39,7 @@ async function getPacketCoreDataPlane() {
 }
 
 async function main() {
-  getPacketCoreDataPlane();
+  await getPacketCoreDataPlane();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function deleteInboundEndpointForDnsResolver() {
 }
 
 async function main() {
-  deleteInboundEndpointForDnsResolver();
+  await deleteInboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

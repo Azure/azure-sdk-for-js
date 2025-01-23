@@ -74,7 +74,7 @@ async function putProvisionedClusterInstance() {
 }
 
 async function main() {
-  putProvisionedClusterInstance();
+  await putProvisionedClusterInstance();
 }
 
 main().catch(console.error);

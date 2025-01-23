@@ -39,7 +39,7 @@ async function getAServerCommunicationLink() {
 }
 
 async function main() {
-  getAServerCommunicationLink();
+  await getAServerCommunicationLink();
 }
 
 main().catch(console.error);

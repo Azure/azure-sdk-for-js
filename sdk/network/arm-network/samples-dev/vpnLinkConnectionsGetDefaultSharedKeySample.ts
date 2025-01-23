@@ -38,7 +38,7 @@ async function vpnSiteLinkConnectionDefaultSharedKeyGet() {
 }
 
 async function main() {
-  vpnSiteLinkConnectionDefaultSharedKeyGet();
+  await vpnSiteLinkConnectionDefaultSharedKeyGet();
 }
 
 main().catch(console.error);

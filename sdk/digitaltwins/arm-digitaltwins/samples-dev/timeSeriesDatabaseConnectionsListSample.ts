@@ -41,7 +41,7 @@ async function listTimeSeriesDatabaseConnectionsForADigitalTwinsInstance(): Prom
 }
 
 async function main(): Promise<void> {
-  listTimeSeriesDatabaseConnectionsForADigitalTwinsInstance();
+  await listTimeSeriesDatabaseConnectionsForADigitalTwinsInstance();
 }
 
 main().catch(console.error);

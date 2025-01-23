@@ -31,7 +31,7 @@ async function getRequiredAmlFilesystemSubnetsSize() {
 }
 
 async function main() {
-  getRequiredAmlFilesystemSubnetsSize();
+  await getRequiredAmlFilesystemSubnetsSize();
 }
 
 main().catch(console.error);

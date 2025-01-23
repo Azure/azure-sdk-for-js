@@ -31,7 +31,7 @@ async function cancelARemediationAtSubscriptionScope() {
 }
 
 async function main() {
-  cancelARemediationAtSubscriptionScope();
+  await cancelARemediationAtSubscriptionScope();
 }
 
 main().catch(console.error);

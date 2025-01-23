@@ -49,7 +49,7 @@ async function resumeUpgrade() {
 }
 
 async function main() {
-  resumeUpgrade();
+  await resumeUpgrade();
 }
 
 main().catch(console.error);

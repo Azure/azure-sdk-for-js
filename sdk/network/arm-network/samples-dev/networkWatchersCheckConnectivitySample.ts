@@ -46,7 +46,7 @@ async function checkConnectivity() {
 }
 
 async function main() {
-  checkConnectivity();
+  await checkConnectivity();
 }
 
 main().catch(console.error);

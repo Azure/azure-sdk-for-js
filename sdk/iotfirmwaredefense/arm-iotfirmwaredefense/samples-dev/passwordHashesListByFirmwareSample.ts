@@ -69,8 +69,8 @@ async function passwordHashesListByFirmwareMinimumSetGen() {
 }
 
 async function main() {
-  passwordHashesListByFirmwareMaximumSetGen();
-  passwordHashesListByFirmwareMinimumSetGen();
+  await passwordHashesListByFirmwareMaximumSetGen();
+  await passwordHashesListByFirmwareMinimumSetGen();
 }
 
 main().catch(console.error);

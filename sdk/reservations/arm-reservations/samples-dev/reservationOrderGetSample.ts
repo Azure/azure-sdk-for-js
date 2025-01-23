@@ -48,8 +48,8 @@ async function getReservationWithExpandPayments() {
 }
 
 async function main() {
-  getReservationOrder();
-  getReservationWithExpandPayments();
+  await getReservationOrder();
+  await getReservationWithExpandPayments();
 }
 
 main().catch(console.error);

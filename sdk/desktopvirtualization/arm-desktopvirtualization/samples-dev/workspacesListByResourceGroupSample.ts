@@ -48,7 +48,7 @@ async function workspaceListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspaceListByResourceGroup();
+  await workspaceListByResourceGroup();
 }
 
 main().catch(console.error);

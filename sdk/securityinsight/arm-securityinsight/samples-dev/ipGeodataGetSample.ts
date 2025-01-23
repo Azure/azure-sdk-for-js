@@ -34,7 +34,7 @@ async function getGeodataForASingleIPAddress() {
 }
 
 async function main() {
-  getGeodataForASingleIPAddress();
+  await getGeodataForASingleIPAddress();
 }
 
 main().catch(console.error);

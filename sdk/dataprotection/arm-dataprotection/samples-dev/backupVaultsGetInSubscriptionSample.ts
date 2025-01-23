@@ -32,7 +32,7 @@ async function getBackupVaultsInSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBackupVaultsInSubscription();
+  await getBackupVaultsInSubscription();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getExpressRouteCrossConnectionsRouteTable() {
 }
 
 async function main() {
-  getExpressRouteCrossConnectionsRouteTable();
+  await getExpressRouteCrossConnectionsRouteTable();
 }
 
 main().catch(console.error);

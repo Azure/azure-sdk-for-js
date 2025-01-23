@@ -51,8 +51,8 @@ async function cloudsGetMinimumSet() {
 }
 
 async function main() {
-  cloudsGetMaximumSet();
-  cloudsGetMinimumSet();
+  await cloudsGetMaximumSet();
+  await cloudsGetMinimumSet();
 }
 
 main().catch(console.error);

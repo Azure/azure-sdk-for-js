@@ -30,7 +30,7 @@ async function trafficManagerUserMetricsKeysGet() {
 }
 
 async function main() {
-  trafficManagerUserMetricsKeysGet();
+  await trafficManagerUserMetricsKeysGet();
 }
 
 main().catch(console.error);

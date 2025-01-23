@@ -34,7 +34,7 @@ async function listAvailableOperationsForTheTimeSeriesInsightsResourceProvider()
 }
 
 async function main() {
-  listAvailableOperationsForTheTimeSeriesInsightsResourceProvider();
+  await listAvailableOperationsForTheTimeSeriesInsightsResourceProvider();
 }
 
 main().catch(console.error);

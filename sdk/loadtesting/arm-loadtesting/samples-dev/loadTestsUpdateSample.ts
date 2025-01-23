@@ -55,7 +55,7 @@ async function loadTestsUpdate() {
 }
 
 async function main() {
-  loadTestsUpdate();
+  await loadTestsUpdate();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function updateAScopedResourceInAPrivateLinkScope() {
 }
 
 async function main() {
-  updateAScopedResourceInAPrivateLinkScope();
+  await updateAScopedResourceInAPrivateLinkScope();
 }
 
 main().catch(console.error);

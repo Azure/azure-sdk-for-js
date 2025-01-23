@@ -41,7 +41,7 @@ async function getsAWorkloadGroupForADataWarehouse() {
 }
 
 async function main() {
-  getsAWorkloadGroupForADataWarehouse();
+  await getsAWorkloadGroupForADataWarehouse();
 }
 
 main().catch(console.error);

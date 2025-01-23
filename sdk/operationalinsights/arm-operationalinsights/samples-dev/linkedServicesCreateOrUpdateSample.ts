@@ -50,7 +50,7 @@ async function linkedServicesCreate() {
 }
 
 async function main() {
-  linkedServicesCreate();
+  await linkedServicesCreate();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function deleteAWorkflow() {
 }
 
 async function main() {
-  deleteAWorkflow();
+  await deleteAWorkflow();
 }
 
 main().catch(console.error);

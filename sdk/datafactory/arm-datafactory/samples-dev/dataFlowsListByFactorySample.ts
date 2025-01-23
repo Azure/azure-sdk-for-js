@@ -38,7 +38,7 @@ async function dataFlowsListByFactory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataFlowsListByFactory();
+  await dataFlowsListByFactory();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function redisEnterpriseAccessPolicyAssignmentDelete() {
 }
 
 async function main() {
-  redisEnterpriseAccessPolicyAssignmentDelete();
+  await redisEnterpriseAccessPolicyAssignmentDelete();
 }
 
 main().catch(console.error);

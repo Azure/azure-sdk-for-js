@@ -34,7 +34,7 @@ async function showNetworkInterfaceEffectiveRouteTables() {
 }
 
 async function main() {
-  showNetworkInterfaceEffectiveRouteTables();
+  await showNetworkInterfaceEffectiveRouteTables();
 }
 
 main().catch(console.error);

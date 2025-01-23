@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a gallery Application Version.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a gallery Application Version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplicationVersion_Delete.json
  */
-async function deleteAGalleryApplicationVersion() {
+async function deleteAGalleryApplicationVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +37,7 @@ async function deleteAGalleryApplicationVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAGalleryApplicationVersion();
 }
 

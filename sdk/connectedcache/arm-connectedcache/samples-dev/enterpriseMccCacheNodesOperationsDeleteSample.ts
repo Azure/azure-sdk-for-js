@@ -22,7 +22,7 @@ async function enterpriseMccCacheNodesOperationsDeleteOperationGeneratedByMaximu
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCacheNodesOperationsDeleteOperationGeneratedByMaximumSetRule();
+  await enterpriseMccCacheNodesOperationsDeleteOperationGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

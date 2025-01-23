@@ -39,7 +39,7 @@ async function validateBackup() {
 }
 
 async function main() {
-  validateBackup();
+  await validateBackup();
 }
 
 main().catch(console.error);

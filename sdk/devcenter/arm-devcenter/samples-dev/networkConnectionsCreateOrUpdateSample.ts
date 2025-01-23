@@ -45,7 +45,7 @@ async function networkConnectionsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsCreateOrUpdate();
+  await networkConnectionsCreateOrUpdate();
 }
 
 main().catch(console.error);

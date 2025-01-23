@@ -50,7 +50,7 @@ async function scalingPlanListByHostPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlanListByHostPool();
+  await scalingPlanListByHostPool();
 }
 
 main().catch(console.error);

@@ -67,8 +67,8 @@ async function summariesGetMinimumSetGen() {
 }
 
 async function main() {
-  summariesGetMaximumSetGen();
-  summariesGetMinimumSetGen();
+  await summariesGetMaximumSetGen();
+  await summariesGetMinimumSetGen();
 }
 
 main().catch(console.error);

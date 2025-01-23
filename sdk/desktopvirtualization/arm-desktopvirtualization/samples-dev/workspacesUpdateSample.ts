@@ -46,7 +46,7 @@ async function workspaceUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspaceUpdate();
+  await workspaceUpdate();
 }
 
 main().catch(console.error);

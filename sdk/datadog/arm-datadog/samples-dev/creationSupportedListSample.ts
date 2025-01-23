@@ -33,7 +33,7 @@ async function creationSupportedList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  creationSupportedList();
+  await creationSupportedList();
 }
 
 main().catch(console.error);

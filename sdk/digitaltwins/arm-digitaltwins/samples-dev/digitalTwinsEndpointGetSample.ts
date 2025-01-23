@@ -67,8 +67,8 @@ async function getADigitalTwinsInstanceEndpointWithIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getADigitalTwinsInstanceEndpoint();
-  getADigitalTwinsInstanceEndpointWithIdentity();
+  await getADigitalTwinsInstanceEndpoint();
+  await getADigitalTwinsInstanceEndpointWithIdentity();
 }
 
 main().catch(console.error);

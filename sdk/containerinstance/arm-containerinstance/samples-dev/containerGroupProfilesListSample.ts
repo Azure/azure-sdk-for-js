@@ -20,22 +20,18 @@ import "dotenv/config";
  */
 async function containerGroupProfilesList(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.containerGroupProfiles.list()) {
+  for await (const item of client.containerGroupProfiles.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  containerGroupProfilesList();
+  await containerGroupProfilesList();
 }
 
 main().catch(console.error);

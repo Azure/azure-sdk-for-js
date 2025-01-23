@@ -40,7 +40,7 @@ async function deletesASqlVirtualMachineGroup() {
 }
 
 async function main() {
-  deletesASqlVirtualMachineGroup();
+  await deletesASqlVirtualMachineGroup();
 }
 
 main().catch(console.error);

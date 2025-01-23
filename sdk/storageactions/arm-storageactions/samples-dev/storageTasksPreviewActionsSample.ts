@@ -84,7 +84,7 @@ async function performStorageTaskActionsPreview() {
 }
 
 async function main() {
-  performStorageTaskActionsPreview();
+  await performStorageTaskActionsPreview();
 }
 
 main().catch(console.error);

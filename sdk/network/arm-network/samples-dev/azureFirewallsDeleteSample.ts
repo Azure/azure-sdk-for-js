@@ -34,7 +34,7 @@ async function deleteAzureFirewall() {
 }
 
 async function main() {
-  deleteAzureFirewall();
+  await deleteAzureFirewall();
 }
 
 main().catch(console.error);

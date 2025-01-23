@@ -39,7 +39,7 @@ async function getVirtualNetworkAddress() {
 }
 
 async function main() {
-  getVirtualNetworkAddress();
+  await getVirtualNetworkAddress();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function networkConnectionsListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsListBySubscription();
+  await networkConnectionsListBySubscription();
 }
 
 main().catch(console.error);

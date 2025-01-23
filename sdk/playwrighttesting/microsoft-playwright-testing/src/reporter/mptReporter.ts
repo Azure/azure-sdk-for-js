@@ -29,7 +29,7 @@ import { CIInfoProvider } from "../utils/cIInfoProvider";
 import ReporterUtils from "../utils/reporterUtils";
 import { ServiceClient } from "../utils/serviceClient";
 import { StorageClient } from "../utils/storageClient";
-import type { MPTReporterConfig } from "../common/types";
+import type { ReporterConfiguration } from "../common/types";
 import { ServiceErrorMessageConstants } from "../common/messages";
 import { validateMptPAT, populateValuesFromServiceUrl } from "../utils/utils";
 
@@ -78,7 +78,7 @@ class MPTReporter implements Reporter {
   private testRunUrl: string = "";
   private enableResultPublish: boolean = true;
 
-  constructor(config: Partial<MPTReporterConfig>) {
+  constructor(config: Partial<ReporterConfiguration>) {
     if (config?.enableGitHubSummary !== undefined) {
       this.enableGitHubSummary = config.enableGitHubSummary;
     }
@@ -266,7 +266,7 @@ class MPTReporter implements Reporter {
       const testResultObject: MPTTestResult = this.reporterUtils.getTestResultObject(
         test,
         result,
-        this.ciInfo.jobId!,
+        this.ciInfo.jobName!,
       );
       this.testResultBatch.add(testResultObject);
       // Store test attachments in array
@@ -377,12 +377,14 @@ class MPTReporter implements Reporter {
       this.isTokenValid = false;
       return;
     }
-    if (!process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]) {
+    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]) {
       process.stdout.write("\nReporting service url not found.");
       this.isTokenValid = false;
       return;
     }
-    reporterLogger.info(`Reporting url - ${process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]}`);
+    reporterLogger.info(
+      `Reporting url - ${process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]}`,
+    );
     if (this.envVariables.accessToken === undefined || this.envVariables.accessToken === "") {
       process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR.message}`);
       this.isTokenValid = false;

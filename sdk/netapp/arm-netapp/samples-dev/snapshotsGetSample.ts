@@ -42,7 +42,7 @@ async function snapshotsGet() {
 }
 
 async function main() {
-  snapshotsGet();
+  await snapshotsGet();
 }
 
 main().catch(console.error);

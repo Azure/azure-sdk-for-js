@@ -37,7 +37,7 @@ async function iotHubResourceGetStats() {
 }
 
 async function main() {
-  iotHubResourceGetStats();
+  await iotHubResourceGetStats();
 }
 
 main().catch(console.error);

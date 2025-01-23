@@ -65,7 +65,7 @@ async function connectivityConfigurationsPut() {
 }
 
 async function main() {
-  connectivityConfigurationsPut();
+  await connectivityConfigurationsPut();
 }
 
 main().catch(console.error);

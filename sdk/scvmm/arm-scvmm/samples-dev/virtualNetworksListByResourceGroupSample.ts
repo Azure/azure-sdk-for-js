@@ -59,8 +59,8 @@ async function virtualNetworksListByResourceGroupMinimumSet() {
 }
 
 async function main() {
-  virtualNetworksListByResourceGroupMaximumSet();
-  virtualNetworksListByResourceGroupMinimumSet();
+  await virtualNetworksListByResourceGroupMaximumSet();
+  await virtualNetworksListByResourceGroupMinimumSet();
 }
 
 main().catch(console.error);

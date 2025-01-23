@@ -37,7 +37,7 @@ async function listConnectionMonitors() {
 }
 
 async function main() {
-  listConnectionMonitors();
+  await listConnectionMonitors();
 }
 
 main().catch(console.error);

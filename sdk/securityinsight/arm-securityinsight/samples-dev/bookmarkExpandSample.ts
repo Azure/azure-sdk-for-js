@@ -48,7 +48,7 @@ async function expandAnBookmark() {
 }
 
 async function main() {
-  expandAnBookmark();
+  await expandAnBookmark();
 }
 
 main().catch(console.error);

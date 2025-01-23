@@ -40,7 +40,7 @@ async function workspacesGetSchema() {
 }
 
 async function main() {
-  workspacesGetSchema();
+  await workspacesGetSchema();
 }
 
 main().catch(console.error);

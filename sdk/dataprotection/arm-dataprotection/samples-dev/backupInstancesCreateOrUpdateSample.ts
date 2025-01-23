@@ -167,8 +167,8 @@ async function createBackupInstanceToPerformCriticalOperationWithMua(): Promise<
 }
 
 async function main(): Promise<void> {
-  createBackupInstance();
-  createBackupInstanceToPerformCriticalOperationWithMua();
+  await createBackupInstance();
+  await createBackupInstanceToPerformCriticalOperationWithMua();
 }
 
 main().catch(console.error);

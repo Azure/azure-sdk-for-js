@@ -111,10 +111,10 @@ async function endpointsGetSmbMount() {
 }
 
 async function main() {
-  endpointsGetAzureStorageBlobContainer();
-  endpointsGetAzureStorageSmbFileShare();
-  endpointsGetNfsMount();
-  endpointsGetSmbMount();
+  await endpointsGetAzureStorageBlobContainer();
+  await endpointsGetAzureStorageSmbFileShare();
+  await endpointsGetNfsMount();
+  await endpointsGetSmbMount();
 }
 
 main().catch(console.error);

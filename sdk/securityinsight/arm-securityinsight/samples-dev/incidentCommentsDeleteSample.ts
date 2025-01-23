@@ -41,7 +41,7 @@ async function deleteTheIncidentComment() {
 }
 
 async function main() {
-  deleteTheIncidentComment();
+  await deleteTheIncidentComment();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function applyUpdatesCreateOrUpdate() {
 }
 
 async function main() {
-  applyUpdatesCreateOrUpdate();
+  await applyUpdatesCreateOrUpdate();
 }
 
 main().catch(console.error);

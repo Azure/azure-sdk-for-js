@@ -43,7 +43,7 @@ async function hostPoolList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hostPoolList();
+  await hostPoolList();
 }
 
 main().catch(console.error);

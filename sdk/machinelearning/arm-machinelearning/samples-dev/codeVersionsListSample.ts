@@ -52,7 +52,7 @@ async function listWorkspaceCodeVersion() {
 }
 
 async function main() {
-  listWorkspaceCodeVersion();
+  await listWorkspaceCodeVersion();
 }
 
 main().catch(console.error);

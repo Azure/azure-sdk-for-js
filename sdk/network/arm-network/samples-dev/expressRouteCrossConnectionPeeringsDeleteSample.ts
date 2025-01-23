@@ -38,7 +38,7 @@ async function deleteExpressRouteCrossConnectionBgpPeering() {
 }
 
 async function main() {
-  deleteExpressRouteCrossConnectionBgpPeering();
+  await deleteExpressRouteCrossConnectionBgpPeering();
 }
 
 main().catch(console.error);

@@ -81,9 +81,9 @@ async function getSubnetWithSharingScope() {
 }
 
 async function main() {
-  getSubnet();
-  getSubnetWithADelegation();
-  getSubnetWithSharingScope();
+  await getSubnet();
+  await getSubnetWithADelegation();
+  await getSubnetWithSharingScope();
 }
 
 main().catch(console.error);

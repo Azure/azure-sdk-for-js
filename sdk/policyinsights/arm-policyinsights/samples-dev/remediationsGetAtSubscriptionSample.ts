@@ -30,7 +30,7 @@ async function getRemediationAtSubscriptionScope() {
 }
 
 async function main() {
-  getRemediationAtSubscriptionScope();
+  await getRemediationAtSubscriptionScope();
 }
 
 main().catch(console.error);

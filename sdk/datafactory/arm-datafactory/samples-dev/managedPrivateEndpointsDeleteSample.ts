@@ -39,7 +39,7 @@ async function managedVirtualNetworksDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedVirtualNetworksDelete();
+  await managedVirtualNetworksDelete();
 }
 
 main().catch(console.error);

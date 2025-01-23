@@ -46,7 +46,7 @@ async function triggerRehydrate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerRehydrate();
+  await triggerRehydrate();
 }
 
 main().catch(console.error);

@@ -57,8 +57,8 @@ async function getApplicationOnHdInsightClusterSuccessfullyCreated() {
 }
 
 async function main() {
-  getApplicationOnHdInsightClusterCreationInProgress();
-  getApplicationOnHdInsightClusterSuccessfullyCreated();
+  await getApplicationOnHdInsightClusterCreationInProgress();
+  await getApplicationOnHdInsightClusterSuccessfullyCreated();
 }
 
 main().catch(console.error);

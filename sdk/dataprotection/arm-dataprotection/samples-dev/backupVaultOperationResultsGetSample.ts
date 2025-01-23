@@ -38,7 +38,7 @@ async function getOperationResultPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getOperationResultPatch();
+  await getOperationResultPatch();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function imagesListByGallery(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  imagesListByGallery();
+  await imagesListByGallery();
 }
 
 main().catch(console.error);

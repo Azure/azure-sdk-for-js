@@ -32,7 +32,7 @@ async function reservationList() {
 }
 
 async function main() {
-  reservationList();
+  await reservationList();
 }
 
 main().catch(console.error);

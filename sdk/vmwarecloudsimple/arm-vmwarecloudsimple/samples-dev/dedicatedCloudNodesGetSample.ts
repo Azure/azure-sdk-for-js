@@ -36,7 +36,7 @@ async function getDedicatedCloudNode() {
 }
 
 async function main() {
-  getDedicatedCloudNode();
+  await getDedicatedCloudNode();
 }
 
 main().catch(console.error);

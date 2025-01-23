@@ -56,7 +56,7 @@ async function quotasRequestPatchForCompute() {
 }
 
 async function main() {
-  quotasRequestPatchForCompute();
+  await quotasRequestPatchForCompute();
 }
 
 main().catch(console.error);

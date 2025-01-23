@@ -63,8 +63,8 @@ async function availabilitySetsUpdateMinimumSet() {
 }
 
 async function main() {
-  availabilitySetsUpdateMaximumSet();
-  availabilitySetsUpdateMinimumSet();
+  await availabilitySetsUpdateMaximumSet();
+  await availabilitySetsUpdateMinimumSet();
 }
 
 main().catch(console.error);

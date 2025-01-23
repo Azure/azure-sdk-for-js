@@ -38,7 +38,7 @@ async function listPrivateLinkHubsInResourceGroup() {
 }
 
 async function main() {
-  listPrivateLinkHubsInResourceGroup();
+  await listPrivateLinkHubsInResourceGroup();
 }
 
 main().catch(console.error);

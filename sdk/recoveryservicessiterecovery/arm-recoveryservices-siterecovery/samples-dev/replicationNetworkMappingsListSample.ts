@@ -41,7 +41,7 @@ async function getsAllTheNetworkMappingsUnderAVault() {
 }
 
 async function main() {
-  getsAllTheNetworkMappingsUnderAVault();
+  await getsAllTheNetworkMappingsUnderAVault();
 }
 
 main().catch(console.error);

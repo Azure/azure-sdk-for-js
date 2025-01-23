@@ -55,7 +55,7 @@ async function validateAWorkflow() {
 }
 
 async function main() {
-  validateAWorkflow();
+  await validateAWorkflow();
 }
 
 main().catch(console.error);

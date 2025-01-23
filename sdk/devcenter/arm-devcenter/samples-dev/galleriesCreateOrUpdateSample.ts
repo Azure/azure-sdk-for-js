@@ -41,7 +41,7 @@ async function galleriesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  galleriesCreateOrUpdate();
+  await galleriesCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function associateTrafficFilterAssociate() {
 }
 
 async function main() {
-  associateTrafficFilterAssociate();
+  await associateTrafficFilterAssociate();
 }
 
 main().catch(console.error);

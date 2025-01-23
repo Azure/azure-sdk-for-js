@@ -30,7 +30,7 @@ async function getsTheAdvancedThreatProtectionSettingsForTheSpecifiedResource() 
 }
 
 async function main() {
-  getsTheAdvancedThreatProtectionSettingsForTheSpecifiedResource();
+  await getsTheAdvancedThreatProtectionSettingsForTheSpecifiedResource();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listLocations() {
 }
 
 async function main() {
-  listLocations();
+  await listLocations();
 }
 
 main().catch(console.error);

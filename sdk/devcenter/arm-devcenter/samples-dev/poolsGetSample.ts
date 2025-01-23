@@ -59,8 +59,8 @@ async function poolsGetUnhealthyStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  poolsGet();
-  poolsGetUnhealthyStatus();
+  await poolsGet();
+  await poolsGetUnhealthyStatus();
 }
 
 main().catch(console.error);

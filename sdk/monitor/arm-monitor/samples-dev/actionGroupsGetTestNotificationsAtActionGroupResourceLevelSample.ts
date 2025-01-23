@@ -40,7 +40,7 @@ async function getNotificationDetailsAtResourceGroupLevel() {
 }
 
 async function main() {
-  getNotificationDetailsAtResourceGroupLevel();
+  await getNotificationDetailsAtResourceGroupLevel();
 }
 
 main().catch(console.error);

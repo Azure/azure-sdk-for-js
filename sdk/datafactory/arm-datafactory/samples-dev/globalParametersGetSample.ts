@@ -37,7 +37,7 @@ async function globalParametersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  globalParametersGet();
+  await globalParametersGet();
 }
 
 main().catch(console.error);

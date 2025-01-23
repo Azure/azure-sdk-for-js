@@ -38,7 +38,7 @@ async function listCustomEntityStoreAssignmentsInASubscriptionAndAResourceGroup(
 }
 
 async function main() {
-  listCustomEntityStoreAssignmentsInASubscriptionAndAResourceGroup();
+  await listCustomEntityStoreAssignmentsInASubscriptionAndAResourceGroup();
 }
 
 main().catch(console.error);

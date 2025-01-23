@@ -31,7 +31,7 @@ async function listAvailableClusters() {
 }
 
 async function main() {
-  listAvailableClusters();
+  await listAvailableClusters();
 }
 
 main().catch(console.error);

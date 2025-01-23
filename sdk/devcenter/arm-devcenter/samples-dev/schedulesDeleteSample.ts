@@ -38,7 +38,7 @@ async function schedulesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  schedulesDelete();
+  await schedulesDelete();
 }
 
 main().catch(console.error);

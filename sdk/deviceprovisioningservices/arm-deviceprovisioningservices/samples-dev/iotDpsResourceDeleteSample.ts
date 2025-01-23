@@ -36,7 +36,7 @@ async function dpsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dpsDelete();
+  await dpsDelete();
 }
 
 main().catch(console.error);

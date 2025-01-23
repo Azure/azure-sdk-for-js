@@ -59,7 +59,7 @@ async function kustoClustersCreateOrUpdate() {
 }
 
 async function main() {
-  kustoClustersCreateOrUpdate();
+  await kustoClustersCreateOrUpdate();
 }
 
 main().catch(console.error);

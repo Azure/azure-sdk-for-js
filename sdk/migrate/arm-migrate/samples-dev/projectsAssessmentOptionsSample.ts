@@ -39,7 +39,7 @@ async function assessmentOptionsGet() {
 }
 
 async function main() {
-  assessmentOptionsGet();
+  await assessmentOptionsGet();
 }
 
 main().catch(console.error);

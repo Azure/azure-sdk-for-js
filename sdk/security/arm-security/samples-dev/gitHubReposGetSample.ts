@@ -40,7 +40,7 @@ async function getGitHubRepos() {
 }
 
 async function main() {
-  getGitHubRepos();
+  await getGitHubRepos();
 }
 
 main().catch(console.error);

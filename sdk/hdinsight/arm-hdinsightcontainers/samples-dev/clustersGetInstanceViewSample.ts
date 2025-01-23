@@ -41,7 +41,7 @@ async function hdInsightClusterGetInstanceView() {
 }
 
 async function main() {
-  hdInsightClusterGetInstanceView();
+  await hdInsightClusterGetInstanceView();
 }
 
 main().catch(console.error);

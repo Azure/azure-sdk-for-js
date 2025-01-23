@@ -44,7 +44,7 @@ async function listTheScopedRepetitions() {
 }
 
 async function main() {
-  listTheScopedRepetitions();
+  await listTheScopedRepetitions();
 }
 
 main().catch(console.error);

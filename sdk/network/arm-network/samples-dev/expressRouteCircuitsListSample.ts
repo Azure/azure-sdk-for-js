@@ -33,7 +33,7 @@ async function listExpressRouteCircuitsInAResourceGroup() {
 }
 
 async function main() {
-  listExpressRouteCircuitsInAResourceGroup();
+  await listExpressRouteCircuitsInAResourceGroup();
 }
 
 main().catch(console.error);

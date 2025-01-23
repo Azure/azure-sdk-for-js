@@ -43,7 +43,7 @@ async function createServerTrustCertificate() {
 }
 
 async function main() {
-  createServerTrustCertificate();
+  await createServerTrustCertificate();
 }
 
 main().catch(console.error);

@@ -111,9 +111,9 @@ async function updateLocalUser() {
 }
 
 async function main() {
-  createLocalUser();
-  createNfSv3EnabledLocalUser();
-  updateLocalUser();
+  await createLocalUser();
+  await createNfSv3EnabledLocalUser();
+  await updateLocalUser();
 }
 
 main().catch(console.error);

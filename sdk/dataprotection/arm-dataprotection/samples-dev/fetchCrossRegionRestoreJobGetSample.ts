@@ -45,7 +45,7 @@ async function getCrossRegionRestoreJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCrossRegionRestoreJob();
+  await getCrossRegionRestoreJob();
 }
 
 main().catch(console.error);

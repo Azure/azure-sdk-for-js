@@ -47,7 +47,7 @@ async function kustoDatabaseCheckNameAvailability() {
 }
 
 async function main() {
-  kustoDatabaseCheckNameAvailability();
+  await kustoDatabaseCheckNameAvailability();
 }
 
 main().catch(console.error);

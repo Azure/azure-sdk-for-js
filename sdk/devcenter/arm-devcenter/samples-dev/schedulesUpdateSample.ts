@@ -40,7 +40,7 @@ async function schedulesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  schedulesUpdate();
+  await schedulesUpdate();
 }
 
 main().catch(console.error);

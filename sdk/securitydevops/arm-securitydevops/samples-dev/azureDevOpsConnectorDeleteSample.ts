@@ -37,7 +37,7 @@ async function azureDevOpsConnectorDelete() {
 }
 
 async function main() {
-  azureDevOpsConnectorDelete();
+  await azureDevOpsConnectorDelete();
 }
 
 main().catch(console.error);

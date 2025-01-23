@@ -35,7 +35,7 @@ async function cancelARemediationAtResourceGroupScope() {
 }
 
 async function main() {
-  cancelARemediationAtResourceGroupScope();
+  await cancelARemediationAtResourceGroupScope();
 }
 
 main().catch(console.error);

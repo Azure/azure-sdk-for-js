@@ -31,7 +31,7 @@ async function getOracleSubscription() {
 }
 
 async function main() {
-  getOracleSubscription();
+  await getOracleSubscription();
 }
 
 main().catch(console.error);

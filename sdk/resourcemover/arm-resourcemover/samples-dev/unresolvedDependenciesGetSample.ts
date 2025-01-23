@@ -39,7 +39,7 @@ async function unresolvedDependenciesGet() {
 }
 
 async function main() {
-  unresolvedDependenciesGet();
+  await unresolvedDependenciesGet();
 }
 
 main().catch(console.error);

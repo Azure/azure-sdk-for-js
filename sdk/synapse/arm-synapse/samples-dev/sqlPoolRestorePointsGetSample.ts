@@ -41,7 +41,7 @@ async function getsASqlPoolRestorePoint() {
 }
 
 async function main() {
-  getsASqlPoolRestorePoint();
+  await getsASqlPoolRestorePoint();
 }
 
 main().catch(console.error);

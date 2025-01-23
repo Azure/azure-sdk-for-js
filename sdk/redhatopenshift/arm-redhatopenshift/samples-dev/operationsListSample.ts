@@ -34,7 +34,7 @@ async function listsAllOfTheAvailableRpOperations() {
 }
 
 async function main() {
-  listsAllOfTheAvailableRpOperations();
+  await listsAllOfTheAvailableRpOperations();
 }
 
 main().catch(console.error);

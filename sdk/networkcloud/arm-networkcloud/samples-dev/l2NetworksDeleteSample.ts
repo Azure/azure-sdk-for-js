@@ -37,7 +37,7 @@ async function deleteL2Network() {
 }
 
 async function main() {
-  deleteL2Network();
+  await deleteL2Network();
 }
 
 main().catch(console.error);

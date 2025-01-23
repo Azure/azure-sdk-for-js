@@ -49,7 +49,7 @@ async function approveAPrivateEndpointConnectionManually() {
 }
 
 async function main() {
-  approveAPrivateEndpointConnectionManually();
+  await approveAPrivateEndpointConnectionManually();
 }
 
 main().catch(console.error);

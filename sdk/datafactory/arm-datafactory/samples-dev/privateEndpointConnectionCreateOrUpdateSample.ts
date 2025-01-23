@@ -53,7 +53,7 @@ async function approvesOrRejectsAPrivateEndpointConnectionForAFactory(): Promise
 }
 
 async function main(): Promise<void> {
-  approvesOrRejectsAPrivateEndpointConnectionForAFactory();
+  await approvesOrRejectsAPrivateEndpointConnectionForAFactory();
 }
 
 main().catch(console.error);

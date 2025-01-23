@@ -43,7 +43,7 @@ async function tablesListByWorkspace() {
 }
 
 async function main() {
-  tablesListByWorkspace();
+  await tablesListByWorkspace();
 }
 
 main().catch(console.error);

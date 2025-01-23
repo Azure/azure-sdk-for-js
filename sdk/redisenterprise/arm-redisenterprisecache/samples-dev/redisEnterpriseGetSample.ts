@@ -40,7 +40,7 @@ async function redisEnterpriseGet() {
 }
 
 async function main() {
-  redisEnterpriseGet();
+  await redisEnterpriseGet();
 }
 
 main().catch(console.error);

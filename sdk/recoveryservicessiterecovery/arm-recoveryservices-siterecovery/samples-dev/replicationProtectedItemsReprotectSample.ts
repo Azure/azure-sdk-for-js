@@ -54,7 +54,7 @@ async function executeReverseReplicationReprotect() {
 }
 
 async function main() {
-  executeReverseReplicationReprotect();
+  await executeReverseReplicationReprotect();
 }
 
 main().catch(console.error);

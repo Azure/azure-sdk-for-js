@@ -45,7 +45,7 @@ async function getFluxConfiguration() {
 }
 
 async function main() {
-  getFluxConfiguration();
+  await getFluxConfiguration();
 }
 
 main().catch(console.error);

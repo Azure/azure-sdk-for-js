@@ -36,7 +36,7 @@ async function galleriesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  galleriesDelete();
+  await galleriesDelete();
 }
 
 main().catch(console.error);

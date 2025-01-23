@@ -35,7 +35,7 @@ async function applicationGroupDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationGroupDelete();
+  await applicationGroupDelete();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function versionsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  versionsGet();
+  await versionsGet();
 }
 
 main().catch(console.error);

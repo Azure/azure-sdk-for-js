@@ -43,7 +43,7 @@ async function updateAnAsset() {
 }
 
 async function main() {
-  updateAnAsset();
+  await updateAnAsset();
 }
 
 main().catch(console.error);

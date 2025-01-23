@@ -46,7 +46,7 @@ async function validateAValidationAndEstimationOfHighAvailability() {
 }
 
 async function main() {
-  validateAValidationAndEstimationOfHighAvailability();
+  await validateAValidationAndEstimationOfHighAvailability();
 }
 
 main().catch(console.error);

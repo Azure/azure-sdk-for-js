@@ -37,7 +37,7 @@ async function getBackupPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBackupPolicy();
+  await getBackupPolicy();
 }
 
 main().catch(console.error);

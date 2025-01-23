@@ -38,7 +38,7 @@ async function validateConnectorSuccess() {
 }
 
 async function main() {
-  validateConnectorSuccess();
+  await validateConnectorSuccess();
 }
 
 main().catch(console.error);

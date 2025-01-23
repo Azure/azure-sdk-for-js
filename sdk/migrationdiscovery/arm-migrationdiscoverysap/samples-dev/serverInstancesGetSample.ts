@@ -41,7 +41,7 @@ async function getAServerInstanceResource() {
 }
 
 async function main() {
-  getAServerInstanceResource();
+  await getAServerInstanceResource();
 }
 
 main().catch(console.error);

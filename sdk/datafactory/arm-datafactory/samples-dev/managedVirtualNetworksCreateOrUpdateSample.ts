@@ -44,7 +44,7 @@ async function managedVirtualNetworksCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedVirtualNetworksCreate();
+  await managedVirtualNetworksCreate();
 }
 
 main().catch(console.error);

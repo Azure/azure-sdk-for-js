@@ -37,7 +37,7 @@ async function privateLinkScopesDelete() {
 }
 
 async function main() {
-  privateLinkScopesDelete();
+  await privateLinkScopesDelete();
 }
 
 main().catch(console.error);

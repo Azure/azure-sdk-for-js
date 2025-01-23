@@ -32,7 +32,7 @@ async function getListOfAccounts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getListOfAccounts();
+  await getListOfAccounts();
 }
 
 main().catch(console.error);

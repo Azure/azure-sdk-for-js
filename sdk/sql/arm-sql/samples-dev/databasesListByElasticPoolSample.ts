@@ -42,7 +42,7 @@ async function getsAListOfDatabasesInAnElasticPool() {
 }
 
 async function main() {
-  getsAListOfDatabasesInAnElasticPool();
+  await getsAListOfDatabasesInAnElasticPool();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function azureDevOpsOrgList() {
 }
 
 async function main() {
-  azureDevOpsOrgList();
+  await azureDevOpsOrgList();
 }
 
 main().catch(console.error);

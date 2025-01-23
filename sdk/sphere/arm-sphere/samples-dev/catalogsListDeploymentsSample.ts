@@ -40,7 +40,7 @@ async function catalogsListDeployments() {
 }
 
 async function main() {
-  catalogsListDeployments();
+  await catalogsListDeployments();
 }
 
 main().catch(console.error);

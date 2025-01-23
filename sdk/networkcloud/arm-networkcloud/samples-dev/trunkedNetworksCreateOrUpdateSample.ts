@@ -52,7 +52,7 @@ async function createOrUpdateTrunkedNetwork() {
 }
 
 async function main() {
-  createOrUpdateTrunkedNetwork();
+  await createOrUpdateTrunkedNetwork();
 }
 
 main().catch(console.error);

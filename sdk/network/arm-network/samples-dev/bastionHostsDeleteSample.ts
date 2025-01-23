@@ -53,8 +53,8 @@ async function deleteDeveloperBastionHost() {
 }
 
 async function main() {
-  deleteBastionHost();
-  deleteDeveloperBastionHost();
+  await deleteBastionHost();
+  await deleteDeveloperBastionHost();
 }
 
 main().catch(console.error);

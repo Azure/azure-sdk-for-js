@@ -35,7 +35,7 @@ async function scalingPlansUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scalingPlansUpdate();
+  await scalingPlansUpdate();
 }
 
 main().catch(console.error);

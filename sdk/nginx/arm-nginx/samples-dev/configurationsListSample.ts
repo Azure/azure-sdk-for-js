@@ -40,7 +40,7 @@ async function configurationsList() {
 }
 
 async function main() {
-  configurationsList();
+  await configurationsList();
 }
 
 main().catch(console.error);

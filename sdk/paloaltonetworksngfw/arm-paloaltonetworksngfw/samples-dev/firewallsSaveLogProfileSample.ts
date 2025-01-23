@@ -154,8 +154,8 @@ async function firewallsSaveLogProfileMinimumSetGen() {
 }
 
 async function main() {
-  firewallsSaveLogProfileMaximumSetGen();
-  firewallsSaveLogProfileMinimumSetGen();
+  await firewallsSaveLogProfileMaximumSetGen();
+  await firewallsSaveLogProfileMinimumSetGen();
 }
 
 main().catch(console.error);

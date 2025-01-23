@@ -43,7 +43,7 @@ async function updatesManagedInstanceServerConfigurationOption() {
 }
 
 async function main() {
-  updatesManagedInstanceServerConfigurationOption();
+  await updatesManagedInstanceServerConfigurationOption();
 }
 
 main().catch(console.error);

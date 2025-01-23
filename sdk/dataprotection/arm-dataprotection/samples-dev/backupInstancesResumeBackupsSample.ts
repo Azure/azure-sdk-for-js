@@ -37,7 +37,7 @@ async function resumeBackups(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resumeBackups();
+  await resumeBackups();
 }
 
 main().catch(console.error);

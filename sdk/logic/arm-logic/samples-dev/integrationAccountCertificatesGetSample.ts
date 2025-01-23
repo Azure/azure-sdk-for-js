@@ -39,7 +39,7 @@ async function getCertificateByName() {
 }
 
 async function main() {
-  getCertificateByName();
+  await getCertificateByName();
 }
 
 main().catch(console.error);

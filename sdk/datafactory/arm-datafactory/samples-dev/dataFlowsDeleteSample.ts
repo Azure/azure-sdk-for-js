@@ -37,7 +37,7 @@ async function dataFlowsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataFlowsDelete();
+  await dataFlowsDelete();
 }
 
 main().catch(console.error);

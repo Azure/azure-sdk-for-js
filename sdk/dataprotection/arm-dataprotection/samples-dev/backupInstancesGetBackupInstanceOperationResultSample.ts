@@ -40,7 +40,7 @@ async function getBackupInstanceOperationResult(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBackupInstanceOperationResult();
+  await getBackupInstanceOperationResult();
 }
 
 main().catch(console.error);

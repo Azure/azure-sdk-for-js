@@ -510,14 +510,14 @@ async function putNodeTypeWithVMImagePlan() {
 }
 
 async function main() {
-  putANodeTypeWithAutoScaleParameters();
-  putANodeTypeWithMaximumParameters();
-  putANodeTypeWithMinimumParameters();
-  putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric();
-  putNodeTypeWithCustomVMImage();
-  putNodeTypeWithDedicatedHosts();
-  putNodeTypeWithSharedGalleriesCustomVMImage();
-  putNodeTypeWithVMImagePlan();
+  await putANodeTypeWithAutoScaleParameters();
+  await putANodeTypeWithMaximumParameters();
+  await putANodeTypeWithMinimumParameters();
+  await putAnStatelessNodeTypeWithTemporaryDiskForServiceFabric();
+  await putNodeTypeWithCustomVMImage();
+  await putNodeTypeWithDedicatedHosts();
+  await putNodeTypeWithSharedGalleriesCustomVMImage();
+  await putNodeTypeWithVMImagePlan();
 }
 
 main().catch(console.error);

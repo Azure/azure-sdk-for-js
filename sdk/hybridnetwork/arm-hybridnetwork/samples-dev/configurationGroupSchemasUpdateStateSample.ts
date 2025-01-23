@@ -45,7 +45,7 @@ async function updateNetworkServiceDesignVersionState() {
 }
 
 async function main() {
-  updateNetworkServiceDesignVersionState();
+  await updateNetworkServiceDesignVersionState();
 }
 
 main().catch(console.error);

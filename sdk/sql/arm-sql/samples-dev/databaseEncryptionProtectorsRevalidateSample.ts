@@ -42,7 +42,7 @@ async function revalidatesTheEncryptionProtectorForAParticularDatabase() {
 }
 
 async function main() {
-  revalidatesTheEncryptionProtectorForAParticularDatabase();
+  await revalidatesTheEncryptionProtectorForAParticularDatabase();
 }
 
 main().catch(console.error);

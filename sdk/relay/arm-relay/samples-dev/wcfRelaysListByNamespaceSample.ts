@@ -40,7 +40,7 @@ async function relayListAll() {
 }
 
 async function main() {
-  relayListAll();
+  await relayListAll();
 }
 
 main().catch(console.error);

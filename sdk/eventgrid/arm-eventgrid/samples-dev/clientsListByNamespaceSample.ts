@@ -40,7 +40,7 @@ async function clientsListByNamespace() {
 }
 
 async function main() {
-  clientsListByNamespace();
+  await clientsListByNamespace();
 }
 
 main().catch(console.error);

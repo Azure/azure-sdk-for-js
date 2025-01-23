@@ -33,7 +33,7 @@ async function listAllHybridNetworkSitesInASubscription() {
 }
 
 async function main() {
-  listAllHybridNetworkSitesInASubscription();
+  await listAllHybridNetworkSitesInASubscription();
 }
 
 main().catch(console.error);

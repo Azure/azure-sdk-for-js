@@ -39,7 +39,7 @@ async function backupPoliciesList() {
 }
 
 async function main() {
-  backupPoliciesList();
+  await backupPoliciesList();
 }
 
 main().catch(console.error);

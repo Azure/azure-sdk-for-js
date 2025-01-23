@@ -37,7 +37,7 @@ async function startBareMetalMachine() {
 }
 
 async function main() {
-  startBareMetalMachine();
+  await startBareMetalMachine();
 }
 
 main().catch(console.error);

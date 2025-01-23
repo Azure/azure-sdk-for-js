@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  CloudServiceRoleInstancesDeleteParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { CloudServiceRoleInstancesDeleteParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Deletes a role instance from a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceRoleInstance_Delete.json
  */
-async function deleteCloudServiceRoleInstance() {
+async function deleteCloudServiceRoleInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

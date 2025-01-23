@@ -105,8 +105,8 @@ async function createsOrUpdatesTheDiagnosticSettingForCategory() {
 }
 
 async function main() {
-  createsOrUpdatesTheDiagnosticSetting();
-  createsOrUpdatesTheDiagnosticSettingForCategory();
+  await createsOrUpdatesTheDiagnosticSetting();
+  await createsOrUpdatesTheDiagnosticSettingForCategory();
 }
 
 main().catch(console.error);

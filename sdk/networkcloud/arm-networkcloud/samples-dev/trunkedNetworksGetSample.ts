@@ -37,7 +37,7 @@ async function getTrunkedNetwork() {
 }
 
 async function main() {
-  getTrunkedNetwork();
+  await getTrunkedNetwork();
 }
 
 main().catch(console.error);

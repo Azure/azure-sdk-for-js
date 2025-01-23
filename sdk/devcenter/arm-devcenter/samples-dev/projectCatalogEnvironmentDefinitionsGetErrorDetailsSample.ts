@@ -39,7 +39,7 @@ async function projectCatalogEnvironmentDefinitionsGetErrorDetails(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  projectCatalogEnvironmentDefinitionsGetErrorDetails();
+  await projectCatalogEnvironmentDefinitionsGetErrorDetails();
 }
 
 main().catch(console.error);

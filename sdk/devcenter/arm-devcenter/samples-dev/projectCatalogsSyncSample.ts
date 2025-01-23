@@ -36,7 +36,7 @@ async function projectCatalogsSync(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectCatalogsSync();
+  await projectCatalogsSync();
 }
 
 main().catch(console.error);

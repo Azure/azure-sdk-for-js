@@ -31,7 +31,7 @@ async function getSwapResource() {
 }
 
 async function main() {
-  getSwapResource();
+  await getSwapResource();
 }
 
 main().catch(console.error);

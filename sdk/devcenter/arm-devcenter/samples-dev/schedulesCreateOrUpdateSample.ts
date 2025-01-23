@@ -46,7 +46,7 @@ async function schedulesCreateDailyShutdownPoolSchedule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  schedulesCreateDailyShutdownPoolSchedule();
+  await schedulesCreateDailyShutdownPoolSchedule();
 }
 
 main().catch(console.error);

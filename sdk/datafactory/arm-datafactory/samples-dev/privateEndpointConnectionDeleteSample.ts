@@ -37,7 +37,7 @@ async function deleteAPrivateEndpointConnectionForADatafactory(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  deleteAPrivateEndpointConnectionForADatafactory();
+  await deleteAPrivateEndpointConnectionForADatafactory();
 }
 
 main().catch(console.error);

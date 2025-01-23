@@ -52,8 +52,8 @@ async function fileSystemsListBySubscriptionMinimumSetGen() {
 }
 
 async function main() {
-  fileSystemsListBySubscription();
-  fileSystemsListBySubscriptionMinimumSetGen();
+  await fileSystemsListBySubscription();
+  await fileSystemsListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function getsTheListOfNetworksUnderAFabric() {
 }
 
 async function main() {
-  getsTheListOfNetworksUnderAFabric();
+  await getsTheListOfNetworksUnderAFabric();
 }
 
 main().catch(console.error);

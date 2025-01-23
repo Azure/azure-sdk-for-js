@@ -39,7 +39,7 @@ async function listServerTrustGroups() {
 }
 
 async function main() {
-  listServerTrustGroups();
+  await listServerTrustGroups();
 }
 
 main().catch(console.error);

@@ -55,7 +55,7 @@ async function triggerRpMoveOperation() {
 }
 
 async function main() {
-  triggerRpMoveOperation();
+  await triggerRpMoveOperation();
 }
 
 main().catch(console.error);

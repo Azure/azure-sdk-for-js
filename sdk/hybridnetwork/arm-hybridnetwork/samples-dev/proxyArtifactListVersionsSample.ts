@@ -43,7 +43,7 @@ async function getAnArtifactOverview() {
 }
 
 async function main() {
-  getAnArtifactOverview();
+  await getAnArtifactOverview();
 }
 
 main().catch(console.error);

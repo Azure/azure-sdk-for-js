@@ -47,7 +47,7 @@ async function updateDnsResolverPolicyVirtualNetworkLink() {
 }
 
 async function main() {
-  updateDnsResolverPolicyVirtualNetworkLink();
+  await updateDnsResolverPolicyVirtualNetworkLink();
 }
 
 main().catch(console.error);

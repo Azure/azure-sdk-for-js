@@ -50,7 +50,7 @@ async function getIntegrationRuntimeObjectMetadata() {
 }
 
 async function main() {
-  getIntegrationRuntimeObjectMetadata();
+  await getIntegrationRuntimeObjectMetadata();
 }
 
 main().catch(console.error);

@@ -52,7 +52,7 @@ async function createOrUpdateWorkspaceCodeContainer() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceCodeContainer();
+  await createOrUpdateWorkspaceCodeContainer();
 }
 
 main().catch(console.error);

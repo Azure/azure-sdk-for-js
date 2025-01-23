@@ -39,7 +39,7 @@ async function getAFileImport() {
 }
 
 async function main() {
-  getAFileImport();
+  await getAFileImport();
 }
 
 main().catch(console.error);

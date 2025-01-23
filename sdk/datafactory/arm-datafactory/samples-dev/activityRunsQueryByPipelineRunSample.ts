@@ -45,7 +45,7 @@ async function activityRunsQueryByPipelineRun(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  activityRunsQueryByPipelineRun();
+  await activityRunsQueryByPipelineRun();
 }
 
 main().catch(console.error);

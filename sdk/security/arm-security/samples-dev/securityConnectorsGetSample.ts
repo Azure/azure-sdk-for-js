@@ -37,7 +37,7 @@ async function retrieveASecurityConnector() {
 }
 
 async function main() {
-  retrieveASecurityConnector();
+  await retrieveASecurityConnector();
 }
 
 main().catch(console.error);

@@ -56,8 +56,8 @@ async function virtualMachineInstancesDeleteMinimumSet() {
 }
 
 async function main() {
-  virtualMachineInstancesDeleteMaximumSet();
-  virtualMachineInstancesDeleteMinimumSet();
+  await virtualMachineInstancesDeleteMaximumSet();
+  await virtualMachineInstancesDeleteMinimumSet();
 }
 
 main().catch(console.error);

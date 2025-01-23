@@ -36,7 +36,7 @@ async function loadBalancerProbeGet() {
 }
 
 async function main() {
-  loadBalancerProbeGet();
+  await loadBalancerProbeGet();
 }
 
 main().catch(console.error);

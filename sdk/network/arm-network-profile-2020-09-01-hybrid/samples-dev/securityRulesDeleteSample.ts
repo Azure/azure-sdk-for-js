@@ -36,7 +36,7 @@ async function deleteNetworkSecurityRuleFromNetworkSecurityGroup() {
 }
 
 async function main() {
-  deleteNetworkSecurityRuleFromNetworkSecurityGroup();
+  await deleteNetworkSecurityRuleFromNetworkSecurityGroup();
 }
 
 main().catch(console.error);

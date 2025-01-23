@@ -131,9 +131,9 @@ async function putADigitalTwinsEndpointResourceWithUserAssignedIdentity(): Promi
 }
 
 async function main(): Promise<void> {
-  putADigitalTwinsEndpointResource();
-  putADigitalTwinsEndpointResourceWithIdentity();
-  putADigitalTwinsEndpointResourceWithUserAssignedIdentity();
+  await putADigitalTwinsEndpointResource();
+  await putADigitalTwinsEndpointResourceWithIdentity();
+  await putADigitalTwinsEndpointResourceWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

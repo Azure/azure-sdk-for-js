@@ -44,7 +44,7 @@ async function replicaGet() {
 }
 
 async function main() {
-  replicaGet();
+  await replicaGet();
 }
 
 main().catch(console.error);

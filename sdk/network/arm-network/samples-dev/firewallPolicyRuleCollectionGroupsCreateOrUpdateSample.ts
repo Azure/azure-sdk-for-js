@@ -252,11 +252,11 @@ async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert() {
 }
 
 async function main() {
-  createFirewallPolicyNatRuleCollectionGroup();
-  createFirewallPolicyRuleCollectionGroup();
-  createFirewallPolicyRuleCollectionGroupWithIPGroups();
-  createFirewallPolicyRuleCollectionGroupWithWebCategories();
-  createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert();
+  await createFirewallPolicyNatRuleCollectionGroup();
+  await createFirewallPolicyRuleCollectionGroup();
+  await createFirewallPolicyRuleCollectionGroupWithIPGroups();
+  await createFirewallPolicyRuleCollectionGroupWithWebCategories();
+  await createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function checksWhetherInstanceExists(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checksWhetherInstanceExists();
+  await checksWhetherInstanceExists();
 }
 
 main().catch(console.error);

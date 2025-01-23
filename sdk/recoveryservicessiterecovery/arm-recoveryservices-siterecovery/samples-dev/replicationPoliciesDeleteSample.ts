@@ -40,7 +40,7 @@ async function deleteThePolicy() {
 }
 
 async function main() {
-  deleteThePolicy();
+  await deleteThePolicy();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listDnssecConfigs() {
 }
 
 async function main() {
-  listDnssecConfigs();
+  await listDnssecConfigs();
 }
 
 main().catch(console.error);

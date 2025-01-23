@@ -30,7 +30,7 @@ async function getVMSkus() {
 }
 
 async function main() {
-  getVMSkus();
+  await getVMSkus();
 }
 
 main().catch(console.error);

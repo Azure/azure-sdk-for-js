@@ -40,7 +40,7 @@ async function kustoDatabasesListByCluster() {
 }
 
 async function main() {
-  kustoDatabasesListByCluster();
+  await kustoDatabasesListByCluster();
 }
 
 main().catch(console.error);

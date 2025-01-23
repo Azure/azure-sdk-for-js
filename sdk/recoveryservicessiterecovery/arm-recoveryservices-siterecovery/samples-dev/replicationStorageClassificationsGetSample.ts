@@ -43,7 +43,7 @@ async function getsTheDetailsOfAStorageClassification() {
 }
 
 async function main() {
-  getsTheDetailsOfAStorageClassification();
+  await getsTheDetailsOfAStorageClassification();
 }
 
 main().catch(console.error);

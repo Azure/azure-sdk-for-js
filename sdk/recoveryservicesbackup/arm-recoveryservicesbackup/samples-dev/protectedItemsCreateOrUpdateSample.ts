@@ -99,8 +99,8 @@ async function stopProtectionWithRetainDataOnAzureIaasVM() {
 }
 
 async function main() {
-  enableProtectionOnAzureIaasVM();
-  stopProtectionWithRetainDataOnAzureIaasVM();
+  await enableProtectionOnAzureIaasVM();
+  await stopProtectionWithRetainDataOnAzureIaasVM();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function deleteAJobAgent() {
 }
 
 async function main() {
-  deleteAJobAgent();
+  await deleteAJobAgent();
 }
 
 main().catch(console.error);

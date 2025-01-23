@@ -35,7 +35,7 @@ async function deleteBackupVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteBackupVault();
+  await deleteBackupVault();
 }
 
 main().catch(console.error);

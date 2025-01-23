@@ -78,7 +78,7 @@ async function createOrUpdateAnIotConnectorFhirDestination() {
 }
 
 async function main() {
-  createOrUpdateAnIotConnectorFhirDestination();
+  await createOrUpdateAnIotConnectorFhirDestination();
 }
 
 main().catch(console.error);

@@ -50,7 +50,7 @@ async function putLinker() {
 }
 
 async function main() {
-  putLinker();
+  await putLinker();
 }
 
 main().catch(console.error);

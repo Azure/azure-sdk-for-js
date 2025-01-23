@@ -59,7 +59,7 @@ async function registerAzureStorageProtectionContainers() {
 }
 
 async function main() {
-  registerAzureStorageProtectionContainers();
+  await registerAzureStorageProtectionContainers();
 }
 
 main().catch(console.error);

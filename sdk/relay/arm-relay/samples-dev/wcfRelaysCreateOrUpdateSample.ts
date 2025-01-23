@@ -45,7 +45,7 @@ async function relayCreate() {
 }
 
 async function main() {
-  relayCreate();
+  await relayCreate();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getSimPolicy() {
 }
 
 async function main() {
-  getSimPolicy();
+  await getSimPolicy();
 }
 
 main().catch(console.error);

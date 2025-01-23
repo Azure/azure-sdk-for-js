@@ -32,7 +32,7 @@ async function listIPGroups() {
 }
 
 async function main() {
-  listIPGroups();
+  await listIPGroups();
 }
 
 main().catch(console.error);

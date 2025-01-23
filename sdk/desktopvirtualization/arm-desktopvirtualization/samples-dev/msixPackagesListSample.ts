@@ -50,7 +50,7 @@ async function msixPackageList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  msixPackageList();
+  await msixPackageList();
 }
 
 main().catch(console.error);

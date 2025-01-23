@@ -20,26 +20,19 @@ import "dotenv/config";
  */
 async function containerGroupsListByResourceGroup(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.containerGroups.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.containerGroups.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  containerGroupsListByResourceGroup();
+  await containerGroupsListByResourceGroup();
 }
 
 main().catch(console.error);

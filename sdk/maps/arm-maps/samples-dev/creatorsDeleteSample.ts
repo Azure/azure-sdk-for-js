@@ -39,7 +39,7 @@ async function deleteCreatorResource() {
 }
 
 async function main() {
-  deleteCreatorResource();
+  await deleteCreatorResource();
 }
 
 main().catch(console.error);

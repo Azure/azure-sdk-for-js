@@ -52,7 +52,7 @@ async function updateTheStatusOfAPrivateEndpointConnectionWithTheGivenName(): Pr
 }
 
 async function main(): Promise<void> {
-  updateTheStatusOfAPrivateEndpointConnectionWithTheGivenName();
+  await updateTheStatusOfAPrivateEndpointConnectionWithTheGivenName();
 }
 
 main().catch(console.error);

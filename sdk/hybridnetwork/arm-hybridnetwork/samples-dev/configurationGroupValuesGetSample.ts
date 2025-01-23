@@ -36,7 +36,7 @@ async function getHybridConfigurationGroup() {
 }
 
 async function main() {
-  getHybridConfigurationGroup();
+  await getHybridConfigurationGroup();
 }
 
 main().catch(console.error);

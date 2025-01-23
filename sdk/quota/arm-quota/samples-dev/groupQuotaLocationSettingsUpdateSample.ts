@@ -56,7 +56,7 @@ async function groupQuotaLocationSettingsPatch() {
 }
 
 async function main() {
-  groupQuotaLocationSettingsPatch();
+  await groupQuotaLocationSettingsPatch();
 }
 
 main().catch(console.error);

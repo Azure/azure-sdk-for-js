@@ -46,7 +46,7 @@ async function cancelsAManagedDatabaseMove() {
 }
 
 async function main() {
-  cancelsAManagedDatabaseMove();
+  await cancelsAManagedDatabaseMove();
 }
 
 main().catch(console.error);

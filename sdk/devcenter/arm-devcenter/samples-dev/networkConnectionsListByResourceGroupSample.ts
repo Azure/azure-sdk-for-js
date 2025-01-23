@@ -35,7 +35,7 @@ async function networkConnectionsListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkConnectionsListByResourceGroup();
+  await networkConnectionsListByResourceGroup();
 }
 
 main().catch(console.error);

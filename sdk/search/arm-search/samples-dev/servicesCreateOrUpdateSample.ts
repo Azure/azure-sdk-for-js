@@ -317,16 +317,16 @@ async function searchCreateOrUpdateWithSemanticSearch() {
 }
 
 async function main() {
-  searchCreateOrUpdateService();
-  searchCreateOrUpdateServiceAuthOptions();
-  searchCreateOrUpdateServiceDisableLocalAuth();
-  searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints();
-  searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs();
-  searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass();
-  searchCreateOrUpdateServiceWithCmkEnforcement();
-  searchCreateOrUpdateServiceWithDataExfiltration();
-  searchCreateOrUpdateServiceWithIdentity();
-  searchCreateOrUpdateWithSemanticSearch();
+  await searchCreateOrUpdateService();
+  await searchCreateOrUpdateServiceAuthOptions();
+  await searchCreateOrUpdateServiceDisableLocalAuth();
+  await searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints();
+  await searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs();
+  await searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass();
+  await searchCreateOrUpdateServiceWithCmkEnforcement();
+  await searchCreateOrUpdateServiceWithDataExfiltration();
+  await searchCreateOrUpdateServiceWithIdentity();
+  await searchCreateOrUpdateWithSemanticSearch();
 }
 
 main().catch(console.error);

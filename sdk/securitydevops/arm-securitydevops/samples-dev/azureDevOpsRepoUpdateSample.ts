@@ -50,7 +50,7 @@ async function azureDevOpsRepoUpdate() {
 }
 
 async function main() {
-  azureDevOpsRepoUpdate();
+  await azureDevOpsRepoUpdate();
 }
 
 main().catch(console.error);

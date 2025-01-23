@@ -44,7 +44,7 @@ async function getAHubDatabaseSchema() {
 }
 
 async function main() {
-  getAHubDatabaseSchema();
+  await getAHubDatabaseSchema();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function configurationsDelete() {
 }
 
 async function main() {
-  configurationsDelete();
+  await configurationsDelete();
 }
 
 main().catch(console.error);

@@ -92,7 +92,7 @@ async function bulkUploadEncryptedSiMSToASimGroup() {
 }
 
 async function main() {
-  bulkUploadEncryptedSiMSToASimGroup();
+  await bulkUploadEncryptedSiMSToASimGroup();
 }
 
 main().catch(console.error);

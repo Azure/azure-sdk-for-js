@@ -34,7 +34,7 @@ async function listNetworkInterfaceEffectiveNetworkSecurityGroups() {
 }
 
 async function main() {
-  listNetworkInterfaceEffectiveNetworkSecurityGroups();
+  await listNetworkInterfaceEffectiveNetworkSecurityGroups();
 }
 
 main().catch(console.error);

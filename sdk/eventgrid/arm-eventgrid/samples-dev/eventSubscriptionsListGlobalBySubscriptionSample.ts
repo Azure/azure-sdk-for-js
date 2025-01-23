@@ -34,7 +34,7 @@ async function eventSubscriptionsListGlobalBySubscription() {
 }
 
 async function main() {
-  eventSubscriptionsListGlobalBySubscription();
+  await eventSubscriptionsListGlobalBySubscription();
 }
 
 main().catch(console.error);

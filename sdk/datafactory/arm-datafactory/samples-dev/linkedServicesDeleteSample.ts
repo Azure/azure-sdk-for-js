@@ -37,7 +37,7 @@ async function linkedServicesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkedServicesDelete();
+  await linkedServicesDelete();
 }
 
 main().catch(console.error);

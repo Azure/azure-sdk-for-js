@@ -39,7 +39,7 @@ async function cloudHsmClusterPrivateEndpointConnectionGetMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterPrivateEndpointConnectionGetMaximumSetGen();
+  await cloudHsmClusterPrivateEndpointConnectionGetMaximumSetGen();
 }
 
 main().catch(console.error);

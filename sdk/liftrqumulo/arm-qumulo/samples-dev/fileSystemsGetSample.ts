@@ -58,8 +58,8 @@ async function fileSystemsGetMinimumSetGen() {
 }
 
 async function main() {
-  fileSystemsGet();
-  fileSystemsGetMinimumSetGen();
+  await fileSystemsGet();
+  await fileSystemsGetMinimumSetGen();
 }
 
 main().catch(console.error);

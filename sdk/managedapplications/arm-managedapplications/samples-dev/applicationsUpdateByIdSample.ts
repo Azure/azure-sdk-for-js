@@ -44,7 +44,7 @@ async function updatesAnExistingManagedApplication() {
 }
 
 async function main() {
-  updatesAnExistingManagedApplication();
+  await updatesAnExistingManagedApplication();
 }
 
 main().catch(console.error);

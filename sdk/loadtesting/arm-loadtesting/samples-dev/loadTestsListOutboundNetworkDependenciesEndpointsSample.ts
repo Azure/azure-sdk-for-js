@@ -40,7 +40,7 @@ async function listOutboundNetworkDependencies() {
 }
 
 async function main() {
-  listOutboundNetworkDependencies();
+  await listOutboundNetworkDependencies();
 }
 
 main().catch(console.error);

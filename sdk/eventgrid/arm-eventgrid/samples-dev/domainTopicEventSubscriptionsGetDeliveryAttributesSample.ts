@@ -42,7 +42,7 @@ async function domainTopicEventSubscriptionsGetDeliveryAttributes() {
 }
 
 async function main() {
-  domainTopicEventSubscriptionsGetDeliveryAttributes();
+  await domainTopicEventSubscriptionsGetDeliveryAttributes();
 }
 
 main().catch(console.error);

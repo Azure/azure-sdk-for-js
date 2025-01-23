@@ -120,8 +120,8 @@ async function dataProductsCreateMaximumSetGenGeneratedByMinimumSetRuleMinimumSe
 }
 
 async function main() {
-  dataProductsCreateMaximumSetGen();
-  dataProductsCreateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsCreateMaximumSetGen();
+  await dataProductsCreateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

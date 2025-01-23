@@ -66,8 +66,8 @@ async function queryAtSubscriptionScopeUsingQueryParameters() {
 }
 
 async function main() {
-  queryAtSubscriptionScope();
-  queryAtSubscriptionScopeUsingQueryParameters();
+  await queryAtSubscriptionScope();
+  await queryAtSubscriptionScopeUsingQueryParameters();
 }
 
 main().catch(console.error);

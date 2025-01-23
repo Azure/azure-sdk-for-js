@@ -21,7 +21,7 @@ async function ispCustomersDeleteGeneratedByMaximumSetRule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ispCustomersDeleteGeneratedByMaximumSetRule();
+  await ispCustomersDeleteGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

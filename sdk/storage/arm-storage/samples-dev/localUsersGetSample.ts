@@ -37,7 +37,7 @@ async function getLocalUser() {
 }
 
 async function main() {
-  getLocalUser();
+  await getLocalUser();
 }
 
 main().catch(console.error);

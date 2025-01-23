@@ -40,7 +40,7 @@ async function listDevOpsAuditSettingsOfAServer() {
 }
 
 async function main() {
-  listDevOpsAuditSettingsOfAServer();
+  await listDevOpsAuditSettingsOfAServer();
 }
 
 main().catch(console.error);

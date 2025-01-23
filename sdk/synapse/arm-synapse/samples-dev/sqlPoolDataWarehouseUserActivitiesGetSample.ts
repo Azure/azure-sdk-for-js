@@ -41,7 +41,7 @@ async function getASqlAnalyticsPoolUserActivity() {
 }
 
 async function main() {
-  getASqlAnalyticsPoolUserActivity();
+  await getASqlAnalyticsPoolUserActivity();
 }
 
 main().catch(console.error);

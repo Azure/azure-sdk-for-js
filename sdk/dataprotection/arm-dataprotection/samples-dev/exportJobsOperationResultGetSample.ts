@@ -37,7 +37,7 @@ async function getExportJobsOperationResult(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getExportJobsOperationResult();
+  await getExportJobsOperationResult();
 }
 
 main().catch(console.error);

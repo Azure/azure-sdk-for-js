@@ -37,7 +37,7 @@ async function integrationRuntimesGetStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesGetStatus();
+  await integrationRuntimesGetStatus();
 }
 
 main().catch(console.error);

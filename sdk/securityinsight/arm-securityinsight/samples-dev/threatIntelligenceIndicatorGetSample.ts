@@ -39,7 +39,7 @@ async function viewAThreatIntelligenceIndicatorByName() {
 }
 
 async function main() {
-  viewAThreatIntelligenceIndicatorByName();
+  await viewAThreatIntelligenceIndicatorByName();
 }
 
 main().catch(console.error);

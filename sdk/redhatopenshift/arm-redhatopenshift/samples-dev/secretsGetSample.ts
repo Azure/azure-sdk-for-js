@@ -38,7 +38,7 @@ async function getsASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceNa
 }
 
 async function main() {
-  getsASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await getsASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

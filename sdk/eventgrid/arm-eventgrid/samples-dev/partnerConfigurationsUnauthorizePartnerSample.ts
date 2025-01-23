@@ -41,7 +41,7 @@ async function partnerConfigurationsUnauthorizePartner() {
 }
 
 async function main() {
-  partnerConfigurationsUnauthorizePartner();
+  await partnerConfigurationsUnauthorizePartner();
 }
 
 main().catch(console.error);

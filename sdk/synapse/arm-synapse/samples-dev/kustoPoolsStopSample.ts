@@ -39,7 +39,7 @@ async function kustoPoolsStop() {
 }
 
 async function main() {
-  kustoPoolsStop();
+  await kustoPoolsStop();
 }
 
 main().catch(console.error);

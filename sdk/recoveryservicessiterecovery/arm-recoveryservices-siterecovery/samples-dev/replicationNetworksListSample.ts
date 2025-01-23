@@ -41,7 +41,7 @@ async function getsTheListOfNetworksViewOnlyApi() {
 }
 
 async function main() {
-  getsTheListOfNetworksViewOnlyApi();
+  await getsTheListOfNetworksViewOnlyApi();
 }
 
 main().catch(console.error);

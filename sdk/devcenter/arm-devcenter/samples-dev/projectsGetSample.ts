@@ -31,7 +31,7 @@ async function projectsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  projectsGet();
+  await projectsGet();
 }
 
 main().catch(console.error);

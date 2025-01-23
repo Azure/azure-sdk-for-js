@@ -37,7 +37,7 @@ async function listVolumesBySubscriptionId() {
 }
 
 async function main() {
-  listVolumesBySubscriptionId();
+  await listVolumesBySubscriptionId();
 }
 
 main().catch(console.error);

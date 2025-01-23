@@ -36,7 +36,7 @@ async function updateSecurityAlertStateOnASubscriptionFromASecurityDataLocation(
 }
 
 async function main() {
-  updateSecurityAlertStateOnASubscriptionFromASecurityDataLocation();
+  await updateSecurityAlertStateOnASubscriptionFromASecurityDataLocation();
 }
 
 main().catch(console.error);

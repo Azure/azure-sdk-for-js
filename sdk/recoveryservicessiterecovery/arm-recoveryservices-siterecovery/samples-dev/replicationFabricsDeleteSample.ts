@@ -40,7 +40,7 @@ async function deletesTheSite() {
 }
 
 async function main() {
-  deletesTheSite();
+  await deletesTheSite();
 }
 
 main().catch(console.error);

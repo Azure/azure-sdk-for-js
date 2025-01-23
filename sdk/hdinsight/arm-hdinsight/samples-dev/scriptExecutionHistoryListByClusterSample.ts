@@ -37,7 +37,7 @@ async function getScriptExecutionHistoryList() {
 }
 
 async function main() {
-  getScriptExecutionHistoryList();
+  await getScriptExecutionHistoryList();
 }
 
 main().catch(console.error);

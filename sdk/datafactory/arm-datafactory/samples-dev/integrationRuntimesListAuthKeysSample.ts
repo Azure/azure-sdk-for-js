@@ -37,7 +37,7 @@ async function integrationRuntimesListAuthKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesListAuthKeys();
+  await integrationRuntimesListAuthKeys();
 }
 
 main().catch(console.error);

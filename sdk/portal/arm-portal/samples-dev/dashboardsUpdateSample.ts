@@ -40,7 +40,7 @@ async function updateADashboard() {
 }
 
 async function main() {
-  updateADashboard();
+  await updateADashboard();
 }
 
 main().catch(console.error);

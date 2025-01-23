@@ -34,7 +34,7 @@ async function getLoadBalancer() {
 }
 
 async function main() {
-  getLoadBalancer();
+  await getLoadBalancer();
 }
 
 main().catch(console.error);

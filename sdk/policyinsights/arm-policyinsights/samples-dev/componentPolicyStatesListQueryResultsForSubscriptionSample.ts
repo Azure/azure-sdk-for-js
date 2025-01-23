@@ -61,8 +61,8 @@ async function queryLatestComponentPolicyStatesAtSubscriptionScope() {
 }
 
 async function main() {
-  queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtSubscriptionScopeFilteredByGivenAssignment();
-  queryLatestComponentPolicyStatesAtSubscriptionScope();
+  await queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtSubscriptionScopeFilteredByGivenAssignment();
+  await queryLatestComponentPolicyStatesAtSubscriptionScope();
 }
 
 main().catch(console.error);

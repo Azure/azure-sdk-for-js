@@ -32,7 +32,7 @@ async function listZonesBySubscription() {
 }
 
 async function main() {
-  listZonesBySubscription();
+  await listZonesBySubscription();
 }
 
 main().catch(console.error);

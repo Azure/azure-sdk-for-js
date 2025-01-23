@@ -45,7 +45,7 @@ async function listManagementLocksAtResourceLevel() {
 }
 
 async function main() {
-  listManagementLocksAtResourceLevel();
+  await listManagementLocksAtResourceLevel();
 }
 
 main().catch(console.error);

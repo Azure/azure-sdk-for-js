@@ -44,7 +44,7 @@ async function getsTheDetailsOfAReplicationProtectedItem() {
 }
 
 async function main() {
-  getsTheDetailsOfAReplicationProtectedItem();
+  await getsTheDetailsOfAReplicationProtectedItem();
 }
 
 main().catch(console.error);

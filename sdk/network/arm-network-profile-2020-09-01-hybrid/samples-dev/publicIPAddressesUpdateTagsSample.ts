@@ -39,7 +39,7 @@ async function updatePublicIPAddressTags() {
 }
 
 async function main() {
-  updatePublicIPAddressTags();
+  await updatePublicIPAddressTags();
 }
 
 main().catch(console.error);

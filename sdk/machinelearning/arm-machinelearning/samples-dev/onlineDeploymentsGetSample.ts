@@ -73,8 +73,8 @@ async function getManagedOnlineDeployment() {
 }
 
 async function main() {
-  getKubernetesOnlineDeployment();
-  getManagedOnlineDeployment();
+  await getKubernetesOnlineDeployment();
+  await getManagedOnlineDeployment();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function troubleshootersRestart() {
 }
 
 async function main() {
-  troubleshootersRestart();
+  await troubleshootersRestart();
 }
 
 main().catch(console.error);

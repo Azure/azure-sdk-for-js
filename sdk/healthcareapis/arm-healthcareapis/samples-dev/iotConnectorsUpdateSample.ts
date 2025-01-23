@@ -50,7 +50,7 @@ async function patchAnIoTConnector() {
 }
 
 async function main() {
-  patchAnIoTConnector();
+  await patchAnIoTConnector();
 }
 
 main().catch(console.error);

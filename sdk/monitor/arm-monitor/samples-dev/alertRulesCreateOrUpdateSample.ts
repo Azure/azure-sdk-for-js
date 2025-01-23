@@ -61,7 +61,7 @@ async function createOrUpdateAnAlertRule() {
 }
 
 async function main() {
-  createOrUpdateAnAlertRule();
+  await createOrUpdateAnAlertRule();
 }
 
 main().catch(console.error);

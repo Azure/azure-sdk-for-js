@@ -72,9 +72,9 @@ async function profileGetWithTrafficViewEnabled() {
 }
 
 async function main() {
-  profileGetWithEndpoints();
-  profileGetWithTrafficViewDisabled();
-  profileGetWithTrafficViewEnabled();
+  await profileGetWithEndpoints();
+  await profileGetWithTrafficViewDisabled();
+  await profileGetWithTrafficViewEnabled();
 }
 
 main().catch(console.error);

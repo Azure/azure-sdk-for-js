@@ -52,7 +52,7 @@ async function executeTestFailoverCleanup() {
 }
 
 async function main() {
-  executeTestFailoverCleanup();
+  await executeTestFailoverCleanup();
 }
 
 main().catch(console.error);

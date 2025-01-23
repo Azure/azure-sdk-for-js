@@ -39,7 +39,7 @@ async function integrationRuntimeNodesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  integrationRuntimeNodesGet();
+  await integrationRuntimeNodesGet();
 }
 
 main().catch(console.error);

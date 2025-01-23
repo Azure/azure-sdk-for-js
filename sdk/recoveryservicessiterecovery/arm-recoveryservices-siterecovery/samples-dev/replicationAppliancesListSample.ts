@@ -41,7 +41,7 @@ async function getsTheListOfAppliances() {
 }
 
 async function main() {
-  getsTheListOfAppliances();
+  await getsTheListOfAppliances();
 }
 
 main().catch(console.error);

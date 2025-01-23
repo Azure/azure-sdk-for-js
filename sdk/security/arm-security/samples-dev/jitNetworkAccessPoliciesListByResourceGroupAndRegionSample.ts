@@ -39,7 +39,7 @@ async function getJitNetworkAccessPoliciesOnAResourceGroupFromASecurityDataLocat
 }
 
 async function main() {
-  getJitNetworkAccessPoliciesOnAResourceGroupFromASecurityDataLocation();
+  await getJitNetworkAccessPoliciesOnAResourceGroupFromASecurityDataLocation();
 }
 
 main().catch(console.error);

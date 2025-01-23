@@ -47,7 +47,7 @@ async function createResourceGuardProxy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createResourceGuardProxy();
+  await createResourceGuardProxy();
 }
 
 main().catch(console.error);

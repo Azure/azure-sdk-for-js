@@ -37,7 +37,7 @@ async function deleteAFluidRelayContainer() {
 }
 
 async function main() {
-  deleteAFluidRelayContainer();
+  await deleteAFluidRelayContainer();
 }
 
 main().catch(console.error);

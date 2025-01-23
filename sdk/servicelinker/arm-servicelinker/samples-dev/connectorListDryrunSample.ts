@@ -39,7 +39,7 @@ async function connectorDryrunList() {
 }
 
 async function main() {
-  connectorDryrunList();
+  await connectorDryrunList();
 }
 
 main().catch(console.error);

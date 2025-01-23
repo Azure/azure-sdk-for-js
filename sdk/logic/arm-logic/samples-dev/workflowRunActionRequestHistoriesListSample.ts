@@ -44,7 +44,7 @@ async function listARequestHistory() {
 }
 
 async function main() {
-  listARequestHistory();
+  await listARequestHistory();
 }
 
 main().catch(console.error);

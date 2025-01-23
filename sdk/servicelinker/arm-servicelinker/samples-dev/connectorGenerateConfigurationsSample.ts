@@ -47,7 +47,7 @@ async function generateConfiguration() {
 }
 
 async function main() {
-  generateConfiguration();
+  await generateConfiguration();
 }
 
 main().catch(console.error);

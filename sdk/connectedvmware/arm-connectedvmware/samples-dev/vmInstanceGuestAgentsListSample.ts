@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,14 +22,14 @@ async function guestAgentListByVM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential);
   const resArray = new Array();
-  for await (let item of client.vMInstanceGuestAgents.list(resourceUri)) {
+  for await (const item of client.vMInstanceGuestAgents.list(resourceUri)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  guestAgentListByVM();
+  await guestAgentListByVM();
 }
 
 main().catch(console.error);

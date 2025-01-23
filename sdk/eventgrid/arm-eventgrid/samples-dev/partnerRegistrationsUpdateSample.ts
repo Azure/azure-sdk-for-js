@@ -43,7 +43,7 @@ async function partnerRegistrationsUpdate() {
 }
 
 async function main() {
-  partnerRegistrationsUpdate();
+  await partnerRegistrationsUpdate();
 }
 
 main().catch(console.error);

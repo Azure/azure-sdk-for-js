@@ -71,8 +71,8 @@ async function deployClusterSkippingValidation() {
 }
 
 async function main() {
-  deployCluster();
-  deployClusterSkippingValidation();
+  await deployCluster();
+  await deployClusterSkippingValidation();
 }
 
 main().catch(console.error);

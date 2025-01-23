@@ -40,7 +40,7 @@ async function listSiMSInASimGroup() {
 }
 
 async function main() {
-  listSiMSInASimGroup();
+  await listSiMSInASimGroup();
 }
 
 main().catch(console.error);

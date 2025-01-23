@@ -42,7 +42,7 @@ async function createOrUpdateManagementGroupNetworkManagerConnection() {
 }
 
 async function main() {
-  createOrUpdateManagementGroupNetworkManagerConnection();
+  await createOrUpdateManagementGroupNetworkManagerConnection();
 }
 
 main().catch(console.error);

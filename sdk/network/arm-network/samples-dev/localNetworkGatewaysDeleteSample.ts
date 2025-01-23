@@ -34,7 +34,7 @@ async function deleteLocalNetworkGateway() {
 }
 
 async function main() {
-  deleteLocalNetworkGateway();
+  await deleteLocalNetworkGateway();
 }
 
 main().catch(console.error);

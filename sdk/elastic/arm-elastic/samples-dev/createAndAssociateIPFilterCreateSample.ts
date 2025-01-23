@@ -43,7 +43,7 @@ async function createAndAssociateIPFilterCreate() {
 }
 
 async function main() {
-  createAndAssociateIPFilterCreate();
+  await createAndAssociateIPFilterCreate();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listTrunkedNetworksForResourceGroup() {
 }
 
 async function main() {
-  listTrunkedNetworksForResourceGroup();
+  await listTrunkedNetworksForResourceGroup();
 }
 
 main().catch(console.error);

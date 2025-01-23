@@ -32,7 +32,7 @@ async function listsAllApplicationGatewaysInASubscription() {
 }
 
 async function main() {
-  listsAllApplicationGatewaysInASubscription();
+  await listsAllApplicationGatewaysInASubscription();
 }
 
 main().catch(console.error);

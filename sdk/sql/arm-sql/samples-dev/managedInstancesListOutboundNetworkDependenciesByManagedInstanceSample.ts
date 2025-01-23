@@ -40,7 +40,7 @@ async function getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedI
 }
 
 async function main() {
-  getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedInstance();
+  await getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedInstance();
 }
 
 main().catch(console.error);

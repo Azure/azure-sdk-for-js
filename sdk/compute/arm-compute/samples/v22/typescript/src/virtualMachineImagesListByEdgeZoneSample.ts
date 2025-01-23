@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified edge zone
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of all virtual machine image versions for the specified edge zone
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
+async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] ||
     "5ece5940-d962-4dad-a98f-ca9ac0f021a5";
@@ -41,7 +39,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
  * @summary Gets a list of all virtual machine image versions for the specified edge zone
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
+async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] ||
     "5ece5940-d962-4dad-a98f-ca9ac0f021a5";
@@ -56,7 +54,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen();
   virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen();
 }

@@ -52,7 +52,7 @@ async function listWorkspaceBatchDeployment() {
 }
 
 async function main() {
-  listWorkspaceBatchDeployment();
+  await listWorkspaceBatchDeployment();
 }
 
 main().catch(console.error);

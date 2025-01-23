@@ -39,7 +39,7 @@ async function getARunForAWorkflow() {
 }
 
 async function main() {
-  getARunForAWorkflow();
+  await getARunForAWorkflow();
 }
 
 main().catch(console.error);

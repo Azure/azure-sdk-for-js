@@ -47,7 +47,7 @@ async function checkFilePathAvailability() {
 }
 
 async function main() {
-  checkFilePathAvailability();
+  await checkFilePathAvailability();
 }
 
 main().catch(console.error);

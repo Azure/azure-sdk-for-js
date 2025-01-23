@@ -40,7 +40,7 @@ async function removesTheApplianceInfrastructureUnderTheFabric() {
 }
 
 async function main() {
-  removesTheApplianceInfrastructureUnderTheFabric();
+  await removesTheApplianceInfrastructureUnderTheFabric();
 }
 
 main().catch(console.error);

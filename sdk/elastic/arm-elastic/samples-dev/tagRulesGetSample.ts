@@ -39,7 +39,7 @@ async function tagRulesGet() {
 }
 
 async function main() {
-  tagRulesGet();
+  await tagRulesGet();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function getFeature() {
 }
 
 async function main() {
-  getFeature();
+  await getFeature();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function getDatastoreSecrets() {
 }
 
 async function main() {
-  getDatastoreSecrets();
+  await getDatastoreSecrets();
 }
 
 main().catch(console.error);

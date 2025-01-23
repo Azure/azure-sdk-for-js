@@ -44,7 +44,7 @@ async function deleteWorkspaceFeaturestoreEntityVersion() {
 }
 
 async function main() {
-  deleteWorkspaceFeaturestoreEntityVersion();
+  await deleteWorkspaceFeaturestoreEntityVersion();
 }
 
 main().catch(console.error);

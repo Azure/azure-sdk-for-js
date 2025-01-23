@@ -37,7 +37,7 @@ async function listRgDedicatedCloudServices() {
 }
 
 async function main() {
-  listRgDedicatedCloudServices();
+  await listRgDedicatedCloudServices();
 }
 
 main().catch(console.error);

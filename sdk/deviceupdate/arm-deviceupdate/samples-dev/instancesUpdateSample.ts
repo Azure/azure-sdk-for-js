@@ -39,7 +39,7 @@ async function updatesInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updatesInstance();
+  await updatesInstance();
 }
 
 main().catch(console.error);

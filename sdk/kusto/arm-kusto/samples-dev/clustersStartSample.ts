@@ -37,7 +37,7 @@ async function kustoClustersStart() {
 }
 
 async function main() {
-  kustoClustersStart();
+  await kustoClustersStart();
 }
 
 main().catch(console.error);

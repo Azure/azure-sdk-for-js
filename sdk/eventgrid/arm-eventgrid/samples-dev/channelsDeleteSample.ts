@@ -39,7 +39,7 @@ async function channelsDelete() {
 }
 
 async function main() {
-  channelsDelete();
+  await channelsDelete();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function signalRPrivateEndpointConnectionsGet() {
 }
 
 async function main() {
-  signalRPrivateEndpointConnectionsGet();
+  await signalRPrivateEndpointConnectionsGet();
 }
 
 main().catch(console.error);

@@ -59,8 +59,8 @@ async function organizationsDeleteMin() {
 }
 
 async function main() {
-  organizationsDelete();
-  organizationsDeleteMin();
+  await organizationsDelete();
+  await organizationsDeleteMin();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
 }
 
 async function main() {
-  listVirtualMachineScaleSetNetworkInterfaceIPConfigurations();
+  await listVirtualMachineScaleSetNetworkInterfaceIPConfigurations();
 }
 
 main().catch(console.error);

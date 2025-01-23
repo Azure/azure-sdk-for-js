@@ -64,8 +64,8 @@ async function projectCatalogNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devcenterCatalogNameAvailability();
-  projectCatalogNameAvailability();
+  await devcenterCatalogNameAvailability();
+  await projectCatalogNameAvailability();
 }
 
 main().catch(console.error);

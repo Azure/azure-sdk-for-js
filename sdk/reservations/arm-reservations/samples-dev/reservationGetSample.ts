@@ -39,7 +39,7 @@ async function getReservation() {
 }
 
 async function main() {
-  getReservation();
+  await getReservation();
 }
 
 main().catch(console.error);

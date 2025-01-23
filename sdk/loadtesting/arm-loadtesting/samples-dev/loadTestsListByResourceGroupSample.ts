@@ -38,7 +38,7 @@ async function loadTestsListByResourceGroup() {
 }
 
 async function main() {
-  loadTestsListByResourceGroup();
+  await loadTestsListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -63,7 +63,7 @@ async function createsOrUpdatesABookmark() {
 }
 
 async function main() {
-  createsOrUpdatesABookmark();
+  await createsOrUpdatesABookmark();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function prepareNetworkPolicies() {
 }
 
 async function main() {
-  prepareNetworkPolicies();
+  await prepareNetworkPolicies();
 }
 
 main().catch(console.error);

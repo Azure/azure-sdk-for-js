@@ -59,7 +59,7 @@ async function testMigrateItem() {
 }
 
 async function main() {
-  testMigrateItem();
+  await testMigrateItem();
 }
 
 main().catch(console.error);

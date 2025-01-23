@@ -38,7 +38,7 @@ async function integrationRuntimesOutboundNetworkDependenciesEndpoints(): Promis
 }
 
 async function main(): Promise<void> {
-  integrationRuntimesOutboundNetworkDependenciesEndpoints();
+  await integrationRuntimesOutboundNetworkDependenciesEndpoints();
 }
 
 main().catch(console.error);
