@@ -20,13 +20,15 @@ export default defineConfig({
     browser: {
       enabled: true,
       headless: true,
-      name: "chromium",
+      instances: [
+        {
+          browser: "chromium"
+          launch: {
+            args: ["--disable-web-security"]
+          },
+        },
+      ],
       provider: "playwright",
-      providerOptions: {
-        launch: {
-          args: ["--disable-web-security"]
-        }
-      }
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],
