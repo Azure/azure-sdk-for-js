@@ -50,10 +50,10 @@ export async function main(): Promise<void> {
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
 
   await poller.onProgress(() => {
-        console.log(
-          `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
-        );
-      });
+    console.log(
+      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
+    );
+  });
 
   console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
 

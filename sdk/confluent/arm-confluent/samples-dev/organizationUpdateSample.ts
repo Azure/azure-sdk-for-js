@@ -8,11 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   OrganizationResourceUpdate,
   OrganizationUpdateOptionalParams,
-  ConfluentManagementClient,
 } from "@azure/arm-confluent";
+import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -24,10 +24,8 @@ import "dotenv/config";
  */
 async function confluentUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const body: OrganizationResourceUpdate = {
     tags: { client: "dev-client", env: "dev" },
@@ -35,11 +33,7 @@ async function confluentUpdate(): Promise<void> {
   const options: OrganizationUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.organization.update(
-    resourceGroupName,
-    organizationName,
-    options,
-  );
+  const result = await client.organization.update(resourceGroupName, organizationName, options);
   console.log(result);
 }
 

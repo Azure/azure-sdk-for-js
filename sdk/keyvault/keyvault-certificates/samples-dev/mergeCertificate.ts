@@ -55,8 +55,8 @@ ${base64Csr}
   // For more information on how to set up a local certificate authority
   // go to: https://gist.github.com/Soarez/9688998
   await childProcess.execSync(
-        "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
-      );
+    "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
+  );
   const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 
   // Once we have the response in base64 format, we send it to mergeCertificate
