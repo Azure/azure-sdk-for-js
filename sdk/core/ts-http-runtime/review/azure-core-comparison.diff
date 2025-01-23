@@ -1338,18 +1338,22 @@ index 1ac007a..66abe50 100644
    HttpClient,
    HttpHeaders,
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 8d1648d..5f67f7d 100644
+index 6783f9e..5f67f7d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
-@@ -4,6 +4,7 @@
+@@ -2,21 +2,18 @@
+ // Licensed under the MIT License.
+ 
  import type {
+-  Agent,
    FormDataMap,
    HttpHeaders,
 +  HttpMethods,
    MultipartRequestBody,
    PipelineRequest,
    ProxySettings,
-@@ -11,10 +12,8 @@ import type {
+   RequestBodyType,
+-  TlsSettings,
    TransferProgressEvent,
  } from "./interfaces.js";
  import { createHttpHeaders } from "./httpHeaders.js";
@@ -1362,7 +1366,32 @@ index 8d1648d..5f67f7d 100644
  
  /**
   * Settings to initialize a request.
-@@ -100,11 +99,6 @@ export interface PipelineRequestOptions {
+@@ -76,14 +73,6 @@ export interface PipelineRequestOptions {
+    */
+   streamResponseStatusCodes?: Set<number>;
+ 
+-  /**
+-   * NODEJS ONLY
+-   *
+-   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+-   * Does nothing when running in the browser.
+-   */
+-  agent?: Agent;
+-
+   /**
+    * BROWSER ONLY
+    *
+@@ -95,9 +84,6 @@ export interface PipelineRequestOptions {
+    */
+   enableBrowserStreams?: boolean;
+ 
+-  /** Settings for configuring TLS authentication */
+-  tlsSettings?: TlsSettings;
+-
+   /**
+    * Proxy configuration.
+    */
+@@ -113,11 +99,6 @@ export interface PipelineRequestOptions {
     */
    abortSignal?: AbortSignalLike;
  
@@ -1374,7 +1403,12 @@ index 8d1648d..5f67f7d 100644
    /**
     * Callback which fires upon upload progress.
     */
-@@ -133,7 +127,6 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -141,16 +122,14 @@ class PipelineRequestImpl implements PipelineRequest {
+   public formData?: FormDataMap;
+   public streamResponseStatusCodes?: Set<number>;
+   public enableBrowserStreams: boolean;
++
+   public proxySettings?: ProxySettings;
    public disableKeepAlive: boolean;
    public abortSignal?: AbortSignalLike;
    public requestId: string;
@@ -1382,7 +1416,12 @@ index 8d1648d..5f67f7d 100644
    public allowInsecureConnection?: boolean;
    public onUploadProgress?: (progress: TransferProgressEvent) => void;
    public onDownloadProgress?: (progress: TransferProgressEvent) => void;
-@@ -151,7 +144,6 @@ class PipelineRequestImpl implements PipelineRequest {
+-  public agent?: Agent;
+-  public tlsSettings?: TlsSettings;
+ 
+   constructor(options: PipelineRequestOptions) {
+     this.url = options.url;
+@@ -165,14 +144,11 @@ class PipelineRequestImpl implements PipelineRequest {
      this.streamResponseStatusCodes = options.streamResponseStatusCodes;
      this.withCredentials = options.withCredentials ?? false;
      this.abortSignal = options.abortSignal;
@@ -1390,6 +1429,13 @@ index 8d1648d..5f67f7d 100644
      this.onUploadProgress = options.onUploadProgress;
      this.onDownloadProgress = options.onDownloadProgress;
      this.requestId = options.requestId || randomUUID();
+     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
+     this.enableBrowserStreams = options.enableBrowserStreams ?? false;
+-    this.agent = options.agent;
+-    this.tlsSettings = options.tlsSettings;
+   }
+ }
+ 
 diff --git a/src/policies/auxiliaryAuthenticationHeaderPolicy.ts b/src/policies/auxiliaryAuthenticationHeaderPolicy.ts
 deleted file mode 100644
 index 55110a0..0000000
