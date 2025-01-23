@@ -26,7 +26,7 @@ async function getOperationsList() {
 }
 
 async function main() {
-  await getOperationsList();
+  getOperationsList();
 }
 
 main().catch(console.error);

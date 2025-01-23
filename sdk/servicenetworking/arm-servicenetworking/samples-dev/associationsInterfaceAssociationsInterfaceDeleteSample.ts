@@ -25,7 +25,7 @@ async function deleteAssociation() {
 }
 
 async function main() {
-  await deleteAssociation();
+  deleteAssociation();
 }
 
 main().catch(console.error);

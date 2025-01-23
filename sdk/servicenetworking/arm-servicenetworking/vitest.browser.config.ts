@@ -25,9 +25,9 @@ export default defineConfig({
       toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["test/**/*.spec.ts"],
+    include: ["dist-test/browser/**/*.spec.js"],
     coverage: {
-      include: ["test/**/*.spec.ts"],
+      include: ["dist-test/browser/**/*.spec.js"],
       provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage-browser",

@@ -28,7 +28,7 @@ async function putFrontend() {
 }
 
 async function main() {
-  await putFrontend();
+  putFrontend();
 }
 
 main().catch(console.error);

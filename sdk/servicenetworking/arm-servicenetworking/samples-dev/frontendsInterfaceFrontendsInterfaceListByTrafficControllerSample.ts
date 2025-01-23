@@ -29,7 +29,7 @@ async function getFrontends() {
 }
 
 async function main() {
-  await getFrontends();
+  getFrontends();
 }
 
 main().catch(console.error);

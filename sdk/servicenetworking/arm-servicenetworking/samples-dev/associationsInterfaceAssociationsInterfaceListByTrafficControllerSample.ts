@@ -29,7 +29,7 @@ async function getAssociations() {
 }
 
 async function main() {
-  await getAssociations();
+  getAssociations();
 }
 
 main().catch(console.error);

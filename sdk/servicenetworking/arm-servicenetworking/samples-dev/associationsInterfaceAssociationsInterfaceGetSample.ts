@@ -26,7 +26,7 @@ async function getAssociation() {
 }
 
 async function main() {
-  await getAssociation();
+  getAssociation();
 }
 
 main().catch(console.error);

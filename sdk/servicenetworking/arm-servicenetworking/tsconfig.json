@@ -1,24 +1,18 @@
 {
+  "extends": "../../../tsconfig",
   "compilerOptions": {
-    "target": "ES2017",
     "module": "NodeNext",
-    "lib": [],
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": true,
-    "sourceMap": true,
-    "importHelpers": true,
-    "strict": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
     "moduleResolution": "NodeNext",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "rootDir": ".",
+    "skipLibCheck": true,
     "paths": { "@azure/arm-servicenetworking": ["./src/index"] }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "test/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }

@@ -25,7 +25,7 @@ async function deleteFrontend() {
 }
 
 async function main() {
-  await deleteFrontend();
+  deleteFrontend();
 }
 
 main().catch(console.error);

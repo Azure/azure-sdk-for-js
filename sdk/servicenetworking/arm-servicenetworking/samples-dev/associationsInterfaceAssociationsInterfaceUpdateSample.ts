@@ -35,7 +35,7 @@ async function updateAssociation() {
 }
 
 async function main() {
-  await updateAssociation();
+  updateAssociation();
 }
 
 main().catch(console.error);

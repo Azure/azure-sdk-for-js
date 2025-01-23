@@ -25,7 +25,7 @@ async function deleteSecurityPolicy() {
 }
 
 async function main() {
-  await deleteSecurityPolicy();
+  deleteSecurityPolicy();
 }
 
 main().catch(console.error);

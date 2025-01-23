@@ -27,7 +27,7 @@ async function patchTrafficController() {
 }
 
 async function main() {
-  await patchTrafficController();
+  patchTrafficController();
 }
 
 main().catch(console.error);

@@ -26,7 +26,7 @@ async function getFrontend() {
 }
 
 async function main() {
-  await getFrontend();
+  getFrontend();
 }
 
 main().catch(console.error);

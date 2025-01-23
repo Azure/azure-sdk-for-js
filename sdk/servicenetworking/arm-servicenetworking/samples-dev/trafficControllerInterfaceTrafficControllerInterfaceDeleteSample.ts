@@ -24,7 +24,7 @@ async function deleteTrafficController() {
 }
 
 async function main() {
-  await deleteTrafficController();
+  deleteTrafficController();
 }
 
 main().catch(console.error);

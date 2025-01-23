@@ -36,7 +36,7 @@ async function putAssociation() {
 }
 
 async function main() {
-  await putAssociation();
+  putAssociation();
 }
 
 main().catch(console.error);

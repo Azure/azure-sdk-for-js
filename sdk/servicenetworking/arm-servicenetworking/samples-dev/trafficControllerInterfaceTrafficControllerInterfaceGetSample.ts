@@ -26,7 +26,7 @@ async function getTrafficController() {
 }
 
 async function main() {
-  await getTrafficController();
+  getTrafficController();
 }
 
 main().catch(console.error);
