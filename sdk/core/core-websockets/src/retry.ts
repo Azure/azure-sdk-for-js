@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { delay } from "@azure/core-util";
+import { calculateRetryDelay, delay } from "@azure/core-util";
 import { logger } from "./logger.js";
 import { createError } from "./utils.js";
 
@@ -62,16 +62,9 @@ function calculateDelay(
   maxRetryDelayInMs: number,
   mode: RetryMode,
 ): number {
-  if (mode === "Exponential") {
-    const boundedRandDelta =
-      retryDelayInMs * 0.8 +
-      Math.floor(Math.random() * (retryDelayInMs * 1.2 - retryDelayInMs * 0.8));
-
-    const incrementDelta = boundedRandDelta * (Math.pow(2, attemptCount) - 1);
-    return Math.min(incrementDelta, maxRetryDelayInMs);
-  }
-
-  return retryDelayInMs;
+  return mode === "Fixed"
+    ? retryDelayInMs
+    : calculateRetryDelay(attemptCount, { retryDelayInMs, maxRetryDelayInMs }).retryAfterInMs;
 }
 
 /**

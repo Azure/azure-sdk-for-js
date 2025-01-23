@@ -27,25 +27,25 @@ function createClient(url: string, opts?: ReliableConnectionOptions) {
     isOpen: async () => {
       return ws?.readyState === WebSocket.OPEN;
     },
-    onclose(fn) {
+    onClose(fn) {
       if (!ws) {
         return;
       }
       ws.onclose = ({ code, reason }) => fn({ code: `${code}`, reason });
     },
-    onerror(fn) {
+    onError(fn) {
       if (!ws) {
         return;
       }
       ws.onerror = (event) => fn(event.error);
     },
-    onmessage(fn) {
+    onMessage(fn) {
       if (!ws) {
         return;
       }
       ws.onmessage = (event) => fn(event.data);
     },
-    onopen(fn) {
+    onOpen(fn) {
       if (!ws) {
         return;
       }
@@ -61,7 +61,7 @@ function createClient(url: string, opts?: ReliableConnectionOptions) {
 async function main(): Promise<void> {
   const client = createClient("wss://echo.websocket.org", { retryOptions: { timeoutInMs: 2000 } });
   await client.open();
-  client.onmessage((data) => {
+  client.onMessage((data) => {
     console.log("received:", data);
   });
   await client.send("Hello, World!");

@@ -109,19 +109,19 @@ export interface ConnectionManager<SendDataT, ReceiveDataT> {
   /**
    * Sets the callback function to be called when a message is received.
    */
-  onmessage: (fn: (data: ReceiveDataT) => void) => void;
+  onMessage: (fn: (data: ReceiveDataT) => void) => void;
   /**
    * Sets the callback function to be called when the connection is opened.
    */
-  onopen: (fn: () => void) => void;
+  onOpen: (fn: () => void) => void;
   /**
    * Sets the callback function to be called when the connection is closed.
    */
-  onclose: (fn: (info: CloseInfo) => void) => void;
+  onClose: (fn: (info: CloseInfo) => void) => void;
   /**
    * Sets the callback function to be called when an error is received.
    */
-  onerror: (fn: (error: unknown) => void) => void;
+  onError: (fn: (error: unknown) => void) => void;
 }
 
 /**
@@ -156,19 +156,19 @@ export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
   /**
    * Sets the callback function to be called when a message is received.
    */
-  onmessage: (fn: (data: ReceiveDataT) => void) => void;
+  onMessage: (fn: (data: ReceiveDataT) => void) => void;
   /**
    * Sets the callback function to be called when the connection is opened.
    */
-  onopen: (fn: () => void) => void;
+  onOpen: (fn: () => void) => void;
   /**
    * Sets the callback function to be called when the connection is closed.
    */
-  onclose: (fn: (info: CloseInfo) => void) => void;
+  onClose: (fn: (info: CloseInfo) => void) => void;
   /**
    * Sets the callback function to be called when an error is received.
    */
-  onerror: (fn: (error: unknown) => void) => void;
+  onError: (fn: (error: unknown) => void) => void;
 }
 
 /**
@@ -220,9 +220,9 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
       canReconnect = true;
       return res;
     }
-    let openAbortSignal: AbortSignal | undefined = undefined;
-    let openOrClosePromiseResolve: (() => void) | undefined = undefined;
-    let openOrClosePromiseReject: ((reason?: any) => void) | undefined = undefined;
+    let openAbortSignal: AbortSignal | undefined;
+    let openOrClosePromiseResolve: (() => void) | undefined;
+    let openOrClosePromiseReject: ((reason?: any) => void) | undefined;
     function clearResolvers(): void {
       openOrClosePromiseResolve = undefined;
       openOrClosePromiseReject = undefined;
@@ -265,10 +265,11 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           logger.verbose(`[${connectionId}] Opening connection`);
           client.open({ ...openOpts, ...opOptions });
           /** installs dummy handlers to activate the logic in the wrappers */
-          reliableConnectionClient.onopen(() => {});
-          reliableConnectionClient.onclose(() => {});
-          reliableConnectionClient.onerror(() => {});
-          reliableConnectionClient.onmessage(() => {});
+          const emptyHandler = () => {};
+          reliableConnectionClient.onOpen(emptyHandler);
+          reliableConnectionClient.onClose(emptyHandler);
+          reliableConnectionClient.onError(emptyHandler);
+          reliableConnectionClient.onMessage(emptyHandler);
           reliableConnectionClient.status = "connecting";
           logger.verbose(`[${connectionId}] Connecting...`);
           await createAbortablePromise<void>((resolve, reject) => {
@@ -277,7 +278,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           }, opOptions);
         }
         try {
-          await retry(retryableConnecting, `open connection [${connectionId}]`, retryOptions, {
+          await retry(retryableConnecting, `open connection (${connectionId})`, retryOptions, {
             isRetryable: isOpenRetryable,
             abortSignal,
           });
@@ -327,7 +328,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           }, opOptions);
         }
         try {
-          await retry(retryableDisconnecting, `close connection [${connectionId}]`, retryOptions, {
+          await retry(retryableDisconnecting, `close connection (${connectionId})`, retryOptions, {
             isRetryable,
             abortSignal,
           });
@@ -352,12 +353,12 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           await client.send(data, { ...sendOpts, ...opOptions });
           logger.info(`[${connectionId}] Data has been sent`);
         }
-        await retry(retryableSend, `send data on connection [${connectionId}]`, retryOptions, {
+        await retry(retryableSend, `send data on connection (${connectionId})`, retryOptions, {
           isRetryable,
           abortSignal,
         });
       },
-      onopen: (fn: () => void) => {
+      onOpen: (fn: () => void) => {
         function wrapper(): void {
           switch (reliableConnectionClient.status) {
             case "connecting": {
@@ -377,9 +378,9 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           }
           fn();
         }
-        client.onopen(wrapper);
+        client.onOpen(wrapper);
       },
-      onclose: (fn: (info: CloseInfo) => void) => {
+      onClose: (fn: (info: CloseInfo) => void) => {
         function wrapper(info: CloseInfo): void {
           const { code, reason } = info;
           const errMsg = `Disconnected${reason ? `: ${reason} with code: ${code}` : ""}`;
@@ -412,22 +413,22 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           }
           fn(info);
         }
-        client.onclose(wrapper);
+        client.onClose(wrapper);
       },
-      onerror: (fn: (error: unknown) => void) => {
+      onError: (fn: (error: unknown) => void) => {
         function wrapper(error: unknown): void {
           logger.error(`[${connectionId}] Error received:`, error);
           rejectAndReset(error);
           fn(error);
         }
-        client.onerror(wrapper);
+        client.onError(wrapper);
       },
-      onmessage: (fn: (data: ReceiveDataT) => void) => {
+      onMessage: (fn: (data: ReceiveDataT) => void) => {
         function wrapper(data: ReceiveDataT): void {
           logger.info(`[${connectionId}] Message received`);
           fn(data);
         }
-        client.onmessage(wrapper);
+        client.onMessage(wrapper);
       },
     };
     return reliableConnectionClient;

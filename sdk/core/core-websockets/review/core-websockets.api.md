@@ -36,10 +36,10 @@ export interface ConnectionManager<SendDataT, ReceiveDataT> {
     canReconnect(info: CloseInfo): boolean;
     close(opts?: CloseOptions): void;
     isOpen(opts?: IsOpenOptions): Promise<boolean>;
-    onclose: (fn: (info: CloseInfo) => void) => void;
-    onerror: (fn: (error: unknown) => void) => void;
-    onmessage: (fn: (data: ReceiveDataT) => void) => void;
-    onopen: (fn: () => void) => void;
+    onClose: (fn: (info: CloseInfo) => void) => void;
+    onError: (fn: (error: unknown) => void) => void;
+    onMessage: (fn: (data: ReceiveDataT) => void) => void;
+    onOpen: (fn: () => void) => void;
     open(opts?: OpenOptions): void;
     send(data: SendDataT, opts?: SendOptions): Promise<void>;
 }
@@ -67,10 +67,10 @@ export interface OpenOptions {
 export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
     close(opts?: CloseOptions): Promise<void>;
     isOpen(opts?: IsOpenOptions): Promise<boolean>;
-    onclose: (fn: (info: CloseInfo) => void) => void;
-    onerror: (fn: (error: unknown) => void) => void;
-    onmessage: (fn: (data: ReceiveDataT) => void) => void;
-    onopen: (fn: () => void) => void;
+    onClose: (fn: (info: CloseInfo) => void) => void;
+    onError: (fn: (error: unknown) => void) => void;
+    onMessage: (fn: (data: ReceiveDataT) => void) => void;
+    onOpen: (fn: () => void) => void;
     open(opts?: OpenOptions): Promise<void>;
     send(data: SendDataT, opts?: SendOptions): Promise<void>;
     readonly status: Status;
