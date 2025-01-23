@@ -231,12 +231,12 @@ async function createANewSingleNodeCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createANewClusterAsAPointInTimeRestore();
-  createANewClusterAsAReadReplica();
-  createANewMultiNodeCluster();
-  createANewSingleNodeBurstable1VCoreCluster();
-  createANewSingleNodeBurstable2VCoresCluster();
-  createANewSingleNodeCluster();
+  await createANewClusterAsAPointInTimeRestore();
+  await createANewClusterAsAReadReplica();
+  await createANewMultiNodeCluster();
+  await createANewSingleNodeBurstable1VCoreCluster();
+  await createANewSingleNodeBurstable2VCoresCluster();
+  await createANewSingleNodeCluster();
 }
 
 main().catch(console.error);

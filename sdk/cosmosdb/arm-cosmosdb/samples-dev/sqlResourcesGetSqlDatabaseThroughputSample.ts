@@ -34,7 +34,7 @@ async function cosmosDbSqlDatabaseThroughputGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseThroughputGet();
+  await cosmosDbSqlDatabaseThroughputGet();
 }
 
 main().catch(console.error);

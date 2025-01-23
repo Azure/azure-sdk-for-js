@@ -25,7 +25,7 @@ async function updateSchemaRegistry() {
 }
 
 async function main() {
-  updateSchemaRegistry();
+  await updateSchemaRegistry();
 }
 
 main().catch(console.error);

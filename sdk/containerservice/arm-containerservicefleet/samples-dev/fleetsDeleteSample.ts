@@ -34,7 +34,7 @@ async function deletesAFleetResourceAsynchronouslyWithALongRunningOperation(): P
 }
 
 async function main(): Promise<void> {
-  deletesAFleetResourceAsynchronouslyWithALongRunningOperation();
+  await deletesAFleetResourceAsynchronouslyWithALongRunningOperation();
 }
 
 main().catch(console.error);

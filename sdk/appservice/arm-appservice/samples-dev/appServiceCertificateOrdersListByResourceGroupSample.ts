@@ -36,7 +36,7 @@ async function listAppServiceCertificateOrdersByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppServiceCertificateOrdersByResourceGroup();
+  await listAppServiceCertificateOrdersByResourceGroup();
 }
 
 main().catch(console.error);

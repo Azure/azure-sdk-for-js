@@ -36,7 +36,7 @@ async function apiManagementGatewayListKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGatewayListKeys();
+  await apiManagementGatewayListKeys();
 }
 
 main().catch(console.error);

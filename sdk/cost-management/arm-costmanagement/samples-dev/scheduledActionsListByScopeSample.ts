@@ -53,8 +53,8 @@ async function scheduledActionsListByScopeFilterByViewId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scheduledActionsListByScope();
-  scheduledActionsListByScopeFilterByViewId();
+  await scheduledActionsListByScope();
+  await scheduledActionsListByScopeFilterByViewId();
 }
 
 main().catch(console.error);

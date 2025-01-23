@@ -110,8 +110,8 @@ async function createOrUpdateDaprComponentWithSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateDaprComponentWithSecretStoreComponent();
-  createOrUpdateDaprComponentWithSecrets();
+  await createOrUpdateDaprComponentWithSecretStoreComponent();
+  await createOrUpdateDaprComponentWithSecrets();
 }
 
 main().catch(console.error);

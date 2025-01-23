@@ -57,7 +57,7 @@ async function connectedRegistryUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectedRegistryUpdate();
+  await connectedRegistryUpdate();
 }
 
 main().catch(console.error);

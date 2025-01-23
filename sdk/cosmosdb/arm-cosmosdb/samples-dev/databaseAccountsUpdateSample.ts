@@ -88,7 +88,7 @@ async function cosmosDbDatabaseAccountPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountPatch();
+  await cosmosDbDatabaseAccountPatch();
 }
 
 main().catch(console.error);

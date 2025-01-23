@@ -43,7 +43,7 @@ async function apiManagementUpdateTenantAccess(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateTenantAccess();
+  await apiManagementUpdateTenantAccess();
 }
 
 main().catch(console.error);

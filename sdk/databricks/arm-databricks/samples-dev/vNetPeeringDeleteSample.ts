@@ -37,7 +37,7 @@ async function deleteAWorkspaceVNetPeering(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAWorkspaceVNetPeering();
+  await deleteAWorkspaceVNetPeering();
 }
 
 main().catch(console.error);

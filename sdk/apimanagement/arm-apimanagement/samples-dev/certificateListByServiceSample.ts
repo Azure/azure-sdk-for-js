@@ -37,7 +37,7 @@ async function apiManagementListCertificates(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListCertificates();
+  await apiManagementListCertificates();
 }
 
 main().catch(console.error);

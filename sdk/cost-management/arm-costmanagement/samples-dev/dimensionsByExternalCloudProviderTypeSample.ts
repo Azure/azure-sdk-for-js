@@ -55,8 +55,8 @@ async function externalSubscriptionDimensionList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  externalBillingAccountDimensionList();
-  externalSubscriptionDimensionList();
+  await externalBillingAccountDimensionList();
+  await externalSubscriptionDimensionList();
 }
 
 main().catch(console.error);

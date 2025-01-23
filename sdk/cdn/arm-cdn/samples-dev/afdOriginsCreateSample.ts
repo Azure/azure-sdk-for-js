@@ -44,7 +44,7 @@ async function afdOriginsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginsCreate();
+  await afdOriginsCreate();
 }
 
 main().catch(console.error);

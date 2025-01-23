@@ -33,7 +33,7 @@ async function profilesListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesListByResourceGroup();
+  await profilesListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -25,7 +25,7 @@ async function main() {
   for (let i = 0; i < 10; i++) {
     data[i] = i;
   }
-  chatHub.sendToAll(data.buffer);
+  await chatHub.sendToAll(data.buffer);
 }
 
 main().catch((e) => {

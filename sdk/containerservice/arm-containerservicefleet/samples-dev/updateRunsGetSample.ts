@@ -37,7 +37,7 @@ async function getsAnUpdateRunResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsAnUpdateRunResource();
+  await getsAnUpdateRunResource();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable();
+  await deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

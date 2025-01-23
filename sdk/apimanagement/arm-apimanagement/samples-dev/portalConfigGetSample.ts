@@ -36,7 +36,7 @@ async function apiManagementPortalConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementPortalConfig();
+  await apiManagementPortalConfig();
 }
 
 main().catch(console.error);

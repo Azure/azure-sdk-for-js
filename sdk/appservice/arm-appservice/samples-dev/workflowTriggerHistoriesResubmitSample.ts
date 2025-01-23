@@ -41,7 +41,7 @@ async function resubmitAWorkflowRunBasedOnTheTriggerHistory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resubmitAWorkflowRunBasedOnTheTriggerHistory();
+  await resubmitAWorkflowRunBasedOnTheTriggerHistory();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function cosmosDbMongoDbcollectionList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbcollectionList();
+  await cosmosDbMongoDbcollectionList();
 }
 
 main().catch(console.error);

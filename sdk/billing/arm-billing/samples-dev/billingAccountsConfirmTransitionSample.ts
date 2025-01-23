@@ -29,7 +29,7 @@ async function billingAccountsConfirmTransition(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountsConfirmTransition();
+  await billingAccountsConfirmTransition();
 }
 
 main().catch(console.error);

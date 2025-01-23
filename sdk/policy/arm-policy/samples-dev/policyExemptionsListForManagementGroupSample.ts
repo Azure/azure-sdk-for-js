@@ -43,7 +43,7 @@ async function listPolicyExemptionsThatApplyToAManagementGroup() {
 }
 
 async function main() {
-  listPolicyExemptionsThatApplyToAManagementGroup();
+  await listPolicyExemptionsThatApplyToAManagementGroup();
 }
 
 main().catch(console.error);

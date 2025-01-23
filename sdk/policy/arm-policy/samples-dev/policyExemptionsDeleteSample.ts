@@ -35,7 +35,7 @@ async function deleteAPolicyExemption() {
 }
 
 async function main() {
-  deleteAPolicyExemption();
+  await deleteAPolicyExemption();
 }
 
 main().catch(console.error);

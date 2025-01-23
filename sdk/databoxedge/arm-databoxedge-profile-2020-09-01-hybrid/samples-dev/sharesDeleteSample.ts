@@ -37,7 +37,7 @@ async function shareDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  shareDelete();
+  await shareDelete();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getDetailsOfDatabaseConnectionsForTheStaticSiteBuild(): Promise<v
 }
 
 async function main(): Promise<void> {
-  getDetailsOfDatabaseConnectionsForTheStaticSiteBuild();
+  await getDetailsOfDatabaseConnectionsForTheStaticSiteBuild();
 }
 
 main().catch(console.error);

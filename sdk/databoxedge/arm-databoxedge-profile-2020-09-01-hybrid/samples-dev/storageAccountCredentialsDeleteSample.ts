@@ -37,7 +37,7 @@ async function sacDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sacDelete();
+  await sacDelete();
 }
 
 main().catch(console.error);

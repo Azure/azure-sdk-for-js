@@ -38,7 +38,7 @@ async function sacGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sacGetAllInDevice();
+  await sacGetAllInDevice();
 }
 
 main().catch(console.error);

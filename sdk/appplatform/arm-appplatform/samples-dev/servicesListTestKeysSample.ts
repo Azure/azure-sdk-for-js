@@ -35,7 +35,7 @@ async function servicesListTestKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesListTestKeys();
+  await servicesListTestKeys();
 }
 
 main().catch(console.error);

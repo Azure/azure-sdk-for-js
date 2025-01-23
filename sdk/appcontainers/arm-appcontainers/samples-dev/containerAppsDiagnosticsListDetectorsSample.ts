@@ -38,7 +38,7 @@ async function getTheListOfAvailableDiagnosticsForAGivenContainerApp(): Promise<
 }
 
 async function main(): Promise<void> {
-  getTheListOfAvailableDiagnosticsForAGivenContainerApp();
+  await getTheListOfAvailableDiagnosticsForAGivenContainerApp();
 }
 
 main().catch(console.error);

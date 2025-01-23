@@ -63,8 +63,8 @@ async function paymentTermValid(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  paymentTermInvalid();
-  paymentTermValid();
+  await paymentTermInvalid();
+  await paymentTermValid();
 }
 
 main().catch(console.error);

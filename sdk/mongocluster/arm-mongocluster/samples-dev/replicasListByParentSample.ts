@@ -23,7 +23,7 @@ async function listTheReplicasLinkedToAMongoClusterResource() {
 }
 
 async function main() {
-  listTheReplicasLinkedToAMongoClusterResource();
+  await listTheReplicasLinkedToAMongoClusterResource();
 }
 
 main().catch(console.error);

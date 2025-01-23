@@ -36,7 +36,7 @@ async function cosmosDbSqlContainerDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlContainerDelete();
+  await cosmosDbSqlContainerDelete();
 }
 
 main().catch(console.error);

@@ -66,7 +66,7 @@ async function savingsPlanUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlanUpdate();
+  await savingsPlanUpdate();
 }
 
 main().catch(console.error);

@@ -29,7 +29,7 @@ async function organizationOperationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationOperationsList();
+  await organizationOperationsList();
 }
 
 main().catch(console.error);

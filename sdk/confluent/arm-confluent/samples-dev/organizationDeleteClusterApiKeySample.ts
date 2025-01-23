@@ -37,7 +37,7 @@ async function organizationDeleteClusterApiKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationDeleteClusterApiKey();
+  await organizationDeleteClusterApiKey();
 }
 
 main().catch(console.error);

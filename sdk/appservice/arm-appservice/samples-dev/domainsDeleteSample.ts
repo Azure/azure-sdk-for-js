@@ -41,7 +41,7 @@ async function deleteAppServiceDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAppServiceDomain();
+  await deleteAppServiceDomain();
 }
 
 main().catch(console.error);

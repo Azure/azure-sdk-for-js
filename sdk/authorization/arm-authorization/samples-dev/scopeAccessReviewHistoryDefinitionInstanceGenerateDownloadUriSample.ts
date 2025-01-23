@@ -33,7 +33,7 @@ async function postAccessReviewHistoryDefinitionInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  postAccessReviewHistoryDefinitionInstance();
+  await postAccessReviewHistoryDefinitionInstance();
 }
 
 main().catch(console.error);

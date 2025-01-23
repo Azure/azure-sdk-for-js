@@ -38,7 +38,7 @@ async function buildpackBindingListForCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildpackBindingListForCluster();
+  await buildpackBindingListForCluster();
 }
 
 main().catch(console.error);

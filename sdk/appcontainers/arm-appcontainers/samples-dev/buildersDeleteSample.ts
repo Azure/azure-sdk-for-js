@@ -34,7 +34,7 @@ async function buildersDelete0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildersDelete0();
+  await buildersDelete0();
 }
 
 main().catch(console.error);

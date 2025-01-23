@@ -34,11 +34,11 @@ export async function main(): Promise<void> {
     includeStatistics: true,
   });
 
-  poller.onProgress(() => {
-    console.log(
-      `Last time the operation was updated was on: ${poller.getOperationState().lastModifiedOn}`,
-    );
-  });
+  await poller.onProgress(() => {
+        console.log(
+          `Last time the operation was updated was on: ${poller.getOperationState().lastModifiedOn}`,
+        );
+      });
   console.log(
     `The analyze healthcare entities operation was created on ${
       poller.getOperationState().createdOn

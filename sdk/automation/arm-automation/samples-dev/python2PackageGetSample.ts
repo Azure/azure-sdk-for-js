@@ -34,7 +34,7 @@ async function getAPython2Package(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAPython2Package();
+  await getAPython2Package();
 }
 
 main().catch(console.error);

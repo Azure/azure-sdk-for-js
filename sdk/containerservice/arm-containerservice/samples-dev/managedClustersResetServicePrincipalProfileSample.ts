@@ -44,7 +44,7 @@ async function resetServicePrincipalProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resetServicePrincipalProfile();
+  await resetServicePrincipalProfile();
 }
 
 main().catch(console.error);

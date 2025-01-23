@@ -28,7 +28,7 @@ async function apiManagementServiceGetDomainOwnershipIdentifier(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  apiManagementServiceGetDomainOwnershipIdentifier();
+  await apiManagementServiceGetDomainOwnershipIdentifier();
 }
 
 main().catch(console.error);

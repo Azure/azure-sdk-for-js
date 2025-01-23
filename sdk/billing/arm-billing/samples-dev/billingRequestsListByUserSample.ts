@@ -50,8 +50,8 @@ async function billingRequestsListByUserWithFilter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRequestsListByUser();
-  billingRequestsListByUserWithFilter();
+  await billingRequestsListByUser();
+  await billingRequestsListByUserWithFilter();
 }
 
 main().catch(console.error);

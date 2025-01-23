@@ -35,7 +35,7 @@ async function afdOriginGroupsListByProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginGroupsListByProfile();
+  await afdOriginGroupsListByProfile();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function cosmosDbRestorableTableList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbRestorableTableList();
+  await cosmosDbRestorableTableList();
 }
 
 main().catch(console.error);

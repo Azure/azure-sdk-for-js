@@ -31,7 +31,7 @@ async function apiManagementListServiceBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListServiceBySubscription();
+  await apiManagementListServiceBySubscription();
 }
 
 main().catch(console.error);

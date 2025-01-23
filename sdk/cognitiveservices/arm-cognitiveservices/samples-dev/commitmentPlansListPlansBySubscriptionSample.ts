@@ -35,7 +35,7 @@ async function listAccountsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAccountsBySubscription();
+  await listAccountsBySubscription();
 }
 
 main().catch(console.error);

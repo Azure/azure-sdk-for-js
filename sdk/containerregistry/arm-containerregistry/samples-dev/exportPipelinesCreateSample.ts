@@ -54,7 +54,7 @@ async function exportPipelineCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportPipelineCreate();
+  await exportPipelineCreate();
 }
 
 main().catch(console.error);

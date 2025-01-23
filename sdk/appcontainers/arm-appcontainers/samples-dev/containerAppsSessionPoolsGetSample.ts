@@ -34,7 +34,7 @@ async function getSessionPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSessionPool();
+  await getSessionPool();
 }
 
 main().catch(console.error);

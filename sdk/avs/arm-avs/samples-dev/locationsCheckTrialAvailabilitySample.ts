@@ -56,8 +56,8 @@ async function locationsCheckTrialAvailabilityWithSku(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  locationsCheckTrialAvailability();
-  locationsCheckTrialAvailabilityWithSku();
+  await locationsCheckTrialAvailability();
+  await locationsCheckTrialAvailabilityWithSku();
 }
 
 main().catch(console.error);

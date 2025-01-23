@@ -47,7 +47,7 @@ async function accessRoleBindingNameList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessRoleBindingNameList();
+  await accessRoleBindingNameList();
 }
 
 main().catch(console.error);

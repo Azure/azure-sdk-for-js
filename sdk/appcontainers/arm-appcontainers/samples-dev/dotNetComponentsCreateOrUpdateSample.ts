@@ -81,8 +81,8 @@ async function createOrUpdateNetComponentWithServiceBinds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateNetComponent();
-  createOrUpdateNetComponentWithServiceBinds();
+  await createOrUpdateNetComponent();
+  await createOrUpdateNetComponentWithServiceBinds();
 }
 
 main().catch(console.error);

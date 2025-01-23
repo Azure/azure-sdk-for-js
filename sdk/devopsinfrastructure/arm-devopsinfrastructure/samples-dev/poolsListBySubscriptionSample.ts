@@ -23,7 +23,7 @@ async function poolsListBySubscription() {
 }
 
 async function main() {
-  poolsListBySubscription();
+  await poolsListBySubscription();
 }
 
 main().catch(console.error);

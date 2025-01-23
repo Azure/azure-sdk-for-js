@@ -35,7 +35,7 @@ async function getsThePrivateLinkResources(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsThePrivateLinkResources();
+  await getsThePrivateLinkResources();
 }
 
 main().catch(console.error);

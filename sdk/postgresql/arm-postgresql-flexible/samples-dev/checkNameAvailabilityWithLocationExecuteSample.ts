@@ -43,7 +43,7 @@ async function nameAvailability() {
 }
 
 async function main() {
-  nameAvailability();
+  await nameAvailability();
 }
 
 main().catch(console.error);

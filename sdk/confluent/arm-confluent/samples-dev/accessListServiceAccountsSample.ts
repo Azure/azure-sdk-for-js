@@ -42,7 +42,7 @@ async function accessServiceAccountsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessServiceAccountsList();
+  await accessServiceAccountsList();
 }
 
 main().catch(console.error);

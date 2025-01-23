@@ -35,7 +35,7 @@ async function cosmosDbGremlinDatabaseMigrateToManualThroughput(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinDatabaseMigrateToManualThroughput();
+  await cosmosDbGremlinDatabaseMigrateToManualThroughput();
 }
 
 main().catch(console.error);

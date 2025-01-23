@@ -37,7 +37,7 @@ async function apiManagementListTagResources(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListTagResources();
+  await apiManagementListTagResources();
 }
 
 main().catch(console.error);

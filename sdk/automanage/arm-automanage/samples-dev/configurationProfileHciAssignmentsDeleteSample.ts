@@ -36,7 +36,7 @@ async function deleteAHciConfigurationProfileAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAHciConfigurationProfileAssignment();
+  await deleteAHciConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

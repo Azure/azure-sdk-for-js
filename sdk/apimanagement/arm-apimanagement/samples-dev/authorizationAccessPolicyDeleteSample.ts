@@ -42,7 +42,7 @@ async function apiManagementDeleteAuthorizationAccessPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteAuthorizationAccessPolicy();
+  await apiManagementDeleteAuthorizationAccessPolicy();
 }
 
 main().catch(console.error);

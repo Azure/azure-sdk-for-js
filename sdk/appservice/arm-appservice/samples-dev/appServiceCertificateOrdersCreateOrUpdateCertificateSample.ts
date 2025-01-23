@@ -48,7 +48,7 @@ async function createCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createCertificate();
+  await createCertificate();
 }
 
 main().catch(console.error);

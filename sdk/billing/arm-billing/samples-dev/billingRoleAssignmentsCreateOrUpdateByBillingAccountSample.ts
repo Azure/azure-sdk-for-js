@@ -45,7 +45,7 @@ async function billingRoleAssignmentCreateOrUpdateByBillingAccount(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  billingRoleAssignmentCreateOrUpdateByBillingAccount();
+  await billingRoleAssignmentCreateOrUpdateByBillingAccount();
 }
 
 main().catch(console.error);

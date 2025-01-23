@@ -194,7 +194,7 @@ async function createDeploymentSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createDeploymentSettings();
+  await createDeploymentSettings();
 }
 
 main().catch(console.error);

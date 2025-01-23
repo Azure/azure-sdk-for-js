@@ -36,7 +36,7 @@ async function apiManagementHeadLogger(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadLogger();
+  await apiManagementHeadLogger();
 }
 
 main().catch(console.error);

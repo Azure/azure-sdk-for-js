@@ -35,7 +35,7 @@ async function sapVirtualInstancesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesDelete();
+  await sapVirtualInstancesDelete();
 }
 
 main().catch(console.error);

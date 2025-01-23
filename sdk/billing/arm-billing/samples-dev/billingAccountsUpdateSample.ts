@@ -67,8 +67,8 @@ async function billingAccountsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountUpdateWithPoNumber();
-  billingAccountsUpdate();
+  await billingAccountUpdateWithPoNumber();
+  await billingAccountsUpdate();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getADscCompilationJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getADscCompilationJob();
+  await getADscCompilationJob();
 }
 
 main().catch(console.error);

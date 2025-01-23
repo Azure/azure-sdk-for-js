@@ -50,7 +50,7 @@ async function userPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  userPut();
+  await userPut();
 }
 
 main().catch(console.error);

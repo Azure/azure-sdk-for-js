@@ -35,7 +35,7 @@ async function deletesSapMonitor(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletesSapMonitor();
+  await deletesSapMonitor();
 }
 
 main().catch(console.error);

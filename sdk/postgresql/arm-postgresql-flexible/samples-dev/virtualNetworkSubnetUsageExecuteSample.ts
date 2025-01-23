@@ -43,7 +43,7 @@ async function virtualNetworkSubnetUsageList() {
 }
 
 async function main() {
-  virtualNetworkSubnetUsageList();
+  await virtualNetworkSubnetUsageList();
 }
 
 main().catch(console.error);

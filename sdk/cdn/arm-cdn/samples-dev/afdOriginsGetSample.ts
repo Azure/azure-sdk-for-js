@@ -36,7 +36,7 @@ async function afdOriginsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginsGet();
+  await afdOriginsGet();
 }
 
 main().catch(console.error);

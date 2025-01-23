@@ -51,7 +51,7 @@ async function cosmosDbSqlTriggerCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlTriggerCreateUpdate();
+  await cosmosDbSqlTriggerCreateUpdate();
 }
 
 main().catch(console.error);

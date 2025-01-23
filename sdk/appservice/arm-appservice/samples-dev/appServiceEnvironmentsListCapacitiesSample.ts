@@ -38,7 +38,7 @@ async function getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment(
 }
 
 async function main(): Promise<void> {
-  getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment();
+  await getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

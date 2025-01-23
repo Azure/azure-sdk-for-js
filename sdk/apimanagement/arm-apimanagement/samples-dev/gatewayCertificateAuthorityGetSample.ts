@@ -38,7 +38,7 @@ async function apiManagementGetGatewayCertificateAuthority(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetGatewayCertificateAuthority();
+  await apiManagementGetGatewayCertificateAuthority();
 }
 
 main().catch(console.error);

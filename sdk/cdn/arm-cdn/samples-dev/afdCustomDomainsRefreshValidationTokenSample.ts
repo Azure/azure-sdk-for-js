@@ -35,7 +35,7 @@ async function afdCustomDomainsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdCustomDomainsDelete();
+  await afdCustomDomainsDelete();
 }
 
 main().catch(console.error);

@@ -570,22 +570,22 @@ async function apiManagementCreateWebSocketApi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateApi();
-  apiManagementCreateApiClone();
-  apiManagementCreateApiNewVersionUsingExistingApi();
-  apiManagementCreateApiRevisionFromExistingApi();
-  apiManagementCreateApiUsingImportOverrideServiceUrl();
-  apiManagementCreateApiUsingOai3Import();
-  apiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryParametersConduct();
-  apiManagementCreateApiUsingSwaggerImport();
-  apiManagementCreateApiUsingWadlImport();
-  apiManagementCreateApiWithMultipleAuthServers();
-  apiManagementCreateApiWithMultipleOpenIdConnectProviders();
-  apiManagementCreateApiWithOpenIdConnect();
-  apiManagementCreateGraphQlApi();
-  apiManagementCreateSoapPassThroughApiUsingWsdlImport();
-  apiManagementCreateSoapToRestApiUsingWsdlImport();
-  apiManagementCreateWebSocketApi();
+  await apiManagementCreateApi();
+  await apiManagementCreateApiClone();
+  await apiManagementCreateApiNewVersionUsingExistingApi();
+  await apiManagementCreateApiRevisionFromExistingApi();
+  await apiManagementCreateApiUsingImportOverrideServiceUrl();
+  await apiManagementCreateApiUsingOai3Import();
+  await apiManagementCreateApiUsingOai3ImportWithTranslateRequiredQueryParametersConduct();
+  await apiManagementCreateApiUsingSwaggerImport();
+  await apiManagementCreateApiUsingWadlImport();
+  await apiManagementCreateApiWithMultipleAuthServers();
+  await apiManagementCreateApiWithMultipleOpenIdConnectProviders();
+  await apiManagementCreateApiWithOpenIdConnect();
+  await apiManagementCreateGraphQlApi();
+  await apiManagementCreateSoapPassThroughApiUsingWsdlImport();
+  await apiManagementCreateSoapToRestApiUsingWsdlImport();
+  await apiManagementCreateWebSocketApi();
 }
 
 main().catch(console.error);

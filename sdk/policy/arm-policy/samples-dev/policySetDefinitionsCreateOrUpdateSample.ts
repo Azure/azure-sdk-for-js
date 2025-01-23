@@ -121,8 +121,8 @@ async function createOrUpdateAPolicySetDefinitionWithGroups() {
 }
 
 async function main() {
-  createOrUpdateAPolicySetDefinition();
-  createOrUpdateAPolicySetDefinitionWithGroups();
+  await createOrUpdateAPolicySetDefinition();
+  await createOrUpdateAPolicySetDefinitionWithGroups();
 }
 
 main().catch(console.error);

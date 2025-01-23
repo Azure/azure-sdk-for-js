@@ -43,7 +43,7 @@ async function apiManagementCreateTemplate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateTemplate();
+  await apiManagementCreateTemplate();
 }
 
 main().catch(console.error);

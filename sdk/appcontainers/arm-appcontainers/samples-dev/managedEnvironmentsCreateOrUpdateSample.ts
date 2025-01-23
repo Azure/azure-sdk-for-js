@@ -179,8 +179,8 @@ async function createEnvironments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createEnvironmentWithCustomInfrastructureResourceGroup();
-  createEnvironments();
+  await createEnvironmentWithCustomInfrastructureResourceGroup();
+  await createEnvironments();
 }
 
 main().catch(console.error);

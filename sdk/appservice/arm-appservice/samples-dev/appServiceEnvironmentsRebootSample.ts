@@ -35,7 +35,7 @@ async function rebootAllMachinesInAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rebootAllMachinesInAnAppServiceEnvironment();
+  await rebootAllMachinesInAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

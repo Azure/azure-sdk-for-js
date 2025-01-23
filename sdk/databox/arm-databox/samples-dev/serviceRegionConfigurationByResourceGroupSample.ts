@@ -44,7 +44,7 @@ async function regionConfigurationByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  regionConfigurationByResourceGroup();
+  await regionConfigurationByResourceGroup();
 }
 
 main().catch(console.error);

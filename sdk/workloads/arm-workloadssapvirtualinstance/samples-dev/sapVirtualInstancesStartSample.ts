@@ -64,8 +64,8 @@ async function startTheVirtualMachinesAndTheSapSystem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startTheSapSystem();
-  startTheVirtualMachinesAndTheSapSystem();
+  await startTheSapSystem();
+  await startTheVirtualMachinesAndTheSapSystem();
 }
 
 main().catch(console.error);

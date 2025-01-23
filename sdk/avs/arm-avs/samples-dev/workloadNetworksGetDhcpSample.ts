@@ -36,7 +36,7 @@ async function workloadNetworksGetDhcp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksGetDhcp();
+  await workloadNetworksGetDhcp();
 }
 
 main().catch(console.error);

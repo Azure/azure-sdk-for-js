@@ -38,7 +38,7 @@ async function listFirewallRulesOfTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listFirewallRulesOfTheCluster();
+  await listFirewallRulesOfTheCluster();
 }
 
 main().catch(console.error);

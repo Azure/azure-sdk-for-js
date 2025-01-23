@@ -31,7 +31,7 @@ async function getAlertIncidents(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAlertIncidents();
+  await getAlertIncidents();
 }
 
 main().catch(console.error);

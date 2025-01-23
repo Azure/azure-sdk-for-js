@@ -40,7 +40,7 @@ async function getEncryptionScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getEncryptionScope();
+  await getEncryptionScope();
 }
 
 main().catch(console.error);

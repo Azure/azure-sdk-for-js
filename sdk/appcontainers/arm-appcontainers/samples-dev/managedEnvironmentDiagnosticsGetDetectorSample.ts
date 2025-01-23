@@ -37,7 +37,7 @@ async function getDiagnosticDataForAManagedEnvironments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDiagnosticDataForAManagedEnvironments();
+  await getDiagnosticDataForAManagedEnvironments();
 }
 
 main().catch(console.error);

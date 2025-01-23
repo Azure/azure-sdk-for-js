@@ -36,7 +36,7 @@ async function getAllAppServiceEnvironmentsInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAllAppServiceEnvironmentsInAResourceGroup();
+  await getAllAppServiceEnvironmentsInAResourceGroup();
 }
 
 main().catch(console.error);

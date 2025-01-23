@@ -33,7 +33,7 @@ async function billingPermissionsListByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingPermissionsListByBillingAccount();
+  await billingPermissionsListByBillingAccount();
 }
 
 main().catch(console.error);

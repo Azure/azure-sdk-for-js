@@ -35,7 +35,7 @@ async function webPubSubDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubDelete();
+  await webPubSubDelete();
 }
 
 main().catch(console.error);

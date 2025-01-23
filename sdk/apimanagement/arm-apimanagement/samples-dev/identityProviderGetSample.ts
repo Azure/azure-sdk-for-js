@@ -36,7 +36,7 @@ async function apiManagementGetIdentityProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetIdentityProvider();
+  await apiManagementGetIdentityProvider();
 }
 
 main().catch(console.error);

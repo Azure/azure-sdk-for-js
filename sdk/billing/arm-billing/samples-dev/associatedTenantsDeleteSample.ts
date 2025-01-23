@@ -32,7 +32,7 @@ async function associatedTenantsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  associatedTenantsDelete();
+  await associatedTenantsDelete();
 }
 
 main().catch(console.error);

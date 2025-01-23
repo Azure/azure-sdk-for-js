@@ -48,7 +48,7 @@ async function updateAPrivateEndpointConnectionByManagedEnvironment(): Promise<v
 }
 
 async function main(): Promise<void> {
-  updateAPrivateEndpointConnectionByManagedEnvironment();
+  await updateAPrivateEndpointConnectionByManagedEnvironment();
 }
 
 main().catch(console.error);

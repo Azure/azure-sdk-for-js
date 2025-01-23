@@ -43,7 +43,7 @@ async function apiDefinitionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiDefinitionsDelete();
+  await apiDefinitionsDelete();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function getAnAzureDatabricksAccessConnector(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAnAzureDatabricksAccessConnector();
+  await getAnAzureDatabricksAccessConnector();
 }
 
 main().catch(console.error);

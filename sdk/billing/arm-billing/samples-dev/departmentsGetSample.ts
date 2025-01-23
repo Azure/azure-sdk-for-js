@@ -31,7 +31,7 @@ async function departmentGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  departmentGet();
+  await departmentGet();
 }
 
 main().catch(console.error);

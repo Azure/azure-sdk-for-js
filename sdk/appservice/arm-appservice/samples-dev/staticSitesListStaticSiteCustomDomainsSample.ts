@@ -37,7 +37,7 @@ async function listCustomDomainsForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCustomDomainsForAStaticSite();
+  await listCustomDomainsForAStaticSite();
 }
 
 main().catch(console.error);

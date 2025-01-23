@@ -44,7 +44,7 @@ async function patchCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchCertificate();
+  await patchCertificate();
 }
 
 main().catch(console.error);

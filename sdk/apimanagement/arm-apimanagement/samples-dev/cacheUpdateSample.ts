@@ -43,7 +43,7 @@ async function apiManagementUpdateCache(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateCache();
+  await apiManagementUpdateCache();
 }
 
 main().catch(console.error);

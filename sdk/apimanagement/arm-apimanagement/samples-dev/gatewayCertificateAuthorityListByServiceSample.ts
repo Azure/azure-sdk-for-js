@@ -39,7 +39,7 @@ async function apiManagementListGatewaycertificateAuthorities(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListGatewaycertificateAuthorities();
+  await apiManagementListGatewaycertificateAuthorities();
 }
 
 main().catch(console.error);

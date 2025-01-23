@@ -35,7 +35,7 @@ async function getOperations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getOperations();
+  await getOperations();
 }
 
 main().catch(console.error);

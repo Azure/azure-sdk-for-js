@@ -44,7 +44,7 @@ async function apiManagementCreatePortalRevision(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreatePortalRevision();
+  await apiManagementCreatePortalRevision();
 }
 
 main().catch(console.error);

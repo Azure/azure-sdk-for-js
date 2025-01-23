@@ -32,7 +32,7 @@ async function getAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAutomationAccount();
+  await getAutomationAccount();
 }
 
 main().catch(console.error);

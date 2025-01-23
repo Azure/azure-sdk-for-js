@@ -44,7 +44,7 @@ async function cosmosDbGremlinGraphBackupInformation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinGraphBackupInformation();
+  await cosmosDbGremlinGraphBackupInformation();
 }
 
 main().catch(console.error);

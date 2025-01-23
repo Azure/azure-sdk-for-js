@@ -54,7 +54,7 @@ async function createNodeConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createNodeConfiguration();
+  await createNodeConfiguration();
 }
 
 main().catch(console.error);

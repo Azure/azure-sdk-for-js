@@ -38,7 +38,7 @@ async function listTheFleetUpdateStrategyResourcesByFleet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listTheFleetUpdateStrategyResourcesByFleet();
+  await listTheFleetUpdateStrategyResourcesByFleet();
 }
 
 main().catch(console.error);

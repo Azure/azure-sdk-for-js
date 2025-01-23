@@ -42,7 +42,7 @@ async function buildpackBindingGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildpackBindingGet();
+  await buildpackBindingGet();
 }
 
 main().catch(console.error);

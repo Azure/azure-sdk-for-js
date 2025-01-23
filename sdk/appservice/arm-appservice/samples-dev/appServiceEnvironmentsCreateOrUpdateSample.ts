@@ -46,7 +46,7 @@ async function createOrUpdateAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAnAppServiceEnvironment();
+  await createOrUpdateAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

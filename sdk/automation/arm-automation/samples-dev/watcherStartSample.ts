@@ -34,7 +34,7 @@ async function startWatcher(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startWatcher();
+  await startWatcher();
 }
 
 main().catch(console.error);

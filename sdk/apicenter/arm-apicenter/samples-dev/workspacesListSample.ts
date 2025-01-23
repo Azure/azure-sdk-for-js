@@ -38,7 +38,7 @@ async function workspacesListByService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspacesListByService();
+  await workspacesListByService();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function apiManagementCreateCache(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateCache();
+  await apiManagementCreateCache();
 }
 
 main().catch(console.error);

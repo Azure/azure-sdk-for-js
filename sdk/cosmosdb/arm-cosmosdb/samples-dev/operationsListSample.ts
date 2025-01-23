@@ -32,7 +32,7 @@ async function cosmosDbOperationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbOperationsList();
+  await cosmosDbOperationsList();
 }
 
 main().catch(console.error);

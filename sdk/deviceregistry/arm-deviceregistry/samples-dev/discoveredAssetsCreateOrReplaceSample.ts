@@ -82,7 +82,7 @@ async function createDiscoveredAsset() {
 }
 
 async function main() {
-  createDiscoveredAsset();
+  await createDiscoveredAsset();
 }
 
 main().catch(console.error);

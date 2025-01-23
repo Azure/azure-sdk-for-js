@@ -42,7 +42,7 @@ async function cosmosDbSqlDatabaseRetrieveThroughputDistribution(): Promise<void
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseRetrieveThroughputDistribution();
+  await cosmosDbSqlDatabaseRetrieveThroughputDistribution();
 }
 
 main().catch(console.error);

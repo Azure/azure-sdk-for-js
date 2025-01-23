@@ -37,7 +37,7 @@ async function getAEnvironmentsStoragePropertiesBySubscription(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  getAEnvironmentsStoragePropertiesBySubscription();
+  await getAEnvironmentsStoragePropertiesBySubscription();
 }
 
 main().catch(console.error);

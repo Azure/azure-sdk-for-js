@@ -36,7 +36,7 @@ async function apiManagementListNotificationRecipientUsers(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListNotificationRecipientUsers();
+  await apiManagementListNotificationRecipientUsers();
 }
 
 main().catch(console.error);

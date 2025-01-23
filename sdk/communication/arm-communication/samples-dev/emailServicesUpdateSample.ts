@@ -36,7 +36,7 @@ async function updateEmailServiceResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateEmailServiceResource();
+  await updateEmailServiceResource();
 }
 
 main().catch(console.error);

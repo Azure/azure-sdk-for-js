@@ -38,7 +38,7 @@ async function getAvailableSkUsForScalingAMultiRolePool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAvailableSkUsForScalingAMultiRolePool();
+  await getAvailableSkUsForScalingAMultiRolePool();
 }
 
 main().catch(console.error);

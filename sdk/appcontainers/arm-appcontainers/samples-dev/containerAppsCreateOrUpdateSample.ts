@@ -732,12 +732,12 @@ async function createOrUpdateTcpApp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAppKind();
-  createOrUpdateAppOnAConnectedEnvironment();
-  createOrUpdateContainerApp();
-  createOrUpdateManagedByApp();
-  createOrUpdateSourceToCloudApp();
-  createOrUpdateTcpApp();
+  await createOrUpdateAppKind();
+  await createOrUpdateAppOnAConnectedEnvironment();
+  await createOrUpdateContainerApp();
+  await createOrUpdateManagedByApp();
+  await createOrUpdateSourceToCloudApp();
+  await createOrUpdateTcpApp();
 }
 
 main().catch(console.error);

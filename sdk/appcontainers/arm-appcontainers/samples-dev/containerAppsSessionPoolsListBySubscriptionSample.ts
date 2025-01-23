@@ -32,7 +32,7 @@ async function listSessionPoolsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSessionPoolsBySubscription();
+  await listSessionPoolsBySubscription();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function managedCcfRestore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedCcfRestore();
+  await managedCcfRestore();
 }
 
 main().catch(console.error);

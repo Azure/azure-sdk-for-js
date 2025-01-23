@@ -23,7 +23,7 @@ async function imageVersionsListByImage() {
 }
 
 async function main() {
-  imageVersionsListByImage();
+  await imageVersionsListByImage();
 }
 
 main().catch(console.error);

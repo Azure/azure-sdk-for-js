@@ -28,7 +28,7 @@ async function getRoleAssignmentById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleAssignmentById();
+  await getRoleAssignmentById();
 }
 
 main().catch(console.error);

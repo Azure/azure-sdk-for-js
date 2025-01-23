@@ -35,7 +35,7 @@ async function stopAllServersInTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopAllServersInTheCluster();
+  await stopAllServersInTheCluster();
 }
 
 main().catch(console.error);

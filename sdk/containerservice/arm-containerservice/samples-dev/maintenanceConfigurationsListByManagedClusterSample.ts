@@ -63,8 +63,8 @@ async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByMan
 }
 
 async function main(): Promise<void> {
-  listMaintenanceConfigurationsByManagedCluster();
-  listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster();
+  await listMaintenanceConfigurationsByManagedCluster();
+  await listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster();
 }
 
 main().catch(console.error);

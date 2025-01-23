@@ -44,7 +44,7 @@ async function policiesPutByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  policiesPutByBillingAccount();
+  await policiesPutByBillingAccount();
 }
 
 main().catch(console.error);

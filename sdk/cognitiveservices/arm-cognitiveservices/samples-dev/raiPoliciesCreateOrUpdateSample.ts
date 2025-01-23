@@ -122,7 +122,7 @@ async function putRaiPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putRaiPolicy();
+  await putRaiPolicy();
 }
 
 main().catch(console.error);

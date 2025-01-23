@@ -758,26 +758,26 @@ async function subscriptionQueryGroupingLegacy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountQueryLegacy();
-  billingAccountQueryMca();
-  billingAccountQueryGroupingLegacy();
-  billingAccountQueryGroupingMca();
-  billingProfileQueryMca();
-  billingProfileQueryGroupingMca();
-  customerQueryMca();
-  customerQueryGroupingMca();
-  departmentQueryLegacy();
-  departmentQueryGroupingLegacy();
-  enrollmentAccountQueryLegacy();
-  enrollmentAccountQueryGroupingLegacy();
-  invoiceSectionQueryMca();
-  invoiceSectionQueryGroupingMca();
-  managementGroupQueryLegacy();
-  managementGroupQueryGroupingLegacy();
-  resourceGroupQueryLegacy();
-  resourceGroupQueryGroupingLegacy();
-  subscriptionQueryLegacy();
-  subscriptionQueryGroupingLegacy();
+  await billingAccountQueryLegacy();
+  await billingAccountQueryMca();
+  await billingAccountQueryGroupingLegacy();
+  await billingAccountQueryGroupingMca();
+  await billingProfileQueryMca();
+  await billingProfileQueryGroupingMca();
+  await customerQueryMca();
+  await customerQueryGroupingMca();
+  await departmentQueryLegacy();
+  await departmentQueryGroupingLegacy();
+  await enrollmentAccountQueryLegacy();
+  await enrollmentAccountQueryGroupingLegacy();
+  await invoiceSectionQueryMca();
+  await invoiceSectionQueryGroupingMca();
+  await managementGroupQueryLegacy();
+  await managementGroupQueryGroupingLegacy();
+  await resourceGroupQueryLegacy();
+  await resourceGroupQueryGroupingLegacy();
+  await subscriptionQueryLegacy();
+  await subscriptionQueryGroupingLegacy();
 }
 
 main().catch(console.error);

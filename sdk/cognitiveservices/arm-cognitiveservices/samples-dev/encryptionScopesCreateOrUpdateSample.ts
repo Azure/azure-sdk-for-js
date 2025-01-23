@@ -56,7 +56,7 @@ async function putEncryptionScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putEncryptionScope();
+  await putEncryptionScope();
 }
 
 main().catch(console.error);

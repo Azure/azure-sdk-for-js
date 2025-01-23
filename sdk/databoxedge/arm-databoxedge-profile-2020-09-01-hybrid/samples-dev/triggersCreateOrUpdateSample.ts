@@ -53,7 +53,7 @@ async function triggerPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerPut();
+  await triggerPut();
 }
 
 main().catch(console.error);

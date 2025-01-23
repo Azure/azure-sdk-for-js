@@ -36,7 +36,7 @@ async function workloadNetworksDeleteDhcp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksDeleteDhcp();
+  await workloadNetworksDeleteDhcp();
 }
 
 main().catch(console.error);

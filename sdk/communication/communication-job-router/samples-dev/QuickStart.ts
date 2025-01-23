@@ -137,7 +137,7 @@ async function quickStart(): Promise<void> {
 
   // Optionally, a job can also be set up to be marked as closed in the future.
   const afterTwoSeconds = new Date();
-  afterTwoSeconds.setSeconds(afterTwoSeconds.getSeconds() + 2);
+  await afterTwoSeconds.setSeconds(afterTwoSeconds.getSeconds() + 2);
   const closeJobInFuture = await jobRouterClient.closeJob(
     jobId,
     acceptJobOfferResult.assignmentId,

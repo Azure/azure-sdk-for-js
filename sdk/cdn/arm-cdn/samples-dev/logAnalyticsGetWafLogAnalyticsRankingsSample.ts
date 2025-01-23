@@ -42,7 +42,7 @@ async function logAnalyticsGetWafLogAnalyticsRankings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  logAnalyticsGetWafLogAnalyticsRankings();
+  await logAnalyticsGetWafLogAnalyticsRankings();
 }
 
 main().catch(console.error);

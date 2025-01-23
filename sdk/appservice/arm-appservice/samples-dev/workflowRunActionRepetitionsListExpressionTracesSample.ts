@@ -46,7 +46,7 @@ async function listExpressionTracesForARepetition(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listExpressionTracesForARepetition();
+  await listExpressionTracesForARepetition();
 }
 
 main().catch(console.error);

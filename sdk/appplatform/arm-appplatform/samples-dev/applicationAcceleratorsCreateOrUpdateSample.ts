@@ -45,7 +45,7 @@ async function applicationAcceleratorsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationAcceleratorsCreateOrUpdate();
+  await applicationAcceleratorsCreateOrUpdate();
 }
 
 main().catch(console.error);

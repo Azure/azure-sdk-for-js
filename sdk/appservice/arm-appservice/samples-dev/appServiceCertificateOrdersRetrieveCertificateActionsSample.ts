@@ -36,7 +36,7 @@ async function retrieveCertificateOrderActions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveCertificateOrderActions();
+  await retrieveCertificateOrderActions();
 }
 
 main().catch(console.error);

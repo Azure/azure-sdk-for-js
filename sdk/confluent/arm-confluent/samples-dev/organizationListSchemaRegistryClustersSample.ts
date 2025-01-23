@@ -40,7 +40,7 @@ async function organizationListSchemaRegistryClusters(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationListSchemaRegistryClusters();
+  await organizationListSchemaRegistryClusters();
 }
 
 main().catch(console.error);

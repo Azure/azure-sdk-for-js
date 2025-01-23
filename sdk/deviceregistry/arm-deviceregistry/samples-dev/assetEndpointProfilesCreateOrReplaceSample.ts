@@ -66,8 +66,8 @@ async function createAssetEndpointProfileWithDiscoveredAepRef() {
 }
 
 async function main() {
-  createAssetEndpointProfile();
-  createAssetEndpointProfileWithDiscoveredAepRef();
+  await createAssetEndpointProfile();
+  await createAssetEndpointProfileWithDiscoveredAepRef();
 }
 
 main().catch(console.error);

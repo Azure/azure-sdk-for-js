@@ -41,7 +41,7 @@ async function apiManagementListApiIssueAttachments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListApiIssueAttachments();
+  await apiManagementListApiIssueAttachments();
 }
 
 main().catch(console.error);

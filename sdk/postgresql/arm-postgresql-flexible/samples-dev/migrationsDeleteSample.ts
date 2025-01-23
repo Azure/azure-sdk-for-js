@@ -36,7 +36,7 @@ async function migrationsDelete() {
 }
 
 async function main() {
-  migrationsDelete();
+  await migrationsDelete();
 }
 
 main().catch(console.error);

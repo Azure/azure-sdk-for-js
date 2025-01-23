@@ -37,7 +37,7 @@ async function applicationAcceleratorsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationAcceleratorsDelete();
+  await applicationAcceleratorsDelete();
 }
 
 main().catch(console.error);

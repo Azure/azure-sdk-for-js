@@ -41,7 +41,7 @@ async function credentialSetList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  credentialSetList();
+  await credentialSetList();
 }
 
 main().catch(console.error);

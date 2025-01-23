@@ -39,7 +39,7 @@ async function deploymentsStop(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsStop();
+  await deploymentsStop();
 }
 
 main().catch(console.error);

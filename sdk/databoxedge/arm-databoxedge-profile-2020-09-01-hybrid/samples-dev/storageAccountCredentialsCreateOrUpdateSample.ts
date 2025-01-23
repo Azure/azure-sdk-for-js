@@ -53,7 +53,7 @@ async function sacPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sacPut();
+  await sacPut();
 }
 
 main().catch(console.error);

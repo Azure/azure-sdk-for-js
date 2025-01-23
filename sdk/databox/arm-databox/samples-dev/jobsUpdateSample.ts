@@ -135,9 +135,9 @@ async function jobsPatchSystemAssignedToUserAssigned(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  jobsPatch();
-  jobsPatchCmk();
-  jobsPatchSystemAssignedToUserAssigned();
+  await jobsPatch();
+  await jobsPatchCmk();
+  await jobsPatchSystemAssignedToUserAssigned();
 }
 
 main().catch(console.error);

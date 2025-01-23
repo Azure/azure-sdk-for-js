@@ -38,7 +38,7 @@ async function clustersCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clustersCreateOrUpdate();
+  await clustersCreateOrUpdate();
 }
 
 main().catch(console.error);

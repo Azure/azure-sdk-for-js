@@ -63,8 +63,8 @@ async function regenerateKeysForWebChatChannelSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  regenerateKeysForDirectLineChannelSite();
-  regenerateKeysForWebChatChannelSite();
+  await regenerateKeysForDirectLineChannelSite();
+  await regenerateKeysForWebChatChannelSite();
 }
 
 main().catch(console.error);

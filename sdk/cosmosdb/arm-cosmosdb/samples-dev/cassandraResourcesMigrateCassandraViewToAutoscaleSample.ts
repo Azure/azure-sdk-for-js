@@ -37,7 +37,7 @@ async function cosmosDbCassandraViewMigrateToAutoscale(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraViewMigrateToAutoscale();
+  await cosmosDbCassandraViewMigrateToAutoscale();
 }
 
 main().catch(console.error);

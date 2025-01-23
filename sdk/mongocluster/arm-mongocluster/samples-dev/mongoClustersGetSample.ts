@@ -19,7 +19,7 @@ async function getsAMongoClusterResource() {
 }
 
 async function main() {
-  getsAMongoClusterResource();
+  await getsAMongoClusterResource();
 }
 
 main().catch(console.error);

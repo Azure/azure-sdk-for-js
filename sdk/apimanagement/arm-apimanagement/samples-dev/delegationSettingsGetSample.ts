@@ -34,7 +34,7 @@ async function apiManagementPortalSettingsGetDelegation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementPortalSettingsGetDelegation();
+  await apiManagementPortalSettingsGetDelegation();
 }
 
 main().catch(console.error);

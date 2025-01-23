@@ -39,7 +39,7 @@ async function listReportsByHciConfigurationProfilesAssignment(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  listReportsByHciConfigurationProfilesAssignment();
+  await listReportsByHciConfigurationProfilesAssignment();
 }
 
 main().catch(console.error);

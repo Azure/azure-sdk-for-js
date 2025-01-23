@@ -59,8 +59,8 @@ async function deleteDirectLineSpeechChannel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteChannel();
-  deleteDirectLineSpeechChannel();
+  await deleteChannel();
+  await deleteDirectLineSpeechChannel();
 }
 
 main().catch(console.error);

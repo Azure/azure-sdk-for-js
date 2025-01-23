@@ -36,7 +36,7 @@ async function apiManagementNamedValueListValue(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementNamedValueListValue();
+  await apiManagementNamedValueListValue();
 }
 
 main().catch(console.error);

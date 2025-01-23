@@ -44,7 +44,7 @@ async function stopTheSapCentralServicesInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopTheSapCentralServicesInstance();
+  await stopTheSapCentralServicesInstance();
 }
 
 main().catch(console.error);

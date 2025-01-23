@@ -46,7 +46,7 @@ async function apiManagementUpdateLogger(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateLogger();
+  await apiManagementUpdateLogger();
 }
 
 main().catch(console.error);

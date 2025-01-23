@@ -37,7 +37,7 @@ async function deleteJavaComponent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteJavaComponent();
+  await deleteJavaComponent();
 }
 
 main().catch(console.error);

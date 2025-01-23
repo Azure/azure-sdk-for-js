@@ -29,7 +29,7 @@ async function getDomainControlCenterSsoRequest(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDomainControlCenterSsoRequest();
+  await getDomainControlCenterSsoRequest();
 }
 
 main().catch(console.error);

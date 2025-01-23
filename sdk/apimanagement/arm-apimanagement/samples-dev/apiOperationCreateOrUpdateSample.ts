@@ -72,7 +72,7 @@ async function apiManagementCreateApiOperation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateApiOperation();
+  await apiManagementCreateApiOperation();
 }
 
 main().catch(console.error);

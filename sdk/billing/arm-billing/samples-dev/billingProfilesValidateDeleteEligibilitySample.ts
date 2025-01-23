@@ -51,8 +51,8 @@ async function billingProfilesValidateDeleteEligibilitySuccess(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  billingProfilesValidateDeleteEligibilityFailure();
-  billingProfilesValidateDeleteEligibilitySuccess();
+  await billingProfilesValidateDeleteEligibilityFailure();
+  await billingProfilesValidateDeleteEligibilitySuccess();
 }
 
 main().catch(console.error);

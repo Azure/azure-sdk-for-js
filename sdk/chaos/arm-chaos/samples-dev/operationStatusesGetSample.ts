@@ -31,7 +31,7 @@ async function getSpecificOperationStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSpecificOperationStatus();
+  await getSpecificOperationStatus();
 }
 
 main().catch(console.error);

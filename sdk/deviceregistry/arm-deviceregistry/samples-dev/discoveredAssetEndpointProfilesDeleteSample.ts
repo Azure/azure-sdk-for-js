@@ -21,7 +21,7 @@ async function deleteDiscoveredAssetEndpointProfile() {
 }
 
 async function main() {
-  deleteDiscoveredAssetEndpointProfile();
+  await deleteDiscoveredAssetEndpointProfile();
 }
 
 main().catch(console.error);

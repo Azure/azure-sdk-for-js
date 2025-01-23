@@ -37,7 +37,7 @@ async function devToolPortalsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devToolPortalsGet();
+  await devToolPortalsGet();
 }
 
 main().catch(console.error);

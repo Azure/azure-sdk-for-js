@@ -40,7 +40,7 @@ async function batchAccountRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountRegenerateKey();
+  await batchAccountRegenerateKey();
 }
 
 main().catch(console.error);

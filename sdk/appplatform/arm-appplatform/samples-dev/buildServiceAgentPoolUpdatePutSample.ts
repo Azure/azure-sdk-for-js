@@ -46,7 +46,7 @@ async function buildServiceAgentPoolUpdatePut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceAgentPoolUpdatePut();
+  await buildServiceAgentPoolUpdatePut();
 }
 
 main().catch(console.error);

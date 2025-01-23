@@ -32,7 +32,7 @@ import { writeBanner } from "./utils/helpers.js";
 import "dotenv/config";
 
 async function getPolicyManagementCertificates(): Promise<void> {
-  writeBanner("Get Current Attestation Policy Management Certificates.");
+  await writeBanner("Get Current Attestation Policy Management Certificates.");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
@@ -46,12 +46,12 @@ async function getPolicyManagementCertificates(): Promise<void> {
     `Attestation Instance ${endpoint} has ${policyCertificates.body.length} certificates.`,
   );
   // Now print the Key ID and certificate subject for each signer.
-  policyCertificates.body.forEach((element) => {
-    console.log(`  Element Key ID: ${element.keyId};`);
-    const cert = new X509();
-    cert.readCertPEM(element.certificates[0]);
-    console.log(`    Certificate subject: ${cert.getSubjectString()}`);
-  });
+  await policyCertificates.body.forEach((element) => {
+        console.log(`  Element Key ID: ${element.keyId};`);
+        const cert = new X509();
+        cert.readCertPEM(element.certificates[0]);
+        console.log(`    Certificate subject: ${cert.getSubjectString()}`);
+      });
 }
 
 export async function main(): Promise<void> {

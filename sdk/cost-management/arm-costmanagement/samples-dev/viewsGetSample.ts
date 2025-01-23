@@ -27,7 +27,7 @@ async function privateView(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateView();
+  await privateView();
 }
 
 main().catch(console.error);

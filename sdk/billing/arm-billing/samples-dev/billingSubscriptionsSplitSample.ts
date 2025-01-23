@@ -43,7 +43,7 @@ async function billingSubscriptionsSplit(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionsSplit();
+  await billingSubscriptionsSplit();
 }
 
 main().catch(console.error);

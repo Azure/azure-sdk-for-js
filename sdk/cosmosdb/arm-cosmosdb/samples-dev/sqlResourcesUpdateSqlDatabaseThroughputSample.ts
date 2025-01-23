@@ -44,7 +44,7 @@ async function cosmosDbSqlDatabaseThroughputUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseThroughputUpdate();
+  await cosmosDbSqlDatabaseThroughputUpdate();
 }
 
 main().catch(console.error);

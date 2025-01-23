@@ -42,7 +42,7 @@ async function accessEnvironmentList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessEnvironmentList();
+  await accessEnvironmentList();
 }
 
 main().catch(console.error);

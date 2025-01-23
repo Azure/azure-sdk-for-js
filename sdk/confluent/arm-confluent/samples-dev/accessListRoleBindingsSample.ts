@@ -42,7 +42,7 @@ async function accessRoleBindingList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessRoleBindingList();
+  await accessRoleBindingList();
 }
 
 main().catch(console.error);

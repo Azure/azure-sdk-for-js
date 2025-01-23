@@ -151,10 +151,10 @@ async function updateLineChannel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAlexaChannel();
-  updateChannel();
-  updateDirectLineSpeechChannel();
-  updateLineChannel();
+  await updateAlexaChannel();
+  await updateChannel();
+  await updateDirectLineSpeechChannel();
+  await updateLineChannel();
 }
 
 main().catch(console.error);

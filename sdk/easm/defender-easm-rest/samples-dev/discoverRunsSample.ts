@@ -70,22 +70,22 @@ async function main(): Promise<void> {
     throw new Error(discovery_groups.body?.error.message);
   }
 
-  discovery_groups.body.value?.forEach(async (discovery_group) => {
-    console.log(discovery_group.name);
-    const disco_runs = await client
-      .path("/discoGroups/{groupName}/runs", discovery_group.name!)
-      .get();
+  await discovery_groups.body.value?.forEach(async (discovery_group) => {
+        console.log(discovery_group.name);
+        const disco_runs = await client
+          .path("/discoGroups/{groupName}/runs", discovery_group.name!)
+          .get();
 
-    if (isUnexpected(disco_runs)) {
-      throw new Error(disco_runs.body?.error.message);
-    }
+        if (isUnexpected(disco_runs)) {
+          throw new Error(disco_runs.body?.error.message);
+        }
 
-    disco_runs.body.value?.slice(0, 5).forEach((disco_run) => {
-      console.log(
-        ` - started: ${disco_run.startedDate}, finished: ${disco_run.completedDate}, assets found: ${disco_run.totalAssetsFoundCount}`,
-      );
-    });
-  });
+        disco_runs.body.value?.slice(0, 5).forEach((disco_run) => {
+          console.log(
+            ` - started: ${disco_run.startedDate}, finished: ${disco_run.completedDate}, assets found: ${disco_run.totalAssetsFoundCount}`,
+          );
+        });
+      });
 }
 
 main().catch((err) => {

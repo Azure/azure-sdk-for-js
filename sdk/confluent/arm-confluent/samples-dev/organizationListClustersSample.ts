@@ -46,7 +46,7 @@ async function organizationListClusters(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationListClusters();
+  await organizationListClusters();
 }
 
 main().catch(console.error);

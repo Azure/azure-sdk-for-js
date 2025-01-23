@@ -40,7 +40,7 @@ async function getAPrivateLinkResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAPrivateLinkResource();
+  await getAPrivateLinkResource();
 }
 
 main().catch(console.error);

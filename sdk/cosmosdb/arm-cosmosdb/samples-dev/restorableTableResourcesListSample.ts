@@ -47,7 +47,7 @@ async function cosmosDbRestorableTableResourceList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbRestorableTableResourceList();
+  await cosmosDbRestorableTableResourceList();
 }
 
 main().catch(console.error);

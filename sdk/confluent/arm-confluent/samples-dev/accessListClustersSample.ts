@@ -42,7 +42,7 @@ async function accessClusterList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessClusterList();
+  await accessClusterList();
 }
 
 main().catch(console.error);

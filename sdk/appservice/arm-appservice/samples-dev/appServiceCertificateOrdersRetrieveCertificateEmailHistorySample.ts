@@ -36,7 +36,7 @@ async function retrieveCertificateEmailHistory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveCertificateEmailHistory();
+  await retrieveCertificateEmailHistory();
 }
 
 main().catch(console.error);

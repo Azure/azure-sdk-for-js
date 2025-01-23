@@ -36,7 +36,7 @@ async function scriptExecutionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scriptExecutionsDelete();
+  await scriptExecutionsDelete();
 }
 
 main().catch(console.error);

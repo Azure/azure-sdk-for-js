@@ -35,7 +35,7 @@ async function listPrivateEndpointConnectionsByManagedCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPrivateEndpointConnectionsByManagedCluster();
+  await listPrivateEndpointConnectionsByManagedCluster();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function webPubSubReplicaSharedPrivateLinkResourcesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubReplicaSharedPrivateLinkResourcesList();
+  await webPubSubReplicaSharedPrivateLinkResourcesList();
 }
 
 main().catch(console.error);

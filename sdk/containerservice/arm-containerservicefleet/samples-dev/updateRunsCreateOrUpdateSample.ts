@@ -58,7 +58,7 @@ async function createAnUpdateRun(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAnUpdateRun();
+  await createAnUpdateRun();
 }
 
 main().catch(console.error);

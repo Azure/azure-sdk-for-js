@@ -37,7 +37,7 @@ async function billingRoleDefinitionListByInvoiceSection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRoleDefinitionListByInvoiceSection();
+  await billingRoleDefinitionListByInvoiceSection();
 }
 
 main().catch(console.error);

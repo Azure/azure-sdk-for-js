@@ -32,7 +32,7 @@ async function listProviderOperationsMetadataForAllResourceProviders(): Promise<
 }
 
 async function main(): Promise<void> {
-  listProviderOperationsMetadataForAllResourceProviders();
+  await listProviderOperationsMetadataForAllResourceProviders();
 }
 
 main().catch(console.error);

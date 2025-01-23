@@ -38,7 +38,7 @@ async function deleteAUserForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAUserForAStaticSite();
+  await deleteAUserForAStaticSite();
 }
 
 main().catch(console.error);

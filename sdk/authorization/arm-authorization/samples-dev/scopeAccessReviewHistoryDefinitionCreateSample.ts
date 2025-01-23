@@ -36,7 +36,7 @@ async function putAccessReviewHistoryDefinition(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putAccessReviewHistoryDefinition();
+  await putAccessReviewHistoryDefinition();
 }
 
 main().catch(console.error);

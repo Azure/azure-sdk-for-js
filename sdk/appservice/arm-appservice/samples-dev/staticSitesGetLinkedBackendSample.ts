@@ -36,7 +36,7 @@ async function getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteByName(): Pr
 }
 
 async function main(): Promise<void> {
-  getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteByName();
+  await getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteByName();
 }
 
 main().catch(console.error);

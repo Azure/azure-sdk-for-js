@@ -35,7 +35,7 @@ async function monitoringSettingsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitoringSettingsGet();
+  await monitoringSettingsGet();
 }
 
 main().catch(console.error);

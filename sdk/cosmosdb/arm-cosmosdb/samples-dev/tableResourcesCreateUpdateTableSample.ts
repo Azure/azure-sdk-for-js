@@ -44,7 +44,7 @@ async function cosmosDbTableReplace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbTableReplace();
+  await cosmosDbTableReplace();
 }
 
 main().catch(console.error);

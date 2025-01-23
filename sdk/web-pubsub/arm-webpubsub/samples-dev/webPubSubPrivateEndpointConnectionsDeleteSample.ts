@@ -39,7 +39,7 @@ async function webPubSubPrivateEndpointConnectionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubPrivateEndpointConnectionsDelete();
+  await webPubSubPrivateEndpointConnectionsDelete();
 }
 
 main().catch(console.error);

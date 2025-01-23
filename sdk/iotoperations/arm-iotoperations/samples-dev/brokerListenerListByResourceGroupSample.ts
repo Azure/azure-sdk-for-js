@@ -27,7 +27,7 @@ async function brokerListenerListByResourceGroup() {
 }
 
 async function main() {
-  brokerListenerListByResourceGroup();
+  await brokerListenerListByResourceGroup();
 }
 
 main().catch(console.error);

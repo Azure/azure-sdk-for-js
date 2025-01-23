@@ -38,7 +38,7 @@ async function managedPrivateEndpointList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointList();
+  await managedPrivateEndpointList();
 }
 
 main().catch(console.error);

@@ -420,13 +420,13 @@ async function subscriptionForecast(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountForecast();
-  billingProfileForecast();
-  departmentForecast();
-  enrollmentAccountForecast();
-  invoiceSectionForecast();
-  resourceGroupForecast();
-  subscriptionForecast();
+  await billingAccountForecast();
+  await billingProfileForecast();
+  await departmentForecast();
+  await enrollmentAccountForecast();
+  await invoiceSectionForecast();
+  await resourceGroupForecast();
+  await subscriptionForecast();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function iscsiPathsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  iscsiPathsDelete();
+  await iscsiPathsDelete();
 }
 
 main().catch(console.error);

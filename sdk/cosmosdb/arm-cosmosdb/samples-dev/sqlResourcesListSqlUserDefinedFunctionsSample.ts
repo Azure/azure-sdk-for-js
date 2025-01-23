@@ -39,7 +39,7 @@ async function cosmosDbSqlUserDefinedFunctionList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlUserDefinedFunctionList();
+  await cosmosDbSqlUserDefinedFunctionList();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function listDeploymentSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDeploymentSkus();
+  await listDeploymentSkus();
 }
 
 main().catch(console.error);

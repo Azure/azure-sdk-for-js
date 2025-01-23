@@ -40,7 +40,7 @@ async function getATargetThatExtendsAVirtualMachineResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getATargetThatExtendsAVirtualMachineResource();
+  await getATargetThatExtendsAVirtualMachineResource();
 }
 
 main().catch(console.error);

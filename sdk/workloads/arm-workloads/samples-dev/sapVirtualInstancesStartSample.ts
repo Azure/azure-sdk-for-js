@@ -35,7 +35,7 @@ async function sapVirtualInstancesStart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesStart();
+  await sapVirtualInstancesStart();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function organizationListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationListByResourceGroup();
+  await organizationListByResourceGroup();
 }
 
 main().catch(console.error);

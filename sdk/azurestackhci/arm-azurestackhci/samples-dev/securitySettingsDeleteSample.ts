@@ -37,7 +37,7 @@ async function deleteSecuritySettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteSecuritySettings();
+  await deleteSecuritySettings();
 }
 
 main().catch(console.error);

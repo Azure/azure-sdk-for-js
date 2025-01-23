@@ -89,8 +89,8 @@ async function createRunbookAsDraft(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateRunbookAndPublishIt();
-  createRunbookAsDraft();
+  await createOrUpdateRunbookAndPublishIt();
+  await createRunbookAsDraft();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function listWebAppsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWebAppsByResourceGroup();
+  await listWebAppsByResourceGroup();
 }
 
 main().catch(console.error);

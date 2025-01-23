@@ -46,7 +46,7 @@ async function accessInvitationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessInvitationsList();
+  await accessInvitationsList();
 }
 
 main().catch(console.error);

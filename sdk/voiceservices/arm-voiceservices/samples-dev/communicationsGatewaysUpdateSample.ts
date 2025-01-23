@@ -40,7 +40,7 @@ async function updateCommunicationsGatewayResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateCommunicationsGatewayResource();
+  await updateCommunicationsGatewayResource();
 }
 
 main().catch(console.error);

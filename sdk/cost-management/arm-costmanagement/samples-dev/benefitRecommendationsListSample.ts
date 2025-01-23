@@ -40,7 +40,7 @@ async function benefitRecommendationsBillingAccountList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  benefitRecommendationsBillingAccountList();
+  await benefitRecommendationsBillingAccountList();
 }
 
 main().catch(console.error);

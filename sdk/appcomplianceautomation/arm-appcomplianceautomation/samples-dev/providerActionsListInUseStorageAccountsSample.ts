@@ -44,8 +44,8 @@ async function listInUseStorageAccountsWithoutSubscriptions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listInUseStorageAccountsWithSubscriptions();
-  listInUseStorageAccountsWithoutSubscriptions();
+  await listInUseStorageAccountsWithSubscriptions();
+  await listInUseStorageAccountsWithoutSubscriptions();
 }
 
 main().catch(console.error);

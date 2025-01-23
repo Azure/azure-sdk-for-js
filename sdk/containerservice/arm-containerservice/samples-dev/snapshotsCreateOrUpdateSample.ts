@@ -44,7 +44,7 @@ async function createOrUpdateSnapshot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateSnapshot();
+  await createOrUpdateSnapshot();
 }
 
 main().catch(console.error);

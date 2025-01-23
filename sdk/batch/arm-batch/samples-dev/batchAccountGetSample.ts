@@ -53,8 +53,8 @@ async function privateBatchAccountGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountGet();
-  privateBatchAccountGet();
+  await batchAccountGet();
+  await privateBatchAccountGet();
 }
 
 main().catch(console.error);

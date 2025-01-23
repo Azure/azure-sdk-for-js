@@ -34,7 +34,7 @@ async function deleteDscConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteDscConfiguration();
+  await deleteDscConfiguration();
 }
 
 main().catch(console.error);

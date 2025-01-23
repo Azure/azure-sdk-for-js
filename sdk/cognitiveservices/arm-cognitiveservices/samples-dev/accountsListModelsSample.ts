@@ -40,7 +40,7 @@ async function listAccountModels(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAccountModels();
+  await listAccountModels();
 }
 
 main().catch(console.error);

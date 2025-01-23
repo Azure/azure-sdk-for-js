@@ -81,8 +81,8 @@ async function cosmosDbSqlDatabaseRestore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseCreateUpdate();
-  cosmosDbSqlDatabaseRestore();
+  await cosmosDbSqlDatabaseCreateUpdate();
+  await cosmosDbSqlDatabaseRestore();
 }
 
 main().catch(console.error);

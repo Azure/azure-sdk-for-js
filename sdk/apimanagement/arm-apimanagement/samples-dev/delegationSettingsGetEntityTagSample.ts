@@ -34,7 +34,7 @@ async function apiManagementHeadDelegationSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadDelegationSettings();
+  await apiManagementHeadDelegationSettings();
 }
 
 main().catch(console.error);

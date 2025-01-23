@@ -55,8 +55,8 @@ async function invoiceSectionsValidateDeleteEligibilitySuccess(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  invoiceSectionsValidateDeleteEligibilityFailure();
-  invoiceSectionsValidateDeleteEligibilitySuccess();
+  await invoiceSectionsValidateDeleteEligibilityFailure();
+  await invoiceSectionsValidateDeleteEligibilitySuccess();
 }
 
 main().catch(console.error);

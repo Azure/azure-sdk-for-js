@@ -41,7 +41,7 @@ async function virtualEndpointListByServer() {
 }
 
 async function main() {
-  virtualEndpointListByServer();
+  await virtualEndpointListByServer();
 }
 
 main().catch(console.error);

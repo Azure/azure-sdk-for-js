@@ -44,7 +44,7 @@ async function cosmosDbGremlinDatabaseThroughputUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinDatabaseThroughputUpdate();
+  await cosmosDbGremlinDatabaseThroughputUpdate();
 }
 
 main().catch(console.error);

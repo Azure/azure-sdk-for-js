@@ -38,7 +38,7 @@ async function roleList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  roleList();
+  await roleList();
 }
 
 main().catch(console.error);

@@ -50,7 +50,7 @@ async function createOrUpdateADatabaseConnectionForAStaticSiteBuild(): Promise<v
 }
 
 async function main(): Promise<void> {
-  createOrUpdateADatabaseConnectionForAStaticSiteBuild();
+  await createOrUpdateADatabaseConnectionForAStaticSiteBuild();
 }
 
 main().catch(console.error);

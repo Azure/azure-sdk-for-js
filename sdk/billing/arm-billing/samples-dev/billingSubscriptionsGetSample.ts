@@ -32,7 +32,7 @@ async function billingSubscriptionsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionsGet();
+  await billingSubscriptionsGet();
 }
 
 main().catch(console.error);

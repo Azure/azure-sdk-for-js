@@ -44,7 +44,7 @@ async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource
 }
 
 async function main(): Promise<void> {
-  createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource();
+  await createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource();
 }
 
 main().catch(console.error);

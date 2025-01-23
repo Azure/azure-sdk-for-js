@@ -53,8 +53,8 @@ async function privateCloudsListStretched(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsList();
-  privateCloudsListStretched();
+  await privateCloudsList();
+  await privateCloudsListStretched();
 }
 
 main().catch(console.error);

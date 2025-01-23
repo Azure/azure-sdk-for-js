@@ -35,7 +35,7 @@ async function configurationStoresList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationStoresList();
+  await configurationStoresList();
 }
 
 main().catch(console.error);

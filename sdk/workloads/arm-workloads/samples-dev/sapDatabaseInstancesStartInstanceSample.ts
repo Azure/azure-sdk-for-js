@@ -37,7 +37,7 @@ async function startTheDatabaseInstanceOfTheSapSystem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startTheDatabaseInstanceOfTheSapSystem();
+  await startTheDatabaseInstanceOfTheSapSystem();
 }
 
 main().catch(console.error);

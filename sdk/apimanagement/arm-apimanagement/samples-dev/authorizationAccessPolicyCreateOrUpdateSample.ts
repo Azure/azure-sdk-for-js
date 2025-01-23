@@ -48,7 +48,7 @@ async function apiManagementCreateAuthorizationAccessPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateAuthorizationAccessPolicy();
+  await apiManagementCreateAuthorizationAccessPolicy();
 }
 
 main().catch(console.error);

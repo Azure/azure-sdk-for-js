@@ -41,7 +41,7 @@ async function pipelineRunList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelineRunList();
+  await pipelineRunList();
 }
 
 main().catch(console.error);

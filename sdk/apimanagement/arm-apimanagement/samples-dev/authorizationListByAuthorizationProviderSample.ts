@@ -65,8 +65,8 @@ async function apiManagementListAuthorizationsClientCred(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListAuthorizationsAuthCode();
-  apiManagementListAuthorizationsClientCred();
+  await apiManagementListAuthorizationsAuthCode();
+  await apiManagementListAuthorizationsClientCred();
 }
 
 main().catch(console.error);

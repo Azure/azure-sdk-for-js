@@ -36,7 +36,7 @@ async function buildsDelete0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildsDelete0();
+  await buildsDelete0();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function stopTheDatabaseInstanceOfTheSapSystem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopTheDatabaseInstanceOfTheSapSystem();
+  await stopTheDatabaseInstanceOfTheSapSystem();
 }
 
 main().catch(console.error);

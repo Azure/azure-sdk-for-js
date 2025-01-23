@@ -37,7 +37,7 @@ async function apmsListSecretKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apmsListSecretKeys();
+  await apmsListSecretKeys();
 }
 
 main().catch(console.error);

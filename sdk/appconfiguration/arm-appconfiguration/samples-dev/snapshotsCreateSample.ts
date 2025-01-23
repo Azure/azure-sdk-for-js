@@ -48,7 +48,7 @@ async function snapshotsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  snapshotsCreate();
+  await snapshotsCreate();
 }
 
 main().catch(console.error);

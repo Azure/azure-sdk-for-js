@@ -40,7 +40,7 @@ async function privateEndpointConnectionGetConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionGetConnection();
+  await privateEndpointConnectionGetConnection();
 }
 
 main().catch(console.error);

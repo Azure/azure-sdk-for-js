@@ -42,7 +42,7 @@ async function checkAccessByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkAccessByBillingProfile();
+  await checkAccessByBillingProfile();
 }
 
 main().catch(console.error);

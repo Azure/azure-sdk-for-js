@@ -40,7 +40,7 @@ async function getAServerThreatProtectionSettings() {
 }
 
 async function main() {
-  getAServerThreatProtectionSettings();
+  await getAServerThreatProtectionSettings();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function associatedTenantsListByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  associatedTenantsListByBillingAccount();
+  await associatedTenantsListByBillingAccount();
 }
 
 main().catch(console.error);

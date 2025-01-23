@@ -41,7 +41,7 @@ async function cacheRuleList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cacheRuleList();
+  await cacheRuleList();
 }
 
 main().catch(console.error);

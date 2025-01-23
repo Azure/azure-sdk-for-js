@@ -156,7 +156,7 @@ async function patchContainerApp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchContainerApp();
+  await patchContainerApp();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function afdCustomDomainsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdCustomDomainsUpdate();
+  await afdCustomDomainsUpdate();
 }
 
 main().catch(console.error);

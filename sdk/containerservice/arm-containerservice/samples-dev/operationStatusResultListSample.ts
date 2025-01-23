@@ -38,7 +38,7 @@ async function listOfOperationStatusResult(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listOfOperationStatusResult();
+  await listOfOperationStatusResult();
 }
 
 main().catch(console.error);

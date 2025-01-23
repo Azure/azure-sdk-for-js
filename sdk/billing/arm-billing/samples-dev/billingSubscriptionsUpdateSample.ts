@@ -39,7 +39,7 @@ async function billingSubscriptionsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionsUpdate();
+  await billingSubscriptionsUpdate();
 }
 
 main().catch(console.error);

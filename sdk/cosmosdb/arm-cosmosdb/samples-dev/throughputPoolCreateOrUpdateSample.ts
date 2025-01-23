@@ -43,7 +43,7 @@ async function cosmosDbThroughputPoolCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbThroughputPoolCreate();
+  await cosmosDbThroughputPoolCreate();
 }
 
 main().catch(console.error);

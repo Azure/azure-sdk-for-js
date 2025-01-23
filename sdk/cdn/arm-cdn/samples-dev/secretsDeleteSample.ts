@@ -34,7 +34,7 @@ async function secretsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  secretsDelete();
+  await secretsDelete();
 }
 
 main().catch(console.error);

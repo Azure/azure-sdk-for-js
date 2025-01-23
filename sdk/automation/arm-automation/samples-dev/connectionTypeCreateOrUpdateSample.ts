@@ -51,7 +51,7 @@ async function createOrUpdateConnectionType(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateConnectionType();
+  await createOrUpdateConnectionType();
 }
 
 main().catch(console.error);

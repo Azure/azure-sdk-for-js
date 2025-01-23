@@ -23,7 +23,7 @@ async function organizationsListByResourceGroup() {
 }
 
 async function main() {
-  organizationsListByResourceGroup();
+  await organizationsListByResourceGroup();
 }
 
 main().catch(console.error);

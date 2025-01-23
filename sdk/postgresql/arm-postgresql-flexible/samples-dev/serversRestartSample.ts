@@ -73,8 +73,8 @@ async function serverRestartWithFailover() {
 }
 
 async function main() {
-  serverRestart();
-  serverRestartWithFailover();
+  await serverRestart();
+  await serverRestartWithFailover();
 }
 
 main().catch(console.error);

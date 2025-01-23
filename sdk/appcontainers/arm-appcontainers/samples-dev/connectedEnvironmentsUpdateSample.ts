@@ -35,7 +35,7 @@ async function patchManagedEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchManagedEnvironment();
+  await patchManagedEnvironment();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function getsAFleetMemberResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsAFleetMemberResource();
+  await getsAFleetMemberResource();
 }
 
 main().catch(console.error);

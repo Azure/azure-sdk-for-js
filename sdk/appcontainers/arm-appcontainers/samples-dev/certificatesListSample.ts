@@ -38,7 +38,7 @@ async function listCertificatesByManagedEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCertificatesByManagedEnvironment();
+  await listCertificatesByManagedEnvironment();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listSessionPoolsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSessionPoolsByResourceGroup();
+  await listSessionPoolsByResourceGroup();
 }
 
 main().catch(console.error);

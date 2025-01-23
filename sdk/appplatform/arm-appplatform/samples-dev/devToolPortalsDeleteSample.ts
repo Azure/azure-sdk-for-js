@@ -37,7 +37,7 @@ async function devToolPortalsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devToolPortalsDelete();
+  await devToolPortalsDelete();
 }
 
 main().catch(console.error);

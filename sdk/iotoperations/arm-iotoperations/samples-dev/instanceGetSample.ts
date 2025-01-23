@@ -19,7 +19,7 @@ async function instanceGet() {
 }
 
 async function main() {
-  instanceGet();
+  await instanceGet();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function listRepetitions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRepetitions();
+  await listRepetitions();
 }
 
 main().catch(console.error);

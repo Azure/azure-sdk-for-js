@@ -42,7 +42,7 @@ async function accessUsersList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessUsersList();
+  await accessUsersList();
 }
 
 main().catch(console.error);

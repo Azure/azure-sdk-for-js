@@ -43,7 +43,7 @@ async function listPolicyAssignmentsThatApplyToAManagementGroup() {
 }
 
 async function main() {
-  listPolicyAssignmentsThatApplyToAManagementGroup();
+  await listPolicyAssignmentsThatApplyToAManagementGroup();
 }
 
 main().catch(console.error);

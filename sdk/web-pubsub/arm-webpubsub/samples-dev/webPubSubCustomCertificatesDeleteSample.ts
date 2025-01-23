@@ -37,7 +37,7 @@ async function webPubSubCustomCertificatesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubCustomCertificatesDelete();
+  await webPubSubCustomCertificatesDelete();
 }
 
 main().catch(console.error);

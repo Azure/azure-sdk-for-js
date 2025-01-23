@@ -36,7 +36,7 @@ async function putAccessReview(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putAccessReview();
+  await putAccessReview();
 }
 
 main().catch(console.error);

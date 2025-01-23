@@ -36,7 +36,7 @@ async function workloadNetworksGetPublicIP(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksGetPublicIP();
+  await workloadNetworksGetPublicIP();
 }
 
 main().catch(console.error);

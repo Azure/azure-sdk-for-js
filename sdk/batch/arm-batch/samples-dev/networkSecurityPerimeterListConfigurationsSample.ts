@@ -36,7 +36,7 @@ async function listNspConfigurations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listNspConfigurations();
+  await listNspConfigurations();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function apiManagementMigrateService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementMigrateService();
+  await apiManagementMigrateService();
 }
 
 main().catch(console.error);

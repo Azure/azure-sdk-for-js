@@ -27,7 +27,7 @@ async function getAccessReviewDefaultSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAccessReviewDefaultSettings();
+  await getAccessReviewDefaultSettings();
 }
 
 main().catch(console.error);

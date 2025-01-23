@@ -42,7 +42,7 @@ async function updateWatcher(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateWatcher();
+  await updateWatcher();
 }
 
 main().catch(console.error);
