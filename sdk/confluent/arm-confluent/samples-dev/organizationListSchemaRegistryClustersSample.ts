@@ -20,16 +20,14 @@ import "dotenv/config";
  */
 async function organizationListSchemaRegistryClusters(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const environmentId = "env-stgcczjp2j3";
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organization.listSchemaRegistryClusters(
+  for await (const item of client.organization.listSchemaRegistryClusters(
     resourceGroupName,
     organizationName,
     environmentId,

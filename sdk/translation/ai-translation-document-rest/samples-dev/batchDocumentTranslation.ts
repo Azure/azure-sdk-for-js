@@ -47,7 +47,6 @@ export async function main() {
   }
   const id = getTranslationOperationID(poller.headers["operation-location"]);
   console.log("Translation started and the operationID is: " + id);
-
 }
 
 main().catch((err) => {

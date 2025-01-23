@@ -20,17 +20,12 @@ import "dotenv/config";
  */
 async function confluentDelete(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.organization.beginDeleteAndWait(
-    resourceGroupName,
-    organizationName,
-  );
+  const result = await client.organization.beginDeleteAndWait(resourceGroupName, organizationName);
   console.log(result);
 }
 

@@ -38,10 +38,10 @@ export async function main(): Promise<void> {
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
 
   await poller.onProgress(() => {
-        console.log(
-          `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
-        );
-      });
+    console.log(
+      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
+    );
+  });
   console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
   console.log(`The operation results will expire on ${poller.getOperationState().expiresOn}`);
 
