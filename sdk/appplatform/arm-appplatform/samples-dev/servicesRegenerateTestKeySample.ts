@@ -42,7 +42,7 @@ async function servicesRegenerateTestKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesRegenerateTestKey();
+  await servicesRegenerateTestKey();
 }
 
 main().catch(console.error);

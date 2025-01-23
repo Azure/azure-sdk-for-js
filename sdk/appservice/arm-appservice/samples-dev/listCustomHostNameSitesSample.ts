@@ -56,8 +56,8 @@ async function getSpecificCustomHostnameUnderSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCustomHostnamesUnderSubscription();
-  getSpecificCustomHostnameUnderSubscription();
+  await getCustomHostnamesUnderSubscription();
+  await getSpecificCustomHostnameUnderSubscription();
 }
 
 main().catch(console.error);

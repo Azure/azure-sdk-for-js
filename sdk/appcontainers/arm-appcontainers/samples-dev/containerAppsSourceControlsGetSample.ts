@@ -37,7 +37,7 @@ async function getContainerAppSourceControl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContainerAppSourceControl();
+  await getContainerAppSourceControl();
 }
 
 main().catch(console.error);

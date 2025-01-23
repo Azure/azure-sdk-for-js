@@ -201,10 +201,10 @@ async function createOrUpdateWebApp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cloneWebApp();
-  createOrUpdateFlexConsumptionFunctionApp();
-  createOrUpdateFlexConsumptionFunctionAppWithDetails();
-  createOrUpdateWebApp();
+  await cloneWebApp();
+  await createOrUpdateFlexConsumptionFunctionApp();
+  await createOrUpdateFlexConsumptionFunctionAppWithDetails();
+  await createOrUpdateWebApp();
 }
 
 main().catch(console.error);

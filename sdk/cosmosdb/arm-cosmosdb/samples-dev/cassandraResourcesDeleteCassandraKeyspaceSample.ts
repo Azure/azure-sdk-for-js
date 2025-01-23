@@ -35,7 +35,7 @@ async function cosmosDbCassandraKeyspaceDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraKeyspaceDelete();
+  await cosmosDbCassandraKeyspaceDelete();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getAListOfFieldsOfAGivenTypeAcrossAllAccessibleModules(): Promise
 }
 
 async function main(): Promise<void> {
-  getAListOfFieldsOfAGivenTypeAcrossAllAccessibleModules();
+  await getAListOfFieldsOfAGivenTypeAcrossAllAccessibleModules();
 }
 
 main().catch(console.error);

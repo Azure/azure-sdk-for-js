@@ -28,7 +28,7 @@ async function getBotHostSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBotHostSettings();
+  await getBotHostSettings();
 }
 
 main().catch(console.error);

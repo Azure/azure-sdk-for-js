@@ -44,7 +44,7 @@ async function confluentUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confluentUpdate();
+  await confluentUpdate();
 }
 
 main().catch(console.error);

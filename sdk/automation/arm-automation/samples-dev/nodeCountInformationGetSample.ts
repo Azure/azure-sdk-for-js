@@ -55,8 +55,8 @@ async function getNodeStatusCounts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getNodeConfigurationCounts();
-  getNodeStatusCounts();
+  await getNodeConfigurationCounts();
+  await getNodeStatusCounts();
 }
 
 main().catch(console.error);

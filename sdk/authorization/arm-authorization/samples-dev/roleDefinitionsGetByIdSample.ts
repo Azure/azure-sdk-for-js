@@ -27,7 +27,7 @@ async function getRoleDefinitionByRoleId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleDefinitionByRoleId();
+  await getRoleDefinitionByRoleId();
 }
 
 main().catch(console.error);

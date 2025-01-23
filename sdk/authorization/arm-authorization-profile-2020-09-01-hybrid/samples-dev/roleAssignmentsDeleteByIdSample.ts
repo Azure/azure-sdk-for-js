@@ -30,7 +30,7 @@ async function deleteRoleAssignmentById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteRoleAssignmentById();
+  await deleteRoleAssignmentById();
 }
 
 main().catch(console.error);

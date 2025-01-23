@@ -40,7 +40,7 @@ async function apiManagementHeadGraphQlApiResolverPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadGraphQlApiResolverPolicy();
+  await apiManagementHeadGraphQlApiResolverPolicy();
 }
 
 main().catch(console.error);

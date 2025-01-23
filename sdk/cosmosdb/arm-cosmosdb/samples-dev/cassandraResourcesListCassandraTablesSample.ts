@@ -37,7 +37,7 @@ async function cosmosDbCassandraTableList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraTableList();
+  await cosmosDbCassandraTableList();
 }
 
 main().catch(console.error);

@@ -28,7 +28,7 @@ async function scheduledActionDeleteByScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scheduledActionDeleteByScope();
+  await scheduledActionDeleteByScope();
 }
 
 main().catch(console.error);

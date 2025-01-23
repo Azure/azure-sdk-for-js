@@ -97,10 +97,10 @@ async function sqlDedicatedGatewayServiceGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataTransferServiceGet();
-  graphApiComputeServiceGet();
-  materializedViewsBuilderServiceGet();
-  sqlDedicatedGatewayServiceGet();
+  await dataTransferServiceGet();
+  await graphApiComputeServiceGet();
+  await materializedViewsBuilderServiceGet();
+  await sqlDedicatedGatewayServiceGet();
 }
 
 main().catch(console.error);

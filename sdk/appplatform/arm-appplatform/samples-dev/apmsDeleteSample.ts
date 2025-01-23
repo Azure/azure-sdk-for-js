@@ -37,7 +37,7 @@ async function apmsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apmsDelete();
+  await apmsDelete();
 }
 
 main().catch(console.error);

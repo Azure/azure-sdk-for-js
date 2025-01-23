@@ -32,7 +32,7 @@ async function cosmosDbDatabaseAccountDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountDelete();
+  await cosmosDbDatabaseAccountDelete();
 }
 
 main().catch(console.error);

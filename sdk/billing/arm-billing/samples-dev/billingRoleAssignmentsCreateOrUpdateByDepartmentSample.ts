@@ -47,7 +47,7 @@ async function billingRoleAssignmentCreateOrUpdateByDepartment(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  billingRoleAssignmentCreateOrUpdateByDepartment();
+  await billingRoleAssignmentCreateOrUpdateByDepartment();
 }
 
 main().catch(console.error);

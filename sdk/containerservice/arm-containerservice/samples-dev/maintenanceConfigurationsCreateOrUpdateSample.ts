@@ -94,8 +94,8 @@ async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow(): Pr
 }
 
 async function main(): Promise<void> {
-  createOrUpdateMaintenanceConfiguration();
-  createOrUpdateMaintenanceConfigurationWithMaintenanceWindow();
+  await createOrUpdateMaintenanceConfiguration();
+  await createOrUpdateMaintenanceConfigurationWithMaintenanceWindow();
 }
 
 main().catch(console.error);

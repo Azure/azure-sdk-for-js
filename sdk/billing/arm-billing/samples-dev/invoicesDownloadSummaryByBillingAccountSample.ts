@@ -32,7 +32,7 @@ async function invoicesDownloadSummaryByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoicesDownloadSummaryByBillingAccount();
+  await invoicesDownloadSummaryByBillingAccount();
 }
 
 main().catch(console.error);

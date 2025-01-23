@@ -66,7 +66,7 @@ async function routesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  routesUpdate();
+  await routesUpdate();
 }
 
 main().catch(console.error);

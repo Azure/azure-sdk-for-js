@@ -37,7 +37,7 @@ async function productsListByInvoiceSection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  productsListByInvoiceSection();
+  await productsListByInvoiceSection();
 }
 
 main().catch(console.error);

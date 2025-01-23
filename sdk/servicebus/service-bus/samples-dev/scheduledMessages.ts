@@ -93,10 +93,10 @@ async function receiveMessages(sbClient: ServiceBusClient) {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  queueReceiver.subscribe({
-    processMessage,
-    processError,
-  });
+  await queueReceiver.subscribe({
+        processMessage,
+        processError,
+      });
   await delay(5000);
   await queueReceiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
@@ -106,10 +106,10 @@ async function receiveMessages(sbClient: ServiceBusClient) {
 
   queueReceiver = sbClient.createReceiver(queueName);
 
-  queueReceiver.subscribe({
-    processMessage,
-    processError,
-  });
+  await queueReceiver.subscribe({
+        processMessage,
+        processError,
+      });
 
   await delay(5000);
   await queueReceiver.close();

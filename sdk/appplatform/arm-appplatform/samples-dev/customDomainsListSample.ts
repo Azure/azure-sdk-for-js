@@ -40,7 +40,7 @@ async function customDomainsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customDomainsList();
+  await customDomainsList();
 }
 
 main().catch(console.error);

@@ -56,7 +56,7 @@ async function createOrUpdatePrivateView(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdatePrivateView();
+  await createOrUpdatePrivateView();
 }
 
 main().catch(console.error);

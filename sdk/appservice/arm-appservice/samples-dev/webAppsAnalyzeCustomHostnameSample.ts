@@ -35,7 +35,7 @@ async function analyzeCustomHostnameForWebapp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  analyzeCustomHostnameForWebapp();
+  await analyzeCustomHostnameForWebapp();
 }
 
 main().catch(console.error);

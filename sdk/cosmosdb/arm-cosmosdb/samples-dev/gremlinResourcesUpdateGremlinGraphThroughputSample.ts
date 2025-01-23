@@ -46,7 +46,7 @@ async function cosmosDbGremlinGraphThroughputUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinGraphThroughputUpdate();
+  await cosmosDbGremlinGraphThroughputUpdate();
 }
 
 main().catch(console.error);

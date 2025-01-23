@@ -39,7 +39,7 @@ async function validateTransfer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateTransfer();
+  await validateTransfer();
 }
 
 main().catch(console.error);

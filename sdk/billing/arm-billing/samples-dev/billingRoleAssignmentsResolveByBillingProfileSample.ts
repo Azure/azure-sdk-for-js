@@ -33,7 +33,7 @@ async function resolveBillingRoleAssignmentByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resolveBillingRoleAssignmentByBillingProfile();
+  await resolveBillingRoleAssignmentByBillingProfile();
 }
 
 main().catch(console.error);

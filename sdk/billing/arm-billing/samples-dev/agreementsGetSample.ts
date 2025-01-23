@@ -29,7 +29,7 @@ async function agreementByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  agreementByName();
+  await agreementByName();
 }
 
 main().catch(console.error);

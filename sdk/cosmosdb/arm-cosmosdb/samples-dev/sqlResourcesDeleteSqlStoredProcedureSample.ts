@@ -38,7 +38,7 @@ async function cosmosDbSqlStoredProcedureDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlStoredProcedureDelete();
+  await cosmosDbSqlStoredProcedureDelete();
 }
 
 main().catch(console.error);

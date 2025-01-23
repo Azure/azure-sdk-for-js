@@ -32,7 +32,7 @@ async function pricesheetDownloadByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pricesheetDownloadByBillingProfile();
+  await pricesheetDownloadByBillingProfile();
 }
 
 main().catch(console.error);

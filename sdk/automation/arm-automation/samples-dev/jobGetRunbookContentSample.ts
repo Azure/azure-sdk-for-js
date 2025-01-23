@@ -37,7 +37,7 @@ async function getJobRunbookContent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getJobRunbookContent();
+  await getJobRunbookContent();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function getAnAzureBareMetalStorageInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAnAzureBareMetalStorageInstance();
+  await getAnAzureBareMetalStorageInstance();
 }
 
 main().catch(console.error);

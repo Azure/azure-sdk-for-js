@@ -36,7 +36,7 @@ async function addonsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  addonsDelete();
+  await addonsDelete();
 }
 
 main().catch(console.error);

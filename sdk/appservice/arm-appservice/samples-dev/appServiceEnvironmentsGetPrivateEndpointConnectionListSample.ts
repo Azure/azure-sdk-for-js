@@ -38,7 +38,7 @@ async function getsTheListOfPrivateEndpointsAssociatedWithAHostingEnvironment():
 }
 
 async function main(): Promise<void> {
-  getsTheListOfPrivateEndpointsAssociatedWithAHostingEnvironment();
+  await getsTheListOfPrivateEndpointsAssociatedWithAHostingEnvironment();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listOutboundNetworkDependenciesEndpointsByManagedCluster(): Promi
 }
 
 async function main(): Promise<void> {
-  listOutboundNetworkDependenciesEndpointsByManagedCluster();
+  await listOutboundNetworkDependenciesEndpointsByManagedCluster();
 }
 
 main().catch(console.error);

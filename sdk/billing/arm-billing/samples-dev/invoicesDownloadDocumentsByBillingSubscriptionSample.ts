@@ -39,7 +39,7 @@ async function invoicesDownloadDocumentsByBillingSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoicesDownloadDocumentsByBillingSubscription();
+  await invoicesDownloadDocumentsByBillingSubscription();
 }
 
 main().catch(console.error);

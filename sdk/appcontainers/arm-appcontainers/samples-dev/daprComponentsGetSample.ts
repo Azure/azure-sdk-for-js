@@ -61,8 +61,8 @@ async function getDaprComponentWithSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDaprComponentWithSecretStoreComponent();
-  getDaprComponentWithSecrets();
+  await getDaprComponentWithSecretStoreComponent();
+  await getDaprComponentWithSecrets();
 }
 
 main().catch(console.error);

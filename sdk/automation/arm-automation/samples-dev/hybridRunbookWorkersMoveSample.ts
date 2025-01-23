@@ -43,7 +43,7 @@ async function moveAV2HybridWorkerToADifferentGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  moveAV2HybridWorkerToADifferentGroup();
+  await moveAV2HybridWorkerToADifferentGroup();
 }
 
 main().catch(console.error);

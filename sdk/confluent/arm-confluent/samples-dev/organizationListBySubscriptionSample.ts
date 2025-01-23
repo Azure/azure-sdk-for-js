@@ -32,7 +32,7 @@ async function organizationListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationListBySubscription();
+  await organizationListBySubscription();
 }
 
 main().catch(console.error);

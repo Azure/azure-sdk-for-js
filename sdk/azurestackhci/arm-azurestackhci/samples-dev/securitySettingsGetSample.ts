@@ -37,7 +37,7 @@ async function getSecuritySettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSecuritySettings();
+  await getSecuritySettings();
 }
 
 main().catch(console.error);

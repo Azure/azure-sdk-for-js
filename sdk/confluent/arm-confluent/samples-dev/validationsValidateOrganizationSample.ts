@@ -59,7 +59,7 @@ async function validationsValidateOrganizations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validationsValidateOrganizations();
+  await validationsValidateOrganizations();
 }
 
 main().catch(console.error);

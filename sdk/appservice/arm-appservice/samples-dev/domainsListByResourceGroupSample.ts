@@ -36,7 +36,7 @@ async function listDomainsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDomainsByResourceGroup();
+  await listDomainsByResourceGroup();
 }
 
 main().catch(console.error);

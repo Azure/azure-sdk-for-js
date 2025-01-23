@@ -36,7 +36,7 @@ async function deleteAnAutoUpgradeProfileResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnAutoUpgradeProfileResource();
+  await deleteAnAutoUpgradeProfileResource();
 }
 
 main().catch(console.error);

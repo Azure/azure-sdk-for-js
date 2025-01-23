@@ -126,8 +126,8 @@ async function externalSubscriptionsQuery(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  externalBillingAccountQueryList();
-  externalSubscriptionsQuery();
+  await externalBillingAccountQueryList();
+  await externalSubscriptionsQuery();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function apiManagementGatewayGenerateToken(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGatewayGenerateToken();
+  await apiManagementGatewayGenerateToken();
 }
 
 main().catch(console.error);

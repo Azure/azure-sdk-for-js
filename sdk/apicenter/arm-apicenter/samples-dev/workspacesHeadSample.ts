@@ -37,7 +37,7 @@ async function workspacesHead(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspacesHead();
+  await workspacesHead();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getTheListOfAvailableDiagnosticDataForAContainerAppJob(): Promise
 }
 
 async function main(): Promise<void> {
-  getTheListOfAvailableDiagnosticDataForAContainerAppJob();
+  await getTheListOfAvailableDiagnosticDataForAContainerAppJob();
 }
 
 main().catch(console.error);

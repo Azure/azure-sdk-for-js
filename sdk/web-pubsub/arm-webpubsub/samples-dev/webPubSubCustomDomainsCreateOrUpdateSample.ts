@@ -44,7 +44,7 @@ async function webPubSubCustomDomainsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubCustomDomainsCreateOrUpdate();
+  await webPubSubCustomDomainsCreateOrUpdate();
 }
 
 main().catch(console.error);

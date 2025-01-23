@@ -35,7 +35,7 @@ async function billingSubscriptionsListByCustomerAtBillingAccount(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionsListByCustomerAtBillingAccount();
+  await billingSubscriptionsListByCustomerAtBillingAccount();
 }
 
 main().catch(console.error);

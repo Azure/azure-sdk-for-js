@@ -35,7 +35,7 @@ async function managedPrivateEndpointRefresh(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointRefresh();
+  await managedPrivateEndpointRefresh();
 }
 
 main().catch(console.error);

@@ -65,7 +65,7 @@ async function organizationsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationsUpdate();
+  await organizationsUpdate();
 }
 
 main().catch(console.error);

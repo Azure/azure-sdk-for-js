@@ -61,9 +61,9 @@ async function billingPropertyGetMpa(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingPropertyGetMca();
-  billingPropertyGetMosp();
-  billingPropertyGetMpa();
+  await billingPropertyGetMca();
+  await billingPropertyGetMosp();
+  await billingPropertyGetMpa();
 }
 
 main().catch(console.error);

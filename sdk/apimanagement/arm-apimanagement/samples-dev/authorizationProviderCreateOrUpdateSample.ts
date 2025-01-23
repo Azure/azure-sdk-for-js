@@ -176,10 +176,10 @@ async function apiManagementCreateAuthorizationProviderOobGoogle(): Promise<void
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateAuthorizationProviderAadAuthCode();
-  apiManagementCreateAuthorizationProviderAadClientCred();
-  apiManagementCreateAuthorizationProviderGenericOAuth2();
-  apiManagementCreateAuthorizationProviderOobGoogle();
+  await apiManagementCreateAuthorizationProviderAadAuthCode();
+  await apiManagementCreateAuthorizationProviderAadClientCred();
+  await apiManagementCreateAuthorizationProviderGenericOAuth2();
+  await apiManagementCreateAuthorizationProviderOobGoogle();
 }
 
 main().catch(console.error);

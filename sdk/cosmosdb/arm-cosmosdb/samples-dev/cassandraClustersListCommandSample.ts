@@ -38,7 +38,7 @@ async function cosmosDbManagedCassandraListCommand(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraListCommand();
+  await cosmosDbManagedCassandraListCommand();
 }
 
 main().catch(console.error);

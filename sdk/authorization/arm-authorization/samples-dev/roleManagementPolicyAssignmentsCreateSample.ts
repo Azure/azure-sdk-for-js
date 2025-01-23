@@ -44,7 +44,7 @@ async function putRoleManagementPolicyAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putRoleManagementPolicyAssignment();
+  await putRoleManagementPolicyAssignment();
 }
 
 main().catch(console.error);

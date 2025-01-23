@@ -35,7 +35,7 @@ async function extendedInfoPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  extendedInfoPost();
+  await extendedInfoPost();
 }
 
 main().catch(console.error);

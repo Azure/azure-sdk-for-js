@@ -37,7 +37,7 @@ async function cosmosDbClientEncryptionKeysList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbClientEncryptionKeysList();
+  await cosmosDbClientEncryptionKeysList();
 }
 
 main().catch(console.error);

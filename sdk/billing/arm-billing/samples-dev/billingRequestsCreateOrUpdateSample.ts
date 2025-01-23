@@ -40,7 +40,7 @@ async function billingRequestsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRequestsCreateOrUpdate();
+  await billingRequestsCreateOrUpdate();
 }
 
 main().catch(console.error);

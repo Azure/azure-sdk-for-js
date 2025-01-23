@@ -57,8 +57,8 @@ async function listCredentialsByAutomationAccountNext100(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCredentialsByAutomationAccountFirst100();
-  listCredentialsByAutomationAccountNext100();
+  await listCredentialsByAutomationAccountFirst100();
+  await listCredentialsByAutomationAccountNext100();
 }
 
 main().catch(console.error);

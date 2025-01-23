@@ -37,7 +37,7 @@ async function deleteATrustedAccessRoleBinding(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteATrustedAccessRoleBinding();
+  await deleteATrustedAccessRoleBinding();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function deleteAnExistingConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnExistingConnection();
+  await deleteAnExistingConnection();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function apiManagementTenantAccessRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementTenantAccessRegenerateKey();
+  await apiManagementTenantAccessRegenerateKey();
 }
 
 main().catch(console.error);

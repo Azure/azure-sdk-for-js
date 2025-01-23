@@ -37,7 +37,7 @@ async function cosmosDbCassandraTableMigrateToAutoscale(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraTableMigrateToAutoscale();
+  await cosmosDbCassandraTableMigrateToAutoscale();
 }
 
 main().catch(console.error);

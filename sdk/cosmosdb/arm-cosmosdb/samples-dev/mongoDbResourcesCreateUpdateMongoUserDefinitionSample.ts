@@ -50,7 +50,7 @@ async function cosmosDbMongoDbuserDefinitionCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbuserDefinitionCreateUpdate();
+  await cosmosDbMongoDbuserDefinitionCreateUpdate();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function purgeADeletedConfigurationStore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  purgeADeletedConfigurationStore();
+  await purgeADeletedConfigurationStore();
 }
 
 main().catch(console.error);

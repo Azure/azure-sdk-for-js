@@ -36,7 +36,7 @@ async function reservationUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reservationUpdate();
+  await reservationUpdate();
 }
 
 main().catch(console.error);

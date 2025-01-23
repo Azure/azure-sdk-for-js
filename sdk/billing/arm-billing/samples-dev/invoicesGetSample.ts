@@ -27,7 +27,7 @@ async function invoicesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoicesGet();
+  await invoicesGet();
 }
 
 main().catch(console.error);

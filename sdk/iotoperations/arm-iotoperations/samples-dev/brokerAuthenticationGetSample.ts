@@ -24,7 +24,7 @@ async function brokerAuthenticationGet() {
 }
 
 async function main() {
-  brokerAuthenticationGet();
+  await brokerAuthenticationGet();
 }
 
 main().catch(console.error);

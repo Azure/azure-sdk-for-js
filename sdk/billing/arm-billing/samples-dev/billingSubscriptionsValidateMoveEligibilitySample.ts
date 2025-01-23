@@ -64,8 +64,8 @@ async function billingSubscriptionValidateMoveSuccess(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionValidateMoveFailure();
-  billingSubscriptionValidateMoveSuccess();
+  await billingSubscriptionValidateMoveFailure();
+  await billingSubscriptionValidateMoveSuccess();
 }
 
 main().catch(console.error);

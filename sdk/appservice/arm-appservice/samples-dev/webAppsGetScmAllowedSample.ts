@@ -31,7 +31,7 @@ async function getScmAllowed(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getScmAllowed();
+  await getScmAllowed();
 }
 
 main().catch(console.error);

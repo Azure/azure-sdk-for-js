@@ -72,8 +72,8 @@ async function apiManagementCreateGroupExternal(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateGroup();
-  apiManagementCreateGroupExternal();
+  await apiManagementCreateGroup();
+  await apiManagementCreateGroupExternal();
 }
 
 main().catch(console.error);

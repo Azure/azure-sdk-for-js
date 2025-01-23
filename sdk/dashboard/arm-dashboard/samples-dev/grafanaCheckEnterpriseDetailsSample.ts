@@ -35,7 +35,7 @@ async function enterpriseDetailsPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseDetailsPost();
+  await enterpriseDetailsPost();
 }
 
 main().catch(console.error);

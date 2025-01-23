@@ -37,7 +37,7 @@ async function suspendTestJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  suspendTestJob();
+  await suspendTestJob();
 }
 
 main().catch(console.error);

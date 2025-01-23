@@ -41,7 +41,7 @@ async function cosmosDbThroughputPoolUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbThroughputPoolUpdate();
+  await cosmosDbThroughputPoolUpdate();
 }
 
 main().catch(console.error);

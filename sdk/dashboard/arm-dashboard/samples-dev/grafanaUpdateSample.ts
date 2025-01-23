@@ -73,7 +73,7 @@ async function grafanaUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  grafanaUpdate();
+  await grafanaUpdate();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function apiPortalsValidateDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiPortalsValidateDomain();
+  await apiPortalsValidateDomain();
 }
 
 main().catch(console.error);

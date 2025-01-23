@@ -32,7 +32,7 @@ async function deleteAConfigurationProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAConfigurationProfile();
+  await deleteAConfigurationProfile();
 }
 
 main().catch(console.error);

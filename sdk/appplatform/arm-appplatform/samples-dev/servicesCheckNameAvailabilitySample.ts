@@ -40,7 +40,7 @@ async function servicesCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesCheckNameAvailability();
+  await servicesCheckNameAvailability();
 }
 
 main().catch(console.error);

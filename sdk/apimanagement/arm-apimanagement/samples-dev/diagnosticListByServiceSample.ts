@@ -37,7 +37,7 @@ async function apiManagementListDiagnostics(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListDiagnostics();
+  await apiManagementListDiagnostics();
 }
 
 main().catch(console.error);

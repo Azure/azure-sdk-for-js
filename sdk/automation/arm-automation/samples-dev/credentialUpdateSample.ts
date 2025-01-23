@@ -44,7 +44,7 @@ async function updateACredential(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateACredential();
+  await updateACredential();
 }
 
 main().catch(console.error);

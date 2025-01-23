@@ -27,7 +27,7 @@ async function privateScheduledActionDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateScheduledActionDelete();
+  await privateScheduledActionDelete();
 }
 
 main().catch(console.error);

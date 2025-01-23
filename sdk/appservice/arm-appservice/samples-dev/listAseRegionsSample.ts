@@ -32,7 +32,7 @@ async function listAseregions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAseregions();
+  await listAseregions();
 }
 
 main().catch(console.error);

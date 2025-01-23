@@ -37,7 +37,7 @@ async function deleteDaprComponent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteDaprComponent();
+  await deleteDaprComponent();
 }
 
 main().catch(console.error);

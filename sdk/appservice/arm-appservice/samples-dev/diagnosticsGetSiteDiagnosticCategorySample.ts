@@ -61,8 +61,8 @@ async function getAppSlotDiagnosticCategory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAppDiagnosticCategory();
-  getAppSlotDiagnosticCategory();
+  await getAppDiagnosticCategory();
+  await getAppSlotDiagnosticCategory();
 }
 
 main().catch(console.error);

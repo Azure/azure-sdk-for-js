@@ -38,7 +38,7 @@ async function apiManagementHeadApiSchema(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadApiSchema();
+  await apiManagementHeadApiSchema();
 }
 
 main().catch(console.error);

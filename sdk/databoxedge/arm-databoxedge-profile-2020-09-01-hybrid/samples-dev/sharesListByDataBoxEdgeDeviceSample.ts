@@ -38,7 +38,7 @@ async function shareGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  shareGetAllInDevice();
+  await shareGetAllInDevice();
 }
 
 main().catch(console.error);

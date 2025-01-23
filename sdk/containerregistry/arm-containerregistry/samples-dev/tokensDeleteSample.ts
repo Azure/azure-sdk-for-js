@@ -40,7 +40,7 @@ async function tokenDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tokenDelete();
+  await tokenDelete();
 }
 
 main().catch(console.error);

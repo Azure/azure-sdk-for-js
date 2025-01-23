@@ -35,7 +35,7 @@ async function deleteTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteTheCluster();
+  await deleteTheCluster();
 }
 
 main().catch(console.error);

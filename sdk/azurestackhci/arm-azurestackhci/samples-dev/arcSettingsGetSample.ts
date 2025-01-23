@@ -37,7 +37,7 @@ async function getArcSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getArcSetting();
+  await getArcSetting();
 }
 
 main().catch(console.error);

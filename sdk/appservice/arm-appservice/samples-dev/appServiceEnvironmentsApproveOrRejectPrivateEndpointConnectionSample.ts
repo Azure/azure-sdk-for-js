@@ -48,7 +48,7 @@ async function approvesOrRejectsAPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  approvesOrRejectsAPrivateEndpointConnection();
+  await approvesOrRejectsAPrivateEndpointConnection();
 }
 
 main().catch(console.error);

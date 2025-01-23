@@ -40,7 +40,7 @@ async function listConfigurationsOfTheServerThatInTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listConfigurationsOfTheServerThatInTheCluster();
+  await listConfigurationsOfTheServerThatInTheCluster();
 }
 
 main().catch(console.error);

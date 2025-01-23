@@ -54,7 +54,7 @@ async function gatewaysCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewaysCreateOrUpdate();
+  await gatewaysCreateOrUpdate();
 }
 
 main().catch(console.error);

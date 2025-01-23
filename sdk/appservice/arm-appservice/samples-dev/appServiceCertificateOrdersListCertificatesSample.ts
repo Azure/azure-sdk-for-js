@@ -38,7 +38,7 @@ async function listCertificatesByAppServiceCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCertificatesByAppServiceCertificate();
+  await listCertificatesByAppServiceCertificate();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function apiManagementOpenidConnectProviderListSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementOpenidConnectProviderListSecrets();
+  await apiManagementOpenidConnectProviderListSecrets();
 }
 
 main().catch(console.error);

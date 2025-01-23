@@ -29,7 +29,7 @@ async function productsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  productsGet();
+  await productsGet();
 }
 
 main().catch(console.error);

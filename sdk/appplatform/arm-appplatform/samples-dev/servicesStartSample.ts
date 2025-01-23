@@ -35,7 +35,7 @@ async function servicesStart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesStart();
+  await servicesStart();
 }
 
 main().catch(console.error);

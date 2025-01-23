@@ -31,7 +31,7 @@ async function confidentialLedgerList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialLedgerList();
+  await confidentialLedgerList();
 }
 
 main().catch(console.error);

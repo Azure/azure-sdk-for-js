@@ -37,7 +37,7 @@ async function deleteAnUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnUpdate();
+  await deleteAnUpdate();
 }
 
 main().catch(console.error);

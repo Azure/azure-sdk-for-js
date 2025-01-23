@@ -53,8 +53,8 @@ async function addressValidateValid(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  addressValidateInvalid();
-  addressValidateValid();
+  await addressValidateInvalid();
+  await addressValidateValid();
 }
 
 main().catch(console.error);

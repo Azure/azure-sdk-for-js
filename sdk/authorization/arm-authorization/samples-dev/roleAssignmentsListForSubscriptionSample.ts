@@ -32,7 +32,7 @@ async function listRoleAssignmentsForSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRoleAssignmentsForSubscription();
+  await listRoleAssignmentsForSubscription();
 }
 
 main().catch(console.error);

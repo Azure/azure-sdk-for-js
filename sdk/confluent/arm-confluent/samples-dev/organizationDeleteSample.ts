@@ -35,7 +35,7 @@ async function confluentDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confluentDelete();
+  await confluentDelete();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getRoleManagementPolicyByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleManagementPolicyByName();
+  await getRoleManagementPolicyByName();
 }
 
 main().catch(console.error);

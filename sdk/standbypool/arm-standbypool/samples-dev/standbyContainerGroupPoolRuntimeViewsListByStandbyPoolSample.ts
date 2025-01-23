@@ -26,7 +26,7 @@ async function standbyContainerGroupPoolRuntimeViewsListByStandbyPool() {
 }
 
 async function main() {
-  standbyContainerGroupPoolRuntimeViewsListByStandbyPool();
+  await standbyContainerGroupPoolRuntimeViewsListByStandbyPool();
 }
 
 main().catch(console.error);

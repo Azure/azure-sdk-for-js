@@ -54,7 +54,7 @@ async function apiManagementCreateContentTypeContentItem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateContentTypeContentItem();
+  await apiManagementCreateContentTypeContentItem();
 }
 
 main().catch(console.error);

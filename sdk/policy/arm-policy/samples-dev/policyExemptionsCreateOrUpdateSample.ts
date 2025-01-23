@@ -45,7 +45,7 @@ async function createOrUpdateAPolicyExemption() {
 }
 
 async function main() {
-  createOrUpdateAPolicyExemption();
+  await createOrUpdateAPolicyExemption();
 }
 
 main().catch(console.error);

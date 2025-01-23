@@ -36,7 +36,7 @@ async function organizationsListByResourceGroupGeneratedByMaximumSetRule(): Prom
 }
 
 async function main(): Promise<void> {
-  organizationsListByResourceGroupGeneratedByMaximumSetRule();
+  await organizationsListByResourceGroupGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

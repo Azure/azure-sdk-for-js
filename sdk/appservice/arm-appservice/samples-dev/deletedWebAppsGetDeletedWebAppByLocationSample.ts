@@ -34,7 +34,7 @@ async function getDeletedWebAppByLocation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDeletedWebAppByLocation();
+  await getDeletedWebAppByLocation();
 }
 
 main().catch(console.error);

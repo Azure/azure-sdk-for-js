@@ -65,8 +65,8 @@ async function deploymentsGetCustomContainer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsGet();
-  deploymentsGetCustomContainer();
+  await deploymentsGet();
+  await deploymentsGetCustomContainer();
 }
 
 main().catch(console.error);

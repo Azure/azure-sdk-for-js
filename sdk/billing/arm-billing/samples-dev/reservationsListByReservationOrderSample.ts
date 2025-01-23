@@ -35,7 +35,7 @@ async function reservationsGetFromOrderByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reservationsGetFromOrderByBillingAccount();
+  await reservationsGetFromOrderByBillingAccount();
 }
 
 main().catch(console.error);

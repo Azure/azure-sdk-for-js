@@ -37,7 +37,7 @@ async function stopACurrentlyRunningNetworkTraceOperationForASite(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  stopACurrentlyRunningNetworkTraceOperationForASite();
+  await stopACurrentlyRunningNetworkTraceOperationForASite();
 }
 
 main().catch(console.error);

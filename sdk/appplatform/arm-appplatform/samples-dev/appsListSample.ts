@@ -57,8 +57,8 @@ async function appsListVNetInjection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appsList();
-  appsListVNetInjection();
+  await appsList();
+  await appsListVNetInjection();
 }
 
 main().catch(console.error);

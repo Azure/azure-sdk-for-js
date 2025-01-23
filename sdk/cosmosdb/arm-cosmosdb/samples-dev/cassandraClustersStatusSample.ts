@@ -35,7 +35,7 @@ async function cosmosDbManagedCassandraStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraStatus();
+  await cosmosDbManagedCassandraStatus();
 }
 
 main().catch(console.error);

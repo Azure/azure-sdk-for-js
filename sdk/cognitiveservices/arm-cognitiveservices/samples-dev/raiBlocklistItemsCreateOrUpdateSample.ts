@@ -49,7 +49,7 @@ async function putRaiBlocklistItem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putRaiBlocklistItem();
+  await putRaiBlocklistItem();
 }
 
 main().catch(console.error);

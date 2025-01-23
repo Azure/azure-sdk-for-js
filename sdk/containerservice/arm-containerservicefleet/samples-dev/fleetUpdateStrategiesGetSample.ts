@@ -37,7 +37,7 @@ async function getAFleetUpdateStrategyResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAFleetUpdateStrategyResource();
+  await getAFleetUpdateStrategyResource();
 }
 
 main().catch(console.error);

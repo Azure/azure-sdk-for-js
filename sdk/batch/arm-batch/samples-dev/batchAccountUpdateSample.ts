@@ -43,7 +43,7 @@ async function batchAccountUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountUpdate();
+  await batchAccountUpdate();
 }
 
 main().catch(console.error);

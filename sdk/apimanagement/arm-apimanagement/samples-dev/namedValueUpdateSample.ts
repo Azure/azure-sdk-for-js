@@ -48,7 +48,7 @@ async function apiManagementUpdateNamedValue(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateNamedValue();
+  await apiManagementUpdateNamedValue();
 }
 
 main().catch(console.error);

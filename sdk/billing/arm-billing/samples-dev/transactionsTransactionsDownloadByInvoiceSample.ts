@@ -33,7 +33,7 @@ async function transactionsDownloadByInvoice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  transactionsDownloadByInvoice();
+  await transactionsDownloadByInvoice();
 }
 
 main().catch(console.error);

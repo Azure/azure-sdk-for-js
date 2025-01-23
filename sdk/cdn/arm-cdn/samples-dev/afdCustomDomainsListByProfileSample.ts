@@ -35,7 +35,7 @@ async function afdCustomDomainsListByProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdCustomDomainsListByProfile();
+  await afdCustomDomainsListByProfile();
 }
 
 main().catch(console.error);

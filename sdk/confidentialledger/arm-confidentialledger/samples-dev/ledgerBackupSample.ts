@@ -38,7 +38,7 @@ async function confidentialLedgerBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialLedgerBackup();
+  await confidentialLedgerBackup();
 }
 
 main().catch(console.error);

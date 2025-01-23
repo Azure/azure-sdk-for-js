@@ -31,7 +31,7 @@ async function getRoleManagementPolicyByRoleDefinitionFilter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleManagementPolicyByRoleDefinitionFilter();
+  await getRoleManagementPolicyByRoleDefinitionFilter();
 }
 
 main().catch(console.error);

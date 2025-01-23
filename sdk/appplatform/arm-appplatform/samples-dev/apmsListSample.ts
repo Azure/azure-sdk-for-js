@@ -35,7 +35,7 @@ async function apmsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apmsList();
+  await apmsList();
 }
 
 main().catch(console.error);

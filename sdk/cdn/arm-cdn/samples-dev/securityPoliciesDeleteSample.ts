@@ -34,7 +34,7 @@ async function securityPoliciesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  securityPoliciesDelete();
+  await securityPoliciesDelete();
 }
 
 main().catch(console.error);

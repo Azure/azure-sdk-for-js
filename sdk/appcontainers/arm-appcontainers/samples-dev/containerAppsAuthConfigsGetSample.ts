@@ -37,7 +37,7 @@ async function getContainerAppAuthConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContainerAppAuthConfig();
+  await getContainerAppAuthConfig();
 }
 
 main().catch(console.error);

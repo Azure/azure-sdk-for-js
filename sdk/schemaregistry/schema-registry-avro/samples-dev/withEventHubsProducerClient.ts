@@ -168,10 +168,10 @@ export async function main() {
   }
 
   // Wait for a bit before cleaning up the sample
-  setTimeout(async () => {
-    await eventHubsProducerClient.close();
-    console.log(`Exiting sample`);
-  }, 3 * 1000);
+  await setTimeout(async () => {
+        await eventHubsProducerClient.close();
+        console.log(`Exiting sample`);
+      }, 3 * 1000);
 }
 
 main().catch((err) => {

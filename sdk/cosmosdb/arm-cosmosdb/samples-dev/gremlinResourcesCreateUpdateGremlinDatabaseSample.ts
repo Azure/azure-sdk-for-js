@@ -46,7 +46,7 @@ async function cosmosDbGremlinDatabaseCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinDatabaseCreateUpdate();
+  await cosmosDbGremlinDatabaseCreateUpdate();
 }
 
 main().catch(console.error);

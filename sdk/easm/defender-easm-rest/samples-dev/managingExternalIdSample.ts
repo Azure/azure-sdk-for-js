@@ -62,37 +62,37 @@ async function main(): Promise<void> {
   const external_ids: string[] = [];
   const update_ids: string[] = [];
 
-  external_id_mapping.forEach(async (mapping) => {
-    external_ids.push(mapping.external_id);
+  await external_id_mapping.forEach(async (mapping) => {
+        external_ids.push(mapping.external_id);
 
-    const task_response = await client.path("/assets").post({
-      body: {
-        externalId: mapping.external_id,
-      },
-      queryParameters: {
-        filter: `kind = ${mapping.kind} AND name = ${mapping.name}`,
-      },
-    });
+        const task_response = await client.path("/assets").post({
+          body: {
+            externalId: mapping.external_id,
+          },
+          queryParameters: {
+            filter: `kind = ${mapping.kind} AND name = ${mapping.name}`,
+          },
+        });
 
-    if (isUnexpected(task_response)) {
-      throw new Error(task_response.body?.error.message);
-    }
+        if (isUnexpected(task_response)) {
+          throw new Error(task_response.body?.error.message);
+        }
 
-    update_ids.push(task_response.body.id!);
-  });
+        update_ids.push(task_response.body.id!);
+      });
 
   // By calling the /tasks/{taskId} endpoint, we can view the progress of each update using the `get` method
-  update_ids.forEach(async (id) => {
-    const task_response = await client.path("/tasks/{taskId}", id).get();
+  await update_ids.forEach(async (id) => {
+        const task_response = await client.path("/tasks/{taskId}", id).get();
 
-    if (isUnexpected(task_response)) {
-      throw new Error(task_response.body?.error.message);
-    }
+        if (isUnexpected(task_response)) {
+          throw new Error(task_response.body?.error.message);
+        }
 
-    const task = task_response.body;
+        const task = task_response.body;
 
-    console.log(`${task.id}: ${task.state}`);
-  });
+        console.log(`${task.id}: ${task.state}`);
+      });
 
   // The updates can be viewed by calling the /assets endpoint by creating a filter that matches on each external id using an `in` query
   const asset_filter = external_ids.join(",");
@@ -109,9 +109,9 @@ async function main(): Promise<void> {
 
   const assets = assets_response.body.value!;
 
-  assets.forEach((asset) => {
-    console.log(`${asset.externalId}, ${asset.name}`);
-  });
+  await assets.forEach((asset) => {
+        console.log(`${asset.externalId}, ${asset.name}`);
+      });
 }
 
 main().catch((err) => {

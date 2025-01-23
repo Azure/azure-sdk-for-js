@@ -35,7 +35,7 @@ async function cosmosDbThroughputPoolListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbThroughputPoolListByResourceGroup();
+  await cosmosDbThroughputPoolListByResourceGroup();
 }
 
 main().catch(console.error);

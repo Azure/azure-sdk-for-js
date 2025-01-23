@@ -33,7 +33,7 @@ async function listBotsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listBotsByResourceGroup();
+  await listBotsByResourceGroup();
 }
 
 main().catch(console.error);

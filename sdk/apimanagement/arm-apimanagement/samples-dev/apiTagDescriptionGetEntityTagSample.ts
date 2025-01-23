@@ -38,7 +38,7 @@ async function apiManagementHeadApiTagDescription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadApiTagDescription();
+  await apiManagementHeadApiTagDescription();
 }
 
 main().catch(console.error);

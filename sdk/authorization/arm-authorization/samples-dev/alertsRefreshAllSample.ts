@@ -27,7 +27,7 @@ async function refreshAllAlerts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  refreshAllAlerts();
+  await refreshAllAlerts();
 }
 
 main().catch(console.error);

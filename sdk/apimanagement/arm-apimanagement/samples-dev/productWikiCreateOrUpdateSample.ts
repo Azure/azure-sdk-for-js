@@ -40,7 +40,7 @@ async function apiManagementCreateProductWiki(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateProductWiki();
+  await apiManagementCreateProductWiki();
 }
 
 main().catch(console.error);

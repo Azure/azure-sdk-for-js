@@ -38,11 +38,11 @@ async function main(): Promise<void> {
   const manifest = result.manifest as OciImageManifest;
 
   // Manifests of all media types have a buffer containing their content; this can be written to a file.
-  fs.writeFileSync("manifest.json", result.content);
+  await fs.writeFileSync("manifest.json", result.content);
 
   const configResult = await client.downloadBlob(manifest.config.digest);
   const configFile = fs.createWriteStream("config.json");
-  configResult.content.pipe(configFile);
+  await configResult.content.pipe(configFile);
 
   // Download and write out the layers
   for (const layer of manifest.layers) {

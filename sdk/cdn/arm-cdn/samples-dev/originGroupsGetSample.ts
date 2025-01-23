@@ -36,7 +36,7 @@ async function originGroupsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  originGroupsGet();
+  await originGroupsGet();
 }
 
 main().catch(console.error);

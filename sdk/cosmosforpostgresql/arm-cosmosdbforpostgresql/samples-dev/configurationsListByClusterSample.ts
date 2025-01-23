@@ -38,7 +38,7 @@ async function listConfigurationsOfTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listConfigurationsOfTheCluster();
+  await listConfigurationsOfTheCluster();
 }
 
 main().catch(console.error);

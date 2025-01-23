@@ -61,8 +61,8 @@ async function deleteMaintenanceConfigurationForNodeOSUpgrade(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteMaintenanceConfiguration();
-  deleteMaintenanceConfigurationForNodeOSUpgrade();
+  await deleteMaintenanceConfiguration();
+  await deleteMaintenanceConfigurationForNodeOSUpgrade();
 }
 
 main().catch(console.error);

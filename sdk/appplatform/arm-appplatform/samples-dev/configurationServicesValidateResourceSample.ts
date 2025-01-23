@@ -57,7 +57,7 @@ async function configurationServicesValidateResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationServicesValidateResource();
+  await configurationServicesValidateResource();
 }
 
 main().catch(console.error);

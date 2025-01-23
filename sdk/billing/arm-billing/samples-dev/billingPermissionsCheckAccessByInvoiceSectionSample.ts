@@ -44,7 +44,7 @@ async function checkAccessByInvoiceSection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkAccessByInvoiceSection();
+  await checkAccessByInvoiceSection();
 }
 
 main().catch(console.error);

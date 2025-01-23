@@ -36,7 +36,7 @@ async function optInToDataBoundary(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  optInToDataBoundary();
+  await optInToDataBoundary();
 }
 
 main().catch(console.error);

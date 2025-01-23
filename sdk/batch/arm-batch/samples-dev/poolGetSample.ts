@@ -167,13 +167,13 @@ async function getPoolVirtualMachineConfigurationServiceArtifactReference(): Pro
 }
 
 async function main(): Promise<void> {
-  getPool();
-  getPoolAcceleratedNetworking();
-  getPoolSecurityProfile();
-  getPoolUpgradePolicy();
-  getPoolVirtualMachineConfigurationExtensions();
-  getPoolVirtualMachineConfigurationOSDisk();
-  getPoolVirtualMachineConfigurationServiceArtifactReference();
+  await getPool();
+  await getPoolAcceleratedNetworking();
+  await getPoolSecurityProfile();
+  await getPoolUpgradePolicy();
+  await getPoolVirtualMachineConfigurationExtensions();
+  await getPoolVirtualMachineConfigurationOSDisk();
+  await getPoolVirtualMachineConfigurationServiceArtifactReference();
 }
 
 main().catch(console.error);

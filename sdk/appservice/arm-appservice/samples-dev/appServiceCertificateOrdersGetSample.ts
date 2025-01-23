@@ -35,7 +35,7 @@ async function getAppServiceCertificateOrder(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAppServiceCertificateOrder();
+  await getAppServiceCertificateOrder();
 }
 
 main().catch(console.error);

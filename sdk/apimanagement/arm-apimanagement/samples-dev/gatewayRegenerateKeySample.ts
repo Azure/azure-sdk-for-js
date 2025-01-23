@@ -43,7 +43,7 @@ async function apiManagementGatewayRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGatewayRegenerateKey();
+  await apiManagementGatewayRegenerateKey();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function removeAPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  removeAPrivateEndpointConnection();
+  await removeAPrivateEndpointConnection();
 }
 
 main().catch(console.error);

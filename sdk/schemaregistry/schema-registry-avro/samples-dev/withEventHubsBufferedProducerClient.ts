@@ -102,10 +102,10 @@ export async function main() {
   console.log(`Message was added to the queue and is about to be sent`);
 
   // Wait for a bit before cleaning up the sample
-  setTimeout(async () => {
-    await eventHubsBufferedProducerClient.close({ flush: true });
-    console.log(`Exiting sample`);
-  }, 30 * 1000);
+  await setTimeout(async () => {
+        await eventHubsBufferedProducerClient.close({ flush: true });
+        console.log(`Exiting sample`);
+      }, 30 * 1000);
 }
 
 main().catch((err) => {

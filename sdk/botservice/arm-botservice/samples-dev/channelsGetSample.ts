@@ -105,10 +105,10 @@ async function getLineChannel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAlexaChannel();
-  getChannel();
-  getDirectLineSpeechChannel();
-  getLineChannel();
+  await getAlexaChannel();
+  await getChannel();
+  await getDirectLineSpeechChannel();
+  await getLineChannel();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function listExpressionTraces(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listExpressionTraces();
+  await listExpressionTraces();
 }
 
 main().catch(console.error);

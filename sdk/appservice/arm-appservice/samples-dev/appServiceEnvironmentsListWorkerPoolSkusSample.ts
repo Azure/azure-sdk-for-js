@@ -40,7 +40,7 @@ async function getAvailableSkUsForScalingAWorkerPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAvailableSkUsForScalingAWorkerPool();
+  await getAvailableSkUsForScalingAWorkerPool();
 }
 
 main().catch(console.error);

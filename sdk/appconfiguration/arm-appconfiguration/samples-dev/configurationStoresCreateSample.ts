@@ -150,10 +150,10 @@ async function configurationStoresCreateWithLocalAuthDisabled(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationStoresCreate();
-  configurationStoresCreateWithDataPlaneProxy();
-  configurationStoresCreateWithIdentity();
-  configurationStoresCreateWithLocalAuthDisabled();
+  await configurationStoresCreate();
+  await configurationStoresCreateWithDataPlaneProxy();
+  await configurationStoresCreateWithIdentity();
+  await configurationStoresCreateWithLocalAuthDisabled();
 }
 
 main().catch(console.error);

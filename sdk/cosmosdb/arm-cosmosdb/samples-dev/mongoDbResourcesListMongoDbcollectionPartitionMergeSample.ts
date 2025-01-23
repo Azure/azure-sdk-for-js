@@ -39,7 +39,7 @@ async function cosmosDbMongoDbcollectionPartitionMerge(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbcollectionPartitionMerge();
+  await cosmosDbMongoDbcollectionPartitionMerge();
 }
 
 main().catch(console.error);

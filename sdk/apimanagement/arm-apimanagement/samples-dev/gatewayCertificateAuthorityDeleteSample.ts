@@ -40,7 +40,7 @@ async function apiManagementDeleteGatewayCertificateAuthority(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteGatewayCertificateAuthority();
+  await apiManagementDeleteGatewayCertificateAuthority();
 }
 
 main().catch(console.error);

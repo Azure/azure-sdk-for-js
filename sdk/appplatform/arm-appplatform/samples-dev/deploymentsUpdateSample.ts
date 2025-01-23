@@ -100,8 +100,8 @@ async function deploymentsUpdateCustomContainer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsUpdate();
-  deploymentsUpdateCustomContainer();
+  await deploymentsUpdate();
+  await deploymentsUpdateCustomContainer();
 }
 
 main().catch(console.error);

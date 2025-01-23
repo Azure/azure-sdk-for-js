@@ -36,7 +36,7 @@ async function deleteAFleetUpdateStrategyResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAFleetUpdateStrategyResource();
+  await deleteAFleetUpdateStrategyResource();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listPrivateEndpointConnectionsByManagedEnvironment(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  listPrivateEndpointConnectionsByManagedEnvironment();
+  await listPrivateEndpointConnectionsByManagedEnvironment();
 }
 
 main().catch(console.error);

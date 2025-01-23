@@ -37,7 +37,7 @@ async function getDeploymentSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDeploymentSettings();
+  await getDeploymentSettings();
 }
 
 main().catch(console.error);

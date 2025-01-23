@@ -46,7 +46,7 @@ async function apiManagementCreateUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateUser();
+  await apiManagementCreateUser();
 }
 
 main().catch(console.error);

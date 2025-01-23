@@ -33,7 +33,7 @@ async function billingMetersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingMetersGet();
+  await billingMetersGet();
 }
 
 main().catch(console.error);

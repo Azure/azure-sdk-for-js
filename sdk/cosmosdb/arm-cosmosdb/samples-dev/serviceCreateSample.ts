@@ -133,10 +133,10 @@ async function sqlDedicatedGatewayServiceCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataTransferServiceCreate();
-  graphApiComputeServiceCreate();
-  materializedViewsBuilderServiceCreate();
-  sqlDedicatedGatewayServiceCreate();
+  await dataTransferServiceCreate();
+  await graphApiComputeServiceCreate();
+  await materializedViewsBuilderServiceCreate();
+  await sqlDedicatedGatewayServiceCreate();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function deleteACredential(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteACredential();
+  await deleteACredential();
 }
 
 main().catch(console.error);

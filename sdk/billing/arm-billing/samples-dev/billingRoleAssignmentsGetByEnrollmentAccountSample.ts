@@ -33,7 +33,7 @@ async function billingRoleAssignmentGetByEnrollmentAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRoleAssignmentGetByEnrollmentAccount();
+  await billingRoleAssignmentGetByEnrollmentAccount();
 }
 
 main().catch(console.error);

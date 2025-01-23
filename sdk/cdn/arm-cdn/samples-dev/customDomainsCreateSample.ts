@@ -40,7 +40,7 @@ async function customDomainsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customDomainsCreate();
+  await customDomainsCreate();
 }
 
 main().catch(console.error);

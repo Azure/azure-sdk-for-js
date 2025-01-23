@@ -34,7 +34,7 @@ async function deleteAPython2Package(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAPython2Package();
+  await deleteAPython2Package();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function deleteAPrivateEndpointConnectionByManagedEnvironment(): Promise<v
 }
 
 async function main(): Promise<void> {
-  deleteAPrivateEndpointConnectionByManagedEnvironment();
+  await deleteAPrivateEndpointConnectionByManagedEnvironment();
 }
 
 main().catch(console.error);

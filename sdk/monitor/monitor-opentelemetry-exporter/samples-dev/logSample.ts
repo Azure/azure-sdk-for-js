@@ -37,16 +37,16 @@ const logger = loggerProvider.getLogger("example-basic-logger-node");
 
 export async function main() {
   // Add logs
-  logger.emit({
-    severityNumber: SeverityNumber.INFO,
-    severityText: "INFO",
-    body: "test message",
-    attributes: { key: "value" },
-  });
+  await logger.emit({
+        severityNumber: SeverityNumber.INFO,
+        severityText: "INFO",
+        body: "test message",
+        attributes: { key: "value" },
+      });
 
   // flush and shutdown
-  loggerProvider.forceFlush();
-  loggerProvider.shutdown();
+  await loggerProvider.forceFlush();
+  await loggerProvider.shutdown();
 }
 
 main().catch((error) => {

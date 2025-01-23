@@ -35,7 +35,7 @@ async function cosmosDbManagedCassandraClusterDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraClusterDelete();
+  await cosmosDbManagedCassandraClusterDelete();
 }
 
 main().catch(console.error);

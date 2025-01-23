@@ -41,7 +41,7 @@ async function getAPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAPrivateEndpointConnection();
+  await getAPrivateEndpointConnection();
 }
 
 main().catch(console.error);

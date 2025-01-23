@@ -40,7 +40,7 @@ async function credentialSetGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  credentialSetGet();
+  await credentialSetGet();
 }
 
 main().catch(console.error);

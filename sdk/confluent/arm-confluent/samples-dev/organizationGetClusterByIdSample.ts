@@ -39,7 +39,7 @@ async function organizationGetClusterById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationGetClusterById();
+  await organizationGetClusterById();
 }
 
 main().catch(console.error);

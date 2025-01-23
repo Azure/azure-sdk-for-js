@@ -36,7 +36,7 @@ async function deleteAV2HybridRunbookWorker(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAV2HybridRunbookWorker();
+  await deleteAV2HybridRunbookWorker();
 }
 
 main().catch(console.error);

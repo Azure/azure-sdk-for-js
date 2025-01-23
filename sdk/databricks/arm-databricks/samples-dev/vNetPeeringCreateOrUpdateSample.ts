@@ -51,7 +51,7 @@ async function createVNetPeeringForWorkspace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createVNetPeeringForWorkspace();
+  await createVNetPeeringForWorkspace();
 }
 
 main().catch(console.error);

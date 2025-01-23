@@ -37,7 +37,7 @@ async function listsTheMembersOfAFleet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listsTheMembersOfAFleet();
+  await listsTheMembersOfAFleet();
 }
 
 main().catch(console.error);

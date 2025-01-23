@@ -32,7 +32,7 @@ async function listAuthSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAuthSettings();
+  await listAuthSettings();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function applicationPackageCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationPackageCreate();
+  await applicationPackageCreate();
 }
 
 main().catch(console.error);

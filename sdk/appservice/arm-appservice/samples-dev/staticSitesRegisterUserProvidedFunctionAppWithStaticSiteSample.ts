@@ -52,7 +52,7 @@ async function registerAUserProvidedFunctionAppWithAStaticSite(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  registerAUserProvidedFunctionAppWithAStaticSite();
+  await registerAUserProvidedFunctionAppWithAStaticSite();
 }
 
 main().catch(console.error);

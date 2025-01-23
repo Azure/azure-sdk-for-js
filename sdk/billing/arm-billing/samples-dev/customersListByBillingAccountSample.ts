@@ -59,8 +59,8 @@ async function customersListByBillingAccountWithExpand(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customersListByBillingAccount();
-  customersListByBillingAccountWithExpand();
+  await customersListByBillingAccount();
+  await customersListByBillingAccountWithExpand();
 }
 
 main().catch(console.error);

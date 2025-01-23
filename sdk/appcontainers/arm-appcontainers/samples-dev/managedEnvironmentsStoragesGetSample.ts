@@ -61,8 +61,8 @@ async function getAEnvironmentsStorageForNfsAzureFile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAEnvironmentsStorage();
-  getAEnvironmentsStorageForNfsAzureFile();
+  await getAEnvironmentsStorage();
+  await getAEnvironmentsStorageForNfsAzureFile();
 }
 
 main().catch(console.error);

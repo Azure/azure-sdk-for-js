@@ -36,7 +36,7 @@ async function originGroupsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  originGroupsDelete();
+  await originGroupsDelete();
 }
 
 main().catch(console.error);

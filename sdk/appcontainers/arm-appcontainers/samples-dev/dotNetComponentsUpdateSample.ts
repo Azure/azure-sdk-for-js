@@ -81,8 +81,8 @@ async function patchNetComponentWithServiceBinds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchNetComponent();
-  patchNetComponentWithServiceBinds();
+  await patchNetComponent();
+  await patchNetComponentWithServiceBinds();
 }
 
 main().catch(console.error);

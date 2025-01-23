@@ -39,7 +39,7 @@ async function afdProfilesCheckHostNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdProfilesCheckHostNameAvailability();
+  await afdProfilesCheckHostNameAvailability();
 }
 
 main().catch(console.error);

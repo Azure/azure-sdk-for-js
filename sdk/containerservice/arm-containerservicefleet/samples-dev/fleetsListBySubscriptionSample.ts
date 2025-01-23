@@ -31,7 +31,7 @@ async function listsTheFleetResourcesInASubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listsTheFleetResourcesInASubscription();
+  await listsTheFleetResourcesInASubscription();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function createUrl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createUrl();
+  await createUrl();
 }
 
 main().catch(console.error);

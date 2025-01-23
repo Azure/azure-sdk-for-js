@@ -40,7 +40,7 @@ async function connectedRegistryDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectedRegistryDelete();
+  await connectedRegistryDelete();
 }
 
 main().catch(console.error);

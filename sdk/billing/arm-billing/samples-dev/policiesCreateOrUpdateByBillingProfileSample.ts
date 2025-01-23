@@ -45,7 +45,7 @@ async function policiesPutByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  policiesPutByBillingProfile();
+  await policiesPutByBillingProfile();
 }
 
 main().catch(console.error);

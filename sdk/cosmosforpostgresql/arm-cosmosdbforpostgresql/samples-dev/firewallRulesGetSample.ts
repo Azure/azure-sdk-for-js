@@ -37,7 +37,7 @@ async function getTheFirewallRuleOfTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTheFirewallRuleOfTheCluster();
+  await getTheFirewallRuleOfTheCluster();
 }
 
 main().catch(console.error);

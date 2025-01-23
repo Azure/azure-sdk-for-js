@@ -37,7 +37,7 @@ async function deleteACustomDomainForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteACustomDomainForAStaticSite();
+  await deleteACustomDomainForAStaticSite();
 }
 
 main().catch(console.error);

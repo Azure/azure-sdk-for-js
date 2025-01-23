@@ -46,7 +46,7 @@ async function organizationListRegions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationListRegions();
+  await organizationListRegions();
 }
 
 main().catch(console.error);

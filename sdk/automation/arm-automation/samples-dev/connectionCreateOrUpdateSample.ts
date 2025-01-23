@@ -47,7 +47,7 @@ async function createOrUpdateConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateConnection();
+  await createOrUpdateConnection();
 }
 
 main().catch(console.error);

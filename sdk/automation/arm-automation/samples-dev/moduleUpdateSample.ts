@@ -49,7 +49,7 @@ async function updateAModule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAModule();
+  await updateAModule();
 }
 
 main().catch(console.error);

@@ -50,7 +50,7 @@ async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild(): Prom
 }
 
 async function main(): Promise<void> {
-  deployASiteFromAZippedPackageToAParticularStaticSiteBuild();
+  await deployASiteFromAZippedPackageToAParticularStaticSiteBuild();
 }
 
 main().catch(console.error);

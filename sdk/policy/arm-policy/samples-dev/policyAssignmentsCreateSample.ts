@@ -193,11 +193,11 @@ async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuring
 }
 
 async function main() {
-  createOrUpdateAPolicyAssignment();
-  createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity();
-  createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity();
-  createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages();
-  createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate();
+  await createOrUpdateAPolicyAssignment();
+  await createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity();
+  await createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity();
+  await createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages();
+  await createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate();
 }
 
 main().catch(console.error);

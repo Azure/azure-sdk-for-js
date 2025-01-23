@@ -38,7 +38,7 @@ async function getSoftwareUpdateConfigurationRunsById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSoftwareUpdateConfigurationRunsById();
+  await getSoftwareUpdateConfigurationRunsById();
 }
 
 main().catch(console.error);

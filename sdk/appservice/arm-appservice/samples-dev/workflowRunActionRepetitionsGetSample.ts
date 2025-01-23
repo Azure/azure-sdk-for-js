@@ -43,7 +43,7 @@ async function getARepetition(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getARepetition();
+  await getARepetition();
 }
 
 main().catch(console.error);

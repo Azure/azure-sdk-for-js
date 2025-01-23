@@ -97,8 +97,8 @@ async function createAccountMin(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAccount();
-  createAccountMin();
+  await createAccount();
+  await createAccountMin();
 }
 
 main().catch(console.error);

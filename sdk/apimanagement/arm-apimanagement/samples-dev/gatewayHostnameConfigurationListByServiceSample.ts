@@ -39,7 +39,7 @@ async function apiManagementListGatewayHostnameConfigurations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListGatewayHostnameConfigurations();
+  await apiManagementListGatewayHostnameConfigurations();
 }
 
 main().catch(console.error);

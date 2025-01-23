@@ -56,8 +56,8 @@ async function billingSubscriptionsListByBillingProfileMca(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionsListByBillingProfileEa();
-  billingSubscriptionsListByBillingProfileMca();
+  await billingSubscriptionsListByBillingProfileEa();
+  await billingSubscriptionsListByBillingProfileMca();
 }
 
 main().catch(console.error);

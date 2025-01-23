@@ -36,7 +36,7 @@ async function customDomainsDisableCustomHttps(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customDomainsDisableCustomHttps();
+  await customDomainsDisableCustomHttps();
 }
 
 main().catch(console.error);

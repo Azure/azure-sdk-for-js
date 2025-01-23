@@ -47,7 +47,7 @@ async function originsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  originsUpdate();
+  await originsUpdate();
 }
 
 main().catch(console.error);

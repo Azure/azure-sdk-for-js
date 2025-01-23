@@ -36,7 +36,7 @@ async function listOfQuotaUsagesForFlexibleServers() {
 }
 
 async function main() {
-  listOfQuotaUsagesForFlexibleServers();
+  await listOfQuotaUsagesForFlexibleServers();
 }
 
 main().catch(console.error);

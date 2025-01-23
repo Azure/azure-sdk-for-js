@@ -31,7 +31,7 @@ async function resourceGroupViewList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resourceGroupViewList();
+  await resourceGroupViewList();
 }
 
 main().catch(console.error);

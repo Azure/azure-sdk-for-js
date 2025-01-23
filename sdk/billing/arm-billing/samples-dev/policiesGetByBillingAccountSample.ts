@@ -27,7 +27,7 @@ async function policiesGetByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  policiesGetByBillingAccount();
+  await policiesGetByBillingAccount();
 }
 
 main().catch(console.error);

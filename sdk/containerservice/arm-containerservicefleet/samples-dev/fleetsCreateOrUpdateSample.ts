@@ -46,7 +46,7 @@ async function createsAFleetResourceWithALongRunningOperation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createsAFleetResourceWithALongRunningOperation();
+  await createsAFleetResourceWithALongRunningOperation();
 }
 
 main().catch(console.error);

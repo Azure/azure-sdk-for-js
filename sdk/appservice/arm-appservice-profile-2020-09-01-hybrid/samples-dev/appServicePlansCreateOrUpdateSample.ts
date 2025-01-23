@@ -48,7 +48,7 @@ async function createOrUpdateAppServicePlan(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAppServicePlan();
+  await createOrUpdateAppServicePlan();
 }
 
 main().catch(console.error);

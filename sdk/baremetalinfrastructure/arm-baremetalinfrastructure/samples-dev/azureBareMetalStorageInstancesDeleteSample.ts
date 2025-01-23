@@ -35,7 +35,7 @@ async function deleteAnAzureBareMetalStorageInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnAzureBareMetalStorageInstance();
+  await deleteAnAzureBareMetalStorageInstance();
 }
 
 main().catch(console.error);

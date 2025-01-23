@@ -115,8 +115,8 @@ async function createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLeve
 }
 
 async function main() {
-  createOrUpdateAPolicySetDefinitionAtManagementGroupLevel();
-  createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel();
+  await createOrUpdateAPolicySetDefinitionAtManagementGroupLevel();
+  await createOrUpdateAPolicySetDefinitionWithGroupsAtManagementGroupLevel();
 }
 
 main().catch(console.error);

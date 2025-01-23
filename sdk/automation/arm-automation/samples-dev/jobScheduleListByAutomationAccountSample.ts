@@ -35,7 +35,7 @@ async function listAllJobSchedulesByAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllJobSchedulesByAutomationAccount();
+  await listAllJobSchedulesByAutomationAccount();
 }
 
 main().catch(console.error);

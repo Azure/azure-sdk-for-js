@@ -34,7 +34,7 @@ async function apiManagementServiceGetOutboundNetworkDependenciesEndpoints(): Pr
 }
 
 async function main(): Promise<void> {
-  apiManagementServiceGetOutboundNetworkDependenciesEndpoints();
+  await apiManagementServiceGetOutboundNetworkDependenciesEndpoints();
 }
 
 main().catch(console.error);

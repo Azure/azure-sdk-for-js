@@ -30,7 +30,7 @@ async function triggerEvaluation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerEvaluation();
+  await triggerEvaluation();
 }
 
 main().catch(console.error);

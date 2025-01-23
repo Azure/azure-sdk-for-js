@@ -43,7 +43,7 @@ async function snapshotList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  snapshotList();
+  await snapshotList();
 }
 
 main().catch(console.error);

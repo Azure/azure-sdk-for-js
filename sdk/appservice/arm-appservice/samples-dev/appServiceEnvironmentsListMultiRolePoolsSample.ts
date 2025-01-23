@@ -38,7 +38,7 @@ async function getAllMultiRolePools(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAllMultiRolePools();
+  await getAllMultiRolePools();
 }
 
 main().catch(console.error);

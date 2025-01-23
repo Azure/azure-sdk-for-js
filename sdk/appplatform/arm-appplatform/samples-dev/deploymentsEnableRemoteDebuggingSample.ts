@@ -48,7 +48,7 @@ async function deploymentsEnableRemoteDebugging(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsEnableRemoteDebugging();
+  await deploymentsEnableRemoteDebugging();
 }
 
 main().catch(console.error);

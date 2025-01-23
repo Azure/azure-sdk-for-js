@@ -35,7 +35,7 @@ async function getAnAzureBareMetalInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAnAzureBareMetalInstance();
+  await getAnAzureBareMetalInstance();
 }
 
 main().catch(console.error);

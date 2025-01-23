@@ -26,7 +26,7 @@ async function listSchemasSchemaRegistry() {
 }
 
 async function main() {
-  listSchemasSchemaRegistry();
+  await listSchemasSchemaRegistry();
 }
 
 main().catch(console.error);

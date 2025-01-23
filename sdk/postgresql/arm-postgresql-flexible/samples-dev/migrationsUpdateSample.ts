@@ -68,8 +68,8 @@ async function migrationsUpdate() {
 }
 
 async function main() {
-  cancelMigration();
-  migrationsUpdate();
+  await cancelMigration();
+  await migrationsUpdate();
 }
 
 main().catch(console.error);

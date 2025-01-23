@@ -341,13 +341,13 @@ async function serverCreateWithDataEncryptionEnabled() {
 }
 
 async function main() {
-  createADatabaseAsAGeoRestoreInGeoPairedLocation();
-  createADatabaseAsAPointInTimeRestore();
-  createANewServer();
-  createANewServerWithActiveDirectoryAuthenticationEnabled();
-  serverCreateReplica();
-  serverCreateReviveDropped();
-  serverCreateWithDataEncryptionEnabled();
+  await createADatabaseAsAGeoRestoreInGeoPairedLocation();
+  await createADatabaseAsAPointInTimeRestore();
+  await createANewServer();
+  await createANewServerWithActiveDirectoryAuthenticationEnabled();
+  await serverCreateReplica();
+  await serverCreateReviveDropped();
+  await serverCreateWithDataEncryptionEnabled();
 }
 
 main().catch(console.error);

@@ -47,8 +47,8 @@ async function sapAvailabilityZoneDetailsNortheurope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapAvailabilityZoneDetailsEastus();
-  sapAvailabilityZoneDetailsNortheurope();
+  await sapAvailabilityZoneDetailsEastus();
+  await sapAvailabilityZoneDetailsNortheurope();
 }
 
 main().catch(console.error);

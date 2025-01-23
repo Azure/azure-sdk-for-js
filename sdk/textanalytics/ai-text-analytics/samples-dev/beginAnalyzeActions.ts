@@ -42,11 +42,11 @@ export async function main(): Promise<void> {
     includeStatistics: true,
   });
 
-  poller.onProgress(() => {
-    console.log(
-      `Number of actions still in progress: ${poller.getOperationState().actionsInProgressCount}`,
-    );
-  });
+  await poller.onProgress(() => {
+        console.log(
+          `Number of actions still in progress: ${poller.getOperationState().actionsInProgressCount}`,
+        );
+      });
 
   console.log(`The analyze actions operation created on ${poller.getOperationState().createdOn}`);
 

@@ -361,11 +361,11 @@ async function tasksCreateWithUserIdentitiesWithSystemIdentity(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  tasksCreate();
-  tasksCreateQuickTask();
-  tasksCreateWithSystemAndUserIdentities();
-  tasksCreateWithUserIdentities();
-  tasksCreateWithUserIdentitiesWithSystemIdentity();
+  await tasksCreate();
+  await tasksCreateQuickTask();
+  await tasksCreateWithSystemAndUserIdentities();
+  await tasksCreateWithUserIdentities();
+  await tasksCreateWithUserIdentitiesWithSystemIdentity();
 }
 
 main().catch(console.error);

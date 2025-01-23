@@ -61,8 +61,8 @@ async function getJavaComponentWithServiceBinds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getJavaComponent();
-  getJavaComponentWithServiceBinds();
+  await getJavaComponent();
+  await getJavaComponentWithServiceBinds();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function servicesListSupportedApmTypes(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesListSupportedApmTypes();
+  await servicesListSupportedApmTypes();
 }
 
 main().catch(console.error);

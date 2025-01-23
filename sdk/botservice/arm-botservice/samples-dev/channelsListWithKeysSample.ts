@@ -36,7 +36,7 @@ async function listChannel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listChannel();
+  await listChannel();
 }
 
 main().catch(console.error);

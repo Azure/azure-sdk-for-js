@@ -76,8 +76,8 @@ async function apiManagementCreateCertificateWithKeyVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateCertificate();
-  apiManagementCreateCertificateWithKeyVault();
+  await apiManagementCreateCertificate();
+  await apiManagementCreateCertificateWithKeyVault();
 }
 
 main().catch(console.error);

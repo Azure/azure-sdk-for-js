@@ -38,7 +38,7 @@ async function endpointsValidateCustomDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsValidateCustomDomain();
+  await endpointsValidateCustomDomain();
 }
 
 main().catch(console.error);

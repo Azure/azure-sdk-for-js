@@ -35,7 +35,7 @@ async function getConnectedEnvironmentByConnectedEnvironmentName(): Promise<void
 }
 
 async function main(): Promise<void> {
-  getConnectedEnvironmentByConnectedEnvironmentName();
+  await getConnectedEnvironmentByConnectedEnvironmentName();
 }
 
 main().catch(console.error);

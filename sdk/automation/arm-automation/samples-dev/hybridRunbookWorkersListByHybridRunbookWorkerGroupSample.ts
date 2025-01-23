@@ -37,7 +37,7 @@ async function listHybridWorkersByHybridRunbookWorkerGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listHybridWorkersByHybridRunbookWorkerGroup();
+  await listHybridWorkersByHybridRunbookWorkerGroup();
 }
 
 main().catch(console.error);

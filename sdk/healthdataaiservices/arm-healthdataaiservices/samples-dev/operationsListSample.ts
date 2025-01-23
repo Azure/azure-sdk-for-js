@@ -41,8 +41,8 @@ async function operationsListMinimumSetGeneratedByMinimumSetRuleStable() {
 }
 
 async function main() {
-  operationsListMaximumSetGeneratedByMaximumSetRuleStable();
-  operationsListMinimumSetGeneratedByMinimumSetRuleStable();
+  await operationsListMaximumSetGeneratedByMaximumSetRuleStable();
+  await operationsListMinimumSetGeneratedByMinimumSetRuleStable();
 }
 
 main().catch(console.error);

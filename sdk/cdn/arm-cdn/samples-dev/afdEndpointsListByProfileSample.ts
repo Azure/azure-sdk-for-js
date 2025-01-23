@@ -35,7 +35,7 @@ async function afdEndpointsListByProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdEndpointsListByProfile();
+  await afdEndpointsListByProfile();
 }
 
 main().catch(console.error);

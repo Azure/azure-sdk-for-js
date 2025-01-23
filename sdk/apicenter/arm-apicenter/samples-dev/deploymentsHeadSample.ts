@@ -41,7 +41,7 @@ async function deploymentsHead(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsHead();
+  await deploymentsHead();
 }
 
 main().catch(console.error);

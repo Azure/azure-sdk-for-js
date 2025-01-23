@@ -35,7 +35,7 @@ async function listPython2PackagesByAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPython2PackagesByAutomationAccount();
+  await listPython2PackagesByAutomationAccount();
 }
 
 main().catch(console.error);

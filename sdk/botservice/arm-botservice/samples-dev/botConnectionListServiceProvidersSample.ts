@@ -28,7 +28,7 @@ async function listAuthServiceProviders(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAuthServiceProviders();
+  await listAuthServiceProviders();
 }
 
 main().catch(console.error);

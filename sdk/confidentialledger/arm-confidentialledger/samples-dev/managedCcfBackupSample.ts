@@ -38,7 +38,7 @@ async function managedCcfBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedCcfBackup();
+  await managedCcfBackup();
 }
 
 main().catch(console.error);

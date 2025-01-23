@@ -39,7 +39,7 @@ async function getTheCurrentStatusOfANetworkTraceOperationForASite(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  getTheCurrentStatusOfANetworkTraceOperationForASite();
+  await getTheCurrentStatusOfANetworkTraceOperationForASite();
 }
 
 main().catch(console.error);

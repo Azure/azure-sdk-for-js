@@ -41,7 +41,7 @@ async function reconcileNetworkSecurityPerimeterConfigurations(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  reconcileNetworkSecurityPerimeterConfigurations();
+  await reconcileNetworkSecurityPerimeterConfigurations();
 }
 
 main().catch(console.error);

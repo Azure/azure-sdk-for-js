@@ -37,7 +37,7 @@ async function bandwidthScheduleGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bandwidthScheduleGet();
+  await bandwidthScheduleGet();
 }
 
 main().catch(console.error);

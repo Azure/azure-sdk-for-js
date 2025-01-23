@@ -36,7 +36,7 @@ async function listDetectors(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDetectors();
+  await listDetectors();
 }
 
 main().catch(console.error);

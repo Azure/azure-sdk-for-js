@@ -37,7 +37,7 @@ async function applicationPackageGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationPackageGet();
+  await applicationPackageGet();
 }
 
 main().catch(console.error);

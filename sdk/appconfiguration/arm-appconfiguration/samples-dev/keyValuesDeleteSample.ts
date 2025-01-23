@@ -40,7 +40,7 @@ async function keyValuesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  keyValuesDelete();
+  await keyValuesDelete();
 }
 
 main().catch(console.error);

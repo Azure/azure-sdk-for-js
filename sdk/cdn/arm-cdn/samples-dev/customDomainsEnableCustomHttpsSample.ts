@@ -59,8 +59,8 @@ async function customDomainsEnableCustomHttpsUsingYourOwnCertificate(): Promise<
 }
 
 async function main(): Promise<void> {
-  customDomainsEnableCustomHttpsUsingCdnManagedCertificate();
-  customDomainsEnableCustomHttpsUsingYourOwnCertificate();
+  await customDomainsEnableCustomHttpsUsingCdnManagedCertificate();
+  await customDomainsEnableCustomHttpsUsingYourOwnCertificate();
 }
 
 main().catch(console.error);

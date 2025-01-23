@@ -36,7 +36,7 @@ async function workloadNetworksGetDnsZone(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksGetDnsZone();
+  await workloadNetworksGetDnsZone();
 }
 
 main().catch(console.error);

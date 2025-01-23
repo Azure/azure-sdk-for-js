@@ -46,7 +46,7 @@ async function validateAddressPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateAddressPost();
+  await validateAddressPost();
 }
 
 main().catch(console.error);

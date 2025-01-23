@@ -32,7 +32,7 @@ async function retrieveAPolicyExemption() {
 }
 
 async function main() {
-  retrieveAPolicyExemption();
+  await retrieveAPolicyExemption();
 }
 
 main().catch(console.error);

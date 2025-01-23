@@ -38,7 +38,7 @@ async function apiManagementDeleteNamedValue(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteNamedValue();
+  await apiManagementDeleteNamedValue();
 }
 
 main().catch(console.error);

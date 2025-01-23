@@ -37,7 +37,7 @@ async function chaosFaultList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  chaosFaultList();
+  await chaosFaultList();
 }
 
 main().catch(console.error);

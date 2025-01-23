@@ -43,7 +43,7 @@ async function listPermissionsForResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPermissionsForResource();
+  await listPermissionsForResource();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function checkSkuAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkSkuAvailability();
+  await checkSkuAvailability();
 }
 
 main().catch(console.error);

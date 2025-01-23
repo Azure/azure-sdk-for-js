@@ -50,7 +50,7 @@ async function managedPrivateEndpointCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointCreate();
+  await managedPrivateEndpointCreate();
 }
 
 main().catch(console.error);

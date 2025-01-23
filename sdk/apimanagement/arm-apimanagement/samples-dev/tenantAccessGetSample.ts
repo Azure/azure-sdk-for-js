@@ -59,8 +59,8 @@ async function apiManagementGetTenantGitAccess(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetTenantAccess();
-  apiManagementGetTenantGitAccess();
+  await apiManagementGetTenantAccess();
+  await apiManagementGetTenantGitAccess();
 }
 
 main().catch(console.error);

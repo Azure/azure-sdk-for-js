@@ -37,7 +37,7 @@ async function listConfigurationProfileVersionsByConfigurationProfile(): Promise
 }
 
 async function main(): Promise<void> {
-  listConfigurationProfileVersionsByConfigurationProfile();
+  await listConfigurationProfileVersionsByConfigurationProfile();
 }
 
 main().catch(console.error);

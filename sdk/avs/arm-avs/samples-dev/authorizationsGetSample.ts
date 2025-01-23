@@ -36,7 +36,7 @@ async function authorizationsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  authorizationsGet();
+  await authorizationsGet();
 }
 
 main().catch(console.error);

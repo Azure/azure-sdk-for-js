@@ -47,8 +47,8 @@ async function sapDiskConfigurationsProd(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapDiskConfigurationsNonProd();
-  sapDiskConfigurationsProd();
+  await sapDiskConfigurationsNonProd();
+  await sapDiskConfigurationsProd();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function virtualMachinesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachinesGet();
+  await virtualMachinesGet();
 }
 
 main().catch(console.error);

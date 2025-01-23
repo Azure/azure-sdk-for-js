@@ -57,7 +57,7 @@ async function tokenUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tokenUpdate();
+  await tokenUpdate();
 }
 
 main().catch(console.error);

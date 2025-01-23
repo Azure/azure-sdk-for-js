@@ -26,7 +26,7 @@ async function privateEndpointConnectionsListByDeidServiceGeneratedByMaximumSetR
 }
 
 async function main() {
-  privateEndpointConnectionsListByDeidServiceGeneratedByMaximumSetRuleStable();
+  await privateEndpointConnectionsListByDeidServiceGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

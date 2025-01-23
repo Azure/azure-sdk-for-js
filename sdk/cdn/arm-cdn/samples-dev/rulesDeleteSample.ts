@@ -36,7 +36,7 @@ async function rulesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rulesDelete();
+  await rulesDelete();
 }
 
 main().catch(console.error);

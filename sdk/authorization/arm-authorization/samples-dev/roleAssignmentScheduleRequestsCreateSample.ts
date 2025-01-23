@@ -55,7 +55,7 @@ async function putRoleAssignmentScheduleRequest(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putRoleAssignmentScheduleRequest();
+  await putRoleAssignmentScheduleRequest();
 }
 
 main().catch(console.error);

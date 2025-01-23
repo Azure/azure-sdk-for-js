@@ -51,8 +51,8 @@ async function savingsPlanOrderWithExpandedPaymentsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlanOrderGet();
-  savingsPlanOrderWithExpandedPaymentsGet();
+  await savingsPlanOrderGet();
+  await savingsPlanOrderWithExpandedPaymentsGet();
 }
 
 main().catch(console.error);

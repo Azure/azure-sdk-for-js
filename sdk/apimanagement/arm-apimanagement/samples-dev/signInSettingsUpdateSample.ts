@@ -41,7 +41,7 @@ async function apiManagementPortalSettingsUpdateSignIn(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementPortalSettingsUpdateSignIn();
+  await apiManagementPortalSettingsUpdateSignIn();
 }
 
 main().catch(console.error);

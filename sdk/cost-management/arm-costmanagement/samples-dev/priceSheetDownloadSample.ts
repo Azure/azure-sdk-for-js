@@ -34,7 +34,7 @@ async function pricesheetDownload(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pricesheetDownload();
+  await pricesheetDownload();
 }
 
 main().catch(console.error);

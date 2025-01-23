@@ -37,7 +37,7 @@ async function workloadNetworksListVirtualMachines(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksListVirtualMachines();
+  await workloadNetworksListVirtualMachines();
 }
 
 main().catch(console.error);

@@ -29,7 +29,7 @@ async function getWebAppStacks(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWebAppStacks();
+  await getWebAppStacks();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function listAllSapMonitorsInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllSapMonitorsInAResourceGroup();
+  await listAllSapMonitorsInAResourceGroup();
 }
 
 main().catch(console.error);

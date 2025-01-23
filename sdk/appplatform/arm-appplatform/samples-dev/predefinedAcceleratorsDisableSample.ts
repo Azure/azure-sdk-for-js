@@ -39,7 +39,7 @@ async function predefinedAcceleratorsDisable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  predefinedAcceleratorsDisable();
+  await predefinedAcceleratorsDisable();
 }
 
 main().catch(console.error);

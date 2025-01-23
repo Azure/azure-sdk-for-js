@@ -32,7 +32,7 @@ async function webPubSubListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubListBySubscription();
+  await webPubSubListBySubscription();
 }
 
 main().catch(console.error);

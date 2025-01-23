@@ -85,7 +85,7 @@ async function validateInputs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateInputs();
+  await validateInputs();
 }
 
 main().catch(console.error);

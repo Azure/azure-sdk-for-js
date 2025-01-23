@@ -23,7 +23,7 @@ async function instanceListByResourceGroup() {
 }
 
 async function main() {
-  instanceListByResourceGroup();
+  await instanceListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function scheduledActionCheckNameAvailabilityByScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scheduledActionCheckNameAvailabilityByScope();
+  await scheduledActionCheckNameAvailabilityByScope();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function uploadCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  uploadCertificate();
+  await uploadCertificate();
 }
 
 main().catch(console.error);

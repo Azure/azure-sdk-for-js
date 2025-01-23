@@ -40,7 +40,7 @@ async function apiManagementCreateProduct(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateProduct();
+  await apiManagementCreateProduct();
 }
 
 main().catch(console.error);

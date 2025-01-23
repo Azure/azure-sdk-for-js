@@ -35,7 +35,7 @@ async function cosmosDbCassandraKeyspaceList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraKeyspaceList();
+  await cosmosDbCassandraKeyspaceList();
 }
 
 main().catch(console.error);

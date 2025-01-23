@@ -35,7 +35,7 @@ async function resendAppServiceCertificateOrderEmail(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resendAppServiceCertificateOrderEmail();
+  await resendAppServiceCertificateOrderEmail();
 }
 
 main().catch(console.error);

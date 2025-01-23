@@ -39,7 +39,7 @@ async function configurationStoresListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationStoresListByResourceGroup();
+  await configurationStoresListByResourceGroup();
 }
 
 main().catch(console.error);

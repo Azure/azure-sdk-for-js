@@ -34,7 +34,7 @@ async function deleteAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAStaticSite();
+  await deleteAStaticSite();
 }
 
 main().catch(console.error);

@@ -76,7 +76,7 @@ async function organizationsCreateOrUpdateGeneratedByMaximumSetRule(): Promise<v
 }
 
 async function main(): Promise<void> {
-  organizationsCreateOrUpdateGeneratedByMaximumSetRule();
+  await organizationsCreateOrUpdateGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function cosmosDbCassandraKeyspaceMigrateToAutoscale(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraKeyspaceMigrateToAutoscale();
+  await cosmosDbCassandraKeyspaceMigrateToAutoscale();
 }
 
 main().catch(console.error);

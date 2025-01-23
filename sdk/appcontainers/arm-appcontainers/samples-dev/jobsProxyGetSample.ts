@@ -36,7 +36,7 @@ async function getContainerAppJobByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContainerAppJobByName();
+  await getContainerAppJobByName();
 }
 
 main().catch(console.error);

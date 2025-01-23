@@ -30,7 +30,7 @@ async function profilesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesList();
+  await profilesList();
 }
 
 main().catch(console.error);

@@ -51,7 +51,7 @@ async function createOrUpdateAPython2Package(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAPython2Package();
+  await createOrUpdateAPython2Package();
 }
 
 main().catch(console.error);

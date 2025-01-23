@@ -40,7 +40,7 @@ async function deploymentsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsList();
+  await deploymentsList();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function getWebAppSlot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWebAppSlot();
+  await getWebAppSlot();
 }
 
 main().catch(console.error);

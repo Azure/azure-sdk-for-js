@@ -36,7 +36,7 @@ async function chaosFaultGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  chaosFaultGet();
+  await chaosFaultGet();
 }
 
 main().catch(console.error);

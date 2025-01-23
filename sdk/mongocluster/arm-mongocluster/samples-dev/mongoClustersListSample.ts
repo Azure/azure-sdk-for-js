@@ -23,7 +23,7 @@ async function listsTheMongoClusterResourcesInASubscription() {
 }
 
 async function main() {
-  listsTheMongoClusterResourcesInASubscription();
+  await listsTheMongoClusterResourcesInASubscription();
 }
 
 main().catch(console.error);

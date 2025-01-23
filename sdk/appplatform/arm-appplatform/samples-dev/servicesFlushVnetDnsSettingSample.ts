@@ -35,7 +35,7 @@ async function servicesFlushVnetDnsSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesFlushVnetDnsSetting();
+  await servicesFlushVnetDnsSetting();
 }
 
 main().catch(console.error);

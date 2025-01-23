@@ -35,7 +35,7 @@ async function deletedConfigurationStoresList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletedConfigurationStoresList();
+  await deletedConfigurationStoresList();
 }
 
 main().catch(console.error);
