@@ -54,7 +54,7 @@ export class DocumentProducer {
     correlatedActivityId: string,
     startEpk?: string,
     endEpk?: string,
-    populateEpkRangeHeaders?: boolean,
+    populateEpkRangeHeaders: boolean = false,
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;

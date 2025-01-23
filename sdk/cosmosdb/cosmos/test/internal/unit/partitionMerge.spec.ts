@@ -180,13 +180,8 @@ describe("Partition-Merge", function () {
 
     // Assert that the document producers have the correct start and end EPKs and populateEpkRangeHeaders is false
     context["unfilledDocumentProducersQueue"].forEach((docProd) => {
-      if (docProd.targetPartitionKeyRange.id === mockPartitionKeyRange1.id) {
-        assert.equal(docProd.startEpk, mockPartitionKeyRange1.minInclusive);
-        assert.equal(docProd.endEpk, mockPartitionKeyRange1.maxExclusive);
-      } else if (docProd.targetPartitionKeyRange.id === mockPartitionKeyRange2.id) {
-        assert.equal(docProd.startEpk, mockPartitionKeyRange2.minInclusive);
-        assert.equal(docProd.endEpk, mockPartitionKeyRange2.maxExclusive);
-      }
+      assert.isUndefined(docProd.startEpk);
+      assert.isUndefined(docProd.endEpk);
       assert.equal(docProd.populateEpkRangeHeaders, false);
     });
   });
