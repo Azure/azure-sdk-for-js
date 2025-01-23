@@ -52,10 +52,7 @@ async function main(): Promise<void> {
   const external_id_mapping: MappingType[] = JSON.parse(process.env.MAPPING!);
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
-    workspace_name,
+    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
     credential,
     {},
   );
