@@ -28,7 +28,7 @@ async function listOfOperationStatusResult(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operationStatusResultOperations.list(
+  for await (const item of client.operationStatusResultOperations.list(
     resourceGroupName,
     resourceName,
   )) {

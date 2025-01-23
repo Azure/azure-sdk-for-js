@@ -28,7 +28,7 @@ async function listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInAC
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedClusters.listMeshUpgradeProfiles(
+  for await (const item of client.managedClusters.listMeshUpgradeProfiles(
     resourceGroupName,
     resourceName,
   )) {

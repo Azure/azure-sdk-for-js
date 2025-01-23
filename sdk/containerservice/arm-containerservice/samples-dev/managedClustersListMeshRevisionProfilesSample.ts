@@ -26,7 +26,7 @@ async function listMeshRevisionProfilesInALocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedClusters.listMeshRevisionProfiles(
+  for await (const item of client.managedClusters.listMeshRevisionProfiles(
     location,
   )) {
     resArray.push(item);

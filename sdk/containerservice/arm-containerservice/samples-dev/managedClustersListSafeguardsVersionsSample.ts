@@ -26,7 +26,7 @@ async function listSafeguardsVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedClusters.listSafeguardsVersions(
+  for await (const item of client.managedClusters.listSafeguardsVersions(
     location,
   )) {
     resArray.push(item);

@@ -28,7 +28,7 @@ async function listLoadBalancersByManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.loadBalancers.listByManagedCluster(
+  for await (const item of client.loadBalancers.listByManagedCluster(
     resourceGroupName,
     resourceName,
   )) {

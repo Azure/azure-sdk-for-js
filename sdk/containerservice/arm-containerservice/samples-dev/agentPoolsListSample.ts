@@ -28,7 +28,7 @@ async function listAgentPoolsByManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.agentPools.list(
+  for await (const item of client.agentPools.list(
     resourceGroupName,
     resourceName,
   )) {

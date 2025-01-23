@@ -25,7 +25,7 @@ async function listManagedClusters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedClusters.list()) {
+  for await (const item of client.managedClusters.list()) {
     resArray.push(item);
   }
   console.log(resArray);

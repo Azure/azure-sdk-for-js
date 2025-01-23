@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RebalanceLoadBalancersRequestBody} from "@azure/arm-containerservice";
 import {
-  RebalanceLoadBalancersRequestBody,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";

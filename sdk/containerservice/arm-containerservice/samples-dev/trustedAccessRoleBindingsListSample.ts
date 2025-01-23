@@ -28,7 +28,7 @@ async function listTrustedAccessRoleBindings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.trustedAccessRoleBindings.list(
+  for await (const item of client.trustedAccessRoleBindings.list(
     resourceGroupName,
     resourceName,
   )) {

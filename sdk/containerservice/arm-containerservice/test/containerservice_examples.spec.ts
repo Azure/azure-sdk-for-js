@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  RecorderStartOptions} from "@azure-tools/test-recorder";
 import {
   env,
   Recorder,
-  RecorderStartOptions,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
@@ -67,7 +68,7 @@ describe("ContainerService test", () => {
 
   it("operation list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
@@ -130,7 +131,7 @@ describe("ContainerService test", () => {
 
   it.skip("managedClusters list test", async function () {
     const resArray = new Array();
-    for await (let item of client.managedClusters.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.managedClusters.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -138,7 +139,7 @@ describe("ContainerService test", () => {
 
   it.skip("agentPools list test", async function () {
     const resArray = new Array();
-    for await (let item of client.agentPools.list(
+    for await (const item of client.agentPools.list(
       resourceGroupName,
       resourceName
     )) {
@@ -155,7 +156,7 @@ describe("ContainerService test", () => {
   it.skip("managedClusters delete test", async function () {
     const resArray = new Array();
     await client.managedClusters.beginDeleteAndWait(resourceGroupName, resourceName, testPollingOptions);
-    for await (let item of client.managedClusters.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.managedClusters.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

@@ -27,7 +27,7 @@ async function listSnapshotsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.snapshots.listByResourceGroup(
+  for await (const item of client.snapshots.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

@@ -29,7 +29,7 @@ async function listMachinesInAnAgentpoolByManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.machines.list(
+  for await (const item of client.machines.list(
     resourceGroupName,
     resourceName,
     agentPoolName,

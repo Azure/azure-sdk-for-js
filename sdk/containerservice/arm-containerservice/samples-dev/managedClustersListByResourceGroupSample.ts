@@ -27,7 +27,7 @@ async function getManagedClustersByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedClusters.listByResourceGroup(
+  for await (const item of client.managedClusters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
