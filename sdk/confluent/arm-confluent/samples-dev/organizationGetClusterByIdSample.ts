@@ -20,10 +20,8 @@ import "dotenv/config";
  */
 async function organizationGetClusterById(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const environmentId = "env-12132";
   const clusterId = "dlz-f3a90de";
