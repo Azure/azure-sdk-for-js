@@ -12,6 +12,7 @@ import envPaths from "env-paths";
 import { promisify } from "node:util";
 import { PassThrough } from "node:stream";
 import { pipeline } from "node:stream/promises";
+import { delay } from "./checkWithTimeout";
 
 const log = createPrinter("test-proxy");
 const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
@@ -184,6 +185,7 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
   const executable = await getTestProxyExecutable();
+  await delay(1000);
   await runCommand(executable, argv, {
     stdio: "inherit",
     env: { ...process.env },
