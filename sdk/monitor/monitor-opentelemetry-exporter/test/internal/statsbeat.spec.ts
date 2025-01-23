@@ -48,6 +48,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
     beforeAll(() => {
       scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+
+      it("should wait 15 seconds from startup to export long interval statsbeat", async () => {
+        const longIntervalStatsbeat = getInstance(options);
+        const mockExport = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
+        longIntervalStatsbeat["initialize"]();
+        expect(mockExport).not.toHaveBeenCalled();
+        setTimeout(async () => {
+          expect(mockExport).toHaveBeenCalled();
+        }, 15000);
+      });
     });
 
     afterAll(() => {
@@ -392,16 +402,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env.LONG_INTERVAL_EXPORT_MILLIS;
       });
     });
-
-    // it("should wait 15 seconds from startup to export long interval statsbeat", async () => {
-    //   const longIntervalStatsbeat = getInstance(options);
-    //   const mockExport = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
-    //   longIntervalStatsbeat["initialize"]();
-    //   expect(mockExport).not.toHaveBeenCalled();
-    //   setTimeout(async () => {
-    //     expect(mockExport).toHaveBeenCalled();
-    //   }, 15000);
-    // });
 
     describe("Disable Non-Essential Statsbeat", () => {
       it("should disable statsbeat when the environement variable is set", () => {
