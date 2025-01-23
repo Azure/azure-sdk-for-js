@@ -195,7 +195,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
     try {
       if (this.options.enableQueryControl) {
-        // keep track of componentExecutionContexts that have more results and maek call to them in LIFO order
+        // track componentExecutionContexts with remaining results and call them in LIFO order
         if (!this.componentExecutionContextStack.isEmpty()) {
           const componentExecutionContext = this.componentExecutionContextStack.pop();
           if (componentExecutionContext.hasMoreResults()) {

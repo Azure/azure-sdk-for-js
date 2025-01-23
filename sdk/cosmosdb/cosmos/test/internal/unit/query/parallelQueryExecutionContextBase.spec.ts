@@ -2,22 +2,24 @@
 // Licensed under the MIT License.
 
 import sinon from "sinon";
-import {
+import type {
   ClientConfigDiagnostic,
-  ClientContext,
-  ConsistencyLevel,
-  Constants,
   CosmosClientOptions,
-  CosmosDbDiagnosticLevel,
   DiagnosticNodeInternal,
   FeedOptions,
-  GlobalEndpointManager,
   PartitionKeyRange,
   QueryInfo,
   QueryIterator,
   RequestOptions,
   Resource,
+} from "../../../../src";
+import {
+  CosmosDbDiagnosticLevel,
   StatusCodes,
+  GlobalEndpointManager,
+  ClientContext,
+  ConsistencyLevel,
+  Constants,
 } from "../../../../src";
 import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext";
 import { expect } from "chai";

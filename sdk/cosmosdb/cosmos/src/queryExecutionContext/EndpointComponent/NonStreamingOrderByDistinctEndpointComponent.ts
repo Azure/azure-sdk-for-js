@@ -98,6 +98,13 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       };
     }
     let resHeaders = getInitialHeader();
+    // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
+    if (this.priorityQueueBufferSize <= 0) {
+      return {
+        result: undefined,
+        headers: resHeaders,
+      };
+    }
 
     // If there are more results in backend, keep filling map.
     if (this.executionContext.hasMoreResults()) {

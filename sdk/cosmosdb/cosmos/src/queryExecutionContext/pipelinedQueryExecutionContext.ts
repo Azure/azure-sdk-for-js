@@ -208,6 +208,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             return { result: temp, headers: this.fetchMoreRespHeaders };
           }
         }
+        // Recursively fetch more results to ensure the pageSize number of results are returned
+        // to maintain compatibility with the previous implementation
         return this._fetchMoreImplementation(diagnosticNode);
       }
     } catch (err: any) {
