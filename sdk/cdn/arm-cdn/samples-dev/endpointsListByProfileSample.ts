@@ -35,7 +35,7 @@ async function endpointsListByProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsListByProfile();
+  await endpointsListByProfile();
 }
 
 main().catch(console.error);

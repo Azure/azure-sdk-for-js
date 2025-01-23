@@ -45,7 +45,7 @@ async function cosmosDbSqlUserDefinedFunctionCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlUserDefinedFunctionCreateUpdate();
+  await cosmosDbSqlUserDefinedFunctionCreateUpdate();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function triggerGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerGetAllInDevice();
+  await triggerGetAllInDevice();
 }
 
 main().catch(console.error);

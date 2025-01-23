@@ -40,7 +40,7 @@ async function replicasGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  replicasGet();
+  await replicasGet();
 }
 
 main().catch(console.error);

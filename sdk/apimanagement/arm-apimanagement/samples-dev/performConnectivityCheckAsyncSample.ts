@@ -77,8 +77,8 @@ async function tcpConnectivityCheck(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  httpConnectivityCheck();
-  tcpConnectivityCheck();
+  await httpConnectivityCheck();
+  await tcpConnectivityCheck();
 }
 
 main().catch(console.error);

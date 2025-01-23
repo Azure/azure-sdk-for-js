@@ -41,7 +41,7 @@ async function apiManagementListGraphQlApiResolverPolicies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListGraphQlApiResolverPolicies();
+  await apiManagementListGraphQlApiResolverPolicies();
 }
 
 main().catch(console.error);

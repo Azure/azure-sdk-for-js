@@ -34,7 +34,7 @@ async function customersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customersGet();
+  await customersGet();
 }
 
 main().catch(console.error);

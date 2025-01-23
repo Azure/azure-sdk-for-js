@@ -67,7 +67,7 @@ async function routesCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  routesCreate();
+  await routesCreate();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getAccessReviewHistoryDefinitions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAccessReviewHistoryDefinitions();
+  await getAccessReviewHistoryDefinitions();
 }
 
 main().catch(console.error);

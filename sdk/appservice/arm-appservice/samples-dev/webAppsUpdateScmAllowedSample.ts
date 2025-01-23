@@ -40,7 +40,7 @@ async function updateScmAllowed(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateScmAllowed();
+  await updateScmAllowed();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getASchedule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getASchedule();
+  await getASchedule();
 }
 
 main().catch(console.error);

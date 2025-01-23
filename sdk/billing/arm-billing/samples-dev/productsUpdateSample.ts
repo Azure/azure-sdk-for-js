@@ -34,7 +34,7 @@ async function productsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  productsUpdate();
+  await productsUpdate();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function cosmosDbTableRoleDefinitionDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbTableRoleDefinitionDelete();
+  await cosmosDbTableRoleDefinitionDelete();
 }
 
 main().catch(console.error);

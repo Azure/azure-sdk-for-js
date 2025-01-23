@@ -47,7 +47,7 @@ async function replicationUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  replicationUpdate();
+  await replicationUpdate();
 }
 
 main().catch(console.error);

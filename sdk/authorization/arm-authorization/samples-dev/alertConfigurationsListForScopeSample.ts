@@ -30,7 +30,7 @@ async function getAlertConfigurations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAlertConfigurations();
+  await getAlertConfigurations();
 }
 
 main().catch(console.error);

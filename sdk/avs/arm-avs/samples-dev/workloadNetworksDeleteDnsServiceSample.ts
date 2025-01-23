@@ -36,7 +36,7 @@ async function workloadNetworksDeleteDnsService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksDeleteDnsService();
+  await workloadNetworksDeleteDnsService();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function apiManagementHeadCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadCertificate();
+  await apiManagementHeadCertificate();
 }
 
 main().catch(console.error);

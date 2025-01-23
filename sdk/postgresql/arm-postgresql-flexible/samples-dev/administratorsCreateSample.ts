@@ -49,7 +49,7 @@ async function addsAnActiveDIrectoryAdministratorForTheServer() {
 }
 
 async function main() {
-  addsAnActiveDIrectoryAdministratorForTheServer();
+  await addsAnActiveDIrectoryAdministratorForTheServer();
 }
 
 main().catch(console.error);

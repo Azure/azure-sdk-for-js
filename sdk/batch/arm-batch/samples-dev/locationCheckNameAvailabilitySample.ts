@@ -60,8 +60,8 @@ async function locationCheckNameAvailabilityAvailable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  locationCheckNameAvailabilityAlreadyExists();
-  locationCheckNameAvailabilityAvailable();
+  await locationCheckNameAvailabilityAlreadyExists();
+  await locationCheckNameAvailabilityAvailable();
 }
 
 main().catch(console.error);

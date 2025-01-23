@@ -61,8 +61,8 @@ async function commandSucceedResult(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  commandFailedResult();
-  commandSucceedResult();
+  await commandFailedResult();
+  await commandSucceedResult();
 }
 
 main().catch(console.error);

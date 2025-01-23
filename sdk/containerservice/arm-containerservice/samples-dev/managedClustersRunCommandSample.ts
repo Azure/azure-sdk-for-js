@@ -44,7 +44,7 @@ async function submitNewCommand(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  submitNewCommand();
+  await submitNewCommand();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listPolicyDefinitionsByManagementGroup() {
 }
 
 async function main() {
-  listPolicyDefinitionsByManagementGroup();
+  await listPolicyDefinitionsByManagementGroup();
 }
 
 main().catch(console.error);

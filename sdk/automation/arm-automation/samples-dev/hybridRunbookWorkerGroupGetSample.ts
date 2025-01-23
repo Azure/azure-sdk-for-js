@@ -34,7 +34,7 @@ async function getAHybridWorkerGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAHybridWorkerGroup();
+  await getAHybridWorkerGroup();
 }
 
 main().catch(console.error);

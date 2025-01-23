@@ -34,7 +34,7 @@ async function listsTheConfiguredRolesForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listsTheConfiguredRolesForAStaticSite();
+  await listsTheConfiguredRolesForAStaticSite();
 }
 
 main().catch(console.error);

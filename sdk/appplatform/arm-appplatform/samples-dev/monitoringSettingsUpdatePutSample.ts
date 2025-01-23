@@ -46,7 +46,7 @@ async function monitoringSettingsUpdatePut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  monitoringSettingsUpdatePut();
+  await monitoringSettingsUpdatePut();
 }
 
 main().catch(console.error);

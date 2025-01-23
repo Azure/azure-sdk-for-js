@@ -38,7 +38,7 @@ async function listBackups(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listBackups();
+  await listBackups();
 }
 
 main().catch(console.error);

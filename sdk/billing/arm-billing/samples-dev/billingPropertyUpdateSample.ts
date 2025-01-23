@@ -61,8 +61,8 @@ async function billingPropertyPatchSubscriptionServiceUsageAddress(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  billingPropertyPatchCostCenter();
-  billingPropertyPatchSubscriptionServiceUsageAddress();
+  await billingPropertyPatchCostCenter();
+  await billingPropertyPatchSubscriptionServiceUsageAddress();
 }
 
 main().catch(console.error);

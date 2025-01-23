@@ -77,8 +77,8 @@ async function stopTheSapApplicationServerInstanceAndTheVirtualMachine(): Promis
 }
 
 async function main(): Promise<void> {
-  stopTheSapApplicationServerInstance();
-  stopTheSapApplicationServerInstanceAndTheVirtualMachine();
+  await stopTheSapApplicationServerInstance();
+  await stopTheSapApplicationServerInstanceAndTheVirtualMachine();
 }
 
 main().catch(console.error);

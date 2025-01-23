@@ -34,7 +34,7 @@ async function deleteAModule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAModule();
+  await deleteAModule();
 }
 
 main().catch(console.error);

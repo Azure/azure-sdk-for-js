@@ -40,7 +40,7 @@ async function webhookGetCallbackConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webhookGetCallbackConfig();
+  await webhookGetCallbackConfig();
 }
 
 main().catch(console.error);

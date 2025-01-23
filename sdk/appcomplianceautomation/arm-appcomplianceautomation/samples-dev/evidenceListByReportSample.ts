@@ -30,7 +30,7 @@ async function evidenceListByReport(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  evidenceListByReport();
+  await evidenceListByReport();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function getASingleJobExecution(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getASingleJobExecution();
+  await getASingleJobExecution();
 }
 
 main().catch(console.error);

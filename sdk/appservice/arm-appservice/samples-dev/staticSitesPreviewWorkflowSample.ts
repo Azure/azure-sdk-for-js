@@ -45,7 +45,7 @@ async function generatesAPreviewWorkflowFileForTheStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  generatesAPreviewWorkflowFileForTheStaticSite();
+  await generatesAPreviewWorkflowFileForTheStaticSite();
 }
 
 main().catch(console.error);

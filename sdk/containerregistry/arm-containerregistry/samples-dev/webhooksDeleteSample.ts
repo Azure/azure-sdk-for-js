@@ -40,7 +40,7 @@ async function webhookDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webhookDelete();
+  await webhookDelete();
 }
 
 main().catch(console.error);

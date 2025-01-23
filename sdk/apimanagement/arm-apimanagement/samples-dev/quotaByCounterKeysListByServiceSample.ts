@@ -36,7 +36,7 @@ async function apiManagementGetQuotaCounterKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetQuotaCounterKeys();
+  await apiManagementGetQuotaCounterKeys();
 }
 
 main().catch(console.error);

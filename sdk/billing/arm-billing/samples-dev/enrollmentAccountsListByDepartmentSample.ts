@@ -34,7 +34,7 @@ async function enrollmentAccountsListByDepartment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enrollmentAccountsListByDepartment();
+  await enrollmentAccountsListByDepartment();
 }
 
 main().catch(console.error);

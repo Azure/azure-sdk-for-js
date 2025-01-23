@@ -35,7 +35,7 @@ async function transferOutDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  transferOutDomain();
+  await transferOutDomain();
 }
 
 main().catch(console.error);

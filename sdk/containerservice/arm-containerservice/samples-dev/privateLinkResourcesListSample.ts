@@ -35,7 +35,7 @@ async function listPrivateLinkResourcesByManagedCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPrivateLinkResourcesByManagedCluster();
+  await listPrivateLinkResourcesByManagedCluster();
 }
 
 main().catch(console.error);

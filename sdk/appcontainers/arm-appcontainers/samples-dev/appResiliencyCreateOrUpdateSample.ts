@@ -71,7 +71,7 @@ async function createOrUpdateAppResiliency(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAppResiliency();
+  await createOrUpdateAppResiliency();
 }
 
 main().catch(console.error);

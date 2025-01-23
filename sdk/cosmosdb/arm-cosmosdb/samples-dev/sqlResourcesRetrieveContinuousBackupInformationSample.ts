@@ -44,7 +44,7 @@ async function cosmosDbSqlContainerBackupInformation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlContainerBackupInformation();
+  await cosmosDbSqlContainerBackupInformation();
 }
 
 main().catch(console.error);

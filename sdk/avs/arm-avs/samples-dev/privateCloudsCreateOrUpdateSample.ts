@@ -73,8 +73,8 @@ async function privateCloudsCreateOrUpdateStretched(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsCreateOrUpdate();
-  privateCloudsCreateOrUpdateStretched();
+  await privateCloudsCreateOrUpdate();
+  await privateCloudsCreateOrUpdateStretched();
 }
 
 main().catch(console.error);

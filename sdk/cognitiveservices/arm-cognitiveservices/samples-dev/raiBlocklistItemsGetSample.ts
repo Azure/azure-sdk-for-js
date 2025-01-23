@@ -42,7 +42,7 @@ async function getRaiBlocklistItem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRaiBlocklistItem();
+  await getRaiBlocklistItem();
 }
 
 main().catch(console.error);

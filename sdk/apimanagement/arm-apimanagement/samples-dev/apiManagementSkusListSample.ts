@@ -31,7 +31,7 @@ async function listsAllAvailableResourceSkUs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listsAllAvailableResourceSkUs();
+  await listsAllAvailableResourceSkUs();
 }
 
 main().catch(console.error);

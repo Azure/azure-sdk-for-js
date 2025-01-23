@@ -148,11 +148,11 @@ async function updateOrDefineMaintenanceWindow(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scaleComputeUpOrDown();
-  scaleOutAddNewWorkerNodes();
-  scaleUpStorage();
-  updateMultipleConfigurationSettingsOfTheCluster();
-  updateOrDefineMaintenanceWindow();
+  await scaleComputeUpOrDown();
+  await scaleOutAddNewWorkerNodes();
+  await scaleUpStorage();
+  await updateMultipleConfigurationSettingsOfTheCluster();
+  await updateOrDefineMaintenanceWindow();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function policiesGetByCustomerAtBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  policiesGetByCustomerAtBillingAccount();
+  await policiesGetByCustomerAtBillingAccount();
 }
 
 main().catch(console.error);

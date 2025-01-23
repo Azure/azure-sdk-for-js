@@ -36,7 +36,7 @@ async function workloadNetworksDeletePublicIP(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksDeletePublicIP();
+  await workloadNetworksDeletePublicIP();
 }
 
 main().catch(console.error);

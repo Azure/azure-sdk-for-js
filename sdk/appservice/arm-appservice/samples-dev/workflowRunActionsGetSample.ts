@@ -41,7 +41,7 @@ async function getAWorkflowRunAction(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAWorkflowRunAction();
+  await getAWorkflowRunAction();
 }
 
 main().catch(console.error);

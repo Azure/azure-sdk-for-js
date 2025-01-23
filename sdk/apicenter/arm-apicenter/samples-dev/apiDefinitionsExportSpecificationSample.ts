@@ -43,7 +43,7 @@ async function apiDefinitionsExportSpecification(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiDefinitionsExportSpecification();
+  await apiDefinitionsExportSpecification();
 }
 
 main().catch(console.error);

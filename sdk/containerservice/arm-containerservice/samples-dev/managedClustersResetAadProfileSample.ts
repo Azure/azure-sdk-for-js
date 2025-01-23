@@ -45,7 +45,7 @@ async function resetAadProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resetAadProfile();
+  await resetAadProfile();
 }
 
 main().catch(console.error);

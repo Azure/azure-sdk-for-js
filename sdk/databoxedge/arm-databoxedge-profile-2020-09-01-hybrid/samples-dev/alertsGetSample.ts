@@ -33,7 +33,7 @@ async function alertGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  alertGet();
+  await alertGet();
 }
 
 main().catch(console.error);

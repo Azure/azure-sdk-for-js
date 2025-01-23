@@ -36,7 +36,7 @@ async function customDomainsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customDomainsGet();
+  await customDomainsGet();
 }
 
 main().catch(console.error);

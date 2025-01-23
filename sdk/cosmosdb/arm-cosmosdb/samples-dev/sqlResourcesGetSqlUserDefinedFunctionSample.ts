@@ -38,7 +38,7 @@ async function cosmosDbSqlUserDefinedFunctionGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlUserDefinedFunctionGet();
+  await cosmosDbSqlUserDefinedFunctionGet();
 }
 
 main().catch(console.error);

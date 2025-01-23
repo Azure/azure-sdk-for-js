@@ -76,9 +76,9 @@ async function apiManagementServiceGetServiceHavingMsi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementServiceGetMultiRegionInternalVnet();
-  apiManagementServiceGetService();
-  apiManagementServiceGetServiceHavingMsi();
+  await apiManagementServiceGetMultiRegionInternalVnet();
+  await apiManagementServiceGetService();
+  await apiManagementServiceGetServiceHavingMsi();
 }
 
 main().catch(console.error);

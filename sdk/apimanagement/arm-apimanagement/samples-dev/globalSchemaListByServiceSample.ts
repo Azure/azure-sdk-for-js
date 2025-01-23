@@ -37,7 +37,7 @@ async function apiManagementListSchemas(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListSchemas();
+  await apiManagementListSchemas();
 }
 
 main().catch(console.error);

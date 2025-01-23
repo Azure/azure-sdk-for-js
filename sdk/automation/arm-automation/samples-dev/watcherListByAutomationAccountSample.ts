@@ -35,7 +35,7 @@ async function listWatchersByAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWatchersByAutomationAccount();
+  await listWatchersByAutomationAccount();
 }
 
 main().catch(console.error);

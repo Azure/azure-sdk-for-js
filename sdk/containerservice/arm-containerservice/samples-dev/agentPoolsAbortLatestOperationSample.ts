@@ -37,7 +37,7 @@ async function abortOperationOnAgentPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  abortOperationOnAgentPool();
+  await abortOperationOnAgentPool();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function buildServiceBuilderListDeployments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceBuilderListDeployments();
+  await buildServiceBuilderListDeployments();
 }
 
 main().catch(console.error);

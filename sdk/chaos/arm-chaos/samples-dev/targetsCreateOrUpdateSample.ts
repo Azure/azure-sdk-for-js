@@ -48,7 +48,7 @@ async function createOrUpdateATargetThatExtendsAVirtualMachineResource(): Promis
 }
 
 async function main(): Promise<void> {
-  createOrUpdateATargetThatExtendsAVirtualMachineResource();
+  await createOrUpdateATargetThatExtendsAVirtualMachineResource();
 }
 
 main().catch(console.error);

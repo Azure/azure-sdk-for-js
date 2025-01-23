@@ -33,7 +33,7 @@ async function deleteWebAppSlot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteWebAppSlot();
+  await deleteWebAppSlot();
 }
 
 main().catch(console.error);

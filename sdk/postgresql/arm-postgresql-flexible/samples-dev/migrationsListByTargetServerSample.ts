@@ -45,7 +45,7 @@ async function migrationsListByTargetServer() {
 }
 
 async function main() {
-  migrationsListByTargetServer();
+  await migrationsListByTargetServer();
 }
 
 main().catch(console.error);

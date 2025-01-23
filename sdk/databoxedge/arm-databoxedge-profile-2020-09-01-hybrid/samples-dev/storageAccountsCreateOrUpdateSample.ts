@@ -48,7 +48,7 @@ async function storageAccountPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountPut();
+  await storageAccountPut();
 }
 
 main().catch(console.error);

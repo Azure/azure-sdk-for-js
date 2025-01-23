@@ -33,7 +33,7 @@ async function billingRoleAssignmentDeleteByDepartment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRoleAssignmentDeleteByDepartment();
+  await billingRoleAssignmentDeleteByDepartment();
 }
 
 main().catch(console.error);

@@ -67,8 +67,8 @@ async function listAppSlotDetectors(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppDetectors();
-  listAppSlotDetectors();
+  await listAppDetectors();
+  await listAppSlotDetectors();
 }
 
 main().catch(console.error);

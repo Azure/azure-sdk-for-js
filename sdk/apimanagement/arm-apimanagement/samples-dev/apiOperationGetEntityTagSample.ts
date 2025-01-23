@@ -38,7 +38,7 @@ async function apiManagementHeadApiOperation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadApiOperation();
+  await apiManagementHeadApiOperation();
 }
 
 main().catch(console.error);

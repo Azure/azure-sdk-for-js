@@ -35,7 +35,7 @@ async function transactionsListByInvoice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  transactionsListByInvoice();
+  await transactionsListByInvoice();
 }
 
 main().catch(console.error);

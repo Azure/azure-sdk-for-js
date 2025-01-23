@@ -23,7 +23,7 @@ async function dataflowEndpointGet() {
 }
 
 async function main() {
-  dataflowEndpointGet();
+  await dataflowEndpointGet();
 }
 
 main().catch(console.error);

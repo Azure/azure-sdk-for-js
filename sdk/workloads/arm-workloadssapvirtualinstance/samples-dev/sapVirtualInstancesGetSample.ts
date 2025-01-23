@@ -57,8 +57,8 @@ async function sapVirtualInstancesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesGetWithAcssInstallationBlocked();
-  sapVirtualInstancesGet();
+  await sapVirtualInstancesGetWithAcssInstallationBlocked();
+  await sapVirtualInstancesGet();
 }
 
 main().catch(console.error);

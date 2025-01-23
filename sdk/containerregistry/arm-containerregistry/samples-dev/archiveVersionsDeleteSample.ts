@@ -44,7 +44,7 @@ async function archiveVersionDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  archiveVersionDelete();
+  await archiveVersionDelete();
 }
 
 main().catch(console.error);

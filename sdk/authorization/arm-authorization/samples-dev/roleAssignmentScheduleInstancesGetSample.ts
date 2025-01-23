@@ -33,7 +33,7 @@ async function getRoleAssignmentScheduleInstanceByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleAssignmentScheduleInstanceByName();
+  await getRoleAssignmentScheduleInstanceByName();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function scopingConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scopingConfiguration();
+  await scopingConfiguration();
 }
 
 main().catch(console.error);

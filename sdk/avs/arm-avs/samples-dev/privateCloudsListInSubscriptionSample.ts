@@ -51,8 +51,8 @@ async function privateCloudsListInSubscriptionStretched(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsListInSubscription();
-  privateCloudsListInSubscriptionStretched();
+  await privateCloudsListInSubscription();
+  await privateCloudsListInSubscriptionStretched();
 }
 
 main().catch(console.error);

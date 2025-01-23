@@ -66,8 +66,8 @@ async function registryCheckNameNotAvailable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryCheckNameAvailable();
-  registryCheckNameNotAvailable();
+  await registryCheckNameAvailable();
+  await registryCheckNameNotAvailable();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function endpointsStop(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsStop();
+  await endpointsStop();
 }
 
 main().catch(console.error);

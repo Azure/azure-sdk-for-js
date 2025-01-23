@@ -40,7 +40,7 @@ async function apiManagementListPolicyDescriptions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListPolicyDescriptions();
+  await apiManagementListPolicyDescriptions();
 }
 
 main().catch(console.error);

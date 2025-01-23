@@ -46,7 +46,7 @@ async function updateCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateCluster();
+  await updateCluster();
 }
 
 main().catch(console.error);

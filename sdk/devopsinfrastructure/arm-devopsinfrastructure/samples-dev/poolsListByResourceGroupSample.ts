@@ -23,7 +23,7 @@ async function poolsListByResourceGroup() {
 }
 
 async function main() {
-  poolsListByResourceGroup();
+  await poolsListByResourceGroup();
 }
 
 main().catch(console.error);

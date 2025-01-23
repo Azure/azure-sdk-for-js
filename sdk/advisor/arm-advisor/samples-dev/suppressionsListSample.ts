@@ -30,7 +30,7 @@ async function listSuppressions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSuppressions();
+  await listSuppressions();
 }
 
 main().catch(console.error);

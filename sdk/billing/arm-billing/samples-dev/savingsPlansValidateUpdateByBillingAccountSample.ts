@@ -48,7 +48,7 @@ async function savingsPlanValidateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlanValidateUpdate();
+  await savingsPlanValidateUpdate();
 }
 
 main().catch(console.error);

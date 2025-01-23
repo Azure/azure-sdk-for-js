@@ -21,7 +21,7 @@ async function promotesAReplicaMongoClusterResourceToAPrimaryRole() {
 }
 
 async function main() {
-  promotesAReplicaMongoClusterResourceToAPrimaryRole();
+  await promotesAReplicaMongoClusterResourceToAPrimaryRole();
 }
 
 main().catch(console.error);

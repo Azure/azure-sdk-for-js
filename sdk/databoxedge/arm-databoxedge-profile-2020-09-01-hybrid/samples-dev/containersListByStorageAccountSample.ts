@@ -40,7 +40,7 @@ async function containerListAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerListAllInDevice();
+  await containerListAllInDevice();
 }
 
 main().catch(console.error);

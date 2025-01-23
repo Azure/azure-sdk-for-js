@@ -844,29 +844,29 @@ async function updateAgentPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  associateAgentPoolWithCapacityReservationGroup();
-  createAgentPoolUsingAnAgentPoolSnapshot();
-  createAgentPoolWithCustomCaTrustEnabled();
-  createAgentPoolWithDedicatedHostGroup();
-  createAgentPoolWithEncryptionAtHostEnabled();
-  createAgentPoolWithEphemeralOSDisk();
-  createAgentPoolWithFipsEnabledOS();
-  createAgentPoolWithGpumig();
-  createAgentPoolWithKrustletAndTheWasiRuntime();
-  createAgentPoolWithKubeletConfigAndLinuxOSConfig();
-  createAgentPoolWithMessageOfTheDay();
-  createAgentPoolWithOssku();
-  createAgentPoolWithPpg();
-  createAgentPoolWithUltraSsdEnabled();
-  createAgentPoolWithVirtualMachinesPoolType();
-  createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled();
-  createAgentPoolWithWindowsOssku();
-  createSpotAgentPool();
-  createWindowsAgentPoolWithDisablingOutboundNat();
-  createOrUpdateAgentPool();
-  startAgentPool();
-  stopAgentPool();
-  updateAgentPool();
+  await associateAgentPoolWithCapacityReservationGroup();
+  await createAgentPoolUsingAnAgentPoolSnapshot();
+  await createAgentPoolWithCustomCaTrustEnabled();
+  await createAgentPoolWithDedicatedHostGroup();
+  await createAgentPoolWithEncryptionAtHostEnabled();
+  await createAgentPoolWithEphemeralOSDisk();
+  await createAgentPoolWithFipsEnabledOS();
+  await createAgentPoolWithGpumig();
+  await createAgentPoolWithKrustletAndTheWasiRuntime();
+  await createAgentPoolWithKubeletConfigAndLinuxOSConfig();
+  await createAgentPoolWithMessageOfTheDay();
+  await createAgentPoolWithOssku();
+  await createAgentPoolWithPpg();
+  await createAgentPoolWithUltraSsdEnabled();
+  await createAgentPoolWithVirtualMachinesPoolType();
+  await createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled();
+  await createAgentPoolWithWindowsOssku();
+  await createSpotAgentPool();
+  await createWindowsAgentPoolWithDisablingOutboundNat();
+  await createOrUpdateAgentPool();
+  await startAgentPool();
+  await stopAgentPool();
+  await updateAgentPool();
 }
 
 main().catch(console.error);

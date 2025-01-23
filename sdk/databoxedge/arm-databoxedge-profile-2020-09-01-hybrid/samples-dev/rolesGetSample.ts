@@ -33,7 +33,7 @@ async function roleGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  roleGet();
+  await roleGet();
 }
 
 main().catch(console.error);

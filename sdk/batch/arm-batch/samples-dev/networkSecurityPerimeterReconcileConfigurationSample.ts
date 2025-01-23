@@ -37,7 +37,7 @@ async function reconcileNspConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reconcileNspConfiguration();
+  await reconcileNspConfiguration();
 }
 
 main().catch(console.error);

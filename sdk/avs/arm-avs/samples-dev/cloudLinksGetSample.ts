@@ -36,7 +36,7 @@ async function cloudLinksGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cloudLinksGet();
+  await cloudLinksGet();
 }
 
 main().catch(console.error);

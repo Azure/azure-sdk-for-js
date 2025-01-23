@@ -40,7 +40,7 @@ async function importPipelineGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  importPipelineGet();
+  await importPipelineGet();
 }
 
 main().catch(console.error);

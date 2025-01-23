@@ -223,10 +223,10 @@ async function brokerCreateOrUpdateSimple() {
 }
 
 async function main() {
-  brokerCreateOrUpdateComplex();
-  brokerCreateOrUpdate();
-  brokerCreateOrUpdateMinimal();
-  brokerCreateOrUpdateSimple();
+  await brokerCreateOrUpdateComplex();
+  await brokerCreateOrUpdate();
+  await brokerCreateOrUpdateMinimal();
+  await brokerCreateOrUpdateSimple();
 }
 
 main().catch(console.error);

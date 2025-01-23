@@ -36,7 +36,7 @@ async function activateContainerAppRevision(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  activateContainerAppRevision();
+  await activateContainerAppRevision();
 }
 
 main().catch(console.error);

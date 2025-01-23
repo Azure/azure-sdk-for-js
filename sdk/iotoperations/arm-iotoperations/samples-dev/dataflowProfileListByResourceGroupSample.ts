@@ -26,7 +26,7 @@ async function dataflowProfileListByResourceGroup() {
 }
 
 async function main() {
-  dataflowProfileListByResourceGroup();
+  await dataflowProfileListByResourceGroup();
 }
 
 main().catch(console.error);

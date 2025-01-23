@@ -55,8 +55,8 @@ async function savingsPlanGetExpandRenewProperties(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlanGet();
-  savingsPlanGetExpandRenewProperties();
+  await savingsPlanGet();
+  await savingsPlanGetExpandRenewProperties();
 }
 
 main().catch(console.error);

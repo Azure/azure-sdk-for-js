@@ -45,7 +45,7 @@ async function createAFirewallRuleOfTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAFirewallRuleOfTheCluster();
+  await createAFirewallRuleOfTheCluster();
 }
 
 main().catch(console.error);

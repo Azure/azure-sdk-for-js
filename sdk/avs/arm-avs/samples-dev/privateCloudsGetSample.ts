@@ -55,8 +55,8 @@ async function privateCloudsGetStretched(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsGet();
-  privateCloudsGetStretched();
+  await privateCloudsGet();
+  await privateCloudsGetStretched();
 }
 
 main().catch(console.error);

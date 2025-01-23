@@ -35,7 +35,7 @@ async function updateSummaryGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateSummaryGet();
+  await updateSummaryGet();
 }
 
 main().catch(console.error);

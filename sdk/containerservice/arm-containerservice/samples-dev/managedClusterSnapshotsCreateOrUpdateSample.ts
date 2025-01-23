@@ -47,7 +47,7 @@ async function createOrUpdateManagedClusterSnapshot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateManagedClusterSnapshot();
+  await createOrUpdateManagedClusterSnapshot();
 }
 
 main().catch(console.error);

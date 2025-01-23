@@ -47,7 +47,7 @@ async function putDeployment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putDeployment();
+  await putDeployment();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function apiManagementGetApiIssueComment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetApiIssueComment();
+  await apiManagementGetApiIssueComment();
 }
 
 main().catch(console.error);

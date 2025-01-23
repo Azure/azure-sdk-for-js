@@ -38,7 +38,7 @@ async function apiManagementDeleteOpenIdConnectProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteOpenIdConnectProvider();
+  await apiManagementDeleteOpenIdConnectProvider();
 }
 
 main().catch(console.error);

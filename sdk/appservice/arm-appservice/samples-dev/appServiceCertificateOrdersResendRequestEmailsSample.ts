@@ -37,7 +37,7 @@ async function resendDomainOwnershipVerificationEmail(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resendDomainOwnershipVerificationEmail();
+  await resendDomainOwnershipVerificationEmail();
 }
 
 main().catch(console.error);

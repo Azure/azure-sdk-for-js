@@ -33,7 +33,7 @@ async function triggerGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerGet();
+  await triggerGet();
 }
 
 main().catch(console.error);

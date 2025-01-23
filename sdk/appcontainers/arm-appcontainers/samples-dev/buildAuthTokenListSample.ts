@@ -36,7 +36,7 @@ async function getBuildAuthToken(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getBuildAuthToken();
+  await getBuildAuthToken();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function apiManagementDeleteCertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteCertificate();
+  await apiManagementDeleteCertificate();
 }
 
 main().catch(console.error);

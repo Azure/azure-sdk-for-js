@@ -48,7 +48,7 @@ async function deployASiteFromAZippedPackage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deployASiteFromAZippedPackage();
+  await deployASiteFromAZippedPackage();
 }
 
 main().catch(console.error);

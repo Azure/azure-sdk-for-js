@@ -71,7 +71,7 @@ async function billingProfilesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingProfilesCreateOrUpdate();
+  await billingProfilesCreateOrUpdate();
 }
 
 main().catch(console.error);

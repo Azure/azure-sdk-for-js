@@ -43,7 +43,7 @@ async function listAgentPoolsByManagedCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAgentPoolsByManagedCluster();
+  await listAgentPoolsByManagedCluster();
 }
 
 main().catch(console.error);

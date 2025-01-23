@@ -29,7 +29,7 @@ async function deleteSuppression(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteSuppression();
+  await deleteSuppression();
 }
 
 main().catch(console.error);

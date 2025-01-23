@@ -41,7 +41,7 @@ async function invoiceSectionsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoiceSectionsCreateOrUpdate();
+  await invoiceSectionsCreateOrUpdate();
 }
 
 main().catch(console.error);

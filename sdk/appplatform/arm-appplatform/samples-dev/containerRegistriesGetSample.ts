@@ -37,7 +37,7 @@ async function containerRegistriesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerRegistriesGet();
+  await containerRegistriesGet();
 }
 
 main().catch(console.error);

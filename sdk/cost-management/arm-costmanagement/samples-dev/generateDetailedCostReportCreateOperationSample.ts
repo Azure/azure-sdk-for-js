@@ -125,11 +125,11 @@ async function generateDetailedCostReportBySubscriptionAndTimePeriod(): Promise<
 }
 
 async function main(): Promise<void> {
-  generateDetailedCostReportByBillingAccountLegacyAndBillingPeriod();
-  generateDetailedCostReportByBillingProfileAndInvoiceId();
-  generateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId();
-  generateDetailedCostReportByCustomerAndTimePeriod();
-  generateDetailedCostReportBySubscriptionAndTimePeriod();
+  await generateDetailedCostReportByBillingAccountLegacyAndBillingPeriod();
+  await generateDetailedCostReportByBillingProfileAndInvoiceId();
+  await generateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId();
+  await generateDetailedCostReportByCustomerAndTimePeriod();
+  await generateDetailedCostReportBySubscriptionAndTimePeriod();
 }
 
 main().catch(console.error);

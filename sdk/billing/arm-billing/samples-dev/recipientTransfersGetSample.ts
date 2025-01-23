@@ -27,7 +27,7 @@ async function recipientTransferGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  recipientTransferGet();
+  await recipientTransferGet();
 }
 
 main().catch(console.error);

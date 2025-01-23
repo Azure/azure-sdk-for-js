@@ -36,7 +36,7 @@ async function terminateAContainerAppsJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  terminateAContainerAppsJob();
+  await terminateAContainerAppsJob();
 }
 
 main().catch(console.error);

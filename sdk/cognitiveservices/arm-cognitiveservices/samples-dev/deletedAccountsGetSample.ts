@@ -40,7 +40,7 @@ async function getAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAccount();
+  await getAccount();
 }
 
 main().catch(console.error);

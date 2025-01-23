@@ -35,7 +35,7 @@ async function createClusterIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createClusterIdentity();
+  await createClusterIdentity();
 }
 
 main().catch(console.error);

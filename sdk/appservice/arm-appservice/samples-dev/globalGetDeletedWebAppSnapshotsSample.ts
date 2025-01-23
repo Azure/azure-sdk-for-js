@@ -30,7 +30,7 @@ async function getDeletedWebAppSnapshots(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDeletedWebAppSnapshots();
+  await getDeletedWebAppSnapshots();
 }
 
 main().catch(console.error);

@@ -51,7 +51,7 @@ async function containerRegistriesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerRegistriesCreateOrUpdate();
+  await containerRegistriesCreateOrUpdate();
 }
 
 main().catch(console.error);

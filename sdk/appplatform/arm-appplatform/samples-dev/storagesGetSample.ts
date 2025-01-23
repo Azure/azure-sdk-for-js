@@ -37,7 +37,7 @@ async function storagesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storagesGet();
+  await storagesGet();
 }
 
 main().catch(console.error);

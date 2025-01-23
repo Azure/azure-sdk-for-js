@@ -47,7 +47,7 @@ async function bandwidthSchedulePut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bandwidthSchedulePut();
+  await bandwidthSchedulePut();
 }
 
 main().catch(console.error);

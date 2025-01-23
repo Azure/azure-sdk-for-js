@@ -37,7 +37,7 @@ async function applicationAcceleratorsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationAcceleratorsGet();
+  await applicationAcceleratorsGet();
 }
 
 main().catch(console.error);

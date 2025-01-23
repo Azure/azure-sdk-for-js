@@ -48,7 +48,7 @@ async function logAnalyticsGetWafLogAnalyticsMetrics(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  logAnalyticsGetWafLogAnalyticsMetrics();
+  await logAnalyticsGetWafLogAnalyticsMetrics();
 }
 
 main().catch(console.error);

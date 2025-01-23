@@ -53,7 +53,7 @@ async function originGroupsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  originGroupsUpdate();
+  await originGroupsUpdate();
 }
 
 main().catch(console.error);

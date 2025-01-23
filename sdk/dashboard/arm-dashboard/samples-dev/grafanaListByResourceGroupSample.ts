@@ -36,7 +36,7 @@ async function grafanaListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  grafanaListByResourceGroup();
+  await grafanaListByResourceGroup();
 }
 
 main().catch(console.error);

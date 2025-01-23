@@ -40,7 +40,7 @@ async function apiManagementDeleteProductPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteProductPolicy();
+  await apiManagementDeleteProductPolicy();
 }
 
 main().catch(console.error);

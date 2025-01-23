@@ -28,7 +28,7 @@ async function getAlertOperation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAlertOperation();
+  await getAlertOperation();
 }
 
 main().catch(console.error);

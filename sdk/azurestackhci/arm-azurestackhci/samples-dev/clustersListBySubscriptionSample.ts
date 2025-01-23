@@ -32,7 +32,7 @@ async function listClustersInAGivenSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listClustersInAGivenSubscription();
+  await listClustersInAGivenSubscription();
 }
 
 main().catch(console.error);

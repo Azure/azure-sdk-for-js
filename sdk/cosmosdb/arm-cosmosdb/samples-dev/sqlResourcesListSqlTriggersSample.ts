@@ -39,7 +39,7 @@ async function cosmosDbSqlTriggerList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlTriggerList();
+  await cosmosDbSqlTriggerList();
 }
 
 main().catch(console.error);

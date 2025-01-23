@@ -28,7 +28,7 @@ async function getServicePrincipal(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getServicePrincipal();
+  await getServicePrincipal();
 }
 
 main().catch(console.error);

@@ -79,8 +79,8 @@ async function apiManagementCreateNamedValueWithKeyVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateNamedValue();
-  apiManagementCreateNamedValueWithKeyVault();
+  await apiManagementCreateNamedValue();
+  await apiManagementCreateNamedValueWithKeyVault();
 }
 
 main().catch(console.error);

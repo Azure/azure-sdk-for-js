@@ -44,7 +44,7 @@ async function savingsPlanUtilizationSummariesBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlanUtilizationSummariesBillingProfile();
+  await savingsPlanUtilizationSummariesBillingProfile();
 }
 
 main().catch(console.error);

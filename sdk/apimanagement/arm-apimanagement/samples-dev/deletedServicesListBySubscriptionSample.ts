@@ -31,7 +31,7 @@ async function apiManagementDeletedServicesListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeletedServicesListBySubscription();
+  await apiManagementDeletedServicesListBySubscription();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function apiManagementHeadGatewayApi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadGatewayApi();
+  await apiManagementHeadGatewayApi();
 }
 
 main().catch(console.error);

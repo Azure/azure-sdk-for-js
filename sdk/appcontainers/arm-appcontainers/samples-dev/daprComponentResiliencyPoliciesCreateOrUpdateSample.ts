@@ -159,9 +159,9 @@ async function createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions(): P
 }
 
 async function main(): Promise<void> {
-  createOrUpdateDaprComponentResiliencyPolicyWithAllOptions();
-  createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly();
-  createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions();
+  await createOrUpdateDaprComponentResiliencyPolicyWithAllOptions();
+  await createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly();
+  await createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions();
 }
 
 main().catch(console.error);

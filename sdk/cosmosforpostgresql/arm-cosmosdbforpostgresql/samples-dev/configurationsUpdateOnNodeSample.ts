@@ -42,7 +42,7 @@ async function updateSingleConfigurationOfNodes(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateSingleConfigurationOfNodes();
+  await updateSingleConfigurationOfNodes();
 }
 
 main().catch(console.error);

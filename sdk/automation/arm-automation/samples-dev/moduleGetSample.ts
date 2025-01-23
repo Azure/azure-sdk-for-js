@@ -34,7 +34,7 @@ async function getAModule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAModule();
+  await getAModule();
 }
 
 main().catch(console.error);

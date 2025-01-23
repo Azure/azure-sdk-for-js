@@ -38,7 +38,7 @@ async function getsThePrivateLinkResourcesForCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsThePrivateLinkResourcesForCluster();
+  await getsThePrivateLinkResourcesForCluster();
 }
 
 main().catch(console.error);

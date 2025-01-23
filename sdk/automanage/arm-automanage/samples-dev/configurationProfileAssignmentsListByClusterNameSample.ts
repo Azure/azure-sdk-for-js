@@ -37,7 +37,7 @@ async function listConfigurationProfileAssignmentsByResourceGroupAndCluster(): P
 }
 
 async function main(): Promise<void> {
-  listConfigurationProfileAssignmentsByResourceGroupAndCluster();
+  await listConfigurationProfileAssignmentsByResourceGroupAndCluster();
 }
 
 main().catch(console.error);

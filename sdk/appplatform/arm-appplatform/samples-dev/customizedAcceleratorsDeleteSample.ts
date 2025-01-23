@@ -39,7 +39,7 @@ async function customizedAcceleratorsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customizedAcceleratorsDelete();
+  await customizedAcceleratorsDelete();
 }
 
 main().catch(console.error);

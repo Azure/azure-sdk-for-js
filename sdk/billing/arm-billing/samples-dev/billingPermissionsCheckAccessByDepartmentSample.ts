@@ -42,7 +42,7 @@ async function checkAccessByDepartment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkAccessByDepartment();
+  await checkAccessByDepartment();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function endpointsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsUpdate();
+  await endpointsUpdate();
 }
 
 main().catch(console.error);

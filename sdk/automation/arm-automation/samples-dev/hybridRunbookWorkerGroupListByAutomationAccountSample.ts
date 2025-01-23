@@ -35,7 +35,7 @@ async function listHybridWorkerGroupsByAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listHybridWorkerGroupsByAutomationAccount();
+  await listHybridWorkerGroupsByAutomationAccount();
 }
 
 main().catch(console.error);

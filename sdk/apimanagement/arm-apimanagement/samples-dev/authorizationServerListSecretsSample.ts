@@ -36,7 +36,7 @@ async function apiManagementAuthorizationServerListSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementAuthorizationServerListSecrets();
+  await apiManagementAuthorizationServerListSecrets();
 }
 
 main().catch(console.error);

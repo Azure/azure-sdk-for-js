@@ -34,7 +34,7 @@ async function afdOriginGroupsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginGroupsDelete();
+  await afdOriginGroupsDelete();
 }
 
 main().catch(console.error);

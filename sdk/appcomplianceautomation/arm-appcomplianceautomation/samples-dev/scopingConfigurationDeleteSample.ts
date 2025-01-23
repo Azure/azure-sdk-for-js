@@ -31,7 +31,7 @@ async function scopingConfigurationDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scopingConfigurationDelete();
+  await scopingConfigurationDelete();
 }
 
 main().catch(console.error);

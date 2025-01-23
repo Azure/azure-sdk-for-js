@@ -41,7 +41,7 @@ async function scopeMapList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scopeMapList();
+  await scopeMapList();
 }
 
 main().catch(console.error);

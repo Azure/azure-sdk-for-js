@@ -33,7 +33,7 @@ async function reservationOrderListByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reservationOrderListByBillingAccount();
+  await reservationOrderListByBillingAccount();
 }
 
 main().catch(console.error);

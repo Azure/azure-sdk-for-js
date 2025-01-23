@@ -36,7 +36,7 @@ async function getAseCustomDnsSuffixConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAseCustomDnsSuffixConfiguration();
+  await getAseCustomDnsSuffixConfiguration();
 }
 
 main().catch(console.error);

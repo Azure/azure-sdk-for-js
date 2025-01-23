@@ -37,7 +37,7 @@ async function listFullDetailsOfDatabaseConnectionsForTheStaticSite(): Promise<v
 }
 
 async function main(): Promise<void> {
-  listFullDetailsOfDatabaseConnectionsForTheStaticSite();
+  await listFullDetailsOfDatabaseConnectionsForTheStaticSite();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function webPubSubCustomDomainsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubCustomDomainsList();
+  await webPubSubCustomDomainsList();
 }
 
 main().catch(console.error);

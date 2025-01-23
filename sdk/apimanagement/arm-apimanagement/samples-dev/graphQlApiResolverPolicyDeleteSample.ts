@@ -42,7 +42,7 @@ async function apiManagementDeleteGraphQlApiResolverPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteGraphQlApiResolverPolicy();
+  await apiManagementDeleteGraphQlApiResolverPolicy();
 }
 
 main().catch(console.error);

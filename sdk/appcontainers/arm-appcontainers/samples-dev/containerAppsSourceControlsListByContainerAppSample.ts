@@ -38,7 +38,7 @@ async function listAppSourceControls(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppSourceControls();
+  await listAppSourceControls();
 }
 
 main().catch(console.error);

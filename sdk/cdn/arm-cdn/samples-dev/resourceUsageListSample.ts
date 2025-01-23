@@ -30,7 +30,7 @@ async function resourceUsageList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resourceUsageList();
+  await resourceUsageList();
 }
 
 main().catch(console.error);

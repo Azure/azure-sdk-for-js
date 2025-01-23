@@ -29,7 +29,7 @@ async function getMetadata(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getMetadata();
+  await getMetadata();
 }
 
 main().catch(console.error);

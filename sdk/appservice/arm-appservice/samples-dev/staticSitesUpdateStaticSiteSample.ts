@@ -39,7 +39,7 @@ async function patchAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchAStaticSite();
+  await patchAStaticSite();
 }
 
 main().catch(console.error);

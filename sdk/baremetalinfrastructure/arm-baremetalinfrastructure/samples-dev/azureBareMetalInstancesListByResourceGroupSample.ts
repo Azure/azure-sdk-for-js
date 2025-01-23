@@ -36,7 +36,7 @@ async function listAllAzureBareMetalInstancesInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllAzureBareMetalInstancesInAResourceGroup();
+  await listAllAzureBareMetalInstancesInAResourceGroup();
 }
 
 main().catch(console.error);

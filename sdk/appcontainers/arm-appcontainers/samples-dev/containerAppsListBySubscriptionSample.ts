@@ -32,7 +32,7 @@ async function listContainerAppsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listContainerAppsBySubscription();
+  await listContainerAppsBySubscription();
 }
 
 main().catch(console.error);

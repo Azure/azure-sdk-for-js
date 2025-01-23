@@ -49,7 +49,7 @@ async function cosmosDbSqlRoleAssignmentCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlRoleAssignmentCreateUpdate();
+  await cosmosDbSqlRoleAssignmentCreateUpdate();
 }
 
 main().catch(console.error);

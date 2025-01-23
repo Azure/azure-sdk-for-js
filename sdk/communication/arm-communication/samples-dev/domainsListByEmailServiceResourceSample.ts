@@ -36,7 +36,7 @@ async function listDomainsResourcesByEmailServiceName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDomainsResourcesByEmailServiceName();
+  await listDomainsResourcesByEmailServiceName();
 }
 
 main().catch(console.error);

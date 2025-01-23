@@ -39,7 +39,7 @@ async function virtualMachinesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachinesList();
+  await virtualMachinesList();
 }
 
 main().catch(console.error);

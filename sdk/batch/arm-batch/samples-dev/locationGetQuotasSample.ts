@@ -28,7 +28,7 @@ async function locationGetQuotas(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  locationGetQuotas();
+  await locationGetQuotas();
 }
 
 main().catch(console.error);

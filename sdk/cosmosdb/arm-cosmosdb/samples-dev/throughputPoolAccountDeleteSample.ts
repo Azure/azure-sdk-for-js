@@ -36,7 +36,7 @@ async function cosmosDbThroughputPoolAccountDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbThroughputPoolAccountDelete();
+  await cosmosDbThroughputPoolAccountDelete();
 }
 
 main().catch(console.error);

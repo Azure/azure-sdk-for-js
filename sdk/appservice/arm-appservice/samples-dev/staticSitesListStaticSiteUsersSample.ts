@@ -39,7 +39,7 @@ async function listUsersForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listUsersForAStaticSite();
+  await listUsersForAStaticSite();
 }
 
 main().catch(console.error);

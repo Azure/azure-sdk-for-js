@@ -61,7 +61,7 @@ async function updateSessionPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateSessionPool();
+  await updateSessionPool();
 }
 
 main().catch(console.error);

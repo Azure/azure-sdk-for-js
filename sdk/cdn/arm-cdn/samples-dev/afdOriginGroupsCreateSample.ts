@@ -49,7 +49,7 @@ async function afdOriginGroupsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginGroupsCreate();
+  await afdOriginGroupsCreate();
 }
 
 main().catch(console.error);

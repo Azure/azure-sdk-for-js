@@ -36,7 +36,7 @@ async function restartContainerAppRevision(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  restartContainerAppRevision();
+  await restartContainerAppRevision();
 }
 
 main().catch(console.error);

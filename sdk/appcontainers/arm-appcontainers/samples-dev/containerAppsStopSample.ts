@@ -34,7 +34,7 @@ async function stopContainerApp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopContainerApp();
+  await stopContainerApp();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function endpointsListResourceUsage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsListResourceUsage();
+  await endpointsListResourceUsage();
 }
 
 main().catch(console.error);

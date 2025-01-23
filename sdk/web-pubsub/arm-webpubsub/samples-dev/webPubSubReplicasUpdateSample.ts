@@ -44,7 +44,7 @@ async function webPubSubReplicasUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubReplicasUpdate();
+  await webPubSubReplicasUpdate();
 }
 
 main().catch(console.error);

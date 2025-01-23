@@ -34,7 +34,7 @@ async function apiManagementPortalSettingsGetSignIn(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementPortalSettingsGetSignIn();
+  await apiManagementPortalSettingsGetSignIn();
 }
 
 main().catch(console.error);

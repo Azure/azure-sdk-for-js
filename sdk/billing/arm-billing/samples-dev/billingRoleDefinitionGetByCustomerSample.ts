@@ -36,7 +36,7 @@ async function billingRoleDefinitionGetByCustomer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRoleDefinitionGetByCustomer();
+  await billingRoleDefinitionGetByCustomer();
 }
 
 main().catch(console.error);

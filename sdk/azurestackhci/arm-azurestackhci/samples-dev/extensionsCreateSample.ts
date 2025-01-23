@@ -48,7 +48,7 @@ async function createArcExtension(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createArcExtension();
+  await createArcExtension();
 }
 
 main().catch(console.error);

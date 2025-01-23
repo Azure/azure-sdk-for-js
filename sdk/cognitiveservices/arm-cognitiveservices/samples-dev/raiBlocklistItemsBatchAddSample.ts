@@ -54,7 +54,7 @@ async function addRaiBlocklistItems(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  addRaiBlocklistItems();
+  await addRaiBlocklistItems();
 }
 
 main().catch(console.error);

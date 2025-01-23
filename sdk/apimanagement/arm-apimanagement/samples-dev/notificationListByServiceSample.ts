@@ -37,7 +37,7 @@ async function apiManagementListNotifications(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListNotifications();
+  await apiManagementListNotifications();
 }
 
 main().catch(console.error);

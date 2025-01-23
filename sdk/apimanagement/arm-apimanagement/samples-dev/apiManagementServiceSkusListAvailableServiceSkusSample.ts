@@ -61,8 +61,8 @@ async function apiManagementListSkUsDedicated(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListSkUsConsumption();
-  apiManagementListSkUsDedicated();
+  await apiManagementListSkUsConsumption();
+  await apiManagementListSkUsDedicated();
 }
 
 main().catch(console.error);

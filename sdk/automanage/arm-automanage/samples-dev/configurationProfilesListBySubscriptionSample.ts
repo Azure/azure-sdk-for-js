@@ -31,7 +31,7 @@ async function listConfigurationProfilesBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listConfigurationProfilesBySubscription();
+  await listConfigurationProfilesBySubscription();
 }
 
 main().catch(console.error);

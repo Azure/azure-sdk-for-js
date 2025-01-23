@@ -43,7 +43,7 @@ async function apiManagementUpdateGateway(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateGateway();
+  await apiManagementUpdateGateway();
 }
 
 main().catch(console.error);

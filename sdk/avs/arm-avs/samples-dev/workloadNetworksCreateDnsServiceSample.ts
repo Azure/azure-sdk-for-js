@@ -48,7 +48,7 @@ async function workloadNetworksCreateDnsService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksCreateDnsService();
+  await workloadNetworksCreateDnsService();
 }
 
 main().catch(console.error);

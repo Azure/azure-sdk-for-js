@@ -37,7 +37,7 @@ async function getUpgradeProfileForAgentPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getUpgradeProfileForAgentPool();
+  await getUpgradeProfileForAgentPool();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function gatewayRouteConfigsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewayRouteConfigsDelete();
+  await gatewayRouteConfigsDelete();
 }
 
 main().catch(console.error);

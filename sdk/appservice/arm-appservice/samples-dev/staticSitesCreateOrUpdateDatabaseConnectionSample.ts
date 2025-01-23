@@ -48,7 +48,7 @@ async function createOrUpdateADatabaseConnectionForAStaticSite(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  createOrUpdateADatabaseConnectionForAStaticSite();
+  await createOrUpdateADatabaseConnectionForAStaticSite();
 }
 
 main().catch(console.error);

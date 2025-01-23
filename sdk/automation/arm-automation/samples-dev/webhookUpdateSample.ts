@@ -43,7 +43,7 @@ async function updateWebhook(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateWebhook();
+  await updateWebhook();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function apiManagementGetContentType(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetContentType();
+  await apiManagementGetContentType();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listRunbooksByAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRunbooksByAutomationAccount();
+  await listRunbooksByAutomationAccount();
 }
 
 main().catch(console.error);

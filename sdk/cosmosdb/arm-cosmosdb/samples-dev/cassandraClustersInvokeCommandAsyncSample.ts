@@ -44,7 +44,7 @@ async function cosmosDbManagedCassandraCommandAsync(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraCommandAsync();
+  await cosmosDbManagedCassandraCommandAsync();
 }
 
 main().catch(console.error);

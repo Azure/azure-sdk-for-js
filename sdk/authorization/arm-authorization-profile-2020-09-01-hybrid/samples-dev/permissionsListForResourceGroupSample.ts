@@ -35,7 +35,7 @@ async function listPermissionsForResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPermissionsForResourceGroup();
+  await listPermissionsForResourceGroup();
 }
 
 main().catch(console.error);

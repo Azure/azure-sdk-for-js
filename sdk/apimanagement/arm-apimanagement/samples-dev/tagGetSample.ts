@@ -32,7 +32,7 @@ async function apiManagementGetTag(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetTag();
+  await apiManagementGetTag();
 }
 
 main().catch(console.error);

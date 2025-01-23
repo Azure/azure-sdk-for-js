@@ -37,7 +37,7 @@ async function apiManagementListProductsByTags(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListProductsByTags();
+  await apiManagementListProductsByTags();
 }
 
 main().catch(console.error);

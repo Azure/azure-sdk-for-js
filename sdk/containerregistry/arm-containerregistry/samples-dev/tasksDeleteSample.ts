@@ -40,7 +40,7 @@ async function tasksDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tasksDelete();
+  await tasksDelete();
 }
 
 main().catch(console.error);

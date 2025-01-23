@@ -67,8 +67,8 @@ async function listAppSlotDiagnosticCategories(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppDiagnosticCategories();
-  listAppSlotDiagnosticCategories();
+  await listAppDiagnosticCategories();
+  await listAppSlotDiagnosticCategories();
 }
 
 main().catch(console.error);

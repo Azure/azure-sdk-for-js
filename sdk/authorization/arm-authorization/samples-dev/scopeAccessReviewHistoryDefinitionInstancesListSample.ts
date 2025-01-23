@@ -34,7 +34,7 @@ async function getAccessReviewHistoryDefinitionInstances(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAccessReviewHistoryDefinitionInstances();
+  await getAccessReviewHistoryDefinitionInstances();
 }
 
 main().catch(console.error);

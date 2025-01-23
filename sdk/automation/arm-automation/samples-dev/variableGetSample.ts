@@ -34,7 +34,7 @@ async function getAVariable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAVariable();
+  await getAVariable();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function listEncryptionScopes(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listEncryptionScopes();
+  await listEncryptionScopes();
 }
 
 main().catch(console.error);

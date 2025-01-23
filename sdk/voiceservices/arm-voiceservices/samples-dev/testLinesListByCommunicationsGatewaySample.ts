@@ -38,7 +38,7 @@ async function listTestLineResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listTestLineResource();
+  await listTestLineResource();
 }
 
 main().catch(console.error);

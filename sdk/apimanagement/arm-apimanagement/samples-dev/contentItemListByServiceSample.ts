@@ -39,7 +39,7 @@ async function apiManagementListContentTypeContentItems(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListContentTypeContentItems();
+  await apiManagementListContentTypeContentItems();
 }
 
 main().catch(console.error);

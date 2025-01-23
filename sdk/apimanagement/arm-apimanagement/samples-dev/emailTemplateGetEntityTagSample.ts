@@ -36,7 +36,7 @@ async function apiManagementHeadEmailTemplate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadEmailTemplate();
+  await apiManagementHeadEmailTemplate();
 }
 
 main().catch(console.error);

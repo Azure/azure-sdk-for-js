@@ -23,7 +23,7 @@ async function listSchemaRegistriesSubscription() {
 }
 
 async function main() {
-  listSchemaRegistriesSubscription();
+  await listSchemaRegistriesSubscription();
 }
 
 main().catch(console.error);

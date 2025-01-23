@@ -35,7 +35,7 @@ async function listAvailableUpdates(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAvailableUpdates();
+  await listAvailableUpdates();
 }
 
 main().catch(console.error);

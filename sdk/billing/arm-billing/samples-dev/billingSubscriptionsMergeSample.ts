@@ -40,7 +40,7 @@ async function billingSubscriptionsMerge(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionsMerge();
+  await billingSubscriptionsMerge();
 }
 
 main().catch(console.error);

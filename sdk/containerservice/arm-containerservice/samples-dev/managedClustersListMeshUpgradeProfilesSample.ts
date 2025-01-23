@@ -38,7 +38,7 @@ async function listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInAC
 }
 
 async function main(): Promise<void> {
-  listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInACluster();
+  await listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInACluster();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function createOrUpdateAMultiRolePool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAMultiRolePool();
+  await createOrUpdateAMultiRolePool();
 }
 
 main().catch(console.error);

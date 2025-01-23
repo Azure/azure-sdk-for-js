@@ -38,7 +38,7 @@ async function apiManagementListApiOperationPolicies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListApiOperationPolicies();
+  await apiManagementListApiOperationPolicies();
 }
 
 main().catch(console.error);

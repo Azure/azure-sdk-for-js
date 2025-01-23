@@ -35,7 +35,7 @@ async function shutdownAnAzureBareMetalInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  shutdownAnAzureBareMetalInstance();
+  await shutdownAnAzureBareMetalInstance();
 }
 
 main().catch(console.error);

@@ -26,7 +26,7 @@ async function resourceDetailsListByPool() {
 }
 
 async function main() {
-  resourceDetailsListByPool();
+  await resourceDetailsListByPool();
 }
 
 main().catch(console.error);

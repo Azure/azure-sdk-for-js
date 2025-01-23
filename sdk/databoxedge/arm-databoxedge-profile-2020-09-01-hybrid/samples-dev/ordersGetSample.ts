@@ -32,7 +32,7 @@ async function orderGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  orderGet();
+  await orderGet();
 }
 
 main().catch(console.error);

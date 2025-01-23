@@ -40,7 +40,7 @@ async function environmentsListByWorkspace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentsListByWorkspace();
+  await environmentsListByWorkspace();
 }
 
 main().catch(console.error);

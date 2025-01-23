@@ -116,11 +116,11 @@ async function jobsGetWaitingForAction(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  jobsGet();
-  jobsGetCmk();
-  jobsGetCopyStuck();
-  jobsGetExport();
-  jobsGetWaitingForAction();
+  await jobsGet();
+  await jobsGetCmk();
+  await jobsGetCopyStuck();
+  await jobsGetExport();
+  await jobsGetWaitingForAction();
 }
 
 main().catch(console.error);

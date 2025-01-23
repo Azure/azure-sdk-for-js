@@ -36,7 +36,7 @@ async function deleteADatabaseConnectionFromAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteADatabaseConnectionFromAStaticSite();
+  await deleteADatabaseConnectionFromAStaticSite();
 }
 
 main().catch(console.error);

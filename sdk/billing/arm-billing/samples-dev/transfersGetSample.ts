@@ -36,7 +36,7 @@ async function transferGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  transferGet();
+  await transferGet();
 }
 
 main().catch(console.error);

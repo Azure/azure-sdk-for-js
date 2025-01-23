@@ -46,7 +46,7 @@ async function cosmosDbCassandraKeyspaceCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraKeyspaceCreateUpdate();
+  await cosmosDbCassandraKeyspaceCreateUpdate();
 }
 
 main().catch(console.error);

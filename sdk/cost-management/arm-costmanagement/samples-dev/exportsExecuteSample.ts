@@ -106,12 +106,12 @@ async function exportRunBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportRunByBillingAccount();
-  exportRunByDepartment();
-  exportRunByEnrollmentAccount();
-  exportRunByManagementGroup();
-  exportRunByResourceGroup();
-  exportRunBySubscription();
+  await exportRunByBillingAccount();
+  await exportRunByDepartment();
+  await exportRunByEnrollmentAccount();
+  await exportRunByManagementGroup();
+  await exportRunByResourceGroup();
+  await exportRunBySubscription();
 }
 
 main().catch(console.error);

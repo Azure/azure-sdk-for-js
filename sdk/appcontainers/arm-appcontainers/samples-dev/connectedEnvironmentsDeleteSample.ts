@@ -35,7 +35,7 @@ async function deleteConnectedEnvironmentByConnectedEnvironmentName(): Promise<v
 }
 
 async function main(): Promise<void> {
-  deleteConnectedEnvironmentByConnectedEnvironmentName();
+  await deleteConnectedEnvironmentByConnectedEnvironmentName();
 }
 
 main().catch(console.error);

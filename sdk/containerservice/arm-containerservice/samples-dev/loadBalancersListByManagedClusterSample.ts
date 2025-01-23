@@ -38,7 +38,7 @@ async function listLoadBalancersByManagedCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listLoadBalancersByManagedCluster();
+  await listLoadBalancersByManagedCluster();
 }
 
 main().catch(console.error);

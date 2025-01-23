@@ -36,7 +36,7 @@ async function transferCancel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  transferCancel();
+  await transferCancel();
 }
 
 main().catch(console.error);

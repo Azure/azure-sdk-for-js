@@ -41,7 +41,7 @@ async function createAHybridWorkerGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAHybridWorkerGroup();
+  await createAHybridWorkerGroup();
 }
 
 main().catch(console.error);

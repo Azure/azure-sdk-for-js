@@ -44,7 +44,7 @@ async function apiManagementUserToken(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUserToken();
+  await apiManagementUserToken();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function serviceRegistriesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  serviceRegistriesCreateOrUpdate();
+  await serviceRegistriesCreateOrUpdate();
 }
 
 main().catch(console.error);

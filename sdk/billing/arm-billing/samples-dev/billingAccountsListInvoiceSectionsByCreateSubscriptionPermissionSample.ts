@@ -33,7 +33,7 @@ async function invoiceSectionsWithCreateSubscriptionPermissionList(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  invoiceSectionsWithCreateSubscriptionPermissionList();
+  await invoiceSectionsWithCreateSubscriptionPermissionList();
 }
 
 main().catch(console.error);

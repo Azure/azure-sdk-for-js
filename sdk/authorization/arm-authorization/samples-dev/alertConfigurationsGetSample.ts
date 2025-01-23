@@ -28,7 +28,7 @@ async function getAlertConfigurationById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAlertConfigurationById();
+  await getAlertConfigurationById();
 }
 
 main().catch(console.error);

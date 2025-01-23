@@ -36,7 +36,7 @@ async function containerAppsBuildsDelete0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerAppsBuildsDelete0();
+  await containerAppsBuildsDelete0();
 }
 
 main().catch(console.error);

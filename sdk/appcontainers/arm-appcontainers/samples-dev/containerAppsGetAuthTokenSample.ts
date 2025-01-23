@@ -34,7 +34,7 @@ async function getContainerAppAuthToken(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContainerAppAuthToken();
+  await getContainerAppAuthToken();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function snapshotsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  snapshotsGet();
+  await snapshotsGet();
 }
 
 main().catch(console.error);

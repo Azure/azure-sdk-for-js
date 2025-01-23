@@ -43,7 +43,7 @@ async function servicesEnableApmGlobally(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesEnableApmGlobally();
+  await servicesEnableApmGlobally();
 }
 
 main().catch(console.error);

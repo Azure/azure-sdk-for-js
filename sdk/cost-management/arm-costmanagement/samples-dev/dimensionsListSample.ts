@@ -536,32 +536,32 @@ async function subscriptionDimensionsListLegacy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountDimensionsListLegacy();
-  billingAccountDimensionsListMca();
-  billingAccountDimensionsListExpandAndTopLegacy();
-  billingAccountDimensionsListExpandAndTopMca();
-  billingAccountDimensionsListWithFilterLegacy();
-  billingAccountDimensionsListWithFilterMca();
-  billingProfileDimensionsListMca();
-  billingProfileDimensionsListExpandAndTopMca();
-  billingProfileDimensionsListWithFilterMca();
-  customerDimensionsListMca();
-  customerDimensionsListExpandAndTopMca();
-  customerDimensionsListWithFilterMca();
-  departmentDimensionsListLegacy();
-  departmentDimensionsListExpandAndTopLegacy();
-  departmentDimensionsListWithFilterLegacy();
-  enrollmentAccountDimensionsListLegacy();
-  enrollmentAccountDimensionsListExpandAndTopLegacy();
-  enrollmentAccountDimensionsListWithFilterLegacy();
-  invoiceSectionDimensionsListMca();
-  invoiceSectionDimensionsListExpandAndTopMca();
-  invoiceSectionDimensionsListWithFilterMca();
-  managementGroupDimensionsListLegacy();
-  managementGroupDimensionsListExpandAndTopLegacy();
-  managementGroupDimensionsListWithFilterLegacy();
-  resourceGroupDimensionsListLegacy();
-  subscriptionDimensionsListLegacy();
+  await billingAccountDimensionsListLegacy();
+  await billingAccountDimensionsListMca();
+  await billingAccountDimensionsListExpandAndTopLegacy();
+  await billingAccountDimensionsListExpandAndTopMca();
+  await billingAccountDimensionsListWithFilterLegacy();
+  await billingAccountDimensionsListWithFilterMca();
+  await billingProfileDimensionsListMca();
+  await billingProfileDimensionsListExpandAndTopMca();
+  await billingProfileDimensionsListWithFilterMca();
+  await customerDimensionsListMca();
+  await customerDimensionsListExpandAndTopMca();
+  await customerDimensionsListWithFilterMca();
+  await departmentDimensionsListLegacy();
+  await departmentDimensionsListExpandAndTopLegacy();
+  await departmentDimensionsListWithFilterLegacy();
+  await enrollmentAccountDimensionsListLegacy();
+  await enrollmentAccountDimensionsListExpandAndTopLegacy();
+  await enrollmentAccountDimensionsListWithFilterLegacy();
+  await invoiceSectionDimensionsListMca();
+  await invoiceSectionDimensionsListExpandAndTopMca();
+  await invoiceSectionDimensionsListWithFilterMca();
+  await managementGroupDimensionsListLegacy();
+  await managementGroupDimensionsListExpandAndTopLegacy();
+  await managementGroupDimensionsListWithFilterLegacy();
+  await resourceGroupDimensionsListLegacy();
+  await subscriptionDimensionsListLegacy();
 }
 
 main().catch(console.error);

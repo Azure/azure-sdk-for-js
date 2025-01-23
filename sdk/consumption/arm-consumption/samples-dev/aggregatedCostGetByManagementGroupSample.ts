@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  AggregatedCostGetByManagementGroupOptionalParams,
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { AggregatedCostGetByManagementGroupOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,14 +19,11 @@ import "dotenv/config";
  */
 async function aggregatedCostByManagementGroup(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupForTest";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
-  const result = await client.aggregatedCost.getByManagementGroup(
-    managementGroupId
-  );
+  const result = await client.aggregatedCost.getByManagementGroup(managementGroupId);
   console.log(result);
 }
 
@@ -42,24 +35,19 @@ async function aggregatedCostByManagementGroup(): Promise<void> {
  */
 async function aggregatedCostByManagementGroupFilterByDate(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupForTest";
-  const filter =
-    "usageStart ge '2018-08-15' and properties/usageStart le '2018-08-31'";
+  const filter = "usageStart ge '2018-08-15' and properties/usageStart le '2018-08-31'";
   const options: AggregatedCostGetByManagementGroupOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
-  const result = await client.aggregatedCost.getByManagementGroup(
-    managementGroupId,
-    options
-  );
+  const result = await client.aggregatedCost.getByManagementGroup(managementGroupId, options);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  aggregatedCostByManagementGroup();
-  aggregatedCostByManagementGroupFilterByDate();
+  await aggregatedCostByManagementGroup();
+  await aggregatedCostByManagementGroupFilterByDate();
 }
 
 main().catch(console.error);

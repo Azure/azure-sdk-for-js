@@ -35,7 +35,7 @@ async function deletePool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletePool();
+  await deletePool();
 }
 
 main().catch(console.error);

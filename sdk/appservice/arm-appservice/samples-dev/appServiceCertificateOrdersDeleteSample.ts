@@ -35,7 +35,7 @@ async function deleteAppServiceCertificateOrder(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAppServiceCertificateOrder();
+  await deleteAppServiceCertificateOrder();
 }
 
 main().catch(console.error);

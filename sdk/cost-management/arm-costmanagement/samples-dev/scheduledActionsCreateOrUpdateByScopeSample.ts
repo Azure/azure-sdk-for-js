@@ -99,8 +99,8 @@ async function createOrUpdateScheduledActionByScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateInsightAlertScheduledActionByScope();
-  createOrUpdateScheduledActionByScope();
+  await createOrUpdateInsightAlertScheduledActionByScope();
+  await createOrUpdateScheduledActionByScope();
 }
 
 main().catch(console.error);

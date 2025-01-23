@@ -116,13 +116,13 @@ async function subscriptionAlerts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountAlerts();
-  billingProfileAlerts();
-  departmentAlerts();
-  enrollmentAccountAlerts();
-  invoiceSectionAlerts();
-  resourceGroupAlerts();
-  subscriptionAlerts();
+  await billingAccountAlerts();
+  await billingProfileAlerts();
+  await departmentAlerts();
+  await enrollmentAccountAlerts();
+  await invoiceSectionAlerts();
+  await resourceGroupAlerts();
+  await subscriptionAlerts();
 }
 
 main().catch(console.error);

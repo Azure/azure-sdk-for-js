@@ -37,7 +37,7 @@ async function applicationLiveViewsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationLiveViewsGet();
+  await applicationLiveViewsGet();
 }
 
 main().catch(console.error);

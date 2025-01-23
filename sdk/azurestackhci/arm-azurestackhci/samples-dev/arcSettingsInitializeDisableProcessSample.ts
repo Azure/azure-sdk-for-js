@@ -37,7 +37,7 @@ async function triggerArcDisable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerArcDisable();
+  await triggerArcDisable();
 }
 
 main().catch(console.error);

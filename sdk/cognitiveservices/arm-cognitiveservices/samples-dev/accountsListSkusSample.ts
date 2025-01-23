@@ -35,7 +35,7 @@ async function listSkUs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSkUs();
+  await listSkUs();
 }
 
 main().catch(console.error);

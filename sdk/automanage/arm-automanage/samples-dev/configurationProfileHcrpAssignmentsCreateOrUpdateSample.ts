@@ -46,7 +46,7 @@ async function createOrUpdateHcrpConfigurationProfileAssignment(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  createOrUpdateHcrpConfigurationProfileAssignment();
+  await createOrUpdateHcrpConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

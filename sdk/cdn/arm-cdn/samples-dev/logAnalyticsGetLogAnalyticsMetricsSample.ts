@@ -53,7 +53,7 @@ async function logAnalyticsGetLogAnalyticsMetrics(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  logAnalyticsGetLogAnalyticsMetrics();
+  await logAnalyticsGetLogAnalyticsMetrics();
 }
 
 main().catch(console.error);

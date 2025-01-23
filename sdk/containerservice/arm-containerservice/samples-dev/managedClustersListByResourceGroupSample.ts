@@ -36,7 +36,7 @@ async function getManagedClustersByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getManagedClustersByResourceGroup();
+  await getManagedClustersByResourceGroup();
 }
 
 main().catch(console.error);

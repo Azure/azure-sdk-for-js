@@ -29,7 +29,7 @@ async function policiesGetBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  policiesGetBySubscription();
+  await policiesGetBySubscription();
 }
 
 main().catch(console.error);

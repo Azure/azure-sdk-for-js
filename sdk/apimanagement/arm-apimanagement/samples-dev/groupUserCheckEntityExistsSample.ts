@@ -38,7 +38,7 @@ async function apiManagementHeadGroupUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadGroupUser();
+  await apiManagementHeadGroupUser();
 }
 
 main().catch(console.error);

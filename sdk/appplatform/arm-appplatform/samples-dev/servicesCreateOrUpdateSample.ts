@@ -123,9 +123,9 @@ async function servicesCreateOrUpdateVNetInjection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesCreateOrUpdate();
-  servicesCreateOrUpdateEnterprise();
-  servicesCreateOrUpdateVNetInjection();
+  await servicesCreateOrUpdate();
+  await servicesCreateOrUpdateEnterprise();
+  await servicesCreateOrUpdateVNetInjection();
 }
 
 main().catch(console.error);

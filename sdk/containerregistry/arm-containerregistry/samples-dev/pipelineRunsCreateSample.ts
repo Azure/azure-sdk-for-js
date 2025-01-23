@@ -92,8 +92,8 @@ async function pipelineRunCreateImport(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelineRunCreateExport();
-  pipelineRunCreateImport();
+  await pipelineRunCreateExport();
+  await pipelineRunCreateImport();
 }
 
 main().catch(console.error);

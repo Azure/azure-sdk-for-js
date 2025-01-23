@@ -20,19 +20,18 @@ import "dotenv/config";
  */
 async function organizationListBySubscription(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organization.listBySubscription()) {
+  for await (const item of client.organization.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  organizationListBySubscription();
+  await organizationListBySubscription();
 }
 
 main().catch(console.error);

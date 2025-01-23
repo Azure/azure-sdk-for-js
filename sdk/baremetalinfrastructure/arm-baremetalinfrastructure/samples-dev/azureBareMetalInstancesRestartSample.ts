@@ -35,7 +35,7 @@ async function restartAnAzureBareMetalInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  restartAnAzureBareMetalInstance();
+  await restartAnAzureBareMetalInstance();
 }
 
 main().catch(console.error);

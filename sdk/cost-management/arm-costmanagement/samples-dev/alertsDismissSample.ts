@@ -49,8 +49,8 @@ async function patchSubscriptionAlerts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchResourceGroupAlerts();
-  patchSubscriptionAlerts();
+  await patchResourceGroupAlerts();
+  await patchSubscriptionAlerts();
 }
 
 main().catch(console.error);

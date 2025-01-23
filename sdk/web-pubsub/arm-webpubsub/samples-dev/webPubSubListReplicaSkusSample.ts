@@ -37,7 +37,7 @@ async function webPubSubListReplicaSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubListReplicaSkus();
+  await webPubSubListReplicaSkus();
 }
 
 main().catch(console.error);

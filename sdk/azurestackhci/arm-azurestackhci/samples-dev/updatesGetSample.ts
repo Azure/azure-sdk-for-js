@@ -37,7 +37,7 @@ async function getASpecificUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getASpecificUpdate();
+  await getASpecificUpdate();
 }
 
 main().catch(console.error);

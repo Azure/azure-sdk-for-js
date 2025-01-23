@@ -38,7 +38,7 @@ async function getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteBuildByName(
 }
 
 async function main(): Promise<void> {
-  getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteBuildByName();
+  await getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteBuildByName();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function originsGroupsListByEndpoint(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  originsGroupsListByEndpoint();
+  await originsGroupsListByEndpoint();
 }
 
 main().catch(console.error);

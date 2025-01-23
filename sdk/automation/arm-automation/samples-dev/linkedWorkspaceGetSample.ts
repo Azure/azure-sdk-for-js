@@ -32,7 +32,7 @@ async function getTheLinkedWorkspaceOfAnAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTheLinkedWorkspaceOfAnAutomationAccount();
+  await getTheLinkedWorkspaceOfAnAutomationAccount();
 }
 
 main().catch(console.error);

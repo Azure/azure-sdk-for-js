@@ -51,7 +51,7 @@ async function apmsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apmsCreateOrUpdate();
+  await apmsCreateOrUpdate();
 }
 
 main().catch(console.error);

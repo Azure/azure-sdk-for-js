@@ -30,7 +30,7 @@ async function apiManagementGetDeletedServiceByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetDeletedServiceByName();
+  await apiManagementGetDeletedServiceByName();
 }
 
 main().catch(console.error);

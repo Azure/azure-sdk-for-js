@@ -389,12 +389,12 @@ async function dataflowCreateOrUpdateSimpleFabric() {
 }
 
 async function main() {
-  dataflowCreateOrUpdateComplexContextualization();
-  dataflowCreateOrUpdateComplexEventHub();
-  dataflowCreateOrUpdateFilterToTopic();
-  dataflowCreateOrUpdate();
-  dataflowCreateOrUpdateSimpleEventGrid();
-  dataflowCreateOrUpdateSimpleFabric();
+  await dataflowCreateOrUpdateComplexContextualization();
+  await dataflowCreateOrUpdateComplexEventHub();
+  await dataflowCreateOrUpdateFilterToTopic();
+  await dataflowCreateOrUpdate();
+  await dataflowCreateOrUpdateSimpleEventGrid();
+  await dataflowCreateOrUpdateSimpleFabric();
 }
 
 main().catch(console.error);

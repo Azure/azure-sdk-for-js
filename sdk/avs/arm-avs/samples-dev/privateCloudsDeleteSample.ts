@@ -34,7 +34,7 @@ async function privateCloudsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsDelete();
+  await privateCloudsDelete();
 }
 
 main().catch(console.error);

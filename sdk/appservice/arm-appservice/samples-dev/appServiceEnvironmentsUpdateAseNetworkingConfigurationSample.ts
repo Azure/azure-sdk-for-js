@@ -44,7 +44,7 @@ async function updateNetworkingConfigurationOfAnAppServiceEnvironment(): Promise
 }
 
 async function main(): Promise<void> {
-  updateNetworkingConfigurationOfAnAppServiceEnvironment();
+  await updateNetworkingConfigurationOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

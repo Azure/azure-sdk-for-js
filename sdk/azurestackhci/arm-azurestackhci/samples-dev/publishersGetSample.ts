@@ -37,7 +37,7 @@ async function getPublisher(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getPublisher();
+  await getPublisher();
 }
 
 main().catch(console.error);

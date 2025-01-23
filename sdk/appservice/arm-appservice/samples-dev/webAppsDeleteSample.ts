@@ -32,7 +32,7 @@ async function deleteWebApp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteWebApp();
+  await deleteWebApp();
 }
 
 main().catch(console.error);

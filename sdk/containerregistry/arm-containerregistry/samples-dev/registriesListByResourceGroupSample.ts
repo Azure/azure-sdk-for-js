@@ -39,7 +39,7 @@ async function registryListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryListByResourceGroup();
+  await registryListByResourceGroup();
 }
 
 main().catch(console.error);

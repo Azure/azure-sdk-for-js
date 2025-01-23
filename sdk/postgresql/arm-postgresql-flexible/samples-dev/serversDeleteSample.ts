@@ -38,7 +38,7 @@ async function serverDelete() {
 }
 
 async function main() {
-  serverDelete();
+  await serverDelete();
 }
 
 main().catch(console.error);

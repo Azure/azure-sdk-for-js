@@ -39,7 +39,7 @@ async function deploymentsRestart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsRestart();
+  await deploymentsRestart();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function listFullDetailsOfDatabaseConnectionsForTheStaticSiteBuild(): Prom
 }
 
 async function main(): Promise<void> {
-  listFullDetailsOfDatabaseConnectionsForTheStaticSiteBuild();
+  await listFullDetailsOfDatabaseConnectionsForTheStaticSiteBuild();
 }
 
 main().catch(console.error);

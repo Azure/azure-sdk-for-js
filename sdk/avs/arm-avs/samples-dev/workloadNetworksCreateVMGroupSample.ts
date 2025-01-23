@@ -42,7 +42,7 @@ async function workloadNetworksCreateVMGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksCreateVMGroup();
+  await workloadNetworksCreateVMGroup();
 }
 
 main().catch(console.error);

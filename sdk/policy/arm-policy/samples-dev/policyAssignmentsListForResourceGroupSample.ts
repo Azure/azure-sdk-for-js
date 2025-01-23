@@ -44,7 +44,7 @@ async function listPolicyAssignmentsThatApplyToAResourceGroup() {
 }
 
 async function main() {
-  listPolicyAssignmentsThatApplyToAResourceGroup();
+  await listPolicyAssignmentsThatApplyToAResourceGroup();
 }
 
 main().catch(console.error);

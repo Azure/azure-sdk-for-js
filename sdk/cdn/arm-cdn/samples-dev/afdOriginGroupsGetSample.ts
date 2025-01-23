@@ -34,7 +34,7 @@ async function afdOriginGroupsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginGroupsGet();
+  await afdOriginGroupsGet();
 }
 
 main().catch(console.error);

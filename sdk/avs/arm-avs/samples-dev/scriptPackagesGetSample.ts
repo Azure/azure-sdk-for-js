@@ -36,7 +36,7 @@ async function scriptPackagesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scriptPackagesGet();
+  await scriptPackagesGet();
 }
 
 main().catch(console.error);

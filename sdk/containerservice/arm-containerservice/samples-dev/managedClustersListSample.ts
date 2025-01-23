@@ -32,7 +32,7 @@ async function listManagedClusters(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listManagedClusters();
+  await listManagedClusters();
 }
 
 main().catch(console.error);

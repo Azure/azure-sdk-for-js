@@ -34,7 +34,7 @@ async function apiManagementListSecretsPortalSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListSecretsPortalSettings();
+  await apiManagementListSecretsPortalSettings();
 }
 
 main().catch(console.error);

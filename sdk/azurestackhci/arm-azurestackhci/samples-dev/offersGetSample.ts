@@ -39,7 +39,7 @@ async function getOffer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getOffer();
+  await getOffer();
 }
 
 main().catch(console.error);

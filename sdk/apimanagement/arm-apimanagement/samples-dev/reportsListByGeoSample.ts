@@ -40,7 +40,7 @@ async function apiManagementGetReportsByGeo(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetReportsByGeo();
+  await apiManagementGetReportsByGeo();
 }
 
 main().catch(console.error);

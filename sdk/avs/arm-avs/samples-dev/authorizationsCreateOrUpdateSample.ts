@@ -41,7 +41,7 @@ async function authorizationsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  authorizationsCreateOrUpdate();
+  await authorizationsCreateOrUpdate();
 }
 
 main().catch(console.error);

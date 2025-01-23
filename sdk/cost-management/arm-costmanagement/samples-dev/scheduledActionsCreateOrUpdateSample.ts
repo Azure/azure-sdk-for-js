@@ -55,7 +55,7 @@ async function createOrUpdatePrivateScheduledAction(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdatePrivateScheduledAction();
+  await createOrUpdatePrivateScheduledAction();
 }
 
 main().catch(console.error);

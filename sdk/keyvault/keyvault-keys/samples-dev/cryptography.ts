@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   const signatureValue = "MySignature";
   let hash = createHash("sha256");
 
-  hash.update(signatureValue);
+  await hash.update(signatureValue);
   let digest = hash.digest();
   console.log("digest: ", digest);
 

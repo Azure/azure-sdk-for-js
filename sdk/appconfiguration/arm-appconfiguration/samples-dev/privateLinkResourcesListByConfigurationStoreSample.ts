@@ -41,7 +41,7 @@ async function privateLinkResourcesListGroupIds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateLinkResourcesListGroupIds();
+  await privateLinkResourcesListGroupIds();
 }
 
 main().catch(console.error);

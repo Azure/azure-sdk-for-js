@@ -42,7 +42,7 @@ async function apiVersionsListByApi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiVersionsListByApi();
+  await apiVersionsListByApi();
 }
 
 main().catch(console.error);

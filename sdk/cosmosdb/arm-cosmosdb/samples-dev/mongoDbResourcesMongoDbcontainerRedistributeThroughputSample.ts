@@ -54,7 +54,7 @@ async function cosmosDbMongoDbcollectionRedistributeThroughput(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbcollectionRedistributeThroughput();
+  await cosmosDbMongoDbcollectionRedistributeThroughput();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function listsAzureDatabricksAccessConnectorsWithinAResourceGroup(): Promi
 }
 
 async function main(): Promise<void> {
-  listsAzureDatabricksAccessConnectorsWithinAResourceGroup();
+  await listsAzureDatabricksAccessConnectorsWithinAResourceGroup();
 }
 
 main().catch(console.error);

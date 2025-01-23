@@ -38,7 +38,7 @@ async function listAllSapMonitorsProvidersInASubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllSapMonitorsProvidersInASubscription();
+  await listAllSapMonitorsProvidersInASubscription();
 }
 
 main().catch(console.error);

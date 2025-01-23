@@ -41,7 +41,7 @@ async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
 }
 
 async function main() {
-  sampleListOfLongTernRetentionOperationsByFlexibleServer();
+  await sampleListOfLongTernRetentionOperationsByFlexibleServer();
 }
 
 main().catch(console.error);

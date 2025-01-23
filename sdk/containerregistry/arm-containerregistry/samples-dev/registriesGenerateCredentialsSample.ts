@@ -47,7 +47,7 @@ async function registryGenerateCredentials(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryGenerateCredentials();
+  await registryGenerateCredentials();
 }
 
 main().catch(console.error);

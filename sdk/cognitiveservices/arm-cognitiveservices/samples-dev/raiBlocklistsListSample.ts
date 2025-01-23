@@ -41,7 +41,7 @@ async function listBlocklists(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listBlocklists();
+  await listBlocklists();
 }
 
 main().catch(console.error);

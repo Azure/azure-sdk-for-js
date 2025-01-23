@@ -35,7 +35,7 @@ async function getTheListOfAvailableDiagnosticDataForAManagedEnvironments(): Pro
 }
 
 async function main(): Promise<void> {
-  getTheListOfAvailableDiagnosticDataForAManagedEnvironments();
+  await getTheListOfAvailableDiagnosticDataForAManagedEnvironments();
 }
 
 main().catch(console.error);

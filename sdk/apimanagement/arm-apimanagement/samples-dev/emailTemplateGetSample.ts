@@ -36,7 +36,7 @@ async function apiManagementGetTemplate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetTemplate();
+  await apiManagementGetTemplate();
 }
 
 main().catch(console.error);

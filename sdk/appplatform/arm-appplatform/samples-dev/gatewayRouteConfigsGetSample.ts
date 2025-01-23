@@ -39,7 +39,7 @@ async function gatewayRouteConfigsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewayRouteConfigsGet();
+  await gatewayRouteConfigsGet();
 }
 
 main().catch(console.error);

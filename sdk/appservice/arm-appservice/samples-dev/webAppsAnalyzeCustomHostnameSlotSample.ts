@@ -37,7 +37,7 @@ async function analyzeCustomHostnameForSlot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  analyzeCustomHostnameForSlot();
+  await analyzeCustomHostnameForSlot();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function scriptExecutionsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scriptExecutionsGet();
+  await scriptExecutionsGet();
 }
 
 main().catch(console.error);
