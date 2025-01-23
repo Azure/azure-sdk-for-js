@@ -75,36 +75,36 @@ async function main(): Promise<void> {
     throw filesResult.body;
   }
   await filesResult.body.value.forEach((file: string) => {
-        console.log(file);
-      });
+    console.log(file);
+  });
 
   console.log("\nGet file data:");
   await filesResult.body.value.forEach(async (fileId: string) => {
-        const fileResult = await client
-          .path(
-            "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
-            instanceId,
-            provider,
-            name,
-            version,
-            fileId,
-          )
-          .get();
+    const fileResult = await client
+      .path(
+        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
+        instanceId,
+        provider,
+        name,
+        version,
+        fileId,
+      )
+      .get();
 
-        if (isUnexpected(fileResult)) {
-          throw fileResult.body;
-        }
+    if (isUnexpected(fileResult)) {
+      throw fileResult.body;
+    }
 
-        if (fileResult.status === "304") {
-          console.log("no change");
-          return;
-        }
+    if (fileResult.status === "304") {
+      console.log("no change");
+      return;
+    }
 
-        console.log("File:");
-        console.log("  FileId: " + fileResult.body.fileId);
-        console.log("Metadata:");
-        console.log(fileResult.body);
-      });
+    console.log("File:");
+    console.log("  FileId: " + fileResult.body.fileId);
+    console.log("Metadata:");
+    console.log(fileResult.body);
+  });
 }
 
 main().catch(console.error);

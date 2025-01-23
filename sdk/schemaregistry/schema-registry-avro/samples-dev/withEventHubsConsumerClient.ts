@@ -124,10 +124,10 @@ export async function main() {
 
   // Wait for a bit before cleaning up the sample
   await setTimeout(async () => {
-        await subscription.close();
-        await eventHubConsumerClient.close();
-        console.log(`Exiting sample`);
-      }, 30 * 1000);
+    await subscription.close();
+    await eventHubConsumerClient.close();
+    console.log(`Exiting sample`);
+  }, 30 * 1000);
 }
 
 main().catch((err) => {
