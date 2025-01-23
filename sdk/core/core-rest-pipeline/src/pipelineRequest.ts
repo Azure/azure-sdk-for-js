@@ -80,6 +80,8 @@ export interface PipelineRequestOptions {
    * NODEJS ONLY
    *
    * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+   * NOTE: usually this should be one instance shared by multiple requests so that the underlying
+   *       connection to the service can be reused.
    * Does nothing when running in the browser.
    */
   agent?: Agent;
