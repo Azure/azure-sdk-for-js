@@ -60,9 +60,7 @@ export interface SecurityPoliciesInterfaceOperations {
   ) => Promise<SecurityPolicy>;
 }
 
-function _getSecurityPoliciesInterface(
-  context: ServiceNetworkingManagementContext,
-) {
+function _getSecurityPoliciesInterface(context: ServiceNetworkingManagementContext) {
   return {
     listByTrafficController: (
       resourceGroupName: string,

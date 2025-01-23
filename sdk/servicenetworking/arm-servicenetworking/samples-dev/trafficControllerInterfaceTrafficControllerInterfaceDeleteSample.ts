@@ -13,14 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function deleteTrafficController(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
-  await client.trafficControllerInterface.TrafficControllerInterface_delete(
-    "rg1",
-    "tc1",
-  );
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  await client.trafficControllerInterface.TrafficControllerInterface_delete("rg1", "tc1");
 }
 
 async function main(): Promise<void> {

@@ -13,24 +13,20 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function updateAssociation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result =
-    await client.associationsInterface.AssociationsInterface_update(
-      "rg1",
-      "tc1",
-      "as1",
-      {
-        properties: {
-          associationType: "subnets",
-          subnet: {
-            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet",
-          },
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  const result = await client.associationsInterface.AssociationsInterface_update(
+    "rg1",
+    "tc1",
+    "as1",
+    {
+      properties: {
+        associationType: "subnets",
+        subnet: {
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet",
         },
       },
-    );
+    },
+  );
   console.log(result);
 }
 

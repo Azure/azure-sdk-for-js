@@ -26,16 +26,14 @@ export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/providers/Microsoft.ServiceNetworking/operations")
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  return context.path("/providers/Microsoft.ServiceNetworking/operations").get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
 export async function _operationsListDeserialize(

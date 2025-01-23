@@ -13,15 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function deleteSecurityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
-  await client.securityPoliciesInterface.SecurityPoliciesInterface_delete(
-    "rg1",
-    "tc1",
-    "sp1",
-  );
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  await client.securityPoliciesInterface.SecurityPoliciesInterface_delete("rg1", "tc1", "sp1");
 }
 
 async function main(): Promise<void> {

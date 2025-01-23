@@ -60,9 +60,7 @@ export interface AssociationsInterfaceOperations {
   ) => Promise<Association>;
 }
 
-function _getAssociationsInterface(
-  context: ServiceNetworkingManagementContext,
-) {
+function _getAssociationsInterface(context: ServiceNetworkingManagementContext) {
   return {
     listByTrafficController: (
       resourceGroupName: string,

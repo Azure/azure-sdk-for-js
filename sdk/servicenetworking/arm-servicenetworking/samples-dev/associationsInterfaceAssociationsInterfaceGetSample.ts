@@ -13,15 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getAssociation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.associationsInterface.AssociationsInterface_get(
-    "rg1",
-    "tc1",
-    "as1",
-  );
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  const result = await client.associationsInterface.AssociationsInterface_get("rg1", "tc1", "as1");
   console.log(result);
 }
 
