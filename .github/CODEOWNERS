@@ -89,7 +89,7 @@
 
 # PRLabel: %Communication - Job Router
 # ServiceLabel: %Communication - Job Router
-/sdk/communication/communication-job-router/ @marche0133
+/sdk/communication/communication-job-router-rest/ @marche0133
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
