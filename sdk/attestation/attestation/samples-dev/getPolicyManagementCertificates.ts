@@ -47,11 +47,11 @@ async function getPolicyManagementCertificates(): Promise<void> {
   );
   // Now print the Key ID and certificate subject for each signer.
   await policyCertificates.body.forEach((element) => {
-        console.log(`  Element Key ID: ${element.keyId};`);
-        const cert = new X509();
-        cert.readCertPEM(element.certificates[0]);
-        console.log(`    Certificate subject: ${cert.getSubjectString()}`);
-      });
+    console.log(`  Element Key ID: ${element.keyId};`);
+    const cert = new X509();
+    cert.readCertPEM(element.certificates[0]);
+    console.log(`    Certificate subject: ${cert.getSubjectString()}`);
+  });
 }
 
 export async function main(): Promise<void> {
