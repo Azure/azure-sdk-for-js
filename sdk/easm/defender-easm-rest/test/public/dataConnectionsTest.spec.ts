@@ -43,8 +43,8 @@ describe("Data Connections Test", () => {
   });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("Should list data connections", async () => {
     const dataConnectionsResponse = await client.path("/dataConnections").get();
