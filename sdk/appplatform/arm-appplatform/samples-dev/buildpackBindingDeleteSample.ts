@@ -41,7 +41,7 @@ async function buildpackBindingDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildpackBindingDelete();
+  await buildpackBindingDelete();
 }
 
 main().catch(console.error);

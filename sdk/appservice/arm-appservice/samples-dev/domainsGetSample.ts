@@ -32,7 +32,7 @@ async function getDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDomain();
+  await getDomain();
 }
 
 main().catch(console.error);

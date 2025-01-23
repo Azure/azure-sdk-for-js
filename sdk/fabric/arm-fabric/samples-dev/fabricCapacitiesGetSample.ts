@@ -19,7 +19,7 @@ async function getACapacity() {
 }
 
 async function main() {
-  getACapacity();
+  await getACapacity();
 }
 
 main().catch(console.error);

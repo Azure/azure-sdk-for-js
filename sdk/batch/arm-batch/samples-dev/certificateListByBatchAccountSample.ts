@@ -70,8 +70,8 @@ async function listCertificatesFilterAndSelect(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCertificates();
-  listCertificatesFilterAndSelect();
+  await listCertificates();
+  await listCertificatesFilterAndSelect();
 }
 
 main().catch(console.error);

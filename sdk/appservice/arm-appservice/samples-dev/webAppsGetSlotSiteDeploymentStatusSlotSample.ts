@@ -39,7 +39,7 @@ async function getDeploymentStatusSlot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDeploymentStatusSlot();
+  await getDeploymentStatusSlot();
 }
 
 main().catch(console.error);

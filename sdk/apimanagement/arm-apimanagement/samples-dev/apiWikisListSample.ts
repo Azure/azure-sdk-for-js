@@ -39,7 +39,7 @@ async function apiManagementListApiWikis(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListApiWikis();
+  await apiManagementListApiWikis();
 }
 
 main().catch(console.error);

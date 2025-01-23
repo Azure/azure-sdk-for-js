@@ -34,7 +34,7 @@ async function deleteASourceControl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteASourceControl();
+  await deleteASourceControl();
 }
 
 main().catch(console.error);

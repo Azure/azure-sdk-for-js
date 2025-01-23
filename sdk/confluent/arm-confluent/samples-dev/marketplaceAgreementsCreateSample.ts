@@ -29,7 +29,7 @@ async function marketplaceAgreementsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  marketplaceAgreementsCreate();
+  await marketplaceAgreementsCreate();
 }
 
 main().catch(console.error);

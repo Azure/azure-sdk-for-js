@@ -33,7 +33,7 @@ async function listsWorkspaces(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listsWorkspaces();
+  await listsWorkspaces();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getArcSettingsExtension(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getArcSettingsExtension();
+  await getArcSettingsExtension();
 }
 
 main().catch(console.error);

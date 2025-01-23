@@ -38,7 +38,7 @@ async function alertGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  alertGetAllInDevice();
+  await alertGetAllInDevice();
 }
 
 main().catch(console.error);

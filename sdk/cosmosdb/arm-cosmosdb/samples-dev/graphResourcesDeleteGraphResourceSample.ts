@@ -34,7 +34,7 @@ async function cosmosDbSqlDatabaseDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseDelete();
+  await cosmosDbSqlDatabaseDelete();
 }
 
 main().catch(console.error);

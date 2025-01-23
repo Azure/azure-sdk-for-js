@@ -38,7 +38,7 @@ async function apiManagementDeleteNotificationRecipientUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteNotificationRecipientUser();
+  await apiManagementDeleteNotificationRecipientUser();
 }
 
 main().catch(console.error);

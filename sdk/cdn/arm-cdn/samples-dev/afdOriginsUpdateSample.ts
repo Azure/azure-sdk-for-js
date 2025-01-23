@@ -43,7 +43,7 @@ async function afdOriginsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginsUpdate();
+  await afdOriginsUpdate();
 }
 
 main().catch(console.error);

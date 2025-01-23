@@ -38,7 +38,7 @@ async function invokeFunctionsHostUsingFunctionsExtensionApi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invokeFunctionsHostUsingFunctionsExtensionApi();
+  await invokeFunctionsHostUsingFunctionsExtensionApi();
 }
 
 main().catch(console.error);

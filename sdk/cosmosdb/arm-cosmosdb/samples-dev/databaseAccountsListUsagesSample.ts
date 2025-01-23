@@ -41,7 +41,7 @@ async function cosmosDbDatabaseAccountGetUsages(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountGetUsages();
+  await cosmosDbDatabaseAccountGetUsages();
 }
 
 main().catch(console.error);

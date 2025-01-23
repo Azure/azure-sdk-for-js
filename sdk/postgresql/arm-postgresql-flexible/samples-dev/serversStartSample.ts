@@ -38,7 +38,7 @@ async function serverStart() {
 }
 
 async function main() {
-  serverStart();
+  await serverStart();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function unlinkABackendFromAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  unlinkABackendFromAStaticSite();
+  await unlinkABackendFromAStaticSite();
 }
 
 main().catch(console.error);

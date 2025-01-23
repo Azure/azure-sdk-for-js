@@ -37,7 +37,7 @@ async function listTheWorkflowsConfigurationConnections(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listTheWorkflowsConfigurationConnections();
+  await listTheWorkflowsConfigurationConnections();
 }
 
 main().catch(console.error);

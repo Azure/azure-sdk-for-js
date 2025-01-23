@@ -61,8 +61,8 @@ async function getNetComponentWithServiceBinds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getNetComponent();
-  getNetComponentWithServiceBinds();
+  await getNetComponent();
+  await getNetComponentWithServiceBinds();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function downloadUpdatesPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  downloadUpdatesPost();
+  await downloadUpdatesPost();
 }
 
 main().catch(console.error);

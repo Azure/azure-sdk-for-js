@@ -45,7 +45,7 @@ async function createTestJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createTestJob();
+  await createTestJob();
 }
 
 main().catch(console.error);

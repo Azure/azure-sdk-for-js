@@ -38,7 +38,7 @@ async function listDaprSubscriptions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDaprSubscriptions();
+  await listDaprSubscriptions();
 }
 
 main().catch(console.error);

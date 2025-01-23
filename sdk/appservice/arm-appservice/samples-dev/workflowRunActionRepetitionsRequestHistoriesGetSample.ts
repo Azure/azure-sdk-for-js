@@ -45,7 +45,7 @@ async function getARepetitionRequestHistory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getARepetitionRequestHistory();
+  await getARepetitionRequestHistory();
 }
 
 main().catch(console.error);

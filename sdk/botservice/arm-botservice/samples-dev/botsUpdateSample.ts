@@ -72,7 +72,7 @@ async function updateBot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateBot();
+  await updateBot();
 }
 
 main().catch(console.error);

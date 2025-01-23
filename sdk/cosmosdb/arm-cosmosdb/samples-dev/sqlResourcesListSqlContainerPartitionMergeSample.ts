@@ -39,7 +39,7 @@ async function cosmosDbSqlContainerPartitionMerge(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlContainerPartitionMerge();
+  await cosmosDbSqlContainerPartitionMerge();
 }
 
 main().catch(console.error);

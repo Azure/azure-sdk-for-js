@@ -33,7 +33,7 @@ async function listContainerAppsJobsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listContainerAppsJobsByResourceGroup();
+  await listContainerAppsJobsByResourceGroup();
 }
 
 main().catch(console.error);

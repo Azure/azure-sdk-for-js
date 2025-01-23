@@ -35,7 +35,7 @@ async function organizationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationGet();
+  await organizationGet();
 }
 
 main().catch(console.error);

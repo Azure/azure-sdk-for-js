@@ -87,7 +87,7 @@ async function updateAuthSettingsV2(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAuthSettingsV2();
+  await updateAuthSettingsV2();
 }
 
 main().catch(console.error);

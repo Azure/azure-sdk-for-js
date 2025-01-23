@@ -63,7 +63,7 @@ async function createBot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createBot();
+  await createBot();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function webhookGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webhookGet();
+  await webhookGet();
 }
 
 main().catch(console.error);

@@ -51,7 +51,7 @@ async function scopingConfigurationCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scopingConfigurationCreateOrUpdate();
+  await scopingConfigurationCreateOrUpdate();
 }
 
 main().catch(console.error);

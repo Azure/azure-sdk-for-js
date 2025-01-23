@@ -37,7 +37,7 @@ async function cosmosDbCassandraViewDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraViewDelete();
+  await cosmosDbCassandraViewDelete();
 }
 
 main().catch(console.error);

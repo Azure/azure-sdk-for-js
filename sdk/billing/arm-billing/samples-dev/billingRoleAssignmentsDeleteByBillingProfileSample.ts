@@ -35,7 +35,7 @@ async function billingRoleAssignmentDeleteByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRoleAssignmentDeleteByBillingProfile();
+  await billingRoleAssignmentDeleteByBillingProfile();
 }
 
 main().catch(console.error);

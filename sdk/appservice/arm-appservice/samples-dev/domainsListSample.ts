@@ -32,7 +32,7 @@ async function listDomainsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDomainsBySubscription();
+  await listDomainsBySubscription();
 }
 
 main().catch(console.error);

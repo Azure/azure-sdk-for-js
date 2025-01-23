@@ -67,8 +67,8 @@ async function apiManagementGetApiExportInOpenApi3Dot0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetApiExportInOpenApi2Dot0();
-  apiManagementGetApiExportInOpenApi3Dot0();
+  await apiManagementGetApiExportInOpenApi2Dot0();
+  await apiManagementGetApiExportInOpenApi3Dot0();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function apiManagementCreateGatewayApi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateGatewayApi();
+  await apiManagementCreateGatewayApi();
 }
 
 main().catch(console.error);

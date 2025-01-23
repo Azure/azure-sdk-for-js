@@ -40,7 +40,7 @@ async function deleteAVirtualEndpoint() {
 }
 
 async function main() {
-  deleteAVirtualEndpoint();
+  await deleteAVirtualEndpoint();
 }
 
 main().catch(console.error);

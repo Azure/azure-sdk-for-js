@@ -31,7 +31,7 @@ async function buildersGet0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildersGet0();
+  await buildersGet0();
 }
 
 main().catch(console.error);

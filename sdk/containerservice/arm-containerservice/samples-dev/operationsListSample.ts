@@ -32,7 +32,7 @@ async function listAvailableOperationsForTheContainerServiceResourceProvider(): 
 }
 
 async function main(): Promise<void> {
-  listAvailableOperationsForTheContainerServiceResourceProvider();
+  await listAvailableOperationsForTheContainerServiceResourceProvider();
 }
 
 main().catch(console.error);

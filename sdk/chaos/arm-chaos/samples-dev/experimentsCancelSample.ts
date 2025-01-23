@@ -34,7 +34,7 @@ async function cancelARunningExperiment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cancelARunningExperiment();
+  await cancelARunningExperiment();
 }
 
 main().catch(console.error);

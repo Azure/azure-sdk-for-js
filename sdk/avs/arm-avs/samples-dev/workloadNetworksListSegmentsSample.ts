@@ -37,7 +37,7 @@ async function workloadNetworksListSegments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksListSegments();
+  await workloadNetworksListSegments();
 }
 
 main().catch(console.error);

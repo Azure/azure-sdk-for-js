@@ -45,7 +45,7 @@ async function accessCreateRoleBinding(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessCreateRoleBinding();
+  await accessCreateRoleBinding();
 }
 
 main().catch(console.error);

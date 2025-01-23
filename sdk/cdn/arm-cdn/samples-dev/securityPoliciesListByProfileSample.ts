@@ -35,7 +35,7 @@ async function securityPoliciesListByProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  securityPoliciesListByProfile();
+  await securityPoliciesListByProfile();
 }
 
 main().catch(console.error);

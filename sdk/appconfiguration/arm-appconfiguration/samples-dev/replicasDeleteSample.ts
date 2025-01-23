@@ -40,7 +40,7 @@ async function replicasDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  replicasDelete();
+  await replicasDelete();
 }
 
 main().catch(console.error);

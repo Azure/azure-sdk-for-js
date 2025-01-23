@@ -38,7 +38,7 @@ async function listOutboundNetworkDependenciesEndpointsByWorkspace(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  listOutboundNetworkDependenciesEndpointsByWorkspace();
+  await listOutboundNetworkDependenciesEndpointsByWorkspace();
 }
 
 main().catch(console.error);

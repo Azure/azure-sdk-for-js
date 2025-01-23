@@ -52,7 +52,7 @@ async function createAFleetUpdateStrategy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAFleetUpdateStrategy();
+  await createAFleetUpdateStrategy();
 }
 
 main().catch(console.error);

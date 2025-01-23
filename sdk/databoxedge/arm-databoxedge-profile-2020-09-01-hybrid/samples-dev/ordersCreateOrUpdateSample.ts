@@ -56,7 +56,7 @@ async function orderPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  orderPut();
+  await orderPut();
 }
 
 main().catch(console.error);

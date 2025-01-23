@@ -35,7 +35,7 @@ async function cosmosDbDataTransferJobFeed(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDataTransferJobFeed();
+  await cosmosDbDataTransferJobFeed();
 }
 
 main().catch(console.error);

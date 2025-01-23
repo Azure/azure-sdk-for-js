@@ -34,7 +34,7 @@ async function invoiceSectionsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoiceSectionsGet();
+  await invoiceSectionsGet();
 }
 
 main().catch(console.error);

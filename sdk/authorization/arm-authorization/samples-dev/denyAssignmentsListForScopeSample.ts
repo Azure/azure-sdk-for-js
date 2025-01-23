@@ -30,7 +30,7 @@ async function listDenyAssignmentsForScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDenyAssignmentsForScope();
+  await listDenyAssignmentsForScope();
 }
 
 main().catch(console.error);

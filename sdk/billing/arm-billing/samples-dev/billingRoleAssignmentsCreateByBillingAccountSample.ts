@@ -42,7 +42,7 @@ async function billingRoleAssignmentCreateByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRoleAssignmentCreateByBillingAccount();
+  await billingRoleAssignmentCreateByBillingAccount();
 }
 
 main().catch(console.error);

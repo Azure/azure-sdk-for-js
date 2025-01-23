@@ -38,7 +38,7 @@ async function apiManagementDeleteTemplate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteTemplate();
+  await apiManagementDeleteTemplate();
 }
 
 main().catch(console.error);

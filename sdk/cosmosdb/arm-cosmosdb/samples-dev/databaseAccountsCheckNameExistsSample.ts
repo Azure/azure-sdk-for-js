@@ -30,7 +30,7 @@ async function cosmosDbDatabaseAccountCheckNameExists(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountCheckNameExists();
+  await cosmosDbDatabaseAccountCheckNameExists();
 }
 
 main().catch(console.error);

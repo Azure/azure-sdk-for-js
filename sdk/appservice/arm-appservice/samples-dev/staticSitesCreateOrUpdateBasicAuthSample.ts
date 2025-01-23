@@ -46,7 +46,7 @@ async function createsOrUpdatesBasicAuthPropertiesForAStaticSite(): Promise<void
 }
 
 async function main(): Promise<void> {
-  createsOrUpdatesBasicAuthPropertiesForAStaticSite();
+  await createsOrUpdatesBasicAuthPropertiesForAStaticSite();
 }
 
 main().catch(console.error);

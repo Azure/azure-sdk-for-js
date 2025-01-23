@@ -40,7 +40,7 @@ async function webhookPing(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webhookPing();
+  await webhookPing();
 }
 
 main().catch(console.error);

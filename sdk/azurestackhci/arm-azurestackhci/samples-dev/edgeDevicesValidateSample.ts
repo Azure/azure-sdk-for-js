@@ -40,7 +40,7 @@ async function validateEdgeDevices(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateEdgeDevices();
+  await validateEdgeDevices();
 }
 
 main().catch(console.error);

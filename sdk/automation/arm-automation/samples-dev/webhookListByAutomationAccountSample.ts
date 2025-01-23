@@ -35,7 +35,7 @@ async function listWebhooksByAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWebhooksByAutomationAccount();
+  await listWebhooksByAutomationAccount();
 }
 
 main().catch(console.error);

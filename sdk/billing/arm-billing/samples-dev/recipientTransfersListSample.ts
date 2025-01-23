@@ -29,7 +29,7 @@ async function recipientTransfersList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  recipientTransfersList();
+  await recipientTransfersList();
 }
 
 main().catch(console.error);

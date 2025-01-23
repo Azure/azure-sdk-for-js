@@ -75,8 +75,8 @@ async function apiManagementCreateEhLogger(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateAiLogger();
-  apiManagementCreateEhLogger();
+  await apiManagementCreateAiLogger();
+  await apiManagementCreateEhLogger();
 }
 
 main().catch(console.error);

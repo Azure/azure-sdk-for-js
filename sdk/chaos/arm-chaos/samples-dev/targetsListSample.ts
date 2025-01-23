@@ -47,7 +47,7 @@ async function listAllTargetsThatExtendAVirtualMachineResource(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  listAllTargetsThatExtendAVirtualMachineResource();
+  await listAllTargetsThatExtendAVirtualMachineResource();
 }
 
 main().catch(console.error);

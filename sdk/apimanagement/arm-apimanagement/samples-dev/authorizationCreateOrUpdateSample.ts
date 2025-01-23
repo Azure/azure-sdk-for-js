@@ -80,8 +80,8 @@ async function apiManagementCreateAuthorizationAadClientCred(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateAuthorizationAadAuthCode();
-  apiManagementCreateAuthorizationAadClientCred();
+  await apiManagementCreateAuthorizationAadAuthCode();
+  await apiManagementCreateAuthorizationAadClientCred();
 }
 
 main().catch(console.error);

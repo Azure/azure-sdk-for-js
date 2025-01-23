@@ -81,10 +81,10 @@ async function sapSupportedSkusSingleServer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapSupportedSkusDistributed();
-  sapSupportedSkusDistributedHaAvSet();
-  sapSupportedSkusDistributedHaAvZone();
-  sapSupportedSkusSingleServer();
+  await sapSupportedSkusDistributed();
+  await sapSupportedSkusDistributedHaAvSet();
+  await sapSupportedSkusDistributedHaAvZone();
+  await sapSupportedSkusSingleServer();
 }
 
 main().catch(console.error);

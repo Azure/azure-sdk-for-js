@@ -38,7 +38,7 @@ async function getUsageMetricsForAMultiRolePoolOfAnAppServiceEnvironment(): Prom
 }
 
 async function main(): Promise<void> {
-  getUsageMetricsForAMultiRolePoolOfAnAppServiceEnvironment();
+  await getUsageMetricsForAMultiRolePoolOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

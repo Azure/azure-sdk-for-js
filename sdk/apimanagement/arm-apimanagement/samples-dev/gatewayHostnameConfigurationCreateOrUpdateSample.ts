@@ -51,7 +51,7 @@ async function apiManagementCreateGatewayHostnameConfiguration(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateGatewayHostnameConfiguration();
+  await apiManagementCreateGatewayHostnameConfiguration();
 }
 
 main().catch(console.error);

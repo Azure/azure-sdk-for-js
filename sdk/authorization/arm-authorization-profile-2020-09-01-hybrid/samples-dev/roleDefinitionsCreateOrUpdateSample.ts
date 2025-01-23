@@ -39,7 +39,7 @@ async function createRoleDefinition(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createRoleDefinition();
+  await createRoleDefinition();
 }
 
 main().catch(console.error);

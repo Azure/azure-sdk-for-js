@@ -471,18 +471,18 @@ async function createASapMonitorNetWeaverProviderWithRootCertificate(): Promise<
 }
 
 async function main(): Promise<void> {
-  createADb2Provider();
-  createADb2ProviderWithRootCertificate();
-  createAMSSqlServerProvider();
-  createAMSSqlServerProviderWithRootCertificate();
-  createAOSProvider();
-  createAOSProviderWithRootCertificate();
-  createAPrometheusHaClusterProvider();
-  createAPrometheusHaClusterProviderWithRootCertificate();
-  createASapMonitorHanaProvider();
-  createASapMonitorHanaProviderWithRootCertificate();
-  createASapMonitorNetWeaverProvider();
-  createASapMonitorNetWeaverProviderWithRootCertificate();
+  await createADb2Provider();
+  await createADb2ProviderWithRootCertificate();
+  await createAMSSqlServerProvider();
+  await createAMSSqlServerProviderWithRootCertificate();
+  await createAOSProvider();
+  await createAOSProviderWithRootCertificate();
+  await createAPrometheusHaClusterProvider();
+  await createAPrometheusHaClusterProviderWithRootCertificate();
+  await createASapMonitorHanaProvider();
+  await createASapMonitorHanaProviderWithRootCertificate();
+  await createASapMonitorNetWeaverProvider();
+  await createASapMonitorNetWeaverProviderWithRootCertificate();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function taskRunsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  taskRunsGet();
+  await taskRunsGet();
 }
 
 main().catch(console.error);

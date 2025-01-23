@@ -62,7 +62,7 @@ async function gatewayRouteConfigsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewayRouteConfigsCreateOrUpdate();
+  await gatewayRouteConfigsCreateOrUpdate();
 }
 
 main().catch(console.error);

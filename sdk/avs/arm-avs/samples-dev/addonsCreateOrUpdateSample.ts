@@ -129,10 +129,10 @@ async function addonsCreateOrUpdateVr(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  addonsCreateOrUpdateArcReg();
-  addonsCreateOrUpdateHcx();
-  addonsCreateOrUpdateSrm();
-  addonsCreateOrUpdateVr();
+  await addonsCreateOrUpdateArcReg();
+  await addonsCreateOrUpdateHcx();
+  await addonsCreateOrUpdateSrm();
+  await addonsCreateOrUpdateVr();
 }
 
 main().catch(console.error);

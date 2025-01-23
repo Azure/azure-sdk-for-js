@@ -45,7 +45,7 @@ async function accessInviteUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessInviteUser();
+  await accessInviteUser();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function profilesListResourceUsage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesListResourceUsage();
+  await profilesListResourceUsage();
 }
 
 main().catch(console.error);

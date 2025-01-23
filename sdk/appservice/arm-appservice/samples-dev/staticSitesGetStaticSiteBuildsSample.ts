@@ -37,7 +37,7 @@ async function getAllBuildsForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAllBuildsForAStaticSite();
+  await getAllBuildsForAStaticSite();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listPrivateLinkResourcesByManagedEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPrivateLinkResourcesByManagedEnvironment();
+  await listPrivateLinkResourcesByManagedEnvironment();
 }
 
 main().catch(console.error);

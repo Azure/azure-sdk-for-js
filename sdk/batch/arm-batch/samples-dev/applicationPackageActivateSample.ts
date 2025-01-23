@@ -42,7 +42,7 @@ async function applicationPackageActivate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationPackageActivate();
+  await applicationPackageActivate();
 }
 
 main().catch(console.error);

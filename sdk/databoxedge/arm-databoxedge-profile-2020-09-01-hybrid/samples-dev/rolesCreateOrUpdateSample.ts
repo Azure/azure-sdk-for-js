@@ -75,7 +75,7 @@ async function rolePut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rolePut();
+  await rolePut();
 }
 
 main().catch(console.error);

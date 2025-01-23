@@ -39,7 +39,7 @@ async function getASyncJobStreamIdentifiedBySyncJobStreamId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getASyncJobStreamIdentifiedBySyncJobStreamId();
+  await getASyncJobStreamIdentifiedBySyncJobStreamId();
 }
 
 main().catch(console.error);

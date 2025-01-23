@@ -45,7 +45,7 @@ async function samplePrebackup() {
 }
 
 async function main() {
-  samplePrebackup();
+  await samplePrebackup();
 }
 
 main().catch(console.error);

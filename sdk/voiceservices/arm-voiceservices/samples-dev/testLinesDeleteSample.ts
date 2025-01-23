@@ -37,7 +37,7 @@ async function deleteTestLineResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteTestLineResource();
+  await deleteTestLineResource();
 }
 
 main().catch(console.error);

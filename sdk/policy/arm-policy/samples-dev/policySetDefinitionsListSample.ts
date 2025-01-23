@@ -32,7 +32,7 @@ async function listPolicySetDefinitions() {
 }
 
 async function main() {
-  listPolicySetDefinitions();
+  await listPolicySetDefinitions();
 }
 
 main().catch(console.error);

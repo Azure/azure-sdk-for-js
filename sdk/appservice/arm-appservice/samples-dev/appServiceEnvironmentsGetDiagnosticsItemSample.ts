@@ -37,7 +37,7 @@ async function getADiagnosticsItemForAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getADiagnosticsItemForAnAppServiceEnvironment();
+  await getADiagnosticsItemForAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getAllAppServicePlansInAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAllAppServicePlansInAnAppServiceEnvironment();
+  await getAllAppServicePlansInAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

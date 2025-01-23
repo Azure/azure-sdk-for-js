@@ -33,7 +33,7 @@ async function listsTheFleetResourcesInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listsTheFleetResourcesInAResourceGroup();
+  await listsTheFleetResourcesInAResourceGroup();
 }
 
 main().catch(console.error);

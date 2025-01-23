@@ -39,7 +39,7 @@ async function gatewayCustomDomainsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewayCustomDomainsDelete();
+  await gatewayCustomDomainsDelete();
 }
 
 main().catch(console.error);

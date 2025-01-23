@@ -203,9 +203,9 @@ async function cosmosDbSqlMaterializedViewCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlContainerCreateUpdate();
-  cosmosDbSqlContainerRestore();
-  cosmosDbSqlMaterializedViewCreateUpdate();
+  await cosmosDbSqlContainerCreateUpdate();
+  await cosmosDbSqlContainerRestore();
+  await cosmosDbSqlMaterializedViewCreateUpdate();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function cosmosDbMongoDbcollectionMigrateToManualThroughput(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbcollectionMigrateToManualThroughput();
+  await cosmosDbMongoDbcollectionMigrateToManualThroughput();
 }
 
 main().catch(console.error);

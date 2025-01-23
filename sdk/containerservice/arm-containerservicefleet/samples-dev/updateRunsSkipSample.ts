@@ -47,7 +47,7 @@ async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(
 }
 
 async function main(): Promise<void> {
-  skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun();
+  await skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun();
 }
 
 main().catch(console.error);

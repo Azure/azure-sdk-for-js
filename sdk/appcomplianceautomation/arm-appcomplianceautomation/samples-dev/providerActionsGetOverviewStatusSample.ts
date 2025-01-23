@@ -28,7 +28,7 @@ async function reportGetOverviewStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportGetOverviewStatus();
+  await reportGetOverviewStatus();
 }
 
 main().catch(console.error);

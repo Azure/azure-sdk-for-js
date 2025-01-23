@@ -42,7 +42,7 @@ async function reportList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportList();
+  await reportList();
 }
 
 main().catch(console.error);

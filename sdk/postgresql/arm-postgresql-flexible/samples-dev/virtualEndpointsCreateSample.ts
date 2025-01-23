@@ -48,7 +48,7 @@ async function createANewVirtualEndpointForAFlexibleServer() {
 }
 
 async function main() {
-  createANewVirtualEndpointForAFlexibleServer();
+  await createANewVirtualEndpointForAFlexibleServer();
 }
 
 main().catch(console.error);

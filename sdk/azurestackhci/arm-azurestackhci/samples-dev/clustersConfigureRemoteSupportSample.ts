@@ -46,7 +46,7 @@ async function configureRemoteSupport(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configureRemoteSupport();
+  await configureRemoteSupport();
 }
 
 main().catch(console.error);

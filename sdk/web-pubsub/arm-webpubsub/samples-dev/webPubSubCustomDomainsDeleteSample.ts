@@ -37,7 +37,7 @@ async function webPubSubCustomDomainsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubCustomDomainsDelete();
+  await webPubSubCustomDomainsDelete();
 }
 
 main().catch(console.error);

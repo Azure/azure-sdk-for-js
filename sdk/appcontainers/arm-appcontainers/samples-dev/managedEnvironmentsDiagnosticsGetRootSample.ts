@@ -35,7 +35,7 @@ async function getEnvironmentsByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getEnvironmentsByName();
+  await getEnvironmentsByName();
 }
 
 main().catch(console.error);

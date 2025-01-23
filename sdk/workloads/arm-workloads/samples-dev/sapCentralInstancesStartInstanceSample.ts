@@ -37,7 +37,7 @@ async function startTheSapCentralServicesInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startTheSapCentralServicesInstance();
+  await startTheSapCentralServicesInstance();
 }
 
 main().catch(console.error);

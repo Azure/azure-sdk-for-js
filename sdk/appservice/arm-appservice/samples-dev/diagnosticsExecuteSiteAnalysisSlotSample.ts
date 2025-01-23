@@ -69,8 +69,8 @@ async function executeSiteSlotAnalysis(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  executeSiteAnalysis();
-  executeSiteSlotAnalysis();
+  await executeSiteAnalysis();
+  await executeSiteSlotAnalysis();
 }
 
 main().catch(console.error);

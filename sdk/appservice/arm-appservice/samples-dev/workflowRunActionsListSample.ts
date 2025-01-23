@@ -42,7 +42,7 @@ async function listAWorkflowRunActions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAWorkflowRunActions();
+  await listAWorkflowRunActions();
 }
 
 main().catch(console.error);

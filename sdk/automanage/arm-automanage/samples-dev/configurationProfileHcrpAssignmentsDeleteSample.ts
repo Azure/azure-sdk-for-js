@@ -36,7 +36,7 @@ async function deleteAHcrpConfigurationProfileAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAHcrpConfigurationProfileAssignment();
+  await deleteAHcrpConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

@@ -50,7 +50,7 @@ async function updateAzureStorageAccounts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAzureStorageAccounts();
+  await updateAzureStorageAccounts();
 }
 
 main().catch(console.error);

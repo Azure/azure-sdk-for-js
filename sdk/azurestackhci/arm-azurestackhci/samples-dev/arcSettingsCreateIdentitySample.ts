@@ -37,7 +37,7 @@ async function createArcIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createArcIdentity();
+  await createArcIdentity();
 }
 
 main().catch(console.error);

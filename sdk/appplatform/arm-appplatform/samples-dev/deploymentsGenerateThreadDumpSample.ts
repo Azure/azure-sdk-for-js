@@ -47,7 +47,7 @@ async function deploymentsGenerateHeapDump(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsGenerateHeapDump();
+  await deploymentsGenerateHeapDump();
 }
 
 main().catch(console.error);

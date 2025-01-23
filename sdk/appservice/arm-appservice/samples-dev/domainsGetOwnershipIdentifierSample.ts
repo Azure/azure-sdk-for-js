@@ -37,7 +37,7 @@ async function getDomainOwnershipIdentifier(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDomainOwnershipIdentifier();
+  await getDomainOwnershipIdentifier();
 }
 
 main().catch(console.error);

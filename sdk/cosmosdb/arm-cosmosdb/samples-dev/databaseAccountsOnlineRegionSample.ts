@@ -39,7 +39,7 @@ async function cosmosDbDatabaseAccountOnlineRegion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountOnlineRegion();
+  await cosmosDbDatabaseAccountOnlineRegion();
 }
 
 main().catch(console.error);

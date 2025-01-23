@@ -46,7 +46,7 @@ async function stopTheSapApplicationServerInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopTheSapApplicationServerInstance();
+  await stopTheSapApplicationServerInstance();
 }
 
 main().catch(console.error);

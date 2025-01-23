@@ -40,7 +40,7 @@ async function createOrUpdateRoleAssignmentById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateRoleAssignmentById();
+  await createOrUpdateRoleAssignmentById();
 }
 
 main().catch(console.error);

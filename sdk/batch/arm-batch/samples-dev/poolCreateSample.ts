@@ -696,20 +696,20 @@ async function createPoolAcceleratedNetworking(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createPoolCustomImage();
-  createPoolFullVirtualMachineConfiguration();
-  createPoolMinimalVirtualMachineConfiguration();
-  createPoolNoPublicIP();
-  createPoolPublicIPs();
-  createPoolResourceTags();
-  createPoolSecurityProfile();
-  createPoolTags();
-  createPoolUpgradePolicy();
-  createPoolUserAssignedIdentities();
-  createPoolVirtualMachineConfigurationExtensions();
-  createPoolVirtualMachineConfigurationOSDisk();
-  createPoolVirtualMachineConfigurationServiceArtifactReference();
-  createPoolAcceleratedNetworking();
+  await createPoolCustomImage();
+  await createPoolFullVirtualMachineConfiguration();
+  await createPoolMinimalVirtualMachineConfiguration();
+  await createPoolNoPublicIP();
+  await createPoolPublicIPs();
+  await createPoolResourceTags();
+  await createPoolSecurityProfile();
+  await createPoolTags();
+  await createPoolUpgradePolicy();
+  await createPoolUserAssignedIdentities();
+  await createPoolVirtualMachineConfigurationExtensions();
+  await createPoolVirtualMachineConfigurationOSDisk();
+  await createPoolVirtualMachineConfigurationServiceArtifactReference();
+  await createPoolAcceleratedNetworking();
 }
 
 main().catch(console.error);

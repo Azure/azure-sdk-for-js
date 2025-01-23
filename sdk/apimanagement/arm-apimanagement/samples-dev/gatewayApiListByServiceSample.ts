@@ -39,7 +39,7 @@ async function apiManagementListGatewayApis(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListGatewayApis();
+  await apiManagementListGatewayApis();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function replicasListByConfigurationStore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  replicasListByConfigurationStore();
+  await replicasListByConfigurationStore();
 }
 
 main().catch(console.error);

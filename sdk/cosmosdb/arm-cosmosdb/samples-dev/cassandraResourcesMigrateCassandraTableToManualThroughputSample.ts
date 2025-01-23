@@ -37,7 +37,7 @@ async function cosmosDbCassandraTableMigrateToManualThroughput(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraTableMigrateToManualThroughput();
+  await cosmosDbCassandraTableMigrateToManualThroughput();
 }
 
 main().catch(console.error);

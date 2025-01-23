@@ -37,7 +37,7 @@ async function serviceRegistriesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  serviceRegistriesGet();
+  await serviceRegistriesGet();
 }
 
 main().catch(console.error);

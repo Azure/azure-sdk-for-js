@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,8 +18,7 @@ import "dotenv/config";
  */
 async function reservationRecommendationsByBillingAccountLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "Shared";
   const region = "eastus";
   const term = "P1Y";
@@ -34,7 +31,7 @@ async function reservationRecommendationsByBillingAccountLegacy(): Promise<void>
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -47,8 +44,7 @@ async function reservationRecommendationsByBillingAccountLegacy(): Promise<void>
  */
 async function reservationRecommendationsByBillingProfileModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "Shared";
   const region = "australiaeast";
   const term = "P1Y";
@@ -61,7 +57,7 @@ async function reservationRecommendationsByBillingProfileModern(): Promise<void>
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -74,8 +70,7 @@ async function reservationRecommendationsByBillingProfileModern(): Promise<void>
  */
 async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "Single";
   const region = "westus";
   const term = "P3Y";
@@ -88,7 +83,7 @@ async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> 
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
@@ -101,8 +96,7 @@ async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> 
  */
 async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "Single";
   const region = "westus";
   const term = "P3Y";
@@ -115,16 +109,16 @@ async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
     region,
     term,
     lookBackPeriod,
-    product
+    product,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  reservationRecommendationsByBillingAccountLegacy();
-  reservationRecommendationsByBillingProfileModern();
-  reservationRecommendationsByResourceGroupLegacy();
-  reservationRecommendationsBySubscriptionLegacy();
+  await reservationRecommendationsByBillingAccountLegacy();
+  await reservationRecommendationsByBillingProfileModern();
+  await reservationRecommendationsByResourceGroupLegacy();
+  await reservationRecommendationsBySubscriptionLegacy();
 }
 
 main().catch(console.error);

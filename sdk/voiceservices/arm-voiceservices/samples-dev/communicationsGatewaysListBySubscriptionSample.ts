@@ -32,7 +32,7 @@ async function listCommunicationsGatewayResourceSub(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCommunicationsGatewayResourceSub();
+  await listCommunicationsGatewayResourceSub();
 }
 
 main().catch(console.error);

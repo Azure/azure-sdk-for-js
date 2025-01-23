@@ -37,7 +37,7 @@ async function deleteDeploymentSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteDeploymentSettings();
+  await deleteDeploymentSettings();
 }
 
 main().catch(console.error);

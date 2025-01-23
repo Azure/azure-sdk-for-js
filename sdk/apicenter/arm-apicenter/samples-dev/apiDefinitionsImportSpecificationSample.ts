@@ -49,7 +49,7 @@ async function apiDefinitionsImportSpecification(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiDefinitionsImportSpecification();
+  await apiDefinitionsImportSpecification();
 }
 
 main().catch(console.error);

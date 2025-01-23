@@ -32,7 +32,7 @@ async function grafanaGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  grafanaGet();
+  await grafanaGet();
 }
 
 main().catch(console.error);

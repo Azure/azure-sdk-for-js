@@ -40,7 +40,7 @@ async function regenerateKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  regenerateKeys();
+  await regenerateKeys();
 }
 
 main().catch(console.error);

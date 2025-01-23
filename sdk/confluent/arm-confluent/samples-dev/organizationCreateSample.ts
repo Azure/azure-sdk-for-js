@@ -62,7 +62,7 @@ async function organizationCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationCreate();
+  await organizationCreate();
 }
 
 main().catch(console.error);

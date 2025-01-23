@@ -27,7 +27,7 @@ async function declineTransfer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  declineTransfer();
+  await declineTransfer();
 }
 
 main().catch(console.error);

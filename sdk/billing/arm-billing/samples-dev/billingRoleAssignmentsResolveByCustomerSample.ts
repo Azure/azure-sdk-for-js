@@ -35,7 +35,7 @@ async function resolveBillingRoleAssignmentByCustomer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resolveBillingRoleAssignmentByCustomer();
+  await resolveBillingRoleAssignmentByCustomer();
 }
 
 main().catch(console.error);

@@ -73,7 +73,7 @@ async function createOrUpdateContainerAppSourceControl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateContainerAppSourceControl();
+  await createOrUpdateContainerAppSourceControl();
 }
 
 main().catch(console.error);

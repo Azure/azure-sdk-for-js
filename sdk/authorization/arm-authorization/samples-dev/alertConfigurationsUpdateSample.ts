@@ -39,7 +39,7 @@ async function updateAlertConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAlertConfiguration();
+  await updateAlertConfiguration();
 }
 
 main().catch(console.error);

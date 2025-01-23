@@ -38,7 +38,7 @@ async function apiManagementHeadProductTag(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadProductTag();
+  await apiManagementHeadProductTag();
 }
 
 main().catch(console.error);

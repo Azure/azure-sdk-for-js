@@ -37,7 +37,7 @@ async function getADscCompilationJobStreamByJobStreamId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getADscCompilationJobStreamByJobStreamId();
+  await getADscCompilationJobStreamByJobStreamId();
 }
 
 main().catch(console.error);

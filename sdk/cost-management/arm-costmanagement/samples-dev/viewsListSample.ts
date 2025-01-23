@@ -29,7 +29,7 @@ async function privateViewList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateViewList();
+  await privateViewList();
 }
 
 main().catch(console.error);

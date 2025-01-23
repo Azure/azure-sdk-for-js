@@ -50,7 +50,7 @@ async function validateAWorkflow(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateAWorkflow();
+  await validateAWorkflow();
 }
 
 main().catch(console.error);

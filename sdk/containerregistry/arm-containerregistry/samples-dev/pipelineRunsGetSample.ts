@@ -40,7 +40,7 @@ async function pipelineRunGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelineRunGet();
+  await pipelineRunGet();
 }
 
 main().catch(console.error);

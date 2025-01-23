@@ -40,7 +40,7 @@ async function deleteATargetThatExtendsAVirtualMachineResource(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  deleteATargetThatExtendsAVirtualMachineResource();
+  await deleteATargetThatExtendsAVirtualMachineResource();
 }
 
 main().catch(console.error);

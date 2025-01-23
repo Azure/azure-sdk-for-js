@@ -34,7 +34,7 @@ async function privateCloudsListAdminCredentials(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsListAdminCredentials();
+  await privateCloudsListAdminCredentials();
 }
 
 main().catch(console.error);

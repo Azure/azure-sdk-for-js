@@ -51,7 +51,7 @@ async function buildServiceBuilderCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceBuilderCreateOrUpdate();
+  await buildServiceBuilderCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function savingsPlanUtilizationSummariesMonthlyWithSavingsPlanId(): Promis
 }
 
 async function main(): Promise<void> {
-  savingsPlanUtilizationSummariesMonthlyWithSavingsPlanId();
+  await savingsPlanUtilizationSummariesMonthlyWithSavingsPlanId();
 }
 
 main().catch(console.error);

@@ -56,7 +56,7 @@ async function placementPoliciesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  placementPoliciesCreateOrUpdate();
+  await placementPoliciesCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -27,7 +27,7 @@ async function reportDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportDelete();
+  await reportDelete();
 }
 
 main().catch(console.error);

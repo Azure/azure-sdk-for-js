@@ -43,7 +43,7 @@ async function invoiceSectionsListByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoiceSectionsListByBillingProfile();
+  await invoiceSectionsListByBillingProfile();
 }
 
 main().catch(console.error);

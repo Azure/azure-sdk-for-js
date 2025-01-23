@@ -42,7 +42,7 @@ async function regenerateTheCallbackUrlAccessKeyForRequestTriggers(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  regenerateTheCallbackUrlAccessKeyForRequestTriggers();
+  await regenerateTheCallbackUrlAccessKeyForRequestTriggers();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function bandwidthScheduleDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bandwidthScheduleDelete();
+  await bandwidthScheduleDelete();
 }
 
 main().catch(console.error);

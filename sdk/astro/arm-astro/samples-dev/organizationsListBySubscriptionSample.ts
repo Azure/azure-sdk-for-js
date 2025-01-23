@@ -32,7 +32,7 @@ async function organizationsListBySubscriptionGeneratedByMaximumSetRule(): Promi
 }
 
 async function main(): Promise<void> {
-  organizationsListBySubscriptionGeneratedByMaximumSetRule();
+  await organizationsListBySubscriptionGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

@@ -51,7 +51,7 @@ async function createOrUpdateContainerAppAuthConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateContainerAppAuthConfig();
+  await createOrUpdateContainerAppAuthConfig();
 }
 
 main().catch(console.error);

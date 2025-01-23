@@ -53,7 +53,7 @@ async function cosmosDbManagedCassandraClusterPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraClusterPatch();
+  await cosmosDbManagedCassandraClusterPatch();
 }
 
 main().catch(console.error);

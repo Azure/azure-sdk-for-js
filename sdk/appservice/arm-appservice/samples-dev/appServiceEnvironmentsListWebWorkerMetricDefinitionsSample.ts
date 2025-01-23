@@ -40,7 +40,7 @@ async function getMetricDefinitionsForAWorkerPoolOfAnAppServiceEnvironment(): Pr
 }
 
 async function main(): Promise<void> {
-  getMetricDefinitionsForAWorkerPoolOfAnAppServiceEnvironment();
+  await getMetricDefinitionsForAWorkerPoolOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

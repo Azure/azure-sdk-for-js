@@ -41,7 +41,7 @@ async function apiManagementTenantConfigurationSave(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementTenantConfigurationSave();
+  await apiManagementTenantConfigurationSave();
 }
 
 main().catch(console.error);

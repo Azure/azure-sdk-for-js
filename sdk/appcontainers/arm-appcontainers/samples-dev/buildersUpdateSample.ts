@@ -41,7 +41,7 @@ async function buildersUpdate0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildersUpdate0();
+  await buildersUpdate0();
 }
 
 main().catch(console.error);

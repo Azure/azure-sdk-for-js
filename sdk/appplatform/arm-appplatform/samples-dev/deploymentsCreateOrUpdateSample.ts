@@ -171,8 +171,8 @@ async function deploymentsCreateOrUpdateCustomContainer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsCreateOrUpdate();
-  deploymentsCreateOrUpdateCustomContainer();
+  await deploymentsCreateOrUpdate();
+  await deploymentsCreateOrUpdateCustomContainer();
 }
 
 main().catch(console.error);

@@ -55,7 +55,7 @@ describe("JobRouterClient", () => {
       await client.createWorker(workerId, { ...workerRequest, availableForOffers: true });
     });
 
-    afterEach(async (ctx) => {
+    afterEach(async () => {
       await client.deleteWorker(workerId);
       await client.deleteJob(jobId);
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);
@@ -63,9 +63,7 @@ describe("JobRouterClient", () => {
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
 
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+      await recorder.stop();
     });
 
     it("should complete assignment scenario", { timeout: timeoutMs }, async () => {

@@ -60,7 +60,7 @@ async function createCertificateOrder(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createCertificateOrder();
+  await createCertificateOrder();
 }
 
 main().catch(console.error);

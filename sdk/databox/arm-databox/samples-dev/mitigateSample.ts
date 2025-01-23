@@ -44,7 +44,7 @@ async function mitigate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  mitigate();
+  await mitigate();
 }
 
 main().catch(console.error);

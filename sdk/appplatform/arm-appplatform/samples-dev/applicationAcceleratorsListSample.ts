@@ -38,7 +38,7 @@ async function applicationAcceleratorsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationAcceleratorsList();
+  await applicationAcceleratorsList();
 }
 
 main().catch(console.error);

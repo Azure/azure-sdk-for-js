@@ -36,7 +36,7 @@ async function partnerTransferCancel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  partnerTransferCancel();
+  await partnerTransferCancel();
 }
 
 main().catch(console.error);

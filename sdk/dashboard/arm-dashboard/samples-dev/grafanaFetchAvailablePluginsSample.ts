@@ -35,7 +35,7 @@ async function grafanaFetchAvailablePlugins(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  grafanaFetchAvailablePlugins();
+  await grafanaFetchAvailablePlugins();
 }
 
 main().catch(console.error);

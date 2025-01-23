@@ -33,7 +33,7 @@ async function listTrustedAccessRoles(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listTrustedAccessRoles();
+  await listTrustedAccessRoles();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function deleteAppServiceDomainOwnershipIdentifier(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAppServiceDomainOwnershipIdentifier();
+  await deleteAppServiceDomainOwnershipIdentifier();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getSiteConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSiteConfig();
+  await getSiteConfig();
 }
 
 main().catch(console.error);

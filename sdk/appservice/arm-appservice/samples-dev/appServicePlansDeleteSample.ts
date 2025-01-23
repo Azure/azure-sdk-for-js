@@ -32,7 +32,7 @@ async function deleteAppServicePlan(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAppServicePlan();
+  await deleteAppServicePlan();
 }
 
 main().catch(console.error);

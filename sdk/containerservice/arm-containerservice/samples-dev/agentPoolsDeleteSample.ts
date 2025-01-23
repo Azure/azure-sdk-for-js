@@ -61,8 +61,8 @@ async function deleteAgentPoolByIgnoringPodDisruptionBudget(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAgentPool();
-  deleteAgentPoolByIgnoringPodDisruptionBudget();
+  await deleteAgentPool();
+  await deleteAgentPoolByIgnoringPodDisruptionBudget();
 }
 
 main().catch(console.error);

@@ -106,12 +106,12 @@ async function exportGetBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportGetByBillingAccount();
-  exportGetByDepartment();
-  exportGetByEnrollmentAccount();
-  exportGetByManagementGroup();
-  exportGetByResourceGroup();
-  exportGetBySubscription();
+  await exportGetByBillingAccount();
+  await exportGetByDepartment();
+  await exportGetByEnrollmentAccount();
+  await exportGetByManagementGroup();
+  await exportGetByResourceGroup();
+  await exportGetBySubscription();
 }
 
 main().catch(console.error);

@@ -24,7 +24,7 @@ async function storageClassList0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageClassList0();
+  await storageClassList0();
 }
 
 main().catch(console.error);

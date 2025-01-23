@@ -41,7 +41,7 @@ async function cloudLinksCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cloudLinksCreateOrUpdate();
+  await cloudLinksCreateOrUpdate();
 }
 
 main().catch(console.error);

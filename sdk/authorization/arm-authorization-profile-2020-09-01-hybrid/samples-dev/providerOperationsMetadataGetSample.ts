@@ -32,7 +32,7 @@ async function getProviderOperationsMetadataForResourceProvider(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  getProviderOperationsMetadataForResourceProvider();
+  await getProviderOperationsMetadataForResourceProvider();
 }
 
 main().catch(console.error);

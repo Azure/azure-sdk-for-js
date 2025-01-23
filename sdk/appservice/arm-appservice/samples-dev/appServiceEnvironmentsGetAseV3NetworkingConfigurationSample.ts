@@ -36,7 +36,7 @@ async function getNetworkingConfigurationOfAnAppServiceEnvironment(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  getNetworkingConfigurationOfAnAppServiceEnvironment();
+  await getNetworkingConfigurationOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function cosmosDbSqlDatabaseMigrateToManualThroughput(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseMigrateToManualThroughput();
+  await cosmosDbSqlDatabaseMigrateToManualThroughput();
 }
 
 main().catch(console.error);

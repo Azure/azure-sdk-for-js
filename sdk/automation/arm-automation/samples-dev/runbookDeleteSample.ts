@@ -34,7 +34,7 @@ async function deleteARunbook(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteARunbook();
+  await deleteARunbook();
 }
 
 main().catch(console.error);

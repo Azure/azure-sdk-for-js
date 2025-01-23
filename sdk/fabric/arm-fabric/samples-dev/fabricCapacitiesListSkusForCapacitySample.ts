@@ -26,7 +26,7 @@ async function listEligibleSKUsForAnExistingCapacity() {
 }
 
 async function main() {
-  listEligibleSKUsForAnExistingCapacity();
+  await listEligibleSKUsForAnExistingCapacity();
 }
 
 main().catch(console.error);

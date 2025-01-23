@@ -64,8 +64,8 @@ async function createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity():
 }
 
 async function main(): Promise<void> {
-  createAnAzureDatabricksAccessConnectorWithSystemAssignedIdentity();
-  createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity();
+  await createAnAzureDatabricksAccessConnectorWithSystemAssignedIdentity();
+  await createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

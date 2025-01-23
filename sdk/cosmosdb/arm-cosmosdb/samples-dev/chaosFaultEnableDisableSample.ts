@@ -47,7 +47,7 @@ async function chaosFaultEnableDisable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  chaosFaultEnableDisable();
+  await chaosFaultEnableDisable();
 }
 
 main().catch(console.error);

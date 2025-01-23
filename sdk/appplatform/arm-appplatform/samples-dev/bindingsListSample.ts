@@ -40,7 +40,7 @@ async function bindingsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bindingsList();
+  await bindingsList();
 }
 
 main().catch(console.error);

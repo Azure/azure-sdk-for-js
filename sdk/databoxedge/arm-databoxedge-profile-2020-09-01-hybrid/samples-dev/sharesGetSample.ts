@@ -33,7 +33,7 @@ async function shareGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  shareGet();
+  await shareGet();
 }
 
 main().catch(console.error);

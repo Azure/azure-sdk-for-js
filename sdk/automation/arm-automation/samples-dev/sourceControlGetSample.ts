@@ -34,7 +34,7 @@ async function getASourceControl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getASourceControl();
+  await getASourceControl();
 }
 
 main().catch(console.error);

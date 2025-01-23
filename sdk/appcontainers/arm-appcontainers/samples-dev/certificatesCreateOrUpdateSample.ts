@@ -92,8 +92,8 @@ async function createOrUpdateCertificateUsingManagedIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateCertificate();
-  createOrUpdateCertificateUsingManagedIdentity();
+  await createOrUpdateCertificate();
+  await createOrUpdateCertificateUsingManagedIdentity();
 }
 
 main().catch(console.error);

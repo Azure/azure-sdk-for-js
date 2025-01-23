@@ -44,7 +44,7 @@ async function putUpdateSummariesUnderClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putUpdateSummariesUnderClusterResource();
+  await putUpdateSummariesUnderClusterResource();
 }
 
 main().catch(console.error);

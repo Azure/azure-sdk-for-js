@@ -37,7 +37,7 @@ async function createOrUpdateALoadBalancer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateALoadBalancer();
+  await createOrUpdateALoadBalancer();
 }
 
 main().catch(console.error);

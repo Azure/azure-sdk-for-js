@@ -38,7 +38,7 @@ async function applicationLiveViewsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationLiveViewsList();
+  await applicationLiveViewsList();
 }
 
 main().catch(console.error);

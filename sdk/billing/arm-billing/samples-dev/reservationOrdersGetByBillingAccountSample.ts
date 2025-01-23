@@ -51,8 +51,8 @@ async function reservationOrderGetByBillingAccountWithExpandPlanInformation(): P
 }
 
 async function main(): Promise<void> {
-  reservationOrderGetByBillingAccount();
-  reservationOrderGetByBillingAccountWithExpandPlanInformation();
+  await reservationOrderGetByBillingAccount();
+  await reservationOrderGetByBillingAccountWithExpandPlanInformation();
 }
 
 main().catch(console.error);

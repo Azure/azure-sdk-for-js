@@ -38,7 +38,7 @@ async function metadataSchemasListByService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  metadataSchemasListByService();
+  await metadataSchemasListByService();
 }
 
 main().catch(console.error);

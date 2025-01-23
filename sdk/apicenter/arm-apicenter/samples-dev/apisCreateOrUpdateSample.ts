@@ -54,7 +54,7 @@ async function apisCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apisCreateOrUpdate();
+  await apisCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function patchArcSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchArcSetting();
+  await patchArcSetting();
 }
 
 main().catch(console.error);

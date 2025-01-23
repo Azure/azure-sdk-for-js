@@ -23,7 +23,7 @@ async function instanceListBySubscription() {
 }
 
 async function main() {
-  instanceListBySubscription();
+  await instanceListBySubscription();
 }
 
 main().catch(console.error);

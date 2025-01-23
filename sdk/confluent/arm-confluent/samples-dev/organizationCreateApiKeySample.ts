@@ -47,7 +47,7 @@ async function organizationCreateApiKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationCreateApiKey();
+  await organizationCreateApiKey();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function apiManagementDeleteCache(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteCache();
+  await apiManagementDeleteCache();
 }
 
 main().catch(console.error);

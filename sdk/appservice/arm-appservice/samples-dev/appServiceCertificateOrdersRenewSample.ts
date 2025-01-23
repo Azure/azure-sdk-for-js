@@ -44,7 +44,7 @@ async function renewAppServiceCertificateOrder(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  renewAppServiceCertificateOrder();
+  await renewAppServiceCertificateOrder();
 }
 
 main().catch(console.error);

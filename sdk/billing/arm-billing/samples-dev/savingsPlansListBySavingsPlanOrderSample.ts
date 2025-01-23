@@ -35,7 +35,7 @@ async function savingsPlansInOrderList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlansInOrderList();
+  await savingsPlansInOrderList();
 }
 
 main().catch(console.error);

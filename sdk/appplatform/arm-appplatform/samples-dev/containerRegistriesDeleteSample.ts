@@ -37,7 +37,7 @@ async function containerRegistriesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerRegistriesDelete();
+  await containerRegistriesDelete();
 }
 
 main().catch(console.error);

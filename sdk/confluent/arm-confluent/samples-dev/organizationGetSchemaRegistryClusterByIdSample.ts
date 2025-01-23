@@ -39,7 +39,7 @@ async function organizationGetSchemaRegistryClusterById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationGetSchemaRegistryClusterById();
+  await organizationGetSchemaRegistryClusterById();
 }
 
 main().catch(console.error);

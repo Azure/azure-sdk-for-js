@@ -52,7 +52,7 @@ async function bindingsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bindingsUpdate();
+  await bindingsUpdate();
 }
 
 main().catch(console.error);

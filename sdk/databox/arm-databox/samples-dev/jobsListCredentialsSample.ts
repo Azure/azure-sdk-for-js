@@ -37,7 +37,7 @@ async function jobsListCredentials(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  jobsListCredentials();
+  await jobsListCredentials();
 }
 
 main().catch(console.error);

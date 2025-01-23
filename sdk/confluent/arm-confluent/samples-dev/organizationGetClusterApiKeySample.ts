@@ -37,7 +37,7 @@ async function organizationGetClusterApiKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationGetClusterApiKey();
+  await organizationGetClusterApiKey();
 }
 
 main().catch(console.error);

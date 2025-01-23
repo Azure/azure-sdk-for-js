@@ -34,7 +34,7 @@ async function deleteACertificate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteACertificate();
+  await deleteACertificate();
 }
 
 main().catch(console.error);

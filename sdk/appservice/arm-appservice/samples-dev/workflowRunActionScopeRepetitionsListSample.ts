@@ -44,7 +44,7 @@ async function listTheScopedRepetitions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listTheScopedRepetitions();
+  await listTheScopedRepetitions();
 }
 
 main().catch(console.error);

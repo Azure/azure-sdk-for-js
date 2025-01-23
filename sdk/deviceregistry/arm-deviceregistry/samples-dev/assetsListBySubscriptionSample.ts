@@ -23,7 +23,7 @@ async function listAssetsSubscription() {
 }
 
 async function main() {
-  listAssetsSubscription();
+  await listAssetsSubscription();
 }
 
 main().catch(console.error);

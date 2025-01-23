@@ -36,7 +36,7 @@ async function apiManagementGetOpenIdConnectProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetOpenIdConnectProvider();
+  await apiManagementGetOpenIdConnectProvider();
 }
 
 main().catch(console.error);

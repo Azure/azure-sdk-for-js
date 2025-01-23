@@ -41,7 +41,7 @@ async function createOrUpdateAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAutomationAccount();
+  await createOrUpdateAutomationAccount();
 }
 
 main().catch(console.error);

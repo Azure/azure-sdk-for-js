@@ -40,7 +40,7 @@ async function listTheWorkflows(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listTheWorkflows();
+  await listTheWorkflows();
 }
 
 main().catch(console.error);

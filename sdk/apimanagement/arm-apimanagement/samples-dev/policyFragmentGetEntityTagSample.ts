@@ -36,7 +36,7 @@ async function apiManagementHeadPolicyFragment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadPolicyFragment();
+  await apiManagementHeadPolicyFragment();
 }
 
 main().catch(console.error);

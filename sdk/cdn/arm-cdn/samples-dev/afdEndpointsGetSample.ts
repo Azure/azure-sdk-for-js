@@ -34,7 +34,7 @@ async function afdEndpointsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdEndpointsGet();
+  await afdEndpointsGet();
 }
 
 main().catch(console.error);

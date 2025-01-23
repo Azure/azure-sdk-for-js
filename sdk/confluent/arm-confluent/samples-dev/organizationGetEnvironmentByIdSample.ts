@@ -37,7 +37,7 @@ async function organizationGetEnvironmentById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationGetEnvironmentById();
+  await organizationGetEnvironmentById();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function endpointsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsDelete();
+  await endpointsDelete();
 }
 
 main().catch(console.error);

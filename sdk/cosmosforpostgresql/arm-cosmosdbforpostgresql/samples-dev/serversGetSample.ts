@@ -37,7 +37,7 @@ async function getTheServerOfCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTheServerOfCluster();
+  await getTheServerOfCluster();
 }
 
 main().catch(console.error);

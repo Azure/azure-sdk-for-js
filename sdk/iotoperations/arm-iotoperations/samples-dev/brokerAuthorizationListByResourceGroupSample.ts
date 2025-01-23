@@ -27,7 +27,7 @@ async function brokerAuthorizationListByResourceGroup() {
 }
 
 async function main() {
-  brokerAuthorizationListByResourceGroup();
+  await brokerAuthorizationListByResourceGroup();
 }
 
 main().catch(console.error);

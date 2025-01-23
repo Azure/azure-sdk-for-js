@@ -41,7 +41,7 @@ async function getsPrivateLinkResourcesForPostgreSql() {
 }
 
 async function main() {
-  getsPrivateLinkResourcesForPostgreSql();
+  await getsPrivateLinkResourcesForPostgreSql();
 }
 
 main().catch(console.error);

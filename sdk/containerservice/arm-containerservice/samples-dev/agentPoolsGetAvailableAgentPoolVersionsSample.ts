@@ -35,7 +35,7 @@ async function getAvailableVersionsForAgentPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAvailableVersionsForAgentPool();
+  await getAvailableVersionsForAgentPool();
 }
 
 main().catch(console.error);

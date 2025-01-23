@@ -37,7 +37,7 @@ async function deleteArcSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteArcSetting();
+  await deleteArcSetting();
 }
 
 main().catch(console.error);

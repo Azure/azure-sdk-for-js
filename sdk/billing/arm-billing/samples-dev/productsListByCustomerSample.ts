@@ -35,7 +35,7 @@ async function productsListByCustomer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  productsListByCustomer();
+  await productsListByCustomer();
 }
 
 main().catch(console.error);

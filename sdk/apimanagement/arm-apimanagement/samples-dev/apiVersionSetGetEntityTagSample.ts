@@ -36,7 +36,7 @@ async function apiManagementHeadApiVersionSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadApiVersionSet();
+  await apiManagementHeadApiVersionSet();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listJobsByAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listJobsByAutomationAccount();
+  await listJobsByAutomationAccount();
 }
 
 main().catch(console.error);

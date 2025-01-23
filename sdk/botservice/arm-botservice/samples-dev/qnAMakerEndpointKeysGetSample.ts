@@ -35,7 +35,7 @@ async function listQnAMakerEndpointKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listQnAMakerEndpointKeys();
+  await listQnAMakerEndpointKeys();
 }
 
 main().catch(console.error);

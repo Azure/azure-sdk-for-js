@@ -253,12 +253,12 @@ async function migrationsCreate() {
 }
 
 async function main() {
-  createMigrationWithOtherSourceTypesForValidateAndMigrate();
-  createPreMigrationValidation();
-  migrationsCreateByPassingUserNames();
-  migrationsCreateWithPrivateEndpoint();
-  migrationsCreateWithRoles();
-  migrationsCreate();
+  await createMigrationWithOtherSourceTypesForValidateAndMigrate();
+  await createPreMigrationValidation();
+  await migrationsCreateByPassingUserNames();
+  await migrationsCreateWithPrivateEndpoint();
+  await migrationsCreateWithRoles();
+  await migrationsCreate();
 }
 
 main().catch(console.error);

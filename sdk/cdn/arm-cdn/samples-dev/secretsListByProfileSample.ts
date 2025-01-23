@@ -35,7 +35,7 @@ async function secretsListByProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  secretsListByProfile();
+  await secretsListByProfile();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function apisHead(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apisHead();
+  await apisHead();
 }
 
 main().catch(console.error);

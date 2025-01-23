@@ -36,7 +36,7 @@ async function listAllAzureBareMetalStorageInstancesInAResourceGroup(): Promise<
 }
 
 async function main(): Promise<void> {
-  listAllAzureBareMetalStorageInstancesInAResourceGroup();
+  await listAllAzureBareMetalStorageInstancesInAResourceGroup();
 }
 
 main().catch(console.error);

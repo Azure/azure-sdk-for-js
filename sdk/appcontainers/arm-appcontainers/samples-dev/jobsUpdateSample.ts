@@ -77,7 +77,7 @@ async function patchContainerAppsJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchContainerAppsJob();
+  await patchContainerAppsJob();
 }
 
 main().catch(console.error);

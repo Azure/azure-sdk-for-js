@@ -35,7 +35,7 @@ async function webPubSubListKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubListKeys();
+  await webPubSubListKeys();
 }
 
 main().catch(console.error);

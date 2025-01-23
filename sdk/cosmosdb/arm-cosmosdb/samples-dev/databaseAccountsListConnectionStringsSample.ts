@@ -51,8 +51,8 @@ async function cosmosDbDatabaseAccountListConnectionStringsMongo(): Promise<void
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountListConnectionStrings();
-  cosmosDbDatabaseAccountListConnectionStringsMongo();
+  await cosmosDbDatabaseAccountListConnectionStrings();
+  await cosmosDbDatabaseAccountListConnectionStringsMongo();
 }
 
 main().catch(console.error);

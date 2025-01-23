@@ -206,7 +206,7 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  printResults(resultBody);
+  await printResults(resultBody);
 }
 
 main().catch((err) => {

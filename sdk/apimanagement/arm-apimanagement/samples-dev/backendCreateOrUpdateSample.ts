@@ -96,8 +96,8 @@ async function apiManagementCreateBackendServiceFabric(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateBackendProxyBackend();
-  apiManagementCreateBackendServiceFabric();
+  await apiManagementCreateBackendProxyBackend();
+  await apiManagementCreateBackendServiceFabric();
 }
 
 main().catch(console.error);

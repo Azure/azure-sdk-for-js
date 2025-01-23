@@ -32,7 +32,7 @@ async function skusList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  skusList();
+  await skusList();
 }
 
 main().catch(console.error);

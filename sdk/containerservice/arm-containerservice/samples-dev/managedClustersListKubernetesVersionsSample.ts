@@ -30,7 +30,7 @@ async function listKubernetesVersions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listKubernetesVersions();
+  await listKubernetesVersions();
 }
 
 main().catch(console.error);

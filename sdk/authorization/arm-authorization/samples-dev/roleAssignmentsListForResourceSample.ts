@@ -42,7 +42,7 @@ async function listRoleAssignmentsForAResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRoleAssignmentsForAResource();
+  await listRoleAssignmentsForAResource();
 }
 
 main().catch(console.error);

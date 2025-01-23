@@ -37,7 +37,7 @@ async function getsTheFunctionsOfAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsTheFunctionsOfAStaticSite();
+  await getsTheFunctionsOfAStaticSite();
 }
 
 main().catch(console.error);

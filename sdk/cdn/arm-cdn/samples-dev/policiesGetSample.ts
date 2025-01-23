@@ -29,7 +29,7 @@ async function getPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getPolicy();
+  await getPolicy();
 }
 
 main().catch(console.error);

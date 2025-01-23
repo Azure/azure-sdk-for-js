@@ -34,7 +34,7 @@ async function getWebhook(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWebhook();
+  await getWebhook();
 }
 
 main().catch(console.error);

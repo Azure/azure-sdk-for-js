@@ -41,7 +41,7 @@ async function agentPoolsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  agentPoolsList();
+  await agentPoolsList();
 }
 
 main().catch(console.error);

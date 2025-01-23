@@ -44,7 +44,7 @@ async function organizationListEnvironments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationListEnvironments();
+  await organizationListEnvironments();
 }
 
 main().catch(console.error);

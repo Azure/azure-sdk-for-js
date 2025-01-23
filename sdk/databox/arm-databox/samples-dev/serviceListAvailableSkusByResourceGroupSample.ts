@@ -46,7 +46,7 @@ async function availableSkusPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  availableSkusPost();
+  await availableSkusPost();
 }
 
 main().catch(console.error);

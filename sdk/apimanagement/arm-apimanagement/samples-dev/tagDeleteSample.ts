@@ -38,7 +38,7 @@ async function apiManagementDeleteTag(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteTag();
+  await apiManagementDeleteTag();
 }
 
 main().catch(console.error);

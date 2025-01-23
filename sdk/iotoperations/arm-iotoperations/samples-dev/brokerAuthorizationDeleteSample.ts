@@ -23,7 +23,7 @@ async function brokerAuthorizationDelete() {
 }
 
 async function main() {
-  brokerAuthorizationDelete();
+  await brokerAuthorizationDelete();
 }
 
 main().catch(console.error);

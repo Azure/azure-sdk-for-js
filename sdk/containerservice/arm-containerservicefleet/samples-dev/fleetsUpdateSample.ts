@@ -43,7 +43,7 @@ async function updateAFleet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAFleet();
+  await updateAFleet();
 }
 
 main().catch(console.error);

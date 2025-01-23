@@ -36,7 +36,7 @@ async function getTheExecutionOfAExperiment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTheExecutionOfAExperiment();
+  await getTheExecutionOfAExperiment();
 }
 
 main().catch(console.error);

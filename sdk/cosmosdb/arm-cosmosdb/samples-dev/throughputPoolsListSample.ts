@@ -32,7 +32,7 @@ async function cosmosDbThroughputPoolList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbThroughputPoolList();
+  await cosmosDbThroughputPoolList();
 }
 
 main().catch(console.error);

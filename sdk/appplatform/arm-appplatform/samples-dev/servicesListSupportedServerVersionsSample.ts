@@ -38,7 +38,7 @@ async function servicesListSupportedServerVersions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesListSupportedServerVersions();
+  await servicesListSupportedServerVersions();
 }
 
 main().catch(console.error);

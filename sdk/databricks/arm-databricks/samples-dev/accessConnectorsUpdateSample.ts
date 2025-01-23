@@ -40,7 +40,7 @@ async function updateAnAzureDatabricksAccessConnector(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAnAzureDatabricksAccessConnector();
+  await updateAnAzureDatabricksAccessConnector();
 }
 
 main().catch(console.error);

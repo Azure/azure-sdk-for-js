@@ -36,7 +36,7 @@ async function workloadNetworksDeleteDnsZone(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksDeleteDnsZone();
+  await workloadNetworksDeleteDnsZone();
 }
 
 main().catch(console.error);

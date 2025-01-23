@@ -42,7 +42,7 @@ async function updateKubeEnvironments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateKubeEnvironments();
+  await updateKubeEnvironments();
 }
 
 main().catch(console.error);

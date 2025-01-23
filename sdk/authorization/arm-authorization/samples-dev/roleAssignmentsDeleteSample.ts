@@ -28,7 +28,7 @@ async function deleteRoleAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteRoleAssignment();
+  await deleteRoleAssignment();
 }
 
 main().catch(console.error);

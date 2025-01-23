@@ -45,7 +45,7 @@ async function virtualMachinesRestrictMovement(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  virtualMachinesRestrictMovement();
+  await virtualMachinesRestrictMovement();
 }
 
 main().catch(console.error);

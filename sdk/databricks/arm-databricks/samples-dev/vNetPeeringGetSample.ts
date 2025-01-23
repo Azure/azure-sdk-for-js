@@ -37,7 +37,7 @@ async function getAWorkspaceWithVNetPeeringConfigured(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAWorkspaceWithVNetPeeringConfigured();
+  await getAWorkspaceWithVNetPeeringConfigured();
 }
 
 main().catch(console.error);

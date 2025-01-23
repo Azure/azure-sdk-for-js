@@ -77,7 +77,7 @@ async function apiManagementUpdateApiOperation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateApiOperation();
+  await apiManagementUpdateApiOperation();
 }
 
 main().catch(console.error);

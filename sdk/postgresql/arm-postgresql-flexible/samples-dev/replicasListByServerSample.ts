@@ -41,7 +41,7 @@ async function replicasListByServer() {
 }
 
 async function main() {
-  replicasListByServer();
+  await replicasListByServer();
 }
 
 main().catch(console.error);

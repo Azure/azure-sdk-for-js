@@ -37,7 +37,7 @@ async function getConfigurationDetailsForNode(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getConfigurationDetailsForNode();
+  await getConfigurationDetailsForNode();
 }
 
 main().catch(console.error);

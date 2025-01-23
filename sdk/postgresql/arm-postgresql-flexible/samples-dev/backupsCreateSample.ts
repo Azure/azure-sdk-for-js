@@ -40,7 +40,7 @@ async function createANewBackupForAFlexibleServer() {
 }
 
 async function main() {
-  createANewBackupForAFlexibleServer();
+  await createANewBackupForAFlexibleServer();
 }
 
 main().catch(console.error);

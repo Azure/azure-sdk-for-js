@@ -37,7 +37,7 @@ async function deleteNetComponent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteNetComponent();
+  await deleteNetComponent();
 }
 
 main().catch(console.error);

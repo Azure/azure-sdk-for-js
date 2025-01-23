@@ -120,8 +120,8 @@ async function createOrUpdateAPolicyDefinitionWithAdvancedParameters() {
 }
 
 async function main() {
-  createOrUpdateAPolicyDefinition();
-  createOrUpdateAPolicyDefinitionWithAdvancedParameters();
+  await createOrUpdateAPolicyDefinition();
+  await createOrUpdateAPolicyDefinitionWithAdvancedParameters();
 }
 
 main().catch(console.error);

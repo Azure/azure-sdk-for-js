@@ -30,7 +30,7 @@ async function locationsCheckQuotaAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  locationsCheckQuotaAvailability();
+  await locationsCheckQuotaAvailability();
 }
 
 main().catch(console.error);

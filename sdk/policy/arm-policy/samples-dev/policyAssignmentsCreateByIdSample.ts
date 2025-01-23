@@ -81,8 +81,8 @@ async function createOrUpdatePolicyAssignmentWithAManagedIdentityById() {
 }
 
 async function main() {
-  createOrUpdatePolicyAssignmentById();
-  createOrUpdatePolicyAssignmentWithAManagedIdentityById();
+  await createOrUpdatePolicyAssignmentById();
+  await createOrUpdatePolicyAssignmentWithAManagedIdentityById();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function createOrUpdateAHciConfigurationProfileAssignment(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAHciConfigurationProfileAssignment();
+  await createOrUpdateAHciConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

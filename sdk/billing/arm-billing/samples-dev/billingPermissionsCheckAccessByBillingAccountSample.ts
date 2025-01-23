@@ -40,7 +40,7 @@ async function checkAccessByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkAccessByBillingAccount();
+  await checkAccessByBillingAccount();
 }
 
 main().catch(console.error);

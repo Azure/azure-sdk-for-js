@@ -43,7 +43,7 @@ async function updateASchedule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateASchedule();
+  await updateASchedule();
 }
 
 main().catch(console.error);

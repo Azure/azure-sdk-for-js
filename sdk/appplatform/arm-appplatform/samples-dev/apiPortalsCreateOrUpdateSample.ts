@@ -51,7 +51,7 @@ async function apiPortalsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiPortalsCreateOrUpdate();
+  await apiPortalsCreateOrUpdate();
 }
 
 main().catch(console.error);

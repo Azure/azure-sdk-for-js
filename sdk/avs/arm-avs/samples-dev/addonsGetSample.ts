@@ -105,10 +105,10 @@ async function addonsGetVr(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  addonsGetArcReg();
-  addonsGetHcx();
-  addonsGetSrm();
-  addonsGetVr();
+  await addonsGetArcReg();
+  await addonsGetHcx();
+  await addonsGetSrm();
+  await addonsGetVr();
 }
 
 main().catch(console.error);

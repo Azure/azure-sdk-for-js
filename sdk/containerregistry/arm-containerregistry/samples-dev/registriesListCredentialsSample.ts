@@ -38,7 +38,7 @@ async function registryListCredentials(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryListCredentials();
+  await registryListCredentials();
 }
 
 main().catch(console.error);

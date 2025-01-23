@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the list of cached images on specific OS type for a subscription in a region.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/CachedImagesList.json
  */
-async function cachedImages() {
+async function cachedImages(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const location = "westcentralus";
@@ -34,8 +34,8 @@ async function cachedImages() {
   console.log(resArray);
 }
 
-async function main() {
-  cachedImages();
+async function main(): Promise<void> {
+  await cachedImages();
 }
 
 main().catch(console.error);

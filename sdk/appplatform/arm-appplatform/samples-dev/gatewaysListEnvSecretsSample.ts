@@ -37,7 +37,7 @@ async function gatewaysListEnvSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewaysListEnvSecrets();
+  await gatewaysListEnvSecrets();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function apiManagementDeleteSchema(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteSchema();
+  await apiManagementDeleteSchema();
 }
 
 main().catch(console.error);

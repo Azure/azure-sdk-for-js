@@ -24,7 +24,7 @@ async function enterpriseMccCacheNodesOperationsUpdateGeneratedByMaximumSetRule(
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCacheNodesOperationsUpdateGeneratedByMaximumSetRule();
+  await enterpriseMccCacheNodesOperationsUpdateGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

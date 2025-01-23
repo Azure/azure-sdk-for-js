@@ -41,7 +41,7 @@ async function configurationStoresListKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationStoresListKeys();
+  await configurationStoresListKeys();
 }
 
 main().catch(console.error);

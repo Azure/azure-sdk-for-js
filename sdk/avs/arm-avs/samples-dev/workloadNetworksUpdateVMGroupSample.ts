@@ -41,7 +41,7 @@ async function workloadNetworksUpdateVMGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksUpdateVMGroup();
+  await workloadNetworksUpdateVMGroup();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function evidenceCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  evidenceCreateOrUpdate();
+  await evidenceCreateOrUpdate();
 }
 
 main().catch(console.error);

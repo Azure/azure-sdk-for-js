@@ -85,9 +85,9 @@ async function getDaprSubscriptionWithRouteRulesAndMetadata(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes();
-  getDaprSubscriptionWithDefaultRouteOnly();
-  getDaprSubscriptionWithRouteRulesAndMetadata();
+  await getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes();
+  await getDaprSubscriptionWithDefaultRouteOnly();
+  await getDaprSubscriptionWithRouteRulesAndMetadata();
 }
 
 main().catch(console.error);

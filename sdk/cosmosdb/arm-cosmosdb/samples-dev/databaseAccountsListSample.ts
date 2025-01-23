@@ -30,7 +30,7 @@ async function cosmosDbDatabaseAccountList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountList();
+  await cosmosDbDatabaseAccountList();
 }
 
 main().catch(console.error);

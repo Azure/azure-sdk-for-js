@@ -38,7 +38,7 @@ async function getGlobalUsageMetricsOfAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getGlobalUsageMetricsOfAnAppServiceEnvironment();
+  await getGlobalUsageMetricsOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

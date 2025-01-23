@@ -38,7 +38,7 @@ async function datastoresDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  datastoresDelete();
+  await datastoresDelete();
 }
 
 main().catch(console.error);

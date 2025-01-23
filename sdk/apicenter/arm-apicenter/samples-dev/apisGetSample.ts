@@ -39,7 +39,7 @@ async function apisGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apisGet();
+  await apisGet();
 }
 
 main().catch(console.error);

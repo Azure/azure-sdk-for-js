@@ -44,7 +44,7 @@ async function listAllPolicyAssignmentsThatApplyToAResource() {
 }
 
 async function main() {
-  listAllPolicyAssignmentsThatApplyToAResource();
+  await listAllPolicyAssignmentsThatApplyToAResource();
 }
 
 main().catch(console.error);

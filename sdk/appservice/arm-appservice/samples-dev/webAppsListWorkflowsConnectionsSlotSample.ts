@@ -37,7 +37,7 @@ async function listTheInstanceWorkflowsConfigurationConnectionsSlot(): Promise<v
 }
 
 async function main(): Promise<void> {
-  listTheInstanceWorkflowsConfigurationConnectionsSlot();
+  await listTheInstanceWorkflowsConfigurationConnectionsSlot();
 }
 
 main().catch(console.error);

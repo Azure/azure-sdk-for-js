@@ -38,7 +38,7 @@ async function apiManagementDeleteSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteSubscription();
+  await apiManagementDeleteSubscription();
 }
 
 main().catch(console.error);

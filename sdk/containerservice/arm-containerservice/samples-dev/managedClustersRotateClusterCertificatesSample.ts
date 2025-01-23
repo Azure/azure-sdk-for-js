@@ -36,7 +36,7 @@ async function rotateClusterCertificates(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rotateClusterCertificates();
+  await rotateClusterCertificates();
 }
 
 main().catch(console.error);

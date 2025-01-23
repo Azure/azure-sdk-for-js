@@ -34,7 +34,7 @@ async function apiManagementHeadSignUpSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadSignUpSettings();
+  await apiManagementHeadSignUpSettings();
 }
 
 main().catch(console.error);

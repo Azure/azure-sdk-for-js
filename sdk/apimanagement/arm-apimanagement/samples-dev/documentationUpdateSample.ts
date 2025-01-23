@@ -46,7 +46,7 @@ async function apiManagementUpdateDocumentation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateDocumentation();
+  await apiManagementUpdateDocumentation();
 }
 
 main().catch(console.error);

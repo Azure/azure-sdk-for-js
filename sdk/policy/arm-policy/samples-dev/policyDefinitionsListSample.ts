@@ -32,7 +32,7 @@ async function listPolicyDefinitionsBySubscription() {
 }
 
 async function main() {
-  listPolicyDefinitionsBySubscription();
+  await listPolicyDefinitionsBySubscription();
 }
 
 main().catch(console.error);

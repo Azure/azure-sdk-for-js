@@ -39,7 +39,7 @@ async function getDaprComponentResiliencyPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDaprComponentResiliencyPolicy();
+  await getDaprComponentResiliencyPolicy();
 }
 
 main().catch(console.error);

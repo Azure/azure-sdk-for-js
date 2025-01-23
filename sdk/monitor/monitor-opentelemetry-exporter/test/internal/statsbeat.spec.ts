@@ -48,6 +48,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
     beforeAll(() => {
       scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+
+      it("should wait 15 seconds from startup to export long interval statsbeat", async () => {
+        const longIntervalStatsbeat = getInstance(options);
+        const mockExport = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
+        longIntervalStatsbeat["initialize"]();
+        expect(mockExport).not.toHaveBeenCalled();
+        setTimeout(async () => {
+          expect(mockExport).toHaveBeenCalled();
+        }, 15000);
+      });
     });
 
     afterAll(() => {
@@ -317,7 +327,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         await new Promise((resolve) => setTimeout(resolve, 500));
         expect(mockExport).toHaveBeenCalled();
-        const resourceMetrics = mockExport.mock.calls[0][0];
+        const resourceMetrics = mockExport.mock.calls[1][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
         const metrics = scopeMetrics[0].metrics;
 

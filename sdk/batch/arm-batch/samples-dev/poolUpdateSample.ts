@@ -139,10 +139,10 @@ async function updatePoolResizePool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updatePoolEnableAutoscale();
-  updatePoolOtherProperties();
-  updatePoolRemoveStartTask();
-  updatePoolResizePool();
+  await updatePoolEnableAutoscale();
+  await updatePoolOtherProperties();
+  await updatePoolRemoveStartTask();
+  await updatePoolResizePool();
 }
 
 main().catch(console.error);

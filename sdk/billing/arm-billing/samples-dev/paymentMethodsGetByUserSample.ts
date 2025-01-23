@@ -27,7 +27,7 @@ async function getPaymentMethodOwnedByUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getPaymentMethodOwnedByUser();
+  await getPaymentMethodOwnedByUser();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getUsageMetricsForAWorkerPoolOfAnAppServiceEnvironment(): Promise
 }
 
 async function main(): Promise<void> {
-  getUsageMetricsForAWorkerPoolOfAnAppServiceEnvironment();
+  await getUsageMetricsForAWorkerPoolOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

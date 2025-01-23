@@ -57,7 +57,7 @@ async function cosmosDbCassandraTableCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraTableCreateUpdate();
+  await cosmosDbCassandraTableCreateUpdate();
 }
 
 main().catch(console.error);

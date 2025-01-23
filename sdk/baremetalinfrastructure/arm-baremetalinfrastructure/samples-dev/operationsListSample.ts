@@ -32,7 +32,7 @@ async function listAllManagementOperationsSupportedByTheAzureBareMetalRp(): Prom
 }
 
 async function main(): Promise<void> {
-  listAllManagementOperationsSupportedByTheAzureBareMetalRp();
+  await listAllManagementOperationsSupportedByTheAzureBareMetalRp();
 }
 
 main().catch(console.error);

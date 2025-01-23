@@ -29,7 +29,7 @@ async function elevateAccessGlobalAdministrator(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  elevateAccessGlobalAdministrator();
+  await elevateAccessGlobalAdministrator();
 }
 
 main().catch(console.error);

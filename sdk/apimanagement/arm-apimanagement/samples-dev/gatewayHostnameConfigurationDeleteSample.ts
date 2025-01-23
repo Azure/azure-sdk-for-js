@@ -40,7 +40,7 @@ async function apiManagementDeleteGatewayHostnameConfiguration(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteGatewayHostnameConfiguration();
+  await apiManagementDeleteGatewayHostnameConfiguration();
 }
 
 main().catch(console.error);

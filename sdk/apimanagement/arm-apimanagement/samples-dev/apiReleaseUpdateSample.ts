@@ -49,7 +49,7 @@ async function apiManagementUpdateApiRelease(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateApiRelease();
+  await apiManagementUpdateApiRelease();
 }
 
 main().catch(console.error);

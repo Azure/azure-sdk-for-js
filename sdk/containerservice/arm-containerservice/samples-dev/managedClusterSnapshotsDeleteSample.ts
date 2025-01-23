@@ -35,7 +35,7 @@ async function deleteManagedClusterSnapshot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteManagedClusterSnapshot();
+  await deleteManagedClusterSnapshot();
 }
 
 main().catch(console.error);

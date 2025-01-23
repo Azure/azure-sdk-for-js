@@ -37,7 +37,7 @@ async function upgradeAgentPoolNodeImageVersion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upgradeAgentPoolNodeImageVersion();
+  await upgradeAgentPoolNodeImageVersion();
 }
 
 main().catch(console.error);

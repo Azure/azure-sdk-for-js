@@ -36,7 +36,7 @@ async function cosmosDbSqlRoleDefinitionGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlRoleDefinitionGet();
+  await cosmosDbSqlRoleDefinitionGet();
 }
 
 main().catch(console.error);

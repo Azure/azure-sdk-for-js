@@ -38,7 +38,7 @@ async function getTheNetworkEndpointsOfAllInboundDependenciesOfAnAppServiceEnvir
 }
 
 async function main(): Promise<void> {
-  getTheNetworkEndpointsOfAllInboundDependenciesOfAnAppServiceEnvironment();
+  await getTheNetworkEndpointsOfAllInboundDependenciesOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getPropertiesOfASapMonitor(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getPropertiesOfASapMonitor();
+  await getPropertiesOfASapMonitor();
 }
 
 main().catch(console.error);

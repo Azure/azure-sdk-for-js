@@ -34,7 +34,7 @@ async function getAConfigurationProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAConfigurationProfile();
+  await getAConfigurationProfile();
 }
 
 main().catch(console.error);

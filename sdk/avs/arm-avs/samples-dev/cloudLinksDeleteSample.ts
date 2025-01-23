@@ -36,7 +36,7 @@ async function cloudLinksDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cloudLinksDelete();
+  await cloudLinksDelete();
 }
 
 main().catch(console.error);

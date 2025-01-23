@@ -35,7 +35,7 @@ async function stopPoolResize(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopPoolResize();
+  await stopPoolResize();
 }
 
 main().catch(console.error);

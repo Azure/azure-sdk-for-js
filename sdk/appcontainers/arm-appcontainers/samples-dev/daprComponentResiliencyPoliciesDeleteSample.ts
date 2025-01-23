@@ -39,7 +39,7 @@ async function deleteDaprComponentResiliencyPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteDaprComponentResiliencyPolicy();
+  await deleteDaprComponentResiliencyPolicy();
 }
 
 main().catch(console.error);

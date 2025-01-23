@@ -39,7 +39,7 @@ async function buildServiceDeleteBuild(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceDeleteBuild();
+  await buildServiceDeleteBuild();
 }
 
 main().catch(console.error);

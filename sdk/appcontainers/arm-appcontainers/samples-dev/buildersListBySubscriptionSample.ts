@@ -32,7 +32,7 @@ async function buildersListBySubscription0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildersListBySubscription0();
+  await buildersListBySubscription0();
 }
 
 main().catch(console.error);

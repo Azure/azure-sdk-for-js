@@ -38,7 +38,7 @@ async function placementPoliciesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  placementPoliciesGet();
+  await placementPoliciesGet();
 }
 
 main().catch(console.error);

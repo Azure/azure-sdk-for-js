@@ -36,7 +36,7 @@ async function buildsGet0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildsGet0();
+  await buildsGet0();
 }
 
 main().catch(console.error);

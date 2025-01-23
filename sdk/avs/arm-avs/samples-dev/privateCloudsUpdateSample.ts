@@ -72,8 +72,8 @@ async function privateCloudsUpdateStretched(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsUpdate();
-  privateCloudsUpdateStretched();
+  await privateCloudsUpdate();
+  await privateCloudsUpdateStretched();
 }
 
 main().catch(console.error);

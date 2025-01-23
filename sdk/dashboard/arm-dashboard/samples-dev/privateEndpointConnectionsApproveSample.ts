@@ -37,7 +37,7 @@ async function privateEndpointConnectionsApprove(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionsApprove();
+  await privateEndpointConnectionsApprove();
 }
 
 main().catch(console.error);

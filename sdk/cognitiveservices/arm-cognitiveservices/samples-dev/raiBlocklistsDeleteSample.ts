@@ -40,7 +40,7 @@ async function deleteRaiBlocklist(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteRaiBlocklist();
+  await deleteRaiBlocklist();
 }
 
 main().catch(console.error);

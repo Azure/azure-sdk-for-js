@@ -35,7 +35,7 @@ async function scheduledActionCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scheduledActionCheckNameAvailability();
+  await scheduledActionCheckNameAvailability();
 }
 
 main().catch(console.error);

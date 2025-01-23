@@ -48,7 +48,7 @@ async function deploymentsStartJfr(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsStartJfr();
+  await deploymentsStartJfr();
 }
 
 main().catch(console.error);

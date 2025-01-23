@@ -90,7 +90,7 @@ async function updateSiteConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateSiteConfig();
+  await updateSiteConfig();
 }
 
 main().catch(console.error);
