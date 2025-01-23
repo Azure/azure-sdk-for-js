@@ -39,80 +39,124 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### Initialize CallAutomationClient
 
-```JavaScript
-import { CallAutomationClient } from '@azure/communication-call-automation';
+```ts snippet:ReadmeSampleCreateClient_Node
 import { DefaultAzureCredential } from "@azure/identity";
+import { CallAutomationClient } from "@azure/communication-call-automation";
 
 // Your unique Azure Communication service endpoint
 const credential = new DefaultAzureCredential();
-const endpointUrl = '<ENDPOINT>'
+const endpointUrl = "<ENDPOINT>";
 const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
 ```
 
 ### Create Call
 
-```JavaScript
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { CallAutomationClient, CallInvite } from '@azure/communication-call-automation';
+```ts snippet:ReadmeSampleCreateCall
+import { DefaultAzureCredential } from "@azure/identity";
+import { CallAutomationClient } from "@azure/communication-call-automation";
+
+// Your unique Azure Communication service endpoint
+const credential = new DefaultAzureCredential();
+const endpointUrl = "<ENDPOINT>";
+const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
 
 // target endpoint for ACS User
-const target: CommunicationUserIdentifier = {
-  communicationUserId:
-    "8:acs:...",
-}
-
-// make invitation
-const callInvite: CallInvite = {
-   targetParticipant:target
+const target = {
+  communicationUserId: "8:acs:...",
 };
 
-// callback url to recieve callback events
+// make invitation
+const callInvite = {
+  targetParticipant: target,
+};
+
+// callback url to receive callback events
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
 
 // send out the invitation, creating call
-const response = callAutomationClient.createCall(callInvite, callbackUrl);
+const response = await callAutomationClient.createCall(callInvite, callbackUrl);
 ```
 
 ### Play Media
 
-```JavaScript
+```ts snippet:ReadmeSamplePlayMedia
+import { DefaultAzureCredential } from "@azure/identity";
+import { CallAutomationClient, FileSource } from "@azure/communication-call-automation";
+
+// Your unique Azure Communication service endpoint
+const credential = new DefaultAzureCredential();
+const endpointUrl = "<ENDPOINT>";
+const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
+
+const target = { communicationUserId: "8:acs:..." };
+const callInvite = { targetParticipant: target };
+const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
+
+const createCallResult = await callAutomationClient.createCall(callInvite, callbackUrl);
+const callConnection = createCallResult.callConnection;
 // from callconnection of response above, play media of media file
-const myFile: FileSource = { uri: "https://<FILE-SOURCE>/<SOME-FILE>.wav" }
-const response = callConnection.getCallMedia().playToAll(myFile);
+const myFile: FileSource = { url: "https://<FILE-SOURCE>/<SOME-FILE>.wav", kind: "fileSource" };
+const response = await callConnection.getCallMedia().playToAll([myFile]);
 ```
 
 ### Handle Mid-Connection callback events
 
 To easily handle mid-connection events, Call Automation's SDK provides easier way to handle these events. Take a look at CallAutomationEventProcessor. This will ensure correlation between call and events more easily.
 
-```JavaScript
-const eventProcessor: CallAutomationEventProcessor = await callAutomationClient.getEventProcessor();
-eventProcessor.processEvents(incomingEvent);
+```ts snippet:ReadmeSampleEventProcessor
+import { DefaultAzureCredential } from "@azure/identity";
+import { CallAutomationClient } from "@azure/communication-call-automation";
+
+// Your unique Azure Communication service endpoint
+const credential = new DefaultAzureCredential();
+const endpointUrl = "<ENDPOINT>";
+const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
+
+const eventProcessor = callAutomationClient.getEventProcessor();
+eventProcessor.processEvents("CallConnected");
 ```
 
 ProcessEvents is required for EventProcessor to work. After event is being consumed by EventProcessor, you can start using its feature.
 
 See below for example: where you are making a call with CreateCall, and wait for CallConnected event of the call.
 
-```JavaScript
+```ts snippet:ReadmeSampleEventProcessorExample
+import { DefaultAzureCredential } from "@azure/identity";
+import { CallAutomationClient } from "@azure/communication-call-automation";
+
+// Your unique Azure Communication service endpoint
+const credential = new DefaultAzureCredential();
+const endpointUrl = "<ENDPOINT>";
+const callAutomationClient = new CallAutomationClient(endpointUrl, credential);
+
 // send out the invitation, creating call
-const callInvite = new CallInvite(target);
+const target = { communicationUserId: "8:acs:..." };
+const callInvite = { targetParticipant: target };
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
-const callResult = callAutomationClient.createCall(callInvite, callbackUrl);
+const callResult = await callAutomationClient.createCall(callInvite, callbackUrl);
 
 // giving 30 seconds timeout for waiting on createCall's event, 'CallConnected'
-const createCallEventResult : CreateCallEventResult = await callResult.waitForEventProcessor(undefined, 30000);
+const createCallEventResult = await callResult.waitForEventProcessor(undefined, 30000);
 // once this returns, call is now established!
 
 // check if it was successful
-if (createCallEventResult.isSuccess)
-{
+if (createCallEventResult.isSuccess) {
   // work with callConnected event
-  const callConnectedEvent : CallConnected = createCallEventResult.successResult!;
+  const callConnectedEvent = createCallEventResult.successResult!;
 }
 ```
 
 ## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
 
 ## Next steps
 

@@ -33,7 +33,7 @@ async function listNetworkWatchers() {
 }
 
 async function main() {
-  listNetworkWatchers();
+  await listNetworkWatchers();
 }
 
 main().catch(console.error);

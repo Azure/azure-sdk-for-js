@@ -39,7 +39,7 @@ async function groupQuotaLimitsRequestsUpdate() {
 }
 
 async function main() {
-  groupQuotaLimitsRequestsUpdate();
+  await groupQuotaLimitsRequestsUpdate();
 }
 
 main().catch(console.error);

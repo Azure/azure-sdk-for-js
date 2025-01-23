@@ -37,7 +37,7 @@ async function getVaultEncryptionConfiguration() {
 }
 
 async function main() {
-  getVaultEncryptionConfiguration();
+  await getVaultEncryptionConfiguration();
 }
 
 main().catch(console.error);

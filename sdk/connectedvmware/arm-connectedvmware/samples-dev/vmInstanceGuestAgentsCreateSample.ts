@@ -6,17 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   GuestAgent,
   VMInstanceGuestAgentsCreateOptionalParams,
-  AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create Or Update GuestAgent.
@@ -24,7 +20,7 @@ dotenv.config();
  * @summary Create Or Update GuestAgent.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/CreateVMInstanceGuestAgent.json
  */
-async function createGuestAgent() {
+async function createGuestAgent(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM";
   const body: GuestAgent = {
@@ -32,20 +28,17 @@ async function createGuestAgent() {
     httpProxyConfig: { httpsProxy: "http://192.1.2.3:8080" },
     privateLinkScopeResourceId:
       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/privateLinkScopeName",
-    provisioningAction: "install"
+    provisioningAction: "install",
   };
   const options: VMInstanceGuestAgentsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential);
-  const result = await client.vMInstanceGuestAgents.beginCreateAndWait(
-    resourceUri,
-    options
-  );
+  const result = await client.vMInstanceGuestAgents.beginCreateAndWait(resourceUri, options);
   console.log(result);
 }
 
-async function main() {
-  createGuestAgent();
+async function main(): Promise<void> {
+  await createGuestAgent();
 }
 
 main().catch(console.error);

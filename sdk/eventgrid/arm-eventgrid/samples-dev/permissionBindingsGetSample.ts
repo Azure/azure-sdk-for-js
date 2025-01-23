@@ -39,7 +39,7 @@ async function permissionBindingsGet() {
 }
 
 async function main() {
-  permissionBindingsGet();
+  await permissionBindingsGet();
 }
 
 main().catch(console.error);

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesSubmitHibernate: submitHibernate for a virtual machine
  * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitHibernate_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
+async function scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumS
  * @summary virtualMachinesSubmitHibernate: submitHibernate for a virtual machine
  * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitHibernate_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
+async function scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -64,7 +64,7 @@ async function scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumS
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
   scheduledActionsVirtualMachinesSubmitHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
 }

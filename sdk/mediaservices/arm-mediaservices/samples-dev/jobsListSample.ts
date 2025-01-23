@@ -231,13 +231,13 @@ async function listsAllOfTheJobsForTheTransform() {
 }
 
 async function main() {
-  listsJobsForTheTransformFilterByCreated();
-  listsJobsForTheTransformFilterByLastmodified();
-  listsJobsForTheTransformFilterByNameAndState();
-  listsJobsForTheTransformFilterByName();
-  listsJobsForTheTransformFilterByStateEqual();
-  listsJobsForTheTransformFilterByStateNotEqual();
-  listsAllOfTheJobsForTheTransform();
+  await listsJobsForTheTransformFilterByCreated();
+  await listsJobsForTheTransformFilterByLastmodified();
+  await listsJobsForTheTransformFilterByNameAndState();
+  await listsJobsForTheTransformFilterByName();
+  await listsJobsForTheTransformFilterByStateEqual();
+  await listsJobsForTheTransformFilterByStateNotEqual();
+  await listsAllOfTheJobsForTheTransform();
 }
 
 main().catch(console.error);

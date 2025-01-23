@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List information about private endpoint connections under a disk access resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List information about private endpoint connections under a disk access resource
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
  */
-async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource() {
+async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource();
 }
 

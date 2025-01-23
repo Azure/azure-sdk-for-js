@@ -37,7 +37,7 @@ async function networkFabricControllersListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricControllersListBySubscriptionMaximumSetGen();
+  await networkFabricControllersListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function enableClusterMonitoring() {
 }
 
 async function main() {
-  enableClusterMonitoring();
+  await enableClusterMonitoring();
 }
 
 main().catch(console.error);

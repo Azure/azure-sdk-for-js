@@ -37,7 +37,7 @@ async function listRgDedicatedCloudNodes() {
 }
 
 async function main() {
-  listRgDedicatedCloudNodes();
+  await listRgDedicatedCloudNodes();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function listReplicationLinksOnServerOnDatabase() {
 }
 
 async function main() {
-  listReplicationLinksOnServerOnDatabase();
+  await listReplicationLinksOnServerOnDatabase();
 }
 
 main().catch(console.error);

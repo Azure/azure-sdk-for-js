@@ -36,7 +36,7 @@ async function deleteAnApplicationControlMachineGroup() {
 }
 
 async function main() {
-  deleteAnApplicationControlMachineGroup();
+  await deleteAnApplicationControlMachineGroup();
 }
 
 main().catch(console.error);

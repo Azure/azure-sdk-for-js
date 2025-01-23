@@ -39,7 +39,7 @@ async function getAllLongTermRetentionBackupsUnderTheManagedInstance() {
 }
 
 async function main() {
-  getAllLongTermRetentionBackupsUnderTheManagedInstance();
+  await getAllLongTermRetentionBackupsUnderTheManagedInstance();
 }
 
 main().catch(console.error);

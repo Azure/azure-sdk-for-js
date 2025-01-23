@@ -34,7 +34,7 @@ async function deleteNetworkSecurityGroup() {
 }
 
 async function main() {
-  deleteNetworkSecurityGroup();
+  await deleteNetworkSecurityGroup();
 }
 
 main().catch(console.error);

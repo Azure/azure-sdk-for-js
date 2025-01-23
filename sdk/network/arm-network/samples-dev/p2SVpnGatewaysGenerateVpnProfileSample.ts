@@ -41,7 +41,7 @@ async function generateP2SVpnGatewayVpnprofile() {
 }
 
 async function main() {
-  generateP2SVpnGatewayVpnprofile();
+  await generateP2SVpnGatewayVpnprofile();
 }
 
 main().catch(console.error);

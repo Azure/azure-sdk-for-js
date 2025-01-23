@@ -42,7 +42,7 @@ async function networkSecurityPerimeterConfigurationsList() {
 }
 
 async function main() {
-  networkSecurityPerimeterConfigurationsList();
+  await networkSecurityPerimeterConfigurationsList();
 }
 
 main().catch(console.error);

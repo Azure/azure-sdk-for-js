@@ -31,7 +31,7 @@ async function listAppliancesOperations() {
 }
 
 async function main() {
-  listAppliancesOperations();
+  await listAppliancesOperations();
 }
 
 main().catch(console.error);

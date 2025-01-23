@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update a role management policy
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/PatchPartialRoleManagementPolicy.json
  */
-async function patchPartialRoleManagementPolicy() {
+async function patchPartialRoleManagementPolicy(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/129ff972-28f8-46b8-a726-e497be039368";
   const roleManagementPolicyName = "570c3619-7688-4b34-b290-2b8bb3ccab2a";
@@ -76,7 +76,7 @@ async function patchPartialRoleManagementPolicy() {
  * @summary Update a role management policy
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/PatchRoleManagementPolicy.json
  */
-async function patchRoleManagementPolicy() {
+async function patchRoleManagementPolicy(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/129ff972-28f8-46b8-a726-e497be039368";
   const roleManagementPolicyName = "570c3619-7688-4b34-b290-2b8bb3ccab2a";
@@ -387,7 +387,7 @@ async function patchRoleManagementPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchPartialRoleManagementPolicy();
   patchRoleManagementPolicy();
 }

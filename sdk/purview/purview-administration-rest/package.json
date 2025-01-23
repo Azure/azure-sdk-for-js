@@ -43,10 +43,10 @@
       "azure"
     ],
     "requiredResources": {
-      "Azure Purview instance": "https://docs.microsoft.com/azure/purview/create-catalog-portal"
+      "Azure Purview instance": "https://learn.microsoft.com/azure/purview/create-catalog-portal"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/purview/"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/purview/"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -58,7 +58,7 @@
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md && npm run format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -92,13 +92,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.5",
-    "@vitest/coverage-istanbul": "^2.1.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.5"
+    "vitest": "^3.0.3"
   },
   "type": "module",
   "tshy": {

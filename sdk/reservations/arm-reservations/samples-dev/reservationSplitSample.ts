@@ -37,7 +37,7 @@ async function split() {
 }
 
 async function main() {
-  split();
+  await split();
 }
 
 main().catch(console.error);

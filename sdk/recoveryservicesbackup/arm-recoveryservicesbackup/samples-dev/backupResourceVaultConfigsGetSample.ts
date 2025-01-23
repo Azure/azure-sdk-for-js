@@ -37,7 +37,7 @@ async function getVaultSecurityConfig() {
 }
 
 async function main() {
-  getVaultSecurityConfig();
+  await getVaultSecurityConfig();
 }
 
 main().catch(console.error);

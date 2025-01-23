@@ -58,6 +58,6 @@ Parcel will bundle your application code and launch a server running at `http://
 [jsdom]: https://www.npmjs.com/package/jsdom
 [typescript]: https://www.typescriptlang.org/docs/home.html
 [freesub]: https://azure.microsoft.com/free
-[storageblob]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
-[storageblobsas]: https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-using-a-shared-access-signature
+[storageblob]: https://learn.microsoft.com/javascript/api/@azure/storage-blob
+[storageblobsas]: https://learn.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-using-a-shared-access-signature
 [identity]: https://www.npmjs.com/package/@azure/identity

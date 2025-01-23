@@ -66,7 +66,7 @@
     "types/*"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && dev-tool run bundle && npm run minify && dev-tool run vendored mkdirp ./review && npm run extract-api",
+    "build": "npm run clean && tsc && dev-tool run bundle && npm run minify && npm run extract-api",
     "build:browser": "echo skipped",
     "build:node": "echo skipped",
     "build:samples": "echo skipped.",
@@ -107,6 +107,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-operations?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-operations?view=azure-node-preview"
   }
 }

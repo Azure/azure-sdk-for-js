@@ -42,7 +42,7 @@ async function getWorkspaceCodeContainer() {
 }
 
 async function main() {
-  getWorkspaceCodeContainer();
+  await getWorkspaceCodeContainer();
 }
 
 main().catch(console.error);

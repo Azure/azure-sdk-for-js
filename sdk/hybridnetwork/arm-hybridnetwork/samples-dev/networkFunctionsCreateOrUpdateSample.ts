@@ -219,11 +219,11 @@ async function createVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
 }
 
 async function main() {
-  createFirstPartyNetworkFunctionResource();
-  createNetworkFunctionResource();
-  createNetworkFunctionResourceWithSecrets();
-  createVirtualNetworkFunctionResourceOnAzureCore();
-  createVirtualNetworkFunctionResourceOnAzureOperatorNexus();
+  await createFirstPartyNetworkFunctionResource();
+  await createNetworkFunctionResource();
+  await createNetworkFunctionResourceWithSecrets();
+  await createVirtualNetworkFunctionResourceOnAzureCore();
+  await createVirtualNetworkFunctionResourceOnAzureOperatorNexus();
 }
 
 main().catch(console.error);

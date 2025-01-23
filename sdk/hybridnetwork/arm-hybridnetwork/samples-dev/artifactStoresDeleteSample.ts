@@ -37,7 +37,7 @@ async function deleteAArtifactStoreOfPublisherResource() {
 }
 
 async function main() {
-  deleteAArtifactStoreOfPublisherResource();
+  await deleteAArtifactStoreOfPublisherResource();
 }
 
 main().catch(console.error);

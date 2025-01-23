@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip file. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesDownloadDocumentsByBillingSubscription.json
  */
-async function invoicesDownloadDocumentsByBillingSubscription() {
+async function invoicesDownloadDocumentsByBillingSubscription(): Promise<void> {
   const subscriptionId =
     process.env["BILLING_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function invoicesDownloadDocumentsByBillingSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   invoicesDownloadDocumentsByBillingSubscription();
 }
 

@@ -41,7 +41,7 @@ async function getAWorkflowRunAction() {
 }
 
 async function main() {
-  getAWorkflowRunAction();
+  await getAWorkflowRunAction();
 }
 
 main().catch(console.error);

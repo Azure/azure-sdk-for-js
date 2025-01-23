@@ -108,9 +108,9 @@ async function rulesCreateSqlFilter() {
 }
 
 async function main() {
-  rulesCreateCorrelationFilter();
-  rulesCreateOrUpdate();
-  rulesCreateSqlFilter();
+  await rulesCreateCorrelationFilter();
+  await rulesCreateOrUpdate();
+  await rulesCreateSqlFilter();
 }
 
 main().catch(console.error);

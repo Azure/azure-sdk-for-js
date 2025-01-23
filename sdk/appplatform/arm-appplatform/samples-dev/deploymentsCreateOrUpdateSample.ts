@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a new Deployment or update an exiting Deployment.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Deployments_CreateOrUpdate.json
  */
-async function deploymentsCreateOrUpdate() {
+async function deploymentsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -100,7 +100,7 @@ async function deploymentsCreateOrUpdate() {
  * @summary Create a new Deployment or update an exiting Deployment.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Deployments_CreateOrUpdate_CustomContainer.json
  */
-async function deploymentsCreateOrUpdateCustomContainer() {
+async function deploymentsCreateOrUpdateCustomContainer(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -170,7 +170,7 @@ async function deploymentsCreateOrUpdateCustomContainer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploymentsCreateOrUpdate();
   deploymentsCreateOrUpdateCustomContainer();
 }

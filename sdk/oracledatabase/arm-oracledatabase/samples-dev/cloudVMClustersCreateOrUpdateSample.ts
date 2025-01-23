@@ -85,7 +85,7 @@ async function createVMCluster() {
 }
 
 async function main() {
-  createVMCluster();
+  await createVMCluster();
 }
 
 main().catch(console.error);

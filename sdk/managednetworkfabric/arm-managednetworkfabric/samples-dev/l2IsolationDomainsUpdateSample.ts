@@ -49,7 +49,7 @@ async function l2IsolationDomainsUpdateMaximumSetGen() {
 }
 
 async function main() {
-  l2IsolationDomainsUpdateMaximumSetGen();
+  await l2IsolationDomainsUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

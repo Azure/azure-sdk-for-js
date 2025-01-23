@@ -39,7 +39,7 @@ async function cloudHsmClusterGetRestoreStatusMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterGetRestoreStatusMaximumSetGen();
+  await cloudHsmClusterGetRestoreStatusMaximumSetGen();
 }
 
 main().catch(console.error);

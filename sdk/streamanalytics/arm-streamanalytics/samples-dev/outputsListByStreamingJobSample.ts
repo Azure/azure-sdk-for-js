@@ -43,7 +43,7 @@ async function listAllOutputsInAStreamingJob() {
 }
 
 async function main() {
-  listAllOutputsInAStreamingJob();
+  await listAllOutputsInAStreamingJob();
 }
 
 main().catch(console.error);

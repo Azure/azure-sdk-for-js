@@ -462,22 +462,22 @@ async function checkRequirementsForTi() {
 }
 
 async function main() {
-  checkRequirementsForAadNoAuthorization();
-  checkRequirementsForAadNoLicense();
-  checkRequirementsForAad();
-  checkRequirementsForAsc();
-  checkRequirementsForDynamics365();
-  checkRequirementsForIoT();
-  checkRequirementsForMcas();
-  checkRequirementsForMdatp();
-  checkRequirementsForMicrosoftThreatIntelligence();
-  checkRequirementsForMicrosoftThreatProtection();
-  checkRequirementsForOffice365Project();
-  checkRequirementsForOfficeAtp();
-  checkRequirementsForOfficeIrm();
-  checkRequirementsForOfficePowerBi();
-  checkRequirementsForTiTaxii();
-  checkRequirementsForTi();
+  await checkRequirementsForAadNoAuthorization();
+  await checkRequirementsForAadNoLicense();
+  await checkRequirementsForAad();
+  await checkRequirementsForAsc();
+  await checkRequirementsForDynamics365();
+  await checkRequirementsForIoT();
+  await checkRequirementsForMcas();
+  await checkRequirementsForMdatp();
+  await checkRequirementsForMicrosoftThreatIntelligence();
+  await checkRequirementsForMicrosoftThreatProtection();
+  await checkRequirementsForOffice365Project();
+  await checkRequirementsForOfficeAtp();
+  await checkRequirementsForOfficeIrm();
+  await checkRequirementsForOfficePowerBi();
+  await checkRequirementsForTiTaxii();
+  await checkRequirementsForTi();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listPrivateLinkHubsInSubscription() {
 }
 
 async function main() {
-  listPrivateLinkHubsInSubscription();
+  await listPrivateLinkHubsInSubscription();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function expressRouteCrossConnectionBgpPeeringList() {
 }
 
 async function main() {
-  expressRouteCrossConnectionBgpPeeringList();
+  await expressRouteCrossConnectionBgpPeeringList();
 }
 
 main().catch(console.error);

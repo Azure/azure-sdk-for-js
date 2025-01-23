@@ -13,9 +13,7 @@ import {
   ContainerServiceFleetClient,
 } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a FleetUpdateStrategy
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create a FleetUpdateStrategy
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/UpdateStrategies_CreateOrUpdate.json
  */
-async function createAFleetUpdateStrategy() {
+async function createAFleetUpdateStrategy(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -53,7 +51,7 @@ async function createAFleetUpdateStrategy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAFleetUpdateStrategy();
 }
 

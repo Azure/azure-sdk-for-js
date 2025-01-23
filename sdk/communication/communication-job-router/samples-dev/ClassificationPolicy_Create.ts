@@ -4,18 +4,17 @@
 /**
  * @summary Classification policy crud
  */
-import {
+import type {
   ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
   RouterQueue,
   QueueLengthExceptionTrigger,
-  JobRouterAdministrationClient,
 } from "@azure/communication-job-router";
+import { JobRouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -38,7 +37,7 @@ async function createClassificationPolicy(): Promise<void> {
   };
   await routerAdministrationClient.createDistributionPolicy(
     distributionPolicyId,
-    distributionPolicyRequest
+    distributionPolicyRequest,
   );
 
   // define exception trigger for queue over flow
@@ -105,10 +104,10 @@ async function createClassificationPolicy(): Promise<void> {
 
   const result = await routerAdministrationClient.createClassificationPolicy(
     classificationPolicyId,
-    request
+    request,
   );
 
   console.log("classification policy: " + result);
 }
 
-void createClassificationPolicy();
+createClassificationPolicy().catch(console.error);

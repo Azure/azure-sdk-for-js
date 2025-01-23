@@ -55,7 +55,7 @@ async function partnerTopicEventSubscriptionsCreateOrUpdate() {
 }
 
 async function main() {
-  partnerTopicEventSubscriptionsCreateOrUpdate();
+  await partnerTopicEventSubscriptionsCreateOrUpdate();
 }
 
 main().catch(console.error);

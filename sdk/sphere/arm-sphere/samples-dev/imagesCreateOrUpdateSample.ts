@@ -41,7 +41,7 @@ async function imageCreateOrUpdate() {
 }
 
 async function main() {
-  imageCreateOrUpdate();
+  await imageCreateOrUpdate();
 }
 
 main().catch(console.error);

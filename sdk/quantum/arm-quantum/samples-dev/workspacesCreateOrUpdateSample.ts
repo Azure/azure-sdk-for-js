@@ -53,7 +53,7 @@ async function quantumWorkspacesPut() {
 }
 
 async function main() {
-  quantumWorkspacesPut();
+  await quantumWorkspacesPut();
 }
 
 main().catch(console.error);

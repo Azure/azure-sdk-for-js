@@ -34,7 +34,7 @@ async function getClusterMonitoringStatus() {
 }
 
 async function main() {
-  getClusterMonitoringStatus();
+  await getClusterMonitoringStatus();
 }
 
 main().catch(console.error);

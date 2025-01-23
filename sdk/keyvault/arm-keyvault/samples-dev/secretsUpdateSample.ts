@@ -46,7 +46,7 @@ async function updateASecret() {
 }
 
 async function main() {
-  updateASecret();
+  await updateASecret();
 }
 
 main().catch(console.error);

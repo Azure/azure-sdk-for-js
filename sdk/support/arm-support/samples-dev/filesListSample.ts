@@ -35,7 +35,7 @@ async function listFilesUnderAWorkspaceForASubscription() {
 }
 
 async function main() {
-  listFilesUnderAWorkspaceForASubscription();
+  await listFilesUnderAWorkspaceForASubscription();
 }
 
 main().catch(console.error);

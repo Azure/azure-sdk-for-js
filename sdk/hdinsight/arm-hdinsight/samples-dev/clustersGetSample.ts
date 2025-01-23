@@ -47,8 +47,8 @@ async function getSparkOnLinuxCluster() {
 }
 
 async function main() {
-  getHadoopOnLinuxCluster();
-  getSparkOnLinuxCluster();
+  await getHadoopOnLinuxCluster();
+  await getSparkOnLinuxCluster();
 }
 
 main().catch(console.error);

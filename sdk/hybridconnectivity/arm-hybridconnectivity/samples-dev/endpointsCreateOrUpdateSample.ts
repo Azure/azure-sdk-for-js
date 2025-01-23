@@ -68,8 +68,8 @@ async function hybridConnectivityEndpointsPutDefault() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsPutCustom();
-  hybridConnectivityEndpointsPutDefault();
+  await hybridConnectivityEndpointsPutCustom();
+  await hybridConnectivityEndpointsPutDefault();
 }
 
 main().catch(console.error);

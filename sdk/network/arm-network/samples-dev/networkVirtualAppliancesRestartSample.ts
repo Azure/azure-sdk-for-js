@@ -53,8 +53,8 @@ async function restartSpecificNetworkVirtualApplianceVMSInVMScaleSet() {
 }
 
 async function main() {
-  restartAllNetworkVirtualApplianceVMSInVMScaleSet();
-  restartSpecificNetworkVirtualApplianceVMSInVMScaleSet();
+  await restartAllNetworkVirtualApplianceVMSInVMScaleSet();
+  await restartSpecificNetworkVirtualApplianceVMSInVMScaleSet();
 }
 
 main().catch(console.error);

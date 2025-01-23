@@ -36,7 +36,7 @@ async function deleteAWorkspace() {
 }
 
 async function main() {
-  deleteAWorkspace();
+  await deleteAWorkspace();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function networkSiblingSetQuery() {
 }
 
 async function main() {
-  networkSiblingSetQuery();
+  await networkSiblingSetQuery();
 }
 
 main().catch(console.error);

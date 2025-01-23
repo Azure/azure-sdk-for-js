@@ -39,7 +39,7 @@ async function migrationConfigurationsList() {
 }
 
 async function main() {
-  migrationConfigurationsList();
+  await migrationConfigurationsList();
 }
 
 main().catch(console.error);

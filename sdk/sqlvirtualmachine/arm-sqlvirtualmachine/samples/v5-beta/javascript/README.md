@@ -85,6 +85,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sqlvirtualmachinesredeploysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/samples/v5-beta/javascript/sqlVirtualMachinesRedeploySample.js
 [sqlvirtualmachinesstartassessmentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/samples/v5-beta/javascript/sqlVirtualMachinesStartAssessmentSample.js
 [sqlvirtualmachinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/samples/v5-beta/javascript/sqlVirtualMachinesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-sqlvirtualmachine?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-sqlvirtualmachine?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md

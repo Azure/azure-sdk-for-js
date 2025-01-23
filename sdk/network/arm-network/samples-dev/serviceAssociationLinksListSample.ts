@@ -36,7 +36,7 @@ async function getServiceAssociationLinks() {
 }
 
 async function main() {
-  getServiceAssociationLinks();
+  await getServiceAssociationLinks();
 }
 
 main().catch(console.error);

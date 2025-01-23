@@ -32,7 +32,7 @@ async function listAllPrivateEndpoints() {
 }
 
 async function main() {
-  listAllPrivateEndpoints();
+  await listAllPrivateEndpoints();
 }
 
 main().catch(console.error);

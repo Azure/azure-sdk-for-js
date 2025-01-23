@@ -73,13 +73,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.5.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.6",
-    "@vitest/coverage-istanbul": "^2.1.6",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.6"
+    "vitest": "^3.0.3"
   },
   "//sampleConfiguration": {
     "productName": "Azure Data Tables",
@@ -88,7 +88,7 @@
       "azure-table-storage"
     ],
     "requiredResources": {
-      "Azure Storage instance": "https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal"
+      "Azure Storage instance": "https://learn.microsoft.com/azure/storage/tables/table-storage-quickstart-portal"
     }
   },
   "//metadata": {

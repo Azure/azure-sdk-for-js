@@ -59,8 +59,8 @@ async function firewallStatusGetMinimumSetGen() {
 }
 
 async function main() {
-  firewallStatusGetMaximumSetGen();
-  firewallStatusGetMinimumSetGen();
+  await firewallStatusGetMaximumSetGen();
+  await firewallStatusGetMinimumSetGen();
 }
 
 main().catch(console.error);

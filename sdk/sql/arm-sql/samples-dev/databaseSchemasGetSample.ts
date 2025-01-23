@@ -40,7 +40,7 @@ async function getDatabaseSchema() {
 }
 
 async function main() {
-  getDatabaseSchema();
+  await getDatabaseSchema();
 }
 
 main().catch(console.error);

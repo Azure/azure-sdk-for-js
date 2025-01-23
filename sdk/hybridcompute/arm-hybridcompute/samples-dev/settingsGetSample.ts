@@ -43,7 +43,7 @@ async function networkConfigurationsGet() {
 }
 
 async function main() {
-  networkConfigurationsGet();
+  await networkConfigurationsGet();
 }
 
 main().catch(console.error);

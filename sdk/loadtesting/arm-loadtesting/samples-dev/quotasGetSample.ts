@@ -33,7 +33,7 @@ async function quotasGet() {
 }
 
 async function main() {
-  quotasGet();
+  await quotasGet();
 }
 
 main().catch(console.error);

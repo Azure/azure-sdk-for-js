@@ -80,8 +80,8 @@ async function privateEndpointConnectionsCreateMinimumSetGen() {
 }
 
 async function main() {
-  privateEndpointConnectionsCreateMaximumSetGen();
-  privateEndpointConnectionsCreateMinimumSetGen();
+  await privateEndpointConnectionsCreateMaximumSetGen();
+  await privateEndpointConnectionsCreateMinimumSetGen();
 }
 
 main().catch(console.error);

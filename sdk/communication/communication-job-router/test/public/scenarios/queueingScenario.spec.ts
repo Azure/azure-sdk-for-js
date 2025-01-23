@@ -57,7 +57,7 @@ describe("JobRouterClient", () => {
       await administrationClient.createQueue(queueId, queueRequest);
     });
 
-    afterEach(async (ctx) => {
+    afterEach(async () => {
       await retry(
         async () => {
           await administrationClient.deleteQueue(queueId);
@@ -67,9 +67,7 @@ describe("JobRouterClient", () => {
         { retries: 1, retryIntervalMs: 500 },
       );
 
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+      await recorder.stop();
     });
 
     it(

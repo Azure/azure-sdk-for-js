@@ -40,7 +40,7 @@ async function getAResourceProviderAtTenantScope() {
 }
 
 async function main() {
-  getAResourceProviderAtTenantScope();
+  await getAResourceProviderAtTenantScope();
 }
 
 main().catch(console.error);

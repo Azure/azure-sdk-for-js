@@ -37,7 +37,7 @@ async function signalRRestart() {
 }
 
 async function main() {
-  signalRRestart();
+  await signalRRestart();
 }
 
 main().catch(console.error);

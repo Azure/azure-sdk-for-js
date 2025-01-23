@@ -29,7 +29,7 @@ async function getAvailableSslOptions() {
 }
 
 async function main() {
-  getAvailableSslOptions();
+  await getAvailableSslOptions();
 }
 
 main().catch(console.error);

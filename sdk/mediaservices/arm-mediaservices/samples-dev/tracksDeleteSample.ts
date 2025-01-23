@@ -41,7 +41,7 @@ async function deleteATrack() {
 }
 
 async function main() {
-  deleteATrack();
+  await deleteATrack();
 }
 
 main().catch(console.error);

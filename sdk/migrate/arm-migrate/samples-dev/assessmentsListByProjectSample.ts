@@ -46,7 +46,7 @@ async function assessmentsListByProject() {
 }
 
 async function main() {
-  assessmentsListByProject();
+  await assessmentsListByProject();
 }
 
 main().catch(console.error);

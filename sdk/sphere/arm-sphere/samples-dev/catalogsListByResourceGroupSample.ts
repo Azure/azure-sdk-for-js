@@ -38,7 +38,7 @@ async function catalogsListByResourceGroup() {
 }
 
 async function main() {
-  catalogsListByResourceGroup();
+  await catalogsListByResourceGroup();
 }
 
 main().catch(console.error);

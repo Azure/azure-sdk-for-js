@@ -41,7 +41,7 @@ async function getASecurityAlertOfASqlAnalyticsPool() {
 }
 
 async function main() {
-  getASecurityAlertOfASqlAnalyticsPool();
+  await getASecurityAlertOfASqlAnalyticsPool();
 }
 
 main().catch(console.error);

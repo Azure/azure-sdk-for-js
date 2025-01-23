@@ -47,8 +47,8 @@ async function globalRulestackListFirewallsMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackListFirewallsMaximumSetGen();
-  globalRulestackListFirewallsMinimumSetGen();
+  await globalRulestackListFirewallsMaximumSetGen();
+  await globalRulestackListFirewallsMinimumSetGen();
 }
 
 main().catch(console.error);

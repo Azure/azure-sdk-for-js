@@ -34,7 +34,7 @@ async function getTrafficControllersList() {
 }
 
 async function main() {
-  getTrafficControllersList();
+  await getTrafficControllersList();
 }
 
 main().catch(console.error);

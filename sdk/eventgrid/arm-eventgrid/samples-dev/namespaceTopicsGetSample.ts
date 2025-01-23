@@ -39,7 +39,7 @@ async function namespaceTopicsGet() {
 }
 
 async function main() {
-  namespaceTopicsGet();
+  await namespaceTopicsGet();
 }
 
 main().catch(console.error);

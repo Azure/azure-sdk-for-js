@@ -37,7 +37,7 @@ async function getAppliance() {
 }
 
 async function main() {
-  getAppliance();
+  await getAppliance();
 }
 
 main().catch(console.error);

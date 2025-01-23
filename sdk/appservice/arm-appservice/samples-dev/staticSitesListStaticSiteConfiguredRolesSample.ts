@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Lists the roles configured for the static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListStaticSiteConfiguredRoles.json
  */
-async function listsTheConfiguredRolesForAStaticSite() {
+async function listsTheConfiguredRolesForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,7 +33,7 @@ async function listsTheConfiguredRolesForAStaticSite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsTheConfiguredRolesForAStaticSite();
 }
 

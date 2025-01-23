@@ -53,7 +53,7 @@ async function publishWorkspaceEnvironmentVersion() {
 }
 
 async function main() {
-  publishWorkspaceEnvironmentVersion();
+  await publishWorkspaceEnvironmentVersion();
 }
 
 main().catch(console.error);

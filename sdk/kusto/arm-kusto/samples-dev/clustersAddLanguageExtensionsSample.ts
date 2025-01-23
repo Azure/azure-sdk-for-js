@@ -44,7 +44,7 @@ async function kustoClusterAddLanguageExtensions() {
 }
 
 async function main() {
-  kustoClusterAddLanguageExtensions();
+  await kustoClusterAddLanguageExtensions();
 }
 
 main().catch(console.error);

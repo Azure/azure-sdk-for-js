@@ -97,8 +97,8 @@ async function virtualMachineInstancesUpdateMinimumSet() {
 }
 
 async function main() {
-  virtualMachineInstancesUpdateMaximumSet();
-  virtualMachineInstancesUpdateMinimumSet();
+  await virtualMachineInstancesUpdateMaximumSet();
+  await virtualMachineInstancesUpdateMinimumSet();
 }
 
 main().catch(console.error);

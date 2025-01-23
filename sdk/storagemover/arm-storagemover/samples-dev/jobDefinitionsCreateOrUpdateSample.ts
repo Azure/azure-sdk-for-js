@@ -51,7 +51,7 @@ async function jobDefinitionsCreateOrUpdate() {
 }
 
 async function main() {
-  jobDefinitionsCreateOrUpdate();
+  await jobDefinitionsCreateOrUpdate();
 }
 
 main().catch(console.error);

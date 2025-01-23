@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary this api creates an ispCustomer with the specified create parameters
  * x-ms-original-file: 2023-05-01-preview/IspCustomers_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function ispCustomerCreateOrUpdateGeneratedByMaximumSetRule() {
+async function ispCustomerCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -53,8 +53,8 @@ async function ispCustomerCreateOrUpdateGeneratedByMaximumSetRule() {
   console.log(result);
 }
 
-async function main() {
-  ispCustomerCreateOrUpdateGeneratedByMaximumSetRule();
+async function main(): Promise<void> {
+  await ispCustomerCreateOrUpdateGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

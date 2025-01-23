@@ -38,7 +38,7 @@ async function deleteConnector() {
 }
 
 async function main() {
-  deleteConnector();
+  await deleteConnector();
 }
 
 main().catch(console.error);

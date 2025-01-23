@@ -167,10 +167,10 @@ async function updateAStreamBlobInput() {
 }
 
 async function main() {
-  updateAReferenceBlobInput();
-  updateAStreamEventHubInput();
-  updateAStreamIoTHubInput();
-  updateAStreamBlobInput();
+  await updateAReferenceBlobInput();
+  await updateAStreamEventHubInput();
+  await updateAStreamIoTHubInput();
+  await updateAStreamBlobInput();
 }
 
 main().catch(console.error);

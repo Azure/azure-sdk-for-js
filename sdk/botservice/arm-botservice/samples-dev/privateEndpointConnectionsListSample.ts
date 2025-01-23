@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all the private endpoint connections associated with the Bot.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListPrivateEndpointConnections.json
  */
-async function listPrivateEndpointConnections() {
+async function listPrivateEndpointConnections(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function listPrivateEndpointConnections() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPrivateEndpointConnections();
 }
 

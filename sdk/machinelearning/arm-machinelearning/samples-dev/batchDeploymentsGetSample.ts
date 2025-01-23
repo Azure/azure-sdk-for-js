@@ -44,7 +44,7 @@ async function getWorkspaceBatchDeployment() {
 }
 
 async function main() {
-  getWorkspaceBatchDeployment();
+  await getWorkspaceBatchDeployment();
 }
 
 main().catch(console.error);

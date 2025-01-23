@@ -34,7 +34,7 @@ async function getVirtualRouter() {
 }
 
 async function main() {
-  getVirtualRouter();
+  await getVirtualRouter();
 }
 
 main().catch(console.error);

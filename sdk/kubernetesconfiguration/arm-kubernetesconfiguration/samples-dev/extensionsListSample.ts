@@ -46,7 +46,7 @@ async function listExtensions() {
 }
 
 async function main() {
-  listExtensions();
+  await listExtensions();
 }
 
 main().catch(console.error);

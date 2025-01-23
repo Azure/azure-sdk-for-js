@@ -36,7 +36,7 @@ async function getExpressRoutePortAuthorization() {
 }
 
 async function main() {
-  getExpressRoutePortAuthorization();
+  await getExpressRoutePortAuthorization();
 }
 
 main().catch(console.error);

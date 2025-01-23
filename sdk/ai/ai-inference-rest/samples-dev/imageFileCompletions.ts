@@ -25,7 +25,7 @@ const imageFilePath = "sample1.png";
 const imageFormat = "png"; //"jpeg", "png", etc.
 
 export async function main() {
-  console.log("== Chat Completions Sample ==");
+  console.log("== Image File Completions Sample ==");
 
   const client = createModelClient();
 

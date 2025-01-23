@@ -45,7 +45,7 @@ async function createOrUpdateOracleSubscription() {
 }
 
 async function main() {
-  createOrUpdateOracleSubscription();
+  await createOrUpdateOracleSubscription();
 }
 
 main().catch(console.error);

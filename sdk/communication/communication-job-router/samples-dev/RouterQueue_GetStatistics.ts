@@ -5,9 +5,8 @@
  */
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import { JobRouterClient } from "@azure/communication-job-router";
-dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 

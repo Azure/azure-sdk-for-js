@@ -49,7 +49,7 @@ async function createsThePolicy() {
 }
 
 async function main() {
-  createsThePolicy();
+  await createsThePolicy();
 }
 
 main().catch(console.error);

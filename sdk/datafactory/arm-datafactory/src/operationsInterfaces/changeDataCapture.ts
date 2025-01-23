@@ -19,7 +19,7 @@ import {
   ChangeDataCaptureStopOptionalParams,
   ChangeDataCaptureStatusOptionalParams,
   ChangeDataCaptureStatusResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ChangeDataCapture. */

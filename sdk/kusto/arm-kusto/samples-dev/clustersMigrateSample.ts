@@ -42,7 +42,7 @@ async function kustoClusterMigrate() {
 }
 
 async function main() {
-  kustoClusterMigrate();
+  await kustoClusterMigrate();
 }
 
 main().catch(console.error);

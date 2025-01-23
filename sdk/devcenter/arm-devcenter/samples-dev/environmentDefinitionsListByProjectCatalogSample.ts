@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the environment definitions in this project catalog.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the environment definitions in this project catalog.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/EnvironmentDefinitions_ListByProjectCatalog.json
  */
-async function environmentDefinitionsListByProjectCatalog() {
+async function environmentDefinitionsListByProjectCatalog(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -40,8 +38,8 @@ async function environmentDefinitionsListByProjectCatalog() {
   console.log(resArray);
 }
 
-async function main() {
-  environmentDefinitionsListByProjectCatalog();
+async function main(): Promise<void> {
+  await environmentDefinitionsListByProjectCatalog();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getsARecoverableDatabasesByManagedInstances() {
 }
 
 async function main() {
-  getsARecoverableDatabasesByManagedInstances();
+  await getsARecoverableDatabasesByManagedInstances();
 }
 
 main().catch(console.error);

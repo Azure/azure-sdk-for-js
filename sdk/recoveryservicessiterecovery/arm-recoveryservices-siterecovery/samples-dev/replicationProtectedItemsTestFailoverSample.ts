@@ -58,7 +58,7 @@ async function executeTestFailover() {
 }
 
 async function main() {
-  executeTestFailover();
+  await executeTestFailover();
 }
 
 main().catch(console.error);

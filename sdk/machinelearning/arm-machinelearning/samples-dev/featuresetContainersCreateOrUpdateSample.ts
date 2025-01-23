@@ -54,7 +54,7 @@ async function createOrUpdateWorkspaceFeaturesetContainer() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceFeaturesetContainer();
+  await createOrUpdateWorkspaceFeaturesetContainer();
 }
 
 main().catch(console.error);

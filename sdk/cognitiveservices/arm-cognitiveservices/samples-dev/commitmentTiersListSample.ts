@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Commitment Tiers.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List Commitment Tiers.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListCommitmentTiers.json
  */
-async function listCommitmentTiers() {
+async function listCommitmentTiers(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const location = "location";
@@ -36,7 +34,7 @@ async function listCommitmentTiers() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCommitmentTiers();
 }
 

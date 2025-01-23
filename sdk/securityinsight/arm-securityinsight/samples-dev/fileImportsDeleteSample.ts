@@ -39,7 +39,7 @@ async function deleteAFileImport() {
 }
 
 async function main() {
-  deleteAFileImport();
+  await deleteAFileImport();
 }
 
 main().catch(console.error);

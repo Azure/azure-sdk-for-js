@@ -95,8 +95,8 @@ async function eventSourcesCreateEventHubWithCustomEnquedTime() {
 }
 
 async function main() {
-  createEventHubEventSource();
-  eventSourcesCreateEventHubWithCustomEnquedTime();
+  await createEventHubEventSource();
+  await eventSourcesCreateEventHubWithCustomEnquedTime();
 }
 
 main().catch(console.error);

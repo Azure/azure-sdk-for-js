@@ -34,7 +34,7 @@ async function listLabs() {
 }
 
 async function main() {
-  listLabs();
+  await listLabs();
 }
 
 main().catch(console.error);

@@ -67,7 +67,7 @@ async function createOrUpdateWorkspaceServerlessEndpoint() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceServerlessEndpoint();
+  await createOrUpdateWorkspaceServerlessEndpoint();
 }
 
 main().catch(console.error);

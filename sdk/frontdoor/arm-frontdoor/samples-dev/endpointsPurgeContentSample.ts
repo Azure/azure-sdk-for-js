@@ -41,7 +41,7 @@ async function purgeContentFromFrontDoor() {
 }
 
 async function main() {
-  purgeContentFromFrontDoor();
+  await purgeContentFromFrontDoor();
 }
 
 main().catch(console.error);

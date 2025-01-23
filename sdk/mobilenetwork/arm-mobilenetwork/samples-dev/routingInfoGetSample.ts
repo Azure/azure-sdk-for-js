@@ -37,7 +37,7 @@ async function getRoutingInformationForThePacketCore() {
 }
 
 async function main() {
-  getRoutingInformationForThePacketCore();
+  await getRoutingInformationForThePacketCore();
 }
 
 main().catch(console.error);

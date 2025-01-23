@@ -42,7 +42,7 @@ async function getATransformation() {
 }
 
 async function main() {
-  getATransformation();
+  await getATransformation();
 }
 
 main().catch(console.error);

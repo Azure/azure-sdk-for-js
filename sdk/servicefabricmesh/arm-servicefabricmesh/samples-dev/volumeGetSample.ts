@@ -37,7 +37,7 @@ async function getVolume() {
 }
 
 async function main() {
-  getVolume();
+  await getVolume();
 }
 
 main().catch(console.error);

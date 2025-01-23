@@ -40,7 +40,7 @@ async function eventSubscriptionsListRegionalByResourceGroup() {
 }
 
 async function main() {
-  eventSubscriptionsListRegionalByResourceGroup();
+  await eventSubscriptionsListRegionalByResourceGroup();
 }
 
 main().catch(console.error);

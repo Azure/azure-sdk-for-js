@@ -65,8 +65,8 @@ async function tagRulesListByNewRelicMonitorResourceMinimumSetGen() {
 }
 
 async function main() {
-  tagRulesListByNewRelicMonitorResourceMaximumSetGen();
-  tagRulesListByNewRelicMonitorResourceMinimumSetGen();
+  await tagRulesListByNewRelicMonitorResourceMaximumSetGen();
+  await tagRulesListByNewRelicMonitorResourceMinimumSetGen();
 }
 
 main().catch(console.error);

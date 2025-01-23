@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a workflow run action.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRunActions_Get.json
  */
-async function getAWorkflowRunAction() {
+async function getAWorkflowRunAction(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -40,7 +40,7 @@ async function getAWorkflowRunAction() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAWorkflowRunAction();
 }
 

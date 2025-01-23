@@ -20,16 +20,16 @@ import {
   SAPDatabaseInstancesImpl,
   SAPApplicationServerInstancesImpl,
   OperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   SAPVirtualInstances,
   SAPCentralInstances,
   SAPDatabaseInstances,
   SAPApplicationServerInstances,
   Operations,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   WorkloadsClientOptionalParams,
   SAPSizingRecommendationsOptionalParams,
@@ -40,7 +40,7 @@ import {
   SAPDiskConfigurationsResponse,
   SAPAvailabilityZoneDetailsOptionalParams,
   SAPAvailabilityZoneDetailsResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class WorkloadsClient extends coreClient.ServiceClient {
   $host: string;

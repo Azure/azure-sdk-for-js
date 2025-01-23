@@ -55,7 +55,7 @@ async function returnsTheBastionShareableLinksForTheRequestVMS() {
 }
 
 async function main() {
-  returnsTheBastionShareableLinksForTheRequestVMS();
+  await returnsTheBastionShareableLinksForTheRequestVMS();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function listCloudServiceRoleInstanceNetworkInterfaces() {
 }
 
 async function main() {
-  listCloudServiceRoleInstanceNetworkInterfaces();
+  await listCloudServiceRoleInstanceNetworkInterfaces();
 }
 
 main().catch(console.error);

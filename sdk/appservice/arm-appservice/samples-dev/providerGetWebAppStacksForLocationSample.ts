@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get available Web app frameworks and their versions for location
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetWebAppStacksForLocation.json
  */
-async function getLocationsWebAppStacks() {
+async function getLocationsWebAppStacks(): Promise<void> {
   const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
@@ -31,7 +31,7 @@ async function getLocationsWebAppStacks() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getLocationsWebAppStacks();
 }
 

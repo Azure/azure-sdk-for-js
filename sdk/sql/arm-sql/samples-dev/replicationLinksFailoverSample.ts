@@ -40,7 +40,7 @@ async function plannedFailoverOfAReplicationLink() {
 }
 
 async function main() {
-  plannedFailoverOfAReplicationLink();
+  await plannedFailoverOfAReplicationLink();
 }
 
 main().catch(console.error);

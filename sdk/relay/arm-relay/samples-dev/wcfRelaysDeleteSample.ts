@@ -39,7 +39,7 @@ async function relayDelete() {
 }
 
 async function main() {
-  relayDelete();
+  await relayDelete();
 }
 
 main().catch(console.error);

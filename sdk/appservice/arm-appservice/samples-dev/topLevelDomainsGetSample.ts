@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get details of a top-level domain.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/GetTopLevelDomain.json
  */
-async function getTopLevelDomain() {
+async function getTopLevelDomain(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -29,7 +29,7 @@ async function getTopLevelDomain() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTopLevelDomain();
 }
 

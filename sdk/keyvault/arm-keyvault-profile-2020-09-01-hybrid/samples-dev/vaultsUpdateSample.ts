@@ -102,7 +102,7 @@ async function updateAnExistingVault() {
 }
 
 async function main() {
-  updateAnExistingVault();
+  await updateAnExistingVault();
 }
 
 main().catch(console.error);

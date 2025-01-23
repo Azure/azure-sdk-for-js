@@ -39,7 +39,7 @@ async function stopVirtualMachine() {
 }
 
 async function main() {
-  stopVirtualMachine();
+  await stopVirtualMachine();
 }
 
 main().catch(console.error);

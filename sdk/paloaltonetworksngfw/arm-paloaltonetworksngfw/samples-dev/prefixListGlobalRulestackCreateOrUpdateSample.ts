@@ -66,8 +66,8 @@ async function prefixListGlobalRulestackCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  prefixListGlobalRulestackCreateOrUpdateMaximumSetGen();
-  prefixListGlobalRulestackCreateOrUpdateMinimumSetGen();
+  await prefixListGlobalRulestackCreateOrUpdateMaximumSetGen();
+  await prefixListGlobalRulestackCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

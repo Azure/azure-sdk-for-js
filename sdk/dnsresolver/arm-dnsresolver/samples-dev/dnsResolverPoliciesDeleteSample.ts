@@ -37,7 +37,7 @@ async function deleteDnsResolverPolicy() {
 }
 
 async function main() {
-  deleteDnsResolverPolicy();
+  await deleteDnsResolverPolicy();
 }
 
 main().catch(console.error);

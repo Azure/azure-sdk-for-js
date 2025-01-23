@@ -36,7 +36,7 @@ async function virtualHubIPConfigurationDelete() {
 }
 
 async function main() {
-  virtualHubIPConfigurationDelete();
+  await virtualHubIPConfigurationDelete();
 }
 
 main().catch(console.error);

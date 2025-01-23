@@ -61,7 +61,7 @@ async function createNetworkSite() {
 }
 
 async function main() {
-  createNetworkSite();
+  await createNetworkSite();
 }
 
 main().catch(console.error);

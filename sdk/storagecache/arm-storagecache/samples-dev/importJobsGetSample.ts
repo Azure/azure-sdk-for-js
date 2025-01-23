@@ -39,7 +39,7 @@ async function importJobsGet() {
 }
 
 async function main() {
-  importJobsGet();
+  await importJobsGet();
 }
 
 main().catch(console.error);

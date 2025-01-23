@@ -43,7 +43,7 @@ async function getsASingleSoftwareDataOfTheVirtualMachine() {
 }
 
 async function main() {
-  getsASingleSoftwareDataOfTheVirtualMachine();
+  await getsASingleSoftwareDataOfTheVirtualMachine();
 }
 
 main().catch(console.error);

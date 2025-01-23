@@ -13,9 +13,7 @@ import {
   ContainerInstanceManagementClient
 } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update container groups with specified configurations.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update container groups with specified configurations.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupCreateConfidential.json
  */
-async function confidentialContainerGroup() {
+async function confidentialContainerGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -73,7 +71,7 @@ async function confidentialContainerGroup() {
  * @summary Create or update container groups with specified configurations.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupExtensions.json
  */
-async function containerGroupCreateWithExtensions() {
+async function containerGroupCreateWithExtensions(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -134,7 +132,7 @@ async function containerGroupCreateWithExtensions() {
  * @summary Create or update container groups with specified configurations.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupEncryptionProperties.json
  */
-async function containerGroupWithEncryptionProperties() {
+async function containerGroupWithEncryptionProperties(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -188,7 +186,7 @@ async function containerGroupWithEncryptionProperties() {
  * @summary Create or update container groups with specified configurations.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsCreateOrUpdate.json
  */
-async function containerGroupsCreateOrUpdate() {
+async function containerGroupsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -286,7 +284,7 @@ async function containerGroupsCreateOrUpdate() {
  * @summary Create or update container groups with specified configurations.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsCreatePriority.json
  */
-async function containerGroupsCreateWithPriority() {
+async function containerGroupsCreateWithPriority(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -320,8 +318,8 @@ async function containerGroupsCreateWithPriority() {
   console.log(result);
 }
 
-async function main() {
-  confidentialContainerGroup();
+async function main(): Promise<void> {
+  await confidentialContainerGroup();
   containerGroupCreateWithExtensions();
   containerGroupWithEncryptionProperties();
   containerGroupsCreateOrUpdate();

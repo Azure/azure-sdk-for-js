@@ -40,7 +40,7 @@ async function clusterPoolGet() {
 }
 
 async function main() {
-  clusterPoolGet();
+  await clusterPoolGet();
 }
 
 main().catch(console.error);

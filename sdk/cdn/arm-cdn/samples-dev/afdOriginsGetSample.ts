@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets an existing origin within an origin group.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOrigins_Get.json
  */
-async function afdOriginsGet() {
+async function afdOriginsGet(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -35,7 +35,7 @@ async function afdOriginsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   afdOriginsGet();
 }
 

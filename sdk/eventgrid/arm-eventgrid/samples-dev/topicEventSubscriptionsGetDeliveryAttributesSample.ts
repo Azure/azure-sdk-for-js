@@ -39,7 +39,7 @@ async function topicEventSubscriptionsGetDeliveryAttributes() {
 }
 
 async function main() {
-  topicEventSubscriptionsGetDeliveryAttributes();
+  await topicEventSubscriptionsGetDeliveryAttributes();
 }
 
 main().catch(console.error);

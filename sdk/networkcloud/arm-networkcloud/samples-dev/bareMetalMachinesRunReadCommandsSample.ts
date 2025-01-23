@@ -49,7 +49,7 @@ async function runAndRetrieveOutputFromReadOnlyCommandsOnBareMetalMachine() {
 }
 
 async function main() {
-  runAndRetrieveOutputFromReadOnlyCommandsOnBareMetalMachine();
+  await runAndRetrieveOutputFromReadOnlyCommandsOnBareMetalMachine();
 }
 
 main().catch(console.error);

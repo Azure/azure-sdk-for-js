@@ -38,7 +38,7 @@ async function namspaceNetworkSecurityPerimeterConfigurationList() {
 }
 
 async function main() {
-  namspaceNetworkSecurityPerimeterConfigurationList();
+  await namspaceNetworkSecurityPerimeterConfigurationList();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function getsAllTheNetworkMappingsUnderANetwork() {
 }
 
 async function main() {
-  getsAllTheNetworkMappingsUnderANetwork();
+  await getsAllTheNetworkMappingsUnderANetwork();
 }
 
 main().catch(console.error);

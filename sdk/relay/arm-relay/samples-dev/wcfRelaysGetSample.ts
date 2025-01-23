@@ -39,7 +39,7 @@ async function relayGet() {
 }
 
 async function main() {
-  relayGet();
+  await relayGet();
 }
 
 main().catch(console.error);

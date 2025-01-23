@@ -13,9 +13,7 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a gallery inVMAccessControlProfile version.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update a gallery inVMAccessControlProfile version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Create.json
  */
-async function createOrUpdateAGalleryInVMAccessControlProfileVersion() {
+async function createOrUpdateAGalleryInVMAccessControlProfileVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -72,7 +70,7 @@ async function createOrUpdateAGalleryInVMAccessControlProfileVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAGalleryInVMAccessControlProfileVersion();
 }
 

@@ -44,7 +44,7 @@ async function updateFrontend() {
 }
 
 async function main() {
-  updateFrontend();
+  await updateFrontend();
 }
 
 main().catch(console.error);

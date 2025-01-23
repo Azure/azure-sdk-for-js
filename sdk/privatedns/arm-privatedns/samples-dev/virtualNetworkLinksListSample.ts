@@ -39,7 +39,7 @@ async function getPrivateDnsZoneVirtualNetworkLinks() {
 }
 
 async function main() {
-  getPrivateDnsZoneVirtualNetworkLinks();
+  await getPrivateDnsZoneVirtualNetworkLinks();
 }
 
 main().catch(console.error);

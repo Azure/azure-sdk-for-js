@@ -142,7 +142,7 @@ export const emitReportingUrl = (): void => {
   const match = url?.match(regex);
   if (match && match.length >= 3) {
     const [, region, domain] = match;
-    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL] =
+    process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL] =
       `https://${region}.reporting.api.${domain}`;
   }
 };

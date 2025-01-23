@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  RestorePointsDeleteParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { RestorePointsDeleteParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary The operation to delete the restore point.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoints_Delete_MaximumSet_Gen.json
  */
-async function restorePointsDeleteMaximumSetGen() {
+async function restorePointsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -47,7 +43,7 @@ restorePointsDeleteMaximumSetGen().catch(console.error);
  * @summary The operation to delete the restore point.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoints_Delete_MinimumSet_Gen.json
  */
-async function restorePointsDeleteMinimumSetGen() {
+async function restorePointsDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

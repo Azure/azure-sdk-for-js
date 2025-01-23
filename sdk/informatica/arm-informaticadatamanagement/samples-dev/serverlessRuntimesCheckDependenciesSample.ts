@@ -63,8 +63,8 @@ async function serverlessRuntimesCheckDependenciesMin() {
 }
 
 async function main() {
-  serverlessRuntimesCheckDependencies();
-  serverlessRuntimesCheckDependenciesMin();
+  await serverlessRuntimesCheckDependencies();
+  await serverlessRuntimesCheckDependenciesMin();
 }
 
 main().catch(console.error);

@@ -52,7 +52,7 @@ async function putSecurityPolicy() {
 }
 
 async function main() {
-  putSecurityPolicy();
+  await putSecurityPolicy();
 }
 
 main().catch(console.error);

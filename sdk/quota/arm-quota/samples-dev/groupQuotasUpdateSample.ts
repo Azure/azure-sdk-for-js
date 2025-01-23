@@ -55,7 +55,7 @@ async function groupQuotasPatchRequestForCompute() {
 }
 
 async function main() {
-  groupQuotasPatchRequestForCompute();
+  await groupQuotasPatchRequestForCompute();
 }
 
 main().catch(console.error);

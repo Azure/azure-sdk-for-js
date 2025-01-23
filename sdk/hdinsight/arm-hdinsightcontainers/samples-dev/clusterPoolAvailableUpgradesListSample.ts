@@ -43,7 +43,7 @@ async function getClusterPoolAvailableUpgrade() {
 }
 
 async function main() {
-  getClusterPoolAvailableUpgrade();
+  await getClusterPoolAvailableUpgrade();
 }
 
 main().catch(console.error);

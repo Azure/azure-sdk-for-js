@@ -48,16 +48,14 @@ describe("JobRouterClient", () => {
       );
     });
 
-    afterEach(async (ctx) => {
+    afterEach(async () => {
       await client.deleteJob(jobId);
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);
 
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+      await recorder.stop();
     });
 
     it("should complete cancellation scenario", { timeout: timeoutMs }, async () => {

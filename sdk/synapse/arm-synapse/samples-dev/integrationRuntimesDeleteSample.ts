@@ -39,7 +39,7 @@ async function deleteIntegrationRuntime() {
 }
 
 async function main() {
-  deleteIntegrationRuntime();
+  await deleteIntegrationRuntime();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function updateArtifactManifestState() {
 }
 
 async function main() {
-  updateArtifactManifestState();
+  await updateArtifactManifestState();
 }
 
 main().catch(console.error);

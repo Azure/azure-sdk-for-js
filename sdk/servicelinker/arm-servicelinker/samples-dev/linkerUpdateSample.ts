@@ -50,7 +50,7 @@ async function patchLinker() {
 }
 
 async function main() {
-  patchLinker();
+  await patchLinker();
 }
 
 main().catch(console.error);

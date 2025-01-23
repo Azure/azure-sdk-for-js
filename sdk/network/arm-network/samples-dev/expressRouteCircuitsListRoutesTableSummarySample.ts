@@ -39,7 +39,7 @@ async function listRouteTableSummary() {
 }
 
 async function main() {
-  listRouteTableSummary();
+  await listRouteTableSummary();
 }
 
 main().catch(console.error);

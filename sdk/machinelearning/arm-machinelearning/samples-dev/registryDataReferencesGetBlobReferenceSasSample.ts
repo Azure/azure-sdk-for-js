@@ -52,7 +52,7 @@ async function getBlobReferenceSasDataReference() {
 }
 
 async function main() {
-  getBlobReferenceSasDataReference();
+  await getBlobReferenceSasDataReference();
 }
 
 main().catch(console.error);

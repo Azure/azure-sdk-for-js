@@ -61,7 +61,7 @@ async function backfillWorkspaceFeaturesetVersion() {
 }
 
 async function main() {
-  backfillWorkspaceFeaturesetVersion();
+  await backfillWorkspaceFeaturesetVersion();
 }
 
 main().catch(console.error);

@@ -93,8 +93,8 @@
     "@azure/identity": "^4.0.1",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.6",
-    "@vitest/coverage-istanbul": "^2.1.6",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "magic-string": "~0.30.10",
@@ -102,7 +102,7 @@
     "prettier": "^3.3.3",
     "rollup": "^4.0.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.6"
+    "vitest": "^3.0.3"
   },
   "//sampleConfiguration": {
     "skip": [
@@ -122,7 +122,7 @@
       "azure-form-recognizer"
     ],
     "requiredResources": {
-      "Azure Cognitive Services account": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+      "Azure Cognitive Services account": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     },
     "extraFiles": {
       "./assets/businessCard/business-card-english.jpg": [

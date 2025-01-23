@@ -39,7 +39,7 @@ async function deleteASourceControl() {
 }
 
 async function main() {
-  deleteASourceControl();
+  await deleteASourceControl();
 }
 
 main().catch(console.error);

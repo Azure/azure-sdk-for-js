@@ -39,7 +39,7 @@ async function deleteAssociation() {
 }
 
 async function main() {
-  deleteAssociation();
+  await deleteAssociation();
 }
 
 main().catch(console.error);

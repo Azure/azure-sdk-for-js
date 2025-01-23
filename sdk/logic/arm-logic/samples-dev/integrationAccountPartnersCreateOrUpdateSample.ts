@@ -52,7 +52,7 @@ async function createOrUpdateAPartner() {
 }
 
 async function main() {
-  createOrUpdateAPartner();
+  await createOrUpdateAPartner();
 }
 
 main().catch(console.error);

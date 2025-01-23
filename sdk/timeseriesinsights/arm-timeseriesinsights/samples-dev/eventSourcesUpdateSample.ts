@@ -46,7 +46,7 @@ async function updateEventSource() {
 }
 
 async function main() {
-  updateEventSource();
+  await updateEventSource();
 }
 
 main().catch(console.error);

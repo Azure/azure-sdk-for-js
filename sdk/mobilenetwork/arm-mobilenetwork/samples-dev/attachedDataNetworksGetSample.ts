@@ -41,7 +41,7 @@ async function getAttachedDataNetwork() {
 }
 
 async function main() {
-  getAttachedDataNetwork();
+  await getAttachedDataNetwork();
 }
 
 main().catch(console.error);

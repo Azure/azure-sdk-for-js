@@ -31,7 +31,7 @@ async function getPolicy() {
 }
 
 async function main() {
-  getPolicy();
+  await getPolicy();
 }
 
 main().catch(console.error);

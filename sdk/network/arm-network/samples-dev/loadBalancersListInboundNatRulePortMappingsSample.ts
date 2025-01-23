@@ -44,7 +44,7 @@ async function queryInboundNatRulePortMapping() {
 }
 
 async function main() {
-  queryInboundNatRulePortMapping();
+  await queryInboundNatRulePortMapping();
 }
 
 main().catch(console.error);

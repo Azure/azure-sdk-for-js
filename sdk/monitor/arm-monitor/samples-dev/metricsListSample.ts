@@ -106,9 +106,9 @@ async function getMetricWithError() {
 }
 
 async function main() {
-  getMetricForData();
-  getMetricForMetadata();
-  getMetricWithError();
+  await getMetricForData();
+  await getMetricForMetadata();
+  await getMetricWithError();
 }
 
 main().catch(console.error);

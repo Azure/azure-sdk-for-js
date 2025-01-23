@@ -51,7 +51,7 @@ async function networkConfigurationsPatch() {
 }
 
 async function main() {
-  networkConfigurationsPatch();
+  await networkConfigurationsPatch();
 }
 
 main().catch(console.error);

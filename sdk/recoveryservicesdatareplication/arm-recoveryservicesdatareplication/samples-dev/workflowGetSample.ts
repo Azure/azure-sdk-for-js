@@ -43,7 +43,7 @@ async function workflowGet() {
 }
 
 async function main() {
-  workflowGet();
+  await workflowGet();
 }
 
 main().catch(console.error);

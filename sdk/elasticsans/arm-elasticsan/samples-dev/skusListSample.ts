@@ -56,8 +56,8 @@ async function skusListMinimumSetGen() {
 }
 
 async function main() {
-  skusListMaximumSetGen();
-  skusListMinimumSetGen();
+  await skusListMaximumSetGen();
+  await skusListMinimumSetGen();
 }
 
 main().catch(console.error);

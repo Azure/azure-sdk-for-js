@@ -42,7 +42,7 @@ async function kustoDatabasesListByKustoPool() {
 }
 
 async function main() {
-  kustoDatabasesListByKustoPool();
+  await kustoDatabasesListByKustoPool();
 }
 
 main().catch(console.error);

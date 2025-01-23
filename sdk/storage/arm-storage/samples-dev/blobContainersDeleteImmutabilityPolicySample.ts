@@ -39,7 +39,7 @@ async function deleteImmutabilityPolicy() {
 }
 
 async function main() {
-  deleteImmutabilityPolicy();
+  await deleteImmutabilityPolicy();
 }
 
 main().catch(console.error);

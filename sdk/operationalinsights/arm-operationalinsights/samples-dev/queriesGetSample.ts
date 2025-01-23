@@ -38,7 +38,7 @@ async function queryGet() {
 }
 
 async function main() {
-  queryGet();
+  await queryGet();
 }
 
 main().catch(console.error);

@@ -186,10 +186,10 @@ async function createAServerWithByok() {
 }
 
 async function main() {
-  createANewServer();
-  createAReplicaServer();
-  createAServerAsAPointInTimeRestore();
-  createAServerWithByok();
+  await createANewServer();
+  await createAReplicaServer();
+  await createAServerAsAPointInTimeRestore();
+  await createAServerWithByok();
 }
 
 main().catch(console.error);

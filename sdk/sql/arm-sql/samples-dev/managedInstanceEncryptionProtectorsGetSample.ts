@@ -39,7 +39,7 @@ async function getTheEncryptionProtector() {
 }
 
 async function main() {
-  getTheEncryptionProtector();
+  await getTheEncryptionProtector();
 }
 
 main().catch(console.error);

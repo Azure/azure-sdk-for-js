@@ -62,7 +62,7 @@ async function createASpacecraft() {
 }
 
 async function main() {
-  createASpacecraft();
+  await createASpacecraft();
 }
 
 main().catch(console.error);

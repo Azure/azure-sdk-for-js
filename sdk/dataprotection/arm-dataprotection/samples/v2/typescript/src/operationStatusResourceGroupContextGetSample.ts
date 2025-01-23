@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataProtectionClient } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the operation status for an operation over a ResourceGroup's context.

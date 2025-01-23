@@ -52,7 +52,7 @@ async function listWorkspaceFeaturesetVersion() {
 }
 
 async function main() {
-  listWorkspaceFeaturesetVersion();
+  await listWorkspaceFeaturesetVersion();
 }
 
 main().catch(console.error);

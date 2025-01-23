@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Experiment, ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Experiment resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or update a Experiment resource.
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateExperiment.json
  */
-async function createOrUpdateAExperimentInAResourceGroup() {
+async function createOrUpdateAExperimentInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["CHAOS_SUBSCRIPTION_ID"] ||
     "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -71,7 +69,7 @@ async function createOrUpdateAExperimentInAResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAExperimentInAResourceGroup();
 }
 

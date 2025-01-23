@@ -38,7 +38,7 @@ async function listBlobServices() {
 }
 
 async function main() {
-  listBlobServices();
+  await listBlobServices();
 }
 
 main().catch(console.error);

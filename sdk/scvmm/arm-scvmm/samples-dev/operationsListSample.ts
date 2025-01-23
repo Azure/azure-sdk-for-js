@@ -53,8 +53,8 @@ async function operationsListMinimumSet() {
 }
 
 async function main() {
-  operationsListMaximumSet();
-  operationsListMinimumSet();
+  await operationsListMaximumSet();
+  await operationsListMinimumSet();
 }
 
 main().catch(console.error);

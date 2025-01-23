@@ -34,7 +34,7 @@ async function listOfContactProfiles() {
 }
 
 async function main() {
-  listOfContactProfiles();
+  await listOfContactProfiles();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function restartsTheSpecifiedHdInsightClusterHosts() {
 }
 
 async function main() {
-  restartsTheSpecifiedHdInsightClusterHosts();
+  await restartsTheSpecifiedHdInsightClusterHosts();
 }
 
 main().catch(console.error);

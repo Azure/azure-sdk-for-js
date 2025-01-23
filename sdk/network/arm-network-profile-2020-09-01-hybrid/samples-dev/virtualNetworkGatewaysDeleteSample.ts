@@ -34,7 +34,7 @@ async function deleteVirtualNetworkGateway() {
 }
 
 async function main() {
-  deleteVirtualNetworkGateway();
+  await deleteVirtualNetworkGateway();
 }
 
 main().catch(console.error);

@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create a reservation order alias.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/ReservationOrderAliasCreate.json
  */
-async function reservationOrderAliasCreate() {
+async function reservationOrderAliasCreate(): Promise<void> {
   const reservationOrderAliasName = "reservationOrderAlias123";
   const body: ReservationOrderAliasRequest = {
     appliedScopeProperties: {

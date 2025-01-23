@@ -42,7 +42,7 @@ async function clusterPatch() {
 }
 
 async function main() {
-  clusterPatch();
+  await clusterPatch();
 }
 
 main().catch(console.error);

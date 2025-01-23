@@ -40,7 +40,7 @@ async function createLab() {
 }
 
 async function main() {
-  createLab();
+  await createLab();
 }
 
 main().catch(console.error);

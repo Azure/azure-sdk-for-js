@@ -52,7 +52,7 @@ async function endpointPatchExternalTarget() {
 }
 
 async function main() {
-  endpointPatchExternalTarget();
+  await endpointPatchExternalTarget();
 }
 
 main().catch(console.error);

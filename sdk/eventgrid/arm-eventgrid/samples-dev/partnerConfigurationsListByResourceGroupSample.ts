@@ -38,7 +38,7 @@ async function partnerConfigurationsListByResourceGroup() {
 }
 
 async function main() {
-  partnerConfigurationsListByResourceGroup();
+  await partnerConfigurationsListByResourceGroup();
 }
 
 main().catch(console.error);

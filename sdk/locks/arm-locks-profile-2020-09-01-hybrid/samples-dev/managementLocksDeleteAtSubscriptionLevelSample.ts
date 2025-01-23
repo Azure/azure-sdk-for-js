@@ -33,7 +33,7 @@ async function deleteManagementLockAtSubscriptionLevel() {
 }
 
 async function main() {
-  deleteManagementLockAtSubscriptionLevel();
+  await deleteManagementLockAtSubscriptionLevel();
 }
 
 main().catch(console.error);

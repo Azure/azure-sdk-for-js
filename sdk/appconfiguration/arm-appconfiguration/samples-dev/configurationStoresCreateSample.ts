@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a configuration store with the specified parameters.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresCreate.json
  */
-async function configurationStoresCreate() {
+async function configurationStoresCreate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -52,7 +52,7 @@ async function configurationStoresCreate() {
  * @summary Creates a configuration store with the specified parameters.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresCreateWithDataPlaneProxy.json
  */
-async function configurationStoresCreateWithDataPlaneProxy() {
+async function configurationStoresCreateWithDataPlaneProxy(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -86,7 +86,7 @@ async function configurationStoresCreateWithDataPlaneProxy() {
  * @summary Creates a configuration store with the specified parameters.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresCreateWithIdentity.json
  */
-async function configurationStoresCreateWithIdentity() {
+async function configurationStoresCreateWithIdentity(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -124,7 +124,7 @@ async function configurationStoresCreateWithIdentity() {
  * @summary Creates a configuration store with the specified parameters.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresCreateWithLocalAuthDisabled.json
  */
-async function configurationStoresCreateWithLocalAuthDisabled() {
+async function configurationStoresCreateWithLocalAuthDisabled(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -149,7 +149,7 @@ async function configurationStoresCreateWithLocalAuthDisabled() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   configurationStoresCreate();
   configurationStoresCreateWithDataPlaneProxy();
   configurationStoresCreateWithIdentity();

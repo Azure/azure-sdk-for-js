@@ -98,7 +98,7 @@ async function createOrUpdateAFhirService() {
 }
 
 async function main() {
-  createOrUpdateAFhirService();
+  await createOrUpdateAFhirService();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function amlFilesystemsList() {
 }
 
 async function main() {
-  amlFilesystemsList();
+  await amlFilesystemsList();
 }
 
 main().catch(console.error);

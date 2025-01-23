@@ -39,7 +39,7 @@ async function topicSpacesGet() {
 }
 
 async function main() {
-  topicSpacesGet();
+  await topicSpacesGet();
 }
 
 main().catch(console.error);

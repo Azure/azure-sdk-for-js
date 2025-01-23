@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Get custom hostnames under this subscription
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCustomHostNameSites.json
  */
-async function getCustomHostnamesUnderSubscription() {
+async function getCustomHostnamesUnderSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +40,7 @@ async function getCustomHostnamesUnderSubscription() {
  * @summary Get custom hostnames under this subscription
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCustomSpecificHostNameSites.json
  */
-async function getSpecificCustomHostnameUnderSubscription() {
+async function getSpecificCustomHostnameUnderSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -55,7 +55,7 @@ async function getSpecificCustomHostnameUnderSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCustomHostnamesUnderSubscription();
   getSpecificCustomHostnameUnderSubscription();
 }

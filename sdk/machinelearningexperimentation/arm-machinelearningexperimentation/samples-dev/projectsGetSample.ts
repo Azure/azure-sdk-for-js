@@ -42,7 +42,7 @@ async function getProject() {
 }
 
 async function main() {
-  getProject();
+  await getProject();
 }
 
 main().catch(console.error);

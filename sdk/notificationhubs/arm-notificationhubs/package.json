@@ -36,11 +36,11 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.5.0",
     "@types/node": "^18.0.0",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "playwright": "^1.49.1",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.3"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -97,7 +97,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-notificationhubs?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-notificationhubs?view=azure-node-preview"
   },
   "type": "module",
   "tshy": {

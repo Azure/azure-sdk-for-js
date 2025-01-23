@@ -42,7 +42,7 @@ async function listHealthBySubscriptionId() {
 }
 
 async function main() {
-  listHealthBySubscriptionId();
+  await listHealthBySubscriptionId();
 }
 
 main().catch(console.error);

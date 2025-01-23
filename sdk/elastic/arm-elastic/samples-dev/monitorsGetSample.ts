@@ -34,7 +34,7 @@ async function monitorsGet() {
 }
 
 async function main() {
-  monitorsGet();
+  await monitorsGet();
 }
 
 main().catch(console.error);

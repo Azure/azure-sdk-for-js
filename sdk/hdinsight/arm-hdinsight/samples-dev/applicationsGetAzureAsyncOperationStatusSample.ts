@@ -38,7 +38,7 @@ async function getTheAzureAsyncOperationStatus() {
 }
 
 async function main() {
-  getTheAzureAsyncOperationStatus();
+  await getTheAzureAsyncOperationStatus();
 }
 
 main().catch(console.error);

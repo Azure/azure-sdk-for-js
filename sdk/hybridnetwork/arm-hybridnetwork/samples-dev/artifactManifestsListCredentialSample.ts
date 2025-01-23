@@ -39,7 +39,7 @@ async function listACredentialForArtifactManifest() {
 }
 
 async function main() {
-  listACredentialForArtifactManifest();
+  await listACredentialForArtifactManifest();
 }
 
 main().catch(console.error);

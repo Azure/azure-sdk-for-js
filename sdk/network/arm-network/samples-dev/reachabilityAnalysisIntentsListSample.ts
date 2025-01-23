@@ -41,7 +41,7 @@ async function reachabilityAnalysisIntentList() {
 }
 
 async function main() {
-  reachabilityAnalysisIntentList();
+  await reachabilityAnalysisIntentList();
 }
 
 main().catch(console.error);

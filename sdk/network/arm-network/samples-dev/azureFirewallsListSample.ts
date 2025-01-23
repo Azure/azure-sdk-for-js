@@ -33,7 +33,7 @@ async function listAllAzureFirewallsForAGivenResourceGroup() {
 }
 
 async function main() {
-  listAllAzureFirewallsForAGivenResourceGroup();
+  await listAllAzureFirewallsForAGivenResourceGroup();
 }
 
 main().catch(console.error);

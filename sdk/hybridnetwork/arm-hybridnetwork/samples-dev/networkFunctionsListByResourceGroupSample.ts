@@ -36,7 +36,7 @@ async function listNetworkFunctionInResourceGroup() {
 }
 
 async function main() {
-  listNetworkFunctionInResourceGroup();
+  await listNetworkFunctionInResourceGroup();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listUsages() {
 }
 
 async function main() {
-  listUsages();
+  await listUsages();
 }
 
 main().catch(console.error);

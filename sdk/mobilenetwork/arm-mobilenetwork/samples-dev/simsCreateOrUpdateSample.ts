@@ -61,7 +61,7 @@ async function createSim() {
 }
 
 async function main() {
-  createSim();
+  await createSim();
 }
 
 main().catch(console.error);

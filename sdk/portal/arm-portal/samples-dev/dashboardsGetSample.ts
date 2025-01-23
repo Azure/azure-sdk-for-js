@@ -33,7 +33,7 @@ async function getADashboard() {
 }
 
 async function main() {
-  getADashboard();
+  await getADashboard();
 }
 
 main().catch(console.error);

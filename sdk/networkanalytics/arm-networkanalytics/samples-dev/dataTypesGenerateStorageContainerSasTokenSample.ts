@@ -78,8 +78,8 @@ async function dataTypesGenerateStorageContainerSasTokenMaximumSetGenGeneratedBy
 }
 
 async function main() {
-  dataTypesGenerateStorageContainerSasTokenMaximumSetGen();
-  dataTypesGenerateStorageContainerSasTokenMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataTypesGenerateStorageContainerSasTokenMaximumSetGen();
+  await dataTypesGenerateStorageContainerSasTokenMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

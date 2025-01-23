@@ -37,7 +37,7 @@ async function redisEnterpriseList() {
 }
 
 async function main() {
-  redisEnterpriseList();
+  await redisEnterpriseList();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function putAnApplicationType() {
 }
 
 async function main() {
-  putAnApplicationType();
+  await putAnApplicationType();
 }
 
 main().catch(console.error);

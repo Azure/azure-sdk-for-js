@@ -36,7 +36,7 @@ async function listOfSpacecraftByResourceGroup() {
 }
 
 async function main() {
-  listOfSpacecraftByResourceGroup();
+  await listOfSpacecraftByResourceGroup();
 }
 
 main().catch(console.error);

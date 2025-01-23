@@ -37,7 +37,7 @@ async function deleteSimGroup() {
 }
 
 async function main() {
-  deleteSimGroup();
+  await deleteSimGroup();
 }
 
 main().catch(console.error);

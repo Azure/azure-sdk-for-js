@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the disk access resources under a resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the disk access resources under a resource group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_ListByResourceGroup.json
  */
-async function listAllDiskAccessResourcesInAResourceGroup() {
+async function listAllDiskAccessResourcesInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +34,7 @@ async function listAllDiskAccessResourcesInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllDiskAccessResourcesInAResourceGroup();
 }
 

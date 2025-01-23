@@ -38,7 +38,7 @@ async function cloudHsmClusterListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterListByResourceGroupMaximumSetGen();
+  await cloudHsmClusterListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

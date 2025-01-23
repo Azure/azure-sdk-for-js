@@ -37,7 +37,7 @@ async function getAvailablePrivateEndpointTypesInTheResourceGroup() {
 }
 
 async function main() {
-  getAvailablePrivateEndpointTypesInTheResourceGroup();
+  await getAvailablePrivateEndpointTypesInTheResourceGroup();
 }
 
 main().catch(console.error);

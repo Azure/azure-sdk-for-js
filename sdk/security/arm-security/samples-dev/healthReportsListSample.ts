@@ -32,7 +32,7 @@ async function listHealthReports() {
 }
 
 async function main() {
-  listHealthReports();
+  await listHealthReports();
 }
 
 main().catch(console.error);

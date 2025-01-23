@@ -42,7 +42,7 @@ async function getRegistryCodeContainer() {
 }
 
 async function main() {
-  getRegistryCodeContainer();
+  await getRegistryCodeContainer();
 }
 
 main().catch(console.error);

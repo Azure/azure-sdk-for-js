@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Balances } from "../operationsInterfaces";
+import { Balances } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConsumptionManagementClient } from "../consumptionManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ConsumptionManagementClient } from "../consumptionManagementClient.js";
 import {
   BalancesGetByBillingAccountOptionalParams,
   BalancesGetByBillingAccountResponse,
   BalancesGetForBillingPeriodByBillingAccountOptionalParams,
   BalancesGetForBillingPeriodByBillingAccountResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Balances operations. */
 export class BalancesImpl implements Balances {

@@ -67,8 +67,8 @@ async function getsADatawarehouseDatabaseRestorePoint() {
 }
 
 async function main() {
-  getsADatabaseRestorePoint();
-  getsADatawarehouseDatabaseRestorePoint();
+  await getsADatabaseRestorePoint();
+  await getsADatawarehouseDatabaseRestorePoint();
 }
 
 main().catch(console.error);

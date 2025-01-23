@@ -66,22 +66,22 @@
     "@azure/functions": "^3.2.0",
     "@azure/identity": "^4.5.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.8",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.3"
   },
   "//sampleConfiguration": {
     "skipFolder": false,
     "disableDocsMs": true,
     "productName": "Azure Template",
     "productSlugs": [],
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/",
     "requiredResources": {
-      "Azure App Configuration": "https://docs.microsoft.com/azure/azure-app-configuration/"
+      "Azure App Configuration": "https://learn.microsoft.com/azure/azure-app-configuration/"
     }
   },
   "type": "module",

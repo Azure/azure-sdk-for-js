@@ -55,7 +55,7 @@ async function savedSearchCreateOrUpdate() {
 }
 
 async function main() {
-  savedSearchCreateOrUpdate();
+  await savedSearchCreateOrUpdate();
 }
 
 main().catch(console.error);

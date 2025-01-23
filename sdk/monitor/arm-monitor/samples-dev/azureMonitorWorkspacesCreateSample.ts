@@ -44,7 +44,7 @@ async function createOrUpdateAnAzureMonitorWorkspace() {
 }
 
 async function main() {
-  createOrUpdateAnAzureMonitorWorkspace();
+  await createOrUpdateAnAzureMonitorWorkspace();
 }
 
 main().catch(console.error);

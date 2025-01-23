@@ -42,7 +42,7 @@ async function regenerateKey() {
 }
 
 async function main() {
-  regenerateKey();
+  await regenerateKey();
 }
 
 main().catch(console.error);

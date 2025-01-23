@@ -63,7 +63,7 @@ async function updateAThreatIntelligenceIndicator() {
 }
 
 async function main() {
-  updateAThreatIntelligenceIndicator();
+  await updateAThreatIntelligenceIndicator();
 }
 
 main().catch(console.error);

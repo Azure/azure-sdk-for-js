@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Migrate an Azure Cosmos DB Cassandra Keyspace from manual throughput to autoscale
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraKeyspaceMigrateToAutoscale.json
  */
-async function cosmosDbCassandraKeyspaceMigrateToAutoscale() {
+async function cosmosDbCassandraKeyspaceMigrateToAutoscale(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -34,7 +34,7 @@ async function cosmosDbCassandraKeyspaceMigrateToAutoscale() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbCassandraKeyspaceMigrateToAutoscale();
 }
 

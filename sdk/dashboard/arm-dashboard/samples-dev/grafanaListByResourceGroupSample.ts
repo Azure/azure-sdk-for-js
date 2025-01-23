@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all resources of workspaces for Grafana under the specified resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all resources of workspaces for Grafana under the specified resource group.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_ListByResourceGroup.json
  */
-async function grafanaListByResourceGroup() {
+async function grafanaListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function grafanaListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   grafanaListByResourceGroup();
 }
 

@@ -32,7 +32,7 @@ async function listAllSecurityPartnerProvidersForAGivenSubscription() {
 }
 
 async function main() {
-  listAllSecurityPartnerProvidersForAGivenSubscription();
+  await listAllSecurityPartnerProvidersForAGivenSubscription();
 }
 
 main().catch(console.error);

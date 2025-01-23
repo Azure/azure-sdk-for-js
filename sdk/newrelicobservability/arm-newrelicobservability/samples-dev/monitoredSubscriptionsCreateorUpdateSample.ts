@@ -39,7 +39,7 @@ async function monitorsAddMonitoredSubscriptions() {
 }
 
 async function main() {
-  monitorsAddMonitoredSubscriptions();
+  await monitorsAddMonitoredSubscriptions();
 }
 
 main().catch(console.error);

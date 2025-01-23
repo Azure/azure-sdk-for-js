@@ -37,7 +37,7 @@ async function loadTestsDelete() {
 }
 
 async function main() {
-  loadTestsDelete();
+  await loadTestsDelete();
 }
 
 main().catch(console.error);

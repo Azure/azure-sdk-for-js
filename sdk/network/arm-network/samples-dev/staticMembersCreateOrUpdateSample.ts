@@ -45,7 +45,7 @@ async function staticMemberPut() {
 }
 
 async function main() {
-  staticMemberPut();
+  await staticMemberPut();
 }
 
 main().catch(console.error);

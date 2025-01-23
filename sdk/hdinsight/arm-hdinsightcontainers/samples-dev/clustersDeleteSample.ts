@@ -41,7 +41,7 @@ async function hdInsightClustersDelete() {
 }
 
 async function main() {
-  hdInsightClustersDelete();
+  await hdInsightClustersDelete();
 }
 
 main().catch(console.error);

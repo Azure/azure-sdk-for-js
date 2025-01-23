@@ -39,7 +39,7 @@ async function queueOperationPatch() {
 }
 
 async function main() {
-  queueOperationPatch();
+  await queueOperationPatch();
 }
 
 main().catch(console.error);

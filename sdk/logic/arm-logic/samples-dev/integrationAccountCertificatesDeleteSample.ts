@@ -39,7 +39,7 @@ async function deleteACertificate() {
 }
 
 async function main() {
-  deleteACertificate();
+  await deleteACertificate();
 }
 
 main().catch(console.error);

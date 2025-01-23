@@ -43,7 +43,7 @@ async function quotasCheckAvailability() {
 }
 
 async function main() {
-  quotasCheckAvailability();
+  await quotasCheckAvailability();
 }
 
 main().catch(console.error);

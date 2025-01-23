@@ -79,7 +79,7 @@ async function putLab() {
 }
 
 async function main() {
-  putLab();
+  await putLab();
 }
 
 main().catch(console.error);

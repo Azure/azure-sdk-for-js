@@ -47,8 +47,8 @@ async function hybridConnectivityEndpointsGetDefault() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsGetCustom();
-  hybridConnectivityEndpointsGetDefault();
+  await hybridConnectivityEndpointsGetCustom();
+  await hybridConnectivityEndpointsGetDefault();
 }
 
 main().catch(console.error);

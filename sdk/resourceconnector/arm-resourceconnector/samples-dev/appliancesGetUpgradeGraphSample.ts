@@ -42,7 +42,7 @@ async function getApplianceUpgradeGraph() {
 }
 
 async function main() {
-  getApplianceUpgradeGraph();
+  await getApplianceUpgradeGraph();
 }
 
 main().catch(console.error);

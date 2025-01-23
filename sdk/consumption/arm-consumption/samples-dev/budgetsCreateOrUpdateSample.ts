@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { Budget, ConsumptionManagementClient } from "@azure/arm-consumption";
+import type { Budget } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
@@ -20,10 +17,9 @@ dotenv.config();
  * @summary The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/CreateOrUpdateBudget.json
  */
-async function createOrUpdateBudget() {
+async function createOrUpdateBudget(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const budgetName = "TestBudget";
   const parameters: Budget = {
@@ -38,52 +34,48 @@ async function createOrUpdateBudget() {
             operator: "In",
             values: [
               "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/MSVM2",
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1"
-            ]
-          }
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Compute/virtualMachines/platformcloudplatformGeneric1",
+            ],
+          },
         },
         { tags: { name: "category", operator: "In", values: ["Dev", "Prod"] } },
         {
           tags: {
             name: "department",
             operator: "In",
-            values: ["engineering", "sales"]
-          }
-        }
-      ]
+            values: ["engineering", "sales"],
+          },
+        },
+      ],
     },
     notifications: {
       actualGreaterThan80Percent: {
         contactEmails: ["johndoe@contoso.com", "janesmith@contoso.com"],
         contactGroups: [
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup"
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/microsoft.insights/actionGroups/SampleActionGroup",
         ],
         contactRoles: ["Contributor", "Reader"],
         enabled: true,
         locale: "en-us",
         operator: "GreaterThan",
         threshold: 80,
-        thresholdType: "Actual"
-      }
+        thresholdType: "Actual",
+      },
     },
     timeGrain: "Monthly",
     timePeriod: {
       endDate: new Date("2018-10-31T00:00:00Z"),
-      startDate: new Date("2017-10-01T00:00:00Z")
-    }
+      startDate: new Date("2017-10-01T00:00:00Z"),
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
-  const result = await client.budgets.createOrUpdate(
-    scope,
-    budgetName,
-    parameters
-  );
+  const result = await client.budgets.createOrUpdate(scope, budgetName, parameters);
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateBudget();
+async function main(): Promise<void> {
+  await createOrUpdateBudget();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getArtifactManifestListResource() {
 }
 
 async function main() {
-  getArtifactManifestListResource();
+  await getArtifactManifestListResource();
 }
 
 main().catch(console.error);

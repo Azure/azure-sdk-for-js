@@ -38,7 +38,7 @@ async function deleteFailoverGroup() {
 }
 
 async function main() {
-  deleteFailoverGroup();
+  await deleteFailoverGroup();
 }
 
 main().catch(console.error);

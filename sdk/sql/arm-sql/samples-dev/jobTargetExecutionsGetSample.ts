@@ -46,7 +46,7 @@ async function getAJobStepTargetExecution() {
 }
 
 async function main() {
-  getAJobStepTargetExecution();
+  await getAJobStepTargetExecution();
 }
 
 main().catch(console.error);

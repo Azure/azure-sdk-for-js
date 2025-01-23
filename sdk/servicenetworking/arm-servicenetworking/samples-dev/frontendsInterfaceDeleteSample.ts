@@ -39,7 +39,7 @@ async function deleteFrontend() {
 }
 
 async function main() {
-  deleteFrontend();
+  await deleteFrontend();
 }
 
 main().catch(console.error);

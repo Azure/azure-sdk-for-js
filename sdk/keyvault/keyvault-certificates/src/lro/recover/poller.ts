@@ -17,14 +17,7 @@ export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
   KeyVaultCertificateWithPolicy
 > {
   constructor(options: RecoverDeletedCertificatePollerOptions) {
-    const {
-      vaultUrl,
-      client,
-      certificateName,
-      operationOptions,
-      intervalInMs = 2000,
-      resumeFrom,
-    } = options;
+    const { client, certificateName, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RecoverDeletedCertificateState | undefined;
 
@@ -37,7 +30,6 @@ export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
         ...state,
         certificateName,
       },
-      vaultUrl,
       client,
       operationOptions,
     );

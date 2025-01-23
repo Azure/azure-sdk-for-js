@@ -39,7 +39,7 @@ async function monitorsDeleteMonitoredSubscriptions() {
 }
 
 async function main() {
-  monitorsDeleteMonitoredSubscriptions();
+  await monitorsDeleteMonitoredSubscriptions();
 }
 
 main().catch(console.error);

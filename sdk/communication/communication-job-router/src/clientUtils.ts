@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/// <reference lib="esnext.asynciterable" />
 
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 

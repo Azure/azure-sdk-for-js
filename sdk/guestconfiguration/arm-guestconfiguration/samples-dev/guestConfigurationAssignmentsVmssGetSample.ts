@@ -38,7 +38,7 @@ async function getAVmssGuestConfigurationAssignment() {
 }
 
 async function main() {
-  getAVmssGuestConfigurationAssignment();
+  await getAVmssGuestConfigurationAssignment();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function loadTestsListBySubscription() {
 }
 
 async function main() {
-  loadTestsListBySubscription();
+  await loadTestsListBySubscription();
 }
 
 main().catch(console.error);

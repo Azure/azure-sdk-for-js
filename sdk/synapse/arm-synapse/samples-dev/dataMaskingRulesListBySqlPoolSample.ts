@@ -42,7 +42,7 @@ async function listDataMaskingRules() {
 }
 
 async function main() {
-  listDataMaskingRules();
+  await listDataMaskingRules();
 }
 
 main().catch(console.error);

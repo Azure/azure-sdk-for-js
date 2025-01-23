@@ -5,11 +5,11 @@
  * @summary Sends an email with multiple recipients
  */
 
-import { EmailClient, EmailMessage } from "@azure/communication-email";
+import type { EmailMessage } from "@azure/communication-email";
+import { EmailClient } from "@azure/communication-email";
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 const senderAddress = process.env["SENDER_ADDRESS"] || "";

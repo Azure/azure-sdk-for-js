@@ -44,7 +44,7 @@ async function stopALiveEvent() {
 }
 
 async function main() {
-  stopALiveEvent();
+  await stopALiveEvent();
 }
 
 main().catch(console.error);

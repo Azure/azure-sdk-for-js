@@ -451,6 +451,62 @@ data: length=1024, [0.04196167, 0.029083252, ..., -0.0027484894, 0.0073127747]
 
 To generate embeddings for additional phrases, simply call `client.path("/embeddings").post` multiple times using the same `client`.
 
+### Image Embeddings example
+
+This example demonstrates how to get image embeddings with Entra ID authentication.
+
+```javascript
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import { DefaultAzureCredential } from "@azure/identity";
+import fs from "fs";
+
+const endpoint = "<your_model_endpoint>";
+const credential = new DefaultAzureCredential();
+
+function getImageDataUrl(imageFile, imageFormat) {
+  try {
+    const imageBuffer = fs.readFileSync(imageFile);
+    const imageBase64 = imageBuffer.toString("base64");
+    return `data:image/${imageFormat};base64,${imageBase64}`;
+  } catch (error) {
+    console.error(`Could not read '${imageFile}'.`);
+    console.error("Set the correct path to the image file before running this sample.");
+    process.exit(1);
+  }
+}
+
+async function main() {
+  const client = ModelClient(endpoint, credential);
+  const image = getImageDataUrl("<image_file>", "<image_format>");
+  const response = await client.path("/images/embeddings").post({
+    body: {
+      input: [{image}],
+    },
+  });
+
+  if (isUnexpected(response)) {
+    throw response.body.error;
+  }
+  for (const data of response.body.data) {
+    console.log(
+      `data length: ${data.length}, [${data[0]}, ${data[1]}, ..., ${data[data.length - 2]}, ${data[data.length - 1]}]`,
+    );
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+The length of the embedding vector depends on the model, but you should see something like this:
+
+```text
+data: length=1024, [0.0013399124, -0.01576233, ..., 0.007843018, 0.000238657]
+data: length=1024, [0.036590576, -0.0059547424, ..., 0.011405945, 0.004863739]
+data: length=1024, [0.04196167, 0.029083252, ..., -0.0027484894, 0.0073127747]
+```
+
 ### Instrumentation
 
 Currently instrumentation is only supported for `Chat Completion without streaming`.

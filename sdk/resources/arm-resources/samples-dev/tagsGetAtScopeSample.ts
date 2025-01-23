@@ -50,8 +50,8 @@ async function getTagsOnASubscription() {
 }
 
 async function main() {
-  getTagsOnAResource();
-  getTagsOnASubscription();
+  await getTagsOnAResource();
+  await getTagsOnASubscription();
 }
 
 main().catch(console.error);

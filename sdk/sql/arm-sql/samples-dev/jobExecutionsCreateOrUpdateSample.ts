@@ -42,7 +42,7 @@ async function createJobExecution() {
 }
 
 async function main() {
-  createJobExecution();
+  await createJobExecution();
 }
 
 main().catch(console.error);

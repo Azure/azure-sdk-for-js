@@ -41,7 +41,7 @@ async function getsTheDetailsOfAVCenter() {
 }
 
 async function main() {
-  getsTheDetailsOfAVCenter();
+  await getsTheDetailsOfAVCenter();
 }
 
 main().catch(console.error);

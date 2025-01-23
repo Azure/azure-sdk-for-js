@@ -59,8 +59,8 @@ async function getAutonomousDatabase() {
 }
 
 async function main() {
-  autonomousDatabasesGet();
-  getAutonomousDatabase();
+  await autonomousDatabasesGet();
+  await getAutonomousDatabase();
 }
 
 main().catch(console.error);

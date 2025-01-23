@@ -52,7 +52,7 @@ async function createOrGetStartPendingUploadWorkspaceCodeVersion() {
 }
 
 async function main() {
-  createOrGetStartPendingUploadWorkspaceCodeVersion();
+  await createOrGetStartPendingUploadWorkspaceCodeVersion();
 }
 
 main().catch(console.error);

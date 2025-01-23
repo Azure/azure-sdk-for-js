@@ -56,7 +56,7 @@ async function replicationExtensionCreate() {
 }
 
 async function main() {
-  replicationExtensionCreate();
+  await replicationExtensionCreate();
 }
 
 main().catch(console.error);

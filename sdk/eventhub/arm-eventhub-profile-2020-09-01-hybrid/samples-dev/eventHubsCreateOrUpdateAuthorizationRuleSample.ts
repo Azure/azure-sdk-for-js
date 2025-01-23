@@ -46,7 +46,7 @@ async function eventHubAuthorizationRuleCreate() {
 }
 
 async function main() {
-  eventHubAuthorizationRuleCreate();
+  await eventHubAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

@@ -53,8 +53,8 @@ async function virtualMachineTemplatesListBySubscriptionMinimumSet() {
 }
 
 async function main() {
-  virtualMachineTemplatesListBySubscriptionMaximumSet();
-  virtualMachineTemplatesListBySubscriptionMinimumSet();
+  await virtualMachineTemplatesListBySubscriptionMaximumSet();
+  await virtualMachineTemplatesListBySubscriptionMinimumSet();
 }
 
 main().catch(console.error);

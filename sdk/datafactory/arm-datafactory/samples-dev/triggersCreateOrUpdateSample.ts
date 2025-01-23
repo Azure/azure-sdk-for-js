@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a trigger.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a trigger.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Create.json
  */
-async function triggersCreate() {
+async function triggersCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -69,7 +67,7 @@ async function triggersCreate() {
  * @summary Creates or updates a trigger.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Update.json
  */
-async function triggersUpdate() {
+async function triggersUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -110,9 +108,9 @@ async function triggersUpdate() {
   console.log(result);
 }
 
-async function main() {
-  triggersCreate();
-  triggersUpdate();
+async function main(): Promise<void> {
+  await triggersCreate();
+  await triggersUpdate();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function listAllPublicIPAddresses() {
 }
 
 async function main() {
-  listAllPublicIPAddresses();
+  await listAllPublicIPAddresses();
 }
 
 main().catch(console.error);

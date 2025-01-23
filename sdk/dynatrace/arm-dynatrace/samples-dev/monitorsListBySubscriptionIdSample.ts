@@ -53,8 +53,8 @@ async function monitorsListBySubscriptionIdMinimumSetGen() {
 }
 
 async function main() {
-  monitorsListBySubscriptionIdMaximumSetGen();
-  monitorsListBySubscriptionIdMinimumSetGen();
+  await monitorsListBySubscriptionIdMaximumSetGen();
+  await monitorsListBySubscriptionIdMinimumSetGen();
 }
 
 main().catch(console.error);

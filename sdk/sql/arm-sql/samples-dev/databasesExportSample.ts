@@ -89,8 +89,8 @@ async function exportsADatabase() {
 }
 
 async function main() {
-  exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
-  exportsADatabase();
+  await exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
+  await exportsADatabase();
 }
 
 main().catch(console.error);

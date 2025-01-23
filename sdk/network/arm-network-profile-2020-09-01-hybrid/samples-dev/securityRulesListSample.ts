@@ -37,7 +37,7 @@ async function listNetworkSecurityRulesInNetworkSecurityGroup() {
 }
 
 async function main() {
-  listNetworkSecurityRulesInNetworkSecurityGroup();
+  await listNetworkSecurityRulesInNetworkSecurityGroup();
 }
 
 main().catch(console.error);

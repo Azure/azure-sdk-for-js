@@ -38,7 +38,7 @@ async function deletesAMachinePoolWithTheSpecifiedSubscriptionResourceGroupAndRe
 }
 
 async function main() {
-  deletesAMachinePoolWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await deletesAMachinePoolWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

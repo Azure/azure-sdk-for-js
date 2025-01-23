@@ -42,7 +42,7 @@ async function hybridConnectivityEndpointsPostListIngressGatewayCredentials() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsPostListIngressGatewayCredentials();
+  await hybridConnectivityEndpointsPostListIngressGatewayCredentials();
 }
 
 main().catch(console.error);

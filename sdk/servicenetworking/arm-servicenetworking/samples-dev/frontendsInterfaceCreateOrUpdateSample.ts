@@ -44,7 +44,7 @@ async function putFrontend() {
 }
 
 async function main() {
-  putFrontend();
+  await putFrontend();
 }
 
 main().catch(console.error);

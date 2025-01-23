@@ -39,7 +39,7 @@ async function agentsDelete() {
 }
 
 async function main() {
-  agentsDelete();
+  await agentsDelete();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function storageAccountDelete() {
 }
 
 async function main() {
-  storageAccountDelete();
+  await storageAccountDelete();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function identityGet() {
 }
 
 async function main() {
-  identityGet();
+  await identityGet();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function disablesUploadingLedgerDigestsForADatabase() {
 }
 
 async function main() {
-  disablesUploadingLedgerDigestsForADatabase();
+  await disablesUploadingLedgerDigestsForADatabase();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function listNetworksByResourceGroup() {
 }
 
 async function main() {
-  listNetworksByResourceGroup();
+  await listNetworksByResourceGroup();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getSecurityRecommendationTasksInAResourceGroup() {
 }
 
 async function main() {
-  getSecurityRecommendationTasksInAResourceGroup();
+  await getSecurityRecommendationTasksInAResourceGroup();
 }
 
 main().catch(console.error);

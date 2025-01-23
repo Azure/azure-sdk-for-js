@@ -85,8 +85,8 @@ async function createAWorkloadClassifierWithTheRequiredPropertiesSpecified() {
 }
 
 async function main() {
-  createAWorkloadClassifierWithAllPropertiesSpecified();
-  createAWorkloadClassifierWithTheRequiredPropertiesSpecified();
+  await createAWorkloadClassifierWithAllPropertiesSpecified();
+  await createAWorkloadClassifierWithTheRequiredPropertiesSpecified();
 }
 
 main().catch(console.error);

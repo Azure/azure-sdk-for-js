@@ -39,7 +39,7 @@ async function getFrontend() {
 }
 
 async function main() {
-  getFrontend();
+  await getFrontend();
 }
 
 main().catch(console.error);

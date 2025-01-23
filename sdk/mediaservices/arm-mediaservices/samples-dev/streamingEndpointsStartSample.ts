@@ -39,7 +39,7 @@ async function startAStreamingEndpoint() {
 }
 
 async function main() {
-  startAStreamingEndpoint();
+  await startAStreamingEndpoint();
 }
 
 main().catch(console.error);

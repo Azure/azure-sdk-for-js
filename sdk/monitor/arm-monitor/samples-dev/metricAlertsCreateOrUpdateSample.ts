@@ -491,14 +491,14 @@ async function createOrUpdateAnAlertRulesWithDimensions() {
 }
 
 async function main() {
-  createOrUpdateADynamicAlertRuleForMultipleResources();
-  createOrUpdateADynamicAlertRuleForSingleResource();
-  createOrUpdateAWebTestAlertRule();
-  createOrUpdateAnAlertRuleForMultipleResource();
-  createOrUpdateAnAlertRuleForSingleResource();
-  createOrUpdateAnAlertRuleOnResourceGroupS();
-  createOrUpdateAnAlertRuleOnSubscription();
-  createOrUpdateAnAlertRulesWithDimensions();
+  await createOrUpdateADynamicAlertRuleForMultipleResources();
+  await createOrUpdateADynamicAlertRuleForSingleResource();
+  await createOrUpdateAWebTestAlertRule();
+  await createOrUpdateAnAlertRuleForMultipleResource();
+  await createOrUpdateAnAlertRuleForSingleResource();
+  await createOrUpdateAnAlertRuleOnResourceGroupS();
+  await createOrUpdateAnAlertRuleOnSubscription();
+  await createOrUpdateAnAlertRulesWithDimensions();
 }
 
 main().catch(console.error);

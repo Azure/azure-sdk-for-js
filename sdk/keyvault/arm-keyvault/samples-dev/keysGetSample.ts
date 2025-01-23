@@ -35,7 +35,7 @@ async function getAKey() {
 }
 
 async function main() {
-  getAKey();
+  await getAKey();
 }
 
 main().catch(console.error);

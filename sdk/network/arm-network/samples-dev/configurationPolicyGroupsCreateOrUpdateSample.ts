@@ -58,7 +58,7 @@ async function configurationPolicyGroupPut() {
 }
 
 async function main() {
-  configurationPolicyGroupPut();
+  await configurationPolicyGroupPut();
 }
 
 main().catch(console.error);

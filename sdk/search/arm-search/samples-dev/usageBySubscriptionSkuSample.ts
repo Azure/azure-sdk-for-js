@@ -31,7 +31,7 @@ async function getQuotaUsage() {
 }
 
 async function main() {
-  getQuotaUsage();
+  await getQuotaUsage();
 }
 
 main().catch(console.error);

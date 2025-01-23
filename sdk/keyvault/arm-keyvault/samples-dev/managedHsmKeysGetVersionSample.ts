@@ -41,7 +41,7 @@ async function getAKeyVersion() {
 }
 
 async function main() {
-  getAKeyVersion();
+  await getAKeyVersion();
 }
 
 main().catch(console.error);

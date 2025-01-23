@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List CloudLink resources by PrivateCloud
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/CloudLinks_List.json
  */
-async function cloudLinksList() {
+async function cloudLinksList(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function cloudLinksList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cloudLinksList();
 }
 

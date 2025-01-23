@@ -43,7 +43,7 @@ async function fabricOperationsStatusGet() {
 }
 
 async function main() {
-  fabricOperationsStatusGet();
+  await fabricOperationsStatusGet();
 }
 
 main().catch(console.error);
