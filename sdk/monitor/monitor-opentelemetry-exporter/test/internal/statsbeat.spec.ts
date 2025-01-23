@@ -315,9 +315,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countWriteFailure();
         statsbeat.countWriteFailure();
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         expect(mockExport).toHaveBeenCalled();
-        const resourceMetrics = mockExport.mock.calls[0][0];
+        const resourceMetrics = mockExport.mock.calls[1][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
         const metrics = scopeMetrics[0].metrics;
 
