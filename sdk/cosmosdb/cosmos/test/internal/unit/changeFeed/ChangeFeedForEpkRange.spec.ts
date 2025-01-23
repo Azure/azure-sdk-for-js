@@ -3,20 +3,21 @@
 import assert from "assert";
 import sinon from "sinon";
 import { ChangeFeedForEpkRange, ChangeFeedMode } from "../../../../src/client/ChangeFeed";
-import { ClientContext, Container, ErrorResponse, TimeoutError } from "../../../../src";
+import type { ClientContext } from "../../../../src";
+import { Container, ErrorResponse, TimeoutError } from "../../../../src";
 import { PartitionKeyRangeCache, QueryRange } from "../../../../src/routing";
 import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange";
-import { MockedQueryIterator } from "../../../public/common/MockQueryIterator";
+import { MockedClientContext } from "../../../public/common/MockClientContext";
 
 interface Resource {
   id: string;
   [key: string]: any;
 }
 
-class MockClientContext {
-  constructor(private partitionKeyRanges: unknown) {}
-  public queryPartitionKeyRanges(): MockedQueryIterator {
-    return new MockedQueryIterator(this.partitionKeyRanges);
+class MockClientContext extends MockedClientContext {
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor(partitionKeyRanges: unknown) {
+    super(partitionKeyRanges);
   }
   public queryFeed() {
     throw new TimeoutError();
