@@ -644,7 +644,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/links/arm-links/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/liftrpinecone/arm-pineconevectordb/ @qiaozha @MaryGao
+/sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/locks/arm-locks/ @qiaozha @MaryGao
