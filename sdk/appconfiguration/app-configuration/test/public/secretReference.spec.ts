@@ -46,7 +46,7 @@ describe("AppConfigurationClient - SecretReference", () => {
     };
 
     function assertSecretReferenceProps(
-      actual: Omit<AddConfigurationSettingResponse, "_response">,
+      actual: AddConfigurationSettingResponse,
       expected: ConfigurationSetting<SecretReferenceValue>,
     ): void {
       assert.equal(isSecretReference(actual), true, "Expected to get the SecretReference");

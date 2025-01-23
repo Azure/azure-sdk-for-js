@@ -19,7 +19,6 @@ import type {
   GetConfigurationSettingResponse,
   GetSnapshotOptions,
   GetSnapshotResponse,
-  HttpResponseField,
   ListConfigurationSettingPage,
   ListConfigurationSettingsForSnapshotOptions,
   ListConfigurationSettingsOptions,
@@ -41,15 +40,11 @@ import type {
   UpdateSnapshotResponse,
 } from "./models.js";
 import type {
-  AppConfigurationGetKeyValuesHeaders,
-  AppConfigurationGetRevisionsHeaders,
-  AppConfigurationGetSnapshotsHeaders,
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
   ConfigurationSnapshot,
   GetLabelsResponse,
-  AppConfigurationGetLabelsHeaders,
 } from "./generated/src/models/index.js";
 import type { InternalClientPipelineOptions } from "@azure/core-client";
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
@@ -64,7 +59,6 @@ import type {
   SendLabelsRequestOptions,
 } from "./internal/helpers.js";
 import {
-  assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
@@ -240,7 +234,6 @@ export class AppConfigurationClient {
             ...updatedOptions,
           });
           const response = transformKeyValueResponse(originalResponse);
-          assertResponse(response);
           return response;
         } catch (error) {
           const err = error as RestError;
@@ -296,7 +289,6 @@ export class AppConfigurationClient {
         });
 
         const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
-        assertResponse(response);
         return response;
       },
     );
@@ -353,7 +345,6 @@ export class AppConfigurationClient {
           // and now we'll undefine all the other properties that are not HTTP related
           makeConfigurationSettingEmpty(response);
         }
-        assertResponse(response);
         return response;
       },
     );
@@ -398,7 +389,6 @@ export class AppConfigurationClient {
               continuationToken: response.nextLink
                 ? extractAfterTokenFromNextLink(response.nextLink)
                 : undefined,
-              _response: response._response,
             };
             return {
               page: currentResponse,
@@ -512,7 +502,6 @@ export class AppConfigurationClient {
           continuationToken: response.nextLink
             ? extractAfterTokenFromNextLink(response.nextLink)
             : undefined,
-          _response: response._response,
         };
         return {
           page: currentResponse,
@@ -527,7 +516,7 @@ export class AppConfigurationClient {
   private async sendLabelsRequest(
     options: SendLabelsRequestOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>> {
+  ): Promise<GetLabelsResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
@@ -539,7 +528,7 @@ export class AppConfigurationClient {
           after: pageLink,
         });
 
-        return response as GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>;
+        return response as GetLabelsResponse;
       },
     );
   }
@@ -547,7 +536,7 @@ export class AppConfigurationClient {
   private async sendConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+  ): Promise<GetKeyValuesResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
       options,
@@ -560,8 +549,7 @@ export class AppConfigurationClient {
           after: pageLink,
         });
 
-        return response as GetKeyValuesResponse &
-          HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+        return response as GetKeyValuesResponse;
       },
     );
   }
@@ -612,7 +600,7 @@ export class AppConfigurationClient {
   private async sendRevisionsRequest(
     options: ListConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
+  ): Promise<GetKeyValuesResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
       options,
@@ -624,8 +612,7 @@ export class AppConfigurationClient {
           after: pageLink,
         });
 
-        return response as GetRevisionsResponse &
-          HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+        return response as GetRevisionsResponse;
       },
     );
   }
@@ -670,7 +657,6 @@ export class AppConfigurationClient {
             ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
           }),
         );
-        assertResponse(response);
         return response;
       },
     );
@@ -706,7 +692,6 @@ export class AppConfigurationClient {
           });
         }
         response = transformKeyValueResponse(response);
-        assertResponse(response);
         return response;
       },
     );
@@ -784,7 +769,6 @@ export class AppConfigurationClient {
           ...updatedOptions,
         });
         const response = transformSnapshotResponse(originalResponse);
-        assertResponse(response);
         return response;
       },
     );
@@ -830,7 +814,6 @@ export class AppConfigurationClient {
           },
         );
         const response = transformSnapshotResponse(originalResponse);
-        assertResponse(response);
         return response;
       },
     );
@@ -875,7 +858,6 @@ export class AppConfigurationClient {
           },
         );
         const response = transformSnapshotResponse(originalResponse);
-        assertResponse(response);
         return response;
       },
     );
@@ -929,7 +911,7 @@ export class AppConfigurationClient {
   private async sendSnapShotsRequest(
     options: ListSnapshotsOptions & PageSettings = {},
     pageLink: string | undefined,
-  ): Promise<GetSnapshotsResponse & HttpResponseField<AppConfigurationGetSnapshotsHeaders>> {
+  ): Promise<GetSnapshotsResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listSnapshots",
       options,
@@ -940,8 +922,7 @@ export class AppConfigurationClient {
           after: pageLink,
         });
 
-        return response as GetSnapshotsResponse &
-          HttpResponseField<AppConfigurationGetSnapshotsHeaders>;
+        return response as GetSnapshotsResponse;
       },
     );
   }

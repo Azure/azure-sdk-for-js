@@ -2,7 +2,7 @@
 
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.9.0 (Unreleased)
 
 ### Features Added
 
@@ -11,6 +11,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Remove diagnostic `_response` properties from responses.
 
 ## 1.8.0 (2024-11-05)
 

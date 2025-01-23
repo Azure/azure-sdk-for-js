@@ -4,7 +4,7 @@
 
 ```yaml
 package-name: app-configuration
-package-version: "1.8.1"
+package-version: "1.9.0"
 title: AppConfiguration
 description: App Configuration client
 enable-xml: true
@@ -16,7 +16,6 @@ input-file: https://github.com/Azure/azure-rest-api-specs/blob/c1af3ab8e803da2f4
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
-core-http-compat-mode: true
 typescript: true
 disable-async-iterators: true
 api-version-parameter: choice

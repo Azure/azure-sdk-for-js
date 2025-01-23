@@ -6,7 +6,6 @@ import type {
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
-  HttpResponseField,
   HttpResponseFields,
   ListRevisionsOptions,
   ListSettingsOptions,
@@ -357,13 +356,6 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
     ...transformKeyValue(kvp),
     statusCode: status ?? -1,
   };
-
-  if (hasUnderscoreResponse(kvp)) {
-    Object.defineProperty(response, "_response", {
-      enumerable: false,
-      value: kvp._response,
-    });
-  }
   return response;
 }
 
@@ -374,12 +366,6 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
   kvp: T,
 ): ConfigurationSetting {
   const setting = transformKeyValue(kvp);
-  if (hasUnderscoreResponse(kvp)) {
-    Object.defineProperty(setting, "_response", {
-      enumerable: false,
-      value: kvp._response,
-    });
-  }
 
   delete setting.eTag;
   return setting;
@@ -391,12 +377,6 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
   snapshot: T,
 ): SnapshotResponse {
-  if (hasUnderscoreResponse(snapshot)) {
-    Object.defineProperty(snapshot, "_response", {
-      enumerable: false,
-      value: snapshot._response,
-    });
-  }
   return snapshot as any;
 }
 
@@ -440,22 +420,4 @@ export function errorMessageForUnexpectedSetting(
   expectedType: "FeatureFlag" | "SecretReference",
 ): string {
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
-}
-
-export function assertResponse<T extends object>(
-  result: T,
-): asserts result is T & HttpResponseField<any> {
-  if (!hasUnderscoreResponse(result)) {
-    Object.defineProperty(result, "_response", {
-      enumerable: false,
-      value:
-        "Something went wrong, _response(raw response) is supposed to be part of the response. Please file a bug at https://github.com/Azure/azure-sdk-for-js",
-    });
-  }
-}
-
-export function hasUnderscoreResponse<T extends object>(
-  result: T,
-): result is T & HttpResponseField<any> {
-  return Object.prototype.hasOwnProperty.call(result, "_response");
 }

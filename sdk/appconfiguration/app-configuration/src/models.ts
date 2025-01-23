@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CompatResponse } from "@azure/core-http-compat";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
@@ -103,25 +102,6 @@ export interface HttpResponseFields {
   statusCode: number;
 }
 /**
- * HTTP response related information - headers and raw body.
- */
-export interface HttpResponseField<HeadersT> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: CompatResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: HeadersT;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-  };
-}
-/**
  * Parameters for adding a new configuration setting
  */
 export type AddConfigurationSettingParam<
@@ -139,7 +119,6 @@ export type SetConfigurationSettingParam<
  * Standard base response for getting, deleting or updating a configuration setting
  */
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting &
-  HttpResponseField<HeadersT> &
   Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 /**
@@ -213,16 +192,14 @@ export interface AddConfigurationSettingOptions extends OperationOptions {}
  */
 export interface AddConfigurationSettingResponse
   extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
+    SyncTokenHeaderField {}
 
 /**
  * Response from deleting a ConfigurationSetting.
  */
 export interface DeleteConfigurationSettingResponse
   extends SyncTokenHeaderField,
-    HttpResponseFields,
-    HttpResponseField<SyncTokenHeaderField> {}
+    HttpResponseFields {}
 
 /**
  * Options for deleting a ConfigurationSetting.
@@ -243,8 +220,7 @@ export interface SetConfigurationSettingOptions
  */
 export interface SetConfigurationSettingResponse
   extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
+    SyncTokenHeaderField {}
 
 /**
  * Headers from getting a ConfigurationSetting.
@@ -257,8 +233,7 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField {}
 export interface GetConfigurationSettingResponse
   extends ConfigurationSetting,
     GetConfigurationHeaders,
-    HttpResponseFields,
-    HttpResponseField<GetConfigurationHeaders> {}
+    HttpResponseFields {}
 
 /**
  * Options for getting a ConfigurationSetting.
@@ -404,10 +379,7 @@ export interface EtagEntity {
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListConfigurationSettingPage
-  extends HttpResponseField<SyncTokenHeaderField>,
-    PageSettings,
-    EtagEntity {
+export interface ListConfigurationSettingPage extends PageSettings, EtagEntity {
   /**
    * The configuration settings for this page of results.
    */
@@ -417,10 +389,7 @@ export interface ListConfigurationSettingPage
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListLabelsPage
-  extends HttpResponseField<SyncTokenHeaderField>,
-    PageSettings,
-    EtagEntity {
+export interface ListLabelsPage extends PageSettings, EtagEntity {
   /**
    * The collection of labels
    */
@@ -447,7 +416,7 @@ export interface ListRevisionsOptions extends OperationOptions, ListSettingsOpti
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListRevisionsPage extends PageSettings {
   /**
    * The configuration settings for this page of results.
    */
@@ -462,10 +431,7 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
 /**
  * Response when setting a value to read-only.
  */
-export interface SetReadOnlyResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
+export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField {}
 
 /**
  * Options that control how to retry failed requests.

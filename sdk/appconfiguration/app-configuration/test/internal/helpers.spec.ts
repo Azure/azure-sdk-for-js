@@ -4,7 +4,6 @@
 import type {
   ConfigurationSetting,
   ConfigurationSettingParam,
-  HttpResponseField,
   HttpResponseFields,
   ConfigurationSettingId,
 } from "../../src/index.js";
@@ -23,7 +22,6 @@ import {
   transformKeyValueResponseWithStatusCode,
 } from "../../src/internal/helpers.js";
 import type { FeatureFlagValue } from "../../src/featureFlag.js";
-import type { WebResourceLike } from "@azure/core-http-compat";
 import type { SecretReferenceValue } from "../../src/secretReference.js";
 import { describe, it, assert } from "vitest";
 
@@ -179,45 +177,11 @@ describe("helper methods", () => {
     });
   });
 
-  const fakeHttp204Response: HttpResponseField<any> = {
-    _response: {
-      request: {
-        url: "unused",
-        abortSignal: {
-          aborted: true,
-
-          addEventListener: () => {},
-
-          removeEventListener: () => {},
-        },
-        method: "GET",
-        withCredentials: false,
-        headers: {} as any,
-        timeout: 0,
-        requestId: "",
-        clone(): WebResourceLike {
-          throw new Error("Cannot clone a non-proxied WebResourceLike");
-        },
-        prepare(): WebResourceLike {
-          throw new Error("WebResourceLike.prepare() is not supported by @azure/core-http-compat");
-        },
-        validateRequestProperties(): void {
-          /** do nothing */
-        },
-      },
-      status: 204,
-      headers: {} as any,
-      bodyAsText: "",
-      parsedHeaders: {},
-    },
-  };
-
   it("makeConfigurationSettingEmpty", () => {
-    const response: ConfigurationSetting & HttpResponseField<any> & HttpResponseFields = {
+    const response: ConfigurationSetting & HttpResponseFields = {
       key: "mykey",
       statusCode: 204,
       isReadOnly: false,
-      ...fakeHttp204Response,
     };
 
     makeConfigurationSettingEmpty(response);
@@ -229,10 +193,6 @@ describe("helper methods", () => {
       assert.ok(!response[name], name);
     }
 
-    // These point is these properties are untouched and won't throw
-    // since they're the only properties the user is allowed to touch on these
-    // "body empty" objects.
-    assert.equal(204, response._response.status);
     assert.equal(204, response.statusCode);
   });
 
@@ -256,27 +216,19 @@ describe("helper methods", () => {
       {
         key: "hello",
         locked: true,
-        ...fakeHttp204Response,
       },
       204,
     );
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
-    // _response is explictly set to not enumerate, even in our copied object.
     assert.deepEqual(actualKeys, ["isReadOnly", "key", "statusCode", "value"]);
-
-    // now make it enumerable so we can do our comparison
-    Object.defineProperty(configurationSetting, "_response", {
-      enumerable: true,
-    });
 
     assert.deepEqual(configurationSetting, {
       isReadOnly: true,
       key: "hello",
       value: undefined,
       statusCode: 204,
-      _response: fakeHttp204Response._response,
     } as unknown);
   });
 
@@ -284,24 +236,16 @@ describe("helper methods", () => {
     const configurationSetting = transformKeyValueResponse({
       key: "hello",
       locked: true,
-      ...fakeHttp204Response,
     });
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
-    // _response is explictly set to not enumerate, even in our copied object.
     assert.deepEqual(actualKeys, ["isReadOnly", "key", "value"]);
-
-    // now make it enumerable so we can do our comparison
-    Object.defineProperty(configurationSetting, "_response", {
-      enumerable: true,
-    });
 
     assert.deepEqual(configurationSetting, {
       isReadOnly: true,
       key: "hello",
       value: undefined,
-      _response: fakeHttp204Response._response,
     } as unknown);
   });
 

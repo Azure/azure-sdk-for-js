@@ -21,6 +21,7 @@ export const SyncTokenHeaderName = "sync-token";
  * @param syncTokens - the sync tokens store to be used across requests.
  * @internal
  */
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export function syncTokenPolicy(syncTokens: SyncTokens): PipelinePolicy {
   return {
     name: "Sync Token Policy",
