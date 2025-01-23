@@ -22,3 +22,6 @@ export const completionsModelsToSkip = [{ name: "gpt-4", version: "0613" }];
 
 // TODO: Remove this when "completion_tokens" is consistently returned
 export const jsonResponseModelsToSkip = [{ name: "gpt-4", version: "0125-Preview" }];
+
+// TODO: Remove this when 2024-12-01-preview is defaulted
+export const o1ModelToSkip = [{ name: "o1", version: "2024-12-17" }];
