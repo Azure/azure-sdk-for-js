@@ -30,25 +30,25 @@ describe("My test", () => {
   let resourceGroupName: string;
   let resourceName: string;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(ctx);
-    subscriptionId = env.SUBSCRIPTION_ID || "";
-    clientId = env.AZURE_CLIENT_ID || "";
-    secret = env.AZURE_CLIENT_SECRET || "";
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = ContainerServiceManagementClient(credential, {
-      ...recorder.configureClientOptions({}),
-      allowInsecureConnection: true,
+  beforeEach(async (ctx) => {
+      recorder = await createRecorder(ctx);
+      subscriptionId = env.SUBSCRIPTION_ID || "";
+      clientId = env.AZURE_CLIENT_ID || "";
+      secret = env.AZURE_CLIENT_SECRET || "";
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = ContainerServiceManagementClient(credential, {
+        ...recorder.configureClientOptions({}),
+        allowInsecureConnection: true,
+      });
+      location = "eastus";
+      resourceGroupName = "myjstest";
+      resourceName = "myreourcexyz";
     });
-    location = "eastus";
-    resourceGroupName = "myjstest";
-    resourceName = "myreourcexyz";
-  });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   // skip this test as test recorder
   it.skip("managedClusters create test", async function () {
