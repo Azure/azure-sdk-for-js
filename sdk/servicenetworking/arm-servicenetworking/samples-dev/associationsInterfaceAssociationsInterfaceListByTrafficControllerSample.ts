@@ -1,0 +1,35 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to list Association resources by TrafficController
+ *
+ * @summary list Association resources by TrafficController
+ * x-ms-original-file: 2025-01-01/AssociationsGet.json
+ */
+async function getAssociations() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new ServiceNetworkingManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const resArray = new Array();
+  for await (let item of client.associationsInterface.AssociationsInterface_listByTrafficController(
+    "rg1",
+    "tc1",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await getAssociations();
+}
+
+main().catch(console.error);
