@@ -13,7 +13,7 @@ export default defineConfig({
   },
   plugins: [browserMap()],
   test: {
-    reporters: ["basic", "junit"],
+    reporters: ["verbose", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },
