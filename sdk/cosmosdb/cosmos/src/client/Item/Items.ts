@@ -456,8 +456,7 @@ export class Items {
    * ```
    */
   public getBulkStreamer(options: RequestOptions = {}): BulkStreamer {
-    const bulkStreamerCache = this.clientContext.getBulkStreamerCache();
-    const bulkStreamer = bulkStreamerCache.getOrCreateStreamer(
+    const bulkStreamer = new BulkStreamer(
       this.container,
       this.clientContext,
       this.partitionKeyRangeCache,

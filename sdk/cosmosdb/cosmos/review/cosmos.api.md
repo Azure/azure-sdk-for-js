@@ -37,21 +37,13 @@ export type BulkOperationResponse = OperationResponse[] & {
 // @public
 export class BulkOperationResult {
     constructor(statusCode?: StatusCode, subStatusCode?: SubStatusCode, etag?: string, retryAfter?: number, activityId?: string, sessionToken?: string, requestCharge?: number, resource?: JSONObject);
-    // (undocumented)
     activityId: string;
-    // (undocumented)
     etag: string;
-    // (undocumented)
     requestCharge: number;
-    // (undocumented)
     resourceBody: JSONObject;
-    // (undocumented)
     retryAfter: number;
-    // (undocumented)
     sessionToken: string;
-    // (undocumented)
     statusCode: StatusCode;
-    // (undocumented)
     subStatusCode: SubStatusCode;
 }
 
@@ -83,7 +75,7 @@ export class BulkStreamer {
     endStream(): Promise<BulkStreamerResponse>;
 }
 
-// @public (undocumented)
+// @public
 export type BulkStreamerResponse = BulkOperationResult[] & {
     diagnostics: CosmosDiagnostics;
 };

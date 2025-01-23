@@ -39,7 +39,6 @@ import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
 import type { RetryOptions } from "./retry/retryOptions";
-import { BulkStreamerCache } from "./bulk/BulkStreamerCache";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -56,7 +55,6 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
-  private bulkStreamerCache: BulkStreamerCache;
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
@@ -86,7 +84,6 @@ export class ClientContext {
         }),
       );
     }
-    this.bulkStreamerCache = new BulkStreamerCache();
     this.initializeDiagnosticSettings(diagnosticLevel);
   }
 
@@ -990,12 +987,5 @@ export class ClientContext {
    */
   public getRetryOptions(): RetryOptions {
     return this.connectionPolicy.retryOptions;
-  }
-
-  /**
-   * @internal
-   */
-  public getBulkStreamerCache(): BulkStreamerCache {
-    return this.bulkStreamerCache;
   }
 }
