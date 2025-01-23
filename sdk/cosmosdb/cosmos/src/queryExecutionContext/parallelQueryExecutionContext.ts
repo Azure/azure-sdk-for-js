@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentProducer } from "./documentProducer2";
+import type { DocumentProducer } from "./documentProducer";
 import type { ExecutionContext } from "./ExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 import { Response } from "../request";
@@ -31,14 +31,24 @@ export class ParallelQueryExecutionContext
     return docProd1.generation - docProd2.generation;
   }
 
-  private async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
-    // TODO: need to upadte headers from here, so make sure it returns it
-    await this.bufferDocumentProducers(diagnosticNode);
-    await this.fillBufferFromBufferQueue();
-  }
-
+  /**
+   * Fetches more results from the query execution context.
+   * @param diagnosticNode - Optional diagnostic node for tracing.
+   * @returns A promise that resolves to the fetched results.
+   * @hidden
+   */
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
-    await this.bufferMore(diagnosticNode);
-    return this.drainBufferedItems();
+    try {
+      // Buffer document producers and fill buffer from the queue
+      await this.bufferDocumentProducers(diagnosticNode);
+      await this.fillBufferFromBufferQueue();
+
+      // Drain buffered items
+      return this.drainBufferedItems();
+    } catch (error) {
+      // Handle any errors that occur during fetching
+      console.error("Error fetching more documents:", error);
+      throw error;
+    }
   }
 }

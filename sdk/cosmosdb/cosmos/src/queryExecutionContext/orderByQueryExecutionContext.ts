@@ -3,7 +3,7 @@
 import type { ClientContext } from "../ClientContext";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import type { FeedOptions } from "../request/FeedOptions";
-import type { DocumentProducer } from "./documentProducer2";
+import type { DocumentProducer } from "./documentProducer";
 import type { ExecutionContext } from "./ExecutionContext";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
@@ -60,13 +60,20 @@ export class OrderByQueryExecutionContext
     return this.orderByComparator.compare(docProd1, docProd2);
   }
 
-  private async bufferMore(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
-    await this.bufferDocumentProducers(diagnosticNode);
-    await this.fillBufferFromBufferQueue(true);
-  }
-
+  /**
+   * Fetches more results from the query execution context.
+   * @param diagnosticNode - Optional diagnostic node for tracing.
+   * @returns A promise that resolves to the fetched results.
+   * @hidden
+   */
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<any> {
-    await this.bufferMore(diagnosticNode);
-    return this.drainBufferedItems();
+    try {
+      await this.bufferDocumentProducers(diagnosticNode);
+      await this.fillBufferFromBufferQueue(true);
+      return this.drainBufferedItems();
+    } catch (error) {
+      console.error("Error fetching more results:", error);
+      throw error;
+    }
   }
 }

@@ -11,7 +11,7 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import type { CosmosHeaders } from "./CosmosHeaders";
-import { DocumentProducer } from "./documentProducer2";
+import { DocumentProducer } from "./documentProducer";
 import type { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import type { SqlQuerySpec } from "./SqlQuerySpec";
@@ -90,11 +90,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
-
+    // Make priority queue for documentProducers
     this.unfilledDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => a.generation - b.generation,
     );
-    // Make priority queue for documentProducers
     // The comparator is supplied by the derived class
     this.bufferedDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
@@ -133,15 +132,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
           // TODO: any partitionTargetRange
           // no async callback
-          const queryRange = QueryRange.parsePartitionKeyRange(partitionTargetRange);
           targetPartitionQueryExecutionContextList.push(
-            this._createTargetPartitionQueryExecutionContext(
-              partitionTargetRange,
-              undefined,
-              queryRange.min,
-              queryRange.max,
-              false,
-            ),
+            this._createTargetPartitionQueryExecutionContext(partitionTargetRange, undefined),
           );
         });
 
@@ -286,7 +278,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
-   * Creates document producers
+   * Creates target partition range Query Execution Context
    */
   private _createTargetPartitionQueryExecutionContext(
     partitionKeyTargetRange: any,
@@ -295,8 +287,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     endEpk?: string,
     populateEpkRangeHeaders?: boolean,
   ): DocumentProducer {
-    // TODO: any
-    // creates target partition range Query Execution Context
     let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo.rewrittenQuery;
     let sqlQuerySpec: SqlQuerySpec;
     const query = this.query;
@@ -419,12 +409,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             documentProducers.push(documentProducer);
           }
 
-          // const ifCallback = (): void => {
-          //   this.sem.leave();
-          //   resolve(this.bufferDocumentProducers(diagnosticNode)); // Retry the method if repair is required
-          // };
-
-          // const elseCallback = async (): Promise<void> => {
           const bufferDocumentProducer = async (
             documentProducer: DocumentProducer,
           ): Promise<void> => {
@@ -467,12 +451,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             this.sem.leave();
           }
           resolve();
-          // };
-          // this._repairExecutionContextIfNeeded(
-          //   this.getDiagnosticNode(),
-          //   ifCallback,
-          //   elseCallback,
-          // ).catch(reject);
         } catch (err) {
           this.sem.leave();
           this.err = err;
