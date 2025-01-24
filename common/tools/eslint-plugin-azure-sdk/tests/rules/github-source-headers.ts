@@ -20,7 +20,7 @@ const valid1 = `// Copyright (c) Microsoft Corporation.
 
 console.log("hello")`;
 
-const valid2 =`/*
+const valid2 = `/*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  *

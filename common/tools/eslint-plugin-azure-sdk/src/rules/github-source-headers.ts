@@ -8,8 +8,8 @@
 import { createRule } from "../utils/ruleCreator.js";
 import { TSESTree } from "@typescript-eslint/utils";
 
+const MINIMUM_NUMBER_COMMENTS_REQUIRED = 1;
 const validHeader1 = ["Copyright (c) Microsoft Corporation.", "Licensed under the MIT License."];
-
 const validLicenseText = ` * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
 `;
@@ -17,13 +17,15 @@ const validLicenseText = ` * Copyright (c) Microsoft Corporation.
 const expectedComments = `// ${validHeader1.join("\n// ")}\n\n`;
 
 function isValid(comments: TSESTree.Comment[]): boolean {
-  if (comments.length < 1) {
+  if (comments.length < MINIMUM_NUMBER_COMMENTS_REQUIRED) {
     return false;
   }
 
-  if (validHeader1
-    .map((l, idx) => ({ expected: l, actual: comments[idx] }))
-    .every((v) => v.actual.type === "Line" && v.expected === v.actual.value.trim())) {
+  if (
+    validHeader1
+      .map((l, idx) => ({ expected: l, actual: comments[idx] }))
+      .every((v) => v.actual.type === "Line" && v.expected === v.actual.value.trim())
+  ) {
     return true;
   }
 
