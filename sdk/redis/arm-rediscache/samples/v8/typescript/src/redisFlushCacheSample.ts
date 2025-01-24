@@ -34,7 +34,7 @@ async function redisCacheFlush(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheFlush();
+  await redisCacheFlush();
 }
 
 main().catch(console.error);

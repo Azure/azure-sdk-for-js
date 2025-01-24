@@ -35,7 +35,7 @@ async function redisCacheExport() {
 }
 
 async function main() {
-  redisCacheExport();
+  await redisCacheExport();
 }
 
 main().catch(console.error);

@@ -191,12 +191,12 @@ async function redisCacheCreateUserDefinedZonalAllocationPolicy() {
 }
 
 async function main() {
-  redisCacheCreate();
-  redisCacheCreateAutomaticZonalAllocationPolicy();
-  redisCacheCreateDefaultVersion();
-  redisCacheCreateLatestVersion();
-  redisCacheCreateNoZonesZonalAllocationPolicy();
-  redisCacheCreateUserDefinedZonalAllocationPolicy();
+  await redisCacheCreate();
+  await redisCacheCreateAutomaticZonalAllocationPolicy();
+  await redisCacheCreateDefaultVersion();
+  await redisCacheCreateLatestVersion();
+  await redisCacheCreateNoZonesZonalAllocationPolicy();
+  await redisCacheCreateUserDefinedZonalAllocationPolicy();
 }
 
 main().catch(console.error);

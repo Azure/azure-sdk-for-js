@@ -30,7 +30,7 @@ async function redisCacheRegenerateKey() {
 }
 
 async function main() {
-  redisCacheRegenerateKey();
+  await redisCacheRegenerateKey();
 }
 
 main().catch(console.error);

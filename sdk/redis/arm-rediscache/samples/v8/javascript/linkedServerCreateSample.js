@@ -41,7 +41,7 @@ async function linkedServerCreate() {
 }
 
 async function main() {
-  linkedServerCreate();
+  await linkedServerCreate();
 }
 
 main().catch(console.error);

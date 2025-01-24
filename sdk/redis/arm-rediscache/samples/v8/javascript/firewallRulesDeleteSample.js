@@ -30,7 +30,7 @@ async function redisCacheFirewallRuleDelete() {
 }
 
 async function main() {
-  redisCacheFirewallRuleDelete();
+  await redisCacheFirewallRuleDelete();
 }
 
 main().catch(console.error);

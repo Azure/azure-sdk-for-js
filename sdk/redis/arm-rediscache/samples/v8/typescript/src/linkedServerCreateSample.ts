@@ -44,7 +44,7 @@ async function linkedServerCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkedServerCreate();
+  await linkedServerCreate();
 }
 
 main().catch(console.error);

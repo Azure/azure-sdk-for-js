@@ -32,7 +32,7 @@ async function redisCacheFirewallRulesList() {
 }
 
 async function main() {
-  redisCacheFirewallRulesList();
+  await redisCacheFirewallRulesList();
 }
 
 main().catch(console.error);

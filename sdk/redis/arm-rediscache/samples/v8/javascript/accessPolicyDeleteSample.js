@@ -34,7 +34,7 @@ async function redisCacheAccessPolicyDelete() {
 }
 
 async function main() {
-  redisCacheAccessPolicyDelete();
+  await redisCacheAccessPolicyDelete();
 }
 
 main().catch(console.error);

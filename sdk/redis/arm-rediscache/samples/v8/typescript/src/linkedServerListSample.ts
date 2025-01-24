@@ -32,7 +32,7 @@ async function linkedServerList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkedServerList();
+  await linkedServerList();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function linkedServerList() {
 }
 
 async function main() {
-  linkedServerList();
+  await linkedServerList();
 }
 
 main().catch(console.error);

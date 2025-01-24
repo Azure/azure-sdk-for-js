@@ -30,7 +30,7 @@ async function linkedServerGet() {
 }
 
 async function main() {
-  linkedServerGet();
+  await linkedServerGet();
 }
 
 main().catch(console.error);

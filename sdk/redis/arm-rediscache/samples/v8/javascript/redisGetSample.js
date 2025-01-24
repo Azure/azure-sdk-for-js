@@ -29,7 +29,7 @@ async function redisCacheGet() {
 }
 
 async function main() {
-  redisCacheGet();
+  await redisCacheGet();
 }
 
 main().catch(console.error);

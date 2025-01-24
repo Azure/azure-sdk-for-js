@@ -34,7 +34,7 @@ async function linkedServerDelete() {
 }
 
 async function main() {
-  linkedServerDelete();
+  await linkedServerDelete();
 }
 
 main().catch(console.error);

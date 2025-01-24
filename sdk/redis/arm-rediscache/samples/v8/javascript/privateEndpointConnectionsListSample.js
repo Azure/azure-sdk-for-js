@@ -32,7 +32,7 @@ async function redisCacheListPrivateEndpointConnection() {
 }
 
 async function main() {
-  redisCacheListPrivateEndpointConnection();
+  await redisCacheListPrivateEndpointConnection();
 }
 
 main().catch(console.error);

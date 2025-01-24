@@ -32,7 +32,7 @@ async function redisCacheAccessPolicyAssignmentList() {
 }
 
 async function main() {
-  redisCacheAccessPolicyAssignmentList();
+  await redisCacheAccessPolicyAssignmentList();
 }
 
 main().catch(console.error);

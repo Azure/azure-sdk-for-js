@@ -34,7 +34,7 @@ async function redisCacheCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheCheckNameAvailability();
+  await redisCacheCheckNameAvailability();
 }
 
 main().catch(console.error);

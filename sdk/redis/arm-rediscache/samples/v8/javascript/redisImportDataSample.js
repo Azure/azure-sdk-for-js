@@ -34,7 +34,7 @@ async function redisCacheImport() {
 }
 
 async function main() {
-  redisCacheImport();
+  await redisCacheImport();
 }
 
 main().catch(console.error);

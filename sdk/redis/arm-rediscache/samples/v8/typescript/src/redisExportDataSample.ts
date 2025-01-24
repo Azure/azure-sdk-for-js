@@ -43,7 +43,7 @@ async function redisCacheExport(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheExport();
+  await redisCacheExport();
 }
 
 main().catch(console.error);

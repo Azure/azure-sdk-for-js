@@ -33,7 +33,7 @@ async function redisCacheListUpgradeNotifications() {
 }
 
 async function main() {
-  redisCacheListUpgradeNotifications();
+  await redisCacheListUpgradeNotifications();
 }
 
 main().catch(console.error);

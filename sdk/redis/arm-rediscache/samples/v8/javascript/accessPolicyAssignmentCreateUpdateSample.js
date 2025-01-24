@@ -40,7 +40,7 @@ async function redisCacheAccessPolicyAssignmentCreateUpdate() {
 }
 
 async function main() {
-  redisCacheAccessPolicyAssignmentCreateUpdate();
+  await redisCacheAccessPolicyAssignmentCreateUpdate();
 }
 
 main().catch(console.error);

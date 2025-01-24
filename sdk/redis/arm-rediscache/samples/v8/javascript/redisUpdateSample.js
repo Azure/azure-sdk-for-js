@@ -33,7 +33,7 @@ async function redisCacheUpdate() {
 }
 
 async function main() {
-  redisCacheUpdate();
+  await redisCacheUpdate();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function storageAccountListPrivateLinkResources(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountListPrivateLinkResources();
+  await storageAccountListPrivateLinkResources();
 }
 
 main().catch(console.error);

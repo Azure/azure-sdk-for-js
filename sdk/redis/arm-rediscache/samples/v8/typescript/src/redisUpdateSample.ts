@@ -40,7 +40,7 @@ async function redisCacheUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  redisCacheUpdate();
+  await redisCacheUpdate();
 }
 
 main().catch(console.error);

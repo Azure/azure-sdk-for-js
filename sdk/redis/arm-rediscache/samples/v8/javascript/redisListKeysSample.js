@@ -29,7 +29,7 @@ async function redisCacheListKeys() {
 }
 
 async function main() {
-  redisCacheListKeys();
+  await redisCacheListKeys();
 }
 
 main().catch(console.error);

@@ -29,7 +29,7 @@ async function redisCacheDelete() {
 }
 
 async function main() {
-  redisCacheDelete();
+  await redisCacheDelete();
 }
 
 main().catch(console.error);

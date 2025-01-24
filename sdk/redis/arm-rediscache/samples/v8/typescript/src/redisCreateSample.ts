@@ -218,12 +218,12 @@ async function redisCacheCreateUserDefinedZonalAllocationPolicy(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  redisCacheCreate();
-  redisCacheCreateAutomaticZonalAllocationPolicy();
-  redisCacheCreateDefaultVersion();
-  redisCacheCreateLatestVersion();
-  redisCacheCreateNoZonesZonalAllocationPolicy();
-  redisCacheCreateUserDefinedZonalAllocationPolicy();
+  await redisCacheCreate();
+  await redisCacheCreateAutomaticZonalAllocationPolicy();
+  await redisCacheCreateDefaultVersion();
+  await redisCacheCreateLatestVersion();
+  await redisCacheCreateNoZonesZonalAllocationPolicy();
+  await redisCacheCreateUserDefinedZonalAllocationPolicy();
 }
 
 main().catch(console.error);

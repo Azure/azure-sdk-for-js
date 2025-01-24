@@ -34,7 +34,7 @@ async function redisCacheGetPrivateEndpointConnection() {
 }
 
 async function main() {
-  redisCacheGetPrivateEndpointConnection();
+  await redisCacheGetPrivateEndpointConnection();
 }
 
 main().catch(console.error);

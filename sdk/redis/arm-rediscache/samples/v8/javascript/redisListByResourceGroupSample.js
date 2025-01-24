@@ -31,7 +31,7 @@ async function redisCacheListByResourceGroup() {
 }
 
 async function main() {
-  redisCacheListByResourceGroup();
+  await redisCacheListByResourceGroup();
 }
 
 main().catch(console.error);
