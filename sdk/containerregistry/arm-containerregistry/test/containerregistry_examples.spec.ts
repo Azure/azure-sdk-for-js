@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ContainerRegistryManagementClient } from "../src/containerRegistryManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -44,15 +40,19 @@ describe("ContainerRegistry test", () => {
   let registryName: string;
   // let importPipelineName: string;
   // let exportPipelineName: string;
-  let taskName: string
+  let taskName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ContainerRegistryManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ContainerRegistryManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     registryName = "myregistryxxxyy";
@@ -61,196 +61,136 @@ describe("ContainerRegistry test", () => {
     taskName = "mytaskxxx";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("registries create test", async function () {
-    const res = await client.registries.beginCreateAndWait(resourceGroup, registryName, {
-      location: location,
-      tags: {
-        key: "value"
+  it("registries create test", async () => {
+    const res = await client.registries.beginCreateAndWait(
+      resourceGroup,
+      registryName,
+      {
+        location: location,
+        tags: {
+          key: "value",
+        },
+        sku: {
+          name: "Premium",
+        },
+        adminUserEnabled: false,
       },
-      sku: {
-        name: "Premium"
-      },
-      adminUserEnabled: false
-    }, testPollingOptions);
-    assert.equal(res.name, registryName)
+      testPollingOptions,
+    );
+    assert.equal(res.name, registryName);
   });
 
-  // it("importPipelines create test", async function() {
-  //   const res = await client.importPipelines.beginCreateAndWait(resourceGroup,registryName,importPipelineName,{
-  //     location: location,
-  //       identity: {
-  //           type: "SystemAssigned"
-  //       },
-  //       source: {
-  //           type: "AzureStorageBlobContainer",
-  //           uri: "https://accountname.blob.core.windows.net/containername",
-  //           keyVaultUri: "https://myvault.vault.azure.net/secrets/acrimportsas"
-  //       },
-  //       options: [
-  //           "OverwriteTags",
-  //           "DeleteSourceBlobOnSuccess",
-  //           "ContinueOnErrors"
-  //       ]
-  //   },testPollingOptions);
-  //   assert.equal(res.name,importPipelineName)
-  // });
-
-  // it("exportPipelines create test", async function() {
-  //   const res = await client.exportPipelines.beginCreateAndWait(resourceGroup,registryName,exportPipelineName,{
-  //     location: location,
-  //       identity: {
-  //           type: "SystemAssigned"
-  //       },
-  //       target: {
-  //           type: "AzureStorageBlobContainer",
-  //           uri: "https://accountname.blob.core.windows.net/containername",
-  //           keyVaultUri: "https://myvault.vault.azure.net/secrets/acrexportsas"
-  //       },
-  //       options: [
-  //           "OverwriteBlobs"
-  //       ]
-  //   },testPollingOptions);
-  //   assert.equal(res.name,exportPipelineName);
-  // });
-
-  // it("importPipelines get test", async function() {
-  //   const res = await client.importPipelines.get(resourceGroup,registryName,importPipelineName);
-  //   assert.equal(res.name,importPipelineName)
-  // });
-
-  // it("exportPipelines get test", async function() {
-  //   const res = await client.exportPipelines.get(resourceGroup,registryName,exportPipelineName);
-  //   assert.equal(res.name,exportPipelineName)
-  // });
-
-  // it("importPipelines list test", async function() {
-  //   const resArray = new Array();
-  //   for await (let item of client.importPipelines.list(resourceGroup,registryName)){
-  //       resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length,1);
-  // });
-
-  // it("exportPipelines list test", async function() {
-  //   const resArray = new Array();
-  //   for await (let item of client.exportPipelines.list(resourceGroup,registryName)){
-  //       resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length,1);
-  // });
-
-  // it("importPipelines delete test", async function() {
-  //   const res = await client.importPipelines.beginDeleteAndWait(resourceGroup,registryName,importPipelineName,testPollingOptions);
-  //   const resArray = new Array();
-  //   for await (let item of client.importPipelines.list(resourceGroup,registryName)){
-  //       resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length,0);
-  // });
-
-  // it("exportPipelines delete test", async function() {
-  //   const res = await client.exportPipelines.beginDeleteAndWait(resourceGroup,registryName,exportPipelineName,testPollingOptions);
-  //   const resArray = new Array();
-  //   for await (let item of client.exportPipelines.list(resourceGroup,registryName)){
-  //       resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length,0);
-  // });
-
-  it("tasks create test", async function () {
-    const res = await client.tasks.beginCreateAndWait(resourceGroup, registryName, taskName, {
-      location: location,
-      tags: {
-        testkey: "value"
+  it("tasks create test", async () => {
+    const res = await client.tasks.beginCreateAndWait(
+      resourceGroup,
+      registryName,
+      taskName,
+      {
+        location: location,
+        tags: {
+          testkey: "value",
+        },
+        status: "Enabled",
+        platform: {
+          os: "Linux",
+          architecture: "amd64",
+        },
+        agentConfiguration: {
+          cpu: 2,
+        },
+        step: {
+          type: "Docker",
+          contextPath: "https://github.com/SteveLasker/node-helloworld",
+          imageNames: ["testtask:v1"],
+          dockerFilePath: "DockerFile",
+          isPushEnabled: true,
+          noCache: false,
+        },
+        trigger: {
+          baseImageTrigger: {
+            name: "myBaseImageTrigger",
+            baseImageTriggerType: "Runtime",
+            updateTriggerPayloadType: "Default",
+            status: "Enabled",
+          },
+        },
       },
-      status: "Enabled",
-      platform: {
-        os: "Linux",
-        architecture: "amd64"
-      },
-      agentConfiguration: {
-        cpu: 2
-      },
-      step: {
-        type: "Docker",
-        contextPath: "https://github.com/SteveLasker/node-helloworld",
-        imageNames: ["testtask:v1"],
-        dockerFilePath: "DockerFile",
-        isPushEnabled: true,
-        noCache: false
-      },
-      trigger: {
-        baseImageTrigger: {
-          name: "myBaseImageTrigger",
-          baseImageTriggerType: "Runtime",
-          updateTriggerPayloadType: "Default",
-          status: "Enabled"
-        }
-      }
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, taskName);
   });
 
-  it("tasks get test", async function () {
+  it("tasks get test", async () => {
     const res = await client.tasks.get(resourceGroup, registryName, taskName);
     assert.equal(res.name, taskName);
   });
 
-  it("tasks list test", async function () {
+  it("tasks list test", async () => {
     const resArray = new Array();
-    for await (let item of client.tasks.list(resourceGroup, registryName)) {
+    for await (const item of client.tasks.list(resourceGroup, registryName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("tasks update test", async function () {
-    const res = await client.tasks.beginUpdateAndWait(resourceGroup, registryName, taskName, {
-      tags: {
-        testkey: "value"
+  it("tasks update test", async () => {
+    const res = await client.tasks.beginUpdateAndWait(
+      resourceGroup,
+      registryName,
+      taskName,
+      {
+        tags: {
+          testkey: "value",
+        },
+        status: "Enabled",
+        platform: {
+          os: "Linux",
+          architecture: "amd64",
+        },
+        agentConfiguration: {
+          cpu: 2,
+        },
+        step: {
+          type: "Docker",
+          contextPath: "https://github.com/SteveLasker/node-helloworld",
+          imageNames: ["testtask:v1"],
+          dockerFilePath: "DockerFile",
+          isPushEnabled: true,
+          noCache: false,
+        },
+        trigger: {
+          baseImageTrigger: {
+            name: "myBaseImageTrigger",
+            baseImageTriggerType: "Runtime",
+            updateTriggerPayloadType: "Default",
+            status: "Enabled",
+          },
+        },
       },
-      status: "Enabled",
-      platform: {
-        os: "Linux",
-        architecture: "amd64"
-      },
-      agentConfiguration: {
-        cpu: 2
-      },
-      step: {
-        type: "Docker",
-        contextPath: "https://github.com/SteveLasker/node-helloworld",
-        imageNames: ["testtask:v1"],
-        dockerFilePath: "DockerFile",
-        isPushEnabled: true,
-        noCache: false
-      },
-      trigger: {
-        baseImageTrigger: {
-          name: "myBaseImageTrigger",
-          baseImageTriggerType: "Runtime",
-          updateTriggerPayloadType: "Default",
-          status: "Enabled"
-        }
-      }
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.type, "Microsoft.ContainerRegistry/registries/tasks");
   });
 
-  it("tasks delete test", async function () {
-    await client.tasks.beginDeleteAndWait(resourceGroup, registryName, taskName, testPollingOptions);
+  it("tasks delete test", async () => {
+    await client.tasks.beginDeleteAndWait(
+      resourceGroup,
+      registryName,
+      taskName,
+      testPollingOptions,
+    );
     const resArray = new Array();
-    for await (let item of client.tasks.list(resourceGroup, registryName)) {
+    for await (const item of client.tasks.list(resourceGroup, registryName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("registries delete test", async function () {
+  it("registries delete test", async () => {
     await client.registries.beginDeleteAndWait(resourceGroup, registryName, testPollingOptions);
   });
 });

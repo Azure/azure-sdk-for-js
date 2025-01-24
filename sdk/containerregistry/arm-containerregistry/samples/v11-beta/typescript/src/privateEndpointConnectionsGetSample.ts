@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the specified private endpoint connection associated with the container registry.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PrivateEndpointConnectionGet.json
  */
-async function privateEndpointConnectionGet() {
+async function privateEndpointConnectionGet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ async function privateEndpointConnectionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionGet();
 }
 

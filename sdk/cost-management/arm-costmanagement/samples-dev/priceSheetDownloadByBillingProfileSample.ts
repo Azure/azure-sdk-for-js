@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,7 +24,7 @@ async function pricesheetDownloadByBillingProfile(): Promise<void> {
   const client = new CostManagementClient(credential);
   const result = await client.priceSheet.beginDownloadByBillingProfileAndWait(
     billingAccountName,
-    billingProfileName
+    billingProfileName,
   );
   console.log(result);
 }

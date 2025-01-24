@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists GroupQuotas for the scope passed. It will return the GroupQuotas QuotaEntity properties only.The details on group quota can be access from the group quota APIs.
  *
  * @summary Lists GroupQuotas for the scope passed. It will return the GroupQuotas QuotaEntity properties only.The details on group quota can be access from the group quota APIs.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotas/GetGroupQuotasList.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GroupQuotas/GetGroupQuotasList.json
  */
-async function groupQuotasListRequestForCompute() {
+async function groupQuotasListRequestForCompute(): Promise<void> {
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
@@ -31,7 +29,7 @@ async function groupQuotasListRequestForCompute() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await groupQuotasListRequestForCompute();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a private link resource for cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/PrivateLinkResourcesGet.json
  */
-async function getsAPrivateLinkResourceForCluster() {
+async function getsAPrivateLinkResourceForCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function getsAPrivateLinkResourceForCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsAPrivateLinkResourceForCluster();
 }
 

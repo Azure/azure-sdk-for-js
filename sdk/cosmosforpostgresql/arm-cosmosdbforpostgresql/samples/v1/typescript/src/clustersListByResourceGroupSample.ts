@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all clusters in a resource group.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterListByResourceGroup.json
  */
-async function listTheClustersByResourceGroup() {
+async function listTheClustersByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -35,7 +35,7 @@ async function listTheClustersByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listTheClustersByResourceGroup();
 }
 

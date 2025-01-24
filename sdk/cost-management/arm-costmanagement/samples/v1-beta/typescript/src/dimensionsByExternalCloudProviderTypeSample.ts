@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the dimensions by the external cloud provider type.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountsDimensions.json
  */
-async function externalBillingAccountDimensionList() {
+async function externalBillingAccountDimensionList(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function externalBillingAccountDimensionList() {
  * @summary Lists the dimensions by the external cloud provider type.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalSubscriptionsDimensions.json
  */
-async function externalSubscriptionDimensionList() {
+async function externalSubscriptionDimensionList(): Promise<void> {
   const externalCloudProviderType = "externalSubscriptions";
   const externalCloudProviderId = "100";
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function externalSubscriptionDimensionList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   externalBillingAccountDimensionList();
   externalSubscriptionDimensionList();
 }

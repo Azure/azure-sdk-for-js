@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FirewallRule} from "@azure/arm-cosmosdbforpostgresql";
 import {
-  FirewallRule,
   CosmosDBForPostgreSQL,
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";

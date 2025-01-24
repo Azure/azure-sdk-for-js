@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Contains list of Guardrails version along with its support info and whether it is a default version.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ListGuardrailsVersions.json
  */
-async function listGuardrailsVersions() {
+async function listGuardrailsVersions(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function listGuardrailsVersions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listGuardrailsVersions();
 }
 

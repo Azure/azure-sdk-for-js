@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersResetAADProfile.json
  */
-async function resetAadProfile() {
+async function resetAadProfile(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +44,7 @@ async function resetAadProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   resetAadProfile();
 }
 

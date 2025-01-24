@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about a server in cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ServerGet.json
  */
-async function getTheServerOfCluster() {
+async function getTheServerOfCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function getTheServerOfCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheServerOfCluster();
 }
 

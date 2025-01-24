@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a pipeline run for a container registry with the specified parameters
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunCreate_Export.json
  */
-async function pipelineRunCreateExport() {
+async function pipelineRunCreateExport(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -60,7 +60,7 @@ async function pipelineRunCreateExport() {
  * @summary Creates a pipeline run for a container registry with the specified parameters
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunCreate_Import.json
  */
-async function pipelineRunCreateImport() {
+async function pipelineRunCreateImport(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -91,7 +91,7 @@ async function pipelineRunCreateImport() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   pipelineRunCreateExport();
   pipelineRunCreateImport();
 }

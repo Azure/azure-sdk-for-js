@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists fleets in the specified subscription.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/Fleets_ListBySub.json
  */
-async function listsTheFleetResourcesInASubscription() {
+async function listsTheFleetResourcesInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function listsTheFleetResourcesInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsTheFleetResourcesInASubscription();
 }
 

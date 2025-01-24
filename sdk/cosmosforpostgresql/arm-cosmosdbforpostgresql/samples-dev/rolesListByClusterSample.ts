@@ -28,7 +28,7 @@ async function roleList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.roles.listByCluster(
+  for await (const item of client.roles.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

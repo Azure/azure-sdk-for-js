@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ClusterForUpdate} from "@azure/arm-cosmosdbforpostgresql";
 import {
-  ClusterForUpdate,
   CosmosDBForPostgreSQL,
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
