@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes an existing Azure Cosmos DB Mongo Role Definition.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBRoleDefinitionDelete.json
  */
-async function cosmosDbMongoDbroleDefinitionDelete() {
+async function cosmosDbMongoDbroleDefinitionDelete(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const mongoRoleDefinitionId = "myMongoRoleDefinitionId";
@@ -36,8 +36,8 @@ async function cosmosDbMongoDbroleDefinitionDelete() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbMongoDbroleDefinitionDelete();
+async function main(): Promise<void> {
+  await cosmosDbMongoDbroleDefinitionDelete();
 }
 
 main().catch(console.error);

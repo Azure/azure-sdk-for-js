@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Patches a .NET Component using JSON Merge Patch
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Patch.json
  */
-async function patchNetComponent() {
+async function patchNetComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -50,7 +50,7 @@ async function patchNetComponent() {
  * @summary Patches a .NET Component using JSON Merge Patch
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Patch_ServiceBind.json
  */
-async function patchNetComponentWithServiceBinds() {
+async function patchNetComponentWithServiceBinds(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -80,9 +80,9 @@ async function patchNetComponentWithServiceBinds() {
   console.log(result);
 }
 
-async function main() {
-  patchNetComponent();
-  patchNetComponentWithServiceBinds();
+async function main(): Promise<void> {
+  await patchNetComponent();
+  await patchNetComponentWithServiceBinds();
 }
 
 main().catch(console.error);

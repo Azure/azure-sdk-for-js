@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete the default API portal.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ApiPortals_Delete.json
  */
-async function apiPortalsDelete() {
+async function apiPortalsDelete(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function apiPortalsDelete() {
   console.log(result);
 }
 
-async function main() {
-  apiPortalsDelete();
+async function main(): Promise<void> {
+  await apiPortalsDelete();
 }
 
 main().catch(console.error);

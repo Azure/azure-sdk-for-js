@@ -36,7 +36,7 @@ async function listEventSourcesByEnvironment() {
 }
 
 async function main() {
-  listEventSourcesByEnvironment();
+  await listEventSourcesByEnvironment();
 }
 
 main().catch(console.error);

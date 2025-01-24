@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Post operation to serialize or deserialize GraphRunbookContent
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/serializeGraphRunbookContent.json
  */
-async function getGraphicalRawRunbookContentFromGraphicalRunbookJsonObject() {
+async function getGraphicalRawRunbookContentFromGraphicalRunbookJsonObject(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "MyAutomationAccount";
@@ -44,7 +44,7 @@ async function getGraphicalRawRunbookContentFromGraphicalRunbookJsonObject() {
  * @summary Post operation to serialize or deserialize GraphRunbookContent
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/deserializeGraphRunbookContent.json
  */
-async function getGraphicalRunbookContentFromRawContent() {
+async function getGraphicalRunbookContentFromRawContent(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "MyAutomationAccount";
@@ -66,9 +66,9 @@ async function getGraphicalRunbookContentFromRawContent() {
   console.log(result);
 }
 
-async function main() {
-  getGraphicalRawRunbookContentFromGraphicalRunbookJsonObject();
-  getGraphicalRunbookContentFromRawContent();
+async function main(): Promise<void> {
+  await getGraphicalRawRunbookContentFromGraphicalRunbookJsonObject();
+  await getGraphicalRunbookContentFromRawContent();
 }
 
 main().catch(console.error);

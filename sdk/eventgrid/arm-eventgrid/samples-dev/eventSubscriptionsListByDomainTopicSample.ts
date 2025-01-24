@@ -42,7 +42,7 @@ async function eventSubscriptionsListByDomainTopic() {
 }
 
 async function main() {
-  eventSubscriptionsListByDomainTopic();
+  await eventSubscriptionsListByDomainTopic();
 }
 
 main().catch(console.error);

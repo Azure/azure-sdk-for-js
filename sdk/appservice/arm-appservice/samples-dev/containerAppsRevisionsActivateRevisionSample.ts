@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Activates a revision for a Container App
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ActivateRevision.json
  */
-async function activateContainerAppRevision() {
+async function activateContainerAppRevision(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,8 +35,8 @@ async function activateContainerAppRevision() {
   console.log(result);
 }
 
-async function main() {
-  activateContainerAppRevision();
+async function main(): Promise<void> {
+  await activateContainerAppRevision();
 }
 
 main().catch(console.error);

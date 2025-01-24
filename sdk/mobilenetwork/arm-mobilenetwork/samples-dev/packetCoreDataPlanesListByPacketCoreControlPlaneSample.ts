@@ -40,7 +40,7 @@ async function listPacketCoreDataPlanesInAControlPlane() {
 }
 
 async function main() {
-  listPacketCoreDataPlanesInAControlPlane();
+  await listPacketCoreDataPlanesInAControlPlane();
 }
 
 main().catch(console.error);

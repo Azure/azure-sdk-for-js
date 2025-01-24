@@ -51,7 +51,7 @@ async function testBackendHealth() {
 }
 
 async function main() {
-  testBackendHealth();
+  await testBackendHealth();
 }
 
 main().catch(console.error);

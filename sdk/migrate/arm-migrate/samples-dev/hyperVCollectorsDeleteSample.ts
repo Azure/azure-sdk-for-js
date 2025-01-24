@@ -39,7 +39,7 @@ async function hyperVCollectorsDelete() {
 }
 
 async function main() {
-  hyperVCollectorsDelete();
+  await hyperVCollectorsDelete();
 }
 
 main().catch(console.error);

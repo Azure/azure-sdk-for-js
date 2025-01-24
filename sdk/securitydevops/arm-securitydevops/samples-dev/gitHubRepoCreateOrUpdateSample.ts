@@ -43,7 +43,7 @@ async function gitHubRepoCreateOrUpdate() {
 }
 
 async function main() {
-  gitHubRepoCreateOrUpdate();
+  await gitHubRepoCreateOrUpdate();
 }
 
 main().catch(console.error);

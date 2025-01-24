@@ -26,7 +26,7 @@ const imageFilePath = "sample1.png";
 const imageFormat = "png"; //"jpeg", "png", etc.
 
 async function main() {
-  console.log("== Chat Completions Sample ==");
+  console.log("== Image File Completions Sample ==");
 
   const client = createModelClient();
 
@@ -92,8 +92,7 @@ function createModelClient() {
     const scopes = [];
     if (endpoint.includes(".models.ai.azure.com")) {
       scopes.push("https://ml.azure.com");
-    }
-    else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
       scopes.push("https://cognitiveservices.azure.com");
     }
 

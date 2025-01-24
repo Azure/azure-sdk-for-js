@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the SQL container under an existing Azure Cosmos DB database account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlContainerList.json
  */
-async function cosmosDbSqlContainerList() {
+async function cosmosDbSqlContainerList(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
@@ -36,8 +36,8 @@ async function cosmosDbSqlContainerList() {
   console.log(resArray);
 }
 
-async function main() {
-  cosmosDbSqlContainerList();
+async function main(): Promise<void> {
+  await cosmosDbSqlContainerList();
 }
 
 main().catch(console.error);

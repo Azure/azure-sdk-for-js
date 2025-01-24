@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a dapr subscription.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Get_DefaultRoute.json
  */
-async function getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes() {
+async function getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -42,7 +42,7 @@ async function getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes() {
  * @summary Get a dapr subscription.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Get_BulkSubscribeAndScopes.json
  */
-async function getDaprSubscriptionWithDefaultRouteOnly() {
+async function getDaprSubscriptionWithDefaultRouteOnly(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -66,7 +66,7 @@ async function getDaprSubscriptionWithDefaultRouteOnly() {
  * @summary Get a dapr subscription.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Get_RouteRulesAndMetadata.json
  */
-async function getDaprSubscriptionWithRouteRulesAndMetadata() {
+async function getDaprSubscriptionWithRouteRulesAndMetadata(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -84,10 +84,10 @@ async function getDaprSubscriptionWithRouteRulesAndMetadata() {
   console.log(result);
 }
 
-async function main() {
-  getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes();
-  getDaprSubscriptionWithDefaultRouteOnly();
-  getDaprSubscriptionWithRouteRulesAndMetadata();
+async function main(): Promise<void> {
+  await getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes();
+  await getDaprSubscriptionWithDefaultRouteOnly();
+  await getDaprSubscriptionWithRouteRulesAndMetadata();
 }
 
 main().catch(console.error);

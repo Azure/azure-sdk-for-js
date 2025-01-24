@@ -51,7 +51,7 @@ async function virtualNetworkGatewayNatRulePut() {
 }
 
 async function main() {
-  virtualNetworkGatewayNatRulePut();
+  await virtualNetworkGatewayNatRulePut();
 }
 
 main().catch(console.error);

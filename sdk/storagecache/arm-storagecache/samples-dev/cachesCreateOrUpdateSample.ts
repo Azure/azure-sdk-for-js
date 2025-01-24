@@ -172,8 +172,8 @@ async function cachesCreateOrUpdateLdapOnly() {
 }
 
 async function main() {
-  cachesCreateOrUpdate();
-  cachesCreateOrUpdateLdapOnly();
+  await cachesCreateOrUpdate();
+  await cachesCreateOrUpdateLdapOnly();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getPartnersByIntegrationAccountName() {
 }
 
 async function main() {
-  getPartnersByIntegrationAccountName();
+  await getPartnersByIntegrationAccountName();
 }
 
 main().catch(console.error);

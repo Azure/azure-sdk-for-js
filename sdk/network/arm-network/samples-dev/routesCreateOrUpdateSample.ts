@@ -41,7 +41,7 @@ async function createRoute() {
 }
 
 async function main() {
-  createRoute();
+  await createRoute();
 }
 
 main().catch(console.error);

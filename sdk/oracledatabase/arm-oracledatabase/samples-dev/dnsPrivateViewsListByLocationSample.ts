@@ -35,7 +35,7 @@ async function listDnsPrivateViewsByLocation() {
 }
 
 async function main() {
-  listDnsPrivateViewsByLocation();
+  await listDnsPrivateViewsByLocation();
 }
 
 main().catch(console.error);

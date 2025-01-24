@@ -446,14 +446,14 @@ async function storageAccountSetManagementPolicyLastTierChangeTimeActions() {
 }
 
 async function main() {
-  storageAccountSetManagementPolicies();
-  storageAccountSetManagementPolicyColdTierActions();
-  storageAccountSetManagementPolicyForBlockAndAppendBlobs();
-  storageAccountSetManagementPolicyHotTierActions();
-  storageAccountSetManagementPolicyWithSnapshotAndVersion();
-  storageAccountSetManagementPolicyBaseBlobDaysAfterCreationActions();
-  storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions();
-  storageAccountSetManagementPolicyLastTierChangeTimeActions();
+  await storageAccountSetManagementPolicies();
+  await storageAccountSetManagementPolicyColdTierActions();
+  await storageAccountSetManagementPolicyForBlockAndAppendBlobs();
+  await storageAccountSetManagementPolicyHotTierActions();
+  await storageAccountSetManagementPolicyWithSnapshotAndVersion();
+  await storageAccountSetManagementPolicyBaseBlobDaysAfterCreationActions();
+  await storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions();
+  await storageAccountSetManagementPolicyLastTierChangeTimeActions();
 }
 
 main().catch(console.error);

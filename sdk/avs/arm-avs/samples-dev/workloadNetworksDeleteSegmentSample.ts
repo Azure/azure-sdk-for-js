@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a WorkloadNetworkSegment
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_DeleteSegment.json
  */
-async function workloadNetworksDeleteSegment() {
+async function workloadNetworksDeleteSegment(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,8 +35,8 @@ async function workloadNetworksDeleteSegment() {
   console.log(result);
 }
 
-async function main() {
-  workloadNetworksDeleteSegment();
+async function main(): Promise<void> {
+  await workloadNetworksDeleteSegment();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create/Overwrite Azure Advisor configuration and also delete all configurations of contained resource groups.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateConfiguration.json
  */
-async function putConfigurations() {
+async function putConfigurations(): Promise<void> {
   const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const configurationName = "default";
   const configContract: ConfigData = {
@@ -52,7 +52,7 @@ async function putConfigurations() {
 }
 
 async function main(): Promise<void> {
-  putConfigurations();
+  await putConfigurations();
 }
 
 main().catch(console.error);

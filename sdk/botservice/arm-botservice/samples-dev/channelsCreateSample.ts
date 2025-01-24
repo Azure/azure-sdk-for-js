@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutAlexaChannel.json
  */
-async function createAlexaChannel() {
+async function createAlexaChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -49,7 +49,7 @@ async function createAlexaChannel() {
  * @summary Creates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutChannel.json
  */
-async function createChannel() {
+async function createChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -80,7 +80,7 @@ async function createChannel() {
  * @summary Creates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutDirectLineSpeechChannel.json
  */
-async function createDirectLineSpeechChannel() {
+async function createDirectLineSpeechChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -115,7 +115,7 @@ async function createDirectLineSpeechChannel() {
  * @summary Creates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutEmailChannel.json
  */
-async function createEmailChannel() {
+async function createEmailChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -151,7 +151,7 @@ async function createEmailChannel() {
  * @summary Creates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutLineChannel.json
  */
-async function createLineChannel() {
+async function createLineChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -183,12 +183,12 @@ async function createLineChannel() {
   console.log(result);
 }
 
-async function main() {
-  createAlexaChannel();
-  createChannel();
-  createDirectLineSpeechChannel();
-  createEmailChannel();
-  createLineChannel();
+async function main(): Promise<void> {
+  await createAlexaChannel();
+  await createChannel();
+  await createDirectLineSpeechChannel();
+  await createEmailChannel();
+  await createLineChannel();
 }
 
 main().catch(console.error);

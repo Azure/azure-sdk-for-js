@@ -39,7 +39,7 @@ async function getDataMaskingPolicy() {
 }
 
 async function main() {
-  getDataMaskingPolicy();
+  await getDataMaskingPolicy();
 }
 
 main().catch(console.error);

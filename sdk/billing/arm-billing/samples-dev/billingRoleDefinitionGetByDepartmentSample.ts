@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the definition for a role on a department. The operation is supported for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleDefinitionGetByDepartment.json
  */
-async function billingRoleDefinitionGetByDepartment() {
+async function billingRoleDefinitionGetByDepartment(): Promise<void> {
   const billingAccountName = "123456";
   const departmentName = "7368531";
   const roleDefinitionName = "50000000-aaaa-bbbb-cccc-100000000000";
@@ -32,8 +32,8 @@ async function billingRoleDefinitionGetByDepartment() {
   console.log(result);
 }
 
-async function main() {
-  billingRoleDefinitionGetByDepartment();
+async function main(): Promise<void> {
+  await billingRoleDefinitionGetByDepartment();
 }
 
 main().catch(console.error);

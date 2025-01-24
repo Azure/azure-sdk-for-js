@@ -59,8 +59,8 @@ async function organizationsGetMin() {
 }
 
 async function main() {
-  organizationsGet();
-  organizationsGetMin();
+  await organizationsGet();
+  await organizationsGetMin();
 }
 
 main().catch(console.error);

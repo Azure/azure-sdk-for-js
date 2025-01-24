@@ -52,7 +52,7 @@ async function linkedStorageAccountsCreate() {
 }
 
 async function main() {
-  linkedStorageAccountsCreate();
+  await linkedStorageAccountsCreate();
 }
 
 main().catch(console.error);

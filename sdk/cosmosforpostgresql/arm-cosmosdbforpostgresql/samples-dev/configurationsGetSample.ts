@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information of a configuration for coordinator and nodes.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationGet.json
  */
-async function getConfigurationDetails() {
+async function getConfigurationDetails(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,8 +36,8 @@ async function getConfigurationDetails() {
   console.log(result);
 }
 
-async function main() {
-  getConfigurationDetails();
+async function main(): Promise<void> {
+  await getConfigurationDetails();
 }
 
 main().catch(console.error);

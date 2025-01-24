@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List HcxEnterpriseSite resources by PrivateCloud
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/HcxEnterpriseSites_List.json
  */
-async function hcxEnterpriseSitesList() {
+async function hcxEnterpriseSitesList(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function hcxEnterpriseSitesList() {
   console.log(resArray);
 }
 
-async function main() {
-  hcxEnterpriseSitesList();
+async function main(): Promise<void> {
+  await hcxEnterpriseSitesList();
 }
 
 main().catch(console.error);

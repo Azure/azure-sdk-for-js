@@ -40,7 +40,7 @@ async function getAllDataConnectors() {
 }
 
 async function main() {
-  getAllDataConnectors();
+  await getAllDataConnectors();
 }
 
 main().catch(console.error);

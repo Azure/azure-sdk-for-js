@@ -39,7 +39,7 @@ async function retrieveOutboundEndpointForDnsResolver() {
 }
 
 async function main() {
-  retrieveOutboundEndpointForDnsResolver();
+  await retrieveOutboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the application packages in the specified application.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationPackageList.json
  */
-async function applicationPackageList() {
+async function applicationPackageList(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -37,8 +37,8 @@ async function applicationPackageList() {
   console.log(resArray);
 }
 
-async function main() {
-  applicationPackageList();
+async function main(): Promise<void> {
+  await applicationPackageList();
 }
 
 main().catch(console.error);

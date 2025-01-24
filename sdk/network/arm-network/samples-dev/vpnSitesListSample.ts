@@ -32,7 +32,7 @@ async function vpnSiteList() {
 }
 
 async function main() {
-  vpnSiteList();
+  await vpnSiteList();
 }
 
 main().catch(console.error);

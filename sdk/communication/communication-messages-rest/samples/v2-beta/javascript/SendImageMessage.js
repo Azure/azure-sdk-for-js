@@ -9,7 +9,7 @@ const { AzureKeyCredential } = require("@azure/core-auth");
 const NotificationClient = require("@azure-rest/communication-messages").default,
   { isUnexpected } = require("@azure-rest/communication-messages");
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
@@ -32,8 +32,7 @@ async function main() {
     throw new Error("Failed to send message");
   }
 
-  const response = result;
-  response.body.receipts.forEach((receipt) => {
+  await result.body.receipts.forEach((receipt) => {
     console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
   });
 }

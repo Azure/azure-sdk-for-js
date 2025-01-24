@@ -33,7 +33,7 @@ async function listNetworkSecurityGroupsInResourceGroup() {
 }
 
 async function main() {
-  listNetworkSecurityGroupsInResourceGroup();
+  await listNetworkSecurityGroupsInResourceGroup();
 }
 
 main().catch(console.error);

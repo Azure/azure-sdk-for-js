@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve Azure Advisor configurations.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListConfigurations.json
  */
-async function getConfigurations() {
+async function getConfigurations(): Promise<void> {
   const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroup = "resourceGroup";
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function getConfigurations() {
 }
 
 async function main(): Promise<void> {
-  getConfigurations();
+  await getConfigurations();
 }
 
 main().catch(console.error);

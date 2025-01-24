@@ -33,7 +33,7 @@ async function getManagementLockAtScope() {
 }
 
 async function main() {
-  getManagementLockAtScope();
+  await getManagementLockAtScope();
 }
 
 main().catch(console.error);

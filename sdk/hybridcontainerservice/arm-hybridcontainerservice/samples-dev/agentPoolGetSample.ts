@@ -34,7 +34,7 @@ async function getAgentPool() {
 }
 
 async function main() {
-  getAgentPool();
+  await getAgentPool();
 }
 
 main().catch(console.error);

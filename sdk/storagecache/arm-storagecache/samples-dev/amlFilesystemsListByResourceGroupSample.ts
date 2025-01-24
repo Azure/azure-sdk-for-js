@@ -38,7 +38,7 @@ async function amlFilesystemsListByResourceGroup() {
 }
 
 async function main() {
-  amlFilesystemsListByResourceGroup();
+  await amlFilesystemsListByResourceGroup();
 }
 
 main().catch(console.error);

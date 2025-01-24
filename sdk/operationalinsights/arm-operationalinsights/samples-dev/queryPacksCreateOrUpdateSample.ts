@@ -77,8 +77,8 @@ async function queryPackUpdate() {
 }
 
 async function main() {
-  queryPackCreate();
-  queryPackUpdate();
+  await queryPackCreate();
+  await queryPackUpdate();
 }
 
 main().catch(console.error);

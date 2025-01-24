@@ -46,7 +46,7 @@ async function updatesAMachinePoolWithTheSpecifiedSubscriptionResourceGroupAndRe
 }
 
 async function main() {
-  updatesAMachinePoolWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await updatesAMachinePoolWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

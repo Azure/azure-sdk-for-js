@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns details of the API version.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/ApiVersions_Get.json
  */
-async function apiVersionsGet() {
+async function apiVersionsGet(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,8 +40,8 @@ async function apiVersionsGet() {
   console.log(result);
 }
 
-async function main() {
-  apiVersionsGet();
+async function main(): Promise<void> {
+  await apiVersionsGet();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDProfiles_ListResourceUsage.json
  */
-async function afdProfilesListResourceUsage() {
+async function afdProfilesListResourceUsage(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -34,8 +34,8 @@ async function afdProfilesListResourceUsage() {
   console.log(resArray);
 }
 
-async function main() {
-  afdProfilesListResourceUsage();
+async function main(): Promise<void> {
+  await afdProfilesListResourceUsage();
 }
 
 main().catch(console.error);

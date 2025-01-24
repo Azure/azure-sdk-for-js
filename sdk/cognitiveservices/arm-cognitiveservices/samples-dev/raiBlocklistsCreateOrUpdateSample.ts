@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update the state of specified blocklist associated with the Azure OpenAI account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/PutRaiBlocklist.json
  */
-async function putRaiBlocklist() {
+async function putRaiBlocklist(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,8 +46,8 @@ async function putRaiBlocklist() {
   console.log(result);
 }
 
-async function main() {
-  putRaiBlocklist();
+async function main(): Promise<void> {
+  await putRaiBlocklist();
 }
 
 main().catch(console.error);

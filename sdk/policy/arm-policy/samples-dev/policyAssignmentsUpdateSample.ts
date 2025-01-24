@@ -70,8 +70,8 @@ async function updateAPolicyAssignmentWithAUserAssignedIdentity() {
 }
 
 async function main() {
-  updateAPolicyAssignmentWithASystemAssignedIdentity();
-  updateAPolicyAssignmentWithAUserAssignedIdentity();
+  await updateAPolicyAssignmentWithASystemAssignedIdentity();
+  await updateAPolicyAssignmentWithAUserAssignedIdentity();
 }
 
 main().catch(console.error);

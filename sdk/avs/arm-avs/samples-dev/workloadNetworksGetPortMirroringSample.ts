@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a WorkloadNetworkPortMirroring
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_GetPortMirroring.json
  */
-async function workloadNetworksGetPortMirroring() {
+async function workloadNetworksGetPortMirroring(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,8 +35,8 @@ async function workloadNetworksGetPortMirroring() {
   console.log(result);
 }
 
-async function main() {
-  workloadNetworksGetPortMirroring();
+async function main(): Promise<void> {
+  await workloadNetworksGetPortMirroring();
 }
 
 main().catch(console.error);

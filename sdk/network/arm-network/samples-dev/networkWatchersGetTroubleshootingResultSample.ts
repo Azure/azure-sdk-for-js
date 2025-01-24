@@ -43,7 +43,7 @@ async function getTroubleshootResult() {
 }
 
 async function main() {
-  getTroubleshootResult();
+  await getTroubleshootResult();
 }
 
 main().catch(console.error);

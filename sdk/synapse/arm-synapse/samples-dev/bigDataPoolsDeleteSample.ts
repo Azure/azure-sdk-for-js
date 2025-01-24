@@ -39,7 +39,7 @@ async function deleteABigDataPool() {
 }
 
 async function main() {
-  deleteABigDataPool();
+  await deleteABigDataPool();
 }
 
 main().catch(console.error);

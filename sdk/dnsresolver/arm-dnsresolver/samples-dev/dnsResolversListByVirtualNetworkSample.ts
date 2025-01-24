@@ -40,7 +40,7 @@ async function listDnsResolversByVirtualNetwork() {
 }
 
 async function main() {
-  listDnsResolversByVirtualNetwork();
+  await listDnsResolversByVirtualNetwork();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function volumeQuotaRulesUpdate() {
 }
 
 async function main() {
-  volumeQuotaRulesUpdate();
+  await volumeQuotaRulesUpdate();
 }
 
 main().catch(console.error);

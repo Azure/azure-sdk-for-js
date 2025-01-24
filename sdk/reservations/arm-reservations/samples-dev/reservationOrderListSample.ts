@@ -31,7 +31,7 @@ async function reservationOrderList() {
 }
 
 async function main() {
-  reservationOrderList();
+  await reservationOrderList();
 }
 
 main().catch(console.error);

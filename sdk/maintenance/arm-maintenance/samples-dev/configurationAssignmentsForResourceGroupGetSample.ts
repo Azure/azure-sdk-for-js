@@ -37,7 +37,7 @@ async function configurationAssignmentsForResourceGroupGet() {
 }
 
 async function main() {
-  configurationAssignmentsForResourceGroupGet();
+  await configurationAssignmentsForResourceGroupGet();
 }
 
 main().catch(console.error);

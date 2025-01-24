@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the MongoDB collection under an existing Azure Cosmos DB database account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBCollectionGet.json
  */
-async function cosmosDbMongoDbcollectionGet() {
+async function cosmosDbMongoDbcollectionGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
@@ -35,8 +35,8 @@ async function cosmosDbMongoDbcollectionGet() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbMongoDbcollectionGet();
+async function main(): Promise<void> {
+  await cosmosDbMongoDbcollectionGet();
 }
 
 main().catch(console.error);

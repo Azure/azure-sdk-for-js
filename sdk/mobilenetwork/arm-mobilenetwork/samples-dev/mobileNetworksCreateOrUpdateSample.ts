@@ -69,7 +69,7 @@ async function createMobileNetwork() {
 }
 
 async function main() {
-  createMobileNetwork();
+  await createMobileNetwork();
 }
 
 main().catch(console.error);

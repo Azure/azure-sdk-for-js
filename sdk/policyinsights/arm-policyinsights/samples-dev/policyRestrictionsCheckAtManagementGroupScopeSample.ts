@@ -36,7 +36,7 @@ async function checkPolicyRestrictionsAtManagementGroupScope() {
 }
 
 async function main() {
-  checkPolicyRestrictionsAtManagementGroupScope();
+  await checkPolicyRestrictionsAtManagementGroupScope();
 }
 
 main().catch(console.error);

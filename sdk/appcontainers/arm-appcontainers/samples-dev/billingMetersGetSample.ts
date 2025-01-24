@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get all billingMeters for a location.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/BillingMeters_Get.json
  */
-async function billingMetersGet() {
+async function billingMetersGet(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -29,8 +29,8 @@ async function billingMetersGet() {
   console.log(result);
 }
 
-async function main() {
-  billingMetersGet();
+async function main(): Promise<void> {
+  await billingMetersGet();
 }
 
 main().catch(console.error);

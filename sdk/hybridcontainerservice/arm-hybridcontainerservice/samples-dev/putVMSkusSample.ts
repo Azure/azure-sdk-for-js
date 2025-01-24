@@ -43,7 +43,7 @@ async function putVMSkus() {
 }
 
 async function main() {
-  putVMSkus();
+  await putVMSkus();
 }
 
 main().catch(console.error);

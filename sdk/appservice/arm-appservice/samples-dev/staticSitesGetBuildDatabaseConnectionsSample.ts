@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns overviews of database connections for a static site build
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetStaticSiteBuildDatabaseConnections.json
  */
-async function listOverviewsOfDatabaseConnectionsForTheStaticSiteBuild() {
+async function listOverviewsOfDatabaseConnectionsForTheStaticSiteBuild(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,8 +38,8 @@ async function listOverviewsOfDatabaseConnectionsForTheStaticSiteBuild() {
   console.log(resArray);
 }
 
-async function main() {
-  listOverviewsOfDatabaseConnectionsForTheStaticSiteBuild();
+async function main(): Promise<void> {
+  await listOverviewsOfDatabaseConnectionsForTheStaticSiteBuild();
 }
 
 main().catch(console.error);

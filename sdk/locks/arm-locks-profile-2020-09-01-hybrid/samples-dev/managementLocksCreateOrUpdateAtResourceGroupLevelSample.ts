@@ -41,7 +41,7 @@ async function createManagementLockAtResourceGroupLevel() {
 }
 
 async function main() {
-  createManagementLockAtResourceGroupLevel();
+  await createManagementLockAtResourceGroupLevel();
 }
 
 main().catch(console.error);

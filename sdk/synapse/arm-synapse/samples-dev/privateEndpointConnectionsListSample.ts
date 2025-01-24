@@ -40,7 +40,7 @@ async function listPrivateEndpointConnectionsInWorkspace() {
 }
 
 async function main() {
-  listPrivateEndpointConnectionsInWorkspace();
+  await listPrivateEndpointConnectionsInWorkspace();
 }
 
 main().catch(console.error);

@@ -148,9 +148,9 @@ async function agentsCreateOrUpdateWithOvernightUploadLimitSchedule() {
 }
 
 async function main() {
-  agentsCreateOrUpdateMaximumSet();
-  agentsCreateOrUpdateMinimumSet();
-  agentsCreateOrUpdateWithOvernightUploadLimitSchedule();
+  await agentsCreateOrUpdateMaximumSet();
+  await agentsCreateOrUpdateMinimumSet();
+  await agentsCreateOrUpdateWithOvernightUploadLimitSchedule();
 }
 
 main().catch(console.error);

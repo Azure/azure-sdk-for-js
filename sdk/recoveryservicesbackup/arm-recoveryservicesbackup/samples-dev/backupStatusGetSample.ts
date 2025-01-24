@@ -40,7 +40,7 @@ async function getAzureVirtualMachineBackupStatus() {
 }
 
 async function main() {
-  getAzureVirtualMachineBackupStatus();
+  await getAzureVirtualMachineBackupStatus();
 }
 
 main().catch(console.error);

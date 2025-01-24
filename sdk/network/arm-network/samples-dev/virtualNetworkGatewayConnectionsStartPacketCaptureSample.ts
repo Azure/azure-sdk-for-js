@@ -66,8 +66,8 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter(
 }
 
 async function main() {
-  startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter();
-  startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter();
+  await startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter();
+  await startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter();
 }
 
 main().catch(console.error);

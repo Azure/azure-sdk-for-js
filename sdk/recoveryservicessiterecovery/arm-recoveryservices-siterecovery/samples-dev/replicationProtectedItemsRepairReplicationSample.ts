@@ -45,7 +45,7 @@ async function resynchronizeOrRepairReplication() {
 }
 
 async function main() {
-  resynchronizeOrRepairReplication();
+  await resynchronizeOrRepairReplication();
 }
 
 main().catch(console.error);

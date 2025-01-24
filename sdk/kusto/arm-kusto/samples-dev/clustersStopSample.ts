@@ -37,7 +37,7 @@ async function kustoClustersStop() {
 }
 
 async function main() {
-  kustoClustersStop();
+  await kustoClustersStop();
 }
 
 main().catch(console.error);

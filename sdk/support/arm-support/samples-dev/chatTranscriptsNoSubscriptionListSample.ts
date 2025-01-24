@@ -34,7 +34,7 @@ async function listChatTranscriptsForANoSubscriptionSupportTicket() {
 }
 
 async function main() {
-  listChatTranscriptsForANoSubscriptionSupportTicket();
+  await listChatTranscriptsForANoSubscriptionSupportTicket();
 }
 
 main().catch(console.error);

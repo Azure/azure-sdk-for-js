@@ -50,7 +50,7 @@ async function externalNetworksUpdateAdministrativeStateMaximumSetGen() {
 }
 
 async function main() {
-  externalNetworksUpdateAdministrativeStateMaximumSetGen();
+  await externalNetworksUpdateAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

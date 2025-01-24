@@ -46,7 +46,7 @@ async function getAllEntityQueries() {
 }
 
 async function main() {
-  getAllEntityQueries();
+  await getAllEntityQueries();
 }
 
 main().catch(console.error);

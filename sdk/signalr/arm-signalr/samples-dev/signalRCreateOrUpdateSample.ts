@@ -85,7 +85,7 @@ async function signalRCreateOrUpdate() {
 }
 
 async function main() {
-  signalRCreateOrUpdate();
+  await signalRCreateOrUpdate();
 }
 
 main().catch(console.error);

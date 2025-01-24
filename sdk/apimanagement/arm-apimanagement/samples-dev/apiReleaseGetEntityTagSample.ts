@@ -18,27 +18,27 @@ import "dotenv/config";
  * @summary Returns the etag of an API release.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiRelease.json
  */
-async function apiManagementHeadApiRelease() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "a1";
-    const releaseId = "5a7cb545298324c53224a799";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.apiRelease.getEntityTag(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        releaseId
-    );
-    console.log(result);
+async function apiManagementHeadApiRelease(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "a1";
+  const releaseId = "5a7cb545298324c53224a799";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiRelease.getEntityTag(
+    resourceGroupName,
+    serviceName,
+    apiId,
+    releaseId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementHeadApiRelease();
+async function main(): Promise<void> {
+  await apiManagementHeadApiRelease();
 }
 
 main().catch(console.error);

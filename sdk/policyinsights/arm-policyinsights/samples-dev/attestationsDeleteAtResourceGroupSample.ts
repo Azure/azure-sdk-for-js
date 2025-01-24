@@ -35,7 +35,7 @@ async function deleteAttestationAtResourceGroupScope() {
 }
 
 async function main() {
-  deleteAttestationAtResourceGroupScope();
+  await deleteAttestationAtResourceGroupScope();
 }
 
 main().catch(console.error);

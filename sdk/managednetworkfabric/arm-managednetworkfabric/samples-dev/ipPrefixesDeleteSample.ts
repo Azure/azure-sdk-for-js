@@ -40,7 +40,7 @@ async function ipPrefixesDeleteMaximumSetGen() {
 }
 
 async function main() {
-  ipPrefixesDeleteMaximumSetGen();
+  await ipPrefixesDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

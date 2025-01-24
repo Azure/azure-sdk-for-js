@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get all top-level domains supported for registration.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/ListTopLevelDomains.json
  */
-async function listTopLevelDomains() {
+async function listTopLevelDomains(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,8 +31,8 @@ async function listTopLevelDomains() {
   console.log(resArray);
 }
 
-async function main() {
-  listTopLevelDomains();
+async function main(): Promise<void> {
+  await listTopLevelDomains();
 }
 
 main().catch(console.error);

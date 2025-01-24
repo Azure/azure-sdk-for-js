@@ -38,7 +38,7 @@ async function monitorsListByResourceGroup() {
 }
 
 async function main() {
-  monitorsListByResourceGroup();
+  await monitorsListByResourceGroup();
 }
 
 main().catch(console.error);

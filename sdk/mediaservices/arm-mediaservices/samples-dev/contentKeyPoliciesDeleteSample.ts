@@ -39,7 +39,7 @@ async function deleteAKeyPolicy() {
 }
 
 async function main() {
-  deleteAKeyPolicy();
+  await deleteAKeyPolicy();
 }
 
 main().catch(console.error);

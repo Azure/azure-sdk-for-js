@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update specified deployments associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/UpdateDeployment.json
  */
-async function updateDeployment() {
+async function updateDeployment(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,8 +46,8 @@ async function updateDeployment() {
   console.log(result);
 }
 
-async function main() {
-  updateDeployment();
+async function main(): Promise<void> {
+  await updateDeployment();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes an existing Azure Cosmos DB Cassandra view.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraViewDelete.json
  */
-async function cosmosDbCassandraViewDelete() {
+async function cosmosDbCassandraViewDelete(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -36,8 +36,8 @@ async function cosmosDbCassandraViewDelete() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbCassandraViewDelete();
+async function main(): Promise<void> {
+  await cosmosDbCassandraViewDelete();
 }
 
 main().catch(console.error);

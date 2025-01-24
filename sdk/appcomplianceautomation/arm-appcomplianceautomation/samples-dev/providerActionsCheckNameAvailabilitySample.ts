@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Check if the given name is available for a report.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_CheckNameAvailability.json
  */
-async function reportCheckNameAvailability() {
+async function reportCheckNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const result = await client.providerActions.checkNameAvailability({
@@ -28,8 +28,8 @@ async function reportCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
-  reportCheckNameAvailability();
+async function main(): Promise<void> {
+  await reportCheckNameAvailability();
 }
 
 main().catch(console.error);

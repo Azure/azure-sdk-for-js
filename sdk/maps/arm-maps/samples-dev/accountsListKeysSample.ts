@@ -34,7 +34,7 @@ async function listKeys() {
 }
 
 async function main() {
-  listKeys();
+  await listKeys();
 }
 
 main().catch(console.error);

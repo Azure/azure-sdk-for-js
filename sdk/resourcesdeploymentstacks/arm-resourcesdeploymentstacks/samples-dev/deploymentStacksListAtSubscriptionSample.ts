@@ -34,7 +34,7 @@ async function deploymentStacksSubscriptionList() {
 }
 
 async function main() {
-  deploymentStacksSubscriptionList();
+  await deploymentStacksSubscriptionList();
 }
 
 main().catch(console.error);

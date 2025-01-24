@@ -26,7 +26,7 @@ async function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolRuntimeViewsListByStandbyPool();
+  await standbyVirtualMachinePoolRuntimeViewsListByStandbyPool();
 }
 
 main().catch(console.error);

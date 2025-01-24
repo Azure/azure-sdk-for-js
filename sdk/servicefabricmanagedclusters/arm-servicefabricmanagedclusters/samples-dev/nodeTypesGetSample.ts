@@ -42,7 +42,7 @@ async function getANodeType() {
 }
 
 async function main() {
-  getANodeType();
+  await getANodeType();
 }
 
 main().catch(console.error);

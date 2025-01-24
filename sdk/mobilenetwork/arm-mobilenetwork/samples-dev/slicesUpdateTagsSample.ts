@@ -44,7 +44,7 @@ async function updateNetworkSliceTags() {
 }
 
 async function main() {
-  updateNetworkSliceTags();
+  await updateNetworkSliceTags();
 }
 
 main().catch(console.error);

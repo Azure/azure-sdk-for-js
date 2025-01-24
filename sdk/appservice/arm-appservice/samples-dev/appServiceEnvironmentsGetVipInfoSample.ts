@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get IP addresses assigned to an App Service Environment.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_GetVipInfo.json
  */
-async function getIPAddressesAssignedToAnAppServiceEnvironment() {
+async function getIPAddressesAssignedToAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,8 +34,8 @@ async function getIPAddressesAssignedToAnAppServiceEnvironment() {
   console.log(result);
 }
 
-async function main() {
-  getIPAddressesAssignedToAnAppServiceEnvironment();
+async function main(): Promise<void> {
+  await getIPAddressesAssignedToAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

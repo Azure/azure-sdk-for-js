@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the list of endpoints that VNET Injected Workspace calls Azure Databricks Control Plane. You must configure outbound access with these endpoints. For more information, see https://learn.microsoft.com/azure/databricks/administration-guide/cloud-configurations/azure/udr
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/OutboundNetworkDependenciesEndpointsList.json
  */
-async function listOutboundNetworkDependenciesEndpointsByWorkspace() {
+async function listOutboundNetworkDependenciesEndpointsByWorkspace(): Promise<void> {
   const subscriptionId =
     process.env["DATABRICKS_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -37,8 +37,8 @@ async function listOutboundNetworkDependenciesEndpointsByWorkspace() {
   console.log(result);
 }
 
-async function main() {
-  listOutboundNetworkDependenciesEndpointsByWorkspace();
+async function main(): Promise<void> {
+  await listOutboundNetworkDependenciesEndpointsByWorkspace();
 }
 
 main().catch(console.error);

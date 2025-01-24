@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a provider instance for the specified subscription, resource group, SAP monitor name, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/ProviderInstances_Delete.json
  */
-async function deletesASapMonitorProvider() {
+async function deletesASapMonitorProvider(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +36,8 @@ async function deletesASapMonitorProvider() {
   console.log(result);
 }
 
-async function main() {
-  deletesASapMonitorProvider();
+async function main(): Promise<void> {
+  await deletesASapMonitorProvider();
 }
 
 main().catch(console.error);

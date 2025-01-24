@@ -45,7 +45,7 @@ async function resumesTheSpecifiedJob() {
 }
 
 async function main() {
-  resumesTheSpecifiedJob();
+  await resumesTheSpecifiedJob();
 }
 
 main().catch(console.error);

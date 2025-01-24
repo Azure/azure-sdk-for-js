@@ -43,7 +43,7 @@ async function getTheLiveOutputOperationStatus() {
 }
 
 async function main() {
-  getTheLiveOutputOperationStatus();
+  await getTheLiveOutputOperationStatus();
 }
 
 main().catch(console.error);

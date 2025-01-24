@@ -61,7 +61,7 @@ async function listWorkspaceOnlineEndpoint() {
 }
 
 async function main() {
-  listWorkspaceOnlineEndpoint();
+  await listWorkspaceOnlineEndpoint();
 }
 
 main().catch(console.error);

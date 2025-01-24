@@ -40,7 +40,7 @@ async function listTheKeysForAManagedInstance() {
 }
 
 async function main() {
-  listTheKeysForAManagedInstance();
+  await listTheKeysForAManagedInstance();
 }
 
 main().catch(console.error);

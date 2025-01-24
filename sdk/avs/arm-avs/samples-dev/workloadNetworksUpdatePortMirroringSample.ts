@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update a WorkloadNetworkPortMirroring
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_UpdatePortMirroring.json
  */
-async function workloadNetworksUpdatePortMirroring() {
+async function workloadNetworksUpdatePortMirroring(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,8 +45,8 @@ async function workloadNetworksUpdatePortMirroring() {
   console.log(result);
 }
 
-async function main() {
-  workloadNetworksUpdatePortMirroring();
+async function main(): Promise<void> {
+  await workloadNetworksUpdatePortMirroring();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a HcxEnterpriseSite
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/HcxEnterpriseSites_Delete.json
  */
-async function hcxEnterpriseSitesDelete() {
+async function hcxEnterpriseSitesDelete(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,8 +35,8 @@ async function hcxEnterpriseSitesDelete() {
   console.log(result);
 }
 
-async function main() {
-  hcxEnterpriseSitesDelete();
+async function main(): Promise<void> {
+  await hcxEnterpriseSitesDelete();
 }
 
 main().catch(console.error);

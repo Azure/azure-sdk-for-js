@@ -40,7 +40,7 @@ async function listTheManagedInstanceAdvancedThreatProtectionSettings() {
 }
 
 async function main() {
-  listTheManagedInstanceAdvancedThreatProtectionSettings();
+  await listTheManagedInstanceAdvancedThreatProtectionSettings();
 }
 
 main().catch(console.error);

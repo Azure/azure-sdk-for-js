@@ -43,7 +43,7 @@ async function refreshDetailsFromTheRecoveryServicesProvider() {
 }
 
 async function main() {
-  refreshDetailsFromTheRecoveryServicesProvider();
+  await refreshDetailsFromTheRecoveryServicesProvider();
 }
 
 main().catch(console.error);

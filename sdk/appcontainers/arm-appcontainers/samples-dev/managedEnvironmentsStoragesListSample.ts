@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get all storages for a managedEnvironment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentsStorages_List.json
  */
-async function listEnvironmentsStoragesBySubscription() {
+async function listEnvironmentsStoragesBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -34,8 +34,8 @@ async function listEnvironmentsStoragesBySubscription() {
   console.log(result);
 }
 
-async function main() {
-  listEnvironmentsStoragesBySubscription();
+async function main(): Promise<void> {
+  await listEnvironmentsStoragesBySubscription();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function poolsCreateOrUpdate() {
 }
 
 async function main() {
-  poolsCreateOrUpdate();
+  await poolsCreateOrUpdate();
 }
 
 main().catch(console.error);

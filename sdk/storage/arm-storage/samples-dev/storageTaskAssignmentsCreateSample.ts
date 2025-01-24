@@ -97,8 +97,8 @@ async function putStorageTaskAssignmentRequiredProperties() {
 }
 
 async function main() {
-  putStorageTaskAssignment();
-  putStorageTaskAssignmentRequiredProperties();
+  await putStorageTaskAssignment();
+  await putStorageTaskAssignmentRequiredProperties();
 }
 
 main().catch(console.error);

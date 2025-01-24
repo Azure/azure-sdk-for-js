@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebPubSubManagementClient } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all replicas belong to this resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all replicas belong to this resource
  * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubReplicas_List.json
  */
-async function webPubSubReplicasList() {
+async function webPubSubReplicasList(): Promise<void> {
   const subscriptionId =
     process.env["WEB-PUBSUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,8 +37,8 @@ async function webPubSubReplicasList() {
   console.log(resArray);
 }
 
-async function main() {
-  webPubSubReplicasList();
+async function main(): Promise<void> {
+  await webPubSubReplicasList();
 }
 
 main().catch(console.error);

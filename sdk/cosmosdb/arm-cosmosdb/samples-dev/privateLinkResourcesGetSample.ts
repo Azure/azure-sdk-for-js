@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the private link resources that need to be created for a Cosmos DB account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBPrivateLinkResourceGet.json
  */
-async function getsPrivateEndpointConnection() {
+async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -35,8 +35,8 @@ async function getsPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
-  getsPrivateEndpointConnection();
+async function main(): Promise<void> {
+  await getsPrivateEndpointConnection();
 }
 
 main().catch(console.error);

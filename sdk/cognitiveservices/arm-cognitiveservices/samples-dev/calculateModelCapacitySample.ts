@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Model capacity calculator.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/CalculateModelCapacity.json
  */
-async function calculateModelCapacity() {
+async function calculateModelCapacity(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -51,8 +51,8 @@ async function calculateModelCapacity() {
   console.log(result);
 }
 
-async function main() {
-  calculateModelCapacity();
+async function main(): Promise<void> {
+  await calculateModelCapacity();
 }
 
 main().catch(console.error);

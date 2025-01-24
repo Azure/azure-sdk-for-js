@@ -48,7 +48,7 @@ async function replaceTagsToAThreatIntelligence() {
 }
 
 async function main() {
-  replaceTagsToAThreatIntelligence();
+  await replaceTagsToAThreatIntelligence();
 }
 
 main().catch(console.error);

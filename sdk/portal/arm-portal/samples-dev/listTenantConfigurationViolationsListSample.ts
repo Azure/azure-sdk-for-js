@@ -34,7 +34,7 @@ async function getListOfItemsThatViolateTenantConfiguration() {
 }
 
 async function main() {
-  getListOfItemsThatViolateTenantConfiguration();
+  await getListOfItemsThatViolateTenantConfiguration();
 }
 
 main().catch(console.error);

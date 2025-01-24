@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create or update a redis cache firewall rule
  *
  * @summary Create or update a redis cache firewall rule
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheFirewallRuleCreate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheFirewallRuleCreate.json
  */
 async function redisCacheFirewallRuleCreate() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -39,7 +39,7 @@ async function redisCacheFirewallRuleCreate() {
 }
 
 async function main() {
-  redisCacheFirewallRuleCreate();
+  await redisCacheFirewallRuleCreate();
 }
 
 main().catch(console.error);

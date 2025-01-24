@@ -39,7 +39,7 @@ async function storageTargetsDelete() {
 }
 
 async function main() {
-  storageTargetsDelete();
+  await storageTargetsDelete();
 }
 
 main().catch(console.error);

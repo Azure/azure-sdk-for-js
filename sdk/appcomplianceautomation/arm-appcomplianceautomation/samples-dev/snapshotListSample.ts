@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Get the AppComplianceAutomation snapshot list.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Snapshot_List.json
  */
-async function snapshotList() {
+async function snapshotList(): Promise<void> {
   const skipToken = "1";
   const top = 100;
   const offerGuid = "00000000-0000-0000-0000-000000000001";
@@ -42,8 +42,8 @@ async function snapshotList() {
   console.log(resArray);
 }
 
-async function main() {
-  snapshotList();
+async function main(): Promise<void> {
+  await snapshotList();
 }
 
 main().catch(console.error);

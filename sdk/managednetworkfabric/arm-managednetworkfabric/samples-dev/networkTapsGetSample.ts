@@ -40,7 +40,7 @@ async function networkTapsGetMaximumSetGen() {
 }
 
 async function main() {
-  networkTapsGetMaximumSetGen();
+  await networkTapsGetMaximumSetGen();
 }
 
 main().catch(console.error);

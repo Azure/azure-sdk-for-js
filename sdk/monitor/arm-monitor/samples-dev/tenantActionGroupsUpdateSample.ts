@@ -43,7 +43,7 @@ async function patchATenantActionGroup() {
 }
 
 async function main() {
-  patchATenantActionGroup();
+  await patchATenantActionGroup();
 }
 
 main().catch(console.error);

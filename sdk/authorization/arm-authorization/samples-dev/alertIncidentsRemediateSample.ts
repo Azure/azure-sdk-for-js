@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Remediate an alert incident.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-08-01-preview/examples/RemediateAlertIncident.json
  */
-async function remediateAlertIncident() {
+async function remediateAlertIncident(): Promise<void> {
   const scope = "subscriptions/afa2a084-766f-4003-8ae1-c4aeb893a99f";
   const alertId = "DuplicateRoleCreated";
   const alertIncidentId = "0645231d-16ba-4ebf-851a-0875df4052bd";
@@ -32,8 +32,8 @@ async function remediateAlertIncident() {
   console.log(result);
 }
 
-async function main() {
-  remediateAlertIncident();
+async function main(): Promise<void> {
+  await remediateAlertIncident();
 }
 
 main().catch(console.error);

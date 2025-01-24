@@ -40,7 +40,7 @@ async function deleteNetwork() {
 }
 
 async function main() {
-  deleteNetwork();
+  await deleteNetwork();
 }
 
 main().catch(console.error);

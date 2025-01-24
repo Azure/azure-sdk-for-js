@@ -37,7 +37,7 @@ async function partnerNamespacesListSharedAccessKeys() {
 }
 
 async function main() {
-  partnerNamespacesListSharedAccessKeys();
+  await partnerNamespacesListSharedAccessKeys();
 }
 
 main().catch(console.error);

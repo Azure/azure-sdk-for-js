@@ -50,7 +50,7 @@ async function createOrUpdateL2Network() {
 }
 
 async function main() {
-  createOrUpdateL2Network();
+  await createOrUpdateL2Network();
 }
 
 main().catch(console.error);

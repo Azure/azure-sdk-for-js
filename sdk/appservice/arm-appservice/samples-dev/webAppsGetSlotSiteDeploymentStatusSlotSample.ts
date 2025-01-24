@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the deployment status for an app (or deployment slot, if specified).
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetSiteDeploymentStatusSlot.json
  */
-async function getDeploymentStatusSlot() {
+async function getDeploymentStatusSlot(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,8 +38,8 @@ async function getDeploymentStatusSlot() {
   console.log(result);
 }
 
-async function main() {
-  getDeploymentStatusSlot();
+async function main(): Promise<void> {
+  await getDeploymentStatusSlot();
 }
 
 main().catch(console.error);

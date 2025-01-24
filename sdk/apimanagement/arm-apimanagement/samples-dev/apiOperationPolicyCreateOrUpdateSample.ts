@@ -9,9 +9,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-    ApiManagementClient,
-    ApiOperationPolicyCreateOrUpdateOptionalParams,
-    PolicyContract
+  ApiManagementClient,
+  ApiOperationPolicyCreateOrUpdateOptionalParams,
+  PolicyContract
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -22,38 +22,38 @@ import "dotenv/config";
  * @summary Creates or updates policy configuration for the API Operation level.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiOperationPolicy.json
  */
-async function apiManagementCreateApiOperationPolicy() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "5600b57e7e8880006a040001";
-    const operationId = "5600b57e7e8880006a080001";
-    const policyId = "policy";
-    const ifMatch = "*";
-    const parameters: PolicyContract = {
-        format: "xml",
-        value:
-            "<policies> <inbound /> <backend>    <forward-request />  </backend>  <outbound /></policies>"
-    };
-    const options: ApiOperationPolicyCreateOrUpdateOptionalParams = { ifMatch };
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.apiOperationPolicy.createOrUpdate(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        operationId,
-        policyId,
-        parameters,
-        options
-    );
-    console.log(result);
+async function apiManagementCreateApiOperationPolicy(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "5600b57e7e8880006a040001";
+  const operationId = "5600b57e7e8880006a080001";
+  const policyId = "policy";
+  const ifMatch = "*";
+  const parameters: PolicyContract = {
+    format: "xml",
+    value:
+      "<policies> <inbound /> <backend>    <forward-request />  </backend>  <outbound /></policies>"
+  };
+  const options: ApiOperationPolicyCreateOrUpdateOptionalParams = { ifMatch };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiOperationPolicy.createOrUpdate(
+    resourceGroupName,
+    serviceName,
+    apiId,
+    operationId,
+    policyId,
+    parameters,
+    options
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementCreateApiOperationPolicy();
+async function main(): Promise<void> {
+  await apiManagementCreateApiOperationPolicy();
 }
 
 main().catch(console.error);

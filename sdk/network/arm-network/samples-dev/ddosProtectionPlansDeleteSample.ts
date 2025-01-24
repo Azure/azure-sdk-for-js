@@ -34,7 +34,7 @@ async function deleteDDoSProtectionPlan() {
 }
 
 async function main() {
-  deleteDDoSProtectionPlan();
+  await deleteDDoSProtectionPlan();
 }
 
 main().catch(console.error);

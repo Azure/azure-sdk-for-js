@@ -40,7 +40,7 @@ async function getsAnEmailNotificationAlertConfiguration() {
 }
 
 async function main() {
-  getsAnEmailNotificationAlertConfiguration();
+  await getsAnEmailNotificationAlertConfiguration();
 }
 
 main().catch(console.error);

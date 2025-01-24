@@ -79,9 +79,9 @@ async function serverGetWithVnet() {
 }
 
 async function main() {
-  serverGet();
-  serverGetWithPrivateEndpoints();
-  serverGetWithVnet();
+  await serverGet();
+  await serverGetWithPrivateEndpoints();
+  await serverGetWithVnet();
 }
 
 main().catch(console.error);

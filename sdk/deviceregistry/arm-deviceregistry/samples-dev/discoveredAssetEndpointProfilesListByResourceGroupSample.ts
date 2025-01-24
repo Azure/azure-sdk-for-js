@@ -25,7 +25,7 @@ async function listDiscoveredAssetEndpointProfilesResourceGroup() {
 }
 
 async function main() {
-  listDiscoveredAssetEndpointProfilesResourceGroup();
+  await listDiscoveredAssetEndpointProfilesResourceGroup();
 }
 
 main().catch(console.error);

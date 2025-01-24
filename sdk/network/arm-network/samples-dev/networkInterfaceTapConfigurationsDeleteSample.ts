@@ -37,7 +37,7 @@ async function deleteTapConfiguration() {
 }
 
 async function main() {
-  deleteTapConfiguration();
+  await deleteTapConfiguration();
 }
 
 main().catch(console.error);

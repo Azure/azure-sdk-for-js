@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create a WorkloadNetworkDnsZone
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_CreateDnsZone.json
  */
-async function workloadNetworksCreateDnsZone() {
+async function workloadNetworksCreateDnsZone(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,8 +43,8 @@ async function workloadNetworksCreateDnsZone() {
   console.log(result);
 }
 
-async function main() {
-  workloadNetworksCreateDnsZone();
+async function main(): Promise<void> {
+  await workloadNetworksCreateDnsZone();
 }
 
 main().catch(console.error);

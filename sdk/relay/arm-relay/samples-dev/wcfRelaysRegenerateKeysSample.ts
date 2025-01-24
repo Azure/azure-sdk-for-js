@@ -43,7 +43,7 @@ async function relayAuthorizationRuleRegenrateKeyJson() {
 }
 
 async function main() {
-  relayAuthorizationRuleRegenrateKeyJson();
+  await relayAuthorizationRuleRegenrateKeyJson();
 }
 
 main().catch(console.error);

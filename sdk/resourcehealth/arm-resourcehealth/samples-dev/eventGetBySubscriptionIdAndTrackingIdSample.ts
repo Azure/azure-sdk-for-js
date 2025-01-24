@@ -43,7 +43,7 @@ async function securityAdvisoriesEventBySubscriptionIdAndTrackingId() {
 }
 
 async function main() {
-  securityAdvisoriesEventBySubscriptionIdAndTrackingId();
+  await securityAdvisoriesEventBySubscriptionIdAndTrackingId();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get all of a workflow run action repetitions.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRunActionRepetitions_List.json
  */
-async function listRepetitions() {
+async function listRepetitions(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,8 +43,8 @@ async function listRepetitions() {
   console.log(resArray);
 }
 
-async function main() {
-  listRepetitions();
+async function main(): Promise<void> {
+  await listRepetitions();
 }
 
 main().catch(console.error);

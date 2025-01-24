@@ -41,7 +41,7 @@ async function volumesList() {
 }
 
 async function main() {
-  volumesList();
+  await volumesList();
 }
 
 main().catch(console.error);

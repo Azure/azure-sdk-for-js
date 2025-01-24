@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Update a WorkloadNetworkSegment
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_UpdateSegments.json
  */
-async function workloadNetworksUpdateSegments() {
+async function workloadNetworksUpdateSegments(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,8 +44,8 @@ async function workloadNetworksUpdateSegments() {
   console.log(result);
 }
 
-async function main() {
-  workloadNetworksUpdateSegments();
+async function main(): Promise<void> {
+  await workloadNetworksUpdateSegments();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function getAllSubscriptions() {
 }
 
 async function main() {
-  getAllSubscriptions();
+  await getAllSubscriptions();
 }
 
 main().catch(console.error);

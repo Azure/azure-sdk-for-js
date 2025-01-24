@@ -41,7 +41,7 @@ async function eventHubsListAll() {
 }
 
 async function main() {
-  eventHubsListAll();
+  await eventHubsListAll();
 }
 
 main().catch(console.error);

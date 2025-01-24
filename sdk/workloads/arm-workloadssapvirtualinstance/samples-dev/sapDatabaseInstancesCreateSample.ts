@@ -14,9 +14,7 @@ import {
   WorkloadsClient,
 } from "@azure/arm-workloadssapvirtualinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource. <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource. <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapdatabaseinstances/SAPDatabaseInstances_Create_HA_AvSet.json
  */
-async function createSapDatabaseInstancesForHaSystemWithAvailabilitySet() {
+async function createSapDatabaseInstancesForHaSystemWithAvailabilitySet(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "6d875e77-e412-4d7d-9af4-8895278b4443";
@@ -55,7 +53,7 @@ async function createSapDatabaseInstancesForHaSystemWithAvailabilitySet() {
  * @summary Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource. <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapdatabaseinstances/SAPDatabaseInstances_Create.json
  */
-async function sapDatabaseInstancesCreate() {
+async function sapDatabaseInstancesCreate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "6d875e77-e412-4d7d-9af4-8895278b4443";
@@ -80,9 +78,9 @@ async function sapDatabaseInstancesCreate() {
   console.log(result);
 }
 
-async function main() {
-  createSapDatabaseInstancesForHaSystemWithAvailabilitySet();
-  sapDatabaseInstancesCreate();
+async function main(): Promise<void> {
+  await createSapDatabaseInstancesForHaSystemWithAvailabilitySet();
+  await sapDatabaseInstancesCreate();
 }
 
 main().catch(console.error);

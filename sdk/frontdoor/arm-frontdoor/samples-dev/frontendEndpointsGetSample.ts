@@ -36,7 +36,7 @@ async function getFrontendEndpoint() {
 }
 
 async function main() {
-  getFrontendEndpoint();
+  await getFrontendEndpoint();
 }
 
 main().catch(console.error);

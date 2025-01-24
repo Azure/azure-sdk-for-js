@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update a Target resource that extends a tracked regional resource.
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateTarget.json
  */
-async function createOrUpdateATargetThatExtendsAVirtualMachineResource() {
+async function createOrUpdateATargetThatExtendsAVirtualMachineResource(): Promise<void> {
   const subscriptionId =
     process.env["CHAOS_SUBSCRIPTION_ID"] ||
     "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -47,8 +47,8 @@ async function createOrUpdateATargetThatExtendsAVirtualMachineResource() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateATargetThatExtendsAVirtualMachineResource();
+async function main(): Promise<void> {
+  await createOrUpdateATargetThatExtendsAVirtualMachineResource();
 }
 
 main().catch(console.error);

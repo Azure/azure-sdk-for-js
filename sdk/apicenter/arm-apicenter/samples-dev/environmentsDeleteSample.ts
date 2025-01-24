@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the environment.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Environments_Delete.json
  */
-async function environmentsDelete() {
+async function environmentsDelete(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +38,8 @@ async function environmentsDelete() {
   console.log(result);
 }
 
-async function main() {
-  environmentsDelete();
+async function main(): Promise<void> {
+  await environmentsDelete();
 }
 
 main().catch(console.error);

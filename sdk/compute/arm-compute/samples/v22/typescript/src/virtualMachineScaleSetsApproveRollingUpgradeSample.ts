@@ -14,9 +14,7 @@ import {
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
  */
-async function virtualMachineScaleSetApproveRollingUpgrade() {
+async function virtualMachineScaleSetApproveRollingUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -47,7 +45,7 @@ async function virtualMachineScaleSetApproveRollingUpgrade() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineScaleSetApproveRollingUpgrade();
 }
 

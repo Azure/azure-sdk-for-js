@@ -55,8 +55,8 @@ async function systemVersionsListByLocation() {
 }
 
 async function main() {
-  listExadataSystemVersionsByTheProvidedFilter();
-  systemVersionsListByLocation();
+  await listExadataSystemVersionsByTheProvidedFilter();
+  await systemVersionsListByLocation();
 }
 
 main().catch(console.error);

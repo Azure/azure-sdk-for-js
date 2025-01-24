@@ -53,8 +53,8 @@ async function vmmServersListBySubscriptionMinimumSet() {
 }
 
 async function main() {
-  vmmServersListBySubscriptionMaximumSet();
-  vmmServersListBySubscriptionMinimumSet();
+  await vmmServersListBySubscriptionMaximumSet();
+  await vmmServersListBySubscriptionMinimumSet();
 }
 
 main().catch(console.error);

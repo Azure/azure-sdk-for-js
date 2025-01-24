@@ -70,8 +70,8 @@ async function listAttestationsAtResourceGroupScopeWithQueryParameters() {
 }
 
 async function main() {
-  listAttestationsAtResourceGroupScope();
-  listAttestationsAtResourceGroupScopeWithQueryParameters();
+  await listAttestationsAtResourceGroupScope();
+  await listAttestationsAtResourceGroupScopeWithQueryParameters();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the list of all Azure Cosmos DB Table Role Definitions.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/tablerbac/CosmosDBTableRoleDefinitionList.json
  */
-async function cosmosDbTableRoleDefinitionList() {
+async function cosmosDbTableRoleDefinitionList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,8 +37,8 @@ async function cosmosDbTableRoleDefinitionList() {
   console.log(resArray);
 }
 
-async function main() {
-  cosmosDbTableRoleDefinitionList();
+async function main(): Promise<void> {
+  await cosmosDbTableRoleDefinitionList();
 }
 
 main().catch(console.error);

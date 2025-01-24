@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DirectlineRegenerateKeys.json
  */
-async function regenerateKeysForDirectLineChannelSite() {
+async function regenerateKeysForDirectLineChannelSite(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -43,7 +43,7 @@ async function regenerateKeysForDirectLineChannelSite() {
  * @summary Regenerates secret keys and returns them for the DirectLine Channel of a particular BotService resource
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/WebChatRegenerateKeys.json
  */
-async function regenerateKeysForWebChatChannelSite() {
+async function regenerateKeysForWebChatChannelSite(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -62,9 +62,9 @@ async function regenerateKeysForWebChatChannelSite() {
   console.log(result);
 }
 
-async function main() {
-  regenerateKeysForDirectLineChannelSite();
-  regenerateKeysForWebChatChannelSite();
+async function main(): Promise<void> {
+  await regenerateKeysForDirectLineChannelSite();
+  await regenerateKeysForWebChatChannelSite();
 }
 
 main().catch(console.error);

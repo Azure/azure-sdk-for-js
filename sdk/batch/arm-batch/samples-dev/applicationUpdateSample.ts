@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates settings for the specified application.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationUpdate.json
  */
-async function applicationUpdate() {
+async function applicationUpdate(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -40,8 +40,8 @@ async function applicationUpdate() {
   console.log(result);
 }
 
-async function main() {
-  applicationUpdate();
+async function main(): Promise<void> {
+  await applicationUpdate();
 }
 
 main().catch(console.error);

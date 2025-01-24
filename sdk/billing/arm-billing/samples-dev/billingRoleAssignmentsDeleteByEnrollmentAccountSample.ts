@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a role assignment on a enrollment Account. The operation is supported only for billing accounts with agreement type Enterprise Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRoleAssignmentDeleteByEnrollmentAccount.json
  */
-async function billingRoleAssignmentDeleteByEnrollmentAccount() {
+async function billingRoleAssignmentDeleteByEnrollmentAccount(): Promise<void> {
   const billingAccountName = "8608480";
   const enrollmentAccountName = "123456";
   const billingRoleAssignmentName = "9dfd08c2-62a3-4d47-85bd-1cdba1408402";
@@ -32,8 +32,8 @@ async function billingRoleAssignmentDeleteByEnrollmentAccount() {
   console.log(result);
 }
 
-async function main() {
-  billingRoleAssignmentDeleteByEnrollmentAccount();
+async function main(): Promise<void> {
+  await billingRoleAssignmentDeleteByEnrollmentAccount();
 }
 
 main().catch(console.error);

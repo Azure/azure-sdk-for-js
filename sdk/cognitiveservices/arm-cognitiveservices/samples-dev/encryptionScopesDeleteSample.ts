@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the specified encryptionScope associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteEncryptionScope.json
  */
-async function deleteEncryptionScope() {
+async function deleteEncryptionScope(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,8 +39,8 @@ async function deleteEncryptionScope() {
   console.log(result);
 }
 
-async function main() {
-  deleteEncryptionScope();
+async function main(): Promise<void> {
+  await deleteEncryptionScope();
 }
 
 main().catch(console.error);

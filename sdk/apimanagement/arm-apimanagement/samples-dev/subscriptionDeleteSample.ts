@@ -18,27 +18,27 @@ import "dotenv/config";
  * @summary Deletes the specified subscription.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteSubscription.json
  */
-async function apiManagementDeleteSubscription() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const sid = "testsub";
-    const ifMatch = "*";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.subscription.delete(
-        resourceGroupName,
-        serviceName,
-        sid,
-        ifMatch
-    );
-    console.log(result);
+async function apiManagementDeleteSubscription(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const sid = "testsub";
+  const ifMatch = "*";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.subscription.delete(
+    resourceGroupName,
+    serviceName,
+    sid,
+    ifMatch
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementDeleteSubscription();
+async function main(): Promise<void> {
+  await apiManagementDeleteSubscription();
 }
 
 main().catch(console.error);

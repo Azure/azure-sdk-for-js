@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Unlink a backend from a static site build
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/UnlinkBackendFromStaticSiteBuild.json
  */
-async function unlinkABackendFromAStaticSiteBuild() {
+async function unlinkABackendFromAStaticSiteBuild(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,8 +37,8 @@ async function unlinkABackendFromAStaticSiteBuild() {
   console.log(result);
 }
 
-async function main() {
-  unlinkABackendFromAStaticSiteBuild();
+async function main(): Promise<void> {
+  await unlinkABackendFromAStaticSiteBuild();
 }
 
 main().catch(console.error);

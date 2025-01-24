@@ -32,7 +32,7 @@ async function getHealthHistoryByResource() {
 }
 
 async function main() {
-  getHealthHistoryByResource();
+  await getHealthHistoryByResource();
 }
 
 main().catch(console.error);

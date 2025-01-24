@@ -42,7 +42,7 @@ async function checkNameAvailabilityOfACapacity() {
 }
 
 async function main() {
-  checkNameAvailabilityOfACapacity();
+  await checkNameAvailabilityOfACapacity();
 }
 
 main().catch(console.error);

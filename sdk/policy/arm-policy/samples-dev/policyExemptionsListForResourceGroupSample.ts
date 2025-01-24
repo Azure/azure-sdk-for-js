@@ -44,7 +44,7 @@ async function listPolicyExemptionsThatApplyToAResourceGroup() {
 }
 
 async function main() {
-  listPolicyExemptionsThatApplyToAResourceGroup();
+  await listPolicyExemptionsThatApplyToAResourceGroup();
 }
 
 main().catch(console.error);

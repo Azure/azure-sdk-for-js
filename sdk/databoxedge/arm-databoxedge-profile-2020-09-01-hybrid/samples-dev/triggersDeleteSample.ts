@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the trigger on the gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/TriggerDelete.json
  */
-async function triggerDelete() {
+async function triggerDelete(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -36,8 +36,8 @@ async function triggerDelete() {
   console.log(result);
 }
 
-async function main() {
-  triggerDelete();
+async function main(): Promise<void> {
+  await triggerDelete();
 }
 
 main().catch(console.error);

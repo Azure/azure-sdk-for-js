@@ -14,9 +14,7 @@ import {
   WorkloadsClient,
 } from "@azure/arm-workloadssapvirtualinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a Virtual Instance for SAP solutions (VIS) resource
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Custom_Image.json
  */
-async function createInfrastructureWithOSConfigurationWithAzureComputeGalleryImage() {
+async function createInfrastructureWithOSConfigurationWithAzureComputeGalleryImage(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -123,7 +121,7 @@ async function createInfrastructureWithOSConfigurationWithAzureComputeGalleryIma
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_Distributed.json
  */
-async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem() {
+async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -287,7 +285,7 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_HA_AvSet.json
  */
-async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet() {
+async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -483,7 +481,7 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_HA_AvZone.json
  */
-async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone() {
+async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -676,7 +674,7 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_CustomFullResourceNames_SingleServer.json
  */
-async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem() {
+async function createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -741,7 +739,7 @@ async function createInfrastructureWithOSConfigurationWithCustomResourceNamesFor
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_WithTrustedAccess.json
  */
-async function createInfrastructureWithOSConfigurationWithTrustedAccessEnabled() {
+async function createInfrastructureWithOSConfigurationWithTrustedAccessEnabled(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -850,7 +848,7 @@ async function createInfrastructureWithOSConfigurationWithTrustedAccessEnabled()
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed.json
  */
-async function createInfrastructureOnlyForDistributedSystem() {
+async function createInfrastructureOnlyForDistributedSystem(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -957,7 +955,7 @@ async function createInfrastructureOnlyForDistributedSystem() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvSet.json
  */
-async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
+async function createInfrastructureOnlyForHaSystemWithAvailabilitySet(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1065,7 +1063,7 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilitySet() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_HA_AvZone.json
  */
-async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
+async function createInfrastructureOnlyForHaSystemWithAvailabilityZone(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1173,7 +1171,7 @@ async function createInfrastructureOnlyForHaSystemWithAvailabilityZone() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_SingleServer.json
  */
-async function createInfrastructureOnlyForSingleServerSystem() {
+async function createInfrastructureOnlyForSingleServerSystem(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1234,7 +1232,7 @@ async function createInfrastructureOnlyForSingleServerSystem() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_Distributed.json
  */
-async function createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended() {
+async function createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1372,7 +1370,7 @@ async function createInfrastructureWithDiskAndOSConfigurationForDistributedSyste
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_HA_AvSet.json
  */
-async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended() {
+async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1511,7 +1509,7 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_HA_AvZone.json
  */
-async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended() {
+async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1650,7 +1648,7 @@ async function createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvai
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_DiskDetails_SingleServer.json
  */
-async function createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended() {
+async function createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1742,7 +1740,7 @@ async function createInfrastructureWithDiskAndOSConfigurationsForSingleServerSys
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_Distributed.json
  */
-async function createInfrastructureWithOSConfigurationForDistributedSystemRecommended() {
+async function createInfrastructureWithOSConfigurationForDistributedSystemRecommended(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1850,7 +1848,7 @@ async function createInfrastructureWithOSConfigurationForDistributedSystemRecomm
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvSet.json
  */
-async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended() {
+async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -1959,7 +1957,7 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_HA_AvZone.json
  */
-async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended() {
+async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2068,7 +2066,7 @@ async function createInfrastructureWithOSConfigurationForHaSystemWithAvailabilit
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_WithOSConfig_SingleServer.json
  */
-async function createInfrastructureWithOSConfigurationForSingleServerSystemRecommended() {
+async function createInfrastructureWithOSConfigurationForSingleServerSystemRecommended(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2130,7 +2128,7 @@ async function createInfrastructureWithOSConfigurationForSingleServerSystemRecom
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_CreateTransport.json
  */
-async function createInfrastructureWithANewSapTransportDirectoryFileshare() {
+async function createInfrastructureWithANewSapTransportDirectoryFileshare(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2245,7 +2243,7 @@ async function createInfrastructureWithANewSapTransportDirectoryFileshare() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_MountTransport.json
  */
-async function createInfrastructureWithAnExistingSapTransportDirectoryFileshare() {
+async function createInfrastructureWithAnExistingSapTransportDirectoryFileshare(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2361,7 +2359,7 @@ async function createInfrastructureWithAnExistingSapTransportDirectoryFileshare(
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Distributed_SkipTransport.json
  */
-async function createInfrastructureWithoutASapTransportDirectoryFileshare() {
+async function createInfrastructureWithoutASapTransportDirectoryFileshare(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2472,7 +2470,7 @@ async function createInfrastructureWithoutASapTransportDirectoryFileshare() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_Distributed.json
  */
-async function detectSapSoftwareInstallationOnADistributedSystem() {
+async function detectSapSoftwareInstallationOnADistributedSystem(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2594,7 +2592,7 @@ async function detectSapSoftwareInstallationOnADistributedSystem() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_SingleServer.json
  */
-async function detectSapSoftwareInstallationOnASingleServerSystem() {
+async function detectSapSoftwareInstallationOnASingleServerSystem(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2661,7 +2659,7 @@ async function detectSapSoftwareInstallationOnASingleServerSystem() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_HA_AvSet.json
  */
-async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
+async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2775,7 +2773,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_DetectInstallation_HA_AvZone.json
  */
-async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
+async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -2889,7 +2887,7 @@ async function detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Install_Distributed.json
  */
-async function installSapSoftwareOnDistributedSystem() {
+async function installSapSoftwareOnDistributedSystem(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -3014,7 +3012,7 @@ async function installSapSoftwareOnDistributedSystem() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Install_SingleServer.json
  */
-async function installSapSoftwareOnSingleServerSystem() {
+async function installSapSoftwareOnSingleServerSystem(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -3085,7 +3083,7 @@ async function installSapSoftwareOnSingleServerSystem() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover_CustomMrgStorageAccountName.json
  */
-async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations() {
+async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -3123,7 +3121,7 @@ async function registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOpti
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover.json
  */
-async function registerExistingSapSystemAsVirtualInstanceForSapSolutions() {
+async function registerExistingSapSystemAsVirtualInstanceForSapSolutions(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -3160,7 +3158,7 @@ async function registerExistingSapSystemAsVirtualInstanceForSapSolutions() {
  * @summary Creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Create_Discover_TrustedAccessEnable.json
  */
-async function registerWithTrustedAccessEnabled() {
+async function registerWithTrustedAccessEnabled(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -3192,37 +3190,37 @@ async function registerWithTrustedAccessEnabled() {
   console.log(result);
 }
 
-async function main() {
-  createInfrastructureWithOSConfigurationWithAzureComputeGalleryImage();
-  createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem();
-  createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet();
-  createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone();
-  createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem();
-  createInfrastructureWithOSConfigurationWithTrustedAccessEnabled();
-  createInfrastructureOnlyForDistributedSystem();
-  createInfrastructureOnlyForHaSystemWithAvailabilitySet();
-  createInfrastructureOnlyForHaSystemWithAvailabilityZone();
-  createInfrastructureOnlyForSingleServerSystem();
-  createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended();
-  createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended();
-  createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
-  createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended();
-  createInfrastructureWithOSConfigurationForDistributedSystemRecommended();
-  createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended();
-  createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
-  createInfrastructureWithOSConfigurationForSingleServerSystemRecommended();
-  createInfrastructureWithANewSapTransportDirectoryFileshare();
-  createInfrastructureWithAnExistingSapTransportDirectoryFileshare();
-  createInfrastructureWithoutASapTransportDirectoryFileshare();
-  detectSapSoftwareInstallationOnADistributedSystem();
-  detectSapSoftwareInstallationOnASingleServerSystem();
-  detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();
-  detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone();
-  installSapSoftwareOnDistributedSystem();
-  installSapSoftwareOnSingleServerSystem();
-  registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations();
-  registerExistingSapSystemAsVirtualInstanceForSapSolutions();
-  registerWithTrustedAccessEnabled();
+async function main(): Promise<void> {
+  await createInfrastructureWithOSConfigurationWithAzureComputeGalleryImage();
+  await createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem();
+  await createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet();
+  await createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone();
+  await createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem();
+  await createInfrastructureWithOSConfigurationWithTrustedAccessEnabled();
+  await createInfrastructureOnlyForDistributedSystem();
+  await createInfrastructureOnlyForHaSystemWithAvailabilitySet();
+  await createInfrastructureOnlyForHaSystemWithAvailabilityZone();
+  await createInfrastructureOnlyForSingleServerSystem();
+  await createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended();
+  await createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended();
+  await createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
+  await createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended();
+  await createInfrastructureWithOSConfigurationForDistributedSystemRecommended();
+  await createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended();
+  await createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
+  await createInfrastructureWithOSConfigurationForSingleServerSystemRecommended();
+  await createInfrastructureWithANewSapTransportDirectoryFileshare();
+  await createInfrastructureWithAnExistingSapTransportDirectoryFileshare();
+  await createInfrastructureWithoutASapTransportDirectoryFileshare();
+  await detectSapSoftwareInstallationOnADistributedSystem();
+  await detectSapSoftwareInstallationOnASingleServerSystem();
+  await detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();
+  await detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone();
+  await installSapSoftwareOnDistributedSystem();
+  await installSapSoftwareOnSingleServerSystem();
+  await registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations();
+  await registerExistingSapSystemAsVirtualInstanceForSapSolutions();
+  await registerWithTrustedAccessEnabled();
 }
 
 main().catch(console.error);

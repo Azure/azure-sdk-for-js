@@ -76,9 +76,9 @@ async function getGovernanceRulesLongRunOperationResultOverSubscription() {
 }
 
 async function main() {
-  getGovernanceRulesLongRunOperationResultOverManagementGroup();
-  getGovernanceRulesLongRunOperationResultOverSecurityConnector();
-  getGovernanceRulesLongRunOperationResultOverSubscription();
+  await getGovernanceRulesLongRunOperationResultOverManagementGroup();
+  await getGovernanceRulesLongRunOperationResultOverSecurityConnector();
+  await getGovernanceRulesLongRunOperationResultOverSubscription();
 }
 
 main().catch(console.error);

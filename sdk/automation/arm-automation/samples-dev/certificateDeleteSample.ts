@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete the certificate.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/deleteCertificate.json
  */
-async function deleteACertificate() {
+async function deleteACertificate(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -33,8 +33,8 @@ async function deleteACertificate() {
   console.log(result);
 }
 
-async function main() {
-  deleteACertificate();
+async function main(): Promise<void> {
+  await deleteACertificate();
 }
 
 main().catch(console.error);

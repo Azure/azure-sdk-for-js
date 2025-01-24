@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary The operation to shutdown an Azure Bare Metal Instance
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalInstances_Shutdown.json
  */
-async function shutdownAnAzureBareMetalInstance() {
+async function shutdownAnAzureBareMetalInstance(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,8 +34,8 @@ async function shutdownAnAzureBareMetalInstance() {
   console.log(result);
 }
 
-async function main() {
-  shutdownAnAzureBareMetalInstance();
+async function main(): Promise<void> {
+  await shutdownAnAzureBareMetalInstance();
 }
 
 main().catch(console.error);

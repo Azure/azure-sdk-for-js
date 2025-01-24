@@ -29,7 +29,7 @@ async function putPartnerDetails() {
 }
 
 async function main() {
-  putPartnerDetails();
+  await putPartnerDetails();
 }
 
 main().catch(console.error);

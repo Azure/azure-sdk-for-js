@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the dsc node identified by node id.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getDscNode.json
  */
-async function getANode() {
+async function getANode(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -33,8 +33,8 @@ async function getANode() {
   console.log(result);
 }
 
-async function main() {
-  getANode();
+async function main(): Promise<void> {
+  await getANode();
 }
 
 main().catch(console.error);

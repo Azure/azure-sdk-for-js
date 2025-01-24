@@ -48,7 +48,7 @@ async function patchTrunkedNetwork() {
 }
 
 async function main() {
-  patchTrunkedNetwork();
+  await patchTrunkedNetwork();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Creates or updates the function app settings of a static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateStaticSiteFunctionAppSettings.json
  */
-async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSite() {
+async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -41,8 +41,8 @@ async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSite() {
   console.log(result);
 }
 
-async function main() {
-  createsOrUpdatesTheFunctionAppSettingsOfAStaticSite();
+async function main(): Promise<void> {
+  await createsOrUpdatesTheFunctionAppSettingsOfAStaticSite();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function getDevOpsConfigurations() {
 }
 
 async function main() {
-  getDevOpsConfigurations();
+  await getDevOpsConfigurations();
 }
 
 main().catch(console.error);

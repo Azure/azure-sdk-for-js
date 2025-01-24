@@ -39,7 +39,7 @@ async function signalRReplicasDelete() {
 }
 
 async function main() {
-  signalRReplicasDelete();
+  await signalRReplicasDelete();
 }
 
 main().catch(console.error);

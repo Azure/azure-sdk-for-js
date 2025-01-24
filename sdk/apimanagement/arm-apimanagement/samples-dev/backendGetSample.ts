@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Gets the details of the backend specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetBackend.json
  */
-async function apiManagementGetBackend() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const backendId = "sfbackend";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.backend.get(
-        resourceGroupName,
-        serviceName,
-        backendId
-    );
-    console.log(result);
+async function apiManagementGetBackend(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const backendId = "sfbackend";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.backend.get(
+    resourceGroupName,
+    serviceName,
+    backendId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetBackend();
+async function main(): Promise<void> {
+  await apiManagementGetBackend();
 }
 
 main().catch(console.error);

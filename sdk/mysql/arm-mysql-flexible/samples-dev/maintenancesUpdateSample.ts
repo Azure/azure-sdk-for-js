@@ -50,7 +50,7 @@ async function updateMaintenanceOnAServer() {
 }
 
 async function main() {
-  updateMaintenanceOnAServer();
+  await updateMaintenanceOnAServer();
 }
 
 main().catch(console.error);

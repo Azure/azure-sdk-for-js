@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Trigger quick evaluation for the given subscriptions.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/TriggerEvaluation.json
  */
-async function triggerEvaluation() {
+async function triggerEvaluation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const result = await client.providerActions.beginTriggerEvaluationAndWait({
@@ -29,8 +29,8 @@ async function triggerEvaluation() {
   console.log(result);
 }
 
-async function main() {
-  triggerEvaluation();
+async function main(): Promise<void> {
+  await triggerEvaluation();
 }
 
 main().catch(console.error);

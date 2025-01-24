@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a new share or updates an existing share on the device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/SharePut.json
  */
-async function sharePut() {
+async function sharePut(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -60,8 +60,8 @@ async function sharePut() {
   console.log(result);
 }
 
-async function main() {
-  sharePut();
+async function main(): Promise<void> {
+  await sharePut();
 }
 
 main().catch(console.error);

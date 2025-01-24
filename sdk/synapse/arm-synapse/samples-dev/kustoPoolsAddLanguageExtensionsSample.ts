@@ -46,7 +46,7 @@ async function kustoPoolAddLanguageExtensions() {
 }
 
 async function main() {
-  kustoPoolAddLanguageExtensions();
+  await kustoPoolAddLanguageExtensions();
 }
 
 main().catch(console.error);

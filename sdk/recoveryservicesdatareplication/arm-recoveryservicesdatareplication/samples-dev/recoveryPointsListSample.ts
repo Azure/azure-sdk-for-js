@@ -46,7 +46,7 @@ async function recoveryPointsList() {
 }
 
 async function main() {
-  recoveryPointsList();
+  await recoveryPointsList();
 }
 
 main().catch(console.error);

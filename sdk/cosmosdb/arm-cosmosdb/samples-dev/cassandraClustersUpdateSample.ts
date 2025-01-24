@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates some of the properties of a managed Cassandra cluster.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBManagedCassandraClusterPatch.json
  */
-async function cosmosDbManagedCassandraClusterPatch() {
+async function cosmosDbManagedCassandraClusterPatch(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,8 +52,8 @@ async function cosmosDbManagedCassandraClusterPatch() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbManagedCassandraClusterPatch();
+async function main(): Promise<void> {
+  await cosmosDbManagedCassandraClusterPatch();
 }
 
 main().catch(console.error);

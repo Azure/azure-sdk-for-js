@@ -58,9 +58,9 @@ async function getPricingsOnSubscriptionWithPlansFilter() {
 }
 
 async function main() {
-  getPricingsOnResource();
-  getPricingsOnSubscription();
-  getPricingsOnSubscriptionWithPlansFilter();
+  await getPricingsOnResource();
+  await getPricingsOnSubscription();
+  await getPricingsOnSubscriptionWithPlansFilter();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function maintenanceConfigurationsResourceGroupList() {
 }
 
 async function main() {
-  maintenanceConfigurationsResourceGroupList();
+  await maintenanceConfigurationsResourceGroupList();
 }
 
 main().catch(console.error);

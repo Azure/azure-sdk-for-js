@@ -37,7 +37,7 @@ async function quantumWorkspacesDelete() {
 }
 
 async function main() {
-  quantumWorkspacesDelete();
+  await quantumWorkspacesDelete();
 }
 
 main().catch(console.error);

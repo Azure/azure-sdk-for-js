@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Gets all static site builds for a particular static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetStaticSiteBuilds.json
  */
-async function getAllBuildsForAStaticSite() {
+async function getAllBuildsForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,8 +36,8 @@ async function getAllBuildsForAStaticSite() {
   console.log(resArray);
 }
 
-async function main() {
-  getAllBuildsForAStaticSite();
+async function main(): Promise<void> {
+  await getAllBuildsForAStaticSite();
 }
 
 main().catch(console.error);

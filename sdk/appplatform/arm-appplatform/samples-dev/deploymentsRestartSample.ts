@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Restart the deployment.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Deployments_Restart.json
  */
-async function deploymentsRestart() {
+async function deploymentsRestart(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +38,8 @@ async function deploymentsRestart() {
   console.log(result);
 }
 
-async function main() {
-  deploymentsRestart();
+async function main(): Promise<void> {
+  await deploymentsRestart();
 }
 
 main().catch(console.error);

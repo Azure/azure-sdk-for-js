@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the AppComplianceAutomation webhook and its properties.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Webhook_Get.json
  */
-async function webhookGet() {
+async function webhookGet(): Promise<void> {
   const reportName = "testReportName";
   const webhookName = "testWebhookName";
   const credential = new DefaultAzureCredential();
@@ -27,8 +27,8 @@ async function webhookGet() {
   console.log(result);
 }
 
-async function main() {
-  webhookGet();
+async function main(): Promise<void> {
+  await webhookGet();
 }
 
 main().catch(console.error);

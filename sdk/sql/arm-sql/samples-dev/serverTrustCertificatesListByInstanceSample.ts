@@ -39,7 +39,7 @@ async function getsAListOfServerTrustCertificatesOnAGivenServer() {
 }
 
 async function main() {
-  getsAListOfServerTrustCertificatesOnAGivenServer();
+  await getsAListOfServerTrustCertificatesOnAGivenServer();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen() {
 }
 
 async function main() {
-  l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen();
+  await l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen();
 }
 
 main().catch(console.error);

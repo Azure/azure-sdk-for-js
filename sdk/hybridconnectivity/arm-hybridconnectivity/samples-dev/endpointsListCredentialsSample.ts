@@ -45,7 +45,7 @@ async function hybridConnectivityEndpointsPostListCredentials() {
 }
 
 async function main() {
-  hybridConnectivityEndpointsPostListCredentials();
+  await hybridConnectivityEndpointsPostListCredentials();
 }
 
 main().catch(console.error);

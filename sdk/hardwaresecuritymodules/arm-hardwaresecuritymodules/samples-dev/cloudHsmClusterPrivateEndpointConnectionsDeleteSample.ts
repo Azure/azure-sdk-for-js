@@ -40,7 +40,7 @@ async function cloudHsmClusterPrivateEndpointConnectionDeleteMaximumSetGen() {
 }
 
 async function main() {
-  cloudHsmClusterPrivateEndpointConnectionDeleteMaximumSetGen();
+  await cloudHsmClusterPrivateEndpointConnectionDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

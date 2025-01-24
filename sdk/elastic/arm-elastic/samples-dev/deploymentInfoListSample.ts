@@ -37,7 +37,7 @@ async function deploymentInfoList() {
 }
 
 async function main() {
-  deploymentInfoList();
+  await deploymentInfoList();
 }
 
 main().catch(console.error);

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all the Data Box Edge/Data Box Gateway devices in a resource group.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/DataBoxEdgeDeviceGetByResourceGroup.json
  */
-async function dataBoxEdgeDeviceGetByResourceGroup() {
+async function dataBoxEdgeDeviceGetByResourceGroup(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const resourceGroupName = "GroupForEdgeAutomation";
   const credential = new DefaultAzureCredential();

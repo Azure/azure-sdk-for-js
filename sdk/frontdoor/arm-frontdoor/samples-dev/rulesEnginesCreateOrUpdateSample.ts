@@ -117,7 +117,7 @@ async function createOrUpdateASpecificRulesEngineConfiguration() {
 }
 
 async function main() {
-  createOrUpdateASpecificRulesEngineConfiguration();
+  await createOrUpdateASpecificRulesEngineConfiguration();
 }
 
 main().catch(console.error);

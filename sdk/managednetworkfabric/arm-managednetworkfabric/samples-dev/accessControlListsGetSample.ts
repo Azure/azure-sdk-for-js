@@ -40,7 +40,7 @@ async function accessControlListsGetMaximumSetGen() {
 }
 
 async function main() {
-  accessControlListsGetMaximumSetGen();
+  await accessControlListsGetMaximumSetGen();
 }
 
 main().catch(console.error);

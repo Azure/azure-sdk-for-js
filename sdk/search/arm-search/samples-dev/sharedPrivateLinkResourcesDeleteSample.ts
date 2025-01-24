@@ -36,7 +36,7 @@ async function sharedPrivateLinkResourceDelete() {
 }
 
 async function main() {
-  sharedPrivateLinkResourceDelete();
+  await sharedPrivateLinkResourceDelete();
 }
 
 main().catch(console.error);

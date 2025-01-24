@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a role.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/RolePut.json
  */
-async function rolePut() {
+async function rolePut(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -74,8 +74,8 @@ async function rolePut() {
   console.log(result);
 }
 
-async function main() {
-  rolePut();
+async function main(): Promise<void> {
+  await rolePut();
 }
 
 main().catch(console.error);

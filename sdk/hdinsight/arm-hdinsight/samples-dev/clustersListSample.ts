@@ -32,7 +32,7 @@ async function getAllHadoopOnLinuxClusters() {
 }
 
 async function main() {
-  getAllHadoopOnLinuxClusters();
+  await getAllHadoopOnLinuxClusters();
 }
 
 main().catch(console.error);

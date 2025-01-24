@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a new StorageAccount or updates an existing StorageAccount on the device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/StorageAccountPut.json
  */
-async function storageAccountPut() {
+async function storageAccountPut(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -47,8 +47,8 @@ async function storageAccountPut() {
   console.log(result);
 }
 
-async function main() {
-  storageAccountPut();
+async function main(): Promise<void> {
+  await storageAccountPut();
 }
 
 main().catch(console.error);

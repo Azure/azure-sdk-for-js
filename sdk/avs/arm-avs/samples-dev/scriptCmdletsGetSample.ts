@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a ScriptCmdlet
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/ScriptCmdlets_Get.json
  */
-async function scriptCmdletsGet() {
+async function scriptCmdletsGet(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,8 +37,8 @@ async function scriptCmdletsGet() {
   console.log(result);
 }
 
-async function main() {
-  scriptCmdletsGet();
+async function main(): Promise<void> {
+  await scriptCmdletsGet();
 }
 
 main().catch(console.error);

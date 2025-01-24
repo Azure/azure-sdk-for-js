@@ -39,7 +39,7 @@ async function deleteAnIPFirewallRuleFromAWorkspace() {
 }
 
 async function main() {
-  deleteAnIPFirewallRuleFromAWorkspace();
+  await deleteAnIPFirewallRuleFromAWorkspace();
 }
 
 main().catch(console.error);

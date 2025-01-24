@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists a Channel registration for a Bot Service including secrets
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListChannel.json
  */
-async function listChannel() {
+async function listChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -35,8 +35,8 @@ async function listChannel() {
   console.log(result);
 }
 
-async function main() {
-  listChannel();
+async function main(): Promise<void> {
+  await listChannel();
 }
 
 main().catch(console.error);

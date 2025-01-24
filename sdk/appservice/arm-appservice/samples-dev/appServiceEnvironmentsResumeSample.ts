@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Resume an App Service Environment.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_Resume.json
  */
-async function resumeAnAppServiceEnvironment() {
+async function resumeAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,8 +37,8 @@ async function resumeAnAppServiceEnvironment() {
   console.log(resArray);
 }
 
-async function main() {
-  resumeAnAppServiceEnvironment();
+async function main(): Promise<void> {
+  await resumeAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

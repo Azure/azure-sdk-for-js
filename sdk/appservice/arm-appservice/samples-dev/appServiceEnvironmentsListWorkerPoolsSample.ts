@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get all worker pools of an App Service Environment.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_ListWorkerPools.json
  */
-async function getAllWorkerPoolsOfAnAppServiceEnvironment() {
+async function getAllWorkerPoolsOfAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,8 +37,8 @@ async function getAllWorkerPoolsOfAnAppServiceEnvironment() {
   console.log(resArray);
 }
 
-async function main() {
-  getAllWorkerPoolsOfAnAppServiceEnvironment();
+async function main(): Promise<void> {
+  await getAllWorkerPoolsOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

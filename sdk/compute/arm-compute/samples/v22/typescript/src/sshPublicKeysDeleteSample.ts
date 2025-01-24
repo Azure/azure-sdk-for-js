@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete an SSH public key.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete an SSH public key.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_Delete_MaximumSet_Gen.json
  */
-async function sshPublicKeyDeleteMaximumSetGen() {
+async function sshPublicKeyDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -41,7 +39,7 @@ async function sshPublicKeyDeleteMaximumSetGen() {
  * @summary Delete an SSH public key.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_Delete_MinimumSet_Gen.json
  */
-async function sshPublicKeyDeleteMinimumSetGen() {
+async function sshPublicKeyDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -56,7 +54,7 @@ async function sshPublicKeyDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   sshPublicKeyDeleteMaximumSetGen();
   sshPublicKeyDeleteMinimumSetGen();
 }

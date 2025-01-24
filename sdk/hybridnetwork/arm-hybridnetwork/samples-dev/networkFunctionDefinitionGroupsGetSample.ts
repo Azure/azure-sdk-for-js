@@ -38,7 +38,7 @@ async function getANetworkFunctionDefinitionGroupResource() {
 }
 
 async function main() {
-  getANetworkFunctionDefinitionGroupResource();
+  await getANetworkFunctionDefinitionGroupResource();
 }
 
 main().catch(console.error);

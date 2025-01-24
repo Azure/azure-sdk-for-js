@@ -118,7 +118,7 @@ async function networkFabricsCreateMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricsCreateMaximumSetGen();
+  await networkFabricsCreateMaximumSetGen();
 }
 
 main().catch(console.error);

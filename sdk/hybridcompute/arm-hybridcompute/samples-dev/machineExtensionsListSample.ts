@@ -39,7 +39,7 @@ async function getAllMachineExtensionsList() {
 }
 
 async function main() {
-  getAllMachineExtensionsList();
+  await getAllMachineExtensionsList();
 }
 
 main().catch(console.error);

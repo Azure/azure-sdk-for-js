@@ -262,13 +262,13 @@ async function updateVaultWithRedundancySetting() {
 }
 
 async function main() {
-  updateResource();
-  updateResourceWithCustomerManagedKeys();
-  updateResourceWithCustomerManagedKeys2();
-  updateResourceWithCustomerManagedKeys3();
-  updateResourceWithUserAssignedIdentity();
-  updateVaultWithMonitoringSetting();
-  updateVaultWithRedundancySetting();
+  await updateResource();
+  await updateResourceWithCustomerManagedKeys();
+  await updateResourceWithCustomerManagedKeys2();
+  await updateResourceWithCustomerManagedKeys3();
+  await updateResourceWithUserAssignedIdentity();
+  await updateVaultWithMonitoringSetting();
+  await updateVaultWithRedundancySetting();
 }
 
 main().catch(console.error);

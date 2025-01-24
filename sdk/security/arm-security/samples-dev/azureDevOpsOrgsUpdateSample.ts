@@ -45,7 +45,7 @@ async function updateAzureDevOpsOrgs() {
 }
 
 async function main() {
-  updateAzureDevOpsOrgs();
+  await updateAzureDevOpsOrgs();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get all certificates in a resource group.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2018-02-01/examples/ListCertificatesByResourceGroup.json
  */
-async function listCertificatesByResourceGroup() {
+async function listCertificatesByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,8 +35,8 @@ async function listCertificatesByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
-  listCertificatesByResourceGroup();
+async function main(): Promise<void> {
+  await listCertificatesByResourceGroup();
 }
 
 main().catch(console.error);

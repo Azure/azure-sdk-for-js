@@ -317,15 +317,15 @@ async function switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToComp
 }
 
 async function main() {
-  promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
-  promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete();
-  serverUpdate();
-  serverUpdateWithAadAuthEnabled();
-  serverUpdateWithCustomerMaintenanceWindow();
-  serverUpdateWithDataEncryptionEnabled();
-  serverUpdateWithMajorVersionUpgrade();
-  switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOriginalPrimaryAsReplicaImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
-  switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToCompleteBeforePromotingReplicaAsPrimaryAndOriginalPrimaryAsReplica();
+  await promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
+  await promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete();
+  await serverUpdate();
+  await serverUpdateWithAadAuthEnabled();
+  await serverUpdateWithCustomerMaintenanceWindow();
+  await serverUpdateWithDataEncryptionEnabled();
+  await serverUpdateWithMajorVersionUpgrade();
+  await switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOriginalPrimaryAsReplicaImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
+  await switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToCompleteBeforePromotingReplicaAsPrimaryAndOriginalPrimaryAsReplica();
 }
 
 main().catch(console.error);

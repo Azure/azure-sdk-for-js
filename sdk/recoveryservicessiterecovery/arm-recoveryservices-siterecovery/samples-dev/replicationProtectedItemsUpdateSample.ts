@@ -73,7 +73,7 @@ async function updatesTheReplicationProtectedItemSettings() {
 }
 
 async function main() {
-  updatesTheReplicationProtectedItemSettings();
+  await updatesTheReplicationProtectedItemSettings();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function jobDefinitionsList() {
 }
 
 async function main() {
-  jobDefinitionsList();
+  await jobDefinitionsList();
 }
 
 main().catch(console.error);

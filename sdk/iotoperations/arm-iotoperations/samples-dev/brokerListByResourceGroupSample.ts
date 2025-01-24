@@ -23,7 +23,7 @@ async function brokerListByResourceGroup() {
 }
 
 async function main() {
-  brokerListByResourceGroup();
+  await brokerListByResourceGroup();
 }
 
 main().catch(console.error);

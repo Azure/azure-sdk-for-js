@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the properties of the specified configuration store.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresGet.json
  */
-async function configurationStoresGet() {
+async function configurationStoresGet(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -37,8 +37,8 @@ async function configurationStoresGet() {
   console.log(result);
 }
 
-async function main() {
-  configurationStoresGet();
+async function main(): Promise<void> {
+  await configurationStoresGet();
 }
 
 main().catch(console.error);

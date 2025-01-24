@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a role definition by ID.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetRoleDefinitionById.json
  */
-async function getRoleDefinitionById() {
+async function getRoleDefinitionById(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,8 +29,8 @@ async function getRoleDefinitionById() {
   console.log(result);
 }
 
-async function main() {
-  getRoleDefinitionById();
+async function main(): Promise<void> {
+  await getRoleDefinitionById();
 }
 
 main().catch(console.error);

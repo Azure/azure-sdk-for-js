@@ -43,7 +43,7 @@ async function applyUpdatesGet() {
 }
 
 async function main() {
-  applyUpdatesGet();
+  await applyUpdatesGet();
 }
 
 main().catch(console.error);

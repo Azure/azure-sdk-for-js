@@ -37,7 +37,7 @@ async function iotHubResourceGet() {
 }
 
 async function main() {
-  iotHubResourceGet();
+  await iotHubResourceGet();
 }
 
 main().catch(console.error);

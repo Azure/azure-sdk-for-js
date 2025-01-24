@@ -34,7 +34,7 @@ async function getVaultSecurityPin() {
 }
 
 async function main() {
-  getVaultSecurityPin();
+  await getVaultSecurityPin();
 }
 
 main().catch(console.error);

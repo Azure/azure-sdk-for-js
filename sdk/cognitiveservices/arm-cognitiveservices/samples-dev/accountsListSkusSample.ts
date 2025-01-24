@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List available SKUs for the requested Cognitive Services account
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListSkus.json
  */
-async function listSkUs() {
+async function listSkUs(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -34,8 +34,8 @@ async function listSkUs() {
   console.log(result);
 }
 
-async function main() {
-  listSkUs();
+async function main(): Promise<void> {
+  await listSkUs();
 }
 
 main().catch(console.error);

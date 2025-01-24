@@ -49,7 +49,7 @@ async function troubleshootersCreate() {
 }
 
 async function main() {
-  troubleshootersCreate();
+  await troubleshootersCreate();
 }
 
 main().catch(console.error);

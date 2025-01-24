@@ -51,8 +51,8 @@ async function preRulesDeleteMinimumSetGen() {
 }
 
 async function main() {
-  preRulesDeleteMaximumSetGen();
-  preRulesDeleteMinimumSetGen();
+  await preRulesDeleteMaximumSetGen();
+  await preRulesDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

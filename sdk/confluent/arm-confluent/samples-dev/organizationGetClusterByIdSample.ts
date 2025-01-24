@@ -18,12 +18,10 @@ import "dotenv/config";
  * @summary Get cluster by Id
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetClusterById.json
  */
-async function organizationGetClusterById() {
+async function organizationGetClusterById(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const environmentId = "env-12132";
   const clusterId = "dlz-f3a90de";
@@ -38,8 +36,8 @@ async function organizationGetClusterById() {
   console.log(result);
 }
 
-async function main() {
-  organizationGetClusterById();
+async function main(): Promise<void> {
+  await organizationGetClusterById();
 }
 
 main().catch(console.error);

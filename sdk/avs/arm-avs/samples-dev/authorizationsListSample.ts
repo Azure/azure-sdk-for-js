@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List ExpressRouteAuthorization resources by PrivateCloud
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Authorizations_List.json
  */
-async function authorizationsList() {
+async function authorizationsList(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function authorizationsList() {
   console.log(resArray);
 }
 
-async function main() {
-  authorizationsList();
+async function main(): Promise<void> {
+  await authorizationsList();
 }
 
 main().catch(console.error);

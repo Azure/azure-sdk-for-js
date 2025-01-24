@@ -39,7 +39,7 @@ async function createDDoSProtectionPlan() {
 }
 
 async function main() {
-  createDDoSProtectionPlan();
+  await createDDoSProtectionPlan();
 }
 
 main().catch(console.error);

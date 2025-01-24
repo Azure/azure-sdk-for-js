@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the list of diagnostics for a given Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerAppsDiagnostics_List.json
  */
-async function getTheListOfAvailableDiagnosticsForAGivenContainerApp() {
+async function getTheListOfAvailableDiagnosticsForAGivenContainerApp(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "f07f3711-b45e-40fe-a941-4e6d93f851e6";
@@ -37,8 +37,8 @@ async function getTheListOfAvailableDiagnosticsForAGivenContainerApp() {
   console.log(resArray);
 }
 
-async function main() {
-  getTheListOfAvailableDiagnosticsForAGivenContainerApp();
+async function main(): Promise<void> {
+  await getTheListOfAvailableDiagnosticsForAGivenContainerApp();
 }
 
 main().catch(console.error);

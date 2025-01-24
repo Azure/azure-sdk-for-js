@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get Content Filters by Name.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetRaiContentFilter.json
  */
-async function getRaiContentFilters() {
+async function getRaiContentFilters(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,8 +33,8 @@ async function getRaiContentFilters() {
   console.log(result);
 }
 
-async function main() {
-  getRaiContentFilters();
+async function main(): Promise<void> {
+  await getRaiContentFilters();
 }
 
 main().catch(console.error);

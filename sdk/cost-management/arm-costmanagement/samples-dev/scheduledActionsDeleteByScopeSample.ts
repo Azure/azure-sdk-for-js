@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -18,7 +16,7 @@ import "dotenv/config";
  * @summary Delete a scheduled action within the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-delete-shared.json
  */
-async function scheduledActionDeleteByScope() {
+async function scheduledActionDeleteByScope(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const name = "monthlyCostByResource";
   const credential = new DefaultAzureCredential();
@@ -27,8 +25,8 @@ async function scheduledActionDeleteByScope() {
   console.log(result);
 }
 
-async function main() {
-  scheduledActionDeleteByScope();
+async function main(): Promise<void> {
+  await scheduledActionDeleteByScope();
 }
 
 main().catch(console.error);

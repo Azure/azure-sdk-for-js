@@ -18,7 +18,7 @@ async function deleteSchemaRegistry() {
 }
 
 async function main() {
-  deleteSchemaRegistry();
+  await deleteSchemaRegistry();
 }
 
 main().catch(console.error);

@@ -139,3 +139,60 @@ describe("ReporterUtils.getReadableLineLocation", () => {
     expect(result).to.equal("at test-file.ts:100:10");
   });
 });
+
+describe("ReporterUtils.getWorkers", () => {
+  it("should returns config.workers if worker info not available in metadata object", () => {
+    const reporterUtils = new ReporterUtils(
+      {} as any,
+      {
+        workers: 5,
+        metadata: {},
+      } as any,
+      {} as any,
+    );
+    const result = reporterUtils["getWorkers"]();
+    expect(result).to.equal(5);
+  });
+
+  it("should returns config.workers if metadata object is not available", () => {
+    const reporterUtils = new ReporterUtils(
+      {} as any,
+      {
+        workers: 5,
+      } as any,
+      {} as any,
+    );
+    const result = reporterUtils["getWorkers"]();
+    expect(result).to.equal(5);
+  });
+
+  it("should returns config.workers if actualWorkers in metadata object is not int", () => {
+    const reporterUtils = new ReporterUtils(
+      {} as any,
+      {
+        workers: 5,
+        metadata: {
+          actualWorkers: "dummy",
+        },
+      } as any,
+      {} as any,
+    );
+    const result = reporterUtils["getWorkers"]();
+    expect(result).to.equal(5);
+  });
+
+  it("should returns metadata.actualWorkers if actualWorkers is int and available in metadata object", () => {
+    const reporterUtils = new ReporterUtils(
+      {} as any,
+      {
+        workers: 5,
+        metadata: {
+          actualWorkers: 3,
+        },
+      } as any,
+      {} as any,
+    );
+    const result = reporterUtils["getWorkers"]();
+    expect(result).to.equal(3);
+  });
+});

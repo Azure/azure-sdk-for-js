@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Imports the API specification.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/ApiDefinitions_ImportSpecification.json
  */
-async function apiDefinitionsImportSpecification() {
+async function apiDefinitionsImportSpecification(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -48,8 +48,8 @@ async function apiDefinitionsImportSpecification() {
   console.log(result);
 }
 
-async function main() {
-  apiDefinitionsImportSpecification();
+async function main(): Promise<void> {
+  await apiDefinitionsImportSpecification();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Refreshes any information about the association.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/NetworkSecurityPerimeterConfigurationReconcile.json
  */
-async function networkSecurityPerimeterConfigurationList() {
+async function networkSecurityPerimeterConfigurationList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,8 +37,8 @@ async function networkSecurityPerimeterConfigurationList() {
   console.log(result);
 }
 
-async function main() {
-  networkSecurityPerimeterConfigurationList();
+async function main(): Promise<void> {
+  await networkSecurityPerimeterConfigurationList();
 }
 
 main().catch(console.error);

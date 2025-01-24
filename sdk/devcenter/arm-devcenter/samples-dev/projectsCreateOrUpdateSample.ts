@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Project, DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a project.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a project.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_Put.json
  */
-async function projectsCreateOrUpdate() {
+async function projectsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -50,7 +48,7 @@ async function projectsCreateOrUpdate() {
  * @summary Creates or updates a project.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_PutWithMaxDevBoxPerUser.json
  */
-async function projectsCreateOrUpdateWithLimitsPerDev() {
+async function projectsCreateOrUpdateWithLimitsPerDev(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -74,9 +72,9 @@ async function projectsCreateOrUpdateWithLimitsPerDev() {
   console.log(result);
 }
 
-async function main() {
-  projectsCreateOrUpdate();
-  projectsCreateOrUpdateWithLimitsPerDev();
+async function main(): Promise<void> {
+  await projectsCreateOrUpdate();
+  await projectsCreateOrUpdateWithLimitsPerDev();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get ArcSetting resource details of HCI Cluster.
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/GetArcSetting.json
  */
-async function getArcSetting() {
+async function getArcSetting(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -36,8 +36,8 @@ async function getArcSetting() {
   console.log(result);
 }
 
-async function main() {
-  getArcSetting();
+async function main(): Promise<void> {
+  await getArcSetting();
 }
 
 main().catch(console.error);

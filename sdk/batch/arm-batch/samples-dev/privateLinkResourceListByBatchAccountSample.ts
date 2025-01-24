@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the private link resources in the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PrivateLinkResourcesList.json
  */
-async function listPrivateLinkResource() {
+async function listPrivateLinkResource(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -35,8 +35,8 @@ async function listPrivateLinkResource() {
   console.log(resArray);
 }
 
-async function main() {
-  listPrivateLinkResource();
+async function main(): Promise<void> {
+  await listPrivateLinkResource();
 }
 
 main().catch(console.error);

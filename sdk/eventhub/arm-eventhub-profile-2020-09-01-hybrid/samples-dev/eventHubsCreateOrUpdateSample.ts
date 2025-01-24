@@ -63,7 +63,7 @@ async function eventHubCreate() {
 }
 
 async function main() {
-  eventHubCreate();
+  await eventHubCreate();
 }
 
 main().catch(console.error);

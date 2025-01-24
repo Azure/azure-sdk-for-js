@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the metadata entity.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/GetRecommendationMetadataEntity.json
  */
-async function getMetadata() {
+async function getMetadata(): Promise<void> {
   const name = "types";
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);
@@ -27,7 +27,7 @@ async function getMetadata() {
 }
 
 async function main(): Promise<void> {
-  getMetadata();
+  await getMetadata();
 }
 
 main().catch(console.error);

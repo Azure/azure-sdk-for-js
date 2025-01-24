@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Accepts a transfer request.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/recipientTransfersAccept.json
  */
-async function acceptTransfer() {
+async function acceptTransfer(): Promise<void> {
   const transferName = "aabb123";
   const parameters: AcceptTransferRequest = {
     productDetails: [
@@ -38,8 +38,8 @@ async function acceptTransfer() {
   console.log(result);
 }
 
-async function main() {
-  acceptTransfer();
+async function main(): Promise<void> {
+  await acceptTransfer();
 }
 
 main().catch(console.error);

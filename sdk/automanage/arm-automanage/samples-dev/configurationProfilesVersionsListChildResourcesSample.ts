@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of configuration profile version for a configuration profile
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listConfigurationProfileVersions.json
  */
-async function listConfigurationProfileVersionsByConfigurationProfile() {
+async function listConfigurationProfileVersionsByConfigurationProfile(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";
@@ -36,8 +36,8 @@ async function listConfigurationProfileVersionsByConfigurationProfile() {
   console.log(resArray);
 }
 
-async function main() {
-  listConfigurationProfileVersionsByConfigurationProfile();
+async function main(): Promise<void> {
+  await listConfigurationProfileVersionsByConfigurationProfile();
 }
 
 main().catch(console.error);

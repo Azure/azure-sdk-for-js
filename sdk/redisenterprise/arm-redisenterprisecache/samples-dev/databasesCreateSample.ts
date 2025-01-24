@@ -106,8 +106,8 @@ async function redisEnterpriseDatabasesCreateWithActiveGeoReplication() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesCreate();
-  redisEnterpriseDatabasesCreateWithActiveGeoReplication();
+  await redisEnterpriseDatabasesCreate();
+  await redisEnterpriseDatabasesCreateWithActiveGeoReplication();
 }
 
 main().catch(console.error);

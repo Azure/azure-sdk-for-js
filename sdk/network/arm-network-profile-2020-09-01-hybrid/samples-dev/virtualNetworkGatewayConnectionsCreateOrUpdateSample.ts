@@ -93,7 +93,7 @@ async function createVirtualNetworkGatewayConnectionS2S() {
 }
 
 async function main() {
-  createVirtualNetworkGatewayConnectionS2S();
+  await createVirtualNetworkGatewayConnectionS2S();
 }
 
 main().catch(console.error);

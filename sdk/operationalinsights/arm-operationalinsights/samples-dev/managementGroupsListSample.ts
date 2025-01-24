@@ -43,7 +43,7 @@ async function workspacesListManagementGroups() {
 }
 
 async function main() {
-  workspacesListManagementGroups();
+  await workspacesListManagementGroups();
 }
 
 main().catch(console.error);

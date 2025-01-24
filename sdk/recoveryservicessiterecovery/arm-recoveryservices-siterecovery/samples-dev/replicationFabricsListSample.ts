@@ -41,7 +41,7 @@ async function getsTheListOfAsrFabrics() {
 }
 
 async function main() {
-  getsTheListOfAsrFabrics();
+  await getsTheListOfAsrFabrics();
 }
 
 main().catch(console.error);

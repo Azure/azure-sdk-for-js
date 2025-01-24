@@ -39,7 +39,7 @@ async function azureLargeInstanceGet() {
 }
 
 async function main() {
-  azureLargeInstanceGet();
+  await azureLargeInstanceGet();
 }
 
 main().catch(console.error);

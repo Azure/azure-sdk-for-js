@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  SenderUsernameResource,
-  CommunicationServiceManagementClient,
-} from "@azure/arm-communication";
+import type { SenderUsernameResource } from "@azure/arm-communication";
+import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,12 +19,10 @@ import "dotenv/config";
  * @summary Add a new SenderUsername resource under the parent Domains resource or update an existing SenderUsername resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/createOrUpdate.json
  */
-async function createOrUpdateSenderUsernamesResource() {
+async function createOrUpdateSenderUsernamesResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "contosoResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "contosoResourceGroup";
   const emailServiceName = "contosoEmailService";
   const domainName = "contoso.com";
   const senderUsername = "contosoNewsAlerts";
@@ -35,10 +31,7 @@ async function createOrUpdateSenderUsernamesResource() {
     username: "contosoNewsAlerts",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.senderUsernames.createOrUpdate(
     resourceGroupName,
     emailServiceName,
@@ -49,8 +42,8 @@ async function createOrUpdateSenderUsernamesResource() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateSenderUsernamesResource();
+async function main(): Promise<void> {
+  await createOrUpdateSenderUsernamesResource();
 }
 
 main().catch(console.error);

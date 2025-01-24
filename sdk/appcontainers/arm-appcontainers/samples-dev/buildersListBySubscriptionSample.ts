@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List BuilderResource resources by subscription ID
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builders_ListBySubscription.json
  */
-async function buildersListBySubscription0() {
+async function buildersListBySubscription0(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,8 +31,8 @@ async function buildersListBySubscription0() {
   console.log(resArray);
 }
 
-async function main() {
-  buildersListBySubscription0();
+async function main(): Promise<void> {
+  await buildersListBySubscription0();
 }
 
 main().catch(console.error);

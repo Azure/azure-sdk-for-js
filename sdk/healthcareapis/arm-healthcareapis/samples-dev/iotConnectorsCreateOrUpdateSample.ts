@@ -79,7 +79,7 @@ async function createAnIoTConnector() {
 }
 
 async function main() {
-  createAnIoTConnector();
+  await createAnIoTConnector();
 }
 
 main().catch(console.error);

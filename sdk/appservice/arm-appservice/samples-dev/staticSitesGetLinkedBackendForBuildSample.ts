@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns the details of a linked backend linked to a static site build by name
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetLinkedBackendForStaticSiteBuild.json
  */
-async function getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteBuildByName() {
+async function getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteBuildByName(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,8 +37,8 @@ async function getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteBuildByName(
   console.log(result);
 }
 
-async function main() {
-  getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteBuildByName();
+async function main(): Promise<void> {
+  await getDetailsOfTheLinkedBackendRegisteredWithAStaticSiteBuildByName();
 }
 
 main().catch(console.error);

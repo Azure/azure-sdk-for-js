@@ -39,7 +39,7 @@ async function deleteAArtifactManifestResource() {
 }
 
 async function main() {
-  deleteAArtifactManifestResource();
+  await deleteAArtifactManifestResource();
 }
 
 main().catch(console.error);

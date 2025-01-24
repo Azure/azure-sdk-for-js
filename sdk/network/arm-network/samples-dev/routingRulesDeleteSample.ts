@@ -48,7 +48,7 @@ async function deletesARoutingRule() {
 }
 
 async function main() {
-  deletesARoutingRule();
+  await deletesARoutingRule();
 }
 
 main().catch(console.error);

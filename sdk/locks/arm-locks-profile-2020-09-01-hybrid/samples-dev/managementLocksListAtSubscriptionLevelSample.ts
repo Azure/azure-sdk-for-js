@@ -33,7 +33,7 @@ async function listManagementLocksAtSubscriptionLevel() {
 }
 
 async function main() {
-  listManagementLocksAtSubscriptionLevel();
+  await listManagementLocksAtSubscriptionLevel();
 }
 
 main().catch(console.error);

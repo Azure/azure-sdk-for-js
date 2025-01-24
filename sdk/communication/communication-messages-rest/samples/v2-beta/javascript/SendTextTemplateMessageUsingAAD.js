@@ -5,13 +5,13 @@
  * @summary Use AAD token credentials when sending a whatsapp template message.
  */
 
-const { isNode } = require("@azure/core-util");
+const { isNodeLike } = require("@azure/core-util");
 const { ClientSecretCredential, DefaultAzureCredential } = require("@azure/identity");
 const NotificationClient = require("@azure-rest/communication-messages").default,
   { isUnexpected } = require("@azure-rest/communication-messages");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // You will need to set this environment variable or edit the following values
@@ -30,7 +30,7 @@ async function main() {
   }
 
   // get credentials
-  const credential = isNode
+  const credential = isNodeLike
     ? new DefaultAzureCredential()
     : new ClientSecretCredential(
         process.env.AZURE_TENANT_ID,
@@ -78,8 +78,7 @@ async function main() {
     throw new Error("Failed to send message");
   }
 
-  const response = result;
-  response.body.receipts.forEach((receipt) => {
+  await result.body.receipts.forEach((receipt) => {
     console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
   });
 }

@@ -36,7 +36,7 @@ async function updateASettingForSubscription() {
 }
 
 async function main() {
-  updateASettingForSubscription();
+  await updateASettingForSubscription();
 }
 
 main().catch(console.error);

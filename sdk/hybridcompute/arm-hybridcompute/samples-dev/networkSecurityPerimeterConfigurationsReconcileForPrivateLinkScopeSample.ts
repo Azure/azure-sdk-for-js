@@ -40,7 +40,7 @@ async function reconcilesTheNetworkSecurityPerimeterConfigurationOfThePrivateLin
 }
 
 async function main() {
-  reconcilesTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope();
+  await reconcilesTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope();
 }
 
 main().catch(console.error);

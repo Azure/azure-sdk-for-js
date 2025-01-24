@@ -36,7 +36,7 @@ async function sharedPrivateLinkResourceGet() {
 }
 
 async function main() {
-  sharedPrivateLinkResourceGet();
+  await sharedPrivateLinkResourceGet();
 }
 
 main().catch(console.error);

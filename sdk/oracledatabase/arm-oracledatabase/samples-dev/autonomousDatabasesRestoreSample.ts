@@ -70,8 +70,8 @@ async function performRestoreActionOnAutonomousDatabase() {
 }
 
 async function main() {
-  autonomousDatabasesRestore();
-  performRestoreActionOnAutonomousDatabase();
+  await autonomousDatabasesRestore();
+  await performRestoreActionOnAutonomousDatabase();
 }
 
 main().catch(console.error);

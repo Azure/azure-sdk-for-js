@@ -55,7 +55,7 @@ async function systemTopicEventSubscriptionsUpdate() {
 }
 
 async function main() {
-  systemTopicEventSubscriptionsUpdate();
+  await systemTopicEventSubscriptionsUpdate();
 }
 
 main().catch(console.error);

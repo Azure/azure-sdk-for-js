@@ -117,8 +117,8 @@ async function putAnApplicationWithMinimumParameters() {
 }
 
 async function main() {
-  putAnApplicationWithMaximumParameters();
-  putAnApplicationWithMinimumParameters();
+  await putAnApplicationWithMaximumParameters();
+  await putAnApplicationWithMinimumParameters();
 }
 
 main().catch(console.error);

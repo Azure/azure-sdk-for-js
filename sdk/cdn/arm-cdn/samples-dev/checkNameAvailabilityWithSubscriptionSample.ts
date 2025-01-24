@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Check the availability of a resource name. This is needed for resources where name is globally unique, such as a CDN endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CheckNameAvailabilityWithSubscription.json
  */
-async function checkNameAvailabilityWithSubscription() {
+async function checkNameAvailabilityWithSubscription(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const checkNameAvailabilityInput: CheckNameAvailabilityInput = {
     name: "sampleName",
@@ -35,8 +35,8 @@ async function checkNameAvailabilityWithSubscription() {
   console.log(result);
 }
 
-async function main() {
-  checkNameAvailabilityWithSubscription();
+async function main(): Promise<void> {
+  await checkNameAvailabilityWithSubscription();
 }
 
 main().catch(console.error);

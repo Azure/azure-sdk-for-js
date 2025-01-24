@@ -56,7 +56,7 @@ async function updateAJob() {
 }
 
 async function main() {
-  updateAJob();
+  await updateAJob();
 }
 
 main().catch(console.error);

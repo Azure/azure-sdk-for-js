@@ -34,7 +34,7 @@ async function getsTheSoftwareInventoryOfAllVirtualMachinesInTheSubscriptions() 
 }
 
 async function main() {
-  getsTheSoftwareInventoryOfAllVirtualMachinesInTheSubscriptions();
+  await getsTheSoftwareInventoryOfAllVirtualMachinesInTheSubscriptions();
 }
 
 main().catch(console.error);

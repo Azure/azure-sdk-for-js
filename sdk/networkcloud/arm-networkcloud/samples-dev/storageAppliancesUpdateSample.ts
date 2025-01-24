@@ -49,7 +49,7 @@ async function patchStorageAppliance() {
 }
 
 async function main() {
-  patchStorageAppliance();
+  await patchStorageAppliance();
 }
 
 main().catch(console.error);

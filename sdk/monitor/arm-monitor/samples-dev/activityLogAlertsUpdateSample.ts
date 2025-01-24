@@ -42,7 +42,7 @@ async function patchAnActivityLogAlertRule() {
 }
 
 async function main() {
-  patchAnActivityLogAlertRule();
+  await patchAnActivityLogAlertRule();
 }
 
 main().catch(console.error);

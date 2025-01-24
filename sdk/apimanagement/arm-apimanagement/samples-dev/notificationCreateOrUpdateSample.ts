@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Create or Update API Management publisher notification.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateNotification.json
  */
-async function apiManagementCreateNotification() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const notificationName = "RequestPublisherNotificationMessage";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.notification.createOrUpdate(
-        resourceGroupName,
-        serviceName,
-        notificationName
-    );
-    console.log(result);
+async function apiManagementCreateNotification(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const notificationName = "RequestPublisherNotificationMessage";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.notification.createOrUpdate(
+    resourceGroupName,
+    serviceName,
+    notificationName
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementCreateNotification();
+async function main(): Promise<void> {
+  await apiManagementCreateNotification();
 }
 
 main().catch(console.error);

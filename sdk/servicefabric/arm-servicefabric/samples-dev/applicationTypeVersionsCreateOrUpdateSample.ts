@@ -49,7 +49,7 @@ async function putAnApplicationTypeVersion() {
 }
 
 async function main() {
-  putAnApplicationTypeVersion();
+  await putAnApplicationTypeVersion();
 }
 
 main().catch(console.error);

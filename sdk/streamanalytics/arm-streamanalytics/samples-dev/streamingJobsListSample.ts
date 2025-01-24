@@ -64,8 +64,8 @@ async function listAllStreamingJobsInASubscriptionAndUseTheExpandODataQueryParam
 }
 
 async function main() {
-  listAllStreamingJobsInASubscriptionAndDoNotUseTheExpandODataQueryParameter();
-  listAllStreamingJobsInASubscriptionAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions();
+  await listAllStreamingJobsInASubscriptionAndDoNotUseTheExpandODataQueryParameter();
+  await listAllStreamingJobsInASubscriptionAndUseTheExpandODataQueryParameterToExpandInputsOutputsTransformationAndFunctions();
 }
 
 main().catch(console.error);

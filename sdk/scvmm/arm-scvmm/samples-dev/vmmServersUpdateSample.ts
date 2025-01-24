@@ -63,8 +63,8 @@ async function vmmServersUpdateMinimumSet() {
 }
 
 async function main() {
-  vmmServersUpdateMaximumSet();
-  vmmServersUpdateMinimumSet();
+  await vmmServersUpdateMaximumSet();
+  await vmmServersUpdateMinimumSet();
 }
 
 main().catch(console.error);

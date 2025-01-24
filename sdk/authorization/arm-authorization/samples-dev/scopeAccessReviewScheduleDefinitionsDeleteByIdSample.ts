@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete access review schedule definition
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/DeleteAccessReviewScheduleDefinition.json
  */
-async function deleteAccessReview() {
+async function deleteAccessReview(): Promise<void> {
   const scope = "subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d";
   const scheduleDefinitionId = "fa73e90b-5bf1-45fd-a182-35ce5fc0674d";
   const credential = new DefaultAzureCredential();
@@ -30,8 +30,8 @@ async function deleteAccessReview() {
   console.log(result);
 }
 
-async function main() {
-  deleteAccessReview();
+async function main(): Promise<void> {
+  await deleteAccessReview();
 }
 
 main().catch(console.error);

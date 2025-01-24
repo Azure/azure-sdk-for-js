@@ -34,7 +34,7 @@ async function listDeploymentsForARemediationAtManagementGroupScope() {
 }
 
 async function main() {
-  listDeploymentsForARemediationAtManagementGroupScope();
+  await listDeploymentsForARemediationAtManagementGroupScope();
 }
 
 main().catch(console.error);

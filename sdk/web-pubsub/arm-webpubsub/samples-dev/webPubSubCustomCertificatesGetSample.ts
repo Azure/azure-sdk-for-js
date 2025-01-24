@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebPubSubManagementClient } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a custom certificate.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a custom certificate.
  * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubCustomCertificates_Get.json
  */
-async function webPubSubCustomCertificatesGet() {
+async function webPubSubCustomCertificatesGet(): Promise<void> {
   const subscriptionId =
     process.env["WEB-PUBSUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +36,8 @@ async function webPubSubCustomCertificatesGet() {
   console.log(result);
 }
 
-async function main() {
-  webPubSubCustomCertificatesGet();
+async function main(): Promise<void> {
+  await webPubSubCustomCertificatesGet();
 }
 
 main().catch(console.error);

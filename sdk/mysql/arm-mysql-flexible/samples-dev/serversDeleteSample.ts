@@ -39,7 +39,7 @@ async function deleteAServer() {
 }
 
 async function main() {
-  deleteAServer();
+  await deleteAServer();
 }
 
 main().catch(console.error);

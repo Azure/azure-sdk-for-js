@@ -40,7 +40,7 @@ async function listAllStreamingEndpoints() {
 }
 
 async function main() {
-  listAllStreamingEndpoints();
+  await listAllStreamingEndpoints();
 }
 
 main().catch(console.error);

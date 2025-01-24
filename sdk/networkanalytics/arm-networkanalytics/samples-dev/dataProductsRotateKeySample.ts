@@ -70,8 +70,8 @@ async function dataProductsRotateKeyMaximumSetGenGeneratedByMinimumSetRuleMinimu
 }
 
 async function main() {
-  dataProductsRotateKeyMaximumSetGen();
-  dataProductsRotateKeyMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsRotateKeyMaximumSetGen();
+  await dataProductsRotateKeyMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

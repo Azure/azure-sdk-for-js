@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ProjectCatalogEnvironmentDefinitions } from "../operationsInterfaces";
+import { ProjectCatalogEnvironmentDefinitions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DevCenterClient } from "../devCenterClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DevCenterClient } from "../devCenterClient.js";
 import {
   ProjectCatalogEnvironmentDefinitionsGetErrorDetailsOptionalParams,
   ProjectCatalogEnvironmentDefinitionsGetErrorDetailsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ProjectCatalogEnvironmentDefinitions operations. */
 export class ProjectCatalogEnvironmentDefinitionsImpl

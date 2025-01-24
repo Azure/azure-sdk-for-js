@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a Bot Service. Bot Service is a resource group wide resource type.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/CreateBot.json
  */
-async function createBot() {
+async function createBot(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -62,8 +62,8 @@ async function createBot() {
   console.log(result);
 }
 
-async function main() {
-  createBot();
+async function main(): Promise<void> {
+  await createBot();
 }
 
 main().catch(console.error);

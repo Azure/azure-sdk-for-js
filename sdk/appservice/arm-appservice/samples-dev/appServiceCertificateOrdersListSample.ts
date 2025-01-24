@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for List all certificate orders in a subscription.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/ListAppServiceCertificateOrdersBySubscription.json
  */
-async function listAppServiceCertificateOrdersBySubscription() {
+async function listAppServiceCertificateOrdersBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,8 +31,8 @@ async function listAppServiceCertificateOrdersBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listAppServiceCertificateOrdersBySubscription();
+async function main(): Promise<void> {
+  await listAppServiceCertificateOrdersBySubscription();
 }
 
 main().catch(console.error);

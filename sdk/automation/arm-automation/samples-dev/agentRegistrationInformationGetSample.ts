@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the automation agent registration information.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getAgentRegistration.json
  */
-async function getTheAgentRegistrationInformation() {
+async function getTheAgentRegistrationInformation(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount18";
@@ -31,8 +31,8 @@ async function getTheAgentRegistrationInformation() {
   console.log(result);
 }
 
-async function main() {
-  getTheAgentRegistrationInformation();
+async function main(): Promise<void> {
+  await getTheAgentRegistrationInformation();
 }
 
 main().catch(console.error);

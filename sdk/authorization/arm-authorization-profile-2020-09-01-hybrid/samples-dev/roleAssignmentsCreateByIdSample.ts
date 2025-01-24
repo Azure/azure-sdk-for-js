@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a role assignment by ID.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/PutRoleAssignmentById.json
  */
-async function createRoleAssignmentById() {
+async function createRoleAssignmentById(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,8 +42,8 @@ async function createRoleAssignmentById() {
   console.log(result);
 }
 
-async function main() {
-  createRoleAssignmentById();
+async function main(): Promise<void> {
+  await createRoleAssignmentById();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function inboundNatRuleDelete() {
 }
 
 async function main() {
-  inboundNatRuleDelete();
+  await inboundNatRuleDelete();
 }
 
 main().catch(console.error);

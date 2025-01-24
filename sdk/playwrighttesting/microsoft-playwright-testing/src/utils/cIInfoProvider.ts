@@ -17,7 +17,7 @@ export type CIInfo = {
   revisionUrl: string | null;
   runId: string | null;
   runAttempt: number | null;
-  jobId: string | null;
+  jobName: string | null;
 };
 
 export class CIInfoProvider {
@@ -52,7 +52,7 @@ export class CIInfoProvider {
         runAttempt: process.env["GITHUB_RUN_ATTEMPT"]
           ? parseInt(process.env["GITHUB_RUN_ATTEMPT"], 10)
           : null,
-        jobId: process.env["GITHUB_JOB"] || null,
+        jobName: process.env["GITHUB_JOB"] || null,
       };
     } else if (ciProvider === CI_PROVIDERS.ADO) {
       // Logic to get Azure DevOps CIInfo
@@ -69,9 +69,8 @@ export class CIInfoProvider {
         runAttempt: process.env["RELEASE_ATTEMPTNUMBER"]
           ? parseInt(process.env["RELEASE_ATTEMPTNUMBER"], 10)
           : parseInt(process.env["SYSTEM_JOBATTEMPT"] ?? "", 10),
-        jobId: process.env["RELEASE_DEPLOYMENTID"]
-          ? process.env["RELEASE_DEPLOYMENTID"]
-          : process.env["SYSTEM_JOBID"] || null,
+        jobName:
+          process.env["SYSTEM_JOBDISPLAYNAME"] || process.env["RELEASE_DEPLOYMENTID"] || null,
       };
     } else {
       // Handle unsupported CI provider
@@ -84,7 +83,7 @@ export class CIInfoProvider {
         revisionUrl: process.env["REVISION_URL"] ?? null,
         runId: process.env["RUN_ID"] ?? null,
         runAttempt: process.env["RUN_ATTEMPT"] ? parseInt(process.env["RUN_ATTEMPT"], 10) : null,
-        jobId: process.env["JOB_ID"] ?? null,
+        jobName: process.env["JOB_ID"] ?? null,
       };
     }
   }

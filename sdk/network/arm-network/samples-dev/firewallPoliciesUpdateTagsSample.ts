@@ -37,7 +37,7 @@ async function updateFirewallPolicyTags() {
 }
 
 async function main() {
-  updateFirewallPolicyTags();
+  await updateFirewallPolicyTags();
 }
 
 main().catch(console.error);

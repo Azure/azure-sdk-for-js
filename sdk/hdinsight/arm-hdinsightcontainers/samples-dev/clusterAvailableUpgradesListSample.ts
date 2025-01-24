@@ -45,7 +45,7 @@ async function getClusterAvailableUpgrade() {
 }
 
 async function main() {
-  getClusterAvailableUpgrade();
+  await getClusterAvailableUpgrade();
 }
 
 main().catch(console.error);

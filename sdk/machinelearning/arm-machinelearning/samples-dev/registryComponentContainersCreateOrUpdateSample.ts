@@ -54,7 +54,7 @@ async function createOrUpdateRegistryComponentContainer() {
 }
 
 async function main() {
-  createOrUpdateRegistryComponentContainer();
+  await createOrUpdateRegistryComponentContainer();
 }
 
 main().catch(console.error);

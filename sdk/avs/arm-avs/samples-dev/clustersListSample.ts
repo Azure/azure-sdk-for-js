@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List Cluster resources by PrivateCloud
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Clusters_List.json
  */
-async function clustersList() {
+async function clustersList(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function clustersList() {
   console.log(resArray);
 }
 
-async function main() {
-  clustersList();
+async function main(): Promise<void> {
+  await clustersList();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function patchPrivateDnsZone() {
 }
 
 async function main() {
-  patchPrivateDnsZone();
+  await patchPrivateDnsZone();
 }
 
 main().catch(console.error);

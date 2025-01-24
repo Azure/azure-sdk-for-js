@@ -35,7 +35,7 @@ async function deleteAPublisherResource() {
 }
 
 async function main() {
-  deleteAPublisherResource();
+  await deleteAPublisherResource();
 }
 
 main().catch(console.error);

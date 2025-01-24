@@ -44,7 +44,7 @@ async function updateTheNetworkServiceDesignVersionTags() {
 }
 
 async function main() {
-  updateTheNetworkServiceDesignVersionTags();
+  await updateTheNetworkServiceDesignVersionTags();
 }
 
 main().catch(console.error);

@@ -154,7 +154,7 @@ async function createNotificationsAtResourceGroupLevel() {
 }
 
 async function main() {
-  createNotificationsAtResourceGroupLevel();
+  await createNotificationsAtResourceGroupLevel();
 }
 
 main().catch(console.error);

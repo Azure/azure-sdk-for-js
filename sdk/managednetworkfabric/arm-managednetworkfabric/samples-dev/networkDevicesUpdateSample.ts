@@ -50,7 +50,7 @@ async function networkDevicesUpdateMaximumSetGen() {
 }
 
 async function main() {
-  networkDevicesUpdateMaximumSetGen();
+  await networkDevicesUpdateMaximumSetGen();
 }
 
 main().catch(console.error);

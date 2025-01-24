@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update an APM.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apms_CreateOrUpdate.json
  */
-async function apmsCreateOrUpdate() {
+async function apmsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -50,8 +50,8 @@ async function apmsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  apmsCreateOrUpdate();
+async function main(): Promise<void> {
+  await apmsCreateOrUpdate();
 }
 
 main().catch(console.error);

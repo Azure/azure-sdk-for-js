@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Restores a specific backup to another app (or deployment slot, if specified).
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/RestoreWebAppBackup.json
  */
-async function restoreWebAppFromBackup() {
+async function restoreWebAppFromBackup(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -59,8 +59,8 @@ async function restoreWebAppFromBackup() {
   console.log(result);
 }
 
-async function main() {
-  restoreWebAppFromBackup();
+async function main(): Promise<void> {
+  await restoreWebAppFromBackup();
 }
 
 main().catch(console.error);

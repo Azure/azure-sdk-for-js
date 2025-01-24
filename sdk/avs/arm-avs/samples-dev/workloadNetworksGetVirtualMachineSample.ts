@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a WorkloadNetworkVirtualMachine
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_GetVirtualMachine.json
  */
-async function workloadNetworksGetVirtualMachine() {
+async function workloadNetworksGetVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,8 +35,8 @@ async function workloadNetworksGetVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
-  workloadNetworksGetVirtualMachine();
+async function main(): Promise<void> {
+  await workloadNetworksGetVirtualMachine();
 }
 
 main().catch(console.error);

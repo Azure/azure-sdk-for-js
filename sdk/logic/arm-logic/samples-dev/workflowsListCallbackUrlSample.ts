@@ -45,7 +45,7 @@ async function getCallbackUrl() {
 }
 
 async function main() {
-  getCallbackUrl();
+  await getCallbackUrl();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all Extensions under ArcSetting resource.
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/ListExtensionsByArcSetting.json
  */
-async function listExtensionsUnderArcSettingResource() {
+async function listExtensionsUnderArcSettingResource(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -39,8 +39,8 @@ async function listExtensionsUnderArcSettingResource() {
   console.log(resArray);
 }
 
-async function main() {
-  listExtensionsUnderArcSettingResource();
+async function main(): Promise<void> {
+  await listExtensionsUnderArcSettingResource();
 }
 
 main().catch(console.error);

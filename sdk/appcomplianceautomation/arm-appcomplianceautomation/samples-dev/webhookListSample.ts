@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Get the AppComplianceAutomation webhook list.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Webhook_List.json
  */
-async function webhookList() {
+async function webhookList(): Promise<void> {
   const skipToken = "1";
   const top = 100;
   const reportName = "testReportName";
@@ -35,8 +35,8 @@ async function webhookList() {
   console.log(resArray);
 }
 
-async function main() {
-  webhookList();
+async function main(): Promise<void> {
+  await webhookList();
 }
 
 main().catch(console.error);

@@ -57,8 +57,8 @@ async function availabilitySetsGetMinimumSet() {
 }
 
 async function main() {
-  availabilitySetsGetMaximumSet();
-  availabilitySetsGetMinimumSet();
+  await availabilitySetsGetMaximumSet();
+  await availabilitySetsGetMinimumSet();
 }
 
 main().catch(console.error);

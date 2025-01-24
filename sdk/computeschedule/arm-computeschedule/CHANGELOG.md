@@ -1,23 +1,7 @@
 # Release History
-
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.2 (2024-11-04)
-
-### Bugs Fixed
-
-- Fix missing package information issue in user agent
     
-## 1.0.0-beta.1 (2024-09-20)
+## 1.0.0 (2025-01-24)
 
 ### Features Added
 
-Initial release of the Azure ComputeSchedule package
+This is the first stable version with the package of @azure/arm-computeschedule

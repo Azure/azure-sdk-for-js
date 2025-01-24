@@ -53,8 +53,8 @@ async function getSuppressionRulesForSubscription() {
 }
 
 async function main() {
-  getSuppressionAlertRuleForSubscriptionFilteredByAlertType();
-  getSuppressionRulesForSubscription();
+  await getSuppressionAlertRuleForSubscriptionFilteredByAlertType();
+  await getSuppressionRulesForSubscription();
 }
 
 main().catch(console.error);

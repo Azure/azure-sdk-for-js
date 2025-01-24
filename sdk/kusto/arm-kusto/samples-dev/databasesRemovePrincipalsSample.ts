@@ -71,7 +71,7 @@ async function kustoDatabaseRemovePrincipals() {
 }
 
 async function main() {
-  kustoDatabaseRemovePrincipals();
+  await kustoDatabaseRemovePrincipals();
 }
 
 main().catch(console.error);

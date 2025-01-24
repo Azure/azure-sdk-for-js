@@ -46,7 +46,7 @@ async function summarizeAtManagementGroupScope() {
 }
 
 async function main() {
-  summarizeAtManagementGroupScope();
+  await summarizeAtManagementGroupScope();
 }
 
 main().catch(console.error);

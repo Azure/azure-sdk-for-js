@@ -37,7 +37,7 @@ async function expressRouteLinkGet() {
 }
 
 async function main() {
-  expressRouteLinkGet();
+  await expressRouteLinkGet();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Promotes read replica cluster to an independent read-write cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterPromoteReadReplica.json
  */
-async function promoteReadReplicaClusterToAnIndependentReadWriteCluster() {
+async function promoteReadReplicaClusterToAnIndependentReadWriteCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -34,8 +34,8 @@ async function promoteReadReplicaClusterToAnIndependentReadWriteCluster() {
   console.log(result);
 }
 
-async function main() {
-  promoteReadReplicaClusterToAnIndependentReadWriteCluster();
+async function main(): Promise<void> {
+  await promoteReadReplicaClusterToAnIndependentReadWriteCluster();
 }
 
 main().catch(console.error);

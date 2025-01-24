@@ -52,7 +52,7 @@ async function assessedMachinesListByAssessment() {
 }
 
 async function main() {
-  assessedMachinesListByAssessment();
+  await assessedMachinesListByAssessment();
 }
 
 main().catch(console.error);

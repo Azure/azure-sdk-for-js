@@ -30,7 +30,7 @@ async function extensionTopicsGet() {
 }
 
 async function main() {
-  extensionTopicsGet();
+  await extensionTopicsGet();
 }
 
 main().catch(console.error);

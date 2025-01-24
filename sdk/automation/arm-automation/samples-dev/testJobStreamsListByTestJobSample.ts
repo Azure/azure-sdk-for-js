@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of test job streams identified by runbook name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/listTestJobStreamsByJob.json
  */
-async function listJobStreamsByJobName() {
+async function listJobStreamsByJobName(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -39,8 +39,8 @@ async function listJobStreamsByJobName() {
   console.log(resArray);
 }
 
-async function main() {
-  listJobStreamsByJobName();
+async function main(): Promise<void> {
+  await listJobStreamsByJobName();
 }
 
 main().catch(console.error);

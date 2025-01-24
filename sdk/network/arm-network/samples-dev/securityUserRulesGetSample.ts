@@ -42,7 +42,7 @@ async function getsASecurityUserRule() {
 }
 
 async function main() {
-  getsASecurityUserRule();
+  await getsASecurityUserRule();
 }
 
 main().catch(console.error);

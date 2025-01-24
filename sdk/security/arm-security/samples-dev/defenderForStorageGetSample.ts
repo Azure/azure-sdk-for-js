@@ -31,7 +31,7 @@ async function getsTheDefenderForStorageSettingsForTheSpecifiedResource() {
 }
 
 async function main() {
-  getsTheDefenderForStorageSettingsForTheSpecifiedResource();
+  await getsTheDefenderForStorageSettingsForTheSpecifiedResource();
 }
 
 main().catch(console.error);

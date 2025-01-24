@@ -18,27 +18,27 @@ import "dotenv/config";
  * @summary Deletes the specified backend.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteBackend.json
  */
-async function apiManagementDeleteBackend() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const backendId = "sfbackend";
-    const ifMatch = "*";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.backend.delete(
-        resourceGroupName,
-        serviceName,
-        backendId,
-        ifMatch
-    );
-    console.log(result);
+async function apiManagementDeleteBackend(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const backendId = "sfbackend";
+  const ifMatch = "*";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.backend.delete(
+    resourceGroupName,
+    serviceName,
+    backendId,
+    ifMatch
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementDeleteBackend();
+async function main(): Promise<void> {
+  await apiManagementDeleteBackend();
 }
 
 main().catch(console.error);

@@ -32,9 +32,9 @@
   "dependencies": {
     "@azure-rest/communication-messages": "next",
     "dotenv": "latest",
-    "@azure/core-auth": "^1.6.0",
-    "@azure/core-util": "^1.7.0",
-    "@azure/identity": "^4.2.1"
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-util": "^1.11.0",
+    "@azure/identity": "^4.5.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

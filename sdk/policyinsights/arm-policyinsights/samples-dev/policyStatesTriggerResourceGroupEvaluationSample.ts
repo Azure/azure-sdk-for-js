@@ -33,7 +33,7 @@ async function triggerEvaluationsForAllResourcesInAResourceGroup() {
 }
 
 async function main() {
-  triggerEvaluationsForAllResourcesInAResourceGroup();
+  await triggerEvaluationsForAllResourcesInAResourceGroup();
 }
 
 main().catch(console.error);

@@ -51,8 +51,8 @@ async function elasticSansListBySubscriptionMinimumSetGen() {
 }
 
 async function main() {
-  elasticSansListBySubscriptionMaximumSetGen();
-  elasticSansListBySubscriptionMinimumSetGen();
+  await elasticSansListBySubscriptionMaximumSetGen();
+  await elasticSansListBySubscriptionMinimumSetGen();
 }
 
 main().catch(console.error);

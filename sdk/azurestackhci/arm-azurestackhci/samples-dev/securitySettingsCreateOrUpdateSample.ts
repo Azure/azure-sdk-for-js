@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create a security setting
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/PutSecuritySettings.json
  */
-async function createSecuritySettings() {
+async function createSecuritySettings(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -42,8 +42,8 @@ async function createSecuritySettings() {
   console.log(result);
 }
 
-async function main() {
-  createSecuritySettings();
+async function main(): Promise<void> {
+  await createSecuritySettings();
 }
 
 main().catch(console.error);

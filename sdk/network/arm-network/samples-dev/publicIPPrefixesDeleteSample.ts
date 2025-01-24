@@ -34,7 +34,7 @@ async function deletePublicIPPrefix() {
 }
 
 async function main() {
-  deletePublicIPPrefix();
+  await deletePublicIPPrefix();
 }
 
 main().catch(console.error);

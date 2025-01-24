@@ -61,8 +61,8 @@ async function localRulestacksListByResourceGroupMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksListByResourceGroupMaximumSetGen();
-  localRulestacksListByResourceGroupMinimumSetGen();
+  await localRulestacksListByResourceGroupMaximumSetGen();
+  await localRulestacksListByResourceGroupMinimumSetGen();
 }
 
 main().catch(console.error);

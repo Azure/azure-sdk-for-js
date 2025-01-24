@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Stop the test job.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/stopTestJob.json
  */
-async function stopTestJob() {
+async function stopTestJob(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] ||
     "51766542-3ed7-4a72-a187-0c8ab644ddab";
@@ -36,8 +36,8 @@ async function stopTestJob() {
   console.log(result);
 }
 
-async function main() {
-  stopTestJob();
+async function main(): Promise<void> {
+  await stopTestJob();
 }
 
 main().catch(console.error);

@@ -63,8 +63,8 @@ export async function main() {
     console.log("Total documents submitted for translation = " + translationStatus.summary.total);
     console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
   }
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

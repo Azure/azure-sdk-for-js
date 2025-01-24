@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or Update a Container Apps Job.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_CreateorUpdate.json
  */
-async function createOrUpdateContainerAppsJob() {
+async function createOrUpdateContainerAppsJob(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -107,7 +107,7 @@ async function createOrUpdateContainerAppsJob() {
  * @summary Create or Update a Container Apps Job.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_CreateorUpdate_ConnectedEnvironment.json
  */
-async function createOrUpdateContainerAppsJobOnAConnectedEnvironment() {
+async function createOrUpdateContainerAppsJobOnAConnectedEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -173,7 +173,7 @@ async function createOrUpdateContainerAppsJobOnAConnectedEnvironment() {
  * @summary Create or Update a Container Apps Job.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_CreateorUpdate_EventTrigger.json
  */
-async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
+async function createOrUpdateContainerAppsJobWithEventDrivenTrigger(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -241,10 +241,10 @@ async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateContainerAppsJob();
-  createOrUpdateContainerAppsJobOnAConnectedEnvironment();
-  createOrUpdateContainerAppsJobWithEventDrivenTrigger();
+async function main(): Promise<void> {
+  await createOrUpdateContainerAppsJob();
+  await createOrUpdateContainerAppsJobOnAConnectedEnvironment();
+  await createOrUpdateContainerAppsJobWithEventDrivenTrigger();
 }
 
 main().catch(console.error);

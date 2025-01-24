@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebPubSubManagementClient } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List hub settings.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List hub settings.
  * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubHubs_List.json
  */
-async function webPubSubHubsList() {
+async function webPubSubHubsList(): Promise<void> {
   const subscriptionId =
     process.env["WEB-PUBSUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,8 +37,8 @@ async function webPubSubHubsList() {
   console.log(resArray);
 }
 
-async function main() {
-  webPubSubHubsList();
+async function main(): Promise<void> {
+  await webPubSubHubsList();
 }
 
 main().catch(console.error);

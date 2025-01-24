@@ -40,7 +40,7 @@ async function executeReprotectOfTheRecoveryPlan() {
 }
 
 async function main() {
-  executeReprotectOfTheRecoveryPlan();
+  await executeReprotectOfTheRecoveryPlan();
 }
 
 main().catch(console.error);

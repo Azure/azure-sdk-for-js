@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a .NET Component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Delete.json
  */
-async function deleteNetComponent() {
+async function deleteNetComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -36,8 +36,8 @@ async function deleteNetComponent() {
   console.log(result);
 }
 
-async function main() {
-  deleteNetComponent();
+async function main(): Promise<void> {
+  await deleteNetComponent();
 }
 
 main().catch(console.error);

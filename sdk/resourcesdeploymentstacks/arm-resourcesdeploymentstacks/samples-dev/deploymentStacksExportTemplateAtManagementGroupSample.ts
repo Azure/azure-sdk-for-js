@@ -33,7 +33,7 @@ async function deploymentStacksManagementGroupExportTemplate() {
 }
 
 async function main() {
-  deploymentStacksManagementGroupExportTemplate();
+  await deploymentStacksManagementGroupExportTemplate();
 }
 
 main().catch(console.error);

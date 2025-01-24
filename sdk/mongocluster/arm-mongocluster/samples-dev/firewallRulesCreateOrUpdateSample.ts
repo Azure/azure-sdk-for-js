@@ -24,7 +24,7 @@ async function createsAFirewallRuleOnAMongoClusterResource() {
 }
 
 async function main() {
-  createsAFirewallRuleOnAMongoClusterResource();
+  await createsAFirewallRuleOnAMongoClusterResource();
 }
 
 main().catch(console.error);

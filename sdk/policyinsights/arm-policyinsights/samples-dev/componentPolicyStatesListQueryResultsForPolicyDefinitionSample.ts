@@ -34,7 +34,7 @@ async function queryLatestComponentPolicyStatesAtSubscriptionLevelPolicyDefiniti
 }
 
 async function main() {
-  queryLatestComponentPolicyStatesAtSubscriptionLevelPolicyDefinitionScope();
+  await queryLatestComponentPolicyStatesAtSubscriptionLevelPolicyDefinitionScope();
 }
 
 main().catch(console.error);

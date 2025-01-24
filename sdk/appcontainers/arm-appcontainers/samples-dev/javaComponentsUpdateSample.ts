@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Patches a Java Component using JSON Merge Patch
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_Patch.json
  */
-async function patchJavaComponent() {
+async function patchJavaComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -59,7 +59,7 @@ async function patchJavaComponent() {
  * @summary Patches a Java Component using JSON Merge Patch
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_Patch_ServiceBind.json
  */
-async function patchJavaComponentWithServiceBinds() {
+async function patchJavaComponentWithServiceBinds(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -98,9 +98,9 @@ async function patchJavaComponentWithServiceBinds() {
   console.log(result);
 }
 
-async function main() {
-  patchJavaComponent();
-  patchJavaComponentWithServiceBinds();
+async function main(): Promise<void> {
+  await patchJavaComponent();
+  await patchJavaComponentWithServiceBinds();
 }
 
 main().catch(console.error);

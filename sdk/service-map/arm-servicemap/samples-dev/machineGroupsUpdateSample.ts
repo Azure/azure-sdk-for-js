@@ -53,7 +53,7 @@ async function smMachineGroupsUpdatePut() {
 }
 
 async function main() {
-  smMachineGroupsUpdatePut();
+  await smMachineGroupsUpdatePut();
 }
 
 main().catch(console.error);

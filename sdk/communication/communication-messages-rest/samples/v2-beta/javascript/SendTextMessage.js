@@ -1,8 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Send a text message
+ */
+
 const NotificationClient = require("@azure-rest/communication-messages").default,
   { isUnexpected } = require("@azure-rest/communication-messages");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const connectionString = process.env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING || "";
@@ -24,8 +31,7 @@ async function main() {
     throw new Error("Failed to send message");
   }
 
-  const response = result;
-  response.body.receipts.forEach((receipt) => {
+  await result.body.receipts.forEach((receipt) => {
     console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
   });
 }

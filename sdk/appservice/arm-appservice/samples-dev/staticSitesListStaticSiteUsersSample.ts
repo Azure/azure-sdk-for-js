@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Gets the list of users of a static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListStaticSiteUsers.json
  */
-async function listUsersForAStaticSite() {
+async function listUsersForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,8 +38,8 @@ async function listUsersForAStaticSite() {
   console.log(resArray);
 }
 
-async function main() {
-  listUsersForAStaticSite();
+async function main(): Promise<void> {
+  await listUsersForAStaticSite();
 }
 
 main().catch(console.error);

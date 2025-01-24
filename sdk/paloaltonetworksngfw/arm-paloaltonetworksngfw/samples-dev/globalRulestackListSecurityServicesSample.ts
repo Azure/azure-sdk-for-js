@@ -61,8 +61,8 @@ async function globalRulestackListSecurityServicesMinimumSetGen() {
 }
 
 async function main() {
-  globalRulestackListSecurityServicesMaximumSetGen();
-  globalRulestackListSecurityServicesMinimumSetGen();
+  await globalRulestackListSecurityServicesMaximumSetGen();
+  await globalRulestackListSecurityServicesMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function automationRulesDelete() {
 }
 
 async function main() {
-  automationRulesDelete();
+  await automationRulesDelete();
 }
 
 main().catch(console.error);

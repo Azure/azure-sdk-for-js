@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List secrets for a container app
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_ListSecrets.json
  */
-async function listContainerAppsSecrets() {
+async function listContainerAppsSecrets(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,8 +33,8 @@ async function listContainerAppsSecrets() {
   console.log(result);
 }
 
-async function main() {
-  listContainerAppsSecrets();
+async function main(): Promise<void> {
+  await listContainerAppsSecrets();
 }
 
 main().catch(console.error);

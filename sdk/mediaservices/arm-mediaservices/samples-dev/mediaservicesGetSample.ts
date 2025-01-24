@@ -34,7 +34,7 @@ async function getAMediaServicesAccountByName() {
 }
 
 async function main() {
-  getAMediaServicesAccountByName();
+  await getAMediaServicesAccountByName();
 }
 
 main().catch(console.error);

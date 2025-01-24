@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a role definition.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/DeleteRoleDefinition.json
  */
-async function deleteRoleDefinition() {
+async function deleteRoleDefinition(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,8 +30,8 @@ async function deleteRoleDefinition() {
   console.log(result);
 }
 
-async function main() {
-  deleteRoleDefinition();
+async function main(): Promise<void> {
+  await deleteRoleDefinition();
 }
 
 main().catch(console.error);

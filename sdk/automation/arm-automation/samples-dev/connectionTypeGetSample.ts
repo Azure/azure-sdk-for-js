@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve the connection type identified by connection type name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/getConnectionType.json
  */
-async function getConnectionType() {
+async function getConnectionType(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount22";
@@ -33,8 +33,8 @@ async function getConnectionType() {
   console.log(result);
 }
 
-async function main() {
-  getConnectionType();
+async function main(): Promise<void> {
+  await getConnectionType();
 }
 
 main().catch(console.error);

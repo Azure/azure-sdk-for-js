@@ -239,10 +239,10 @@ async function storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions()
 }
 
 async function main() {
-  storageAccountSetManagementPolicies();
-  storageAccountSetManagementPolicyForBlockAndAppendBlobs();
-  storageAccountSetManagementPolicyWithSnapshotAndVersion();
-  storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions();
+  await storageAccountSetManagementPolicies();
+  await storageAccountSetManagementPolicyForBlockAndAppendBlobs();
+  await storageAccountSetManagementPolicyWithSnapshotAndVersion();
+  await storageAccountSetManagementPolicyLastAccessTimeBasedBlobActions();
 }
 
 main().catch(console.error);

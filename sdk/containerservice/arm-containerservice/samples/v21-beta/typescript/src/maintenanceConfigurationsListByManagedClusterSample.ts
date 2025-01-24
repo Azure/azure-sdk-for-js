@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/MaintenanceConfigurationsList.json
  */
-async function listMaintenanceConfigurationsByManagedCluster() {
+async function listMaintenanceConfigurationsByManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +43,7 @@ async function listMaintenanceConfigurationsByManagedCluster() {
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
  */
-async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster() {
+async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -62,7 +62,7 @@ async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByMan
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listMaintenanceConfigurationsByManagedCluster();
   listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster();
 }

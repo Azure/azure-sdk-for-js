@@ -42,7 +42,7 @@ async function predictTemplateChangesAtSubscriptionScope() {
 }
 
 async function main() {
-  predictTemplateChangesAtSubscriptionScope();
+  await predictTemplateChangesAtSubscriptionScope();
 }
 
 main().catch(console.error);

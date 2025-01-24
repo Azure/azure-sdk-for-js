@@ -40,7 +40,7 @@ async function getPrivateLinkResourcesForPrivateLinkHub() {
 }
 
 async function main() {
-  getPrivateLinkResourcesForPrivateLinkHub();
+  await getPrivateLinkResourcesForPrivateLinkHub();
 }
 
 main().catch(console.error);

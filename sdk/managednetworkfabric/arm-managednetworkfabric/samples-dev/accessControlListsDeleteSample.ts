@@ -40,7 +40,7 @@ async function accessControlListsDeleteMaximumSetGen() {
 }
 
 async function main() {
-  accessControlListsDeleteMaximumSetGen();
+  await accessControlListsDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

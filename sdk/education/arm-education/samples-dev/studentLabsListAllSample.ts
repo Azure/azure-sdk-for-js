@@ -31,7 +31,7 @@ async function studentLabList() {
 }
 
 async function main() {
-  studentLabList();
+  await studentLabList();
 }
 
 main().catch(console.error);

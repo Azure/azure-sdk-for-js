@@ -73,8 +73,8 @@ async function volumeSnapshotsListByVolumeGroupMinimumSetGen() {
 }
 
 async function main() {
-  volumeSnapshotsListByVolumeGroupMaximumSetGen();
-  volumeSnapshotsListByVolumeGroupMinimumSetGen();
+  await volumeSnapshotsListByVolumeGroupMaximumSetGen();
+  await volumeSnapshotsListByVolumeGroupMinimumSetGen();
 }
 
 main().catch(console.error);

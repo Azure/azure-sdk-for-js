@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  CheckNameAvailabilityParameter,
-  VisualStudioResourceProviderClient
-} from "@azure/arm-visualstudio";
+import type { CheckNameAvailabilityParameter } from "@azure/arm-visualstudio";
+import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -20,17 +16,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Checks if the specified Visual Studio Team Services account name is available. Resource name can be either an account name or an account name and PUID.
  * x-ms-original-file: specification/visualstudio/resource-manager/Microsoft.VisualStudio/preview/2014-04-01-preview/examples/CheckNameAvailability.json
  */
-async function checkAvailabilityOfAnAccountName() {
+async function checkAvailabilityOfAnAccountName(): Promise<void> {
   const subscriptionId = "0de7f055-dbea-498d-8e9e-da287eedca90";
   const body: CheckNameAvailabilityParameter = {
     resourceName: "ExampleName",
-    resourceType: "Account"
+    resourceType: "Account",
   };
   const credential = new DefaultAzureCredential();
-  const client = new VisualStudioResourceProviderClient(
-    credential,
-    subscriptionId
-  );
+  const client = new VisualStudioResourceProviderClient(credential, subscriptionId);
   const result = await client.accounts.checkNameAvailability(body);
   console.log(result);
 }

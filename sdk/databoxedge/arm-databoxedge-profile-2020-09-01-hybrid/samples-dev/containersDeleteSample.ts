@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the container on the Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/ContainerDelete.json
  */
-async function containerDelete() {
+async function containerDelete(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -38,8 +38,8 @@ async function containerDelete() {
   console.log(result);
 }
 
-async function main() {
-  containerDelete();
+async function main(): Promise<void> {
+  await containerDelete();
 }
 
 main().catch(console.error);

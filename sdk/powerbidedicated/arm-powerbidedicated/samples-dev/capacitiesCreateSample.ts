@@ -49,7 +49,7 @@ async function createCapacity() {
 }
 
 async function main() {
-  createCapacity();
+  await createCapacity();
 }
 
 main().catch(console.error);

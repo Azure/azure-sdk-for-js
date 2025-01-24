@@ -36,7 +36,7 @@ async function getAutonomousDbNationalCharacterSet() {
 }
 
 async function main() {
-  getAutonomousDbNationalCharacterSet();
+  await getAutonomousDbNationalCharacterSet();
 }
 
 main().catch(console.error);

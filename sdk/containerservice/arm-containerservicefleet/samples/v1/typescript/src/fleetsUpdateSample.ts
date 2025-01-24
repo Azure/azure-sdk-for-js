@@ -22,7 +22,7 @@ import "dotenv/config";
  * @summary Update a Fleet
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/Fleets_PatchTags.json
  */
-async function updateAFleet() {
+async function updateAFleet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function updateAFleet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAFleet();
 }
 

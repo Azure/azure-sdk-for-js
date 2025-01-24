@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update a OrganizationResource
  * x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_Update_MaximumSet_Gen.json
  */
-async function organizationsUpdate() {
+async function organizationsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["ASTRO_SUBSCRIPTION_ID"] ||
     "43454B17-172A-40FE-80FA-549EA23D12B3";
@@ -64,8 +64,8 @@ async function organizationsUpdate() {
   console.log(result);
 }
 
-async function main() {
-  organizationsUpdate();
+async function main(): Promise<void> {
+  await organizationsUpdate();
 }
 
 main().catch(console.error);

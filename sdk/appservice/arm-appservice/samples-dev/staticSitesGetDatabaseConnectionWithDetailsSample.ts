@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns details of a database connection for a static site by name
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetStaticSiteDatabaseConnectionWithDetails.json
  */
-async function getDetailsOfDatabaseConnectionsForTheStaticSite() {
+async function getDetailsOfDatabaseConnectionsForTheStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,8 +35,8 @@ async function getDetailsOfDatabaseConnectionsForTheStaticSite() {
   console.log(result);
 }
 
-async function main() {
-  getDetailsOfDatabaseConnectionsForTheStaticSite();
+async function main(): Promise<void> {
+  await getDetailsOfDatabaseConnectionsForTheStaticSite();
 }
 
 main().catch(console.error);

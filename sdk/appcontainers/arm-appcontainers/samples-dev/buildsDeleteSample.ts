@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a BuildResource
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_Delete.json
  */
-async function buildsDelete0() {
+async function buildsDelete0(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,8 +35,8 @@ async function buildsDelete0() {
   console.log(result);
 }
 
-async function main() {
-  buildsDelete0();
+async function main(): Promise<void> {
+  await buildsDelete0();
 }
 
 main().catch(console.error);

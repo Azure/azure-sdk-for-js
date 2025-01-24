@@ -39,7 +39,7 @@ async function getWorkspaceManagedSqlServerEncryptionProtectors() {
 }
 
 async function main() {
-  getWorkspaceManagedSqlServerEncryptionProtectors();
+  await getWorkspaceManagedSqlServerEncryptionProtectors();
 }
 
 main().catch(console.error);

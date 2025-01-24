@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of load balancers in the specified managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/LoadBalancers_List.json
  */
-async function listLoadBalancersByManagedCluster() {
+async function listLoadBalancersByManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function listLoadBalancersByManagedCluster() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listLoadBalancersByManagedCluster();
 }
 

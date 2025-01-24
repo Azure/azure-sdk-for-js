@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List the operations for the provider
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Operations_List.json
  */
-async function listProviderOperations() {
+async function listProviderOperations(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,8 +31,8 @@ async function listProviderOperations() {
   console.log(resArray);
 }
 
-async function main() {
-  listProviderOperations();
+async function main(): Promise<void> {
+  await listProviderOperations();
 }
 
 main().catch(console.error);

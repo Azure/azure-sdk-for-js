@@ -10,7 +10,7 @@ const MessageTemplateClient = require("@azure-rest/communication-messages").defa
 const { AzureKeyCredential } = require("@azure/core-auth");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");

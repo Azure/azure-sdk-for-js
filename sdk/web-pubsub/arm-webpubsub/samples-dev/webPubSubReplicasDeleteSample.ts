@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebPubSubManagementClient } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to delete a replica.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Operation to delete a replica.
  * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2024-03-01/examples/WebPubSubReplicas_Delete.json
  */
-async function webPubSubReplicasDelete() {
+async function webPubSubReplicasDelete(): Promise<void> {
   const subscriptionId =
     process.env["WEB-PUBSUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +36,8 @@ async function webPubSubReplicasDelete() {
   console.log(result);
 }
 
-async function main() {
-  webPubSubReplicasDelete();
+async function main(): Promise<void> {
+  await webPubSubReplicasDelete();
 }
 
 main().catch(console.error);

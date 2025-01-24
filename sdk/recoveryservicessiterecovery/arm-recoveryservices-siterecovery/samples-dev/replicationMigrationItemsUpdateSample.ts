@@ -51,7 +51,7 @@ async function updatesMigrationItem() {
 }
 
 async function main() {
-  updatesMigrationItem();
+  await updatesMigrationItem();
 }
 
 main().catch(console.error);

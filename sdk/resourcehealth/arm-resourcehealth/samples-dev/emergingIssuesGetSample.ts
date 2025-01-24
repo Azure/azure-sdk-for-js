@@ -29,7 +29,7 @@ async function getEmergingIssues() {
 }
 
 async function main() {
-  getEmergingIssues();
+  await getEmergingIssues();
 }
 
 main().catch(console.error);

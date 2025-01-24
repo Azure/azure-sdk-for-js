@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks if specified metadata schema exists.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/MetadataSchemas_Head.json
  */
-async function metadataSchemasHead() {
+async function metadataSchemasHead(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function metadataSchemasHead() {
   console.log(result);
 }
 
-async function main() {
-  metadataSchemasHead();
+async function main(): Promise<void> {
+  await metadataSchemasHead();
 }
 
 main().catch(console.error);

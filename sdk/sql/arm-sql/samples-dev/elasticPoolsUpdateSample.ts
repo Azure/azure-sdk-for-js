@@ -214,13 +214,13 @@ async function updateHighAvailabilityReplicaCountOfAHyperscaleElasticPool() {
 }
 
 async function main() {
-  assignsMaintenanceConfigurationToAnElasticPool();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
-  resetsMaintenanceConfigurationOfAnElasticPoolToDefault();
-  updateAnElasticPoolWithAllParameter();
-  updateAnElasticPoolWithMinimumParameters();
-  updateHighAvailabilityReplicaCountOfAHyperscaleElasticPool();
+  await assignsMaintenanceConfigurationToAnElasticPool();
+  await createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
+  await createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
+  await resetsMaintenanceConfigurationOfAnElasticPoolToDefault();
+  await updateAnElasticPoolWithAllParameter();
+  await updateAnElasticPoolWithMinimumParameters();
+  await updateHighAvailabilityReplicaCountOfAHyperscaleElasticPool();
 }
 
 main().catch(console.error);

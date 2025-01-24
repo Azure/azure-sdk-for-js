@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete the runbook by name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/deleteRunbook.json
  */
-async function deleteARunbook() {
+async function deleteARunbook(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "ContoseAutomationAccount";
@@ -33,8 +33,8 @@ async function deleteARunbook() {
   console.log(result);
 }
 
-async function main() {
-  deleteARunbook();
+async function main(): Promise<void> {
+  await deleteARunbook();
 }
 
 main().catch(console.error);

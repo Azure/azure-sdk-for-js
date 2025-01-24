@@ -24,7 +24,7 @@ async function revokeACertificateUnderACertificateProfile() {
 }
 
 async function main() {
-  revokeACertificateUnderACertificateProfile();
+  await revokeACertificateUnderACertificateProfile();
 }
 
 main().catch(console.error);

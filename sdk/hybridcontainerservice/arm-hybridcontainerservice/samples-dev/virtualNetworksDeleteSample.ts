@@ -38,7 +38,7 @@ async function deleteVirtualNetwork() {
 }
 
 async function main() {
-  deleteVirtualNetwork();
+  await deleteVirtualNetwork();
 }
 
 main().catch(console.error);

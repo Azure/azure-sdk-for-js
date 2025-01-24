@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Gets API Management issue details
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetIssue.json
  */
-async function apiManagementGetIssue() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const issueId = "57d2ef278aa04f0ad01d6cdc";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.issue.get(
-        resourceGroupName,
-        serviceName,
-        issueId
-    );
-    console.log(result);
+async function apiManagementGetIssue(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const issueId = "57d2ef278aa04f0ad01d6cdc";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.issue.get(
+    resourceGroupName,
+    serviceName,
+    issueId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetIssue();
+async function main(): Promise<void> {
+  await apiManagementGetIssue();
 }
 
 main().catch(console.error);

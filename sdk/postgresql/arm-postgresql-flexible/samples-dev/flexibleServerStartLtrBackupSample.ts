@@ -46,7 +46,7 @@ async function sampleExecuteBackup() {
 }
 
 async function main() {
-  sampleExecuteBackup();
+  await sampleExecuteBackup();
 }
 
 main().catch(console.error);

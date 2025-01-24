@@ -66,7 +66,7 @@ async function putStorageTask() {
 }
 
 async function main() {
-  putStorageTask();
+  await putStorageTask();
 }
 
 main().catch(console.error);

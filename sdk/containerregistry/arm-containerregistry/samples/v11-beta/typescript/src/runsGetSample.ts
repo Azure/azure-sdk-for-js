@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the detailed information for a given run.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RunsGet.json
  */
-async function runsGet() {
+async function runsGet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -35,7 +35,7 @@ async function runsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   runsGet();
 }
 

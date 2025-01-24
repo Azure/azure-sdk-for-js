@@ -41,7 +41,7 @@ async function kustoScriptsDelete() {
 }
 
 async function main() {
-  kustoScriptsDelete();
+  await kustoScriptsDelete();
 }
 
 main().catch(console.error);

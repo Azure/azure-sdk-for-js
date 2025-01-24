@@ -40,7 +40,7 @@ async function getAllSecurityMlAnalyticsSettings() {
 }
 
 async function main() {
-  getAllSecurityMlAnalyticsSettings();
+  await getAllSecurityMlAnalyticsSettings();
 }
 
 main().catch(console.error);

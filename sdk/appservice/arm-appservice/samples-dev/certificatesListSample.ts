@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get all certificates for a subscription.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCertificates.json
  */
-async function listCertificatesForSubscription() {
+async function listCertificatesForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,8 +31,8 @@ async function listCertificatesForSubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listCertificatesForSubscription();
+async function main(): Promise<void> {
+  await listCertificatesForSubscription();
 }
 
 main().catch(console.error);

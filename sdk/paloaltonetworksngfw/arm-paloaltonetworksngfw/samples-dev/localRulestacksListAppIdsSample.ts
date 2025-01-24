@@ -73,8 +73,8 @@ async function localRulestacksListAppIdsMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksListAppIdsMaximumSetGen();
-  localRulestacksListAppIdsMinimumSetGen();
+  await localRulestacksListAppIdsMaximumSetGen();
+  await localRulestacksListAppIdsMinimumSetGen();
 }
 
 main().catch(console.error);

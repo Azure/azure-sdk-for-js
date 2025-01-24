@@ -32,7 +32,7 @@ async function getSecurityDataLocation() {
 }
 
 async function main() {
-  getSecurityDataLocation();
+  await getSecurityDataLocation();
 }
 
 main().catch(console.error);

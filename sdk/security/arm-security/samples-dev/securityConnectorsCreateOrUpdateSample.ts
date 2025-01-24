@@ -54,7 +54,7 @@ async function createOrUpdateASecurityConnector() {
 }
 
 async function main() {
-  createOrUpdateASecurityConnector();
+  await createOrUpdateASecurityConnector();
 }
 
 main().catch(console.error);

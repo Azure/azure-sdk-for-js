@@ -46,7 +46,7 @@ async function createsOrUpdatesAMachinePoolWithTheSpecifiedSubscriptionResourceG
 }
 
 async function main() {
-  createsOrUpdatesAMachinePoolWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await createsOrUpdatesAMachinePoolWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

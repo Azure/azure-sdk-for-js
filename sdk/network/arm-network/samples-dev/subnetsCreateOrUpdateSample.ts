@@ -148,11 +148,11 @@ async function createSubnetWithSharingScope() {
 }
 
 async function main() {
-  createSubnet();
-  createSubnetWithADelegation();
-  createSubnetWithServiceEndpoints();
-  createSubnetWithServiceEndpointsWithNetworkIdentifier();
-  createSubnetWithSharingScope();
+  await createSubnet();
+  await createSubnetWithADelegation();
+  await createSubnetWithServiceEndpoints();
+  await createSubnetWithServiceEndpointsWithNetworkIdentifier();
+  await createSubnetWithSharingScope();
 }
 
 main().catch(console.error);

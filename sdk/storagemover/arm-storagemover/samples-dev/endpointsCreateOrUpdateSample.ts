@@ -156,10 +156,10 @@ async function endpointsCreateOrUpdateSmbMount() {
 }
 
 async function main() {
-  endpointsCreateOrUpdateAzureStorageBlobContainer();
-  endpointsCreateOrUpdateAzureStorageSmbFileShare();
-  endpointsCreateOrUpdateNfsMount();
-  endpointsCreateOrUpdateSmbMount();
+  await endpointsCreateOrUpdateAzureStorageBlobContainer();
+  await endpointsCreateOrUpdateAzureStorageSmbFileShare();
+  await endpointsCreateOrUpdateNfsMount();
+  await endpointsCreateOrUpdateSmbMount();
 }
 
 main().catch(console.error);

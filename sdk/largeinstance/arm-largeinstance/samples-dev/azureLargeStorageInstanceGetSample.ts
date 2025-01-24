@@ -39,7 +39,7 @@ async function azureLargeStorageInstanceGet() {
 }
 
 async function main() {
-  azureLargeStorageInstanceGet();
+  await azureLargeStorageInstanceGet();
 }
 
 main().catch(console.error);

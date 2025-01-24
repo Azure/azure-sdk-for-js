@@ -53,8 +53,8 @@ async function getVirtualNetworkScalableGateway() {
 }
 
 async function main() {
-  getVirtualNetworkGateway();
-  getVirtualNetworkScalableGateway();
+  await getVirtualNetworkGateway();
+  await getVirtualNetworkScalableGateway();
 }
 
 main().catch(console.error);

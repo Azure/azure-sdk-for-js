@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the Cassandra view under an existing Azure Cosmos DB database account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraViewGet.json
  */
-async function cosmosDbCassandraViewGet() {
+async function cosmosDbCassandraViewGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -35,8 +35,8 @@ async function cosmosDbCassandraViewGet() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbCassandraViewGet();
+async function main(): Promise<void> {
+  await cosmosDbCassandraViewGet();
 }
 
 main().catch(console.error);

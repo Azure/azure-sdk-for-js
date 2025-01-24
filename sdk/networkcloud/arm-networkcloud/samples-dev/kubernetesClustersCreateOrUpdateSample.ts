@@ -338,8 +338,8 @@ async function createOrUpdateKubernetesClusterWithALayer2LoadBalancer() {
 }
 
 async function main() {
-  createOrUpdateKubernetesCluster();
-  createOrUpdateKubernetesClusterWithALayer2LoadBalancer();
+  await createOrUpdateKubernetesCluster();
+  await createOrUpdateKubernetesClusterWithALayer2LoadBalancer();
 }
 
 main().catch(console.error);

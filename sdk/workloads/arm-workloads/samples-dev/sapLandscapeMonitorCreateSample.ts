@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SapLandscapeMonitor, WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a SAP Landscape Monitor Dashboard for the specified subscription, resource group, and resource name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a SAP Landscape Monitor Dashboard for the specified subscription, resource group, and resource name.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/SapLandscapeMonitor_Create.json
  */
-async function createForSapLandscapeMonitorDashboard() {
+async function createForSapLandscapeMonitorDashboard(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,8 +44,8 @@ async function createForSapLandscapeMonitorDashboard() {
   console.log(result);
 }
 
-async function main() {
-  createForSapLandscapeMonitorDashboard();
+async function main(): Promise<void> {
+  await createForSapLandscapeMonitorDashboard();
 }
 
 main().catch(console.error);

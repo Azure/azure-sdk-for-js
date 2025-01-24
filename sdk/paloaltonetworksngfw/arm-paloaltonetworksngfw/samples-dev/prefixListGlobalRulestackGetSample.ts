@@ -51,8 +51,8 @@ async function prefixListGlobalRulestackGetMinimumSetGen() {
 }
 
 async function main() {
-  prefixListGlobalRulestackGetMaximumSetGen();
-  prefixListGlobalRulestackGetMinimumSetGen();
+  await prefixListGlobalRulestackGetMaximumSetGen();
+  await prefixListGlobalRulestackGetMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function networkRacksListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  networkRacksListBySubscriptionMaximumSetGen();
+  await networkRacksListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

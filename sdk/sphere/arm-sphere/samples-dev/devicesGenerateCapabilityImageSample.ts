@@ -51,7 +51,7 @@ async function devicesGenerateCapabilityImage() {
 }
 
 async function main() {
-  devicesGenerateCapabilityImage();
+  await devicesGenerateCapabilityImage();
 }
 
 main().catch(console.error);

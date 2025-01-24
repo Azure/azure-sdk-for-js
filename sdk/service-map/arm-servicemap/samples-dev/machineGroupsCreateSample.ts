@@ -51,7 +51,7 @@ async function smMachineGroupsCreatePost() {
 }
 
 async function main() {
-  smMachineGroupsCreatePost();
+  await smMachineGroupsCreatePost();
 }
 
 main().catch(console.error);

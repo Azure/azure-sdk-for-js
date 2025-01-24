@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Initializes ARC Disable process on the cluster
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/InitializeDisableProcess.json
  */
-async function triggerArcDisable() {
+async function triggerArcDisable(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -36,8 +36,8 @@ async function triggerArcDisable() {
   console.log(result);
 }
 
-async function main() {
-  triggerArcDisable();
+async function main(): Promise<void> {
+  await triggerArcDisable();
 }
 
 main().catch(console.error);

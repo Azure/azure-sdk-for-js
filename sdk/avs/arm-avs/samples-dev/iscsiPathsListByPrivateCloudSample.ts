@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List IscsiPath resources by PrivateCloud
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/IscsiPaths_List.json
  */
-async function iscsiPathsListByPrivateCloud() {
+async function iscsiPathsListByPrivateCloud(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function iscsiPathsListByPrivateCloud() {
   console.log(resArray);
 }
 
-async function main() {
-  iscsiPathsListByPrivateCloud();
+async function main(): Promise<void> {
+  await iscsiPathsListByPrivateCloud();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates new or updates existing API.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_CreateOrUpdate.json
  */
-async function servicesCreateOrUpdate() {
+async function servicesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,8 +47,8 @@ async function servicesCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  servicesCreateOrUpdate();
+async function main(): Promise<void> {
+  await servicesCreateOrUpdate();
 }
 
 main().catch(console.error);

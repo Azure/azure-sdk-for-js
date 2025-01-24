@@ -35,7 +35,7 @@ async function getRecoveryServicesResource() {
 }
 
 async function main() {
-  getRecoveryServicesResource();
+  await getRecoveryServicesResource();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a EdgeDevice
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/GetEdgeDevices.json
  */
-async function getEdgeDevice() {
+async function getEdgeDevice(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/ArcInstance-rg/providers/Microsoft.HybridCompute/machines/Node-1";
   const edgeDeviceName = "default";
@@ -28,8 +28,8 @@ async function getEdgeDevice() {
   console.log(result);
 }
 
-async function main() {
-  getEdgeDevice();
+async function main(): Promise<void> {
+  await getEdgeDevice();
 }
 
 main().catch(console.error);

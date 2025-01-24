@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2018-02-01/examples/ListOperations.json
  */
-async function listOperations() {
+async function listOperations(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,8 +31,8 @@ async function listOperations() {
   console.log(resArray);
 }
 
-async function main() {
-  listOperations();
+async function main(): Promise<void> {
+  await listOperations();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function createAKey() {
 }
 
 async function main() {
-  createAKey();
+  await createAKey();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function searchListServicesByResourceGroup() {
 }
 
 async function main() {
-  searchListServicesByResourceGroup();
+  await searchListServicesByResourceGroup();
 }
 
 main().catch(console.error);

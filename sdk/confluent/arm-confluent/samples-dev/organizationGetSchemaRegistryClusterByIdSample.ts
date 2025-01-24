@@ -18,12 +18,10 @@ import "dotenv/config";
  * @summary Get schema registry cluster by Id
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetSchemaRegistryClusterById.json
  */
-async function organizationGetSchemaRegistryClusterById() {
+async function organizationGetSchemaRegistryClusterById(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const environmentId = "env-stgcczjp2j3";
   const clusterId = "lsrc-stgczkq22z";
@@ -38,8 +36,8 @@ async function organizationGetSchemaRegistryClusterById() {
   console.log(result);
 }
 
-async function main() {
-  organizationGetSchemaRegistryClusterById();
+async function main(): Promise<void> {
+  await organizationGetSchemaRegistryClusterById();
 }
 
 main().catch(console.error);

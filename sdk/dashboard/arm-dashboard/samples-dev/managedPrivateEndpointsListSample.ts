@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all managed private endpoints of a grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/ManagedPrivateEndpoints_List.json
  */
-async function managedPrivateEndpointList() {
+async function managedPrivateEndpointList(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,8 +37,8 @@ async function managedPrivateEndpointList() {
   console.log(resArray);
 }
 
-async function main() {
-  managedPrivateEndpointList();
+async function main(): Promise<void> {
+  await managedPrivateEndpointList();
 }
 
 main().catch(console.error);

@@ -70,8 +70,8 @@ async function patchAutonomousDatabaseBackup() {
 }
 
 async function main() {
-  autonomousDatabaseBackupsUpdate();
-  patchAutonomousDatabaseBackup();
+  await autonomousDatabaseBackupsUpdate();
+  await patchAutonomousDatabaseBackup();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create a OrganizationResource
  * x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function organizationsCreateOrUpdateGeneratedByMaximumSetRule() {
+async function organizationsCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const subscriptionId =
     process.env["ASTRO_SUBSCRIPTION_ID"] ||
     "43454B17-172A-40FE-80FA-549EA23D12B3";
@@ -75,8 +75,8 @@ async function organizationsCreateOrUpdateGeneratedByMaximumSetRule() {
   console.log(result);
 }
 
-async function main() {
-  organizationsCreateOrUpdateGeneratedByMaximumSetRule();
+async function main(): Promise<void> {
+  await organizationsCreateOrUpdateGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

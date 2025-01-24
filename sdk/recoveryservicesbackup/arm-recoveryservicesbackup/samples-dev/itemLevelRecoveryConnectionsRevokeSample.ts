@@ -49,7 +49,7 @@ async function revokeInstantItemLevelRecoveryForAzureVM() {
 }
 
 async function main() {
-  revokeInstantItemLevelRecoveryForAzureVM();
+  await revokeInstantItemLevelRecoveryForAzureVM();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a KPack build result log download URL.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/BuildService_GetBuildResultLog.json
  */
-async function buildServiceGetBuildResultLog() {
+async function buildServiceGetBuildResultLog(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,8 +40,8 @@ async function buildServiceGetBuildResultLog() {
   console.log(result);
 }
 
-async function main() {
-  buildServiceGetBuildResultLog();
+async function main(): Promise<void> {
+  await buildServiceGetBuildResultLog();
 }
 
 main().catch(console.error);

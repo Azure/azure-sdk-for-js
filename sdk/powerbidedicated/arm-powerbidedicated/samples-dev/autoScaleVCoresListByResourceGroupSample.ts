@@ -38,7 +38,7 @@ async function listAutoScaleVCoresInResourceGroup() {
 }
 
 async function main() {
-  listAutoScaleVCoresInResourceGroup();
+  await listAutoScaleVCoresInResourceGroup();
 }
 
 main().catch(console.error);

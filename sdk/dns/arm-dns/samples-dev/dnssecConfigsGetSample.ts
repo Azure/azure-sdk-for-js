@@ -31,7 +31,7 @@ async function getDnssecConfig() {
 }
 
 async function main() {
-  getDnssecConfig();
+  await getDnssecConfig();
 }
 
 main().catch(console.error);

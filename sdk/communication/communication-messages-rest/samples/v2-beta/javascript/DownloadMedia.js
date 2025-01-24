@@ -7,10 +7,10 @@
 
 const NotificationClient = require("@azure-rest/communication-messages").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
-const fs = require("node:fs");
+const { createWriteStream } = require("node:fs");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
@@ -22,7 +22,7 @@ async function main() {
     .get()
     .asNodeStream()
     .then((resp) => {
-      resp.body?.pipe(fs.createWriteStream("downloadedMedia.jpeg"));
+      resp.body?.pipe(createWriteStream("downloadedMedia.jpeg"));
       return;
     });
 }

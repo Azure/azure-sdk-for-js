@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of activities in the module identified by module name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listActivitiesByModule.json
  */
-async function listActivitiesByAModule() {
+async function listActivitiesByAModule(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -36,8 +36,8 @@ async function listActivitiesByAModule() {
   console.log(resArray);
 }
 
-async function main() {
-  listActivitiesByAModule();
+async function main(): Promise<void> {
+  await listActivitiesByAModule();
 }
 
 main().catch(console.error);

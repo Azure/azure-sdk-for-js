@@ -43,7 +43,7 @@ async function updatesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourc
 }
 
 async function main() {
-  updatesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await updatesASecretWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

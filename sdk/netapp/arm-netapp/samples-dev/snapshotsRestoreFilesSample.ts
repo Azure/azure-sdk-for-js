@@ -49,7 +49,7 @@ async function snapshotsSingleFileRestore() {
 }
 
 async function main() {
-  snapshotsSingleFileRestore();
+  await snapshotsSingleFileRestore();
 }
 
 main().catch(console.error);

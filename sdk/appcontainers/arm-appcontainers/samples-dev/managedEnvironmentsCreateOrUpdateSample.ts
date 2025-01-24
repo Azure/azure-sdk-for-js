@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a Managed Environment used to host container apps.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
  */
-async function createEnvironmentWithCustomInfrastructureResourceGroup() {
+async function createEnvironmentWithCustomInfrastructureResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -85,7 +85,7 @@ async function createEnvironmentWithCustomInfrastructureResourceGroup() {
  * @summary Creates or updates a Managed Environment used to host container apps.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironments_CreateOrUpdate.json
  */
-async function createEnvironments() {
+async function createEnvironments(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -178,9 +178,9 @@ async function createEnvironments() {
   console.log(result);
 }
 
-async function main() {
-  createEnvironmentWithCustomInfrastructureResourceGroup();
-  createEnvironments();
+async function main(): Promise<void> {
+  await createEnvironmentWithCustomInfrastructureResourceGroup();
+  await createEnvironments();
 }
 
 main().catch(console.error);

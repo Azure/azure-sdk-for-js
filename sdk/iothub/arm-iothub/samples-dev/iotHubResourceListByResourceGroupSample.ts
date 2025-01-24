@@ -38,7 +38,7 @@ async function iotHubResourceListByResourceGroup() {
 }
 
 async function main() {
-  iotHubResourceListByResourceGroup();
+  await iotHubResourceListByResourceGroup();
 }
 
 main().catch(console.error);

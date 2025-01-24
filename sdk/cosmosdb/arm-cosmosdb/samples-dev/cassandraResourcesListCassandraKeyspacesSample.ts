@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the Cassandra keyspaces under an existing Azure Cosmos DB database account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraKeyspaceList.json
  */
-async function cosmosDbCassandraKeyspaceList() {
+async function cosmosDbCassandraKeyspaceList(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
@@ -34,8 +34,8 @@ async function cosmosDbCassandraKeyspaceList() {
   console.log(resArray);
 }
 
-async function main() {
-  cosmosDbCassandraKeyspaceList();
+async function main(): Promise<void> {
+  await cosmosDbCassandraKeyspaceList();
 }
 
 main().catch(console.error);

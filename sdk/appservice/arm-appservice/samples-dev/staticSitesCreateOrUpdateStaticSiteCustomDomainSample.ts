@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Creates a new static site custom domain in an existing resource group and static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateStaticSiteCustomDomain.json
  */
-async function createOrUpdateACustomDomainForAStaticSite() {
+async function createOrUpdateACustomDomainForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,8 +42,8 @@ async function createOrUpdateACustomDomainForAStaticSite() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateACustomDomainForAStaticSite();
+async function main(): Promise<void> {
+  await createOrUpdateACustomDomainForAStaticSite();
 }
 
 main().catch(console.error);

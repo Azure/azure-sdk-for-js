@@ -37,7 +37,7 @@ async function rollbackPacketCoreControlPlane() {
 }
 
 async function main() {
-  rollbackPacketCoreControlPlane();
+  await rollbackPacketCoreControlPlane();
 }
 
 main().catch(console.error);

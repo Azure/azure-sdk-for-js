@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Opt-in tenant to data boundary.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/PutDataBoundary.json
  */
-async function optInToDataBoundary() {
+async function optInToDataBoundary(): Promise<void> {
   const defaultParam = "default";
   const dataBoundaryDefinition: DataBoundaryDefinition = {
     properties: { dataBoundary: "EU" },
@@ -35,8 +35,8 @@ async function optInToDataBoundary() {
   console.log(result);
 }
 
-async function main() {
-  optInToDataBoundary();
+async function main(): Promise<void> {
+  await optInToDataBoundary();
 }
 
 main().catch(console.error);

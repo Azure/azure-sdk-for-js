@@ -34,7 +34,7 @@ async function deleteAgentPool() {
 }
 
 async function main() {
-  deleteAgentPool();
+  await deleteAgentPool();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function linkerList() {
 }
 
 async function main() {
-  linkerList();
+  await linkerList();
 }
 
 main().catch(console.error);

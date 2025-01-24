@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all the workspaces within a subscription.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspacesListBySubscription.json
  */
-async function listsWorkspaces() {
+async function listsWorkspaces(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new AzureDatabricksManagementClient(
@@ -32,8 +32,8 @@ async function listsWorkspaces() {
   console.log(resArray);
 }
 
-async function main() {
-  listsWorkspaces();
+async function main(): Promise<void> {
+  await listsWorkspaces();
 }
 
 main().catch(console.error);

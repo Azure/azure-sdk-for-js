@@ -81,8 +81,8 @@ async function createAnRoutingRule() {
 }
 
 async function main() {
-  createADefaultRoutingRule();
-  createAnRoutingRule();
+  await createADefaultRoutingRule();
+  await createAnRoutingRule();
 }
 
 main().catch(console.error);

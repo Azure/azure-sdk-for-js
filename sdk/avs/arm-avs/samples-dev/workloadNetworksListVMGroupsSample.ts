@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List WorkloadNetworkVMGroup resources by WorkloadNetwork
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_ListVMGroups.json
  */
-async function workloadNetworksListVMGroups() {
+async function workloadNetworksListVMGroups(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function workloadNetworksListVMGroups() {
   console.log(resArray);
 }
 
-async function main() {
-  workloadNetworksListVMGroups();
+async function main(): Promise<void> {
+  await workloadNetworksListVMGroups();
 }
 
 main().catch(console.error);

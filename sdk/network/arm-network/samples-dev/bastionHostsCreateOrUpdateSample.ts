@@ -139,10 +139,10 @@ async function createDeveloperBastionHost() {
 }
 
 async function main() {
-  createBastionHost();
-  createBastionHostWithPrivateOnly();
-  createBastionHostWithZones();
-  createDeveloperBastionHost();
+  await createBastionHost();
+  await createBastionHostWithPrivateOnly();
+  await createBastionHostWithZones();
+  await createDeveloperBastionHost();
 }
 
 main().catch(console.error);

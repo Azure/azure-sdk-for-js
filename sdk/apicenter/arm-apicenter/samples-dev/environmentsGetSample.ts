@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns details of the environment.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Environments_Get.json
  */
-async function environmentsGet() {
+async function environmentsGet(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +38,8 @@ async function environmentsGet() {
   console.log(result);
 }
 
-async function main() {
-  environmentsGet();
+async function main(): Promise<void> {
+  await environmentsGet();
 }
 
 main().catch(console.error);

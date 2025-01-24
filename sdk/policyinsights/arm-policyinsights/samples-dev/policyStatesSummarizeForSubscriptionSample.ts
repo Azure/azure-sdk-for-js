@@ -62,8 +62,8 @@ async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup() {
 }
 
 async function main() {
-  summarizeAtSubscriptionScope();
-  summarizeAtSubscriptionScopeForAPolicyDefinitionGroup();
+  await summarizeAtSubscriptionScope();
+  await summarizeAtSubscriptionScopeForAPolicyDefinitionGroup();
 }
 
 main().catch(console.error);

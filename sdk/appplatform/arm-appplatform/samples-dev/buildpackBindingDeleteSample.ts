@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Operation to delete a Buildpack Binding
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/BuildpackBinding_Delete.json
  */
-async function buildpackBindingDelete() {
+async function buildpackBindingDelete(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,8 +40,8 @@ async function buildpackBindingDelete() {
   console.log(result);
 }
 
-async function main() {
-  buildpackBindingDelete();
+async function main(): Promise<void> {
+  await buildpackBindingDelete();
 }
 
 main().catch(console.error);

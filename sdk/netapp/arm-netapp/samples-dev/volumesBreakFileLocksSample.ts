@@ -50,7 +50,7 @@ async function volumesBreakFileLocks() {
 }
 
 async function main() {
-  volumesBreakFileLocks();
+  await volumesBreakFileLocks();
 }
 
 main().catch(console.error);

@@ -65,8 +65,8 @@ async function volumesGetMinimumSetGen() {
 }
 
 async function main() {
-  volumesGetMaximumSetGen();
-  volumesGetMinimumSetGen();
+  await volumesGetMaximumSetGen();
+  await volumesGetMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the properties of an existing Azure Cosmos DB Table Role Definition with the given Id.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/tablerbac/CosmosDBTableRoleDefinitionGet.json
  */
-async function cosmosDbTableRoleDefinitionGet() {
+async function cosmosDbTableRoleDefinitionGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,8 +36,8 @@ async function cosmosDbTableRoleDefinitionGet() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbTableRoleDefinitionGet();
+async function main(): Promise<void> {
+  await cosmosDbTableRoleDefinitionGet();
 }
 
 main().catch(console.error);

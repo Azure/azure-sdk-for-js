@@ -277,9 +277,9 @@ async function createOrUpdateANetworkFunctionDefinitionVersionResourceForAzureOp
 }
 
 async function main() {
-  createOrUpdateANetworkFunctionDefinitionVersionResource();
-  createOrUpdateANetworkFunctionDefinitionVersionResourceForAzureCoreVnf();
-  createOrUpdateANetworkFunctionDefinitionVersionResourceForAzureOperatorNexusVnf();
+  await createOrUpdateANetworkFunctionDefinitionVersionResource();
+  await createOrUpdateANetworkFunctionDefinitionVersionResourceForAzureCoreVnf();
+  await createOrUpdateANetworkFunctionDefinitionVersionResourceForAzureOperatorNexusVnf();
 }
 
 main().catch(console.error);

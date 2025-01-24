@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List test keys for a Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_ListTestKeys.json
  */
-async function servicesListTestKeys() {
+async function servicesListTestKeys(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,8 +34,8 @@ async function servicesListTestKeys() {
   console.log(result);
 }
 
-async function main() {
-  servicesListTestKeys();
+async function main(): Promise<void> {
+  await servicesListTestKeys();
 }
 
 main().catch(console.error);

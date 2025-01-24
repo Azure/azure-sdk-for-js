@@ -40,7 +40,7 @@ async function cloudHsmClusterPrivateEndpointConnectionListByResourceMaximumSetG
 }
 
 async function main() {
-  cloudHsmClusterPrivateEndpointConnectionListByResourceMaximumSetGen();
+  await cloudHsmClusterPrivateEndpointConnectionListByResourceMaximumSetGen();
 }
 
 main().catch(console.error);

@@ -107,9 +107,9 @@ async function createRemediationAtSubscriptionScopeWithResourceIdsFilter() {
 }
 
 async function main() {
-  createRemediationAtSubscriptionScope();
-  createRemediationAtSubscriptionScopeWithAllProperties();
-  createRemediationAtSubscriptionScopeWithResourceIdsFilter();
+  await createRemediationAtSubscriptionScope();
+  await createRemediationAtSubscriptionScopeWithAllProperties();
+  await createRemediationAtSubscriptionScopeWithResourceIdsFilter();
 }
 
 main().catch(console.error);

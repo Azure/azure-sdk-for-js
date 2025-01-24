@@ -39,7 +39,7 @@ async function deleteMetadata() {
 }
 
 async function main() {
-  deleteMetadata();
+  await deleteMetadata();
 }
 
 main().catch(console.error);

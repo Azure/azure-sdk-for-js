@@ -32,7 +32,7 @@ async function deleteAPolicySetDefinition() {
 }
 
 async function main() {
-  deleteAPolicySetDefinition();
+  await deleteAPolicySetDefinition();
 }
 
 main().catch(console.error);

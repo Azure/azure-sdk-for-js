@@ -40,7 +40,7 @@ async function deleteASpecificBackup() {
 }
 
 async function main() {
-  deleteASpecificBackup();
+  await deleteASpecificBackup();
 }
 
 main().catch(console.error);

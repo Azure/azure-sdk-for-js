@@ -50,7 +50,7 @@ async function updateProject() {
 }
 
 async function main() {
-  updateProject();
+  await updateProject();
 }
 
 main().catch(console.error);

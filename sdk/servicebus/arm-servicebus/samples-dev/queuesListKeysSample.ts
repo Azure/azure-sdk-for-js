@@ -41,7 +41,7 @@ async function queueAuthorizationRuleListKey() {
 }
 
 async function main() {
-  queueAuthorizationRuleListKey();
+  await queueAuthorizationRuleListKey();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Onboard given subscriptions to Microsoft.AppComplianceAutomation provider.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Onboard.json
  */
-async function onboard() {
+async function onboard(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const result = await client.providerActions.beginOnboardAndWait({
@@ -30,8 +30,8 @@ async function onboard() {
   console.log(result);
 }
 
-async function main() {
-  onboard();
+async function main(): Promise<void> {
+  await onboard();
 }
 
 main().catch(console.error);

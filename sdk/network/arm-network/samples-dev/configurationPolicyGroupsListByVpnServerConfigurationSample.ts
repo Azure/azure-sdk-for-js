@@ -37,7 +37,7 @@ async function configurationPolicyGroupListByVpnServerConfiguration() {
 }
 
 async function main() {
-  configurationPolicyGroupListByVpnServerConfiguration();
+  await configurationPolicyGroupListByVpnServerConfiguration();
 }
 
 main().catch(console.error);

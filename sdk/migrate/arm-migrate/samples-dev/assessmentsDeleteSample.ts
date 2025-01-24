@@ -47,7 +47,7 @@ async function assessmentsDelete() {
 }
 
 async function main() {
-  assessmentsDelete();
+  await assessmentsDelete();
 }
 
 main().catch(console.error);

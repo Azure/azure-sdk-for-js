@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the Azure Cosmos DB Throughput Pools available under the subscription.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/throughputPool/CosmosDBThroughputPoolList.json
  */
-async function cosmosDbThroughputPoolList() {
+async function cosmosDbThroughputPoolList(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -31,8 +31,8 @@ async function cosmosDbThroughputPoolList() {
   console.log(resArray);
 }
 
-async function main() {
-  cosmosDbThroughputPoolList();
+async function main(): Promise<void> {
+  await cosmosDbThroughputPoolList();
 }
 
 main().catch(console.error);

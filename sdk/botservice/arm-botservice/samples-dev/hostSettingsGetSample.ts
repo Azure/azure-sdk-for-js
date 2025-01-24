@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get per subscription settings needed to host bot in compute resource such as Azure App Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetHostSettings.json
  */
-async function getBotHostSettings() {
+async function getBotHostSettings(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const credential = new DefaultAzureCredential();
@@ -27,8 +27,8 @@ async function getBotHostSettings() {
   console.log(result);
 }
 
-async function main() {
-  getBotHostSettings();
+async function main(): Promise<void> {
+  await getBotHostSettings();
 }
 
 main().catch(console.error);

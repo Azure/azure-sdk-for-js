@@ -42,7 +42,7 @@ async function updateAGateway() {
 }
 
 async function main() {
-  updateAGateway();
+  await updateAGateway();
 }
 
 main().catch(console.error);

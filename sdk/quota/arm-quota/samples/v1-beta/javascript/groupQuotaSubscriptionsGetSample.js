@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns the subscriptionIds along with its provisioning state for being associated with the GroupQuota. If the subscription is not a member of GroupQuota, it will return 404, else 200.
  *
  * @summary Returns the subscriptionIds along with its provisioning state for being associated with the GroupQuota. If the subscription is not a member of GroupQuota, it will return 404, else 200.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotasSubscriptions/GetGroupQuotaSubscriptions.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GroupQuotasSubscriptions/GetGroupQuotaSubscriptions.json
  */
 async function groupQuotaSubscriptionsGetSubscriptions() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function groupQuotaSubscriptionsGetSubscriptions() {
 }
 
 async function main() {
-  groupQuotaSubscriptionsGetSubscriptions();
+  await groupQuotaSubscriptionsGetSubscriptions();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all HCI clusters in a subscription.
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/ListClustersBySubscription.json
  */
-async function listClustersInAGivenSubscription() {
+async function listClustersInAGivenSubscription(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -31,8 +31,8 @@ async function listClustersInAGivenSubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listClustersInAGivenSubscription();
+async function main(): Promise<void> {
+  await listClustersInAGivenSubscription();
 }
 
 main().catch(console.error);

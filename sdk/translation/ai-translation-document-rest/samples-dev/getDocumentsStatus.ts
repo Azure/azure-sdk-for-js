@@ -55,8 +55,8 @@ export async function main() {
     console.log("Characters charged is: " + documentStatus.characterCharged);
     break;
   }
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

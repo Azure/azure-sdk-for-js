@@ -21,7 +21,7 @@ async function updateATrustedSigningAccount() {
 }
 
 async function main() {
-  updateATrustedSigningAccount();
+  await updateATrustedSigningAccount();
 }
 
 main().catch(console.error);

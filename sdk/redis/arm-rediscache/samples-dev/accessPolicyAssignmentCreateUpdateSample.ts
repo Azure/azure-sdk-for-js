@@ -13,17 +13,15 @@ import {
   RedisManagementClient,
 } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Adds the access policy assignment to the specified users
  *
  * @summary Adds the access policy assignment to the specified users
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyAssignmentCreateUpdate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAccessPolicyAssignmentCreateUpdate.json
  */
-async function redisCacheAccessPolicyAssignmentCreateUpdate() {
+async function redisCacheAccessPolicyAssignmentCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const cacheName = "cache1";
@@ -44,8 +42,8 @@ async function redisCacheAccessPolicyAssignmentCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
-  redisCacheAccessPolicyAssignmentCreateUpdate();
+async function main(): Promise<void> {
+  await redisCacheAccessPolicyAssignmentCreateUpdate();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Starts stopped compute on all cluster nodes.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterStart.json
  */
-async function startAllServersInTheCluster() {
+async function startAllServersInTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -34,8 +34,8 @@ async function startAllServersInTheCluster() {
   console.log(result);
 }
 
-async function main() {
-  startAllServersInTheCluster();
+async function main(): Promise<void> {
+  await startAllServersInTheCluster();
 }
 
 main().catch(console.error);

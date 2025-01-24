@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the specified private endpoint connection associated with the Cognitive Services account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetPrivateEndpointConnection.json
  */
-async function getPrivateEndpointConnection() {
+async function getPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -38,8 +38,8 @@ async function getPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
-  getPrivateEndpointConnection();
+async function main(): Promise<void> {
+  await getPrivateEndpointConnection();
 }
 
 main().catch(console.error);

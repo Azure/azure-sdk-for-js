@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  QueryDefinition,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { QueryDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,7 +17,7 @@ import "dotenv/config";
  * @summary Query the usage data for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountsQuery.json
  */
-async function externalBillingAccountQueryList() {
+async function externalBillingAccountQueryList(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";
   const parameters: QueryDefinition = {
@@ -35,37 +31,37 @@ async function externalBillingAccountQueryList() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.query.usageByExternalCloudProviderType(
     externalCloudProviderType,
     externalCloudProviderId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -76,7 +72,7 @@ async function externalBillingAccountQueryList() {
  * @summary Query the usage data for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalSubscriptionsQuery.json
  */
-async function externalSubscriptionsQuery() {
+async function externalSubscriptionsQuery(): Promise<void> {
   const externalCloudProviderType = "externalSubscriptions";
   const externalCloudProviderId = "100";
   const parameters: QueryDefinition = {
@@ -90,44 +86,44 @@ async function externalSubscriptionsQuery() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.query.usageByExternalCloudProviderType(
     externalCloudProviderType,
     externalCloudProviderId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  externalBillingAccountQueryList();
-  externalSubscriptionsQuery();
+async function main(): Promise<void> {
+  await externalBillingAccountQueryList();
+  await externalSubscriptionsQuery();
 }
 
 main().catch(console.error);

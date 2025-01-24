@@ -37,7 +37,7 @@ async function deleteAGateway() {
 }
 
 async function main() {
-  deleteAGateway();
+  await deleteAGateway();
 }
 
 main().catch(console.error);

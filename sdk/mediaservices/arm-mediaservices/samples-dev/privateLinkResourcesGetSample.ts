@@ -39,7 +39,7 @@ async function getDetailsOfAGroupId() {
 }
 
 async function main() {
-  getDetailsOfAGroupId();
+  await getDetailsOfAGroupId();
 }
 
 main().catch(console.error);

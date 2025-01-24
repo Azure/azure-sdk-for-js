@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Operation to delete a Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_Delete.json
  */
-async function servicesDelete() {
+async function servicesDelete(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,8 +34,8 @@ async function servicesDelete() {
   console.log(result);
 }
 
-async function main() {
-  servicesDelete();
+async function main(): Promise<void> {
+  await servicesDelete();
 }
 
 main().catch(console.error);

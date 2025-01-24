@@ -41,7 +41,7 @@ async function listAllServerLogFilesForAServer() {
 }
 
 async function main() {
-  listAllServerLogFilesForAServer();
+  await listAllServerLogFilesForAServer();
 }
 
 main().catch(console.error);

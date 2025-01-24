@@ -39,7 +39,7 @@ async function azureDevOpsOrgGet() {
 }
 
 async function main() {
-  azureDevOpsOrgGet();
+  await azureDevOpsOrgGet();
 }
 
 main().catch(console.error);

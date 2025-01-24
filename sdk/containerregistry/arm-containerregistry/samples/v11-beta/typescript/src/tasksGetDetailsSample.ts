@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a task with extended information that includes all secrets.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksGetDetails.json
  */
-async function tasksGetDetails() {
+async function tasksGetDetails(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -39,7 +39,7 @@ async function tasksGetDetails() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   tasksGetDetails();
 }
 

@@ -42,7 +42,7 @@ async function linkedServicesGet() {
 }
 
 async function main() {
-  linkedServicesGet();
+  await linkedServicesGet();
 }
 
 main().catch(console.error);

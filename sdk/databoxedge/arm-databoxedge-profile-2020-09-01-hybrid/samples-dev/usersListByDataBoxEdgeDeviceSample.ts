@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all the users registered on a Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/UserGetAllInDevice.json
  */
-async function userGetAllInDevice() {
+async function userGetAllInDevice(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -37,8 +37,8 @@ async function userGetAllInDevice() {
   console.log(resArray);
 }
 
-async function main() {
-  userGetAllInDevice();
+async function main(): Promise<void> {
+  await userGetAllInDevice();
 }
 
 main().catch(console.error);

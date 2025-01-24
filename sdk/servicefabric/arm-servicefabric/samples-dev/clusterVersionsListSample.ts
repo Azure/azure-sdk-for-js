@@ -32,7 +32,7 @@ async function listClusterVersions() {
 }
 
 async function main() {
-  listClusterVersions();
+  await listClusterVersions();
 }
 
 main().catch(console.error);

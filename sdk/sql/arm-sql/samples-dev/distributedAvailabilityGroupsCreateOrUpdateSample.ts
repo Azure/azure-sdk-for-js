@@ -49,7 +49,7 @@ async function createADistributedAvailabilityGroup() {
 }
 
 async function main() {
-  createADistributedAvailabilityGroup();
+  await createADistributedAvailabilityGroup();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function getNetworkVirtualApplianceSite() {
 }
 
 async function main() {
-  getNetworkVirtualApplianceSite();
+  await getNetworkVirtualApplianceSite();
 }
 
 main().catch(console.error);

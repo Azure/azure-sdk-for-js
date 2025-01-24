@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates an connectedEnvironment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironments_CreateOrUpdate.json
  */
-async function createKubeEnvironments() {
+async function createKubeEnvironments(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -49,8 +49,8 @@ async function createKubeEnvironments() {
   console.log(result);
 }
 
-async function main() {
-  createKubeEnvironments();
+async function main(): Promise<void> {
+  await createKubeEnvironments();
 }
 
 main().catch(console.error);

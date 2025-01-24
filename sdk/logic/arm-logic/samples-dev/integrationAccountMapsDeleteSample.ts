@@ -39,7 +39,7 @@ async function deleteAMap() {
 }
 
 async function main() {
-  deleteAMap();
+  await deleteAMap();
 }
 
 main().catch(console.error);

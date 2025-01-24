@@ -53,8 +53,8 @@ async function getImportJob() {
 }
 
 async function main() {
-  getExportJob();
-  getImportJob();
+  await getExportJob();
+  await getImportJob();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function forcedFailoverOfAReplicationLink() {
 }
 
 async function main() {
-  forcedFailoverOfAReplicationLink();
+  await forcedFailoverOfAReplicationLink();
 }
 
 main().catch(console.error);

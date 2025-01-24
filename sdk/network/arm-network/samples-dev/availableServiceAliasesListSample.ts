@@ -33,7 +33,7 @@ async function getAvailableServiceAliases() {
 }
 
 async function main() {
-  getAvailableServiceAliases();
+  await getAvailableServiceAliases();
 }
 
 main().catch(console.error);

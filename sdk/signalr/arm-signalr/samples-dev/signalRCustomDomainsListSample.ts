@@ -40,7 +40,7 @@ async function signalRCustomDomainsList() {
 }
 
 async function main() {
-  signalRCustomDomainsList();
+  await signalRCustomDomainsList();
 }
 
 main().catch(console.error);

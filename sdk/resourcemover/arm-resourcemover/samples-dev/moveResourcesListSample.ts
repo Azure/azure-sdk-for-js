@@ -39,7 +39,7 @@ async function moveResourcesList() {
 }
 
 async function main() {
-  moveResourcesList();
+  await moveResourcesList();
 }
 
 main().catch(console.error);

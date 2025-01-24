@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Removes a content from CDN.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_PurgeContent.json
  */
-async function endpointsPurgeContent() {
+async function endpointsPurgeContent(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -35,8 +35,8 @@ async function endpointsPurgeContent() {
   console.log(result);
 }
 
-async function main() {
-  endpointsPurgeContent();
+async function main(): Promise<void> {
+  await endpointsPurgeContent();
 }
 
 main().catch(console.error);

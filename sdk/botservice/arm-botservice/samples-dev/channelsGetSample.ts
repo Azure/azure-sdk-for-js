@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a BotService Channel registration specified by the parameters.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetAlexaChannel.json
  */
-async function getAlexaChannel() {
+async function getAlexaChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -41,7 +41,7 @@ async function getAlexaChannel() {
  * @summary Returns a BotService Channel registration specified by the parameters.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetChannel.json
  */
-async function getChannel() {
+async function getChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -64,7 +64,7 @@ async function getChannel() {
  * @summary Returns a BotService Channel registration specified by the parameters.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetDirectLineSpeechChannel.json
  */
-async function getDirectLineSpeechChannel() {
+async function getDirectLineSpeechChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -87,7 +87,7 @@ async function getDirectLineSpeechChannel() {
  * @summary Returns a BotService Channel registration specified by the parameters.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetLineChannel.json
  */
-async function getLineChannel() {
+async function getLineChannel(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -104,11 +104,11 @@ async function getLineChannel() {
   console.log(result);
 }
 
-async function main() {
-  getAlexaChannel();
-  getChannel();
-  getDirectLineSpeechChannel();
-  getLineChannel();
+async function main(): Promise<void> {
+  await getAlexaChannel();
+  await getChannel();
+  await getDirectLineSpeechChannel();
+  await getLineChannel();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function signalRReplicasList() {
 }
 
 async function main() {
-  signalRReplicasList();
+  await signalRReplicasList();
 }
 
 main().catch(console.error);

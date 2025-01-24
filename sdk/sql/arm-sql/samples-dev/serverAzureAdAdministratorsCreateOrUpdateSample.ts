@@ -50,7 +50,7 @@ async function createsOrUpdatesAnExistingAzureActiveDirectoryAdministrator() {
 }
 
 async function main() {
-  createsOrUpdatesAnExistingAzureActiveDirectoryAdministrator();
+  await createsOrUpdatesAnExistingAzureActiveDirectoryAdministrator();
 }
 
 main().catch(console.error);

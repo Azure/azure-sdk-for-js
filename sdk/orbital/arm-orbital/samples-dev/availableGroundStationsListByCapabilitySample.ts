@@ -37,7 +37,7 @@ async function listOfGroundStationsByCapability() {
 }
 
 async function main() {
-  listOfGroundStationsByCapability();
+  await listOfGroundStationsByCapability();
 }
 
 main().catch(console.error);

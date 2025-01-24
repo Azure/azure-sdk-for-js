@@ -46,7 +46,7 @@ async function listSourceControlConfiguration() {
 }
 
 async function main() {
-  listSourceControlConfiguration();
+  await listSourceControlConfiguration();
 }
 
 main().catch(console.error);

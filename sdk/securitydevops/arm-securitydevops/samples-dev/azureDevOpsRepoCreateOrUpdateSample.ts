@@ -59,7 +59,7 @@ async function azureDevOpsRepoCreateOrUpdate() {
 }
 
 async function main() {
-  azureDevOpsRepoCreateOrUpdate();
+  await azureDevOpsRepoCreateOrUpdate();
 }
 
 main().catch(console.error);

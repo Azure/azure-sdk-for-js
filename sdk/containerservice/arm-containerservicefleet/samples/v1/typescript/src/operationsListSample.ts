@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List the operations for the provider
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/Operations_List.json
  */
-async function listTheOperationsForTheProvider() {
+async function listTheOperationsForTheProvider(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function listTheOperationsForTheProvider() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listTheOperationsForTheProvider();
 }
 

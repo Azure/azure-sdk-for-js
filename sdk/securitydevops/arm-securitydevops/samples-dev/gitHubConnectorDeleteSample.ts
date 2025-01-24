@@ -37,7 +37,7 @@ async function gitHubConnectorDelete() {
 }
 
 async function main() {
-  gitHubConnectorDelete();
+  await gitHubConnectorDelete();
 }
 
 main().catch(console.error);

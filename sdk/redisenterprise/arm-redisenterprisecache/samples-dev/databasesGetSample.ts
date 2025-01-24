@@ -42,7 +42,7 @@ async function redisEnterpriseDatabasesGet() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesGet();
+  await redisEnterpriseDatabasesGet();
 }
 
 main().catch(console.error);

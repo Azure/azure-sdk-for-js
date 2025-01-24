@@ -42,7 +42,7 @@ async function checkMigrationNameAvailability() {
 }
 
 async function main() {
-  checkMigrationNameAvailability();
+  await checkMigrationNameAvailability();
 }
 
 main().catch(console.error);

@@ -57,7 +57,7 @@ async function deploymentPreflight() {
 }
 
 async function main() {
-  deploymentPreflight();
+  await deploymentPreflight();
 }
 
 main().catch(console.error);

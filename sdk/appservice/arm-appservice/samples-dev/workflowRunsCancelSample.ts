@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Cancels a workflow run.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRuns_Cancel.json
  */
-async function cancelAWorkflowRun() {
+async function cancelAWorkflowRun(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,8 +38,8 @@ async function cancelAWorkflowRun() {
   console.log(result);
 }
 
-async function main() {
-  cancelAWorkflowRun();
+async function main(): Promise<void> {
+  await cancelAWorkflowRun();
 }
 
 main().catch(console.error);

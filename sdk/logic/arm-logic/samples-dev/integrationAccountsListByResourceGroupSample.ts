@@ -38,7 +38,7 @@ async function listIntegrationAccountsByResourceGroupName() {
 }
 
 async function main() {
-  listIntegrationAccountsByResourceGroupName();
+  await listIntegrationAccountsByResourceGroupName();
 }
 
 main().catch(console.error);

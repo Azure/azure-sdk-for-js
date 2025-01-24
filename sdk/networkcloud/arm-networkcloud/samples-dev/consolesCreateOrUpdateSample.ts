@@ -54,7 +54,7 @@ async function createOrUpdateVirtualMachineConsole() {
 }
 
 async function main() {
-  createOrUpdateVirtualMachineConsole();
+  await createOrUpdateVirtualMachineConsole();
 }
 
 main().catch(console.error);

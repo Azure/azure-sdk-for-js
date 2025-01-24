@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates an App Service Plan.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2018-02-01/examples/PatchAppServicePlan.json
  */
-async function patchServicePlan() {
+async function patchServicePlan(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -45,8 +45,8 @@ async function patchServicePlan() {
   console.log(result);
 }
 
-async function main() {
-  patchServicePlan();
+async function main(): Promise<void> {
+  await patchServicePlan();
 }
 
 main().catch(console.error);

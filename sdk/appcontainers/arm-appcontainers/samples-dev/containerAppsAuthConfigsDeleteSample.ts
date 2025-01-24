@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a Container App AuthConfig.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AuthConfigs_Delete.json
  */
-async function deleteContainerAppAuthConfig() {
+async function deleteContainerAppAuthConfig(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
@@ -36,8 +36,8 @@ async function deleteContainerAppAuthConfig() {
   console.log(result);
 }
 
-async function main() {
-  deleteContainerAppAuthConfig();
+async function main(): Promise<void> {
+  await deleteContainerAppAuthConfig();
 }
 
 main().catch(console.error);

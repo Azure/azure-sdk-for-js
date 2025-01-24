@@ -42,7 +42,7 @@ async function getWorkspaceModelContainer() {
 }
 
 async function main() {
-  getWorkspaceModelContainer();
+  await getWorkspaceModelContainer();
 }
 
 main().catch(console.error);

@@ -80,7 +80,7 @@ async function createOrUpdateWorkspaceFeaturesetVersion() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceFeaturesetVersion();
+  await createOrUpdateWorkspaceFeaturesetVersion();
 }
 
 main().catch(console.error);

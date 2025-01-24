@@ -149,10 +149,10 @@ async function endpointsUpdateSmbMount() {
 }
 
 async function main() {
-  endpointsUpdateAzureStorageBlobContainer();
-  endpointsUpdateAzureStorageSmbFileShare();
-  endpointsUpdateNfsMount();
-  endpointsUpdateSmbMount();
+  await endpointsUpdateAzureStorageBlobContainer();
+  await endpointsUpdateAzureStorageSmbFileShare();
+  await endpointsUpdateNfsMount();
+  await endpointsUpdateSmbMount();
 }
 
 main().catch(console.error);

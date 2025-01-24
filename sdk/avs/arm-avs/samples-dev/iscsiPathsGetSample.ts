@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a IscsiPath
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/IscsiPaths_Get.json
  */
-async function iscsiPathsGet() {
+async function iscsiPathsGet(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,8 +33,8 @@ async function iscsiPathsGet() {
   console.log(result);
 }
 
-async function main() {
-  iscsiPathsGet();
+async function main(): Promise<void> {
+  await iscsiPathsGet();
 }
 
 main().catch(console.error);

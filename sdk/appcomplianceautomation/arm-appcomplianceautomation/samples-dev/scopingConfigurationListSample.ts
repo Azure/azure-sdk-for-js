@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a list format of the singleton scopingConfiguration for a specified report.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/ScopingConfiguration_List.json
  */
-async function scopingConfigurationList() {
+async function scopingConfigurationList(): Promise<void> {
   const reportName = "testReportName";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -29,8 +29,8 @@ async function scopingConfigurationList() {
   console.log(resArray);
 }
 
-async function main() {
-  scopingConfigurationList();
+async function main(): Promise<void> {
+  await scopingConfigurationList();
 }
 
 main().catch(console.error);

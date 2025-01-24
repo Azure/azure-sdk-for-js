@@ -37,7 +37,7 @@ async function retrieveDnsResolverDomainList() {
 }
 
 async function main() {
-  retrieveDnsResolverDomainList();
+  await retrieveDnsResolverDomainList();
 }
 
 main().catch(console.error);

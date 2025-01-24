@@ -32,7 +32,7 @@ async function getRackSkuResource() {
 }
 
 async function main() {
-  getRackSkuResource();
+  await getRackSkuResource();
 }
 
 main().catch(console.error);

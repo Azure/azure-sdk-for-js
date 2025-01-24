@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the supported stack resource.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/BuildService_GetSupportedStack.json
  */
-async function buildServiceGetSupportedStack() {
+async function buildServiceGetSupportedStack(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +38,8 @@ async function buildServiceGetSupportedStack() {
   console.log(result);
 }
 
-async function main() {
-  buildServiceGetSupportedStack();
+async function main(): Promise<void> {
+  await buildServiceGetSupportedStack();
 }
 
 main().catch(console.error);

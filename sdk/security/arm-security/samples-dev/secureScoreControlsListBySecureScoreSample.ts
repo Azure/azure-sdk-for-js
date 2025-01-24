@@ -67,8 +67,8 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeW
 }
 
 async function main() {
-  getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative();
-  getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter();
+  await getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative();
+  await getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeWithTheExpandParameter();
 }
 
 main().catch(console.error);

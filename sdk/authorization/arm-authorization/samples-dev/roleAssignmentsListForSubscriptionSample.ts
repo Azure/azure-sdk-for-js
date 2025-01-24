@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all role assignments that apply to a subscription.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_ListForSubscription.json
  */
-async function listRoleAssignmentsForSubscription() {
+async function listRoleAssignmentsForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "a925f2f7-5c63-4b7b-8799-25a5f97bc3b2";
@@ -31,8 +31,8 @@ async function listRoleAssignmentsForSubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listRoleAssignmentsForSubscription();
+async function main(): Promise<void> {
+  await listRoleAssignmentsForSubscription();
 }
 
 main().catch(console.error);

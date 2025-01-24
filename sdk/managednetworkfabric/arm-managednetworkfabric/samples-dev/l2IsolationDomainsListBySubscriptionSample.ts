@@ -37,7 +37,7 @@ async function l2IsolationDomainsListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  l2IsolationDomainsListBySubscriptionMaximumSetGen();
+  await l2IsolationDomainsListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

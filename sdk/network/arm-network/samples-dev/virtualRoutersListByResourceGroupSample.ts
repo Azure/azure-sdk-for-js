@@ -35,7 +35,7 @@ async function listAllVirtualRouterForAGivenResourceGroup() {
 }
 
 async function main() {
-  listAllVirtualRouterForAGivenResourceGroup();
+  await listAllVirtualRouterForAGivenResourceGroup();
 }
 
 main().catch(console.error);

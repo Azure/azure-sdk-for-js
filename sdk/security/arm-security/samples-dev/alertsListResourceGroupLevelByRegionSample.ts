@@ -39,7 +39,7 @@ async function getSecurityAlertsOnAResourceGroupFromASecurityDataLocation() {
 }
 
 async function main() {
-  getSecurityAlertsOnAResourceGroupFromASecurityDataLocation();
+  await getSecurityAlertsOnAResourceGroupFromASecurityDataLocation();
 }
 
 main().catch(console.error);

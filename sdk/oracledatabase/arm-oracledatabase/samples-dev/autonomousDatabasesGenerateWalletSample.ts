@@ -46,7 +46,7 @@ async function generateWalletActionOnAutonomousDatabase() {
 }
 
 async function main() {
-  generateWalletActionOnAutonomousDatabase();
+  await generateWalletActionOnAutonomousDatabase();
 }
 
 main().catch(console.error);

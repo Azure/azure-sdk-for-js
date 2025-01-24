@@ -90,8 +90,8 @@ async function getSubscriptionLevelMetricMetadata() {
 }
 
 async function main() {
-  getSubscriptionLevelMetricData();
-  getSubscriptionLevelMetricMetadata();
+  await getSubscriptionLevelMetricData();
+  await getSubscriptionLevelMetricMetadata();
 }
 
 main().catch(console.error);

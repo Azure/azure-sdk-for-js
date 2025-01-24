@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update the association of the Cognitive Services commitment plan.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/CreateSharedCommitmentPlanAssociation.json
  */
-async function putCommitmentPlan() {
+async function putCommitmentPlan(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -48,8 +48,8 @@ async function putCommitmentPlan() {
   console.log(result);
 }
 
-async function main() {
-  putCommitmentPlan();
+async function main(): Promise<void> {
+  await putCommitmentPlan();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getPrivateDnsZoneAllRecordSets() {
 }
 
 async function main() {
-  getPrivateDnsZoneAllRecordSets();
+  await getPrivateDnsZoneAllRecordSets();
 }
 
 main().catch(console.error);

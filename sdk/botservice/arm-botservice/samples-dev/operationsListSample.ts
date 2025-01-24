@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the available BotService operations.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetOperations.json
  */
-async function getOperations() {
+async function getOperations(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,8 +31,8 @@ async function getOperations() {
   console.log(resArray);
 }
 
-async function main() {
-  getOperations();
+async function main(): Promise<void> {
+  await getOperations();
 }
 
 main().catch(console.error);

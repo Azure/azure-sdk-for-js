@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the storage accounts in a Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/StorageAccountGetAllInDevice.json
  */
-async function storageAccountGetAllInDevice() {
+async function storageAccountGetAllInDevice(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -37,8 +37,8 @@ async function storageAccountGetAllInDevice() {
   console.log(resArray);
 }
 
-async function main() {
-  storageAccountGetAllInDevice();
+async function main(): Promise<void> {
+  await storageAccountGetAllInDevice();
 }
 
 main().catch(console.error);

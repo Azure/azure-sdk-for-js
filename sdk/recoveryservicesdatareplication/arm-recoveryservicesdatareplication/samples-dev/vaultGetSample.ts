@@ -38,7 +38,7 @@ async function vaultGet() {
 }
 
 async function main() {
-  vaultGet();
+  await vaultGet();
 }
 
 main().catch(console.error);

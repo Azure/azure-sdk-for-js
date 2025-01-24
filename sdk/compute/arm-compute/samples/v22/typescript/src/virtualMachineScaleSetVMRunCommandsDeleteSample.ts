@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete the VMSS VM run command.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The operation to delete the VMSS VM run command.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Delete.json
  */
-async function deleteVirtualMachineScaleSetVMRunCommand() {
+async function deleteVirtualMachineScaleSetVMRunCommand(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -40,7 +38,7 @@ async function deleteVirtualMachineScaleSetVMRunCommand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteVirtualMachineScaleSetVMRunCommand();
 }
 

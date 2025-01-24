@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a Guest Usages resource for the Microsoft.AzureActiveDirectory resource provider
  * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/GuestUsagesDelete.json
  */
-async function guestUsagesDelete() {
+async function guestUsagesDelete(): Promise<void> {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const resourceGroupName = "contosoResourceGroup";
   const resourceName = "contoso.onmicrosoft.com";

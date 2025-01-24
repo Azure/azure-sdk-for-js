@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WorkloadsClient } from "@azure/arm-workloadssapvirtualinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the available API operations under this PR
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the available API operations under this PR
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/operations/preview/2023-10-01-preview/examples/Operations_List.json
  */
-async function operations() {
+async function operations(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,8 +31,8 @@ async function operations() {
   console.log(resArray);
 }
 
-async function main() {
-  operations();
+async function main(): Promise<void> {
+  await operations();
 }
 
 main().catch(console.error);

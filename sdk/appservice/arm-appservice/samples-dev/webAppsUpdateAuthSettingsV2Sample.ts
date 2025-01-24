@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Updates site's Authentication / Authorization settings for apps via the V2 format
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/UpdateAuthSettingsV2.json
  */
-async function updateAuthSettingsV2() {
+async function updateAuthSettingsV2(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -86,8 +86,8 @@ async function updateAuthSettingsV2() {
   console.log(result);
 }
 
-async function main() {
-  updateAuthSettingsV2();
+async function main(): Promise<void> {
+  await updateAuthSettingsV2();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getVirtualNetworkGatewayConnectionSharedKey() {
 }
 
 async function main() {
-  getVirtualNetworkGatewayConnectionSharedKey();
+  await getVirtualNetworkGatewayConnectionSharedKey();
 }
 
 main().catch(console.error);

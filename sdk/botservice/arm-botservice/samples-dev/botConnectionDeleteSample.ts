@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a Connection Setting registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DeleteConnection.json
  */
-async function deleteConnectionSetting() {
+async function deleteConnectionSetting(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -35,8 +35,8 @@ async function deleteConnectionSetting() {
   console.log(result);
 }
 
-async function main() {
-  deleteConnectionSetting();
+async function main(): Promise<void> {
+  await deleteConnectionSetting();
 }
 
 main().catch(console.error);

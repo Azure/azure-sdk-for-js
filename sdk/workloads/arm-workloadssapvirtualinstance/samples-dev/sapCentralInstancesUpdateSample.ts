@@ -14,9 +14,7 @@ import {
   WorkloadsClient,
 } from "@azure/arm-workloadssapvirtualinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the resource.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the resource.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapcentralinstances/SAPCentralInstances_Update.json
  */
-async function sapCentralInstancesUpdate() {
+async function sapCentralInstancesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
     "6d875e77-e412-4d7d-9af4-8895278b4443";
@@ -45,8 +43,8 @@ async function sapCentralInstancesUpdate() {
   console.log(result);
 }
 
-async function main() {
-  sapCentralInstancesUpdate();
+async function main(): Promise<void> {
+  await sapCentralInstancesUpdate();
 }
 
 main().catch(console.error);

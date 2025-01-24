@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List Commitment Tiers.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListCommitmentTiers.json
  */
-async function listCommitmentTiers() {
+async function listCommitmentTiers(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const location = "location";
@@ -34,8 +34,8 @@ async function listCommitmentTiers() {
   console.log(resArray);
 }
 
-async function main() {
-  listCommitmentTiers();
+async function main(): Promise<void> {
+  await listCommitmentTiers();
 }
 
 main().catch(console.error);

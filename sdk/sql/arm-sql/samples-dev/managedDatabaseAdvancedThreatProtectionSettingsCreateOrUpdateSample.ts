@@ -80,8 +80,8 @@ async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimal
 }
 
 async function main() {
-  updateAManagedDatabaseAdvancedThreatProtectionSettingsWithAllParameters();
-  updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimalParameters();
+  await updateAManagedDatabaseAdvancedThreatProtectionSettingsWithAllParameters();
+  await updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimalParameters();
 }
 
 main().catch(console.error);

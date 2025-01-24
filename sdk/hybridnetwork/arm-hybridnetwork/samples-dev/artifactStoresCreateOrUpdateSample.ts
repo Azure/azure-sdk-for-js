@@ -49,7 +49,7 @@ async function createOrUpdateAnArtifactStoreOfPublisherResource() {
 }
 
 async function main() {
-  createOrUpdateAnArtifactStoreOfPublisherResource();
+  await createOrUpdateAnArtifactStoreOfPublisherResource();
 }
 
 main().catch(console.error);

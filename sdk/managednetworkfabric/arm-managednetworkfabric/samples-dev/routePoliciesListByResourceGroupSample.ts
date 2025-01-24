@@ -41,7 +41,7 @@ async function routePoliciesListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  routePoliciesListByResourceGroupMaximumSetGen();
+  await routePoliciesListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

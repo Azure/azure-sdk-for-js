@@ -34,7 +34,7 @@ async function topicsListBySubscription() {
 }
 
 async function main() {
-  topicsListBySubscription();
+  await topicsListBySubscription();
 }
 
 main().catch(console.error);
