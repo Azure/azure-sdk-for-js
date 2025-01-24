@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputeScheduleClient } = require("@azure/arm-computeschedule");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
  * x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesGetOperationErrors.json
  */
-async function scheduledActionsVirtualMachinesGetOperationErrors(): Promise<void> {
+async function scheduledActionsVirtualMachinesGetOperationErrors() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D8E30CC0-2763-4FCC-84A8-3C5659281032";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -20,7 +20,7 @@ async function scheduledActionsVirtualMachinesGetOperationErrors(): Promise<void
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await scheduledActionsVirtualMachinesGetOperationErrors();
 }
 

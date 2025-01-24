@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ComputeScheduleClient } = require("@azure/arm-computeschedule");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to virtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate) request
  * x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesCancelOperations.json
  */
-async function scheduledActionsVirtualMachinesCancelOperations(): Promise<void> {
+async function scheduledActionsVirtualMachinesCancelOperations() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D8E30CC0-2763-4FCC-84A8-3C5659281032";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function scheduledActionsVirtualMachinesCancelOperations(): Promise<void> 
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await scheduledActionsVirtualMachinesCancelOperations();
 }
 

@@ -3,7 +3,6 @@
 
 import { ComputeScheduleContext as Client, OperationsListOptionalParams } from "../index.js";
 import {
-  errorResponseDeserializer,
   _OperationListResult,
   _operationListResultDeserializer,
   Operation,
@@ -19,7 +18,7 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _operationsListSend(
+export function _listSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -33,28 +32,26 @@ export function _operationsListSend(
   });
 }
 
-export async function _operationsListDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return _operationListResultDeserializer(result.body);
 }
 
 /** List the operations for the provider */
-export function operationsList(
+export function list(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _operationsListSend(context, options),
-    _operationsListDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
