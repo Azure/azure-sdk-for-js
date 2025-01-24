@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  * x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesExecuteStart.json
  */
-async function scheduledActionsVirtualMachinesExecuteStart() {
+async function scheduledActionsVirtualMachinesExecuteStart(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D8E30CC0-2763-4FCC-84A8-3C5659281032";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -32,7 +32,7 @@ async function scheduledActionsVirtualMachinesExecuteStart() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   scheduledActionsVirtualMachinesExecuteStart();
 }
 

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary virtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on virtual machines
  * x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesGetOperationStatus.json
  */
-async function scheduledActionsVirtualMachinesGetOperationStatus() {
+async function scheduledActionsVirtualMachinesGetOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D8E30CC0-2763-4FCC-84A8-3C5659281032";
   const client = new ComputeScheduleClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function scheduledActionsVirtualMachinesGetOperationStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   scheduledActionsVirtualMachinesGetOperationStatus();
 }
 
