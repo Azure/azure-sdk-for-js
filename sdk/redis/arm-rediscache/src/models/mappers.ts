@@ -377,6 +377,12 @@ export const RedisCreateParameters: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      zonalAllocationPolicy: {
+        serializedName: "properties.zonalAllocationPolicy",
+        type: {
+          name: "String",
+        },
+      },
       sku: {
         serializedName: "properties.sku",
         type: {
@@ -512,6 +518,12 @@ export const RedisCommonProperties: coreClient.CompositeMapper = {
         serializedName: "disableAccessKeyAuthentication",
         type: {
           name: "Boolean",
+        },
+      },
+      zonalAllocationPolicy: {
+        serializedName: "zonalAllocationPolicy",
+        type: {
+          name: "String",
         },
       },
     },
@@ -959,6 +971,12 @@ export const RedisUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "properties.disableAccessKeyAuthentication",
         type: {
           name: "Boolean",
+        },
+      },
+      zonalAllocationPolicy: {
+        serializedName: "properties.zonalAllocationPolicy",
+        type: {
+          name: "String",
         },
       },
       sku: {
@@ -1897,6 +1915,12 @@ export const RedisResource: coreClient.CompositeMapper = {
         serializedName: "properties.disableAccessKeyAuthentication",
         type: {
           name: "Boolean",
+        },
+      },
+      zonalAllocationPolicy: {
+        serializedName: "properties.zonalAllocationPolicy",
+        type: {
+          name: "String",
         },
       },
       sku: {

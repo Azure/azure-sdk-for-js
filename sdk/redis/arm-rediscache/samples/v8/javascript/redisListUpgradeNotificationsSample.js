@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets any upgrade notifications for a Redis cache.
  *
  * @summary Gets any upgrade notifications for a Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheListUpgradeNotifications.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheListUpgradeNotifications.json
  */
 async function redisCacheListUpgradeNotifications() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function redisCacheListUpgradeNotifications() {
 }
 
 async function main() {
-  redisCacheListUpgradeNotifications();
+  await redisCacheListUpgradeNotifications();
 }
 
 main().catch(console.error);

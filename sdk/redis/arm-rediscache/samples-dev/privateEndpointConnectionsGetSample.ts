@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { RedisManagementClient } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the redis cache.
  *
  * @summary Gets the specified private endpoint connection associated with the redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheGetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheGetPrivateEndpointConnection.json
  */
-async function redisCacheGetPrivateEndpointConnection() {
+async function redisCacheGetPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["REDIS_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rgtest01";
@@ -36,7 +34,7 @@ async function redisCacheGetPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await redisCacheGetPrivateEndpointConnection();
 }
 
