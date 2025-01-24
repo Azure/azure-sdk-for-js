@@ -2754,7 +2754,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerregistry@file:projects/arm-containerregistry.tgz':
-    resolution: {integrity: sha512-W3THzrQiB3g5mDAuqfJ+cMDMWUNC+Y6ek3rgwEuAlsfKj/3P5VZe7x7KeFQevxKGxCAk+mf3QYO+Ccaa9tGzmA==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-yTJFQERF6qVbKYpIM0D8wIRSXcUhl5VcYHH754bhNVZOCprMBXNeLnnaW9TR0uUDBPTNpNwGOHKSIpZijWCWlw==, tarball: file:projects/arm-containerregistry.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
@@ -2782,7 +2782,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-customerinsights@file:projects/arm-customerinsights.tgz':
-    resolution: {integrity: sha512-zKFaLFd63mCYi4I1OFZqHY6onsmMnjxJ7QCUB0mjd3WqAryTFK+TR8puSFVXFG+R2r/dryFHZGaRDN8owRhBYQ==, tarball: file:projects/arm-customerinsights.tgz}
+    resolution: {integrity: sha512-S2XgMnAkr48Hyzpg8NFrAuqbFFZgTZentaksnQS/4+PR1veo6cbOcpE3e2/MRHGm3MMzVMU9gh45jtgG2mtkpA==, tarball: file:projects/arm-customerinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz':
@@ -3626,7 +3626,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
-    resolution: {integrity: sha512-7OcgP7UyvKy7oUu6CgLLZclUNYtkvsW44OxZH54uJGmi/QwzZgV6XtaA43exsCL+rDn7fEuN9hvv0GM63XKRYw==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-F/yDkyCUY3EqMS+83JDSB1vMoGmt0GAO13wRq92Jy2i6oE9/3z4RdFYwMUkka70hq8ujUcUqFv9ILNQcNNs8Zg==, tarball: file:projects/container-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
@@ -12027,7 +12027,6 @@ snapshots:
 
   '@rush-temp/arm-containerregistry@file:projects/arm-containerregistry.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
       '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
@@ -12251,12 +12250,11 @@ snapshots:
 
   '@rush-temp/arm-customerinsights@file:projects/arm-customerinsights.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
-      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
       '@vitest/coverage-istanbul': 3.0.3(vitest@3.0.3)
-      playwright: 1.49.1
+      playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.3(@types/node@18.19.71)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
