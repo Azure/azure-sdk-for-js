@@ -22,7 +22,7 @@ describe("snippets", () => {
     if (isUnexpected(initialResponse)) {
       throw initialResponse;
     }
-     // @ts-preserve-whitespace
+    // @ts-preserve-whitespace
     const result = paginate(client, initialResponse);
     for await (const item of result) {
       console.log(`Managed Cluster: ${item.name}`);

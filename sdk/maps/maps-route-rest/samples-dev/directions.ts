@@ -69,18 +69,18 @@ async function main(): Promise<void> {
   }
 
   await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
-        console.log(
-          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
-        );
-        legs.forEach(({ summary: legSummary, points }, idx) => {
-          console.log(
-            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
-              legSummary.travelTimeInSeconds
-            } seconds. Followings are the first 10 points: `,
-          );
-          console.table(points.slice(0, 10));
-        });
-      });
+    console.log(
+      `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
+    );
+    legs.forEach(({ summary: legSummary, points }, idx) => {
+      console.log(
+        `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
+          legSummary.travelTimeInSeconds
+        } seconds. Followings are the first 10 points: `,
+      );
+      console.table(points.slice(0, 10));
+    });
+  });
 
   /**
    * We can also do complex calculation with additional parameters.
@@ -127,18 +127,18 @@ async function main(): Promise<void> {
   }
 
   await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
-        console.log(
-          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
-        );
-        legs.forEach(({ summary: letSummary, points }, idx) => {
-          console.log(
-            `The ${idx + 1}th leg's length is ${letSummary.lengthInMeters} meters, and it takes ${
-              letSummary.travelTimeInSeconds
-            } seconds. Followings are the first 10 points: `,
-          );
-          console.table(points.slice(0, 10));
-        });
-      });
+    console.log(
+      `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
+    );
+    legs.forEach(({ summary: letSummary, points }, idx) => {
+      console.log(
+        `The ${idx + 1}th leg's length is ${letSummary.lengthInMeters} meters, and it takes ${
+          letSummary.travelTimeInSeconds
+        } seconds. Followings are the first 10 points: `,
+      );
+      console.table(points.slice(0, 10));
+    });
+  });
 
   /**
    * We can also use the batch API to do multiple queries at once synchronously.
@@ -187,25 +187,25 @@ async function main(): Promise<void> {
   ).body;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
   await batchItems.forEach((item, index) => {
-        if (item.response.error) {
-          console.error(`Request ${index} failed with error: ${item.response.error.message}`);
-        } else {
-          console.log(`Request ${index} success!`);
-          item.response.routes.forEach(({ summary: routeSummary, legs }) => {
-            console.log(
-              `The total distance is ${routeSummary.lengthInMeters} meters, and it takes ${routeSummary.travelTimeInSeconds} seconds.`,
-            );
-            legs.forEach(({ summary: legSummary, points }, idx) => {
-              console.log(
-                `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
-                  legSummary.travelTimeInSeconds
-                } seconds. Followings are the first 10 points: `,
-              );
-              console.table(points.slice(0, 10));
-            });
-          });
-        }
+    if (item.response.error) {
+      console.error(`Request ${index} failed with error: ${item.response.error.message}`);
+    } else {
+      console.log(`Request ${index} success!`);
+      item.response.routes.forEach(({ summary: routeSummary, legs }) => {
+        console.log(
+          `The total distance is ${routeSummary.lengthInMeters} meters, and it takes ${routeSummary.travelTimeInSeconds} seconds.`,
+        );
+        legs.forEach(({ summary: legSummary, points }, idx) => {
+          console.log(
+            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
+              legSummary.travelTimeInSeconds
+            } seconds. Followings are the first 10 points: `,
+          );
+          console.table(points.slice(0, 10));
+        });
       });
+    }
+  });
 }
 
 main().catch((err) => {

@@ -1,5 +1,12 @@
 # Release History
     
+## 22.3.0 (2025-01-09)
+    
+### Features Added
+
+  - Interface CloudServiceVaultCertificate has a new optional parameter isBootstrapCertificate
+    
+    
 ## 22.2.0 (2024-12-11)
     
 ### Features Added
