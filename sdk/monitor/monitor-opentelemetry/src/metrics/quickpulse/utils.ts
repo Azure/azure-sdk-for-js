@@ -229,13 +229,11 @@ function getRequestData(span: ReadableSpan): RequestData {
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.Url = getUrl(span.attributes);
-    if (requestData.Url) {
-      try {
-        const urlObj = new URL(requestData.Url);
-        requestData.Name = `${httpMethod} ${urlObj.pathname}`;
-      } catch (ex: any) {
-        Logger.getInstance().info("Request data sent to live metrics has no valid URL field.", ex);
-      }
+    try {
+      const urlObj = new URL(requestData.Url);
+      requestData.Name = `${httpMethod} ${urlObj.pathname}`;
+    } catch (ex: any) {
+      Logger.getInstance().info("Request data sent to live metrics has no valid URL field.", ex);
     }
     const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
     if (httpStatusCode) {

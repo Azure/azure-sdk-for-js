@@ -20,7 +20,7 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
     try {
       this._metricHandler.recordLog(logRecord);
     } catch (error) {
-      Logger.getInstance().error("Error while recording log", error);
+      Logger.getInstance().warn("Error while recording log", error);
     }
   }
 

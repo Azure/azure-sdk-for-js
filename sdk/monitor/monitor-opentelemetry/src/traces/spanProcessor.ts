@@ -29,7 +29,7 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
     try {
       this._metricHandler.recordSpan(span);
     } catch (error) {
-      Logger.getInstance().error("Error while recording span", error);
+      Logger.getInstance().warn("Error while recording span", error);
     }
   }
 
