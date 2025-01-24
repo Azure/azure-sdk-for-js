@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GetImageUploadUrlInput,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { GetImageUploadUrlInput } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -27,17 +23,14 @@ async function imagesGetUploadUrlForEntityType(): Promise<void> {
   const parameters: GetImageUploadUrlInput = {
     entityType: "Profile",
     entityTypeName: "Contact",
-    relativePath: "images/profile1.png"
+    relativePath: "images/profile1.png",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.images.getUploadUrlForEntityType(
     resourceGroupName,
     hubName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
