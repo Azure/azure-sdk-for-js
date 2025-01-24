@@ -232,6 +232,9 @@ importers:
       '@rush-temp/arm-containerservicefleet':
         specifier: file:./projects/arm-containerservicefleet.tgz
         version: file:projects/arm-containerservicefleet.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
+      '@rush-temp/arm-contoso':
+        specifier: file:./projects/arm-contoso.tgz
+        version: file:projects/arm-contoso.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
       '@rush-temp/arm-cosmosdb':
         specifier: file:./projects/arm-cosmosdb.tgz
         version: file:projects/arm-cosmosdb.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
@@ -1242,7 +1245,7 @@ importers:
         version: file:projects/web-pubsub-client-protobuf.tgz(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
       '@rush-temp/web-pubsub-express':
         specifier: file:./projects/web-pubsub-express.tgz
-        version: file:projects/web-pubsub-express.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.49.1)(vite@5.4.12(@types/node@22.7.9))
+        version: file:projects/web-pubsub-express.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.50.0)(vite@5.4.12(@types/node@22.7.9))
 
 packages:
 
@@ -2730,7 +2733,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-confluent@file:projects/arm-confluent.tgz':
-    resolution: {integrity: sha512-LNOjtt8zZ2DH04HrB1VCD7uHpe/F4Qx4c4fLPuQhX441wbgHlqq6WpKUwIsrsEGJJ/uD1ewKakCZBYtrzhRx4w==, tarball: file:projects/arm-confluent.tgz}
+    resolution: {integrity: sha512-fJfapRIuTZ60kuPmSlCjvNFBIrtI02wfhFMrUyRmoR4lR8cRYfYs8gkSXAzDrFMqil1eDW/cQImE5DvUwMLrqQ==, tarball: file:projects/arm-confluent.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-connectedcache@file:projects/arm-connectedcache.tgz':
@@ -2767,6 +2770,10 @@ packages:
 
   '@rush-temp/arm-containerservicefleet@file:projects/arm-containerservicefleet.tgz':
     resolution: {integrity: sha512-qDop+e1At1ngjkIqTB+G6TcMsROqJgP++5JrNCW1fSbOcDZSr/aGPJTsX038itTvNnjcdna3BPq5L8DQnZ0wBQ==, tarball: file:projects/arm-containerservicefleet.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-contoso@file:projects/arm-contoso.tgz':
+    resolution: {integrity: sha512-5DckJ8+BbXb7Q+TaJB73qfZl7WXytKC0gh1HREno0x/v8xQRUE5hC6hmt5byTlBzSjh9SQc7vweOMbPjXF0DMQ==, tarball: file:projects/arm-contoso.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
@@ -7013,8 +7020,18 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  playwright-core@1.50.0:
+    resolution: {integrity: sha512-CXkSSlr4JaZs2tZHI40DsZUN/NIwgaUPsyLuOAaIZp2CyF2sN5MM5NJsyB188lFSSozFxQ5fPT4qM+f0tH/6wQ==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright@1.49.1:
     resolution: {integrity: sha512-VYL8zLoNTBxVOrJBbDuRgDWa3i+mfQgDTrL8Ah9QXZ7ax4Dsj0MSq5bYgytRnDVVe+njoKnfsYkH3HzqVj5UZA==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.50.0:
+    resolution: {integrity: sha512-+GinGfGTrd2IfX1TA4N2gNmeIksSb+IAe589ZH+FlmpV3MYTx6+buChGIuDLQwrGNCw2lWibqV50fU510N7S+w==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -11743,7 +11760,6 @@ snapshots:
 
   '@rush-temp/arm-confluent@file:projects/arm-confluent.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
       '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
@@ -12044,6 +12060,39 @@ snapshots:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+
+  '@rush-temp/arm-contoso@file:projects/arm-contoso.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
+    dependencies:
+      '@microsoft/api-extractor': 7.49.1(@types/node@18.19.71)
+      '@types/node': 18.19.71
+      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/coverage-istanbul': 3.0.3(vitest@3.0.3)
+      dotenv: 16.4.7
+      eslint: 9.18.0
+      playwright: 1.50.0
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 3.0.3(@types/node@18.19.71)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss
@@ -20702,13 +20751,13 @@ snapshots:
       - vite
       - webdriverio
 
-  '@rush-temp/web-pubsub-express@file:projects/web-pubsub-express.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.49.1)(vite@5.4.12(@types/node@22.7.9))':
+  '@rush-temp/web-pubsub-express@file:projects/web-pubsub-express.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.50.0)(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
       '@types/express': 4.17.21
       '@types/express-serve-static-core': 4.19.6
       '@types/jsonwebtoken': 9.0.7
       '@types/node': 18.19.71
-      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
       '@vitest/coverage-istanbul': 3.0.3(vitest@3.0.3)
       dotenv: 16.4.7
       eslint: 9.18.0
@@ -20874,11 +20923,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -20896,7 +20945,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/cookie@0.4.1': {}
 
@@ -20904,7 +20953,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -20927,7 +20976,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -20942,16 +20991,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -20968,7 +21017,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
@@ -21005,11 +21054,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.71':
@@ -21034,7 +21083,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       pg-protocol: 1.7.0
       pg-types: 2.2.0
 
@@ -21051,7 +21100,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -21062,12 +21111,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -21086,7 +21135,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -21120,7 +21169,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.18.0)(typescript@5.7.3))(eslint@9.18.0)(typescript@5.7.3)':
@@ -21262,6 +21311,48 @@ snapshots:
       - utf-8-validate
       - vite
 
+  '@vitest/browser@3.0.3(@types/node@18.19.71)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.0(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.3(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
+      '@vitest/utils': 3.0.3
+      magic-string: 0.30.17
+      msw: 2.7.0(@types/node@18.19.71)(typescript@5.6.3)
+      sirv: 3.0.0
+      tinyrainbow: 2.0.0
+      vitest: 3.0.3(@types/node@22.7.9)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+      ws: 8.18.0
+    optionalDependencies:
+      playwright: 1.50.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
+  '@vitest/browser@3.0.3(@types/node@18.19.71)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.0(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.3(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
+      '@vitest/utils': 3.0.3
+      magic-string: 0.30.17
+      msw: 2.7.0(@types/node@18.19.71)(typescript@5.7.3)
+      sirv: 3.0.0
+      tinyrainbow: 2.0.0
+      vitest: 3.0.3(@types/node@22.7.9)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+      ws: 8.18.0
+    optionalDependencies:
+      playwright: 1.50.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
   '@vitest/browser@3.0.3(@types/node@22.7.9)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -21282,6 +21373,28 @@ snapshots:
       - typescript
       - utf-8-validate
       - vite
+
+  '@vitest/browser@3.0.3(@types/node@22.7.9)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.0(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.3(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
+      '@vitest/utils': 3.0.3
+      magic-string: 0.30.17
+      msw: 2.7.0(@types/node@22.7.9)(typescript@5.7.3)
+      sirv: 3.0.0
+      tinyrainbow: 2.0.0
+      vitest: 3.0.3(@types/node@22.7.9)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+      ws: 8.18.0
+    optionalDependencies:
+      playwright: 1.50.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    optional: true
 
   '@vitest/coverage-istanbul@3.0.3(vitest@3.0.3)':
     dependencies:
@@ -22091,7 +22204,7 @@ snapshots:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -24103,9 +24216,17 @@ snapshots:
 
   playwright-core@1.49.1: {}
 
+  playwright-core@1.50.0: {}
+
   playwright@1.49.1:
     dependencies:
       playwright-core: 1.49.1
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  playwright@1.50.0:
+    dependencies:
+      playwright-core: 1.50.0
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -25280,7 +25401,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 18.19.71
-      '@vitest/browser': 3.0.3(@types/node@22.7.9)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/browser': 3.0.3(@types/node@22.7.9)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
     transitivePeerDependencies:
       - less
       - lightningcss
@@ -25316,7 +25437,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.17.14
-      '@vitest/browser': 3.0.3(@types/node@22.7.9)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/browser': 3.0.3(@types/node@22.7.9)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
     transitivePeerDependencies:
       - less
       - lightningcss
@@ -25352,7 +25473,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 22.7.9
-      '@vitest/browser': 3.0.3(@types/node@22.7.9)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/browser': 3.0.3(@types/node@22.7.9)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
     transitivePeerDependencies:
       - less
       - lightningcss
