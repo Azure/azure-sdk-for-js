@@ -1,64 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  type CloseInfo,
-  type ConnectionManager,
-  type ReliableConnectionClient,
-  type RetryOptions,
-  createReliableConnectionClient,
-} from "../../src/index.js";
 import { describe, it } from "vitest";
 import { assert } from "../utils/vitest.js";
-import { createFullRetryOptions } from "../utils/mockRretryOptions.js";
-
-function createMockClient(
-  options: {
-    retryOptions?: RetryOptions;
-    identifier?: string;
-  } = {},
-): ReliableConnectionClient<string, string> {
-  const { retryOptions: inputRetryOptions, identifier = "test" } = options;
-  const retryOptions = createFullRetryOptions(inputRetryOptions);
-  let openHandler: (() => void) | undefined = undefined;
-  let closeHandler: ((info: CloseInfo) => void) | undefined = undefined;
-  let onMessageHandler: ((data: string) => void) | undefined = undefined;
-  const connection: ConnectionManager<string, string> = {
-    open: async () => {
-      setTimeout(() => {
-        if (!openHandler) {
-          assert.fail("open handler not set");
-        }
-        openHandler();
-      }, 0);
-    },
-    close: async () => {
-      setTimeout(() => {
-        if (!closeHandler) {
-          assert.fail("close handler not set");
-        }
-        closeHandler({ code: "1000", reason: "normal closure" });
-      }, 0);
-    },
-    send: async (item) => {
-      onMessageHandler?.(item);
-    },
-    isOpen: async () => true,
-    onclose: (fn) => {
-      closeHandler = fn;
-    },
-    onerror: () => {},
-    onmessage: (fn) => {
-      onMessageHandler = fn;
-    },
-    onopen: (fn) => {
-      openHandler = fn;
-    },
-    canReconnect: () => false,
-  };
-  const clientFactory = createReliableConnectionClient<string, string>(connection);
-  return clientFactory({ retryOptions, identifier });
-}
+import { createMockClient } from "../utils/reliableConnectionClientMocks.js";
+import { CloseInfo } from "../../src/index.js";
 
 describe("ReliableConnectionClient", () => {
   it("can be opened, can send, and can be closed", async () => {
@@ -69,7 +15,7 @@ describe("ReliableConnectionClient", () => {
     let receivedCount = 0;
     const messages = ["Hello", "World"];
     const received: string[] = [];
-    client.onmessage((data) => {
+    client.onMessage((data) => {
       receivedCount++;
       received.push(data);
     });
@@ -81,17 +27,103 @@ describe("ReliableConnectionClient", () => {
     assert.isFalse(await client.isOpen());
   });
 
-  it("close is a no-op if the client wasn't opened first", async () => {
-    const client = createMockClient();
-    assert.isFalse(await client.isOpen());
-    await assert.isFulfilled(client.close());
+  describe("open", () => {
+    it("second open call is a no-op", async () => {
+      const client = createMockClient();
+      assert.isFalse(await client.isOpen());
+      await assert.isFulfilled(client.open());
+      await assert.isFulfilled(client.open());
+    });
+
+    it("fails if open throws", async () => {
+      const errMsg = "open failed";
+      const client = createMockClient({
+        open: () => {
+          throw new Error(errMsg);
+        },
+      });
+      await assert.isRejected(client.open(), errMsg);
+    });
+
+    it("fails if the server refuses to connect", async () => {
+      let handler: ((info: CloseInfo) => void) | undefined = undefined;
+      const client = createMockClient({
+        open: () => {
+          setTimeout(() => {
+            if (!handler) {
+              throw new Error("no handler");
+            }
+            handler({});
+          }, 0);
+        },
+        onClose: (fn) => {
+          handler = fn;
+        },
+      });
+      await assert.isRejected(client.open(), /Disconnected/);
+      assert.isFalse(await client.isOpen());
+    });
+
+    it("fails if an error is received", async () => {
+      let handler: ((err: unknown) => void) | undefined = undefined;
+      const errMsg = "server error";
+      const client = createMockClient({
+        open: () => {
+          setTimeout(() => {
+            if (!handler) {
+              throw new Error("no handler");
+            }
+            handler(new Error(errMsg));
+          }, 0);
+        },
+        onError: (fn) => {
+          handler = fn;
+        },
+      });
+      await assert.isRejected(client.open(), errMsg);
+      assert.isFalse(await client.isOpen());
+    });
+
+    it("throws when raced with close", async () => {
+      const client = createMockClient({ retryOptions: { timeoutInMs: 10 } });
+      for (let i = 0; i < 10; i++) {
+        try {
+          await Promise.race([client.open(), client.close()]);
+          // The race may fulfill if the `close` promise wins because
+          // close doesn't throw when the client is connecting.
+        } catch (err) {
+          assert.match(
+            (err as Error).message,
+            /Unexpected open event when the client is disconnecting/,
+          );
+        }
+        assert.isFalse(await client.isOpen());
+      }
+    });
   });
 
-  it("send forces opening", async () => {
-    const client = createMockClient();
-    assert.isFalse(await client.isOpen());
-    await assert.isFulfilled(client.send("test"));
-    assert.isTrue(await client.isOpen());
-    await assert.isFulfilled(client.close());
+  describe("close", () => {
+    it("is a no-op if the client wasn't opened first", async () => {
+      const client = createMockClient();
+      assert.isFalse(await client.isOpen());
+      await assert.isFulfilled(client.close());
+    });
+
+    it("second close call is a no-op", async () => {
+      const client = createMockClient();
+      await client.open();
+      await assert.isFulfilled(client.close());
+      await assert.isFulfilled(client.close());
+    });
+  });
+
+  describe("send", () => {
+    it("send forces opening", async () => {
+      const client = createMockClient();
+      assert.isFalse(await client.isOpen());
+      await assert.isFulfilled(client.send("test"));
+      assert.isTrue(await client.isOpen());
+      await assert.isFulfilled(client.close());
+    });
   });
 });
