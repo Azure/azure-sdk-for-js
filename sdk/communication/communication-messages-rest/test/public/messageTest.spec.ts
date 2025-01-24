@@ -13,6 +13,7 @@ import type {
   VideoNotificationContent,
   DocumentNotificationContent,
   StickerNotificationContent,
+  ReactionNotificationContent,
 } from "../../src/generated/src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -125,6 +126,25 @@ describe("Notification Messages Test", () => {
       mediaUri: "https://www.gstatic.com/webp/gallery/1.sm.webp",
       channelRegistrationId: env.CHANNEL_ID || "",
       to: [env.RECIPIENT_PHONE_NUMBER || ""],
+    };
+
+    const result = await client.path("/messages/notifications:send").post({
+      contentType: "application/json",
+      body: stickerMessage,
+    });
+    assert.equal(result.status, "202");
+    const response: Send202Response = result as Send202Response;
+    assert.equal(response.body.receipts.length, 1);
+    assert.isDefined(response.body.receipts[0].messageId);
+  });
+
+  it("send reaction message test", async () => {
+    const stickerMessage: ReactionNotificationContent = {
+      kind: "reaction",
+      channelRegistrationId: env.CHANNEL_ID || "",
+      to: [env.RECIPIENT_PHONE_NUMBER || ""],
+      emoji: "😍",
+      messageId: "0e7a200b-24fa-41f4-8561-05b7fbdefecd",
     };
 
     const result = await client.path("/messages/notifications:send").post({
