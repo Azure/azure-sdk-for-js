@@ -79,38 +79,19 @@ function _getEmployees(context: ContosoContext) {
       employeeName: string,
       properties: Employee,
       options?: EmployeesUpdateOptionalParams,
-    ) =>
-      employeesUpdate(
-        context,
-        resourceGroupName,
-        employeeName,
-        properties,
-        options,
-      ),
+    ) => employeesUpdate(context, resourceGroupName, employeeName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       employeeName: string,
       resource: Employee,
       options?: EmployeesCreateOrUpdateOptionalParams,
-    ) =>
-      employeesCreateOrUpdate(
-        context,
-        resourceGroupName,
-        employeeName,
-        resource,
-        options,
-      ),
-    get: (
-      resourceGroupName: string,
-      employeeName: string,
-      options?: EmployeesGetOptionalParams,
-    ) => employeesGet(context, resourceGroupName, employeeName, options),
+    ) => employeesCreateOrUpdate(context, resourceGroupName, employeeName, resource, options),
+    get: (resourceGroupName: string, employeeName: string, options?: EmployeesGetOptionalParams) =>
+      employeesGet(context, resourceGroupName, employeeName, options),
   };
 }
 
-export function _getEmployeesOperations(
-  context: ContosoContext,
-): EmployeesOperations {
+export function _getEmployeesOperations(context: ContosoContext): EmployeesOperations {
   return {
     ..._getEmployees(context),
   };

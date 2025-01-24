@@ -10,11 +10,7 @@ import {
   OperationResponse,
 } from "@azure/core-lro";
 
-import {
-  Client,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
+import { Client, PathUncheckedResponse, createRestError } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 export interface GetLongRunningPollerOptions<TResponse> {
@@ -42,10 +38,7 @@ export interface GetLongRunningPollerOptions<TResponse> {
    */
   getInitialResponse?: () => PromiseLike<TResponse>;
 }
-export function getLongRunningPoller<
-  TResponse extends PathUncheckedResponse,
-  TResult = void,
->(
+export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TResult = void>(
   client: Client,
   processResponseBody: (result: TResponse) => Promise<TResult>,
   expectedStatuses: string[],
@@ -53,18 +46,14 @@ export function getLongRunningPoller<
 ): PollerLike<OperationState<TResult>, TResult> {
   const { restoreFrom, getInitialResponse } = options;
   if (!restoreFrom && !getInitialResponse) {
-    throw new Error(
-      "Either restoreFrom or getInitialResponse must be specified",
-    );
+    throw new Error("Either restoreFrom or getInitialResponse must be specified");
   }
   let initialResponse: TResponse | undefined = undefined;
   const pollAbortController = new AbortController();
   const poller: RunningOperation<TResponse> = {
     sendInitialRequest: async () => {
       if (!getInitialResponse) {
-        throw new Error(
-          "getInitialResponse is required when initializing a new poller",
-        );
+        throw new Error("getInitialResponse is required when initializing a new poller");
       }
       initialResponse = await getInitialResponse();
       return getLroResponse(initialResponse, expectedStatuses);
