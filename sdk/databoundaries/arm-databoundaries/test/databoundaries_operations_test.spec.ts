@@ -37,18 +37,18 @@ describe("DataBoundary test", () => {
   let subscriptionId: string;
   let client: DataboundariesManegementClient;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new DataboundariesManegementClient(credential, recorder.configureClientOptions({}));
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new DataboundariesManegementClient(credential, recorder.configureClientOptions({}));
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("dataBoundaries get test", async function () {
     const scope =
