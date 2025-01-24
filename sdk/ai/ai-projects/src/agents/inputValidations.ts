@@ -45,12 +45,13 @@ enum Tools {
   MicrosoftFabric = "microsoft_fabric",
   SharepointGrounding = "sharepoint_grounding",
   AzureAISearch = "azure_ai_search",
+  AzureFunction = "azure_function",
 }
 
 export function validateTools(value: Array<ToolDefinition>): void {
   if (value.some((tool) => !Object.values(Tools).includes(tool as unknown as Tools))) {
     throw new Error(
-      "Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'",
+      "Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search', 'azure_function'",
     );
   }
 }

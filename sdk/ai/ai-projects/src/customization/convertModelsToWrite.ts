@@ -71,6 +71,8 @@ function convertToolDefinition(
       return convertSharepointToolDefinition(source as PublicModels.SharepointToolDefinition);
     case "azure_ai_search":
       return convertAzureAISearchToolDefinition(source as PublicModels.AzureAISearchToolDefinition);
+    case "azure_function":
+      return convertAzureFunctionToolDefinition(source as PublicModels.AzureFunctionToolDefinition);
     default:
       throw new Error(`Unknown tool type: ${source.type}`);
   }
@@ -187,6 +189,37 @@ function convertFileSearchToolResource(
     ...(source.vectorStores && {
       vector_stores: source.vectorStores.map(convertVectorStoreConfigurations),
     }),
+  };
+}
+
+function convertAzureFunctionToolDefinition(
+  source: PublicModels.AzureFunctionToolDefinition,
+): GeneratedModels.AzureFunctionToolDefinition {
+  return {
+    type: source.type,
+    azure_function: convertAzureFunctionDefinition(source.azureFunction),
+  };
+}
+
+function convertAzureFunctionDefinition(
+  source: PublicModels.AzureFunctionDefinition,
+): GeneratedModels.AzureFunctionDefinition {
+  return {
+    function: source.function,
+    input_binding: {
+      ...source.inputBinding,
+      storage_queue: {
+        queue_service_endpoint: source.inputBinding.storageQueue.queueServiceEndpoint,
+        queue_name: source.inputBinding.storageQueue.queueName,
+      },
+    },
+    output_binding: {
+      ...source.outputBinding,
+      storage_queue: {
+        queue_service_endpoint: source.outputBinding.storageQueue.queueServiceEndpoint,
+        queue_name: source.outputBinding.storageQueue.queueName,
+      },
+    },
   };
 }
 
