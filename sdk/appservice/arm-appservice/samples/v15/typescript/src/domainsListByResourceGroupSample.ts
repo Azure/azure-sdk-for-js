@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get all domains in a resource group.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/ListDomainsByResourceGroup.json
  */
-async function listDomainsByResourceGroup() {
+async function listDomainsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,7 +35,7 @@ async function listDomainsByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDomainsByResourceGroup();
 }
 

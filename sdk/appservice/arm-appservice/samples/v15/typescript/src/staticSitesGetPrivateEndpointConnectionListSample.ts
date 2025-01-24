@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Gets the list of private endpoint connections associated with a static site
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetSitePrivateEndpointConnectionList.json
  */
-async function getAListOfPrivateEndpointConnectionsAssociatedWithASite() {
+async function getAListOfPrivateEndpointConnectionsAssociatedWithASite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,7 +36,7 @@ async function getAListOfPrivateEndpointConnectionsAssociatedWithASite() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAListOfPrivateEndpointConnectionsAssociatedWithASite();
 }
 

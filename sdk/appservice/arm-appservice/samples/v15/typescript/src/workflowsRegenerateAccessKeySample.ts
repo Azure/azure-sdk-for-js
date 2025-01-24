@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Regenerates the callback URL access key for request triggers.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Workflows_RegenerateAccessKey.json
  */
-async function regenerateTheCallbackUrlAccessKeyForRequestTriggers() {
+async function regenerateTheCallbackUrlAccessKeyForRequestTriggers(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -41,7 +41,7 @@ async function regenerateTheCallbackUrlAccessKeyForRequestTriggers() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   regenerateTheCallbackUrlAccessKeyForRequestTriggers();
 }
 

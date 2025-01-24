@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListOperations.json
  */
-async function listOperations() {
+async function listOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
   const resArray = new Array();
@@ -28,7 +28,7 @@ async function listOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listOperations();
 }
 

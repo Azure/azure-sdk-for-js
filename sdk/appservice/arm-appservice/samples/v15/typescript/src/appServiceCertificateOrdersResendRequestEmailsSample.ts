@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/ResendDomainOwnershipVerificationEmail.json
  */
-async function resendDomainOwnershipVerificationEmail() {
+async function resendDomainOwnershipVerificationEmail(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,7 +36,7 @@ async function resendDomainOwnershipVerificationEmail() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   resendDomainOwnershipVerificationEmail();
 }
 

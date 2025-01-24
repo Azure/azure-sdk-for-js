@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get all domains in a subscription.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/ListDomainsBySubscription.json
  */
-async function listDomainsBySubscription() {
+async function listDomainsBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,7 +31,7 @@ async function listDomainsBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDomainsBySubscription();
 }
 

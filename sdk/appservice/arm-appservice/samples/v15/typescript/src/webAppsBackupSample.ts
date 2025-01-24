@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Creates a backup of an app.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/BackupWebApp.json
  */
-async function backupWebApp() {
+async function backupWebApp(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -60,7 +60,7 @@ async function backupWebApp() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   backupWebApp();
 }
 

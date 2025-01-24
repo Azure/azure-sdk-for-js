@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Creates or updates a domain.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/UpdateAppServiceDomain.json
  */
-async function updateAppServiceDomain() {
+async function updateAppServiceDomain(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -117,7 +117,7 @@ async function updateAppServiceDomain() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAppServiceDomain();
 }
 

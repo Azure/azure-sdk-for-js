@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Gets an existing custom domain for a particular static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetStaticSiteCustomDomain.json
  */
-async function getCustomDomainForAStaticSite() {
+async function getCustomDomainForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -35,7 +35,7 @@ async function getCustomDomainForAStaticSite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCustomDomainForAStaticSite();
 }
 
