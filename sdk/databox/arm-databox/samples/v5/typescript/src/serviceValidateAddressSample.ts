@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer shipping address and provide alternate addresses if any.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateAddressPost.json
  */
-async function validateAddressPost() {
+async function validateAddressPost(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
@@ -45,7 +45,7 @@ async function validateAddressPost() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   validateAddressPost();
 }
 
