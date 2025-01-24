@@ -34,7 +34,6 @@ import { MetadataLookUpType } from "./CosmosDiagnostics";
 import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext";
 import { PartitionKeyRangeCache } from "./routing";
-import { Container } from "./client";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -59,9 +58,7 @@ export class QueryIterator<T> {
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
     private resourceLink?: string,
     private resourceType?: ResourceType,
-    private readonly container?: Container,
   ) {
-    this.container = container;
     this.query = query;
     this.fetchFunctions = fetchFunctions;
     this.options = options || {};
@@ -95,21 +92,24 @@ export class QueryIterator<T> {
    * ```
    */
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
-    this.reset();
-    let diagnosticNode = new DiagnosticNodeInternal(
+    const diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
       DiagnosticNodeType.CLIENT_REQUEST_NODE,
       null,
     );
+    yield* this.getAsyncIteratorInternal(diagnosticNode);
+  }
+  /**
+   * @internal
+   */
+  protected async *getAsyncIteratorInternal(diagnosticNode: DiagnosticNodeInternal): AsyncIterable<FeedResponse<T>> {
+    this.reset();
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
-        if (this.container && this.clientContext.enableEncryption) {
-          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
-        }
         if (this.needsQueryPlan(error)) {
           await this.createExecutionContext(diagnosticNode);
           try {
@@ -119,18 +119,6 @@ export class QueryIterator<T> {
           }
         } else {
           throw error;
-        }
-      }
-
-      if (
-        this.container &&
-        this.clientContext.enableEncryption &&
-        this.resourceType === ResourceType.item &&
-        response.result &&
-        response.result.length
-      ) {
-        for (let item of response.result) {
-          item = await this.container.encryptionProcessor.decrypt(item, diagnosticNode);
         }
       }
 
@@ -166,27 +154,7 @@ export class QueryIterator<T> {
 
   public async fetchAll(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      let response: FeedResponse<T>;
-      try {
-        response = await this.fetchAllInternal(diagnosticNode);
-      } catch (error: any) {
-        if (this.container && this.clientContext.enableEncryption) {
-          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
-        }
-        throw error;
-      }
-      if (
-        this.container &&
-        this.clientContext.enableEncryption &&
-        this.resourceType === ResourceType.item &&
-        response.resources &&
-        response.resources.length > 0
-      ) {
-        for (let result of response.resources) {
-          result = await this.container.encryptionProcessor.decrypt(result, diagnosticNode);
-        }
-      }
-      return response;
+      return this.fetchAllInternal(diagnosticNode);
     }, this.clientContext);
   }
 
@@ -213,52 +181,44 @@ export class QueryIterator<T> {
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      this.queryPlanPromise = withMetadataDiagnostics(
-        async (metadataNode: DiagnosticNodeInternal) => {
-          return this.fetchQueryPlan(metadataNode);
-        },
-        diagnosticNode,
-        MetadataLookUpType.QueryPlanLookUp,
-      );
-      if (!this.isInitialized) {
-        await this.init(diagnosticNode);
-      }
-      let response: Response<any>;
-      try {
-        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
-      } catch (error: any) {
-        if (this.container && this.clientContext.enableEncryption) {
-          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
-        }
-        if (this.needsQueryPlan(error)) {
-          await this.createExecutionContext(diagnosticNode);
-          try {
-            response = await this.queryExecutionContext.fetchMore(diagnosticNode);
-          } catch (queryError: any) {
-            this.handleSplitError(queryError);
-          }
-        } else {
-          throw error;
-        }
-      }
-      if (
-        this.container &&
-        this.clientContext.enableEncryption &&
-        this.resourceType === ResourceType.item &&
-        response.result &&
-        response.result.length
-      ) {
-        for (let result of response.result) {
-          result = await this.container.encryptionProcessor.decrypt(result, diagnosticNode);
-        }
-      }
-      return new FeedResponse<T>(
-        response.result,
-        response.headers,
-        this.queryExecutionContext.hasMoreResults(),
-        getEmptyCosmosDiagnostics(),
-      );
+      return this.fetchNextInternal(diagnosticNode);
     }, this.clientContext);
+  }
+  /**
+   * @internal
+   */
+  protected async fetchNextInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
+    this.queryPlanPromise = withMetadataDiagnostics(
+      async (metadataNode: DiagnosticNodeInternal) => {
+        return this.fetchQueryPlan(metadataNode);
+      },
+      diagnosticNode,
+      MetadataLookUpType.QueryPlanLookUp,
+    );
+    if (!this.isInitialized) {
+      await this.init(diagnosticNode);
+    }
+    let response: Response<any>;
+    try {
+      response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+    } catch (error: any) {
+      if (this.needsQueryPlan(error)) {
+        await this.createExecutionContext(diagnosticNode);
+        try {
+          response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+        } catch (queryError: any) {
+          this.handleSplitError(queryError);
+        }
+      } else {
+        throw error;
+      }
+    }
+    return new FeedResponse<T>(
+      response.result,
+      response.headers,
+      this.queryExecutionContext.hasMoreResults(),
+      getEmptyCosmosDiagnostics(),
+    );
   }
 
   /**
@@ -275,6 +235,7 @@ export class QueryIterator<T> {
       this.correlatedActivityId,
     );
   }
+
 
   private async toArrayImplementation(
     diagnosticNode: DiagnosticNodeInternal,
@@ -408,15 +369,10 @@ export class QueryIterator<T> {
   }
 
   private initPromise: Promise<void>;
-  private async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-    // add rid to options if encryption is enable for client
-    if (this.container && this.clientContext.enableEncryption) {
-      if (!this.container.isEncryptionInitialized) {
-        await this.container.initializeEncryption();
-      }
-      this.container.encryptionProcessor.containerRid = this.container._rid;
-      this.options.containerRid = this.container._rid;
-    }
+  /**
+   * @internal
+   */
+  protected async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this.isInitialized === true) {
       return;
     }

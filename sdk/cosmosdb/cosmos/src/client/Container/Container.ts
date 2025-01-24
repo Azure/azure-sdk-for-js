@@ -383,7 +383,6 @@ export class Container {
         if (!this.isEncryptionInitialized) {
           await this.initializeEncryption();
         }
-        this.encryptionProcessor.containerRid = this._rid;
         options = options || {};
         options.containerRid = this._rid;
         const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
@@ -433,6 +432,7 @@ export class Container {
           );
         }
         this._rid = readResponse.resource._rid;
+        this.encryptionProcessor.containerRid = this._rid;
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         if (!clientEncryptionPolicy) return;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
@@ -484,6 +484,11 @@ export class Container {
       errorResponse.code === StatusCodes.BadRequest &&
       (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
     ) {
+
+      // This code verifies if the partitionKeyPaths are encrypted. 
+      // If the paths are not encrypted, it indicates that the application passed an incorrect partition key in the request. 
+      // This ensures the issue is not caused by a mismatched encrypted value due to a policy error, 
+      // avoiding unnecessary force-refreshing of encryption settings.
       if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
         let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
         for (const path of encryptionSetting.partitionKeyPaths) {
@@ -494,24 +499,26 @@ export class Container {
             break;
           }
         }
-
+        // wrong partition key passed as partition key is not encrypted.
         if (encryptionSettingsForProperty == null) {
           return;
         }
       }
+
       const currentContainerRid = encryptionSetting.containerRid;
       const forceRefresh = true;
+      // fetch rid of newly created container
       const updatedContainerRid = (
         await this.encryptionProcessor.getEncryptionSetting(forceRefresh)
       ).containerRid;
-
+      // if the container was not recreated, so policy has not changed, just return the original response
       if (currentContainerRid === updatedContainerRid) {
         return;
       }
       await this.initializeEncryption();
       throw new ErrorResponse(
         "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details." +
-          errorResponse.message,
+        errorResponse.message,
       );
     }
   }

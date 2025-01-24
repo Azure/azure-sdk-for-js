@@ -40,12 +40,14 @@ import {
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";
-import {
-  convertToInternalPartitionKey,
+import type {
   PartitionKey,
-  PartitionKeyDefinition,
+  PartitionKeyDefinition
 } from "../../documents";
-import { ChangeFeedPullModelIterator, ChangeFeedIteratorOptions } from "../../client/ChangeFeed";
+import {
+  convertToInternalPartitionKey
+} from "../../documents";
+import type { ChangeFeedPullModelIterator, ChangeFeedIteratorOptions } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
@@ -57,10 +59,11 @@ import {
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
 import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
-import { EncryptionQueryBuilder } from "../../encryption";
-import { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
-import { Resource } from "../Resource";
+import type { EncryptionQueryBuilder } from "../../encryption";
+import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
+import type { Resource } from "../Resource";
 import { TypeMarker } from "../../encryption/enums/TypeMarker";
+import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator";
 
 /**
  * @hidden
@@ -144,16 +147,26 @@ export class Items {
       });
       return response;
     };
-
-    const iterator = new QueryIterator<T>(
-      this.clientContext,
-      query,
-      options,
-      fetchFunction,
-      this.container.url,
-      ResourceType.item,
-      this.container,
-    );
+    let iterator: QueryIterator<T>;
+    if (this.clientContext.enableEncryption) {
+      iterator = new EncryptionItemQueryIterator(
+        this.clientContext,
+        query,
+        options,
+        fetchFunction,
+        this.container,
+      )
+    }
+    else {
+      iterator = new QueryIterator<T>(
+        this.clientContext,
+        query,
+        options,
+        fetchFunction,
+        this.container.url,
+        ResourceType.item,
+      );
+    }
     return iterator;
   }
   /**
@@ -404,7 +417,6 @@ export class Items {
         if (!this.container.isEncryptionInitialized) {
           await this.container.initializeEncryption();
         }
-        this.container.encryptionProcessor.containerRid = this.container._rid;
         // returns copy to avoid encryption of original body passed
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
@@ -511,7 +523,6 @@ export class Items {
         if (!this.container.isEncryptionInitialized) {
           await this.container.initializeEncryption();
         }
-        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
@@ -616,7 +627,6 @@ export class Items {
         if (!this.container.isEncryptionInitialized) {
           await this.container.initializeEncryption();
         }
-        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
       }
@@ -747,6 +757,7 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
+              err.message,
               err.message,
             );
           }
@@ -886,7 +897,6 @@ export class Items {
         if (!this.container.isEncryptionInitialized) {
           await this.container.initializeEncryption();
         }
-        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);

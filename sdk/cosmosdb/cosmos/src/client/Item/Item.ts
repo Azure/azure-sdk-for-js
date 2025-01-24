@@ -92,7 +92,6 @@ export class Item {
         if (!this.container.isEncryptionInitialized) {
           await this.container.initializeEncryption();
         }
-        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -190,7 +189,6 @@ export class Item {
         if (!this.container.isEncryptionInitialized) {
           await this.container.initializeEncryption();
         }
-        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
@@ -260,7 +258,6 @@ export class Item {
         if (!this.container.isEncryptionInitialized) {
           await this.container.initializeEncryption();
         }
-        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -330,7 +327,6 @@ export class Item {
         if (!this.container.isEncryptionInitialized) {
           await this.container.initializeEncryption();
         }
-        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         // returns copy to avoid encryption of original body passed
         body = copyObject(body);
