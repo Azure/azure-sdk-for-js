@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./trafficControllerInterface";
-export * from "./associationsInterface";
-export * from "./frontendsInterface";
-export * from "./securityPoliciesInterface";
+export * from "./operations.js";
+export * from "./trafficControllerInterface.js";
+export * from "./associationsInterface.js";
+export * from "./frontendsInterface.js";
+export * from "./securityPoliciesInterface.js";

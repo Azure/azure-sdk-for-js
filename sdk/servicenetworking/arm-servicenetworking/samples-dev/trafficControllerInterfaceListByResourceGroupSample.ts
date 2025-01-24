@@ -10,15 +10,13 @@
 // Licensed under the MIT License.
 import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List TrafficController resources by resource group
  *
  * @summary List TrafficController resources by resource group
- * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2024-05-01-preview/examples/TrafficControllersGet.json
+ * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2025-01-01/examples/TrafficControllersGet.json
  */
 async function getTrafficControllers() {
   const subscriptionId =
