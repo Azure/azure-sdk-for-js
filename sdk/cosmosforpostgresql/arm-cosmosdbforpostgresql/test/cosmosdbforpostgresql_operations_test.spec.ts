@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  RecorderStartOptions} from "@azure-tools/test-recorder";
 import {
   env,
   Recorder,
-  RecorderStartOptions,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -65,7 +66,7 @@ describe("CosmosDBForPostgreSQL test", () => {
       resourceGroup,
       resourcename,
       {
-        administratorLoginPassword: "********",//need replace password value to ******** after testing.
+        administratorLoginPassword: "********",// need replace password value to ******** after testing.
         citusVersion: "11.1",
         coordinatorEnablePublicIpAccess: true,
         coordinatorServerEdition: "GeneralPurpose",
@@ -95,17 +96,17 @@ describe("CosmosDBForPostgreSQL test", () => {
 
   it("clusters list test", async function () {
     const resArray = new Array();
-    for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  //need run this case 1h later
+  // need run this case 1h later
   it("clusters delete test", async function () {
     const resArray = new Array();
     await client.clusters.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
-    for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

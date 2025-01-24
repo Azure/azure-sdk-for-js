@@ -28,7 +28,7 @@ async function getsThePrivateLinkResourcesForCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByCluster(
+  for await (const item of client.privateLinkResources.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

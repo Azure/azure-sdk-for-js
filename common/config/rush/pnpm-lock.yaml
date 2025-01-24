@@ -2774,7 +2774,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdbforpostgresql@file:projects/arm-cosmosdbforpostgresql.tgz':
-    resolution: {integrity: sha512-yB3EWOzXBzvQPGIht3Uq5/KOSVOmRH3E1vfGiG/Jl7hT0HBmfcfxPLOeulq9SVf22CI8sFl30SQgVLuFygRmfQ==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    resolution: {integrity: sha512-j9x2/02c0tTKZuptxfBD0l/q42Ter91hDNvTAKIebKzVk3kiKf0wGinwrl5Oot9RLNRRpMjUqXVubN0MgmxSbw==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-costmanagement@file:projects/arm-costmanagement.tgz':
@@ -12187,13 +12187,12 @@ snapshots:
 
   '@rush-temp/arm-cosmosdbforpostgresql@file:projects/arm-cosmosdbforpostgresql.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
-      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
       '@vitest/coverage-istanbul': 3.0.3(vitest@3.0.3)
       dotenv: 16.4.7
-      playwright: 1.49.1
+      playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.3(@types/node@18.19.71)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
