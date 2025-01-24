@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getComputeUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getComputeUsages.json
  */
-async function quotasListUsagesForCompute() {
+async function quotasListUsagesForCompute(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus";
   const credential = new DefaultAzureCredential();
@@ -36,9 +34,9 @@ async function quotasListUsagesForCompute() {
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getNetworkUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getNetworkUsages.json
  */
-async function quotasListUsagesForNetwork() {
+async function quotasListUsagesForNetwork(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus";
   const credential = new DefaultAzureCredential();
@@ -54,9 +52,9 @@ async function quotasListUsagesForNetwork() {
  * This sample demonstrates how to Get a list of current usage for all resources for the scope specified.
  *
  * @summary Get a list of current usage for all resources for the scope specified.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getMachineLearningServicesUsages.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/getMachineLearningServicesUsages.json
  */
-async function quotasListUsagesMachineLearningServices() {
+async function quotasListUsagesMachineLearningServices(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.MachineLearningServices/locations/eastus";
   const credential = new DefaultAzureCredential();
@@ -68,7 +66,7 @@ async function quotasListUsagesMachineLearningServices() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await quotasListUsagesForCompute();
   await quotasListUsagesForNetwork();
   await quotasListUsagesMachineLearningServices();

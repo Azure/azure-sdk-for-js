@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List UpdateRun resources by Fleet
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_ListByFleet.json
  */
-async function listsTheUpdateRunResourcesByFleet() {
+async function listsTheUpdateRunResourcesByFleet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +37,7 @@ async function listsTheUpdateRunResourcesByFleet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsTheUpdateRunResourcesByFleet();
 }
 

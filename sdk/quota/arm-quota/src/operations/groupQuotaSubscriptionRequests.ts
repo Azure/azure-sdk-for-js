@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { GroupQuotaSubscriptionRequests } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { GroupQuotaSubscriptionRequests } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI.js";
 import {
   GroupQuotaSubscriptionRequestStatus,
   GroupQuotaSubscriptionRequestsListNextOptionalParams,
@@ -21,11 +21,13 @@ import {
   GroupQuotaSubscriptionRequestsGetOptionalParams,
   GroupQuotaSubscriptionRequestsGetResponse,
   GroupQuotaSubscriptionRequestsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GroupQuotaSubscriptionRequests operations. */
-export class GroupQuotaSubscriptionRequestsImpl implements GroupQuotaSubscriptionRequests {
+export class GroupQuotaSubscriptionRequestsImpl
+  implements GroupQuotaSubscriptionRequests
+{
   private readonly client: AzureQuotaExtensionAPI;
 
   /**
@@ -61,7 +63,12 @@ export class GroupQuotaSubscriptionRequestsImpl implements GroupQuotaSubscriptio
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(managementGroupId, groupQuotaName, options, settings);
+        return this.listPagingPage(
+          managementGroupId,
+          groupQuotaName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -82,7 +89,12 @@ export class GroupQuotaSubscriptionRequestsImpl implements GroupQuotaSubscriptio
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(managementGroupId, groupQuotaName, continuationToken, options);
+      result = await this._listNext(
+        managementGroupId,
+        groupQuotaName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -95,7 +107,11 @@ export class GroupQuotaSubscriptionRequestsImpl implements GroupQuotaSubscriptio
     groupQuotaName: string,
     options?: GroupQuotaSubscriptionRequestsListOptionalParams,
   ): AsyncIterableIterator<GroupQuotaSubscriptionRequestStatus> {
-    for await (const page of this.listPagingPage(managementGroupId, groupQuotaName, options)) {
+    for await (const page of this.listPagingPage(
+      managementGroupId,
+      groupQuotaName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -177,7 +193,11 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.groupQuotaName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.managementGroupId,
+    Parameters.groupQuotaName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
