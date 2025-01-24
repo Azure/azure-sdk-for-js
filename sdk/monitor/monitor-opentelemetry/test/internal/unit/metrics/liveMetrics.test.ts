@@ -113,6 +113,21 @@ describe("#LiveMetrics", () => {
       autoCollect.recordSpan(serverSpan);
     }
 
+    const noUrlClientSpan: any = {
+      name: "test-name",
+      kind: SpanKind.SERVER,
+      duration: millisToHrTime(12345678),
+      attributes: {
+        "http.status_code": 200,
+        "http.method": "GET",
+        customAttribute: "test",
+      },
+      status: {
+        code: SpanStatusCode.OK,
+      },
+    };
+    autoCollect.recordSpan(noUrlClientSpan);
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     assert.ok(exportStub.called);
@@ -133,10 +148,10 @@ describe("#LiveMetrics", () => {
       QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION,
     );
     assert.strictEqual(metrics[0].dataPoints.length, 1, "dataPoints count");
-    // ( (98765432 * 2) + (100000 * 4)/6)
+    // ( (98765432 * 2) + (100000 * 4) + 12345678 /7)
     assert.strictEqual(
       metrics[0].dataPoints[0].value.toFixed(2),
-      "32988477.33",
+      "30039506.00",
       "REQUEST_DURATION value",
     );
     assert.strictEqual(metrics[1].descriptor.name, QuickPulseOpenTelemetryMetricNames.REQUEST_RATE);
@@ -192,7 +207,7 @@ describe("#LiveMetrics", () => {
 
     // Validate documents
     const documents = autoCollect.getDocuments();
-    assert.strictEqual(documents.length, 16, "documents count");
+    assert.strictEqual(documents.length, 17, "documents count");
     // assert.strictEqual(JSON.stringify(documents), "documents count");
     assert.strictEqual(documents[0].documentType, "Trace");
     assert.strictEqual(documents[0].properties?.length, 0);
@@ -230,6 +245,13 @@ describe("#LiveMetrics", () => {
       assert.equal((documents[i].properties as any)[0].key, "customAttribute");
       assert.equal((documents[i].properties as any)[0].value, "test");
     }
+    // Ensure that requests with no URL don't throw
+    assert.strictEqual((documents[16] as Request).url, "");
+    assert.strictEqual((documents[16] as Request).name, "test-name");
+    assert.strictEqual((documents[16] as Request).responseCode, "200");
+    assert.strictEqual((documents[16] as Request).duration, "PT12345.678S");
+    assert.equal((documents[16].properties as any)[0].key, "customAttribute");
+    assert.equal((documents[16].properties as any)[0].value, "test");
 
     // testing that the old/new names for the perf counters appear in the monitoring data point,
     // with the values of the process counters
