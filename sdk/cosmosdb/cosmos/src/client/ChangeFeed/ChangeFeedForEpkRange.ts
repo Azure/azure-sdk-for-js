@@ -434,7 +434,6 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       if (!this.container.isEncryptionInitialized) {
         await this.container.initializeEncryption();
       }
-      this.container.encryptionProcessor.containerRid = this.container._rid;
       feedOptions.containerRid = this.container._rid;
     }
     try {

@@ -54,7 +54,6 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       if (!this.container.isEncryptionInitialized) {
         await this.container.initializeEncryption();
       }
-      this.container.encryptionProcessor.containerRid = this.container._rid;
       // returns copy of object to avoid encryption of original partition key passed
       this.partitionKey = copyObject(this.partitionKey);
       this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
