@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update a managed private endpoint for an existing grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/ManagedPrivateEndpoints_Patch.json
  */
-async function managedPrivateEndpointsPatch() {
+async function managedPrivateEndpointsPatch(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +43,7 @@ async function managedPrivateEndpointsPatch() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   managedPrivateEndpointsPatch();
 }
 

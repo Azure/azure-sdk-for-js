@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Refresh and sync managed private endpoints of a grafana resource to latest state.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/ManagedPrivateEndpoints_Refresh.json
  */
-async function managedPrivateEndpointRefresh() {
+async function managedPrivateEndpointRefresh(): Promise<void> {
   const subscriptionId =
     process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function managedPrivateEndpointRefresh() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   managedPrivateEndpointRefresh();
 }
 
