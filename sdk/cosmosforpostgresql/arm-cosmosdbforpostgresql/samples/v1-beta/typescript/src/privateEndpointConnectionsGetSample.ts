@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets private endpoint connection.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateEndpointConnectionsGet.json
  */
-async function getsPrivateEndpointConnection() {
+async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function getsPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsPrivateEndpointConnection();
 }
 

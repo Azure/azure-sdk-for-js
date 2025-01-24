@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all clusters in a subscription.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterList.json
  */
-async function listAllTheClusters() {
+async function listAllTheClusters(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -31,7 +31,7 @@ async function listAllTheClusters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllTheClusters();
 }
 

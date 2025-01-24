@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all profile in the hub.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/ProfilesListByHub.json
  */
-async function profilesListByHub() {
+async function profilesListByHub(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";

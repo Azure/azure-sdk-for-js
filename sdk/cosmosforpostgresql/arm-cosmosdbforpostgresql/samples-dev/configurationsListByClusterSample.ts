@@ -28,7 +28,7 @@ async function listConfigurationsOfTheCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurations.listByCluster(
+  for await (const item of client.configurations.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

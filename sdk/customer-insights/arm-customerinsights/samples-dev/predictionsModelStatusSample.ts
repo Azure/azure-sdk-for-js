@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  PredictionModelStatus,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { PredictionModelStatus } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -27,15 +23,12 @@ async function predictionsModelStatus(): Promise<void> {
   const predictionName = "sdktest";
   const parameters: PredictionModelStatus = { status: "Training" };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.predictions.modelStatus(
     resourceGroupName,
     hubName,
     predictionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
