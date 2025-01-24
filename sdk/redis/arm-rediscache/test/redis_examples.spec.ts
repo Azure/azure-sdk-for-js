@@ -45,31 +45,31 @@ describe("Redis test", () => {
   let subnetName: string;
   let name: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || "";
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new RedisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroupName = "myjstest";
-    networkName = "networknamex";
-    subnetName = "subnetworknamex";
-    name = "myrediscachexxx111";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || "";
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new RedisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroupName = "myjstest";
+      networkName = "networknamex";
+      subnetName = "subnetworknamex";
+      name = "myrediscachexxx111";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   async function createVirtualNetwork(
     groupName: any,
     location: any,
     networkName: any,
     subnetName: any
-  ) {
+  ): Promise<void> {
     const parameter: VirtualNetwork = {
       location: location,
       addressSpace: {

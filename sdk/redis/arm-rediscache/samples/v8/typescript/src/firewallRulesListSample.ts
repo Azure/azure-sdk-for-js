@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all firewall rules in the specified redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheFirewallRulesList.json
  */
-async function redisCacheFirewallRulesList() {
+async function redisCacheFirewallRulesList(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const cacheName = "cache1";
@@ -34,7 +34,7 @@ async function redisCacheFirewallRulesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheFirewallRulesList();
 }
 

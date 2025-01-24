@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreate.json
  */
-async function redisCacheCreate() {
+async function redisCacheCreate(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
@@ -55,7 +55,7 @@ async function redisCacheCreate() {
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateAutomaticZonalAllocationPolicy.json
  */
-async function redisCacheCreateAutomaticZonalAllocationPolicy() {
+async function redisCacheCreateAutomaticZonalAllocationPolicy(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
@@ -88,7 +88,7 @@ async function redisCacheCreateAutomaticZonalAllocationPolicy() {
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateDefaultVersion.json
  */
-async function redisCacheCreateDefaultVersion() {
+async function redisCacheCreateDefaultVersion(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
@@ -121,7 +121,7 @@ async function redisCacheCreateDefaultVersion() {
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateLatestVersion.json
  */
-async function redisCacheCreateLatestVersion() {
+async function redisCacheCreateLatestVersion(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
@@ -155,7 +155,7 @@ async function redisCacheCreateLatestVersion() {
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateNoZonesZonalAllocationPolicy.json
  */
-async function redisCacheCreateNoZonesZonalAllocationPolicy() {
+async function redisCacheCreateNoZonesZonalAllocationPolicy(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
@@ -188,7 +188,7 @@ async function redisCacheCreateNoZonesZonalAllocationPolicy() {
  * @summary Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheCreateUserDefinedZonalAllocationPolicy.json
  */
-async function redisCacheCreateUserDefinedZonalAllocationPolicy() {
+async function redisCacheCreateUserDefinedZonalAllocationPolicy(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
@@ -217,7 +217,7 @@ async function redisCacheCreateUserDefinedZonalAllocationPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheCreate();
   redisCacheCreateAutomaticZonalAllocationPolicy();
   redisCacheCreateDefaultVersion();

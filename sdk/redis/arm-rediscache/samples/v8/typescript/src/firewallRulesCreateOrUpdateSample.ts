@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update a redis cache firewall rule
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheFirewallRuleCreate.json
  */
-async function redisCacheFirewallRuleCreate() {
+async function redisCacheFirewallRuleCreate(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const cacheName = "cache1";
@@ -41,7 +41,7 @@ async function redisCacheFirewallRuleCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheFirewallRuleCreate();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the specified private endpoint connection associated with the redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheDeletePrivateEndpointConnection.json
  */
-async function redisCacheDeletePrivateEndpointConnection() {
+async function redisCacheDeletePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["REDIS_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rgtest01";
@@ -34,7 +34,7 @@ async function redisCacheDeletePrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisCacheDeletePrivateEndpointConnection();
 }
 
