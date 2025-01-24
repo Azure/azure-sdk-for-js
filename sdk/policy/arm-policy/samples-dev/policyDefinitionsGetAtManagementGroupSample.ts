@@ -34,7 +34,7 @@ async function retrieveAPolicyDefinitionAtManagementGroupLevel() {
 }
 
 async function main() {
-  retrieveAPolicyDefinitionAtManagementGroupLevel();
+  await retrieveAPolicyDefinitionAtManagementGroupLevel();
 }
 
 main().catch(console.error);

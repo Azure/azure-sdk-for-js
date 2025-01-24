@@ -37,7 +37,7 @@ async function sacGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sacGet();
+  await sacGet();
 }
 
 main().catch(console.error);

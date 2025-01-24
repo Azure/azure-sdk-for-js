@@ -32,7 +32,7 @@ async function listResourceHealthMetadataForASubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listResourceHealthMetadataForASubscription();
+  await listResourceHealthMetadataForASubscription();
 }
 
 main().catch(console.error);

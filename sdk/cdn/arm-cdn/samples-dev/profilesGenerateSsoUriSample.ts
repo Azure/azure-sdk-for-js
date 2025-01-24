@@ -32,7 +32,7 @@ async function profilesGenerateSsoUri(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesGenerateSsoUri();
+  await profilesGenerateSsoUri();
 }
 
 main().catch(console.error);

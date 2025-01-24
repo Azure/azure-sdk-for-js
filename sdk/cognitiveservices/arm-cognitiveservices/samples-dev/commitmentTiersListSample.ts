@@ -35,7 +35,7 @@ async function listCommitmentTiers(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCommitmentTiers();
+  await listCommitmentTiers();
 }
 
 main().catch(console.error);

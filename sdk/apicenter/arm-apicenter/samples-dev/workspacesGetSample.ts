@@ -37,7 +37,7 @@ async function workspacesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspacesGet();
+  await workspacesGet();
 }
 
 main().catch(console.error);

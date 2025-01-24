@@ -27,7 +27,7 @@ async function reportGetScopingQuestions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportGetScopingQuestions();
+  await reportGetScopingQuestions();
 }
 
 main().catch(console.error);

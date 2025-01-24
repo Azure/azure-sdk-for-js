@@ -39,7 +39,7 @@ async function webPubSubReplicaSharedPrivateLinkResourcesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubReplicaSharedPrivateLinkResourcesGet();
+  await webPubSubReplicaSharedPrivateLinkResourcesGet();
 }
 
 main().catch(console.error);

@@ -54,7 +54,7 @@ async function createHciEdgeDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createHciEdgeDevice();
+  await createHciEdgeDevice();
 }
 
 main().catch(console.error);

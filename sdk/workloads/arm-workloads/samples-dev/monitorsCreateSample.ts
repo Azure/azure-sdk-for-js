@@ -47,7 +47,7 @@ async function createASapMonitor(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createASapMonitor();
+  await createASapMonitor();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function securityPoliciesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  securityPoliciesGet();
+  await securityPoliciesGet();
 }
 
 main().catch(console.error);

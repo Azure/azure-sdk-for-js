@@ -27,7 +27,7 @@ async function deletePaymentMethodOwnedByUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletePaymentMethodOwnedByUser();
+  await deletePaymentMethodOwnedByUser();
 }
 
 main().catch(console.error);

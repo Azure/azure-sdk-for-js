@@ -35,7 +35,7 @@ async function verifyDomainOwnership(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  verifyDomainOwnership();
+  await verifyDomainOwnership();
 }
 
 main().catch(console.error);

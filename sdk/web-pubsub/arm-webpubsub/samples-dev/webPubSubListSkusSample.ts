@@ -35,7 +35,7 @@ async function webPubSubListSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubListSkus();
+  await webPubSubListSkus();
 }
 
 main().catch(console.error);

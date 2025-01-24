@@ -37,7 +37,7 @@ async function customDomainsListByEndpoint(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customDomainsListByEndpoint();
+  await customDomainsListByEndpoint();
 }
 
 main().catch(console.error);

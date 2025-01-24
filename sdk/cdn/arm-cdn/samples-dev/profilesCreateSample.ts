@@ -37,7 +37,7 @@ async function profilesCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesCreate();
+  await profilesCreate();
 }
 
 main().catch(console.error);

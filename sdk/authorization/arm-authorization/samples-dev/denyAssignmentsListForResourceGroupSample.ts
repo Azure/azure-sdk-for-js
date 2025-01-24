@@ -35,7 +35,7 @@ async function listDenyAssignmentsForResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDenyAssignmentsForResourceGroup();
+  await listDenyAssignmentsForResourceGroup();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function webPubSubPrivateEndpointConnectionsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubPrivateEndpointConnectionsUpdate();
+  await webPubSubPrivateEndpointConnectionsUpdate();
 }
 
 main().catch(console.error);

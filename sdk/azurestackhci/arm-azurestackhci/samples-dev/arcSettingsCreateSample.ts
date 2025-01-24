@@ -39,7 +39,7 @@ async function createArcSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createArcSetting();
+  await createArcSetting();
 }
 
 main().catch(console.error);

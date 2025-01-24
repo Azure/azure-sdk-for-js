@@ -35,7 +35,7 @@ async function organizationsDeleteGeneratedByMaximumSetRule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationsDeleteGeneratedByMaximumSetRule();
+  await organizationsDeleteGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

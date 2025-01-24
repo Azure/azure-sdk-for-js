@@ -38,7 +38,7 @@ async function cosmosDbSqlTriggerDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlTriggerDelete();
+  await cosmosDbSqlTriggerDelete();
 }
 
 main().catch(console.error);

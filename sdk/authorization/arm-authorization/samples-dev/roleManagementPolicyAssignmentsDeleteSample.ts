@@ -33,7 +33,7 @@ async function deleteRoleManagementPolicyAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteRoleManagementPolicyAssignment();
+  await deleteRoleManagementPolicyAssignment();
 }
 
 main().catch(console.error);

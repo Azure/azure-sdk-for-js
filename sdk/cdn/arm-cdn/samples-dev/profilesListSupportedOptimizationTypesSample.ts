@@ -32,7 +32,7 @@ async function profilesListSupportedOptimizationTypes(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesListSupportedOptimizationTypes();
+  await profilesListSupportedOptimizationTypes();
 }
 
 main().catch(console.error);

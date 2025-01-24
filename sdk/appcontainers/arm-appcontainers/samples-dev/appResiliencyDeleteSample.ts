@@ -36,7 +36,7 @@ async function deleteAppResiliency(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAppResiliency();
+  await deleteAppResiliency();
 }
 
 main().catch(console.error);

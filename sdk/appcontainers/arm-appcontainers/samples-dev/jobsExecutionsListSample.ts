@@ -37,7 +37,7 @@ async function getAContainerAppsJobExecutions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAContainerAppsJobExecutions();
+  await getAContainerAppsJobExecutions();
 }
 
 main().catch(console.error);

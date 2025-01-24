@@ -36,7 +36,7 @@ async function apiManagementGetPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetPrivateEndpointConnection();
+  await apiManagementGetPrivateEndpointConnection();
 }
 
 main().catch(console.error);

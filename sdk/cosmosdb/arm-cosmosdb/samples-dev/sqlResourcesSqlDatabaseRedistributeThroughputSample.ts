@@ -52,7 +52,7 @@ async function cosmosDbSqlDatabaseRedistributeThroughput(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseRedistributeThroughput();
+  await cosmosDbSqlDatabaseRedistributeThroughput();
 }
 
 main().catch(console.error);

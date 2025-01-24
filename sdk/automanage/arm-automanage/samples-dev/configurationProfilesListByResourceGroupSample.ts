@@ -35,7 +35,7 @@ async function listConfigurationProfilesByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listConfigurationProfilesByResourceGroup();
+  await listConfigurationProfilesByResourceGroup();
 }
 
 main().catch(console.error);

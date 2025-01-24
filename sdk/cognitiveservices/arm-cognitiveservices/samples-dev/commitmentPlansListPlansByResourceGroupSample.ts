@@ -39,7 +39,7 @@ async function listCommitmentPlansByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCommitmentPlansByResourceGroup();
+  await listCommitmentPlansByResourceGroup();
 }
 
 main().catch(console.error);

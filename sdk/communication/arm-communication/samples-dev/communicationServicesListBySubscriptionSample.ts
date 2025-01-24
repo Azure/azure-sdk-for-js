@@ -20,22 +20,18 @@ import "dotenv/config";
  */
 async function listBySubscription(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.communicationServices.listBySubscription()) {
+  for await (const item of client.communicationServices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  listBySubscription();
+  await listBySubscription();
 }
 
 main().catch(console.error);

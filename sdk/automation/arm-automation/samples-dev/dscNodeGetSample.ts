@@ -34,7 +34,7 @@ async function getANode(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getANode();
+  await getANode();
 }
 
 main().catch(console.error);

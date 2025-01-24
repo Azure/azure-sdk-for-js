@@ -34,7 +34,7 @@ async function listSecretsForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSecretsForAStaticSite();
+  await listSecretsForAStaticSite();
 }
 
 main().catch(console.error);

@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ContainerGroupProfile,
-  ContainerInstanceManagementClient,
-} from "@azure/arm-containerinstance";
+import type { ContainerGroupProfile } from "@azure/arm-containerinstance";
+import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +21,8 @@ import "dotenv/config";
  */
 async function confidentialContainerGroupProfile(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupProfileName = "demo1";
   const containerGroupProfile: ContainerGroupProfile = {
     confidentialComputeProperties: {
@@ -55,10 +51,7 @@ async function confidentialContainerGroupProfile(): Promise<void> {
     zones: ["1"],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroupProfiles.createOrUpdate(
     resourceGroupName,
     containerGroupProfileName,
@@ -75,10 +68,8 @@ async function confidentialContainerGroupProfile(): Promise<void> {
  */
 async function containerGroupProfileCreateWithExtensions(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupProfileName = "demo1";
   const containerGroupProfile: ContainerGroupProfile = {
     containers: [
@@ -112,10 +103,7 @@ async function containerGroupProfileCreateWithExtensions(): Promise<void> {
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroupProfiles.createOrUpdate(
     resourceGroupName,
     containerGroupProfileName,
@@ -132,10 +120,8 @@ async function containerGroupProfileCreateWithExtensions(): Promise<void> {
  */
 async function containerGroupProfileWithEncryptionProperties(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupProfileName = "demo1";
   const containerGroupProfile: ContainerGroupProfile = {
     containers: [
@@ -162,10 +148,7 @@ async function containerGroupProfileWithEncryptionProperties(): Promise<void> {
     zones: ["1"],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroupProfiles.createOrUpdate(
     resourceGroupName,
     containerGroupProfileName,
@@ -182,10 +165,8 @@ async function containerGroupProfileWithEncryptionProperties(): Promise<void> {
  */
 async function containerGroupProfilesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupProfileName = "demo1";
   const containerGroupProfile: ContainerGroupProfile = {
     containers: [
@@ -240,10 +221,7 @@ async function containerGroupProfilesCreateOrUpdate(): Promise<void> {
     zones: ["1"],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroupProfiles.createOrUpdate(
     resourceGroupName,
     containerGroupProfileName,
@@ -260,10 +238,8 @@ async function containerGroupProfilesCreateOrUpdate(): Promise<void> {
  */
 async function containerGroupsCreateWithPriority(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupProfileName = "demo1";
   const containerGroupProfile: ContainerGroupProfile = {
     containers: [
@@ -281,10 +257,7 @@ async function containerGroupsCreateWithPriority(): Promise<void> {
     sku: "Standard",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroupProfiles.createOrUpdate(
     resourceGroupName,
     containerGroupProfileName,
@@ -294,11 +267,11 @@ async function containerGroupsCreateWithPriority(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialContainerGroupProfile();
-  containerGroupProfileCreateWithExtensions();
-  containerGroupProfileWithEncryptionProperties();
-  containerGroupProfilesCreateOrUpdate();
-  containerGroupsCreateWithPriority();
+  await confidentialContainerGroupProfile();
+  await containerGroupProfileCreateWithExtensions();
+  await containerGroupProfileWithEncryptionProperties();
+  await containerGroupProfilesCreateOrUpdate();
+  await containerGroupsCreateWithPriority();
 }
 
 main().catch(console.error);

@@ -2856,33 +2856,33 @@ async function registerExistingSapSystemAsVirtualInstanceForSapSolutions(): Prom
 }
 
 async function main(): Promise<void> {
-  createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem();
-  createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet();
-  createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone();
-  createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem();
-  createInfrastructureOnlyForDistributedSystem();
-  createInfrastructureOnlyForHaSystemWithAvailabilitySet();
-  createInfrastructureOnlyForHaSystemWithAvailabilityZone();
-  createInfrastructureOnlyForSingleServerSystem();
-  createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended();
-  createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended();
-  createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
-  createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended();
-  createInfrastructureWithOSConfigurationForDistributedSystemRecommended();
-  createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended();
-  createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
-  createInfrastructureWithOSConfigurationForSingleServerSystemRecommended();
-  createInfrastructureWithANewSapTransportDirectoryFileshare();
-  createInfrastructureWithAnExistingSapTransportDirectoryFileshare();
-  createInfrastructureWithoutASapTransportDirectoryFileshare();
-  detectSapSoftwareInstallationOnADistributedSystem();
-  detectSapSoftwareInstallationOnASingleServerSystem();
-  detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();
-  detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone();
-  installSapSoftwareOnDistributedSystem();
-  installSapSoftwareOnSingleServerSystem();
-  registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations();
-  registerExistingSapSystemAsVirtualInstanceForSapSolutions();
+  await createInfrastructureWithOSConfigurationWithCustomResourceNamesForDistributedSystem();
+  await createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilitySet();
+  await createInfrastructureWithOSConfigurationWithCustomResourceNamesForHaSystemWithAvailabilityZone();
+  await createInfrastructureWithOSConfigurationWithCustomResourceNamesForSingleServerSystem();
+  await createInfrastructureOnlyForDistributedSystem();
+  await createInfrastructureOnlyForHaSystemWithAvailabilitySet();
+  await createInfrastructureOnlyForHaSystemWithAvailabilityZone();
+  await createInfrastructureOnlyForSingleServerSystem();
+  await createInfrastructureWithDiskAndOSConfigurationForDistributedSystemRecommended();
+  await createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilitySetRecommended();
+  await createInfrastructureWithDiskAndOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
+  await createInfrastructureWithDiskAndOSConfigurationsForSingleServerSystemRecommended();
+  await createInfrastructureWithOSConfigurationForDistributedSystemRecommended();
+  await createInfrastructureWithOSConfigurationForHaSystemWithAvailabilitySetRecommended();
+  await createInfrastructureWithOSConfigurationForHaSystemWithAvailabilityZoneRecommended();
+  await createInfrastructureWithOSConfigurationForSingleServerSystemRecommended();
+  await createInfrastructureWithANewSapTransportDirectoryFileshare();
+  await createInfrastructureWithAnExistingSapTransportDirectoryFileshare();
+  await createInfrastructureWithoutASapTransportDirectoryFileshare();
+  await detectSapSoftwareInstallationOnADistributedSystem();
+  await detectSapSoftwareInstallationOnASingleServerSystem();
+  await detectSapSoftwareInstallationOnAnHaSystemWithAvailabilitySet();
+  await detectSapSoftwareInstallationOnAnHaSystemWithAvailabilityZone();
+  await installSapSoftwareOnDistributedSystem();
+  await installSapSoftwareOnSingleServerSystem();
+  await registerExistingSapSystemAsVirtualInstanceForSapSolutionsWithOptionalCustomizations();
+  await registerExistingSapSystemAsVirtualInstanceForSapSolutions();
 }
 
 main().catch(console.error);

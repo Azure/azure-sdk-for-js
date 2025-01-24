@@ -23,7 +23,7 @@ async function enterpriseCustomerOperationsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseCustomerOperationsUpdate();
+  await enterpriseCustomerOperationsUpdate();
 }
 
 main().catch(console.error);

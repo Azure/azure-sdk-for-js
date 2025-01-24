@@ -37,7 +37,7 @@ async function getDaprComponent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDaprComponent();
+  await getDaprComponent();
 }
 
 main().catch(console.error);

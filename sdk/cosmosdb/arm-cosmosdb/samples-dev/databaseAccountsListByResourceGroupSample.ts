@@ -33,7 +33,7 @@ async function cosmosDbDatabaseAccountListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountListByResourceGroup();
+  await cosmosDbDatabaseAccountListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function cosmosDbCassandraTableGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraTableGet();
+  await cosmosDbCassandraTableGet();
 }
 
 main().catch(console.error);

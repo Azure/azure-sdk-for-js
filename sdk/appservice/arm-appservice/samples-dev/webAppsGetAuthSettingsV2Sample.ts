@@ -35,7 +35,7 @@ async function listAuthSettingsV2(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAuthSettingsV2();
+  await listAuthSettingsV2();
 }
 
 main().catch(console.error);

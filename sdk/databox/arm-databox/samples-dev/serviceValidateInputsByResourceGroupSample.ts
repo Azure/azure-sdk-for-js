@@ -88,7 +88,7 @@ async function validateInputsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateInputsByResourceGroup();
+  await validateInputsByResourceGroup();
 }
 
 main().catch(console.error);

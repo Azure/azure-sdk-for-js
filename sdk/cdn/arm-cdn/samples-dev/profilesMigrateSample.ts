@@ -38,7 +38,7 @@ async function profilesMigrate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesMigrate();
+  await profilesMigrate();
 }
 
 main().catch(console.error);

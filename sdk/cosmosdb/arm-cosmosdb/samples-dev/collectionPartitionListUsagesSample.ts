@@ -45,7 +45,7 @@ async function cosmosDbCollectionGetUsages(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCollectionGetUsages();
+  await cosmosDbCollectionGetUsages();
 }
 
 main().catch(console.error);

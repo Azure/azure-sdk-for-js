@@ -34,7 +34,7 @@ async function deleteAHybridWorkerGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAHybridWorkerGroup();
+  await deleteAHybridWorkerGroup();
 }
 
 main().catch(console.error);

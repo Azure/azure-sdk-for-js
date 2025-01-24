@@ -106,12 +106,12 @@ async function exportDeleteBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportDeleteByBillingAccount();
-  exportDeleteByDepartment();
-  exportDeleteByEnrollmentAccount();
-  exportDeleteByManagementGroup();
-  exportDeleteByResourceGroup();
-  exportDeleteBySubscription();
+  await exportDeleteByBillingAccount();
+  await exportDeleteByDepartment();
+  await exportDeleteByEnrollmentAccount();
+  await exportDeleteByManagementGroup();
+  await exportDeleteByResourceGroup();
+  await exportDeleteBySubscription();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function createACertificateProfile() {
 }
 
 async function main() {
-  createACertificateProfile();
+  await createACertificateProfile();
 }
 
 main().catch(console.error);

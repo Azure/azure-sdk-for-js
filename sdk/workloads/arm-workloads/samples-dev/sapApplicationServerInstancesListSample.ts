@@ -38,7 +38,7 @@ async function sapApplicationServerInstancesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapApplicationServerInstancesList();
+  await sapApplicationServerInstancesList();
 }
 
 main().catch(console.error);

@@ -65,7 +65,7 @@ async function webPubSubUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubUpdate();
+  await webPubSubUpdate();
 }
 
 main().catch(console.error);

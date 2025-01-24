@@ -40,7 +40,7 @@ async function apiManagementDeleteApiSchema(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteApiSchema();
+  await apiManagementDeleteApiSchema();
 }
 
 main().catch(console.error);

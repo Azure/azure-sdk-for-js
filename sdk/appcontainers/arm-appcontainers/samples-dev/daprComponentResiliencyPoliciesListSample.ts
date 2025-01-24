@@ -40,7 +40,7 @@ async function listDaprComponentResiliencyPolicies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDaprComponentResiliencyPolicies();
+  await listDaprComponentResiliencyPolicies();
 }
 
 main().catch(console.error);

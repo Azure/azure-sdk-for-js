@@ -40,7 +40,7 @@ async function apiManagementHeadApiIssueAttachment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadApiIssueAttachment();
+  await apiManagementHeadApiIssueAttachment();
 }
 
 main().catch(console.error);

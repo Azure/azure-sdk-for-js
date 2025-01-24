@@ -23,7 +23,7 @@ async function listBillingContainersSubscription() {
 }
 
 async function main() {
-  listBillingContainersSubscription();
+  await listBillingContainersSubscription();
 }
 
 main().catch(console.error);

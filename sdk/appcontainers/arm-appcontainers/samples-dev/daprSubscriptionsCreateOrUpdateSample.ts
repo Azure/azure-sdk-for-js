@@ -119,9 +119,9 @@ async function createOrUpdateDaprSubscriptionWithRouteRulesAndMetadata(): Promis
 }
 
 async function main(): Promise<void> {
-  createOrUpdateDaprSubscriptionWithBulkSubscribeConfigurationAndScopes();
-  createOrUpdateDaprSubscriptionWithDefaultRouteOnly();
-  createOrUpdateDaprSubscriptionWithRouteRulesAndMetadata();
+  await createOrUpdateDaprSubscriptionWithBulkSubscribeConfigurationAndScopes();
+  await createOrUpdateDaprSubscriptionWithDefaultRouteOnly();
+  await createOrUpdateDaprSubscriptionWithRouteRulesAndMetadata();
 }
 
 main().catch(console.error);

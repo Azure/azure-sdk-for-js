@@ -36,7 +36,7 @@ async function listConnectionSettingWithSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listConnectionSettingWithSecrets();
+  await listConnectionSettingWithSecrets();
 }
 
 main().catch(console.error);

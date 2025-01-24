@@ -54,7 +54,7 @@ async function cosmosDbSqlContainerRedistributeThroughput(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlContainerRedistributeThroughput();
+  await cosmosDbSqlContainerRedistributeThroughput();
 }
 
 main().catch(console.error);

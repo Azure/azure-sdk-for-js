@@ -41,7 +41,7 @@ async function patchADatabaseConnectionForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchADatabaseConnectionForAStaticSite();
+  await patchADatabaseConnectionForAStaticSite();
 }
 
 main().catch(console.error);

@@ -73,9 +73,9 @@ async function reportWebhookCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportEvidenceCheckNameAvailability();
-  reportSnapshotCheckNameAvailability();
-  reportWebhookCheckNameAvailability();
+  await reportEvidenceCheckNameAvailability();
+  await reportSnapshotCheckNameAvailability();
+  await reportWebhookCheckNameAvailability();
 }
 
 main().catch(console.error);

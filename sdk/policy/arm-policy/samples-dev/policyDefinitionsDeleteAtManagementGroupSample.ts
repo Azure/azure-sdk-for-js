@@ -34,7 +34,7 @@ async function deleteAPolicyDefinitionAtManagementGroupLevel() {
 }
 
 async function main() {
-  deleteAPolicyDefinitionAtManagementGroupLevel();
+  await deleteAPolicyDefinitionAtManagementGroupLevel();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function getRoleManagementPolicyAssignmentByScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleManagementPolicyAssignmentByScope();
+  await getRoleManagementPolicyAssignmentByScope();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function apiPortalsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiPortalsGet();
+  await apiPortalsGet();
 }
 
 main().catch(console.error);

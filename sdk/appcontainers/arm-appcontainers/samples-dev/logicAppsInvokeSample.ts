@@ -39,7 +39,7 @@ async function getWorkflowListCallBackUrl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWorkflowListCallBackUrl();
+  await getWorkflowListCallBackUrl();
 }
 
 main().catch(console.error);

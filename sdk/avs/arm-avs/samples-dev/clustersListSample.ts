@@ -37,7 +37,7 @@ async function clustersList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clustersList();
+  await clustersList();
 }
 
 main().catch(console.error);

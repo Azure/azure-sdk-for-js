@@ -40,7 +40,7 @@ async function apiManagementDeleteApiTagDescription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteApiTagDescription();
+  await apiManagementDeleteApiTagDescription();
 }
 
 main().catch(console.error);

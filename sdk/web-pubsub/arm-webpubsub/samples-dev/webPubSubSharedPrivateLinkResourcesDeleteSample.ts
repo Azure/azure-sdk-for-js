@@ -38,7 +38,7 @@ async function webPubSubSharedPrivateLinkResourcesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubSharedPrivateLinkResourcesDelete();
+  await webPubSubSharedPrivateLinkResourcesDelete();
 }
 
 main().catch(console.error);

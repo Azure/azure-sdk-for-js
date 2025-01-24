@@ -40,7 +40,7 @@ async function connectedRegistryDeactivate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectedRegistryDeactivate();
+  await connectedRegistryDeactivate();
 }
 
 main().catch(console.error);

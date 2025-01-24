@@ -40,7 +40,7 @@ async function scopeMapGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scopeMapGet();
+  await scopeMapGet();
 }
 
 main().catch(console.error);

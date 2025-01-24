@@ -39,7 +39,7 @@ async function afdEndpointsPurgeContent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdEndpointsPurgeContent();
+  await afdEndpointsPurgeContent();
 }
 
 main().catch(console.error);

@@ -58,7 +58,7 @@ async function taskRunsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  taskRunsUpdate();
+  await taskRunsUpdate();
 }
 
 main().catch(console.error);

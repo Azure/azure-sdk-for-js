@@ -38,7 +38,7 @@ async function listSecuritySettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSecuritySettings();
+  await listSecuritySettings();
 }
 
 main().catch(console.error);

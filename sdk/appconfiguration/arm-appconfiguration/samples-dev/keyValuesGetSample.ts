@@ -40,7 +40,7 @@ async function keyValuesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  keyValuesGet();
+  await keyValuesGet();
 }
 
 main().catch(console.error);

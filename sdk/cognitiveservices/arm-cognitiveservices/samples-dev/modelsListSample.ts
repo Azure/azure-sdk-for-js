@@ -36,7 +36,7 @@ async function listLocationModels(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listLocationModels();
+  await listLocationModels();
 }
 
 main().catch(console.error);

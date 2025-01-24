@@ -62,7 +62,7 @@ async function customizedAcceleratorsValidate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customizedAcceleratorsValidate();
+  await customizedAcceleratorsValidate();
 }
 
 main().catch(console.error);

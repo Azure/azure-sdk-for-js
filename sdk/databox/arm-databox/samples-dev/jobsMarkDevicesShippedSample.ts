@@ -44,7 +44,7 @@ async function markDevicesShipped(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  markDevicesShipped();
+  await markDevicesShipped();
 }
 
 main().catch(console.error);

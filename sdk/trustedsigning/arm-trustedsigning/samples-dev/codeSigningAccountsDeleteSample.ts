@@ -18,7 +18,7 @@ async function deleteATrustedSigningAccount() {
 }
 
 async function main() {
-  deleteATrustedSigningAccount();
+  await deleteATrustedSigningAccount();
 }
 
 main().catch(console.error);

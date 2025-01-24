@@ -46,7 +46,7 @@ async function updateAppResiliency(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAppResiliency();
+  await updateAppResiliency();
 }
 
 main().catch(console.error);

@@ -27,7 +27,7 @@ async function getDataBoundaryForTenant(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDataBoundaryForTenant();
+  await getDataBoundaryForTenant();
 }
 
 main().catch(console.error);

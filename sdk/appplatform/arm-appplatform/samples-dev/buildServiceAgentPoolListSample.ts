@@ -40,7 +40,7 @@ async function buildServiceAgentPoolList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceAgentPoolList();
+  await buildServiceAgentPoolList();
 }
 
 main().catch(console.error);

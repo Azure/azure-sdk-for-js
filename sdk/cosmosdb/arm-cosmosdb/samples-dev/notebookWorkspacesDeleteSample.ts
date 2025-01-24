@@ -34,7 +34,7 @@ async function cosmosDbNotebookWorkspaceDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbNotebookWorkspaceDelete();
+  await cosmosDbNotebookWorkspaceDelete();
 }
 
 main().catch(console.error);

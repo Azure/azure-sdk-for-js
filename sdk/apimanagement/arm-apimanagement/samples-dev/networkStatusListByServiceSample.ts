@@ -34,7 +34,7 @@ async function apiManagementServiceGetNetworkStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementServiceGetNetworkStatus();
+  await apiManagementServiceGetNetworkStatus();
 }
 
 main().catch(console.error);

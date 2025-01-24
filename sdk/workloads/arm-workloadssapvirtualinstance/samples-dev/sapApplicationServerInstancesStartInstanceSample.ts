@@ -72,8 +72,8 @@ async function startTheSapApplicationServerInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startVirtualMachineAndTheSapApplicationServerInstanceOnIt();
-  startTheSapApplicationServerInstance();
+  await startVirtualMachineAndTheSapApplicationServerInstanceOnIt();
+  await startTheSapApplicationServerInstance();
 }
 
 main().catch(console.error);

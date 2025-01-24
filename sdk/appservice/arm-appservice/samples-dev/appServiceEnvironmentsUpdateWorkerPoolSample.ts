@@ -45,7 +45,7 @@ async function getPropertiesOfAWorkerPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getPropertiesOfAWorkerPool();
+  await getPropertiesOfAWorkerPool();
 }
 
 main().catch(console.error);

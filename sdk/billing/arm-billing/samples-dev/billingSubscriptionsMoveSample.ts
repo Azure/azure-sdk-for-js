@@ -40,7 +40,7 @@ async function billingSubscriptionMove(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionMove();
+  await billingSubscriptionMove();
 }
 
 main().catch(console.error);

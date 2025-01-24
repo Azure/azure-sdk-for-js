@@ -70,9 +70,9 @@ async function getAWorkspaceWithCustomParameters(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAWorkspace();
-  getAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
-  getAWorkspaceWithCustomParameters();
+  await getAWorkspace();
+  await getAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
+  await getAWorkspaceWithCustomParameters();
 }
 
 main().catch(console.error);

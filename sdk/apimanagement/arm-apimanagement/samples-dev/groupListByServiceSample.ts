@@ -37,7 +37,7 @@ async function apiManagementListGroups(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListGroups();
+  await apiManagementListGroups();
 }
 
 main().catch(console.error);

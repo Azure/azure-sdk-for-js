@@ -51,7 +51,7 @@ async function createOrUpdateASourceControl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateASourceControl();
+  await createOrUpdateASourceControl();
 }
 
 main().catch(console.error);

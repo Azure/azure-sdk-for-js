@@ -42,7 +42,7 @@ async function updateAVariable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAVariable();
+  await updateAVariable();
 }
 
 main().catch(console.error);

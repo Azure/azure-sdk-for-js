@@ -38,7 +38,7 @@ async function apiManagementHeadNotificationRecipientEmail(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadNotificationRecipientEmail();
+  await apiManagementHeadNotificationRecipientEmail();
 }
 
 main().catch(console.error);

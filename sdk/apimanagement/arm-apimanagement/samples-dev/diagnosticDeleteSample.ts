@@ -38,7 +38,7 @@ async function apiManagementDeleteDiagnostic(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteDiagnostic();
+  await apiManagementDeleteDiagnostic();
 }
 
 main().catch(console.error);

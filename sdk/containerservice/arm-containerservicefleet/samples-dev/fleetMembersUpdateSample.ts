@@ -41,7 +41,7 @@ async function updatesAFleetMemberResourceSynchronously(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updatesAFleetMemberResourceSynchronously();
+  await updatesAFleetMemberResourceSynchronously();
 }
 
 main().catch(console.error);

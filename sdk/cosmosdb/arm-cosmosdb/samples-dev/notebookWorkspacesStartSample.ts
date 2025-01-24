@@ -34,7 +34,7 @@ async function cosmosDbNotebookWorkspaceStart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbNotebookWorkspaceStart();
+  await cosmosDbNotebookWorkspaceStart();
 }
 
 main().catch(console.error);

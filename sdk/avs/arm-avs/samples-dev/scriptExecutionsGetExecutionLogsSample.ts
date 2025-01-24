@@ -50,7 +50,7 @@ async function scriptExecutionsGetExecutionLogs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scriptExecutionsGetExecutionLogs();
+  await scriptExecutionsGetExecutionLogs();
 }
 
 main().catch(console.error);

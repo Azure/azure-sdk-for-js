@@ -23,7 +23,7 @@ async function quotasListBySubscription() {
 }
 
 async function main() {
-  quotasListBySubscription();
+  await quotasListBySubscription();
 }
 
 main().catch(console.error);

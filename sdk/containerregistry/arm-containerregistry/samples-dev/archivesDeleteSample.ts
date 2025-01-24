@@ -42,7 +42,7 @@ async function archiveDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  archiveDelete();
+  await archiveDelete();
 }
 
 main().catch(console.error);

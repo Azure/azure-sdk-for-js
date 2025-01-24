@@ -53,8 +53,8 @@ async function appsGetVNetInjection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appsGet();
-  appsGetVNetInjection();
+  await appsGet();
+  await appsGetVNetInjection();
 }
 
 main().catch(console.error);

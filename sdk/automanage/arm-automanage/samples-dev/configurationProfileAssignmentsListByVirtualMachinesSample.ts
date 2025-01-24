@@ -37,7 +37,7 @@ async function listConfigurationProfileAssignmentsByResourceGroupAndVirtualMachi
 }
 
 async function main(): Promise<void> {
-  listConfigurationProfileAssignmentsByResourceGroupAndVirtualMachine();
+  await listConfigurationProfileAssignmentsByResourceGroupAndVirtualMachine();
 }
 
 main().catch(console.error);

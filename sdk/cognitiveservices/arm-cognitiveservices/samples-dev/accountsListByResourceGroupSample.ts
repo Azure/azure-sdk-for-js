@@ -39,7 +39,7 @@ async function listAccountsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAccountsByResourceGroup();
+  await listAccountsByResourceGroup();
 }
 
 main().catch(console.error);

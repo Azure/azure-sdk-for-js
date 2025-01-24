@@ -34,7 +34,7 @@ async function listsTheUserCredentialsOfAFleet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listsTheUserCredentialsOfAFleet();
+  await listsTheUserCredentialsOfAFleet();
 }
 
 main().catch(console.error);

@@ -66,8 +66,8 @@ async function listSoftwareUpdateConfigurationMachineRunsForASpecificSoftwareUpd
 }
 
 async function main(): Promise<void> {
-  listSoftwareUpdateConfigurationMachineRuns();
-  listSoftwareUpdateConfigurationMachineRunsForASpecificSoftwareUpdateConfigurationRun();
+  await listSoftwareUpdateConfigurationMachineRuns();
+  await listSoftwareUpdateConfigurationMachineRunsForASpecificSoftwareUpdateConfigurationRun();
 }
 
 main().catch(console.error);

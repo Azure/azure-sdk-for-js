@@ -40,7 +40,7 @@ async function runsGetLogSasUrl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  runsGetLogSasUrl();
+  await runsGetLogSasUrl();
 }
 
 main().catch(console.error);

@@ -19,7 +19,7 @@ async function ispCustomersGetGeneratedByMaximumSetRule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ispCustomersGetGeneratedByMaximumSetRule();
+  await ispCustomersGetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

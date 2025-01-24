@@ -36,7 +36,7 @@ async function apiManagementGetTenantSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetTenantSettings();
+  await apiManagementGetTenantSettings();
 }
 
 main().catch(console.error);

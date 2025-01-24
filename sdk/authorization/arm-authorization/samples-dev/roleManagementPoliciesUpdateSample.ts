@@ -388,8 +388,8 @@ async function patchRoleManagementPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchPartialRoleManagementPolicy();
-  patchRoleManagementPolicy();
+  await patchPartialRoleManagementPolicy();
+  await patchRoleManagementPolicy();
 }
 
 main().catch(console.error);

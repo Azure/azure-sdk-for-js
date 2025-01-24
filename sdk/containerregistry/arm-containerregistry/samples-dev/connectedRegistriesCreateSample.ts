@@ -60,7 +60,7 @@ async function connectedRegistryCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectedRegistryCreate();
+  await connectedRegistryCreate();
 }
 
 main().catch(console.error);

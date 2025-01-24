@@ -67,7 +67,7 @@ async function getWebAppBackupWithSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWebAppBackupWithSecrets();
+  await getWebAppBackupWithSecrets();
 }
 
 main().catch(console.error);

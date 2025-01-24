@@ -89,7 +89,7 @@ async function deploysWorkflowArtifactsSlot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploysWorkflowArtifactsSlot();
+  await deploysWorkflowArtifactsSlot();
 }
 
 main().catch(console.error);

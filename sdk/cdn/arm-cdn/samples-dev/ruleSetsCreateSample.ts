@@ -34,7 +34,7 @@ async function ruleSetsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ruleSetsCreate();
+  await ruleSetsCreate();
 }
 
 main().catch(console.error);

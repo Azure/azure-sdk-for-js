@@ -39,7 +39,7 @@ async function getRoleAssignmentSchedulesByScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleAssignmentSchedulesByScope();
+  await getRoleAssignmentSchedulesByScope();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function getUpgradeProfileForManagedCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getUpgradeProfileForManagedCluster();
+  await getUpgradeProfileForManagedCluster();
 }
 
 main().catch(console.error);

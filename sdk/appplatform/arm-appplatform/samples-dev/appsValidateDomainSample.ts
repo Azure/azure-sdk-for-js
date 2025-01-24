@@ -42,7 +42,7 @@ async function appsValidateDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appsValidateDomain();
+  await appsValidateDomain();
 }
 
 main().catch(console.error);

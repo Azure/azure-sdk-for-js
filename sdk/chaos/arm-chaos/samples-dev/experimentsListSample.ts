@@ -38,7 +38,7 @@ async function listAllExperimentsInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllExperimentsInAResourceGroup();
+  await listAllExperimentsInAResourceGroup();
 }
 
 main().catch(console.error);

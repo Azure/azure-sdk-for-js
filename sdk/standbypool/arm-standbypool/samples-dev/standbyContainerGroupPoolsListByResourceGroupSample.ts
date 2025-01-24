@@ -23,7 +23,7 @@ async function standbyContainerGroupPoolsListByResourceGroup() {
 }
 
 async function main() {
-  standbyContainerGroupPoolsListByResourceGroup();
+  await standbyContainerGroupPoolsListByResourceGroup();
 }
 
 main().catch(console.error);

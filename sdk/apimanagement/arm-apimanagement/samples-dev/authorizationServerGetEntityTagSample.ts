@@ -36,7 +36,7 @@ async function apiManagementHeadAuthorizationServer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadAuthorizationServer();
+  await apiManagementHeadAuthorizationServer();
 }
 
 main().catch(console.error);

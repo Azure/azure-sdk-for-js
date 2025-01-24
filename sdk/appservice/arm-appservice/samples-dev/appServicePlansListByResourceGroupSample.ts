@@ -36,7 +36,7 @@ async function listAppServicePlansByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppServicePlansByResourceGroup();
+  await listAppServicePlansByResourceGroup();
 }
 
 main().catch(console.error);

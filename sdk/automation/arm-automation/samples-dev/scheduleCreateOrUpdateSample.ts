@@ -47,7 +47,7 @@ async function createOrUpdateASchedule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateASchedule();
+  await createOrUpdateASchedule();
 }
 
 main().catch(console.error);

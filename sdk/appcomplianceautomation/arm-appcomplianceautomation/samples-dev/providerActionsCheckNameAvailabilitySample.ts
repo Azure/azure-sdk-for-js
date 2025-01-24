@@ -29,7 +29,7 @@ async function reportCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportCheckNameAvailability();
+  await reportCheckNameAvailability();
 }
 
 main().catch(console.error);

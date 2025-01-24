@@ -44,7 +44,7 @@ async function createACredential(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createACredential();
+  await createACredential();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getLocationsWebAppStacks(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getLocationsWebAppStacks();
+  await getLocationsWebAppStacks();
 }
 
 main().catch(console.error);

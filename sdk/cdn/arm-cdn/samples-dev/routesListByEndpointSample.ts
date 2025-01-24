@@ -37,7 +37,7 @@ async function routesListByEndpoint(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  routesListByEndpoint();
+  await routesListByEndpoint();
 }
 
 main().catch(console.error);

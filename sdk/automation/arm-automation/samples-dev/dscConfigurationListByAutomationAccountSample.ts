@@ -102,9 +102,9 @@ async function listPagedDscConfigurationsWithNoFilter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDscConfiguration();
-  listPagedDscConfigurationsWithNameFilter();
-  listPagedDscConfigurationsWithNoFilter();
+  await getDscConfiguration();
+  await listPagedDscConfigurationsWithNameFilter();
+  await listPagedDscConfigurationsWithNoFilter();
 }
 
 main().catch(console.error);

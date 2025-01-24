@@ -287,11 +287,11 @@ async function tasksUpdateWithOpaqueCustomCredentials(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tasksUpdate();
-  tasksUpdateQuickTask();
-  tasksUpdateWithKeyVaultCustomCredentials();
-  tasksUpdateWithMsiCustomCredentials();
-  tasksUpdateWithOpaqueCustomCredentials();
+  await tasksUpdate();
+  await tasksUpdateQuickTask();
+  await tasksUpdateWithKeyVaultCustomCredentials();
+  await tasksUpdateWithMsiCustomCredentials();
+  await tasksUpdateWithOpaqueCustomCredentials();
 }
 
 main().catch(console.error);

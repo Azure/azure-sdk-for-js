@@ -41,7 +41,7 @@ async function apiVersionsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiVersionsGet();
+  await apiVersionsGet();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function cosmosDbMongoDbuserDefinitionGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbuserDefinitionGet();
+  await cosmosDbMongoDbuserDefinitionGet();
 }
 
 main().catch(console.error);

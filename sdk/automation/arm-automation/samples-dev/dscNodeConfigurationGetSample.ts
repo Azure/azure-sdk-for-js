@@ -34,7 +34,7 @@ async function getADscNodeConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getADscNodeConfiguration();
+  await getADscNodeConfiguration();
 }
 
 main().catch(console.error);

@@ -51,7 +51,7 @@ async function createOrUpdateEnvironmentsStorage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateEnvironmentsStorage();
+  await createOrUpdateEnvironmentsStorage();
 }
 
 main().catch(console.error);

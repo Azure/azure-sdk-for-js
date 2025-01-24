@@ -36,7 +36,7 @@ async function originsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  originsDelete();
+  await originsDelete();
 }
 
 main().catch(console.error);

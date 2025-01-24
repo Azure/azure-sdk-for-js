@@ -39,7 +39,7 @@ async function getARunForAWorkflow(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getARunForAWorkflow();
+  await getARunForAWorkflow();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function workloadNetworksDeleteVMGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksDeleteVMGroup();
+  await workloadNetworksDeleteVMGroup();
 }
 
 main().catch(console.error);

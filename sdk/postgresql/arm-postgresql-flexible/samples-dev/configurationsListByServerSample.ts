@@ -41,7 +41,7 @@ async function configurationList() {
 }
 
 async function main() {
-  configurationList();
+  await configurationList();
 }
 
 main().catch(console.error);

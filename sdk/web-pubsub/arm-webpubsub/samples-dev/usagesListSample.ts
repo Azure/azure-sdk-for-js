@@ -33,7 +33,7 @@ async function usagesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  usagesList();
+  await usagesList();
 }
 
 main().catch(console.error);

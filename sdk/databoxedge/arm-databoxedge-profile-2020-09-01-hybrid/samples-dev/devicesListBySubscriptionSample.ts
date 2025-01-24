@@ -32,7 +32,7 @@ async function dataBoxEdgeDeviceGetBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataBoxEdgeDeviceGetBySubscription();
+  await dataBoxEdgeDeviceGetBySubscription();
 }
 
 main().catch(console.error);

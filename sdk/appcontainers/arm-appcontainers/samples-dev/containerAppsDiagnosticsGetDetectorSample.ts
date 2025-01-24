@@ -37,7 +37,7 @@ async function getContainerAppDiagnosticsInfo(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContainerAppDiagnosticsInfo();
+  await getContainerAppDiagnosticsInfo();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function retrieveSiteSeal(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveSiteSeal();
+  await retrieveSiteSeal();
 }
 
 main().catch(console.error);

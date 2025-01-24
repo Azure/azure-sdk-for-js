@@ -38,7 +38,7 @@ async function accessReviewInstanceRecordAllDecisions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessReviewInstanceRecordAllDecisions();
+  await accessReviewInstanceRecordAllDecisions();
 }
 
 main().catch(console.error);

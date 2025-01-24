@@ -39,7 +39,7 @@ async function containerGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerGet();
+  await containerGet();
 }
 
 main().catch(console.error);

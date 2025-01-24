@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the usage for a subscription
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupUsage.json
  */
-async function containerUsage() {
+async function containerUsage(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,8 +35,8 @@ async function containerUsage() {
   console.log(resArray);
 }
 
-async function main() {
-  containerUsage();
+async function main(): Promise<void> {
+  await containerUsage();
 }
 
 main().catch(console.error);

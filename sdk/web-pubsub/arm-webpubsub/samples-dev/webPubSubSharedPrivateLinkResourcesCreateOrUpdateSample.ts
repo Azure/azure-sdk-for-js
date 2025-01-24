@@ -48,7 +48,7 @@ async function webPubSubSharedPrivateLinkResourcesCreateOrUpdate(): Promise<void
 }
 
 async function main(): Promise<void> {
-  webPubSubSharedPrivateLinkResourcesCreateOrUpdate();
+  await webPubSubSharedPrivateLinkResourcesCreateOrUpdate();
 }
 
 main().catch(console.error);

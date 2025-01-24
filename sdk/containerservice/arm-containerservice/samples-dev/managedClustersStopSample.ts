@@ -35,7 +35,7 @@ async function stopManagedCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopManagedCluster();
+  await stopManagedCluster();
 }
 
 main().catch(console.error);

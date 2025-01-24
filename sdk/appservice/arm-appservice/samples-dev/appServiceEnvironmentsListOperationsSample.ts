@@ -35,7 +35,7 @@ async function listAllCurrentlyRunningOperationsOnTheAppServiceEnvironment(): Pr
 }
 
 async function main(): Promise<void> {
-  listAllCurrentlyRunningOperationsOnTheAppServiceEnvironment();
+  await listAllCurrentlyRunningOperationsOnTheAppServiceEnvironment();
 }
 
 main().catch(console.error);

@@ -90,8 +90,8 @@ async function apiManagementCreateSchema2(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateSchema1();
-  apiManagementCreateSchema2();
+  await apiManagementCreateSchema1();
+  await apiManagementCreateSchema2();
 }
 
 main().catch(console.error);

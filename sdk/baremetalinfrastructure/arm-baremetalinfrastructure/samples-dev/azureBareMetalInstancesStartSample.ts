@@ -35,7 +35,7 @@ async function startAnAzureBareMetalInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startAnAzureBareMetalInstance();
+  await startAnAzureBareMetalInstance();
 }
 
 main().catch(console.error);

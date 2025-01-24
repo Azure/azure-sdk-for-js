@@ -49,7 +49,7 @@ async function putCommitmentPlan(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putCommitmentPlan();
+  await putCommitmentPlan();
 }
 
 main().catch(console.error);

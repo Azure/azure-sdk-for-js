@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { Constants } from "../common/constants";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import type { ErrorResponse } from "../request";
+import type { RetryOptions } from "./retryOptions";
 
 /**
  * This class implements the resource throttle retry policy for requests.
@@ -24,11 +26,15 @@ export class ResourceThrottleRetryPolicy {
    * @param timeoutInSeconds - Max wait time in seconds to wait for a request while the
    * retries are happening.
    */
-  constructor(
-    private maxTries: number = 9,
-    private fixedRetryIntervalInMs: number = 0,
-    timeoutInSeconds: number = 30,
-  ) {
+
+  private maxTries: number;
+  private fixedRetryIntervalInMs: number;
+  constructor(options: RetryOptions) {
+    this.maxTries = options.maxRetryAttemptCount ?? Constants.ThrottledRequestMaxRetryAttemptCount;
+    this.fixedRetryIntervalInMs =
+      options.fixedRetryIntervalInMilliseconds ?? Constants.ThrottledRequestFixedRetryIntervalInMs;
+    const timeoutInSeconds =
+      options.maxWaitTimeInSeconds ?? Constants.ThrottledRequestMaxWaitTimeInSeconds;
     this.timeoutInMs = timeoutInSeconds * 1000;
     this.currentRetryAttemptCount = 0;
     this.cummulativeWaitTimeinMs = 0;

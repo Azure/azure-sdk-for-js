@@ -23,7 +23,7 @@ async function getsRequiredPropertiesForEnterpriseMccCacheNodeResourceInstallKey
 }
 
 async function main(): Promise<void> {
-  getsRequiredPropertiesForEnterpriseMccCacheNodeResourceInstallKeyDetailsGeneratedByMaximumSetRule();
+  await getsRequiredPropertiesForEnterpriseMccCacheNodeResourceInstallKeyDetailsGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

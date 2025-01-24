@@ -57,8 +57,8 @@ async function getCertificateWithDeletionError(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCertificate();
-  getCertificateWithDeletionError();
+  await getCertificate();
+  await getCertificateWithDeletionError();
 }
 
 main().catch(console.error);

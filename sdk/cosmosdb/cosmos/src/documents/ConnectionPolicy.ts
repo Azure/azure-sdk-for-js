@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { Constants } from "../common/constants";
 import type { RetryOptions } from "../retry/retryOptions";
 import { ConnectionMode } from "./ConnectionMode";
 /**
@@ -40,9 +41,9 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   enableEndpointDiscovery: true,
   preferredLocations: [],
   retryOptions: {
-    maxRetryAttemptCount: 9,
-    fixedRetryIntervalInMilliseconds: 0,
-    maxWaitTimeInSeconds: 30,
+    maxRetryAttemptCount: Constants.ThrottledRequestMaxRetryAttemptCount,
+    fixedRetryIntervalInMilliseconds: Constants.ThrottledRequestFixedRetryIntervalInMs,
+    maxWaitTimeInSeconds: Constants.ThrottledRequestMaxWaitTimeInSeconds,
   },
   useMultipleWriteLocations: true,
   endpointRefreshRateInMs: 300000,

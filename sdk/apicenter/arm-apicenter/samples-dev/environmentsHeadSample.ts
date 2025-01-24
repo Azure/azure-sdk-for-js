@@ -39,7 +39,7 @@ async function environmentsHead(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  environmentsHead();
+  await environmentsHead();
 }
 
 main().catch(console.error);

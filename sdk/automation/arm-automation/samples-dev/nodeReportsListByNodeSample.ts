@@ -61,8 +61,8 @@ async function listPagedDscReportsByNodeId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDscReportsByNodeId();
-  listPagedDscReportsByNodeId();
+  await listDscReportsByNodeId();
+  await listPagedDscReportsByNodeId();
 }
 
 main().catch(console.error);

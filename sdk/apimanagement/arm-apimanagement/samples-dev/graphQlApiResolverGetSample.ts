@@ -38,7 +38,7 @@ async function apiManagementGetGraphQlApiResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetGraphQlApiResolver();
+  await apiManagementGetGraphQlApiResolver();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getAnAutomanageBestPracticeVersion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAnAutomanageBestPracticeVersion();
+  await getAnAutomanageBestPracticeVersion();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function workloadNetworksGetPortMirroring(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksGetPortMirroring();
+  await workloadNetworksGetPortMirroring();
 }
 
 main().catch(console.error);

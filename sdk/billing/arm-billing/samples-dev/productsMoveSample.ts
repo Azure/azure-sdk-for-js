@@ -40,7 +40,7 @@ async function productMove(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  productMove();
+  await productMove();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function iscsiPathsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  iscsiPathsCreateOrUpdate();
+  await iscsiPathsCreateOrUpdate();
 }
 
 main().catch(console.error);

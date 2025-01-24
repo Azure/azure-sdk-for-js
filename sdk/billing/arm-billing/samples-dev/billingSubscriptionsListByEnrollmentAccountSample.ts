@@ -34,7 +34,7 @@ async function billingSubscriptionsListByEnrollmentAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionsListByEnrollmentAccount();
+  await billingSubscriptionsListByEnrollmentAccount();
 }
 
 main().catch(console.error);

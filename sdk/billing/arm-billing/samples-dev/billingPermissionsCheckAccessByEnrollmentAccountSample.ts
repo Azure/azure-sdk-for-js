@@ -42,7 +42,7 @@ async function checkAccessByEnrollmentAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkAccessByEnrollmentAccount();
+  await checkAccessByEnrollmentAccount();
 }
 
 main().catch(console.error);

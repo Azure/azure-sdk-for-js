@@ -42,7 +42,7 @@ async function getACapabilityThatExtendsAVirtualMachineTargetResource(): Promise
 }
 
 async function main(): Promise<void> {
-  getACapabilityThatExtendsAVirtualMachineTargetResource();
+  await getACapabilityThatExtendsAVirtualMachineTargetResource();
 }
 
 main().catch(console.error);

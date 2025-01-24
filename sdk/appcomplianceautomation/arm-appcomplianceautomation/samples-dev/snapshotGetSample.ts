@@ -28,7 +28,7 @@ async function snapshotGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  snapshotGet();
+  await snapshotGet();
 }
 
 main().catch(console.error);

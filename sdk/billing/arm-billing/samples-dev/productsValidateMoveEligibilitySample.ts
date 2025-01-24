@@ -64,8 +64,8 @@ async function productValidateMoveSuccess(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  productValidateMoveFailure();
-  productValidateMoveSuccess();
+  await productValidateMoveFailure();
+  await productValidateMoveSuccess();
 }
 
 main().catch(console.error);

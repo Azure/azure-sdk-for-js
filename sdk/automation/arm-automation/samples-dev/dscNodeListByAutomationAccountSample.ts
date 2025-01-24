@@ -269,14 +269,14 @@ async function listPagedDscNodesWithFiltersSeparatedByAnd(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDscNodesByAutomationAccount();
-  listPagedDscNodesByAutomationAccountWhereNodeConfigurationsAreNotAssignedFilter();
-  listPagedDscNodesByAutomationAccountWithNodeConfigurationCustomFilter();
-  listPagedDscNodesByAutomationAccountWithNameFilter();
-  listPagedDscNodesByAutomationAccountWithNoFilters();
-  listPagedDscNodesByAutomationAccountWithNodeStatusFilter();
-  listPagedDscNodesByAutomationAccountWithVersionFilter();
-  listPagedDscNodesWithFiltersSeparatedByAnd();
+  await listDscNodesByAutomationAccount();
+  await listPagedDscNodesByAutomationAccountWhereNodeConfigurationsAreNotAssignedFilter();
+  await listPagedDscNodesByAutomationAccountWithNodeConfigurationCustomFilter();
+  await listPagedDscNodesByAutomationAccountWithNameFilter();
+  await listPagedDscNodesByAutomationAccountWithNoFilters();
+  await listPagedDscNodesByAutomationAccountWithNodeStatusFilter();
+  await listPagedDscNodesByAutomationAccountWithVersionFilter();
+  await listPagedDscNodesWithFiltersSeparatedByAnd();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function routesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  routesGet();
+  await routesGet();
 }
 
 main().catch(console.error);

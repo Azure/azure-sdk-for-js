@@ -34,7 +34,7 @@ async function getRaiContentFilters(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRaiContentFilters();
+  await getRaiContentFilters();
 }
 
 main().catch(console.error);

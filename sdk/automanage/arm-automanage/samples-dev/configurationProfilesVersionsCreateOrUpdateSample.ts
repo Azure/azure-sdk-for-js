@@ -54,7 +54,7 @@ async function createOrUpdateConfigurationProfileVersion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateConfigurationProfileVersion();
+  await createOrUpdateConfigurationProfileVersion();
 }
 
 main().catch(console.error);

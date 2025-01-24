@@ -43,7 +43,7 @@ async function reservationsListByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reservationsListByBillingProfile();
+  await reservationsListByBillingProfile();
 }
 
 main().catch(console.error);

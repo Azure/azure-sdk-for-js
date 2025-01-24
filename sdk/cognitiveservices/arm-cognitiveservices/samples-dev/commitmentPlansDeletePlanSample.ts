@@ -38,7 +38,7 @@ async function deleteCommitmentPlan(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteCommitmentPlan();
+  await deleteCommitmentPlan();
 }
 
 main().catch(console.error);

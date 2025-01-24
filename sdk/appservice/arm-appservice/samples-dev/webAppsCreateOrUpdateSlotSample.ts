@@ -85,8 +85,8 @@ async function createOrUpdateWebAppSlot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cloneWebAppSlot();
-  createOrUpdateWebAppSlot();
+  await cloneWebAppSlot();
+  await createOrUpdateWebAppSlot();
 }
 
 main().catch(console.error);

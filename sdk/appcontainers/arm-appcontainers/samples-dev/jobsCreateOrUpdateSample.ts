@@ -242,9 +242,9 @@ async function createOrUpdateContainerAppsJobWithEventDrivenTrigger(): Promise<v
 }
 
 async function main(): Promise<void> {
-  createOrUpdateContainerAppsJob();
-  createOrUpdateContainerAppsJobOnAConnectedEnvironment();
-  createOrUpdateContainerAppsJobWithEventDrivenTrigger();
+  await createOrUpdateContainerAppsJob();
+  await createOrUpdateContainerAppsJobOnAConnectedEnvironment();
+  await createOrUpdateContainerAppsJobWithEventDrivenTrigger();
 }
 
 main().catch(console.error);

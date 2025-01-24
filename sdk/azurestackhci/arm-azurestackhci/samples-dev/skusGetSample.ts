@@ -41,7 +41,7 @@ async function getSku(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSku();
+  await getSku();
 }
 
 main().catch(console.error);

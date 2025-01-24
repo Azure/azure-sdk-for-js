@@ -23,7 +23,7 @@ async function listCapacitiesBySubscription() {
 }
 
 async function main() {
-  listCapacitiesBySubscription();
+  await listCapacitiesBySubscription();
 }
 
 main().catch(console.error);

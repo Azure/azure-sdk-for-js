@@ -40,7 +40,7 @@ async function updateManagedClusterSnapshotTags(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateManagedClusterSnapshotTags();
+  await updateManagedClusterSnapshotTags();
 }
 
 main().catch(console.error);

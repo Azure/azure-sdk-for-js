@@ -36,7 +36,7 @@ async function clustersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clustersGet();
+  await clustersGet();
 }
 
 main().catch(console.error);

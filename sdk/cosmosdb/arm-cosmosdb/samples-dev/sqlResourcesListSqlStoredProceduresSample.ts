@@ -39,7 +39,7 @@ async function cosmosDbSqlStoredProcedureList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlStoredProcedureList();
+  await cosmosDbSqlStoredProcedureList();
 }
 
 main().catch(console.error);

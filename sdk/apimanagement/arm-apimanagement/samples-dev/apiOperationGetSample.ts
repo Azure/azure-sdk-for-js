@@ -63,8 +63,8 @@ async function apiManagementGetApiOperationPetStore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetApiOperation();
-  apiManagementGetApiOperationPetStore();
+  await apiManagementGetApiOperation();
+  await apiManagementGetApiOperationPetStore();
 }
 
 main().catch(console.error);

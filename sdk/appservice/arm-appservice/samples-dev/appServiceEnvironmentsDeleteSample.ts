@@ -35,7 +35,7 @@ async function deleteAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnAppServiceEnvironment();
+  await deleteAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

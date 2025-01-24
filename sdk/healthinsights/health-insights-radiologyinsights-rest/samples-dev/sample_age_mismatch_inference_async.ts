@@ -232,7 +232,7 @@ export async function main(): Promise<void> {
   const content =
     radiologyInsightsParameter?.body?.jobData?.patients?.[0]?.patientDocuments?.[0]?.content
       ?.value ?? "";
-  printResults(resultBody, content);
+  await printResults(resultBody, content);
 }
 
 main().catch((err) => {

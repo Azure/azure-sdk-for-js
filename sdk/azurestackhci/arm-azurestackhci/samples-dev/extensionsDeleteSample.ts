@@ -39,7 +39,7 @@ async function deleteArcExtension(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteArcExtension();
+  await deleteArcExtension();
 }
 
 main().catch(console.error);

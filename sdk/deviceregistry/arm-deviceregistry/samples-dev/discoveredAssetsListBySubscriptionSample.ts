@@ -23,7 +23,7 @@ async function listDiscoveredAssetsSubscription() {
 }
 
 async function main() {
-  listDiscoveredAssetsSubscription();
+  await listDiscoveredAssetsSubscription();
 }
 
 main().catch(console.error);

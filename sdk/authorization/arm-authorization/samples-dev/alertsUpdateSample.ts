@@ -29,7 +29,7 @@ async function deactivateAlert(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deactivateAlert();
+  await deactivateAlert();
 }
 
 main().catch(console.error);

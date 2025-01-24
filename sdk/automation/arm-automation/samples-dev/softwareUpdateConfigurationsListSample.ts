@@ -64,8 +64,8 @@ async function listSoftwareUpdateConfigurationsTargetingASpecificAzureVirtualMac
 }
 
 async function main(): Promise<void> {
-  listSoftwareUpdateConfigurations();
-  listSoftwareUpdateConfigurationsTargetingASpecificAzureVirtualMachine();
+  await listSoftwareUpdateConfigurations();
+  await listSoftwareUpdateConfigurationsTargetingASpecificAzureVirtualMachine();
 }
 
 main().catch(console.error);

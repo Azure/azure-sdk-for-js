@@ -67,8 +67,8 @@ async function stopTheVirtualMachineSAndTheSapSystemOnIt(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesStop();
-  stopTheVirtualMachineSAndTheSapSystemOnIt();
+  await sapVirtualInstancesStop();
+  await stopTheVirtualMachineSAndTheSapSystemOnIt();
 }
 
 main().catch(console.error);

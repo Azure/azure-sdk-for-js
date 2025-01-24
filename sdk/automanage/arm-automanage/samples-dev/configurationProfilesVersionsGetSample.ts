@@ -36,7 +36,7 @@ async function getAConfigurationProfileVersion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAConfigurationProfileVersion();
+  await getAConfigurationProfileVersion();
 }
 
 main().catch(console.error);

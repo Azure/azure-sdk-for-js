@@ -40,7 +40,7 @@ async function pipelineRunDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  pipelineRunDelete();
+  await pipelineRunDelete();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function containerAppsBuildsListByContainerApp0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerAppsBuildsListByContainerApp0();
+  await containerAppsBuildsListByContainerApp0();
 }
 
 main().catch(console.error);

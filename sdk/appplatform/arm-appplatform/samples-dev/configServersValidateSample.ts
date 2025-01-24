@@ -46,7 +46,7 @@ async function configServersValidate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configServersValidate();
+  await configServersValidate();
 }
 
 main().catch(console.error);

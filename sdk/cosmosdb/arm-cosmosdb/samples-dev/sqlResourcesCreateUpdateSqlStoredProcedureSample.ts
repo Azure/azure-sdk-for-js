@@ -45,7 +45,7 @@ async function cosmosDbSqlStoredProcedureCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlStoredProcedureCreateUpdate();
+  await cosmosDbSqlStoredProcedureCreateUpdate();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function bindingsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bindingsDelete();
+  await bindingsDelete();
 }
 
 main().catch(console.error);

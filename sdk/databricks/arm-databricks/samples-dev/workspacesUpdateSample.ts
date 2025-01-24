@@ -40,7 +40,7 @@ async function updateAWorkspaceTags(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAWorkspaceTags();
+  await updateAWorkspaceTags();
 }
 
 main().catch(console.error);

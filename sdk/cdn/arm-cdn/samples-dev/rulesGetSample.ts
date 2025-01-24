@@ -36,7 +36,7 @@ async function rulesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rulesGet();
+  await rulesGet();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function listLocationBasedModelCapacities(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listLocationBasedModelCapacities();
+  await listLocationBasedModelCapacities();
 }
 
 main().catch(console.error);

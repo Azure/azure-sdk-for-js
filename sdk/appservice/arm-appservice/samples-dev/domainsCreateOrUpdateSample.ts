@@ -117,7 +117,7 @@ async function createAppServiceDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAppServiceDomain();
+  await createAppServiceDomain();
 }
 
 main().catch(console.error);

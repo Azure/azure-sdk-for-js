@@ -37,7 +37,7 @@ async function appsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appsDelete();
+  await appsDelete();
 }
 
 main().catch(console.error);

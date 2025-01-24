@@ -40,7 +40,7 @@ async function gatewayCustomDomainsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewayCustomDomainsList();
+  await gatewayCustomDomainsList();
 }
 
 main().catch(console.error);

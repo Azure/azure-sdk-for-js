@@ -33,7 +33,7 @@ async function apiManagementDeletedServicesPurge(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeletedServicesPurge();
+  await apiManagementDeletedServicesPurge();
 }
 
 main().catch(console.error);

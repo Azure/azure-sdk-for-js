@@ -38,7 +38,7 @@ async function paymentTermsAdd(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  paymentTermsAdd();
+  await paymentTermsAdd();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function deploymentsListForCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsListForCluster();
+  await deploymentsListForCluster();
 }
 
 main().catch(console.error);

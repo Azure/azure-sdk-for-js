@@ -47,7 +47,7 @@ async function createOrUpdateWatcher(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateWatcher();
+  await createOrUpdateWatcher();
 }
 
 main().catch(console.error);

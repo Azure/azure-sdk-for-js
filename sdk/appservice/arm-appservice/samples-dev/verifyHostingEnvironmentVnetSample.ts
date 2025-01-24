@@ -34,7 +34,7 @@ async function verifyHostingEnvironmentVnet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  verifyHostingEnvironmentVnet();
+  await verifyHostingEnvironmentVnet();
 }
 
 main().catch(console.error);

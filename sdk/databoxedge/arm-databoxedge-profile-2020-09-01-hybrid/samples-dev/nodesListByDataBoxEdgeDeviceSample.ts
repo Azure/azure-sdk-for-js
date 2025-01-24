@@ -38,7 +38,7 @@ async function nodesGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nodesGetAllInDevice();
+  await nodesGetAllInDevice();
 }
 
 main().catch(console.error);

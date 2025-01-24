@@ -23,7 +23,7 @@ async function privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable();
+  await privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function apiManagementUpdateGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateGroup();
+  await apiManagementUpdateGroup();
 }
 
 main().catch(console.error);

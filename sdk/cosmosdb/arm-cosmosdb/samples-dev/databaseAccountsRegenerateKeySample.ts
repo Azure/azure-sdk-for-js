@@ -39,7 +39,7 @@ async function cosmosDbDatabaseAccountRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountRegenerateKey();
+  await cosmosDbDatabaseAccountRegenerateKey();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function listAssetEndpointProfilesResourceGroup() {
 }
 
 async function main() {
-  listAssetEndpointProfilesResourceGroup();
+  await listAssetEndpointProfilesResourceGroup();
 }
 
 main().catch(console.error);

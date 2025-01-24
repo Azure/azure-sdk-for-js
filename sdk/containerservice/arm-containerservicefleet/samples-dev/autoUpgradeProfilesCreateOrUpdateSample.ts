@@ -42,7 +42,7 @@ async function createAnAutoUpgradeProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAnAutoUpgradeProfile();
+  await createAnAutoUpgradeProfile();
 }
 
 main().catch(console.error);

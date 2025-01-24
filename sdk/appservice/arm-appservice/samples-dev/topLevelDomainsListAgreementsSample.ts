@@ -43,7 +43,7 @@ async function listTopLevelDomainAgreements(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listTopLevelDomainAgreements();
+  await listTopLevelDomainAgreements();
 }
 
 main().catch(console.error);

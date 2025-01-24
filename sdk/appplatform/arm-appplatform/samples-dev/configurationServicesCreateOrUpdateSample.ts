@@ -57,7 +57,7 @@ async function configurationServicesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationServicesCreateOrUpdate();
+  await configurationServicesCreateOrUpdate();
 }
 
 main().catch(console.error);

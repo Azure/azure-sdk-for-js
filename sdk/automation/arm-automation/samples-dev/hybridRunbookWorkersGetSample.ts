@@ -36,7 +36,7 @@ async function getAV2HybridRunbookWorker(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAV2HybridRunbookWorker();
+  await getAV2HybridRunbookWorker();
 }
 
 main().catch(console.error);

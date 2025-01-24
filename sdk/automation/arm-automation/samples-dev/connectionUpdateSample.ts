@@ -46,7 +46,7 @@ async function updateAConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAConnection();
+  await updateAConnection();
 }
 
 main().catch(console.error);

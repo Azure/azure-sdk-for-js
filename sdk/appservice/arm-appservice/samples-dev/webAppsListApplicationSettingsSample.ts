@@ -35,7 +35,7 @@ async function listAppSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppSettings();
+  await listAppSettings();
 }
 
 main().catch(console.error);

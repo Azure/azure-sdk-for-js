@@ -34,7 +34,7 @@ async function invoiceSectionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoiceSectionsDelete();
+  await invoiceSectionsDelete();
 }
 
 main().catch(console.error);

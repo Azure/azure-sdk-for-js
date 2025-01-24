@@ -36,7 +36,7 @@ async function dataBoxEdgeDeviceGetByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataBoxEdgeDeviceGetByResourceGroup();
+  await dataBoxEdgeDeviceGetByResourceGroup();
 }
 
 main().catch(console.error);

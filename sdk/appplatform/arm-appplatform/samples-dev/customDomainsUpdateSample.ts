@@ -49,7 +49,7 @@ async function customDomainsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customDomainsUpdate();
+  await customDomainsUpdate();
 }
 
 main().catch(console.error);

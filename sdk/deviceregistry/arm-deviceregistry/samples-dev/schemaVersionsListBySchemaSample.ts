@@ -27,7 +27,7 @@ async function listSchemaVersionsSchema() {
 }
 
 async function main() {
-  listSchemaVersionsSchema();
+  await listSchemaVersionsSchema();
 }
 
 main().catch(console.error);

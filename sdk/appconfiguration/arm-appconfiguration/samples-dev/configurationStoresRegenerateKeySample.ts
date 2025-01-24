@@ -45,7 +45,7 @@ async function configurationStoresRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationStoresRegenerateKey();
+  await configurationStoresRegenerateKey();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function servicesListGloballyEnabledApms(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesListGloballyEnabledApms();
+  await servicesListGloballyEnabledApms();
 }
 
 main().catch(console.error);

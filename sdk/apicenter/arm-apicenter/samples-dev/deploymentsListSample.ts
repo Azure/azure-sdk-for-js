@@ -42,7 +42,7 @@ async function deploymentsListByApi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsListByApi();
+  await deploymentsListByApi();
 }
 
 main().catch(console.error);

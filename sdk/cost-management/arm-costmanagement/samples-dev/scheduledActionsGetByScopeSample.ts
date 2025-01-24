@@ -28,7 +28,7 @@ async function scheduledActionByScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scheduledActionByScope();
+  await scheduledActionByScope();
 }
 
 main().catch(console.error);

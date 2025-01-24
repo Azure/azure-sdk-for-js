@@ -50,7 +50,7 @@ async function webPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdate(): Promi
 }
 
 async function main(): Promise<void> {
-  webPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdate();
+  await webPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdate();
 }
 
 main().catch(console.error);

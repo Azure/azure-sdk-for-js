@@ -33,7 +33,7 @@ async function batchAccountDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountDelete();
+  await batchAccountDelete();
 }
 
 main().catch(console.error);

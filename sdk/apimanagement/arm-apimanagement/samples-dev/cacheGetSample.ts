@@ -36,7 +36,7 @@ async function apiManagementGetCache(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetCache();
+  await apiManagementGetCache();
 }
 
 main().catch(console.error);

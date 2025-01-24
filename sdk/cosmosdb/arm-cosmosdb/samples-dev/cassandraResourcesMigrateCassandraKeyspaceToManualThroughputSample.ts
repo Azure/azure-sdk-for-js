@@ -35,7 +35,7 @@ async function cosmosDbCassandraKeyspaceMigrateToManualThroughput(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraKeyspaceMigrateToManualThroughput();
+  await cosmosDbCassandraKeyspaceMigrateToManualThroughput();
 }
 
 main().catch(console.error);

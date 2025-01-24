@@ -32,7 +32,7 @@ async function billingSubscriptionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionsDelete();
+  await billingSubscriptionsDelete();
 }
 
 main().catch(console.error);

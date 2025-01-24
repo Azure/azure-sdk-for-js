@@ -38,7 +38,7 @@ async function containerRegistriesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerRegistriesList();
+  await containerRegistriesList();
 }
 
 main().catch(console.error);

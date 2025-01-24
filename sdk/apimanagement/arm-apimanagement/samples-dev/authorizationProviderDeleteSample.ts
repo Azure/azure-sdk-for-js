@@ -38,7 +38,7 @@ async function apiManagementDeleteAuthorizationProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteAuthorizationProvider();
+  await apiManagementDeleteAuthorizationProvider();
 }
 
 main().catch(console.error);

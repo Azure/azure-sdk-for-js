@@ -45,7 +45,7 @@ async function createRoleAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createRoleAssignment();
+  await createRoleAssignment();
 }
 
 main().catch(console.error);

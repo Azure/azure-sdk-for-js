@@ -37,7 +37,7 @@ async function getSiteInstanceInfo(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSiteInstanceInfo();
+  await getSiteInstanceInfo();
 }
 
 main().catch(console.error);

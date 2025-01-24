@@ -37,7 +37,7 @@ async function apiManagementListCaches(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListCaches();
+  await apiManagementListCaches();
 }
 
 main().catch(console.error);

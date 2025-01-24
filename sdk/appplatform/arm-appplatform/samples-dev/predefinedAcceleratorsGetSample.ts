@@ -39,7 +39,7 @@ async function predefinedAcceleratorsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  predefinedAcceleratorsGet();
+  await predefinedAcceleratorsGet();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function reservationDetails(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reservationDetails();
+  await reservationDetails();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function standbyContainerGroupPoolsListBySubscription() {
 }
 
 async function main() {
-  standbyContainerGroupPoolsListBySubscription();
+  await standbyContainerGroupPoolsListBySubscription();
 }
 
 main().catch(console.error);

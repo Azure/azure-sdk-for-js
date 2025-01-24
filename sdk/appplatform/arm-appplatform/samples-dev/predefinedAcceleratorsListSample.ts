@@ -40,7 +40,7 @@ async function predefinedAcceleratorsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  predefinedAcceleratorsList();
+  await predefinedAcceleratorsList();
 }
 
 main().catch(console.error);

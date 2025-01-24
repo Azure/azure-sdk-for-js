@@ -39,7 +39,7 @@ async function apisDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apisDelete();
+  await apisDelete();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function getCommunicationsGatewayResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCommunicationsGatewayResource();
+  await getCommunicationsGatewayResource();
 }
 
 main().catch(console.error);

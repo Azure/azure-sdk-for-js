@@ -39,7 +39,7 @@ async function serverListByResourceGroup() {
 }
 
 async function main() {
-  serverListByResourceGroup();
+  await serverListByResourceGroup();
 }
 
 main().catch(console.error);

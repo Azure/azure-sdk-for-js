@@ -23,7 +23,7 @@ async function accountsCreateOrUpdate() {
 }
 
 async function main() {
-  accountsCreateOrUpdate();
+  await accountsCreateOrUpdate();
 }
 
 main().catch(console.error);

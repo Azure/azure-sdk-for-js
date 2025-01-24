@@ -100,9 +100,9 @@ async function createCertificateMinimalPfx(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createCertificateFull();
-  createCertificateMinimalCer();
-  createCertificateMinimalPfx();
+  await createCertificateFull();
+  await createCertificateMinimalCer();
+  await createCertificateMinimalPfx();
 }
 
 main().catch(console.error);

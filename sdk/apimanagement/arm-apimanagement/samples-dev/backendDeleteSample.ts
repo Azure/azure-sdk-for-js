@@ -38,7 +38,7 @@ async function apiManagementDeleteBackend(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteBackend();
+  await apiManagementDeleteBackend();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listAllExperimentsInASubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllExperimentsInASubscription();
+  await listAllExperimentsInASubscription();
 }
 
 main().catch(console.error);

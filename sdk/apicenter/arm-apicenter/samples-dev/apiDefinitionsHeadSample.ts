@@ -43,7 +43,7 @@ async function apiDefinitionsHead(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiDefinitionsHead();
+  await apiDefinitionsHead();
 }
 
 main().catch(console.error);

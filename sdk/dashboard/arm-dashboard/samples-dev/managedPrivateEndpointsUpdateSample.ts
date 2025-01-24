@@ -44,7 +44,7 @@ async function managedPrivateEndpointsPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointsPatch();
+  await managedPrivateEndpointsPatch();
 }
 
 main().catch(console.error);

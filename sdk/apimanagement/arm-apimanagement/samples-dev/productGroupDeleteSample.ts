@@ -38,7 +38,7 @@ async function apiManagementDeleteProductGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteProductGroup();
+  await apiManagementDeleteProductGroup();
 }
 
 main().catch(console.error);

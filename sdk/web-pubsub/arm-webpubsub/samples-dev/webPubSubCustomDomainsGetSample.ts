@@ -37,7 +37,7 @@ async function webPubSubCustomDomainsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubCustomDomainsGet();
+  await webPubSubCustomDomainsGet();
 }
 
 main().catch(console.error);

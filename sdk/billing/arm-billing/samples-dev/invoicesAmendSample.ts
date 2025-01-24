@@ -32,7 +32,7 @@ async function invoicesAmend(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoicesAmend();
+  await invoicesAmend();
 }
 
 main().catch(console.error);

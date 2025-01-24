@@ -20,26 +20,19 @@ import "dotenv/config";
  */
 async function listEmailServiceResourcesByResourceGroup(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.emailServices.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.emailServices.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  listEmailServiceResourcesByResourceGroup();
+  await listEmailServiceResourcesByResourceGroup();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getMetricDefinitionsForAMultiRolePoolOfAnAppServiceEnvironment():
 }
 
 async function main(): Promise<void> {
-  getMetricDefinitionsForAMultiRolePoolOfAnAppServiceEnvironment();
+  await getMetricDefinitionsForAMultiRolePoolOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

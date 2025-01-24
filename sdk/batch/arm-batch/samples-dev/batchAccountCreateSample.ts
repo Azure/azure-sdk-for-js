@@ -174,11 +174,11 @@ async function privateBatchAccountCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountCreateByos();
-  batchAccountCreateDefault();
-  batchAccountCreateSystemAssignedIdentity();
-  batchAccountCreateUserAssignedIdentity();
-  privateBatchAccountCreate();
+  await batchAccountCreateByos();
+  await batchAccountCreateDefault();
+  await batchAccountCreateSystemAssignedIdentity();
+  await batchAccountCreateUserAssignedIdentity();
+  await privateBatchAccountCreate();
 }
 
 main().catch(console.error);

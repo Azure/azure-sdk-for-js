@@ -39,7 +39,7 @@ async function listReportsByHcrpConfigurationProfilesAssignment(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  listReportsByHcrpConfigurationProfilesAssignment();
+  await listReportsByHcrpConfigurationProfilesAssignment();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function consentAndInstallDefaultExtensions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  consentAndInstallDefaultExtensions();
+  await consentAndInstallDefaultExtensions();
 }
 
 main().catch(console.error);

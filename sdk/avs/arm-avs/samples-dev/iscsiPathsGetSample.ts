@@ -34,7 +34,7 @@ async function iscsiPathsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  iscsiPathsGet();
+  await iscsiPathsGet();
 }
 
 main().catch(console.error);

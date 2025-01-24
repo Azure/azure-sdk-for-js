@@ -46,7 +46,7 @@ async function cosmosDbSqlContainerThroughputUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlContainerThroughputUpdate();
+  await cosmosDbSqlContainerThroughputUpdate();
 }
 
 main().catch(console.error);

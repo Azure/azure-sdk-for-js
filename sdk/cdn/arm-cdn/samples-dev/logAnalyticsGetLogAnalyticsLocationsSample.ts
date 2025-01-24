@@ -32,7 +32,7 @@ async function logAnalyticsGetLogAnalyticsLocations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  logAnalyticsGetLogAnalyticsLocations();
+  await logAnalyticsGetLogAnalyticsLocations();
 }
 
 main().catch(console.error);

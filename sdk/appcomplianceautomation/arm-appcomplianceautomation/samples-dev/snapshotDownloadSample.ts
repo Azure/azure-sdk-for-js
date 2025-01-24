@@ -105,10 +105,10 @@ async function snapshotDownloadResourceList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  snapshotDownloadComplianceDetailedPdfReport();
-  snapshotDownloadCompliancePdfReport();
-  snapshotDownloadComplianceReport();
-  snapshotDownloadResourceList();
+  await snapshotDownloadComplianceDetailedPdfReport();
+  await snapshotDownloadCompliancePdfReport();
+  await snapshotDownloadComplianceReport();
+  await snapshotDownloadResourceList();
 }
 
 main().catch(console.error);

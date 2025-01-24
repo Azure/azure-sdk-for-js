@@ -38,7 +38,7 @@ async function apiManagementDeleteApi(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteApi();
+  await apiManagementDeleteApi();
 }
 
 main().catch(console.error);

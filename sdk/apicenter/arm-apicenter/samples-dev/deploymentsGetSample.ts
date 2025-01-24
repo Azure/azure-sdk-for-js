@@ -41,7 +41,7 @@ async function deploymentsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsGet();
+  await deploymentsGet();
 }
 
 main().catch(console.error);

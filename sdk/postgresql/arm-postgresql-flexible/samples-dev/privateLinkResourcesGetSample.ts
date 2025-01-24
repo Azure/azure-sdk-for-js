@@ -40,7 +40,7 @@ async function getsAPrivateLinkResourceForPostgreSql() {
 }
 
 async function main() {
-  getsAPrivateLinkResourceForPostgreSql();
+  await getsAPrivateLinkResourceForPostgreSql();
 }
 
 main().catch(console.error);

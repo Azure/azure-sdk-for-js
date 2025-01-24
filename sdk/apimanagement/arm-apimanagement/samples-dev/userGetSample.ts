@@ -32,7 +32,7 @@ async function apiManagementGetUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetUser();
+  await apiManagementGetUser();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function cosmosDbSqlTriggerGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlTriggerGet();
+  await cosmosDbSqlTriggerGet();
 }
 
 main().catch(console.error);

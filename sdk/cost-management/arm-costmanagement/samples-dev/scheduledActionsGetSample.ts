@@ -27,7 +27,7 @@ async function privateScheduledAction(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateScheduledAction();
+  await privateScheduledAction();
 }
 
 main().catch(console.error);

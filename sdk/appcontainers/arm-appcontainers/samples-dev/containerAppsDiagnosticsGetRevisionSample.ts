@@ -36,7 +36,7 @@ async function getContainerAppRevision(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContainerAppRevision();
+  await getContainerAppRevision();
 }
 
 main().catch(console.error);

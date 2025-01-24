@@ -40,7 +40,7 @@ async function agentPoolsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  agentPoolsDelete();
+  await agentPoolsDelete();
 }
 
 main().catch(console.error);

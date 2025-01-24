@@ -64,7 +64,7 @@ async function createOrUpdateDaprComponent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateDaprComponent();
+  await createOrUpdateDaprComponent();
 }
 
 main().catch(console.error);

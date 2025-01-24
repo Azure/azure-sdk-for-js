@@ -42,7 +42,7 @@ async function analyzeCustomHostname(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  analyzeCustomHostname();
+  await analyzeCustomHostname();
 }
 
 main().catch(console.error);

@@ -27,7 +27,7 @@ async function scheduledActionSendNow(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scheduledActionSendNow();
+  await scheduledActionSendNow();
 }
 
 main().catch(console.error);

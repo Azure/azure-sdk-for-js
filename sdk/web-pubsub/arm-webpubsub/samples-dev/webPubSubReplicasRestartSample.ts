@@ -37,7 +37,7 @@ async function webPubSubReplicasRestart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubReplicasRestart();
+  await webPubSubReplicasRestart();
 }
 
 main().catch(console.error);

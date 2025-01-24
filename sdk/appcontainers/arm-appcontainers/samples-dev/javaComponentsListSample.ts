@@ -63,8 +63,8 @@ async function listJavaComponentsWithServiceBinds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listJavaComponents();
-  listJavaComponentsWithServiceBinds();
+  await listJavaComponents();
+  await listJavaComponentsWithServiceBinds();
 }
 
 main().catch(console.error);

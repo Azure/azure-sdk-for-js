@@ -36,7 +36,7 @@ async function rotateClusterServiceAccountSigningKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rotateClusterServiceAccountSigningKeys();
+  await rotateClusterServiceAccountSigningKeys();
 }
 
 main().catch(console.error);

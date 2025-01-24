@@ -36,7 +36,7 @@ async function apiManagementGetAuthorizationProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetAuthorizationProvider();
+  await apiManagementGetAuthorizationProvider();
 }
 
 main().catch(console.error);
