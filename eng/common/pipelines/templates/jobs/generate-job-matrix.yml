@@ -146,7 +146,7 @@ jobs:
               -IndirectFilters '${{ join(''',''', parameters.PRMatrixIndirectFilters) }}' `
               -Replace '${{ join(''',''', parameters.MatrixReplace) }}' `
               -PackagesPerPRJob ${{ parameters.PRJobBatchSize }} `
-              -SparseIndirect ${{ parameters.PRMatrixSparseIndirect }}'
+              -SparseIndirect $${{ parameters.PRMatrixSparseIndirect }}
           displayName: Create ${{ pool.name }} PR Matrix
           name: vm_job_matrix_pr_${{ pool.name }}
 
