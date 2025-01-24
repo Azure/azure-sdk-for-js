@@ -10,7 +10,7 @@ export default azsdkEslint.config([
       "@azure/azure-sdk/ts-package-json-module": "off",
       "@azure/azure-sdk/ts-package-json-files-required": "off",
       "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
-      "tsdoc/syntax": "warn"
-    }
-  }
+      "tsdoc/syntax": "warn",
+    },
+  },
 ]);

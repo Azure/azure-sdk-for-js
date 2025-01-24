@@ -14,9 +14,7 @@ async function getWorkloadImpactResourceByName(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
-  const result = await client.impactCategories.ImpactCategories_get(
-    "ARMOperation.Create",
-  );
+  const result = await client.impactCategories.ImpactCategories_get("ARMOperation.Create");
   console.log(result);
 }
 

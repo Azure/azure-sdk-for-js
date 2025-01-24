@@ -15,9 +15,7 @@ async function listInsightResourcesByWorkloadImpactName(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.insights.Insights_listBySubscription(
-    "impactid22",
-  )) {
+  for await (let item of client.insights.Insights_listBySubscription("impactid22")) {
     resArray.push(item);
   }
 

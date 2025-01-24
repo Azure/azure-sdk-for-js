@@ -118,10 +118,6 @@ export async function impactCategoriesGet(
   impactCategoryName: string,
   options: ImpactCategoriesGetOptionalParams = { requestOptions: {} },
 ): Promise<ImpactCategory> {
-  const result = await _impactCategoriesGetSend(
-    context,
-    impactCategoryName,
-    options,
-  );
+  const result = await _impactCategoriesGetSend(context, impactCategoryName, options);
   return _impactCategoriesGetDeserialize(result);
 }

@@ -15,9 +15,9 @@ async function getImpactCategoriesListBySubscription(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.impactCategories.ImpactCategories_listBySubscription(
-    { resourceType: "microsoft.compute/virtualmachines" },
-  )) {
+  for await (let item of client.impactCategories.ImpactCategories_listBySubscription({
+    resourceType: "microsoft.compute/virtualmachines",
+  })) {
     resArray.push(item);
   }
 

@@ -28,19 +28,14 @@ export interface ImpactCategoriesOperations {
 
 function _getImpactCategories(context: ImpactContext) {
   return {
-    listBySubscription: (
-      options?: ImpactCategoriesListBySubscriptionOptionalParams,
-    ) => impactCategoriesListBySubscription(context, options),
-    get: (
-      impactCategoryName: string,
-      options?: ImpactCategoriesGetOptionalParams,
-    ) => impactCategoriesGet(context, impactCategoryName, options),
+    listBySubscription: (options?: ImpactCategoriesListBySubscriptionOptionalParams) =>
+      impactCategoriesListBySubscription(context, options),
+    get: (impactCategoryName: string, options?: ImpactCategoriesGetOptionalParams) =>
+      impactCategoriesGet(context, impactCategoryName, options),
   };
 }
 
-export function _getImpactCategoriesOperations(
-  context: ImpactContext,
-): ImpactCategoriesOperations {
+export function _getImpactCategoriesOperations(context: ImpactContext): ImpactCategoriesOperations {
   return {
     ..._getImpactCategories(context),
   };

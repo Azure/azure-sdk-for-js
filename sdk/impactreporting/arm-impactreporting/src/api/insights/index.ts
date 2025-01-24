@@ -50,9 +50,7 @@ export function _insightsDeleteSend(
     });
 }
 
-export async function _insightsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _insightsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -70,12 +68,7 @@ export async function insightsDelete(
   insightName: string,
   options: InsightsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _insightsDeleteSend(
-    context,
-    workloadImpactName,
-    insightName,
-    options,
-  );
+  const result = await _insightsDeleteSend(context, workloadImpactName, insightName, options);
   return _insightsDeleteDeserialize(result);
 }
 
@@ -105,9 +98,7 @@ export function _insightsCreateSend(
     });
 }
 
-export async function _insightsCreateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Insight> {
+export async function _insightsCreateDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -208,9 +199,7 @@ export function _insightsGetSend(
     });
 }
 
-export async function _insightsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Insight> {
+export async function _insightsGetDeserialize(result: PathUncheckedResponse): Promise<Insight> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -228,11 +217,6 @@ export async function insightsGet(
   insightName: string,
   options: InsightsGetOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _insightsGetSend(
-    context,
-    workloadImpactName,
-    insightName,
-    options,
-  );
+  const result = await _insightsGetSend(context, workloadImpactName, insightName, options);
   return _insightsGetDeserialize(result);
 }

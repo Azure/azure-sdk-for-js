@@ -57,29 +57,17 @@ function _getInsights(context: ImpactContext) {
       insightName: string,
       resource: Insight,
       options?: InsightsCreateOptionalParams,
-    ) =>
-      insightsCreate(
-        context,
-        workloadImpactName,
-        insightName,
-        resource,
-        options,
-      ),
+    ) => insightsCreate(context, workloadImpactName, insightName, resource, options),
     listBySubscription: (
       workloadImpactName: string,
       options?: InsightsListBySubscriptionOptionalParams,
     ) => insightsListBySubscription(context, workloadImpactName, options),
-    get: (
-      workloadImpactName: string,
-      insightName: string,
-      options?: InsightsGetOptionalParams,
-    ) => insightsGet(context, workloadImpactName, insightName, options),
+    get: (workloadImpactName: string, insightName: string, options?: InsightsGetOptionalParams) =>
+      insightsGet(context, workloadImpactName, insightName, options),
   };
 }
 
-export function _getInsightsOperations(
-  context: ImpactContext,
-): InsightsOperations {
+export function _getInsightsOperations(context: ImpactContext): InsightsOperations {
   return {
     ..._getInsights(context),
   };
