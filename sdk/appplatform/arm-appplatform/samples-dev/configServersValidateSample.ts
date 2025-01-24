@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Check if the config server settings are valid.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ConfigServers_Validate.json
  */
-async function configServersValidate() {
+async function configServersValidate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,8 +45,8 @@ async function configServersValidate() {
   console.log(result);
 }
 
-async function main() {
-  configServersValidate();
+async function main(): Promise<void> {
+  await configServersValidate();
 }
 
 main().catch(console.error);

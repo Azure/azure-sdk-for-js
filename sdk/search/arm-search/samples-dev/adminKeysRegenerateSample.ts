@@ -36,7 +36,7 @@ async function searchRegenerateAdminKey() {
 }
 
 async function main() {
-  searchRegenerateAdminKey();
+  await searchRegenerateAdminKey();
 }
 
 main().catch(console.error);

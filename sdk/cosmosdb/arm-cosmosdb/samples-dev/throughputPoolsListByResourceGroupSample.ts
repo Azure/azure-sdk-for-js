@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all the ThroughputPools in a given resource group.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/throughputPool/CosmosDBThroughputPoolList.json
  */
-async function cosmosDbThroughputPoolListByResourceGroup() {
+async function cosmosDbThroughputPoolListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -34,8 +34,8 @@ async function cosmosDbThroughputPoolListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
-  cosmosDbThroughputPoolListByResourceGroup();
+async function main(): Promise<void> {
+  await cosmosDbThroughputPoolListByResourceGroup();
 }
 
 main().catch(console.error);

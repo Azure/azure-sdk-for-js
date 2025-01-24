@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the properties of an connectedEnvironment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironments_Get.json
  */
-async function getConnectedEnvironmentByConnectedEnvironmentName() {
+async function getConnectedEnvironmentByConnectedEnvironmentName(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,8 +34,8 @@ async function getConnectedEnvironmentByConnectedEnvironmentName() {
   console.log(result);
 }
 
-async function main() {
-  getConnectedEnvironmentByConnectedEnvironmentName();
+async function main(): Promise<void> {
+  await getConnectedEnvironmentByConnectedEnvironmentName();
 }
 
 main().catch(console.error);

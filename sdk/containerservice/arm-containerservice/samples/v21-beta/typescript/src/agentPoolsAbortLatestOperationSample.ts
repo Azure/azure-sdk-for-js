@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, an error is returned.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/AgentPoolsAbortOperation.json
  */
-async function abortOperationOnAgentPool() {
+async function abortOperationOnAgentPool(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +36,7 @@ async function abortOperationOnAgentPool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   abortOperationOnAgentPool();
 }
 

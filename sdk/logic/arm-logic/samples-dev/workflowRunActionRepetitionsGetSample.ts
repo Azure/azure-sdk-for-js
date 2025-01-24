@@ -43,7 +43,7 @@ async function getARepetition() {
 }
 
 async function main() {
-  getARepetition();
+  await getARepetition();
 }
 
 main().catch(console.error);

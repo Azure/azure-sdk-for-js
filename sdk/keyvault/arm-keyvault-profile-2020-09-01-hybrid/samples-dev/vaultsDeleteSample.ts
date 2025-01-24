@@ -34,7 +34,7 @@ async function deleteAVault() {
 }
 
 async function main() {
-  deleteAVault();
+  await deleteAVault();
 }
 
 main().catch(console.error);

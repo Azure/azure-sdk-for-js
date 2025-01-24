@@ -45,7 +45,7 @@ async function vaultList() {
 }
 
 async function main() {
-  vaultList();
+  await vaultList();
 }
 
 main().catch(console.error);

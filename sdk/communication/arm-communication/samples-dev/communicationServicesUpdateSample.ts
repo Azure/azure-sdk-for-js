@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  CommunicationServiceResourceUpdate,
-  CommunicationServiceManagementClient,
-} from "@azure/arm-communication";
+import type { CommunicationServiceResourceUpdate } from "@azure/arm-communication";
+import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,21 +17,16 @@ import "dotenv/config";
  * @summary Operation to update an existing CommunicationService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/update.json
  */
-async function updateResource() {
+async function updateResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResourceUpdate = {
     tags: { newTag: "newVal" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
@@ -50,12 +41,10 @@ async function updateResource() {
  * @summary Operation to update an existing CommunicationService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateWithSystemAndUserIdentity.json
  */
-async function updateResourceToAddSystemAndUserManagedIdentities() {
+async function updateResourceToAddSystemAndUserManagedIdentities(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResourceUpdate = {
     identity: {
@@ -65,10 +54,7 @@ async function updateResourceToAddSystemAndUserManagedIdentities() {
     tags: { newTag: "newVal" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
@@ -83,22 +69,17 @@ async function updateResourceToAddSystemAndUserManagedIdentities() {
  * @summary Operation to update an existing CommunicationService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateWithSystemAssignedIdentity.json
  */
-async function updateResourceToAddASystemAssignedManagedIdentity() {
+async function updateResourceToAddASystemAssignedManagedIdentity(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResourceUpdate = {
     identity: { type: "SystemAssigned" },
     tags: { newTag: "newVal" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
@@ -113,12 +94,10 @@ async function updateResourceToAddASystemAssignedManagedIdentity() {
  * @summary Operation to update an existing CommunicationService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateWithUserAssignedIdentity.json
  */
-async function updateResourceToAddAUserAssignedManagedIdentity() {
+async function updateResourceToAddAUserAssignedManagedIdentity(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResourceUpdate = {
     identity: {
@@ -128,10 +107,7 @@ async function updateResourceToAddAUserAssignedManagedIdentity() {
     tags: { newTag: "newVal" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
@@ -146,22 +122,17 @@ async function updateResourceToAddAUserAssignedManagedIdentity() {
  * @summary Operation to update an existing CommunicationService.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateRemoveSystemIdentity.json
  */
-async function updateResourceToRemoveIdentity() {
+async function updateResourceToRemoveIdentity(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters: CommunicationServiceResourceUpdate = {
     identity: { type: "None" },
     tags: { newTag: "newVal" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
@@ -170,12 +141,12 @@ async function updateResourceToRemoveIdentity() {
   console.log(result);
 }
 
-async function main() {
-  updateResource();
-  updateResourceToAddSystemAndUserManagedIdentities();
-  updateResourceToAddASystemAssignedManagedIdentity();
-  updateResourceToAddAUserAssignedManagedIdentity();
-  updateResourceToRemoveIdentity();
+async function main(): Promise<void> {
+  await updateResource();
+  await updateResourceToAddSystemAndUserManagedIdentities();
+  await updateResourceToAddASystemAssignedManagedIdentity();
+  await updateResourceToAddAUserAssignedManagedIdentity();
+  await updateResourceToRemoveIdentity();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates the notebook workspace for a Cosmos DB account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBNotebookWorkspaceCreate.json
  */
-async function cosmosDbNotebookWorkspaceCreate() {
+async function cosmosDbNotebookWorkspaceCreate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -39,8 +39,8 @@ async function cosmosDbNotebookWorkspaceCreate() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbNotebookWorkspaceCreate();
+async function main(): Promise<void> {
+  await cosmosDbNotebookWorkspaceCreate();
 }
 
 main().catch(console.error);

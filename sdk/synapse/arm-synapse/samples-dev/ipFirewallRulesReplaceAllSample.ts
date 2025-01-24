@@ -53,7 +53,7 @@ async function replaceAllIPFirewallRulesInAWorkspace() {
 }
 
 async function main() {
-  replaceAllIPFirewallRulesInAWorkspace();
+  await replaceAllIPFirewallRulesInAWorkspace();
 }
 
 main().catch(console.error);

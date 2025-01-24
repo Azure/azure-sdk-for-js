@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Update linked storage accounts for an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/preview/2020-03-01-preview/examples/ComponentLinkedStorageAccountsUpdate.json
  */
-async function componentLinkedStorageAccountsUpdate() {
+async function componentLinkedStorageAccountsUpdate(): Promise<void> {
   const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
   const resourceGroupName = "someResourceGroupName";
   const resourceName = "myComponent";

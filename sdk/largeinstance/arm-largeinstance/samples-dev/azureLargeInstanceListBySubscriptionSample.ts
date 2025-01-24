@@ -36,7 +36,7 @@ async function azureLargeInstanceListBySubscription() {
 }
 
 async function main() {
-  azureLargeInstanceListBySubscription();
+  await azureLargeInstanceListBySubscription();
 }
 
 main().catch(console.error);

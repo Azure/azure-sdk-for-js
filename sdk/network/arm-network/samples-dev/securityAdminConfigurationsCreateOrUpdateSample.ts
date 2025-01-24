@@ -75,8 +75,8 @@ async function createNetworkManagerSecurityAdminConfiguration() {
 }
 
 async function main() {
-  createManualModeSecurityAdminConfiguration();
-  createNetworkManagerSecurityAdminConfiguration();
+  await createManualModeSecurityAdminConfiguration();
+  await createNetworkManagerSecurityAdminConfiguration();
 }
 
 main().catch(console.error);

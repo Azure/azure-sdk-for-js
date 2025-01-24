@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Catalog, DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a catalog.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a catalog.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_CreateAdo.json
  */
-async function catalogsCreateOrUpdateAdo() {
+async function catalogsCreateOrUpdateAdo(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -54,7 +52,7 @@ async function catalogsCreateOrUpdateAdo() {
  * @summary Creates or updates a catalog.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Catalogs_CreateGitHub.json
  */
-async function catalogsCreateOrUpdateGitHub() {
+async function catalogsCreateOrUpdateGitHub(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -82,9 +80,9 @@ async function catalogsCreateOrUpdateGitHub() {
   console.log(result);
 }
 
-async function main() {
-  catalogsCreateOrUpdateAdo();
-  catalogsCreateOrUpdateGitHub();
+async function main(): Promise<void> {
+  await catalogsCreateOrUpdateAdo();
+  await catalogsCreateOrUpdateGitHub();
 }
 
 main().catch(console.error);

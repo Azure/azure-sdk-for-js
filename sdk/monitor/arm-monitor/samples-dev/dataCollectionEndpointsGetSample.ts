@@ -37,7 +37,7 @@ async function getDataCollectionEndpoint() {
 }
 
 async function main() {
-  getDataCollectionEndpoint();
+  await getDataCollectionEndpoint();
 }
 
 main().catch(console.error);

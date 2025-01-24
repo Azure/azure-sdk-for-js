@@ -53,8 +53,8 @@ export async function main() {
     throw response.body;
   }
   console.log("The status after cancelling the batch operation is:" + response.body.status);
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of watchers.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listWatchersByAutomationAccount.json
  */
-async function listWatchersByAutomationAccount() {
+async function listWatchersByAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "MyTestAutomationAccount";
@@ -34,8 +34,8 @@ async function listWatchersByAutomationAccount() {
   console.log(resArray);
 }
 
-async function main() {
-  listWatchersByAutomationAccount();
+async function main(): Promise<void> {
+  await listWatchersByAutomationAccount();
 }
 
 main().catch(console.error);

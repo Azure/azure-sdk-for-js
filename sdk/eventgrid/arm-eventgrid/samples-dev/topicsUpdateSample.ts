@@ -49,7 +49,7 @@ async function topicsUpdate() {
 }
 
 async function main() {
-  topicsUpdate();
+  await topicsUpdate();
 }
 
 main().catch(console.error);

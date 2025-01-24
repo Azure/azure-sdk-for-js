@@ -47,7 +47,7 @@ async function renameASqlAnalyticsPool() {
 }
 
 async function main() {
-  renameASqlAnalyticsPool();
+  await renameASqlAnalyticsPool();
 }
 
 main().catch(console.error);

@@ -147,8 +147,8 @@ async function createOrUpdateAVaultWithNetworkAcls() {
 }
 
 async function main() {
-  createANewVaultOrUpdateAnExistingVault();
-  createOrUpdateAVaultWithNetworkAcls();
+  await createANewVaultOrUpdateAnExistingVault();
+  await createOrUpdateAVaultWithNetworkAcls();
 }
 
 main().catch(console.error);

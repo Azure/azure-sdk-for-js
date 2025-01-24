@@ -34,7 +34,7 @@ async function relayNameSpaceGet() {
 }
 
 async function main() {
-  relayNameSpaceGet();
+  await relayNameSpaceGet();
 }
 
 main().catch(console.error);

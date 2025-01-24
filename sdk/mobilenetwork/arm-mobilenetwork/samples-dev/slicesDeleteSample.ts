@@ -39,7 +39,7 @@ async function deleteNetworkSlice() {
 }
 
 async function main() {
-  deleteNetworkSlice();
+  await deleteNetworkSlice();
 }
 
 main().catch(console.error);

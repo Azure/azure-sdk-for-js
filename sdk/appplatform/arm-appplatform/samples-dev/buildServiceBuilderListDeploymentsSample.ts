@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List deployments that are using the builder.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/BuildServiceBuilder_ListDeployments.json
  */
-async function buildServiceBuilderListDeployments() {
+async function buildServiceBuilderListDeployments(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +38,8 @@ async function buildServiceBuilderListDeployments() {
   console.log(result);
 }
 
-async function main() {
-  buildServiceBuilderListDeployments();
+async function main(): Promise<void> {
+  await buildServiceBuilderListDeployments();
 }
 
 main().catch(console.error);

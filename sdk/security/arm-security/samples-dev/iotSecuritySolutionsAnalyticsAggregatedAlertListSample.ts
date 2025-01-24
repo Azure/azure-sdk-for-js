@@ -39,7 +39,7 @@ async function getTheAggregatedAlertListOfYoursIoTSecuritySolution() {
 }
 
 async function main() {
-  getTheAggregatedAlertListOfYoursIoTSecuritySolution();
+  await getTheAggregatedAlertListOfYoursIoTSecuritySolution();
 }
 
 main().catch(console.error);

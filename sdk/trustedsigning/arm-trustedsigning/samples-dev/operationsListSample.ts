@@ -23,7 +23,7 @@ async function listTrustedSigningAccountOperations() {
 }
 
 async function main() {
-  listTrustedSigningAccountOperations();
+  await listTrustedSigningAccountOperations();
 }
 
 main().catch(console.error);

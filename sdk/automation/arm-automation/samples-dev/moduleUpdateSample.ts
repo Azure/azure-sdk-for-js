@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update the module identified by module name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/updateModule.json
  */
-async function updateAModule() {
+async function updateAModule(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "MyAutomationAccount";
@@ -48,8 +48,8 @@ async function updateAModule() {
   console.log(result);
 }
 
-async function main() {
-  updateAModule();
+async function main(): Promise<void> {
+  await updateAModule();
 }
 
 main().catch(console.error);

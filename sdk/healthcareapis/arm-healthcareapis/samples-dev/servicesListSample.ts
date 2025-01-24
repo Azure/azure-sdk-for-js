@@ -33,7 +33,7 @@ async function listAllServicesInSubscription() {
 }
 
 async function main() {
-  listAllServicesInSubscription();
+  await listAllServicesInSubscription();
 }
 
 main().catch(console.error);

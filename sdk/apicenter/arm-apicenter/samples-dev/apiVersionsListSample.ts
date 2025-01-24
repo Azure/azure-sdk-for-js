@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a collection of API versions.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/ApiVersions_List.json
  */
-async function apiVersionsListByApi() {
+async function apiVersionsListByApi(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,8 +41,8 @@ async function apiVersionsListByApi() {
   console.log(resArray);
 }
 
-async function main() {
-  apiVersionsListByApi();
+async function main(): Promise<void> {
+  await apiVersionsListByApi();
 }
 
 main().catch(console.error);

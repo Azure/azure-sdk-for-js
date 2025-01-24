@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Handle requests to list all customized accelerators.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/CustomizedAccelerators_List.json
  */
-async function customizedAcceleratorsList() {
+async function customizedAcceleratorsList(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,8 +39,8 @@ async function customizedAcceleratorsList() {
   console.log(resArray);
 }
 
-async function main() {
-  customizedAcceleratorsList();
+async function main(): Promise<void> {
+  await customizedAcceleratorsList();
 }
 
 main().catch(console.error);

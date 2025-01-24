@@ -82,8 +82,8 @@ async function springbootsitesCreateOrUpdateMinimumSetGen() {
 }
 
 async function main() {
-  springbootsitesCreateOrUpdateMaximumSetGen();
-  springbootsitesCreateOrUpdateMinimumSetGen();
+  await springbootsitesCreateOrUpdateMaximumSetGen();
+  await springbootsitesCreateOrUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

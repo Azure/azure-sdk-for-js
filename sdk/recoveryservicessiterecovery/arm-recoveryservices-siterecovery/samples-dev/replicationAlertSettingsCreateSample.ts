@@ -51,7 +51,7 @@ async function configuresEmailNotificationsForThisVault() {
 }
 
 async function main() {
-  configuresEmailNotificationsForThisVault();
+  await configuresEmailNotificationsForThisVault();
 }
 
 main().catch(console.error);

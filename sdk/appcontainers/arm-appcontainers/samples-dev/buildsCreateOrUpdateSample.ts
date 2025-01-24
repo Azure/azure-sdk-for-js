@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a BuildResource
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_CreateOrUpdate_NoConfig.json
  */
-async function buildsCreateOrUpdateNoConfig() {
+async function buildsCreateOrUpdateNoConfig(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -46,7 +46,7 @@ async function buildsCreateOrUpdateNoConfig() {
  * @summary Create a BuildResource
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_CreateOrUpdate.json
  */
-async function buildsCreateOrUpdateWithConfig() {
+async function buildsCreateOrUpdateWithConfig(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -99,9 +99,9 @@ async function buildsCreateOrUpdateWithConfig() {
   console.log(result);
 }
 
-async function main() {
-  buildsCreateOrUpdateNoConfig();
-  buildsCreateOrUpdateWithConfig();
+async function main(): Promise<void> {
+  await buildsCreateOrUpdateNoConfig();
+  await buildsCreateOrUpdateWithConfig();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function listAJobExecutions() {
 }
 
 async function main() {
-  listAJobExecutions();
+  await listAJobExecutions();
 }
 
 main().catch(console.error);

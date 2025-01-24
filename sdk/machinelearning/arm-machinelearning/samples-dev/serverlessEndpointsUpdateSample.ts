@@ -57,7 +57,7 @@ async function updateWorkspaceServerlessEndpoint() {
 }
 
 async function main() {
-  updateWorkspaceServerlessEndpoint();
+  await updateWorkspaceServerlessEndpoint();
 }
 
 main().catch(console.error);

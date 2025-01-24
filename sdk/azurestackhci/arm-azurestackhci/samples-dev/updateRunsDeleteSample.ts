@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete specified Update Run
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/DeleteUpdateRuns.json
  */
-async function deleteAnUpdate() {
+async function deleteAnUpdate(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "b8d594e5-51f3-4c11-9c54-a7771b81c712";
@@ -38,8 +38,8 @@ async function deleteAnUpdate() {
   console.log(result);
 }
 
-async function main() {
-  deleteAnUpdate();
+async function main(): Promise<void> {
+  await deleteAnUpdate();
 }
 
 main().catch(console.error);

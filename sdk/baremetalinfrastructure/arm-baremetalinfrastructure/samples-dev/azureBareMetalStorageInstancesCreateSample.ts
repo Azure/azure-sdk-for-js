@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create an azure bare metal storage resource.
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_Create.json
  */
-async function putANewAzureBareMetalStorageInstance() {
+async function putANewAzureBareMetalStorageInstance(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -56,8 +56,8 @@ async function putANewAzureBareMetalStorageInstance() {
   console.log(result);
 }
 
-async function main() {
-  putANewAzureBareMetalStorageInstance();
+async function main(): Promise<void> {
+  await putANewAzureBareMetalStorageInstance();
 }
 
 main().catch(console.error);

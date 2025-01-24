@@ -44,7 +44,7 @@ async function getManagementLockAtResourceLevel() {
 }
 
 async function main() {
-  getManagementLockAtResourceLevel();
+  await getManagementLockAtResourceLevel();
 }
 
 main().catch(console.error);

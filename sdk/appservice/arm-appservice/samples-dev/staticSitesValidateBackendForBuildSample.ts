@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Validates that a backend can be linked to a static site build
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ValidateLinkedBackendForStaticSiteBuild.json
  */
-async function validateIfBackendCanBeLinkedToStaticSiteBuild() {
+async function validateIfBackendCanBeLinkedToStaticSiteBuild(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -46,8 +46,8 @@ async function validateIfBackendCanBeLinkedToStaticSiteBuild() {
   console.log(result);
 }
 
-async function main() {
-  validateIfBackendCanBeLinkedToStaticSiteBuild();
+async function main(): Promise<void> {
+  await validateIfBackendCanBeLinkedToStaticSiteBuild();
 }
 
 main().catch(console.error);

@@ -18,20 +18,20 @@ import "dotenv/config";
  * @summary Lists all API Management services within an Azure subscription.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListServiceBySubscription.json
  */
-async function apiManagementListServiceBySubscription() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const resArray = new Array();
-    for await (let item of client.apiManagementService.list()) {
-        resArray.push(item);
-    }
-    console.log(resArray);
+async function apiManagementListServiceBySubscription(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.apiManagementService.list()) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-async function main() {
-    apiManagementListServiceBySubscription();
+async function main(): Promise<void> {
+  await apiManagementListServiceBySubscription();
 }
 
 main().catch(console.error);

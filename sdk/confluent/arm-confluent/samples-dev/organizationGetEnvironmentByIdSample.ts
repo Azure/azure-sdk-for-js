@@ -18,12 +18,10 @@ import "dotenv/config";
  * @summary Get Environment details by environment Id
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetEnvironmentById.json
  */
-async function organizationGetEnvironmentById() {
+async function organizationGetEnvironmentById(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const environmentId = "dlz-f3a90de";
   const credential = new DefaultAzureCredential();
@@ -36,8 +34,8 @@ async function organizationGetEnvironmentById() {
   console.log(result);
 }
 
-async function main() {
-  organizationGetEnvironmentById();
+async function main(): Promise<void> {
+  await organizationGetEnvironmentById();
 }
 
 main().catch(console.error);

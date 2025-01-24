@@ -40,7 +40,7 @@ async function workspaceListPrivateLinkResources() {
 }
 
 async function main() {
-  workspaceListPrivateLinkResources();
+  await workspaceListPrivateLinkResources();
 }
 
 main().catch(console.error);

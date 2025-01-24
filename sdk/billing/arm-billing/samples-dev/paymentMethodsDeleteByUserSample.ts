@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a payment method owned by the caller.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/paymentMethodsDeleteByUser.json
  */
-async function deletePaymentMethodOwnedByUser() {
+async function deletePaymentMethodOwnedByUser(): Promise<void> {
   const paymentMethodName = "ABCDABCDABC0";
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
@@ -26,8 +26,8 @@ async function deletePaymentMethodOwnedByUser() {
   console.log(result);
 }
 
-async function main() {
-  deletePaymentMethodOwnedByUser();
+async function main(): Promise<void> {
+  await deletePaymentMethodOwnedByUser();
 }
 
 main().catch(console.error);

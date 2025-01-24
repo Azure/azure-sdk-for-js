@@ -37,7 +37,7 @@ async function listAllGuestConfigurationAssignmentsForAResourceGroup() {
 }
 
 async function main() {
-  listAllGuestConfigurationAssignmentsForAResourceGroup();
+  await listAllGuestConfigurationAssignmentsForAResourceGroup();
 }
 
 main().catch(console.error);

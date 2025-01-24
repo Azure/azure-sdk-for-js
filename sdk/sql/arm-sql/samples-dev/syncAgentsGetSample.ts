@@ -39,7 +39,7 @@ async function getASyncAgent() {
 }
 
 async function main() {
-  getASyncAgent();
+  await getASyncAgent();
 }
 
 main().catch(console.error);

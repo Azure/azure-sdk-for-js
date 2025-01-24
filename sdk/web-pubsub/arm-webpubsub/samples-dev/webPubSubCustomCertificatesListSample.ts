@@ -38,7 +38,7 @@ async function webPubSubCustomCertificatesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubCustomCertificatesList();
+  await webPubSubCustomCertificatesList();
 }
 
 main().catch(console.error);

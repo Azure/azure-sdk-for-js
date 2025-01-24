@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Validate information for a certificate order.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/ValidateAppServiceCertificatePurchaseInformationBySubscription.json
  */
-async function validateAppServiceCertificatePurchaseInformationBySubscription() {
+async function validateAppServiceCertificatePurchaseInformationBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -54,8 +54,8 @@ async function validateAppServiceCertificatePurchaseInformationBySubscription() 
   console.log(result);
 }
 
-async function main() {
-  validateAppServiceCertificatePurchaseInformationBySubscription();
+async function main(): Promise<void> {
+  await validateAppServiceCertificatePurchaseInformationBySubscription();
 }
 
 main().catch(console.error);

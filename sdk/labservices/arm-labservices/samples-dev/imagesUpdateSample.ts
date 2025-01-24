@@ -41,7 +41,7 @@ async function patchImage() {
 }
 
 async function main() {
-  patchImage();
+  await patchImage();
 }
 
 main().catch(console.error);

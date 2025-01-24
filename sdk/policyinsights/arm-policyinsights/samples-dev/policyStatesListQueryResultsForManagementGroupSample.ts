@@ -62,8 +62,8 @@ async function queryLatestAtManagementGroupScopeWithNextLink() {
 }
 
 async function main() {
-  queryLatestAtManagementGroupScope();
-  queryLatestAtManagementGroupScopeWithNextLink();
+  await queryLatestAtManagementGroupScope();
+  await queryLatestAtManagementGroupScopeWithNextLink();
 }
 
 main().catch(console.error);

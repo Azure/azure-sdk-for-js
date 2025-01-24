@@ -31,7 +31,7 @@ async function linker() {
 }
 
 async function main() {
-  linker();
+  await linker();
 }
 
 main().catch(console.error);

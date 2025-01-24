@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the transfer requests received by the caller.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/recipientTransfersList.json
  */
-async function recipientTransfersList() {
+async function recipientTransfersList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
@@ -28,8 +28,8 @@ async function recipientTransfersList() {
   console.log(resArray);
 }
 
-async function main() {
-  recipientTransfersList();
+async function main(): Promise<void> {
+  await recipientTransfersList();
 }
 
 main().catch(console.error);

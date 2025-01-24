@@ -40,7 +40,7 @@ async function namespaceTopicsListByNamespace() {
 }
 
 async function main() {
-  namespaceTopicsListByNamespace();
+  await namespaceTopicsListByNamespace();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function networkManagersDelete() {
 }
 
 async function main() {
-  networkManagersDelete();
+  await networkManagersDelete();
 }
 
 main().catch(console.error);

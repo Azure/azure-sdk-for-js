@@ -26,7 +26,7 @@ async function listCertificateProfilesUnderATrustedSigningAccount() {
 }
 
 async function main() {
-  listCertificateProfilesUnderATrustedSigningAccount();
+  await listCertificateProfilesUnderATrustedSigningAccount();
 }
 
 main().catch(console.error);

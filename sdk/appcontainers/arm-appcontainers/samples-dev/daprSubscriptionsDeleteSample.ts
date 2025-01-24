@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a Dapr subscription from a Managed Environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Delete.json
  */
-async function deleteDaprSubscription() {
+async function deleteDaprSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -36,8 +36,8 @@ async function deleteDaprSubscription() {
   console.log(result);
 }
 
-async function main() {
-  deleteDaprSubscription();
+async function main(): Promise<void> {
+  await deleteDaprSubscription();
 }
 
 main().catch(console.error);

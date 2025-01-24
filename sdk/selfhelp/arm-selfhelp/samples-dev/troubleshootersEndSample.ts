@@ -31,7 +31,7 @@ async function troubleshootersEnd() {
 }
 
 async function main() {
-  troubleshootersEnd();
+  await troubleshootersEnd();
 }
 
 main().catch(console.error);

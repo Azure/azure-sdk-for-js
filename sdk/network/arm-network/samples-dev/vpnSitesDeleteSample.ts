@@ -34,7 +34,7 @@ async function vpnSiteDelete() {
 }
 
 async function main() {
-  vpnSiteDelete();
+  await vpnSiteDelete();
 }
 
 main().catch(console.error);

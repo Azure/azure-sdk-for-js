@@ -38,7 +38,7 @@ async function backupVaultsGet() {
 }
 
 async function main() {
-  backupVaultsGet();
+  await backupVaultsGet();
 }
 
 main().catch(console.error);

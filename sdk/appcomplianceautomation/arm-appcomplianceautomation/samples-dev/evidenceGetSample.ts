@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the evidence metadata
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Evidence_Get.json
  */
-async function evidenceGet() {
+async function evidenceGet(): Promise<void> {
   const reportName = "testReportName";
   const evidenceName = "evidence1";
   const credential = new DefaultAzureCredential();
@@ -27,8 +27,8 @@ async function evidenceGet() {
   console.log(result);
 }
 
-async function main() {
-  evidenceGet();
+async function main(): Promise<void> {
+  await evidenceGet();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the properties of an existing Azure Cosmos DB database account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDatabaseAccountGet.json
  */
-async function cosmosDbDatabaseAccountGet() {
+async function cosmosDbDatabaseAccountGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -31,8 +31,8 @@ async function cosmosDbDatabaseAccountGet() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbDatabaseAccountGet();
+async function main(): Promise<void> {
+  await cosmosDbDatabaseAccountGet();
 }
 
 main().catch(console.error);

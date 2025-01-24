@@ -32,7 +32,7 @@ async function expressRouteCrossConnectionList() {
 }
 
 async function main() {
-  expressRouteCrossConnectionList();
+  await expressRouteCrossConnectionList();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/storage-blob/test/*.spec.js' 'dist-esm/storage-blob/test/node/*.spec.js'",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/storage-blob/test/*.spec.js\" \"dist-esm/storage-blob/test/node/*.spec.js\"",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix",
     "pack": "npm pack 2>&1",

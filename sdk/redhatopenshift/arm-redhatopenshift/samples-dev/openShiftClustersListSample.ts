@@ -33,7 +33,7 @@ async function listsOpenShiftClustersInTheSpecifiedSubscription() {
 }
 
 async function main() {
-  listsOpenShiftClustersInTheSpecifiedSubscription();
+  await listsOpenShiftClustersInTheSpecifiedSubscription();
 }
 
 main().catch(console.error);

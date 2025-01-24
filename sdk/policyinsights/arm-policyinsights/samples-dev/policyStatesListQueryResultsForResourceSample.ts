@@ -220,14 +220,14 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
 }
 
 async function main() {
-  queryAllPolicyStatesAtNestedResourceScope();
-  queryAllPolicyStatesAtResourceScope();
-  queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails();
-  queryAllPolicyStatesAtResourceScopeWithNextLink();
-  queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope();
-  queryAllPolicyStatesAtSubscriptionLevelResourceScope();
-  queryComponentPolicyComplianceStateAtResourceScopeFilteredByGivenAssignment();
-  queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResourceScopeFilteredByGivenAssignment();
+  await queryAllPolicyStatesAtNestedResourceScope();
+  await queryAllPolicyStatesAtResourceScope();
+  await queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails();
+  await queryAllPolicyStatesAtResourceScopeWithNextLink();
+  await queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope();
+  await queryAllPolicyStatesAtSubscriptionLevelResourceScope();
+  await queryComponentPolicyComplianceStateAtResourceScopeFilteredByGivenAssignment();
+  await queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResourceScopeFilteredByGivenAssignment();
 }
 
 main().catch(console.error);

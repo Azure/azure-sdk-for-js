@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Check available SKUs.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/CheckSkuAvailability.json
  */
-async function checkSkuAvailability() {
+async function checkSkuAvailability(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -40,8 +40,8 @@ async function checkSkuAvailability() {
   console.log(result);
 }
 
-async function main() {
-  checkSkuAvailability();
+async function main(): Promise<void> {
+  await checkSkuAvailability();
 }
 
 main().catch(console.error);

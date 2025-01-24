@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the access keys for the specified Azure Cosmos DB database account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDatabaseAccountListKeys.json
  */
-async function cosmosDbDatabaseAccountListKeys() {
+async function cosmosDbDatabaseAccountListKeys(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -31,8 +31,8 @@ async function cosmosDbDatabaseAccountListKeys() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbDatabaseAccountListKeys();
+async function main(): Promise<void> {
+  await cosmosDbDatabaseAccountListKeys();
 }
 
 main().catch(console.error);

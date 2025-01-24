@@ -18,12 +18,10 @@ import "dotenv/config";
  * @summary Organization role bindings
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_DeleteRoleBinding.json
  */
-async function accessDeleteRoleBinding() {
+async function accessDeleteRoleBinding(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const roleBindingId = "dlz-f3a90de";
   const credential = new DefaultAzureCredential();
@@ -36,8 +34,8 @@ async function accessDeleteRoleBinding() {
   console.log(result);
 }
 
-async function main() {
-  accessDeleteRoleBinding();
+async function main(): Promise<void> {
+  await accessDeleteRoleBinding();
 }
 
 main().catch(console.error);

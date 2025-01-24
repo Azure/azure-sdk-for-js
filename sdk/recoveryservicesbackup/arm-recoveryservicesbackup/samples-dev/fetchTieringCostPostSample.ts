@@ -150,10 +150,10 @@ async function getTheTieringSavingsCostInfoForVault() {
 }
 
 async function main() {
-  getTheRehydrationCostForRecoveryPoint();
-  getTheTieringSavingsCostInfoForPolicy();
-  getTheTieringSavingsCostInfoForProtectedItem();
-  getTheTieringSavingsCostInfoForVault();
+  await getTheRehydrationCostForRecoveryPoint();
+  await getTheTieringSavingsCostInfoForPolicy();
+  await getTheTieringSavingsCostInfoForProtectedItem();
+  await getTheTieringSavingsCostInfoForVault();
 }
 
 main().catch(console.error);

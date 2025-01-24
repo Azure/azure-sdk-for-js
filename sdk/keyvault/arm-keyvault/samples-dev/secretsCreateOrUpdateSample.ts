@@ -46,7 +46,7 @@ async function createASecret() {
 }
 
 async function main() {
-  createASecret();
+  await createASecret();
 }
 
 main().catch(console.error);

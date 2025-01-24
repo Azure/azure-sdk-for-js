@@ -37,7 +37,7 @@ async function storageAccountGetManagementPolicies() {
 }
 
 async function main() {
-  storageAccountGetManagementPolicies();
+  await storageAccountGetManagementPolicies();
 }
 
 main().catch(console.error);

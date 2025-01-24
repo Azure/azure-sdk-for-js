@@ -52,7 +52,7 @@ async function removeProtectionContainerMapping() {
 }
 
 async function main() {
-  removeProtectionContainerMapping();
+  await removeProtectionContainerMapping();
 }
 
 main().catch(console.error);

@@ -68,8 +68,8 @@ async function startTheDatabaseInstanceOfTheSapSystem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt();
-  startTheDatabaseInstanceOfTheSapSystem();
+  await startVirtualMachineAndTheDatabaseInstanceOfTheSapSystemOnIt();
+  await startTheDatabaseInstanceOfTheSapSystem();
 }
 
 main().catch(console.error);

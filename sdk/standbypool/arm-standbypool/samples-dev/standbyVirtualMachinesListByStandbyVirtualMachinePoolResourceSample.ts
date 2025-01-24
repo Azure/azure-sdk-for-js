@@ -26,7 +26,7 @@ async function standbyVirtualMachinesListByStandbyVirtualMachinePoolResource() {
 }
 
 async function main() {
-  standbyVirtualMachinesListByStandbyVirtualMachinePoolResource();
+  await standbyVirtualMachinesListByStandbyVirtualMachinePoolResource();
 }
 
 main().catch(console.error);

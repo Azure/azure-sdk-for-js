@@ -54,7 +54,7 @@ async function patchConnector() {
 }
 
 async function main() {
-  patchConnector();
+  await patchConnector();
 }
 
 main().catch(console.error);

@@ -89,7 +89,7 @@
 
 # PRLabel: %Communication - Job Router
 # ServiceLabel: %Communication - Job Router
-/sdk/communication/communication-job-router/ @marche0133
+/sdk/communication/communication-job-router-rest/ @marche0133
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
@@ -151,7 +151,7 @@
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/azure-health-deidentification/ @GrahamMThomas @alexathomases
+/sdk/healthdataaiservices/ @GrahamMThomas @alexathomases @Azure/healthdatadeidentification
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Cancel a single trigger instance by runId.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Cancel a single trigger instance by runId.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/TriggerRuns_Cancel.json
  */
-async function triggersCancel() {
+async function triggersCancel(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -40,8 +38,8 @@ async function triggersCancel() {
   console.log(result);
 }
 
-async function main() {
-  triggersCancel();
+async function main(): Promise<void> {
+  await triggersCancel();
 }
 
 main().catch(console.error);

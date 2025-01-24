@@ -45,7 +45,7 @@ async function volumesRevert() {
 }
 
 async function main() {
-  volumesRevert();
+  await volumesRevert();
 }
 
 main().catch(console.error);

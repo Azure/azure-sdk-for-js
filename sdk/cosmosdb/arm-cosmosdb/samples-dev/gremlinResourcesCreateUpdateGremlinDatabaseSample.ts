@@ -21,18 +21,18 @@ import "dotenv/config";
  * @summary Create or update an Azure Cosmos DB Gremlin database
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBGremlinDatabaseCreateUpdate.json
  */
-async function cosmosDbGremlinDatabaseCreateUpdate() {
+async function cosmosDbGremlinDatabaseCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const createUpdateGremlinDatabaseParameters: GremlinDatabaseCreateUpdateParameters =
-    {
-      location: "West US",
-      options: {},
-      resource: { id: "databaseName" },
-      tags: {},
-    };
+  {
+    location: "West US",
+    options: {},
+    resource: { id: "databaseName" },
+    tags: {},
+  };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result =
@@ -45,8 +45,8 @@ async function cosmosDbGremlinDatabaseCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbGremlinDatabaseCreateUpdate();
+async function main(): Promise<void> {
+  await cosmosDbGremlinDatabaseCreateUpdate();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function vpnSiteListByResourceGroup() {
 }
 
 async function main() {
-  vpnSiteListByResourceGroup();
+  await vpnSiteListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -55,7 +55,7 @@ async function createBastionShareableLinksForTheRequestVMS() {
 }
 
 async function main() {
-  createBastionShareableLinksForTheRequestVMS();
+  await createBastionShareableLinksForTheRequestVMS();
 }
 
 main().catch(console.error);

@@ -63,8 +63,8 @@ async function privateEndpointConnectionsListMinimumSetGen() {
 }
 
 async function main() {
-  privateEndpointConnectionsListMaximumSetGen();
-  privateEndpointConnectionsListMinimumSetGen();
+  await privateEndpointConnectionsListMaximumSetGen();
+  await privateEndpointConnectionsListMinimumSetGen();
 }
 
 main().catch(console.error);

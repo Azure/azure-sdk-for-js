@@ -47,7 +47,7 @@ async function smClientGroupsGet() {
 }
 
 async function main() {
-  smClientGroupsGet();
+  await smClientGroupsGet();
 }
 
 main().catch(console.error);

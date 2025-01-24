@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets an Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified profile name under the specified subscription and resource group.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Profiles_Get.json
  */
-async function profilesGet() {
+async function profilesGet(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -28,8 +28,8 @@ async function profilesGet() {
   console.log(result);
 }
 
-async function main() {
-  profilesGet();
+async function main(): Promise<void> {
+  await profilesGet();
 }
 
 main().catch(console.error);

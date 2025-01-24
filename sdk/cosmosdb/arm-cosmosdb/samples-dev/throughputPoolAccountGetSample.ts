@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the properties of an existing Azure Cosmos DB Throughput Pool
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/throughputPool/CosmosDBThroughputPoolAccountGet.json
  */
-async function cosmosDbThroughputPoolAccountGet() {
+async function cosmosDbThroughputPoolAccountGet(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -35,8 +35,8 @@ async function cosmosDbThroughputPoolAccountGet() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbThroughputPoolAccountGet();
+async function main(): Promise<void> {
+  await cosmosDbThroughputPoolAccountGet();
 }
 
 main().catch(console.error);

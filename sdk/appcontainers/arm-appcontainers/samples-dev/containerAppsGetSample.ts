@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the properties of a Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_Get.json
  */
-async function getContainerApp() {
+async function getContainerApp(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,8 +33,8 @@ async function getContainerApp() {
   console.log(result);
 }
 
-async function main() {
-  getContainerApp();
+async function main(): Promise<void> {
+  await getContainerApp();
 }
 
 main().catch(console.error);

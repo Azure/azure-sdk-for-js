@@ -35,7 +35,7 @@ async function networkDeviceSkusGetMaximumSetGen() {
 }
 
 async function main() {
-  networkDeviceSkusGetMaximumSetGen();
+  await networkDeviceSkusGetMaximumSetGen();
 }
 
 main().catch(console.error);

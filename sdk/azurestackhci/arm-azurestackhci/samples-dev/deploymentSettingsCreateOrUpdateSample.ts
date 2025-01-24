@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a DeploymentSetting
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/PutDeploymentSettings.json
  */
-async function createDeploymentSettings() {
+async function createDeploymentSettings(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -193,8 +193,8 @@ async function createDeploymentSettings() {
   console.log(result);
 }
 
-async function main() {
-  createDeploymentSettings();
+async function main(): Promise<void> {
+  await createDeploymentSettings();
 }
 
 main().catch(console.error);

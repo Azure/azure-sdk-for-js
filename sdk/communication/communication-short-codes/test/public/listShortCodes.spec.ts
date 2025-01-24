@@ -13,10 +13,8 @@ describe(`ShortCodesClient - lists Short Codes`, () => {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async (ctx) => {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("can list all acquired short codes", { timeout: 30000 }, async () => {

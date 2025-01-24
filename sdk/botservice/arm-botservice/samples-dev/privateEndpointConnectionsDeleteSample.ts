@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the specified private endpoint connection associated with the Bot.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/DeletePrivateEndpointConnection.json
  */
-async function deletePrivateEndpointConnection() {
+async function deletePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -35,8 +35,8 @@ async function deletePrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
-  deletePrivateEndpointConnection();
+async function main(): Promise<void> {
+  await deletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

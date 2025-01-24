@@ -40,7 +40,7 @@ async function createOrUpdateASourceImageTypeTrigger() {
 }
 
 async function main() {
-  createOrUpdateASourceImageTypeTrigger();
+  await createOrUpdateASourceImageTypeTrigger();
 }
 
 main().catch(console.error);

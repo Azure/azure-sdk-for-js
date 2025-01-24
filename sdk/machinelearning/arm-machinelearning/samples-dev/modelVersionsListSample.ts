@@ -65,7 +65,7 @@ async function listWorkspaceModelVersion() {
 }
 
 async function main() {
-  listWorkspaceModelVersion();
+  await listWorkspaceModelVersion();
 }
 
 main().catch(console.error);

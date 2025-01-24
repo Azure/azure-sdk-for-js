@@ -43,7 +43,7 @@ async function checksWhetherNameIsAvailableForCommunicationResource() {
 }
 
 async function main() {
-  checksWhetherNameIsAvailableForCommunicationResource();
+  await checksWhetherNameIsAvailableForCommunicationResource();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function deleteAnGuestConfigurationAssignment() {
 }
 
 async function main() {
-  deleteAnGuestConfigurationAssignment();
+  await deleteAnGuestConfigurationAssignment();
 }
 
 main().catch(console.error);

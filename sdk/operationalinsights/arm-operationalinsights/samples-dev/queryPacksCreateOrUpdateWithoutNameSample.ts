@@ -73,8 +73,8 @@ async function queryPackUpdateNoName() {
 }
 
 async function main() {
-  queryPackCreateNoName();
-  queryPackUpdateNoName();
+  await queryPackCreateNoName();
+  await queryPackUpdateNoName();
 }
 
 main().catch(console.error);

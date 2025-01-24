@@ -92,8 +92,8 @@ async function updateAnAzureMlFunction() {
 }
 
 async function main() {
-  updateAJavaScriptFunction();
-  updateAnAzureMlFunction();
+  await updateAJavaScriptFunction();
+  await updateAnAzureMlFunction();
 }
 
 main().catch(console.error);

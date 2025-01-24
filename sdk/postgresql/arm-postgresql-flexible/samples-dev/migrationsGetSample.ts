@@ -129,11 +129,11 @@ async function migrationsGetMigrationWithValidationFailures() {
 }
 
 async function main() {
-  migrationsGet();
-  migrationsGetMigrationWithSuccessfulValidationAndMigration();
-  migrationsGetMigrationWithSuccessfulValidationButMigrationFailure();
-  migrationsGetMigrationWithSuccessfulValidationOnly();
-  migrationsGetMigrationWithValidationFailures();
+  await migrationsGet();
+  await migrationsGetMigrationWithSuccessfulValidationAndMigration();
+  await migrationsGetMigrationWithSuccessfulValidationButMigrationFailure();
+  await migrationsGetMigrationWithSuccessfulValidationOnly();
+  await migrationsGetMigrationWithValidationFailures();
 }
 
 main().catch(console.error);

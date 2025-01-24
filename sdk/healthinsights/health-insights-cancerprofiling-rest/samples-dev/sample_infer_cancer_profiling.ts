@@ -203,7 +203,7 @@ export async function main(): Promise<void> {
     throw cancerProfilingResult;
   }
   const resultBody = cancerProfilingResult.body;
-  printResults(resultBody);
+  await printResults(resultBody);
 }
 
 main().catch((err) => {

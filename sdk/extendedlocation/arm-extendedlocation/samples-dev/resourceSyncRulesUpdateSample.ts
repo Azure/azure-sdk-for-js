@@ -48,7 +48,7 @@ async function updateResourceSyncRule() {
 }
 
 async function main() {
-  updateResourceSyncRule();
+  await updateResourceSyncRule();
 }
 
 main().catch(console.error);

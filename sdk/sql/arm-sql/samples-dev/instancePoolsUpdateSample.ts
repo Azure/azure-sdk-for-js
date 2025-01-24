@@ -38,7 +38,7 @@ async function patchAnInstancePool() {
 }
 
 async function main() {
-  patchAnInstancePool();
+  await patchAnInstancePool();
 }
 
 main().catch(console.error);

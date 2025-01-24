@@ -34,7 +34,7 @@ async function getIPAllocation() {
 }
 
 async function main() {
-  getIPAllocation();
+  await getIPAllocation();
 }
 
 main().catch(console.error);

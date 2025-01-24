@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a paginated list of evidences for a specified report.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Evidence_ListByReport.json
  */
-async function evidenceListByReport() {
+async function evidenceListByReport(): Promise<void> {
   const reportName = "reportName";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -29,8 +29,8 @@ async function evidenceListByReport() {
   console.log(resArray);
 }
 
-async function main() {
-  evidenceListByReport();
+async function main(): Promise<void> {
+  await evidenceListByReport();
 }
 
 main().catch(console.error);

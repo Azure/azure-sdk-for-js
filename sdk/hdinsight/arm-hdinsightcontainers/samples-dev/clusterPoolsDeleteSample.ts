@@ -39,7 +39,7 @@ async function clusterPoolDelete() {
 }
 
 async function main() {
-  clusterPoolDelete();
+  await clusterPoolDelete();
 }
 
 main().catch(console.error);

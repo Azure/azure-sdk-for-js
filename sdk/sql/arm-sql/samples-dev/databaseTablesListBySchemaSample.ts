@@ -43,7 +43,7 @@ async function listDatabaseTables() {
 }
 
 async function main() {
-  listDatabaseTables();
+  await listDatabaseTables();
 }
 
 main().catch(console.error);

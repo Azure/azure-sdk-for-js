@@ -52,7 +52,7 @@ async function vaultCreate() {
 }
 
 async function main() {
-  vaultCreate();
+  await vaultCreate();
 }
 
 main().catch(console.error);

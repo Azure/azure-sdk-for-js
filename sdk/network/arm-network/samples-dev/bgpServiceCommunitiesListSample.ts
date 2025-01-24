@@ -32,7 +32,7 @@ async function serviceCommunityList() {
 }
 
 async function main() {
-  serviceCommunityList();
+  await serviceCommunityList();
 }
 
 main().catch(console.error);

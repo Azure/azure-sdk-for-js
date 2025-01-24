@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a Cognitive Services account from the resource group.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteAccount.json
  */
-async function deleteAccount() {
+async function deleteAccount(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -37,8 +37,8 @@ async function deleteAccount() {
   console.log(result);
 }
 
-async function main() {
-  deleteAccount();
+async function main(): Promise<void> {
+  await deleteAccount();
 }
 
 main().catch(console.error);

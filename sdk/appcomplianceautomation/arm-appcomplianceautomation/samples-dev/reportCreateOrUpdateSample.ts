@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_CreateOrUpdate.json
  */
-async function reportCreateOrUpdate() {
+async function reportCreateOrUpdate(): Promise<void> {
   const reportName = "testReportName";
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
@@ -47,8 +47,8 @@ async function reportCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  reportCreateOrUpdate();
+async function main(): Promise<void> {
+  await reportCreateOrUpdate();
 }
 
 main().catch(console.error);

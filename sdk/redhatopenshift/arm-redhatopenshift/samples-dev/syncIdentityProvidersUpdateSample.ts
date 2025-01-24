@@ -46,7 +46,7 @@ async function updatesASyncIdentityProviderWithTheSpecifiedSubscriptionResourceG
 }
 
 async function main() {
-  updatesASyncIdentityProviderWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
+  await updatesASyncIdentityProviderWithTheSpecifiedSubscriptionResourceGroupAndResourceName();
 }
 
 main().catch(console.error);

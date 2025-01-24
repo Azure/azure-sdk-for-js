@@ -52,7 +52,7 @@ async function useThisMethodToUpdateExistingIoTSecuritySolution() {
 }
 
 async function main() {
-  useThisMethodToUpdateExistingIoTSecuritySolution();
+  await useThisMethodToUpdateExistingIoTSecuritySolution();
 }
 
 main().catch(console.error);

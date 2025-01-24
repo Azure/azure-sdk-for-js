@@ -101,8 +101,8 @@ async function createOrUpdateATargetGroupWithMinimalProperties() {
 }
 
 async function main() {
-  createOrUpdateATargetGroupWithAllProperties();
-  createOrUpdateATargetGroupWithMinimalProperties();
+  await createOrUpdateATargetGroupWithAllProperties();
+  await createOrUpdateATargetGroupWithMinimalProperties();
 }
 
 main().catch(console.error);

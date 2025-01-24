@@ -37,7 +37,7 @@ async function keyVaultListPrivateLinkResources() {
 }
 
 async function main() {
-  keyVaultListPrivateLinkResources();
+  await keyVaultListPrivateLinkResources();
 }
 
 main().catch(console.error);

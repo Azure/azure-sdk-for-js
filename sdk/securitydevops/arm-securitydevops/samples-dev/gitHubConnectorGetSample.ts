@@ -37,7 +37,7 @@ async function gitHubConnectorGet() {
 }
 
 async function main() {
-  gitHubConnectorGet();
+  await gitHubConnectorGet();
 }
 
 main().catch(console.error);

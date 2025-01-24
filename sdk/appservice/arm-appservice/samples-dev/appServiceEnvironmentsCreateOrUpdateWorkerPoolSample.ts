@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Create or update a worker pool.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_CreateOrUpdateWorkerPool.json
  */
-async function getPropertiesOfAWorkerPool() {
+async function getPropertiesOfAWorkerPool(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -45,8 +45,8 @@ async function getPropertiesOfAWorkerPool() {
   console.log(result);
 }
 
-async function main() {
-  getPropertiesOfAWorkerPool();
+async function main(): Promise<void> {
+  await getPropertiesOfAWorkerPool();
 }
 
 main().catch(console.error);

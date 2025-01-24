@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the shares in a Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/ShareGetAllInDevice.json
  */
-async function shareGetAllInDevice() {
+async function shareGetAllInDevice(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -37,8 +37,8 @@ async function shareGetAllInDevice() {
   console.log(resArray);
 }
 
-async function main() {
-  shareGetAllInDevice();
+async function main(): Promise<void> {
+  await shareGetAllInDevice();
 }
 
 main().catch(console.error);

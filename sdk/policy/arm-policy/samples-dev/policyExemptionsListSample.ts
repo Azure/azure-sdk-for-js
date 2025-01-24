@@ -37,7 +37,7 @@ async function listPolicyExemptionsThatApplyToASubscription() {
 }
 
 async function main() {
-  listPolicyExemptionsThatApplyToASubscription();
+  await listPolicyExemptionsThatApplyToASubscription();
 }
 
 main().catch(console.error);

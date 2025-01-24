@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieves the status of the recommendation computation or generation process. Invoke this API after calling the generation recommendation. The URI of this API is returned in the Location field of the response header.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/EmptyResponse.json
  */
-async function getGenerateStatus() {
+async function getGenerateStatus(): Promise<void> {
   const subscriptionId = process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const operationId = "operationGUID";
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function getGenerateStatus() {
 }
 
 async function main(): Promise<void> {
-  getGenerateStatus();
+  await getGenerateStatus();
 }
 
 main().catch(console.error);

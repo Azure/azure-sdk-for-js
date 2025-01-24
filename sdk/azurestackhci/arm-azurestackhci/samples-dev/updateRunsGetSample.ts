@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the Update run for a specified update
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/GetUpdateRuns.json
  */
-async function getUpdateRunsUnderClusterResource() {
+async function getUpdateRunsUnderClusterResource(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "b8d594e5-51f3-4c11-9c54-a7771b81c712";
@@ -38,8 +38,8 @@ async function getUpdateRunsUnderClusterResource() {
   console.log(result);
 }
 
-async function main() {
-  getUpdateRunsUnderClusterResource();
+async function main(): Promise<void> {
+  await getUpdateRunsUnderClusterResource();
 }
 
 main().catch(console.error);

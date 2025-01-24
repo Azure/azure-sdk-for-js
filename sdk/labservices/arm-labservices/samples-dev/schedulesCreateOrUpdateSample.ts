@@ -51,7 +51,7 @@ async function putSchedule() {
 }
 
 async function main() {
-  putSchedule();
+  await putSchedule();
 }
 
 main().catch(console.error);

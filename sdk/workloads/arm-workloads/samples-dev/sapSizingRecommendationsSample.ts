@@ -81,10 +81,10 @@ async function sapSizingRecommendationsS4HanaSingleServer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapSizingRecommendationsS4HanaDistributed();
-  sapSizingRecommendationsS4HanaDistributedHaAvSet();
-  sapSizingRecommendationsS4HanaDistributedHaAvZone();
-  sapSizingRecommendationsS4HanaSingleServer();
+  await sapSizingRecommendationsS4HanaDistributed();
+  await sapSizingRecommendationsS4HanaDistributedHaAvSet();
+  await sapSizingRecommendationsS4HanaDistributedHaAvZone();
+  await sapSizingRecommendationsS4HanaSingleServer();
 }
 
 main().catch(console.error);

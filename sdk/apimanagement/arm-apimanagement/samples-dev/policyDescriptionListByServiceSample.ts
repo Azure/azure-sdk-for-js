@@ -9,8 +9,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-    ApiManagementClient,
-    PolicyDescriptionListByServiceOptionalParams
+  ApiManagementClient,
+  PolicyDescriptionListByServiceOptionalParams
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -21,26 +21,26 @@ import "dotenv/config";
  * @summary Lists all policy descriptions.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPolicyDescriptions.json
  */
-async function apiManagementListPolicyDescriptions() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const scope = "Api";
-    const options: PolicyDescriptionListByServiceOptionalParams = { scope };
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.policyDescription.listByService(
-        resourceGroupName,
-        serviceName,
-        options
-    );
-    console.log(result);
+async function apiManagementListPolicyDescriptions(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const scope = "Api";
+  const options: PolicyDescriptionListByServiceOptionalParams = { scope };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.policyDescription.listByService(
+    resourceGroupName,
+    serviceName,
+    options
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementListPolicyDescriptions();
+async function main(): Promise<void> {
+  await apiManagementListPolicyDescriptions();
 }
 
 main().catch(console.error);

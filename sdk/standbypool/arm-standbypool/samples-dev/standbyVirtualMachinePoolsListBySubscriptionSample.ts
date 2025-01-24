@@ -23,7 +23,7 @@ async function standbyVirtualMachinePoolsListBySubscription() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsListBySubscription();
+  await standbyVirtualMachinePoolsListBySubscription();
 }
 
 main().catch(console.error);

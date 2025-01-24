@@ -66,7 +66,7 @@ async function createAnAccountFilter() {
 }
 
 async function main() {
-  createAnAccountFilter();
+  await createAnAccountFilter();
 }
 
 main().catch(console.error);

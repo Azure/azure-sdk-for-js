@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Operations } from "../operationsInterfaces";
+import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DevTestLabsClient } from "../devTestLabsClient";
-import { OperationsGetOptionalParams, OperationsGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DevTestLabsClient } from "../devTestLabsClient.js";
+import { OperationsGetOptionalParams, OperationsGetResponse } from "../models/index.js";
 
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {

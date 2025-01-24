@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Update an exiting AppComplianceAutomation webhook.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Webhook_Update.json
  */
-async function webhookUpdate() {
+async function webhookUpdate(): Promise<void> {
   const reportName = "testReportName";
   const webhookName = "testWebhookName";
   const credential = new DefaultAzureCredential();
@@ -42,8 +42,8 @@ async function webhookUpdate() {
   console.log(result);
 }
 
-async function main() {
-  webhookUpdate();
+async function main(): Promise<void> {
+  await webhookUpdate();
 }
 
 main().catch(console.error);

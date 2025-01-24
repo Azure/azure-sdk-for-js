@@ -39,7 +39,7 @@ async function retrieveForwardingRuleInADnsForwardingRuleset() {
 }
 
 async function main() {
-  retrieveForwardingRuleInADnsForwardingRuleset();
+  await retrieveForwardingRuleInADnsForwardingRuleset();
 }
 
 main().catch(console.error);

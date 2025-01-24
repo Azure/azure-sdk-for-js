@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of AzureBareMetalStorage instances in the specified subscription. The operations returns various properties of each Azure Bare Metal Instance.
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_ListBySubscription.json
  */
-async function listAllAzureBareMetalStorageInstancesInASubscription() {
+async function listAllAzureBareMetalStorageInstancesInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "f0f4887f-d13c-4943-a8ba-d7da28d2a3fd";
@@ -31,8 +31,8 @@ async function listAllAzureBareMetalStorageInstancesInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listAllAzureBareMetalStorageInstancesInASubscription();
+async function main(): Promise<void> {
+  await listAllAzureBareMetalStorageInstancesInASubscription();
 }
 
 main().catch(console.error);

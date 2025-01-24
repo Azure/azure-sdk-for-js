@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresDeleteKeyValue.json
  */
-async function keyValuesDelete() {
+async function keyValuesDelete(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
@@ -39,8 +39,8 @@ async function keyValuesDelete() {
   console.log(result);
 }
 
-async function main() {
-  keyValuesDelete();
+async function main(): Promise<void> {
+  await keyValuesDelete();
 }
 
 main().catch(console.error);

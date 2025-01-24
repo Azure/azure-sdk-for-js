@@ -49,7 +49,7 @@ async function referenceDataSetsCreate() {
 }
 
 async function main() {
-  referenceDataSetsCreate();
+  await referenceDataSetsCreate();
 }
 
 main().catch(console.error);

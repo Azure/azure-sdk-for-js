@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates a Cognitive Services account
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/UpdateAccount.json
  */
-async function updateAccount() {
+async function updateAccount(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -42,8 +42,8 @@ async function updateAccount() {
   console.log(result);
 }
 
-async function main() {
-  updateAccount();
+async function main(): Promise<void> {
+  await updateAccount();
 }
 
 main().catch(console.error);

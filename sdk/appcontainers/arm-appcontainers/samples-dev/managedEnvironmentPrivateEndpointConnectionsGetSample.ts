@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a private endpoint connection for a given managed environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentPrivateEndpointConnections_Get.json
  */
-async function getAPrivateEndpointConnectionByManagedEnvironment() {
+async function getAPrivateEndpointConnectionByManagedEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -36,8 +36,8 @@ async function getAPrivateEndpointConnectionByManagedEnvironment() {
   console.log(result);
 }
 
-async function main() {
-  getAPrivateEndpointConnectionByManagedEnvironment();
+async function main(): Promise<void> {
+  await getAPrivateEndpointConnectionByManagedEnvironment();
 }
 
 main().catch(console.error);

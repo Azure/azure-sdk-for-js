@@ -51,7 +51,7 @@ async function patchPacketCoreControlPlane() {
 }
 
 async function main() {
-  patchPacketCoreControlPlane();
+  await patchPacketCoreControlPlane();
 }
 
 main().catch(console.error);

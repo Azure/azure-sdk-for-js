@@ -34,7 +34,7 @@ async function monitorsGetMaximumSetGen() {
 }
 
 async function main() {
-  monitorsGetMaximumSetGen();
+  await monitorsGetMaximumSetGen();
 }
 
 main().catch(console.error);

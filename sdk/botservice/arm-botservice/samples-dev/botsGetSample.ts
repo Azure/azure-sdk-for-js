@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns a BotService specified by the parameters.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/GetBot.json
  */
-async function getBot() {
+async function getBot(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName =
@@ -30,8 +30,8 @@ async function getBot() {
   console.log(result);
 }
 
-async function main() {
-  getBot();
+async function main(): Promise<void> {
+  await getBot();
 }
 
 main().catch(console.error);

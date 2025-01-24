@@ -48,7 +48,7 @@ async function deletesAnAdminRule() {
 }
 
 async function main() {
-  deletesAnAdminRule();
+  await deletesAnAdminRule();
 }
 
 main().catch(console.error);

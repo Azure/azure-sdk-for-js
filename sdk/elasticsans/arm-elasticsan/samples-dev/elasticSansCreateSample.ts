@@ -86,8 +86,8 @@ async function elasticSansCreateMinimumSetGen() {
 }
 
 async function main() {
-  elasticSansCreateMaximumSetGen();
-  elasticSansCreateMinimumSetGen();
+  await elasticSansCreateMaximumSetGen();
+  await elasticSansCreateMinimumSetGen();
 }
 
 main().catch(console.error);

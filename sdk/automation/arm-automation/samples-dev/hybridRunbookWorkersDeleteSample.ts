@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a hybrid runbook worker.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/deleteHybridRunbookWorker.json
  */
-async function deleteAV2HybridRunbookWorker() {
+async function deleteAV2HybridRunbookWorker(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount20";
@@ -35,8 +35,8 @@ async function deleteAV2HybridRunbookWorker() {
   console.log(result);
 }
 
-async function main() {
-  deleteAV2HybridRunbookWorker();
+async function main(): Promise<void> {
+  await deleteAV2HybridRunbookWorker();
 }
 
 main().catch(console.error);

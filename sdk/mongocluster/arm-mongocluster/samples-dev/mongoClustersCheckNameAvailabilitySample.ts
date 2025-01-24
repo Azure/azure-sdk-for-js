@@ -39,8 +39,8 @@ async function checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse() {
 }
 
 async function main() {
-  checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse();
-  checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse();
+  await checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse();
+  await checksAndReturnsThatTheMongoClusterNameIsAlreadyInUse();
 }
 
 main().catch(console.error);

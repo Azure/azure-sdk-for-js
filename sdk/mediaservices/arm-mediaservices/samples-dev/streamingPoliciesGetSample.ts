@@ -39,7 +39,7 @@ async function getAStreamingPolicyByName() {
 }
 
 async function main() {
-  getAStreamingPolicyByName();
+  await getAStreamingPolicyByName();
 }
 
 main().catch(console.error);

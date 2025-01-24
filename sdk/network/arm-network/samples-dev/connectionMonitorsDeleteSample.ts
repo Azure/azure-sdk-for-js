@@ -36,7 +36,7 @@ async function deleteConnectionMonitor() {
 }
 
 async function main() {
-  deleteConnectionMonitor();
+  await deleteConnectionMonitor();
 }
 
 main().catch(console.error);

@@ -84,7 +84,7 @@ async function updatesTheGivenRecoveryPlan() {
 }
 
 async function main() {
-  updatesTheGivenRecoveryPlan();
+  await updatesTheGivenRecoveryPlan();
 }
 
 main().catch(console.error);

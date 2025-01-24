@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Lists the agreements for a billing account.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/agreementsListByBillingAccount.json
  */
-async function agreementsListByBillingAccount() {
+async function agreementsListByBillingAccount(): Promise<void> {
   const billingAccountName =
     "10000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";
   const expand = "Participants";
@@ -38,8 +38,8 @@ async function agreementsListByBillingAccount() {
   console.log(resArray);
 }
 
-async function main() {
-  agreementsListByBillingAccount();
+async function main(): Promise<void> {
+  await agreementsListByBillingAccount();
 }
 
 main().catch(console.error);

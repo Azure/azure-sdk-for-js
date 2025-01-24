@@ -37,7 +37,7 @@ async function joinRequestDeny() {
 }
 
 async function main() {
-  joinRequestDeny();
+  await joinRequestDeny();
 }
 
 main().catch(console.error);

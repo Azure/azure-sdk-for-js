@@ -93,9 +93,9 @@ async function kustoDataConnectionsGet() {
 }
 
 async function main() {
-  kustoDataConnectionsCosmosDbGet();
-  kustoDataConnectionsEventGridGet();
-  kustoDataConnectionsGet();
+  await kustoDataConnectionsCosmosDbGet();
+  await kustoDataConnectionsEventGridGet();
+  await kustoDataConnectionsGet();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function catalogsUploadImage() {
 }
 
 async function main() {
-  catalogsUploadImage();
+  await catalogsUploadImage();
 }
 
 main().catch(console.error);

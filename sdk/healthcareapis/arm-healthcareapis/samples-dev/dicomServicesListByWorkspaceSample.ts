@@ -39,7 +39,7 @@ async function listDicomservices() {
 }
 
 async function main() {
-  listDicomservices();
+  await listDicomservices();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a build service resource.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/BuildService_GetBuildService.json
  */
-async function buildServiceGetBuildService() {
+async function buildServiceGetBuildService(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function buildServiceGetBuildService() {
   console.log(result);
 }
 
-async function main() {
-  buildServiceGetBuildService();
+async function main(): Promise<void> {
+  await buildServiceGetBuildService();
 }
 
 main().catch(console.error);

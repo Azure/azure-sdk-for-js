@@ -34,7 +34,7 @@ async function getJitNetworkAccessPoliciesOnASubscription() {
 }
 
 async function main() {
-  getJitNetworkAccessPoliciesOnASubscription();
+  await getJitNetworkAccessPoliciesOnASubscription();
 }
 
 main().catch(console.error);

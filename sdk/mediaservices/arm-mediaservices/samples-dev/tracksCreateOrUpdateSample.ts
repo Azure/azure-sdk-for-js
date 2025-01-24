@@ -50,7 +50,7 @@ async function createsATrack() {
 }
 
 async function main() {
-  createsATrack();
+  await createsATrack();
 }
 
 main().catch(console.error);

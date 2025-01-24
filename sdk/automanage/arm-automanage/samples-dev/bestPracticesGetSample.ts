@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get information about a Automanage best practice
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getBestPractice.json
  */
-async function getAnAutomanageBestPractice() {
+async function getAnAutomanageBestPractice(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,8 +29,8 @@ async function getAnAutomanageBestPractice() {
   console.log(result);
 }
 
-async function main() {
-  getAnAutomanageBestPractice();
+async function main(): Promise<void> {
+  await getAnAutomanageBestPractice();
 }
 
 main().catch(console.error);

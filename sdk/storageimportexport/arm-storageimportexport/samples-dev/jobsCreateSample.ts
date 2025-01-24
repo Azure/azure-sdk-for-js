@@ -115,8 +115,8 @@ async function createImportJob() {
 }
 
 async function main() {
-  createExportJob();
-  createImportJob();
+  await createExportJob();
+  await createImportJob();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update the state of specified Content Filters associated with the Azure OpenAI account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/PutRaiPolicy.json
  */
-async function putRaiPolicy() {
+async function putRaiPolicy(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -121,8 +121,8 @@ async function putRaiPolicy() {
   console.log(result);
 }
 
-async function main() {
-  putRaiPolicy();
+async function main(): Promise<void> {
+  await putRaiPolicy();
 }
 
 main().catch(console.error);

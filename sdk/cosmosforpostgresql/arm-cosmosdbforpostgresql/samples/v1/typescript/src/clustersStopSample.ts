@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Stops compute on all cluster nodes.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterStop.json
  */
-async function stopAllServersInTheCluster() {
+async function stopAllServersInTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -34,7 +34,7 @@ async function stopAllServersInTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopAllServersInTheCluster();
 }
 

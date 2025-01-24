@@ -42,7 +42,7 @@ async function getAllIncidentComments() {
 }
 
 async function main() {
-  getAllIncidentComments();
+  await getAllIncidentComments();
 }
 
 main().catch(console.error);

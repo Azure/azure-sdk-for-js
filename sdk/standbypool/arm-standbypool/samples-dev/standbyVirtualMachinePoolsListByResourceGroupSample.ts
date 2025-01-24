@@ -23,7 +23,7 @@ async function standbyVirtualMachinePoolsListByResourceGroup() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsListByResourceGroup();
+  await standbyVirtualMachinePoolsListByResourceGroup();
 }
 
 main().catch(console.error);

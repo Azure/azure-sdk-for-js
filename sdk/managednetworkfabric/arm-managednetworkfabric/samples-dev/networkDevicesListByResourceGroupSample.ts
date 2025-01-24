@@ -41,7 +41,7 @@ async function networkDevicesListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  networkDevicesListByResourceGroupMaximumSetGen();
+  await networkDevicesListByResourceGroupMaximumSetGen();
 }
 
 main().catch(console.error);

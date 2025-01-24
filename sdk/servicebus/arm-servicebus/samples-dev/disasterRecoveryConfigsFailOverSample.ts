@@ -39,7 +39,7 @@ async function sbAliasFailOver() {
 }
 
 async function main() {
-  sbAliasFailOver();
+  await sbAliasFailOver();
 }
 
 main().catch(console.error);

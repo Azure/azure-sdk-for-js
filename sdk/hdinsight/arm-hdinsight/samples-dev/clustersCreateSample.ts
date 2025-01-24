@@ -1261,19 +1261,19 @@ async function createClusterWithNetworkProperties() {
 }
 
 async function main() {
-  createHdInsightClusterWithAutoscaleConfiguration();
-  createHadoopClusterWithAzureDataLakeStorageGen2();
-  createHadoopOnLinuxClusterWithSshPassword();
-  createHadoopOnLinuxClusterWithSshPublicKey();
-  createKafkaClusterWithKafkaRestProxy();
-  createSecureHadoopCluster();
-  createSparkOnLinuxClusterWithSshPassword();
-  createClusterWithTls12();
-  createClusterWithAvailabilityZones();
-  createClusterWithComputeIsolationProperties();
-  createClusterWithEncryptionAtHost();
-  createClusterWithEncryptionInTransit();
-  createClusterWithNetworkProperties();
+  await createHdInsightClusterWithAutoscaleConfiguration();
+  await createHadoopClusterWithAzureDataLakeStorageGen2();
+  await createHadoopOnLinuxClusterWithSshPassword();
+  await createHadoopOnLinuxClusterWithSshPublicKey();
+  await createKafkaClusterWithKafkaRestProxy();
+  await createSecureHadoopCluster();
+  await createSparkOnLinuxClusterWithSshPassword();
+  await createClusterWithTls12();
+  await createClusterWithAvailabilityZones();
+  await createClusterWithComputeIsolationProperties();
+  await createClusterWithEncryptionAtHost();
+  await createClusterWithEncryptionInTransit();
+  await createClusterWithNetworkProperties();
 }
 
 main().catch(console.error);

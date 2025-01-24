@@ -37,7 +37,7 @@ async function deleteVolume() {
 }
 
 async function main() {
-  deleteVolume();
+  await deleteVolume();
 }
 
 main().catch(console.error);

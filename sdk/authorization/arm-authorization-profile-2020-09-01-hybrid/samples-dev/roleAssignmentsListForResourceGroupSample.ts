@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets role assignments for a resource group.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetRoleAssignmentsForResourceGroup.json
  */
-async function listRoleAssignmentsForResourceGroup() {
+async function listRoleAssignmentsForResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName =
@@ -34,8 +34,8 @@ async function listRoleAssignmentsForResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
-  listRoleAssignmentsForResourceGroup();
+async function main(): Promise<void> {
+  await listRoleAssignmentsForResourceGroup();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listVirtualNetworkGatewaySupportedVpnDevices() {
 }
 
 async function main() {
-  listVirtualNetworkGatewaySupportedVpnDevices();
+  await listVirtualNetworkGatewaySupportedVpnDevices();
 }
 
 main().catch(console.error);

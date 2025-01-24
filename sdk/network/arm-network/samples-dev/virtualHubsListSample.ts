@@ -32,7 +32,7 @@ async function virtualHubList() {
 }
 
 async function main() {
-  virtualHubList();
+  await virtualHubList();
 }
 
 main().catch(console.error);

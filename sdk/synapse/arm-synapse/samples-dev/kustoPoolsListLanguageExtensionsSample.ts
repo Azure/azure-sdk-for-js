@@ -42,7 +42,7 @@ async function kustoPoolListLanguageExtensions() {
 }
 
 async function main() {
-  kustoPoolListLanguageExtensions();
+  await kustoPoolListLanguageExtensions();
 }
 
 main().catch(console.error);

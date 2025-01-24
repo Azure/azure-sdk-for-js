@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all Updates
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/ListUpdates.json
  */
-async function listAvailableUpdates() {
+async function listAvailableUpdates(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "b8d594e5-51f3-4c11-9c54-a7771b81c712";
@@ -34,8 +34,8 @@ async function listAvailableUpdates() {
   console.log(resArray);
 }
 
-async function main() {
-  listAvailableUpdates();
+async function main(): Promise<void> {
+  await listAvailableUpdates();
 }
 
 main().catch(console.error);

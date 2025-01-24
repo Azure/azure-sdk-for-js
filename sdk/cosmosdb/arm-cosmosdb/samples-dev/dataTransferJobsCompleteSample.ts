@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Completes a Data Transfer Online Job.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/data-transfer-service/CosmosDBDataTransferJobComplete.json
  */
-async function cosmosDbDataTransferJobComplete() {
+async function cosmosDbDataTransferJobComplete(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "e35cc6eb-c8e3-447b-8de6-b83328cd0098";
@@ -35,8 +35,8 @@ async function cosmosDbDataTransferJobComplete() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbDataTransferJobComplete();
+async function main(): Promise<void> {
+  await cosmosDbDataTransferJobComplete();
 }
 
 main().catch(console.error);

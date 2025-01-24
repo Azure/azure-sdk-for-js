@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Batch operation to add blocklist items.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/AddRaiBlocklistItems.json
  */
-async function addRaiBlocklistItems() {
+async function addRaiBlocklistItems(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -53,8 +53,8 @@ async function addRaiBlocklistItems() {
   console.log(result);
 }
 
-async function main() {
-  addRaiBlocklistItems();
+async function main(): Promise<void> {
+  await addRaiBlocklistItems();
 }
 
 main().catch(console.error);

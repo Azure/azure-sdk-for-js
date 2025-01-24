@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the available RP operations.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/OperationsList.json
  */
-async function operations() {
+async function operations(): Promise<void> {
   const subscriptionId =
     process.env["DATABRICKS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,8 +34,8 @@ async function operations() {
   console.log(resArray);
 }
 
-async function main() {
-  operations();
+async function main(): Promise<void> {
+  await operations();
 }
 
 main().catch(console.error);

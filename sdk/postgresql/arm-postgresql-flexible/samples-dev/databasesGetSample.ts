@@ -40,7 +40,7 @@ async function getADatabase() {
 }
 
 async function main() {
-  getADatabase();
+  await getADatabase();
 }
 
 main().catch(console.error);

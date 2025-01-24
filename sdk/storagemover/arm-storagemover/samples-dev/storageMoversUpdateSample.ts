@@ -44,7 +44,7 @@ async function storageMoversUpdate() {
 }
 
 async function main() {
-  storageMoversUpdate();
+  await storageMoversUpdate();
 }
 
 main().catch(console.error);

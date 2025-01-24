@@ -37,7 +37,7 @@ async function queryPackGet() {
 }
 
 async function main() {
-  queryPackGet();
+  await queryPackGet();
 }
 
 main().catch(console.error);

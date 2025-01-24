@@ -64,8 +64,8 @@ async function updateTagsFieldOfASapMonitor(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteTagsFieldOfASapMonitor();
-  updateTagsFieldOfASapMonitor();
+  await deleteTagsFieldOfASapMonitor();
+  await updateTagsFieldOfASapMonitor();
 }
 
 main().catch(console.error);

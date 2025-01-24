@@ -34,7 +34,7 @@ async function monitorsListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  monitorsListBySubscriptionMaximumSetGen();
+  await monitorsListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

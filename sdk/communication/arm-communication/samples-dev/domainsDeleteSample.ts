@@ -18,19 +18,14 @@ import "dotenv/config";
  * @summary Operation to delete a Domains resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/delete.json
  */
-async function deleteDomainsResource() {
+async function deleteDomainsResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const domainName = "mydomain.com";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.domains.beginDeleteAndWait(
     resourceGroupName,
     emailServiceName,
@@ -39,8 +34,8 @@ async function deleteDomainsResource() {
   console.log(result);
 }
 
-async function main() {
-  deleteDomainsResource();
+async function main(): Promise<void> {
+  await deleteDomainsResource();
 }
 
 main().catch(console.error);

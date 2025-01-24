@@ -40,7 +40,7 @@ async function getAllOfficeConsents() {
 }
 
 async function main() {
-  getAllOfficeConsents();
+  await getAllOfficeConsents();
 }
 
 main().catch(console.error);

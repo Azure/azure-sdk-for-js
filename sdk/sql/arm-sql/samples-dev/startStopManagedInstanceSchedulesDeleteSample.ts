@@ -38,7 +38,7 @@ async function deletesTheManagedInstanceStartOrStopSchedule() {
 }
 
 async function main() {
-  deletesTheManagedInstanceStartOrStopSchedule();
+  await deletesTheManagedInstanceStartOrStopSchedule();
 }
 
 main().catch(console.error);

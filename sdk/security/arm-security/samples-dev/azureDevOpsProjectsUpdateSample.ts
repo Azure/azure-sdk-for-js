@@ -47,7 +47,7 @@ async function updateAzureDevOpsProjects() {
 }
 
 async function main() {
-  updateAzureDevOpsProjects();
+  await updateAzureDevOpsProjects();
 }
 
 main().catch(console.error);

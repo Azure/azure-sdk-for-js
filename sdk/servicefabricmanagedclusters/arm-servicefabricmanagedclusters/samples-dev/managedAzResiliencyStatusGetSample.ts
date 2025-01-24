@@ -41,7 +41,7 @@ async function azResiliencyStatusOfBaseResources() {
 }
 
 async function main() {
-  azResiliencyStatusOfBaseResources();
+  await azResiliencyStatusOfBaseResources();
 }
 
 main().catch(console.error);

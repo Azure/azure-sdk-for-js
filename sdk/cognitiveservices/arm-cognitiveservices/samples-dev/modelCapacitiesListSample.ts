@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List ModelCapacities.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListModelCapacities.json
  */
-async function listModelCapacities() {
+async function listModelCapacities(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,8 +41,8 @@ async function listModelCapacities() {
   console.log(resArray);
 }
 
-async function main() {
-  listModelCapacities();
+async function main(): Promise<void> {
+  await listModelCapacities();
 }
 
 main().catch(console.error);

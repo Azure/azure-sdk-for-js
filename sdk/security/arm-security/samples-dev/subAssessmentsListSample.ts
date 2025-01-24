@@ -33,7 +33,7 @@ async function listSecuritySubAssessments() {
 }
 
 async function main() {
-  listSecuritySubAssessments();
+  await listSecuritySubAssessments();
 }
 
 main().catch(console.error);

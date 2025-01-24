@@ -44,7 +44,7 @@ async function createsOrUpdatesAServerKey() {
 }
 
 async function main() {
-  createsOrUpdatesAServerKey();
+  await createsOrUpdatesAServerKey();
 }
 
 main().catch(console.error);

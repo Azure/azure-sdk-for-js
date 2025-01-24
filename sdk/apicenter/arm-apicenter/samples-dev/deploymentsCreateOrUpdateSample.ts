@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates new or updates existing API deployment.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Deployments_CreateOrUpdate.json
  */
-async function deploymentsCreateOrUpdate() {
+async function deploymentsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,8 +52,8 @@ async function deploymentsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  deploymentsCreateOrUpdate();
+async function main(): Promise<void> {
+  await deploymentsCreateOrUpdate();
 }
 
 main().catch(console.error);

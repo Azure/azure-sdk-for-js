@@ -34,7 +34,7 @@ async function ehOperationsList() {
 }
 
 async function main() {
-  ehOperationsList();
+  await ehOperationsList();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function patchBareMetalMachine() {
 }
 
 async function main() {
-  patchBareMetalMachine();
+  await patchBareMetalMachine();
 }
 
 main().catch(console.error);

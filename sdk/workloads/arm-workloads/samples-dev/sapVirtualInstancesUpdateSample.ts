@@ -45,7 +45,7 @@ async function sapVirtualInstancesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesUpdate();
+  await sapVirtualInstancesUpdate();
 }
 
 main().catch(console.error);

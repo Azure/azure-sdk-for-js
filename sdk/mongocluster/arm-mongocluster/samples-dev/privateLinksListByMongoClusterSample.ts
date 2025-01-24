@@ -23,7 +23,7 @@ async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource() {
 }
 
 async function main() {
-  listsThePrivateLinkResourcesAvailableOnAMongoClusterResource();
+  await listsThePrivateLinkResourcesAvailableOnAMongoClusterResource();
 }
 
 main().catch(console.error);

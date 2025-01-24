@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all role assignments for the subscription.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetAllRoleAssignments.json
  */
-async function listRoleAssignmentsForSubscription() {
+async function listRoleAssignmentsForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subId";
   const credential = new DefaultAzureCredential();
@@ -30,8 +30,8 @@ async function listRoleAssignmentsForSubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listRoleAssignmentsForSubscription();
+async function main(): Promise<void> {
+  await listRoleAssignmentsForSubscription();
 }
 
 main().catch(console.error);

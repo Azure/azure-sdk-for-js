@@ -61,8 +61,8 @@ async function quotasListUsagesMachineLearningServices() {
 }
 
 async function main() {
-  quotasListUsagesForCompute();
-  quotasListUsagesMachineLearningServices();
+  await quotasListUsagesForCompute();
+  await quotasListUsagesMachineLearningServices();
 }
 
 main().catch(console.error);

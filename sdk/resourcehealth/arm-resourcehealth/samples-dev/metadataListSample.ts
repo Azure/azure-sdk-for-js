@@ -31,7 +31,7 @@ async function getMetadata() {
 }
 
 async function main() {
-  getMetadata();
+  await getMetadata();
 }
 
 main().catch(console.error);

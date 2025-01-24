@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a AutoUpgradeProfile
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/AutoUpgradeProfiles_Delete.json
  */
-async function deleteAnAutoUpgradeProfileResource() {
+async function deleteAnAutoUpgradeProfileResource(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -35,7 +35,7 @@ async function deleteAnAutoUpgradeProfileResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAnAutoUpgradeProfileResource();
 }
 

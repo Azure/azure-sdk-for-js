@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Checks if resource name is available.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Certificates_CheckNameAvailability.json
  */
-async function certificatesCheckNameAvailability() {
+async function certificatesCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -48,7 +48,7 @@ async function certificatesCheckNameAvailability() {
  * @summary Checks if resource name is available.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_CheckNameAvailability.json
  */
-async function containerAppsCheckNameAvailability() {
+async function containerAppsCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -69,9 +69,9 @@ async function containerAppsCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
-  certificatesCheckNameAvailability();
-  containerAppsCheckNameAvailability();
+async function main(): Promise<void> {
+  await certificatesCheckNameAvailability();
+  await containerAppsCheckNameAvailability();
 }
 
 main().catch(console.error);

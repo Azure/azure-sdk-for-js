@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create a GlobalReachConnection
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/GlobalReachConnections_CreateOrUpdate.json
  */
-async function globalReachConnectionsCreateOrUpdate() {
+async function globalReachConnectionsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,8 +41,8 @@ async function globalReachConnectionsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  globalReachConnectionsCreateOrUpdate();
+async function main(): Promise<void> {
+  await globalReachConnectionsCreateOrUpdate();
 }
 
 main().catch(console.error);

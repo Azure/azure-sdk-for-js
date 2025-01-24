@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List Location Based ModelCapacities.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListLocationBasedModelCapacities.json
  */
-async function listLocationBasedModelCapacities() {
+async function listLocationBasedModelCapacities(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,8 +43,8 @@ async function listLocationBasedModelCapacities() {
   console.log(resArray);
 }
 
-async function main() {
-  listLocationBasedModelCapacities();
+async function main(): Promise<void> {
+  await listLocationBasedModelCapacities();
 }
 
 main().catch(console.error);

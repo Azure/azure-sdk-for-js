@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Role, CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
+import type { Role} from "@azure/arm-cosmosdbforpostgresql";
+import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -18,7 +19,7 @@ import "dotenv/config";
  * @summary Creates a new role or updates an existing role.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/RoleCreate.json
  */
-async function roleCreate() {
+async function roleCreate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -38,8 +39,8 @@ async function roleCreate() {
   console.log(result);
 }
 
-async function main() {
-  roleCreate();
+async function main(): Promise<void> {
+  await roleCreate();
 }
 
 main().catch(console.error);

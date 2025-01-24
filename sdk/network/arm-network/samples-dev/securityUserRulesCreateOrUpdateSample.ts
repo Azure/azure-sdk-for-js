@@ -52,7 +52,7 @@ async function createASecurityUserRule() {
 }
 
 async function main() {
-  createASecurityUserRule();
+  await createASecurityUserRule();
 }
 
 main().catch(console.error);

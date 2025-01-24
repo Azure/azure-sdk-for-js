@@ -31,7 +31,7 @@ async function geographicHierarchyGetDefault() {
 }
 
 async function main() {
-  geographicHierarchyGetDefault();
+  await geographicHierarchyGetDefault();
 }
 
 main().catch(console.error);

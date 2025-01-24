@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Request to mark devices for a given job as shipped
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/MarkDevicesShipped.json
  */
-async function markDevicesShipped() {
+async function markDevicesShipped(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const jobName = "TestJobName1";
@@ -43,8 +43,8 @@ async function markDevicesShipped() {
   console.log(result);
 }
 
-async function main() {
-  markDevicesShipped();
+async function main(): Promise<void> {
+  await markDevicesShipped();
 }
 
 main().catch(console.error);

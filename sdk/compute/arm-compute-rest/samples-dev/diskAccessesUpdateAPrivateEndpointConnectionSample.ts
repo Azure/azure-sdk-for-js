@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  DiskAccessesUpdateAPrivateEndpointConnectionParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { DiskAccessesUpdateAPrivateEndpointConnectionParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_Approve.json
  */
-async function approveAPrivateEndpointConnectionUnderADiskAccessResource() {
+async function approveAPrivateEndpointConnectionUnderADiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

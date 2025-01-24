@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -18,18 +16,18 @@ import "dotenv/config";
  * @summary Lists all views by tenant and object.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/PrivateViewList.json
  */
-async function privateViewList() {
+async function privateViewList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.views.list()) {
+  for await (const item of client.views.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  privateViewList();
+async function main(): Promise<void> {
+  await privateViewList();
 }
 
 main().catch(console.error);

@@ -55,7 +55,7 @@ async function createOrUpdateCloudServicesNetwork() {
 }
 
 async function main() {
-  createOrUpdateCloudServicesNetwork();
+  await createOrUpdateCloudServicesNetwork();
 }
 
 main().catch(console.error);

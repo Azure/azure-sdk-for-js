@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServerConfiguration} from "@azure/arm-cosmosdbforpostgresql";
 import {
-  ServerConfiguration,
   CosmosDBForPostgreSQL,
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +22,7 @@ import "dotenv/config";
  * @summary Updates configuration of worker nodes in a cluster
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationUpdateNode.json
  */
-async function updateSingleConfigurationOfNodes() {
+async function updateSingleConfigurationOfNodes(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -41,8 +42,8 @@ async function updateSingleConfigurationOfNodes() {
   console.log(result);
 }
 
-async function main() {
-  updateSingleConfigurationOfNodes();
+async function main(): Promise<void> {
+  await updateSingleConfigurationOfNodes();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function kustoPrivateEndpointConnectionsList() {
 }
 
 async function main() {
-  kustoPrivateEndpointConnectionsList();
+  await kustoPrivateEndpointConnectionsList();
 }
 
 main().catch(console.error);

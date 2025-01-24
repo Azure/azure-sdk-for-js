@@ -40,7 +40,7 @@ async function listVirtualMachine() {
 }
 
 async function main() {
-  listVirtualMachine();
+  await listVirtualMachine();
 }
 
 main().catch(console.error);

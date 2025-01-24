@@ -45,7 +45,7 @@ async function createAutoScaleVCore() {
 }
 
 async function main() {
-  createAutoScaleVCore();
+  await createAutoScaleVCore();
 }
 
 main().catch(console.error);

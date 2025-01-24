@@ -46,7 +46,7 @@ async function createOrUpdateAGateway() {
 }
 
 async function main() {
-  createOrUpdateAGateway();
+  await createOrUpdateAGateway();
 }
 
 main().catch(console.error);

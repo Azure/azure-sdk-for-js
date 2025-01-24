@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the properties of the specified storage account credential.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/SACGet.json
  */
-async function sacGet() {
+async function sacGet(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -36,8 +36,8 @@ async function sacGet() {
   console.log(result);
 }
 
-async function main() {
-  sacGet();
+async function main(): Promise<void> {
+  await sacGet();
 }
 
 main().catch(console.error);

@@ -18,12 +18,10 @@ import "dotenv/config";
  * @summary Get API key details of a kafka or schema registry cluster
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_GetClusterAPIKey.json
  */
-async function organizationGetClusterApiKey() {
+async function organizationGetClusterApiKey(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const apiKeyId = "apiKeyId-123";
   const credential = new DefaultAzureCredential();
@@ -36,8 +34,8 @@ async function organizationGetClusterApiKey() {
   console.log(result);
 }
 
-async function main() {
-  organizationGetClusterApiKey();
+async function main(): Promise<void> {
+  await organizationGetClusterApiKey();
 }
 
 main().catch(console.error);

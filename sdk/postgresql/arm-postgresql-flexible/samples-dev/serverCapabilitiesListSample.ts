@@ -41,7 +41,7 @@ async function serverCapabilitiesList() {
 }
 
 async function main() {
-  serverCapabilitiesList();
+  await serverCapabilitiesList();
 }
 
 main().catch(console.error);

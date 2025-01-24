@@ -40,7 +40,7 @@ async function getAllThreatIntelligenceIndicators() {
 }
 
 async function main() {
-  getAllThreatIntelligenceIndicators();
+  await getAllThreatIntelligenceIndicators();
 }
 
 main().catch(console.error);

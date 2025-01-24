@@ -37,7 +37,7 @@ async function virtualNetworkGatewaysListConnections() {
 }
 
 async function main() {
-  virtualNetworkGatewaysListConnections();
+  await virtualNetworkGatewaysListConnections();
 }
 
 main().catch(console.error);

@@ -171,7 +171,7 @@ async function createOrUpdateCluster() {
 }
 
 async function main() {
-  createOrUpdateCluster();
+  await createOrUpdateCluster();
 }
 
 main().catch(console.error);

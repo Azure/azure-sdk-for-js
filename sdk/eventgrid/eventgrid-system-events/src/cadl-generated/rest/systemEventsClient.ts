@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
+import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
-import type { SystemEventsContext } from "./clientDefinitions.js";
+import { SystemEventsContext } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface SystemEventsContextOptions extends ClientOptions {}
@@ -19,7 +18,7 @@ export default function createClient(
   options: SystemEventsContextOptions = {},
 ): SystemEventsContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-eventgrid-system-events/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-eventgrid-system-events/1.0.0-beta.5`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

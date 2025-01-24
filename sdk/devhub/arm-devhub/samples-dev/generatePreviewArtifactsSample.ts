@@ -13,9 +13,7 @@ import {
   DeveloperHubServiceClient
 } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Generate preview dockerfile and manifests.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Generate preview dockerfile and manifests.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GeneratePreviewArtifacts.json
  */
-async function artifactGenerationProperties() {
+async function artifactGenerationProperties(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const location = "location1";
@@ -47,8 +45,8 @@ async function artifactGenerationProperties() {
   console.log(result);
 }
 
-async function main() {
-  artifactGenerationProperties();
+async function main(): Promise<void> {
+  await artifactGenerationProperties();
 }
 
 main().catch(console.error);

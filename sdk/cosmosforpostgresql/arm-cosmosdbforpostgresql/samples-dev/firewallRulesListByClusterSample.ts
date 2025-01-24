@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the firewall rules on cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/FirewallRuleListByCluster.json
  */
-async function listFirewallRulesOfTheCluster() {
+async function listFirewallRulesOfTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -28,7 +28,7 @@ async function listFirewallRulesOfTheCluster() {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.firewallRules.listByCluster(
+  for await (const item of client.firewallRules.listByCluster(
     resourceGroupName,
     clusterName,
   )) {
@@ -37,8 +37,8 @@ async function listFirewallRulesOfTheCluster() {
   console.log(resArray);
 }
 
-async function main() {
-  listFirewallRulesOfTheCluster();
+async function main(): Promise<void> {
+  await listFirewallRulesOfTheCluster();
 }
 
 main().catch(console.error);

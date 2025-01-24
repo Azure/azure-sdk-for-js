@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List community gallery images inside a gallery.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List community gallery images inside a gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/communityGalleryExamples/CommunityGalleryImage_List.json
  */
-async function listCommunityGalleryImages() {
+async function listCommunityGalleryImages(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
@@ -37,7 +35,7 @@ async function listCommunityGalleryImages() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCommunityGalleryImages();
 }
 

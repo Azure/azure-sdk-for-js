@@ -42,7 +42,7 @@ async function kustoDatabaseListPrincipals() {
 }
 
 async function main() {
-  kustoDatabaseListPrincipals();
+  await kustoDatabaseListPrincipals();
 }
 
 main().catch(console.error);

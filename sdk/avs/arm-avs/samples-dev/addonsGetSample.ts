@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a Addon
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Addons_Get_ArcReg.json
  */
-async function addonsGetArcReg() {
+async function addonsGetArcReg(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +41,7 @@ async function addonsGetArcReg() {
  * @summary Get a Addon
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Addons_Get_HCX.json
  */
-async function addonsGetHcx() {
+async function addonsGetHcx(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,7 +64,7 @@ async function addonsGetHcx() {
  * @summary Get a Addon
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Addons_Get_SRM.json
  */
-async function addonsGetSrm() {
+async function addonsGetSrm(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -87,7 +87,7 @@ async function addonsGetSrm() {
  * @summary Get a Addon
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Addons_Get_VR.json
  */
-async function addonsGetVr() {
+async function addonsGetVr(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -104,11 +104,11 @@ async function addonsGetVr() {
   console.log(result);
 }
 
-async function main() {
-  addonsGetArcReg();
-  addonsGetHcx();
-  addonsGetSrm();
-  addonsGetVr();
+async function main(): Promise<void> {
+  await addonsGetArcReg();
+  await addonsGetHcx();
+  await addonsGetSrm();
+  await addonsGetVr();
 }
 
 main().catch(console.error);

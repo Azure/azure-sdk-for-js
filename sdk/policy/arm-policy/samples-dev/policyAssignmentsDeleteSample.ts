@@ -34,7 +34,7 @@ async function deleteAPolicyAssignment() {
 }
 
 async function main() {
-  deleteAPolicyAssignment();
+  await deleteAPolicyAssignment();
 }
 
 main().catch(console.error);

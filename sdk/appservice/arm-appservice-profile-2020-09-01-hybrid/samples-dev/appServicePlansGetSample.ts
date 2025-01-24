@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get an App Service plan.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2018-02-01/examples/GetAppServicePlan.json
  */
-async function getAppServicePlan() {
+async function getAppServicePlan(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,8 +31,8 @@ async function getAppServicePlan() {
   console.log(result);
 }
 
-async function main() {
-  getAppServicePlan();
+async function main(): Promise<void> {
+  await getAppServicePlan();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Regenerates the auth token for the notebook workspace
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
  */
-async function cosmosDbNotebookWorkspaceRegenerateAuthToken() {
+async function cosmosDbNotebookWorkspaceRegenerateAuthToken(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -34,8 +34,8 @@ async function cosmosDbNotebookWorkspaceRegenerateAuthToken() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbNotebookWorkspaceRegenerateAuthToken();
+async function main(): Promise<void> {
+  await cosmosDbNotebookWorkspaceRegenerateAuthToken();
 }
 
 main().catch(console.error);

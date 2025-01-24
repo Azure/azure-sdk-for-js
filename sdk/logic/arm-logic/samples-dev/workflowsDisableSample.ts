@@ -37,7 +37,7 @@ async function disableAWorkflow() {
 }
 
 async function main() {
-  disableAWorkflow();
+  await disableAWorkflow();
 }
 
 main().catch(console.error);

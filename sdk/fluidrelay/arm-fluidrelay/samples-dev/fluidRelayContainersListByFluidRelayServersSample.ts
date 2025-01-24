@@ -38,7 +38,7 @@ async function listAllFluidRelayContainersInAFluidRelayServer() {
 }
 
 async function main() {
-  listAllFluidRelayContainersInAFluidRelayServer();
+  await listAllFluidRelayContainersInAFluidRelayServer();
 }
 
 main().catch(console.error);

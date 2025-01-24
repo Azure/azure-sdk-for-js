@@ -40,7 +40,7 @@ async function getPublisherResource() {
 }
 
 async function main() {
-  getPublisherResource();
+  await getPublisherResource();
 }
 
 main().catch(console.error);

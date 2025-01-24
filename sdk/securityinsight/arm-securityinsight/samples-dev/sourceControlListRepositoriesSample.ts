@@ -42,7 +42,7 @@ async function getRepositoryList() {
 }
 
 async function main() {
-  getRepositoryList();
+  await getRepositoryList();
 }
 
 main().catch(console.error);

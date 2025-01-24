@@ -79,8 +79,8 @@ async function createOrUpdateAMapLargerThan4Mb() {
 }
 
 async function main() {
-  createOrUpdateAMap();
-  createOrUpdateAMapLargerThan4Mb();
+  await createOrUpdateAMap();
+  await createOrUpdateAMapLargerThan4Mb();
 }
 
 main().catch(console.error);

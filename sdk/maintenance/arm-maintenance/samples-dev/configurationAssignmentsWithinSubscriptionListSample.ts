@@ -34,7 +34,7 @@ async function configurationAssignmentsResultWithinSubscriptionList() {
 }
 
 async function main() {
-  configurationAssignmentsResultWithinSubscriptionList();
+  await configurationAssignmentsResultWithinSubscriptionList();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates a role definition.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-05-01-preview/examples/PutRoleDefinition.json
  */
-async function createRoleDefinition() {
+async function createRoleDefinition(): Promise<void> {
   const scope = "scope";
   const roleDefinitionId = "roleDefinitionId";
   const roleDefinition: RoleDefinition = {};
@@ -35,8 +35,8 @@ async function createRoleDefinition() {
   console.log(result);
 }
 
-async function main() {
-  createRoleDefinition();
+async function main(): Promise<void> {
+  await createRoleDefinition();
 }
 
 main().catch(console.error);

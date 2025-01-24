@@ -76,8 +76,8 @@ async function springbootappsUpdateMinimumSetGen() {
 }
 
 async function main() {
-  springbootappsUpdateMaximumSetGen();
-  springbootappsUpdateMinimumSetGen();
+  await springbootappsUpdateMaximumSetGen();
+  await springbootappsUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

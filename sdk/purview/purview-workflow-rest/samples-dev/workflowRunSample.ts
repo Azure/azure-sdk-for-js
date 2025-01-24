@@ -89,7 +89,7 @@ async function main(): Promise<void> {
       maxpagesize: 1000,
     },
   };
-  workflowRunsList(client, queryParameters);
+  await workflowRunsList(client, queryParameters);
 
   // ================================================== Get a workflow run ==================================================
   /*
@@ -98,14 +98,14 @@ async function main(): Promise<void> {
   */
 
   const workflowRunId1 = "d503b2d2-84da-4a85-9e85-6e82e39d59a0"; // This is an example workflow run id, user could get workflow run id from the response of list workflow runs api.
-  workflowRunGet(client, workflowRunId1);
+  await workflowRunGet(client, workflowRunId1);
 
   // ================================================== Cancel a workflow run ==================================================
 
   const workflowRunId2 = "57f9d6d2-b41b-11ed-afa1-0242ac120002"; // This is an example workflow run id, user could get workflow run id from the response of list workflow runs api.
   const cancelReply: CancelWorkflowRunParameters = { body: { comment: "Thanks!" } }; // This payload is an example payload, please replace the payload with real data.
 
-  workflowRunCancel(client, workflowRunId2, cancelReply);
+  await workflowRunCancel(client, workflowRunId2, cancelReply);
 }
 
 main().catch(console.error);

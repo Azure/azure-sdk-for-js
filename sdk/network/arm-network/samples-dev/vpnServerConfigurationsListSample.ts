@@ -32,7 +32,7 @@ async function vpnServerConfigurationList() {
 }
 
 async function main() {
-  vpnServerConfigurationList();
+  await vpnServerConfigurationList();
 }
 
 main().catch(console.error);

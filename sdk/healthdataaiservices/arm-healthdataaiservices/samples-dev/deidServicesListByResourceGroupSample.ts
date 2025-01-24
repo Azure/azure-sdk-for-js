@@ -23,7 +23,7 @@ async function deidServicesListByResourceGroupGeneratedByMaximumSetRuleStable() 
 }
 
 async function main() {
-  deidServicesListByResourceGroupGeneratedByMaximumSetRuleStable();
+  await deidServicesListByResourceGroupGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List the storage accounts which are in use by related reports
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/ListInUseStorageAccountsWithSubscriptions.json
  */
-async function listInUseStorageAccountsWithSubscriptions() {
+async function listInUseStorageAccountsWithSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const result = await client.providerActions.listInUseStorageAccounts({
@@ -36,16 +36,16 @@ async function listInUseStorageAccountsWithSubscriptions() {
  * @summary List the storage accounts which are in use by related reports
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/ListInUseStorageAccountsWithoutSubscriptions.json
  */
-async function listInUseStorageAccountsWithoutSubscriptions() {
+async function listInUseStorageAccountsWithoutSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const result = await client.providerActions.listInUseStorageAccounts({});
   console.log(result);
 }
 
-async function main() {
-  listInUseStorageAccountsWithSubscriptions();
-  listInUseStorageAccountsWithoutSubscriptions();
+async function main(): Promise<void> {
+  await listInUseStorageAccountsWithSubscriptions();
+  await listInUseStorageAccountsWithoutSubscriptions();
 }
 
 main().catch(console.error);

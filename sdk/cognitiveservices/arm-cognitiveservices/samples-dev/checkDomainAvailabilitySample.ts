@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Check whether a domain is available.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/CheckDomainAvailability.json
  */
-async function checkSkuAvailability() {
+async function checkSkuAvailability(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -42,8 +42,8 @@ async function checkSkuAvailability() {
   console.log(result);
 }
 
-async function main() {
-  checkSkuAvailability();
+async function main(): Promise<void> {
+  await checkSkuAvailability();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Get the used, available, and total worker capacity an App Service Environment.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_ListCapacities.json
  */
-async function getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment() {
+async function getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,8 +37,8 @@ async function getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment(
   console.log(resArray);
 }
 
-async function main() {
-  getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment();
+async function main(): Promise<void> {
+  await getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update a billing request.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRequestsCreateOrUpdate.json
  */
-async function billingRequestsCreateOrUpdate() {
+async function billingRequestsCreateOrUpdate(): Promise<void> {
   const billingRequestName = "00000000-0000-0000-0000-000000000000";
   const parameters: BillingRequest = {
     properties: {
@@ -39,8 +39,8 @@ async function billingRequestsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  billingRequestsCreateOrUpdate();
+async function main(): Promise<void> {
+  await billingRequestsCreateOrUpdate();
 }
 
 main().catch(console.error);

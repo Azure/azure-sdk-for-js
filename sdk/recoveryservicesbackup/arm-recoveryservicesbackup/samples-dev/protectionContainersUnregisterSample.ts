@@ -43,7 +43,7 @@ async function unregisterProtectionContainer() {
 }
 
 async function main() {
-  unregisterProtectionContainer();
+  await unregisterProtectionContainer();
 }
 
 main().catch(console.error);

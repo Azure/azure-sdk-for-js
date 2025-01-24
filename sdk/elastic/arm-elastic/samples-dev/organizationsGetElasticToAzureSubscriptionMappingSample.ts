@@ -32,7 +32,7 @@ async function organizationsGetElasticToAzureSubscriptionMapping() {
 }
 
 async function main() {
-  organizationsGetElasticToAzureSubscriptionMapping();
+  await organizationsGetElasticToAzureSubscriptionMapping();
 }
 
 main().catch(console.error);

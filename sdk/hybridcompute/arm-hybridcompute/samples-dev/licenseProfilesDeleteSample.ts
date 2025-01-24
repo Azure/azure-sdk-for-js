@@ -36,7 +36,7 @@ async function deleteALicenseProfile() {
 }
 
 async function main() {
-  deleteALicenseProfile();
+  await deleteALicenseProfile();
 }
 
 main().catch(console.error);

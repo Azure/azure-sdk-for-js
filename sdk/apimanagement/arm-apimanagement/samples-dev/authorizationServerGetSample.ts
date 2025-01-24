@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Gets the details of the authorization server specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetAuthorizationServer.json
  */
-async function apiManagementGetAuthorizationServer() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const authsid = "newauthServer2";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.authorizationServer.get(
-        resourceGroupName,
-        serviceName,
-        authsid
-    );
-    console.log(result);
+async function apiManagementGetAuthorizationServer(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const authsid = "newauthServer2";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.authorizationServer.get(
+    resourceGroupName,
+    serviceName,
+    authsid
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetAuthorizationServer();
+async function main(): Promise<void> {
+  await apiManagementGetAuthorizationServer();
 }
 
 main().catch(console.error);

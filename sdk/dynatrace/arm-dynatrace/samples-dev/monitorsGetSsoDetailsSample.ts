@@ -69,8 +69,8 @@ async function monitorsGetSsoDetailsMinimumSetGen() {
 }
 
 async function main() {
-  monitorsGetSsoDetailsMaximumSetGen();
-  monitorsGetSsoDetailsMinimumSetGen();
+  await monitorsGetSsoDetailsMaximumSetGen();
+  await monitorsGetSsoDetailsMinimumSetGen();
 }
 
 main().catch(console.error);

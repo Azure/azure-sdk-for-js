@@ -179,7 +179,7 @@ async function urlExists(url: string): Promise<boolean> {
 async function createApiRef(info: SampleReadmeConfiguration): Promise<string> {
   if (info.apiRefLink) {
     return `[apiref]: ${info.apiRefLink}`;
-  } else if (info.scope.startsWith("@azure")) {
+  } else if (info.scope?.startsWith("@azure")) {
     const link = `https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}${info.isBeta ? "?view=azure-node-preview" : ""}`;
     if (await urlExists(link)) {
       return `[apiref]: ${link}`;

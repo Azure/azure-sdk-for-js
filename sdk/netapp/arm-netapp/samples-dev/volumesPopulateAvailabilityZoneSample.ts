@@ -40,7 +40,7 @@ async function volumesPopulateAvailabilityZones() {
 }
 
 async function main() {
-  volumesPopulateAvailabilityZones();
+  await volumesPopulateAvailabilityZones();
 }
 
 main().catch(console.error);

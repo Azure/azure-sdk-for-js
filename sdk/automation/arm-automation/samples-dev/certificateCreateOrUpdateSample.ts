@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a certificate.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/createOrUpdateCertificate.json
  */
-async function createOrUpdateACertificate() {
+async function createOrUpdateACertificate(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount18";
@@ -44,8 +44,8 @@ async function createOrUpdateACertificate() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateACertificate();
+async function main(): Promise<void> {
+  await createOrUpdateACertificate();
 }
 
 main().catch(console.error);

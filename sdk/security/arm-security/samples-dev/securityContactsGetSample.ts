@@ -32,7 +32,7 @@ async function getASecurityContact() {
 }
 
 async function main() {
-  getASecurityContact();
+  await getASecurityContact();
 }
 
 main().catch(console.error);

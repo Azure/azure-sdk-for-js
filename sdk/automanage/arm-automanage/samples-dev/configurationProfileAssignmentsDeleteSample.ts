@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a configuration profile assignment
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/deleteConfigurationProfileAssignment.json
  */
-async function deleteAnConfigurationProfileAssignment() {
+async function deleteAnConfigurationProfileAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -35,8 +35,8 @@ async function deleteAnConfigurationProfileAssignment() {
   console.log(result);
 }
 
-async function main() {
-  deleteAnConfigurationProfileAssignment();
+async function main(): Promise<void> {
+  await deleteAnConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function virtualNetworkGatewayNatRuleDelete() {
 }
 
 async function main() {
-  virtualNetworkGatewayNatRuleDelete();
+  await virtualNetworkGatewayNatRuleDelete();
 }
 
 main().catch(console.error);

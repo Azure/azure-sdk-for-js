@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get information about a configuration profile assignment
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getConfigurationProfileHCIAssignment.json
  */
-async function getAHciConfigurationProfileAssignment() {
+async function getAHciConfigurationProfileAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -35,8 +35,8 @@ async function getAHciConfigurationProfileAssignment() {
   console.log(result);
 }
 
-async function main() {
-  getAHciConfigurationProfileAssignment();
+async function main(): Promise<void> {
+  await getAHciConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

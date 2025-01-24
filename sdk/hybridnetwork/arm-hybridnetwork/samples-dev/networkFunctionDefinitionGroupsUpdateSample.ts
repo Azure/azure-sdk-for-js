@@ -43,7 +43,7 @@ async function createOrUpdateTheNetworkFunctionDefinitionGroupResource() {
 }
 
 async function main() {
-  createOrUpdateTheNetworkFunctionDefinitionGroupResource();
+  await createOrUpdateTheNetworkFunctionDefinitionGroupResource();
 }
 
 main().catch(console.error);

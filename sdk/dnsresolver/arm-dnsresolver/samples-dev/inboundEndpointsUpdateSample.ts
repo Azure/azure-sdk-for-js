@@ -44,7 +44,7 @@ async function updateInboundEndpointForDnsResolver() {
 }
 
 async function main() {
-  updateInboundEndpointForDnsResolver();
+  await updateInboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

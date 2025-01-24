@@ -23,7 +23,7 @@ async function listsTrustedSigningAccountsWithinAResourceGroup() {
 }
 
 async function main() {
-  listsTrustedSigningAccountsWithinAResourceGroup();
+  await listsTrustedSigningAccountsWithinAResourceGroup();
 }
 
 main().catch(console.error);

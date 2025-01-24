@@ -43,7 +43,7 @@ async function azureDevOpsRepoGet() {
 }
 
 async function main() {
-  azureDevOpsRepoGet();
+  await azureDevOpsRepoGet();
 }
 
 main().catch(console.error);

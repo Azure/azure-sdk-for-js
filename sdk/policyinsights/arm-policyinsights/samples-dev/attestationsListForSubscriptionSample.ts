@@ -61,8 +61,8 @@ async function listAttestationsAtSubscriptionScopeWithQueryParameters() {
 }
 
 async function main() {
-  listAttestationsAtSubscriptionScope();
-  listAttestationsAtSubscriptionScopeWithQueryParameters();
+  await listAttestationsAtSubscriptionScope();
+  await listAttestationsAtSubscriptionScopeWithQueryParameters();
 }
 
 main().catch(console.error);

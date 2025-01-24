@@ -62,7 +62,7 @@ import {
   CloudServicesImpl,
   CloudServicesUpdateDomainImpl,
   CloudServiceOperatingSystemsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   UsageOperations,
@@ -116,8 +116,8 @@ import {
   CloudServices,
   CloudServicesUpdateDomain,
   CloudServiceOperatingSystems,
-} from "./operationsInterfaces";
-import { ComputeManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ComputeManagementClientOptionalParams } from "./models/index.js";
 
 export class ComputeManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -151,7 +151,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/22.2.0`;
+    const packageDetails = `azsdk-js-arm-compute/22.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

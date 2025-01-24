@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List WorkloadNetworkGateway resources by WorkloadNetwork
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_ListGateways.json
  */
-async function workloadNetworksListGateways() {
+async function workloadNetworksListGateways(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function workloadNetworksListGateways() {
   console.log(resArray);
 }
 
-async function main() {
-  workloadNetworksListGateways();
+async function main(): Promise<void> {
+  await workloadNetworksListGateways();
 }
 
 main().catch(console.error);

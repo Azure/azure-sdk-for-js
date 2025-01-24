@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Gets a private endpoint connection
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_GetPrivateEndpointConnection.json
  */
-async function getsAPrivateEndpointConnection() {
+async function getsAPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,8 +37,8 @@ async function getsAPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
-  getsAPrivateEndpointConnection();
+async function main(): Promise<void> {
+  await getsAPrivateEndpointConnection();
 }
 
 main().catch(console.error);

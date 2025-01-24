@@ -40,7 +40,7 @@ async function webPubSubCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubCheckNameAvailability();
+  await webPubSubCheckNameAvailability();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all the configurations of a server in cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationListByServer.json
  */
-async function listConfigurationsOfTheServerThatInTheCluster() {
+async function listConfigurationsOfTheServerThatInTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -29,7 +29,7 @@ async function listConfigurationsOfTheServerThatInTheCluster() {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurations.listByServer(
+  for await (const item of client.configurations.listByServer(
     resourceGroupName,
     clusterName,
     serverName,
@@ -39,8 +39,8 @@ async function listConfigurationsOfTheServerThatInTheCluster() {
   console.log(resArray);
 }
 
-async function main() {
-  listConfigurationsOfTheServerThatInTheCluster();
+async function main(): Promise<void> {
+  await listConfigurationsOfTheServerThatInTheCluster();
 }
 
 main().catch(console.error);

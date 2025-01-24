@@ -46,7 +46,7 @@ async function createOrUpdateADeviceSecurityGroupForTheSpecifiedIoTHubResource()
 }
 
 async function main() {
-  createOrUpdateADeviceSecurityGroupForTheSpecifiedIoTHubResource();
+  await createOrUpdateADeviceSecurityGroupForTheSpecifiedIoTHubResource();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of source control sync jobs.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/sourceControlSyncJob/getAllSourceControlSyncJobs.json
  */
-async function getAListOfSourceControlSyncJobs() {
+async function getAListOfSourceControlSyncJobs(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -36,8 +36,8 @@ async function getAListOfSourceControlSyncJobs() {
   console.log(resArray);
 }
 
-async function main() {
-  getAListOfSourceControlSyncJobs();
+async function main(): Promise<void> {
+  await getAListOfSourceControlSyncJobs();
 }
 
 main().catch(console.error);

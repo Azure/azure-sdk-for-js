@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a list of Azure Bare Metal Instances in the specified subscription and resource group. The operations returns various properties of each Azure Bare Metal Instance.
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalInstances_ListByResourceGroup.json
  */
-async function listAllAzureBareMetalInstancesInAResourceGroup() {
+async function listAllAzureBareMetalInstancesInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "f0f4887f-d13c-4943-a8ba-d7da28d2a3fd";
@@ -35,8 +35,8 @@ async function listAllAzureBareMetalInstancesInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
-  listAllAzureBareMetalInstancesInAResourceGroup();
+async function main(): Promise<void> {
+  await listAllAzureBareMetalInstancesInAResourceGroup();
 }
 
 main().catch(console.error);

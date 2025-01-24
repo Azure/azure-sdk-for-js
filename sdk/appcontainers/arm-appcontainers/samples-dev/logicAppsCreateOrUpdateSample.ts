@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update a Logic App extension resource
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/LogicApps_Create.json
  */
-async function createLogicAppExtension() {
+async function createLogicAppExtension(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -38,8 +38,8 @@ async function createLogicAppExtension() {
   console.log(result);
 }
 
-async function main() {
-  createLogicAppExtension();
+async function main(): Promise<void> {
+  await createLogicAppExtension();
 }
 
 main().catch(console.error);

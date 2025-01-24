@@ -78,8 +78,8 @@ async function enableAServerAdvancedThreatProtectionSettings() {
 }
 
 async function main() {
-  disableAServerAdvancedThreatProtectionSettingsWithAllParameters();
-  enableAServerAdvancedThreatProtectionSettings();
+  await disableAServerAdvancedThreatProtectionSettingsWithAllParameters();
+  await enableAServerAdvancedThreatProtectionSettings();
 }
 
 main().catch(console.error);

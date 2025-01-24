@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the resiliency policies for a Dapr component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicies_List.json
  */
-async function listDaprComponentResiliencyPolicies() {
+async function listDaprComponentResiliencyPolicies(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -39,8 +39,8 @@ async function listDaprComponentResiliencyPolicies() {
   console.log(resArray);
 }
 
-async function main() {
-  listDaprComponentResiliencyPolicies();
+async function main(): Promise<void> {
+  await listDaprComponentResiliencyPolicies();
 }
 
 main().catch(console.error);

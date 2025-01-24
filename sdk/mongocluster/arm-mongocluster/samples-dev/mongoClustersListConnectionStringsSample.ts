@@ -19,7 +19,7 @@ async function listTheAvailableConnectionStringsForTheMongoClusterResource() {
 }
 
 async function main() {
-  listTheAvailableConnectionStringsForTheMongoClusterResource();
+  await listTheAvailableConnectionStringsForTheMongoClusterResource();
 }
 
 main().catch(console.error);

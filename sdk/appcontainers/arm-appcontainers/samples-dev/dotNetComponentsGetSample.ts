@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a .NET Component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Get.json
  */
-async function getNetComponent() {
+async function getNetComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -42,7 +42,7 @@ async function getNetComponent() {
  * @summary Get a .NET Component.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Get_ServiceBind.json
  */
-async function getNetComponentWithServiceBinds() {
+async function getNetComponentWithServiceBinds(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -60,9 +60,9 @@ async function getNetComponentWithServiceBinds() {
   console.log(result);
 }
 
-async function main() {
-  getNetComponent();
-  getNetComponentWithServiceBinds();
+async function main(): Promise<void> {
+  await getNetComponent();
+  await getNetComponentWithServiceBinds();
 }
 
 main().catch(console.error);

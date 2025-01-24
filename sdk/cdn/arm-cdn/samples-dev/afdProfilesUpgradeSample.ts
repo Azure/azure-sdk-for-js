@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDProfiles_Upgrade.json
  */
-async function afdProfilesUpgrade() {
+async function afdProfilesUpgrade(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -42,8 +42,8 @@ async function afdProfilesUpgrade() {
   console.log(result);
 }
 
-async function main() {
-  afdProfilesUpgrade();
+async function main(): Promise<void> {
+  await afdProfilesUpgrade();
 }
 
 main().catch(console.error);

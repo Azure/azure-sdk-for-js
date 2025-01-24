@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets all the Data Box Edge/Data Box Gateway devices in a subscription.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/DataBoxEdgeDeviceGetBySubscription.json
  */
-async function dataBoxEdgeDeviceGetBySubscription() {
+async function dataBoxEdgeDeviceGetBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -31,8 +31,8 @@ async function dataBoxEdgeDeviceGetBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  dataBoxEdgeDeviceGetBySubscription();
+async function main(): Promise<void> {
+  await dataBoxEdgeDeviceGetBySubscription();
 }
 
 main().catch(console.error);

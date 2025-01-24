@@ -40,7 +40,7 @@ async function deleteAPrivateEndpoint() {
 }
 
 async function main() {
-  deleteAPrivateEndpoint();
+  await deleteAPrivateEndpoint();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function getGateway() {
 }
 
 async function main() {
-  getGateway();
+  await getGateway();
 }
 
 main().catch(console.error);

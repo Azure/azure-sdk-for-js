@@ -57,7 +57,7 @@ async function domainTopicEventSubscriptionsUpdate() {
 }
 
 async function main() {
-  domainTopicEventSubscriptionsUpdate();
+  await domainTopicEventSubscriptionsUpdate();
 }
 
 main().catch(console.error);

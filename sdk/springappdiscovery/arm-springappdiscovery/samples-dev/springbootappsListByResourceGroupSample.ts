@@ -69,8 +69,8 @@ async function springbootappsListByResourceGroupMinimumSetGen() {
 }
 
 async function main() {
-  springbootappsListByResourceGroupMaximumSetGen();
-  springbootappsListByResourceGroupMinimumSetGen();
+  await springbootappsListByResourceGroupMaximumSetGen();
+  await springbootappsListByResourceGroupMinimumSetGen();
 }
 
 main().catch(console.error);

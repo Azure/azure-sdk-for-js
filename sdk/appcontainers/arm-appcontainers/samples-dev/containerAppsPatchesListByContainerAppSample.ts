@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List Container Apps Patch resources by ContainerApp.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerAppsPatches_ListByContainerApp.json
  */
-async function containerAppsPatchesListByContainerApp0() {
+async function containerAppsPatchesListByContainerApp0(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function containerAppsPatchesListByContainerApp0() {
   console.log(resArray);
 }
 
-async function main() {
-  containerAppsPatchesListByContainerApp0();
+async function main(): Promise<void> {
+  await containerAppsPatchesListByContainerApp0();
 }
 
 main().catch(console.error);

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get operation.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Operations_Get.json
  */
-async function operationsGet() {
+async function operationsGet(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const locationName = "{locationName}";
   const name = "{operationName}";

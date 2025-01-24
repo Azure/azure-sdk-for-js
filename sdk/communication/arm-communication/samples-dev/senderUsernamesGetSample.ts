@@ -18,20 +18,15 @@ import "dotenv/config";
  * @summary Get a valid sender username for a domains resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/get.json
  */
-async function getSenderUsernamesResource() {
+async function getSenderUsernamesResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "contosoResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "contosoResourceGroup";
   const emailServiceName = "contosoEmailService";
   const domainName = "contoso.com";
   const senderUsername = "contosoNewsAlerts";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.senderUsernames.get(
     resourceGroupName,
     emailServiceName,
@@ -41,8 +36,8 @@ async function getSenderUsernamesResource() {
   console.log(result);
 }
 
-async function main() {
-  getSenderUsernamesResource();
+async function main(): Promise<void> {
+  await getSenderUsernamesResource();
 }
 
 main().catch(console.error);

@@ -111,8 +111,8 @@ async function organizationsCreateOrUpdateMin() {
 }
 
 async function main() {
-  organizationsCreateOrUpdate();
-  organizationsCreateOrUpdateMin();
+  await organizationsCreateOrUpdate();
+  await organizationsCreateOrUpdateMin();
 }
 
 main().catch(console.error);

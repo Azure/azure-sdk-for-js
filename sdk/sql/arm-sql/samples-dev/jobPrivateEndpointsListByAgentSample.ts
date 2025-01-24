@@ -41,7 +41,7 @@ async function listPrivateEndpointsInAJobAgent() {
 }
 
 async function main() {
-  listPrivateEndpointsInAJobAgent();
+  await listPrivateEndpointsInAJobAgent();
 }
 
 main().catch(console.error);

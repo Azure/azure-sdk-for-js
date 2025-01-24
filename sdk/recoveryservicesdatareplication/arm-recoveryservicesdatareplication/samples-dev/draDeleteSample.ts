@@ -43,7 +43,7 @@ async function draDelete() {
 }
 
 async function main() {
-  draDelete();
+  await draDelete();
 }
 
 main().catch(console.error);

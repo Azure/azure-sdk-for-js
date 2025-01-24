@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Rotate the vCenter password
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PrivateClouds_RotateVcenterPassword.json
  */
-async function privateCloudsRotateVcenterPassword() {
+async function privateCloudsRotateVcenterPassword(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,8 +33,8 @@ async function privateCloudsRotateVcenterPassword() {
   console.log(result);
 }
 
-async function main() {
-  privateCloudsRotateVcenterPassword();
+async function main(): Promise<void> {
+  await privateCloudsRotateVcenterPassword();
 }
 
 main().catch(console.error);

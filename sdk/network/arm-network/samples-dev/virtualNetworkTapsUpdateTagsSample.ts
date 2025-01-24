@@ -38,7 +38,7 @@ async function updateVirtualNetworkTapTags() {
 }
 
 async function main() {
-  updateVirtualNetworkTapTags();
+  await updateVirtualNetworkTapTags();
 }
 
 main().catch(console.error);

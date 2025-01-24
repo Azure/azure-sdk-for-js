@@ -39,7 +39,7 @@ async function namespaceTopicsListSharedAccessKeys() {
 }
 
 async function main() {
-  namespaceTopicsListSharedAccessKeys();
+  await namespaceTopicsListSharedAccessKeys();
 }
 
 main().catch(console.error);

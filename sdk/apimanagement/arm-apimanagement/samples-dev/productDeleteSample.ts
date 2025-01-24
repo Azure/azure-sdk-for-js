@@ -9,8 +9,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-    ApiManagementClient,
-    ProductDeleteOptionalParams
+  ApiManagementClient,
+  ProductDeleteOptionalParams
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -21,30 +21,30 @@ import "dotenv/config";
  * @summary Delete product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProduct.json
  */
-async function apiManagementDeleteProduct() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const productId = "testproduct";
-    const ifMatch = "*";
-    const deleteSubscriptions = true;
-    const options: ProductDeleteOptionalParams = { deleteSubscriptions };
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.product.delete(
-        resourceGroupName,
-        serviceName,
-        productId,
-        ifMatch,
-        options
-    );
-    console.log(result);
+async function apiManagementDeleteProduct(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const productId = "testproduct";
+  const ifMatch = "*";
+  const deleteSubscriptions = true;
+  const options: ProductDeleteOptionalParams = { deleteSubscriptions };
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.product.delete(
+    resourceGroupName,
+    serviceName,
+    productId,
+    ifMatch,
+    options
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementDeleteProduct();
+async function main(): Promise<void> {
+  await apiManagementDeleteProduct();
 }
 
 main().catch(console.error);

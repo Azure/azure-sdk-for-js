@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  Fleet,
-  ContainerServiceFleetClient,
-} from "@azure/arm-containerservicefleet";
+import type { Fleet } from "@azure/arm-containerservicefleet";
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,11 +17,9 @@ import "dotenv/config";
  * @summary Creates or updates a Fleet.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/Fleets_CreateOrUpdate.json
  */
-async function createsAFleetResourceWithALongRunningOperation() {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+async function createsAFleetResourceWithALongRunningOperation(): Promise<void> {
+  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const resource: Fleet = {
     hubProfile: {
@@ -45,8 +39,8 @@ async function createsAFleetResourceWithALongRunningOperation() {
   console.log(result);
 }
 
-async function main() {
-  createsAFleetResourceWithALongRunningOperation();
+async function main(): Promise<void> {
+  await createsAFleetResourceWithALongRunningOperation();
 }
 
 main().catch(console.error);

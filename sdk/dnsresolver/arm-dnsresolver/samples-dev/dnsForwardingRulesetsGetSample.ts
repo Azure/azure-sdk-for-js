@@ -37,7 +37,7 @@ async function retrieveDnsForwardingRuleset() {
 }
 
 async function main() {
-  retrieveDnsForwardingRuleset();
+  await retrieveDnsForwardingRuleset();
 }
 
 main().catch(console.error);

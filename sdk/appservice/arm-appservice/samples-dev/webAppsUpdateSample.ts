@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/UpdateWebApp.json
  */
-async function updateWebApp() {
+async function updateWebApp(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,8 +42,8 @@ async function updateWebApp() {
   console.log(result);
 }
 
-async function main() {
-  updateWebApp();
+async function main(): Promise<void> {
+  await updateWebApp();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Update RUs per second of an Azure Cosmos DB Cassandra view
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraViewThroughputUpdate.json
  */
-async function cosmosDbCassandraViewThroughputUpdate() {
+async function cosmosDbCassandraViewThroughputUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -44,8 +44,8 @@ async function cosmosDbCassandraViewThroughputUpdate() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbCassandraViewThroughputUpdate();
+async function main(): Promise<void> {
+  await cosmosDbCassandraViewThroughputUpdate();
 }
 
 main().catch(console.error);

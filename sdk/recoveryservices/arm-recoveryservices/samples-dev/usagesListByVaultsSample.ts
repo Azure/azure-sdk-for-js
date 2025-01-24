@@ -41,7 +41,7 @@ async function getsVaultUsages() {
 }
 
 async function main() {
-  getsVaultUsages();
+  await getsVaultUsages();
 }
 
 main().catch(console.error);

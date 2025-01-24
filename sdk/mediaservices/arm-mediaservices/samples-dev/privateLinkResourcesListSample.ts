@@ -37,7 +37,7 @@ async function getListOfAllGroupIDs() {
 }
 
 async function main() {
-  getListOfAllGroupIDs();
+  await getListOfAllGroupIDs();
 }
 
 main().catch(console.error);

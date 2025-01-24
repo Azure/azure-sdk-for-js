@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the current usage information as well as the limits for environment.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentUsages_List.json
  */
-async function listManagedEnvironmentUsages() {
+async function listManagedEnvironmentUsages(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,8 +36,8 @@ async function listManagedEnvironmentUsages() {
   console.log(resArray);
 }
 
-async function main() {
-  listManagedEnvironmentUsages();
+async function main(): Promise<void> {
+  await listManagedEnvironmentUsages();
 }
 
 main().catch(console.error);

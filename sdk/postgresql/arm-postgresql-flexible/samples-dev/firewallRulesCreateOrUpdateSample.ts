@@ -48,7 +48,7 @@ async function firewallRuleCreate() {
 }
 
 async function main() {
-  firewallRuleCreate();
+  await firewallRuleCreate();
 }
 
 main().catch(console.error);

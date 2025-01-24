@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the existing origin groups within a profile.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOriginGroups_ListByProfile.json
  */
-async function afdOriginGroupsListByProfile() {
+async function afdOriginGroupsListByProfile(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -34,8 +34,8 @@ async function afdOriginGroupsListByProfile() {
   console.log(resArray);
 }
 
-async function main() {
-  afdOriginGroupsListByProfile();
+async function main(): Promise<void> {
+  await afdOriginGroupsListByProfile();
 }
 
 main().catch(console.error);

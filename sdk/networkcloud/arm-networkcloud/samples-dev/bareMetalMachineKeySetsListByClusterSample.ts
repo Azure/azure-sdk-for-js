@@ -40,7 +40,7 @@ async function listBareMetalMachineKeySetsOfTheCluster() {
 }
 
 async function main() {
-  listBareMetalMachineKeySetsOfTheCluster();
+  await listBareMetalMachineKeySetsOfTheCluster();
 }
 
 main().catch(console.error);

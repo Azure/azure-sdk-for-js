@@ -40,7 +40,7 @@ async function volumesFinalizeExternalReplication() {
 }
 
 async function main() {
-  volumesFinalizeExternalReplication();
+  await volumesFinalizeExternalReplication();
 }
 
 main().catch(console.error);

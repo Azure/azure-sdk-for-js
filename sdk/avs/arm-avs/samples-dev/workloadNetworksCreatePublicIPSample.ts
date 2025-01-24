@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create a WorkloadNetworkPublicIP
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_CreatePublicIP.json
  */
-async function workloadNetworksCreatePublicIP() {
+async function workloadNetworksCreatePublicIP(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,8 +43,8 @@ async function workloadNetworksCreatePublicIP() {
   console.log(result);
 }
 
-async function main() {
-  workloadNetworksCreatePublicIP();
+async function main(): Promise<void> {
+  await workloadNetworksCreatePublicIP();
 }
 
 main().catch(console.error);

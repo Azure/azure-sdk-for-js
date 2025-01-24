@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the AppComplianceAutomation snapshot and its properties.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Snapshot_Get.json
  */
-async function snapshotGet() {
+async function snapshotGet(): Promise<void> {
   const reportName = "testReportName";
   const snapshotName = "testSnapshot";
   const credential = new DefaultAzureCredential();
@@ -27,8 +27,8 @@ async function snapshotGet() {
   console.log(result);
 }
 
-async function main() {
-  snapshotGet();
+async function main(): Promise<void> {
+  await snapshotGet();
 }
 
 main().catch(console.error);

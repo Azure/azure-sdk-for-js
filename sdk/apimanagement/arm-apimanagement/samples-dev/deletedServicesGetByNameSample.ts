@@ -18,19 +18,19 @@ import "dotenv/config";
  * @summary Get soft-deleted Api Management Service by name.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetDeletedServiceByName.json
  */
-async function apiManagementGetDeletedServiceByName() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const serviceName = "apimService3";
-    const location = "westus";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.deletedServices.getByName(serviceName, location);
-    console.log(result);
+async function apiManagementGetDeletedServiceByName(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const serviceName = "apimService3";
+  const location = "westus";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.deletedServices.getByName(serviceName, location);
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetDeletedServiceByName();
+async function main(): Promise<void> {
+  await apiManagementGetDeletedServiceByName();
 }
 
 main().catch(console.error);

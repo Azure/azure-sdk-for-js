@@ -23,7 +23,7 @@ async function skuListByLocation() {
 }
 
 async function main() {
-  skuListByLocation();
+  await skuListByLocation();
 }
 
 main().catch(console.error);

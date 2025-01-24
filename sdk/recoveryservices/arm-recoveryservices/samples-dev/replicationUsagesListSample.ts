@@ -40,7 +40,7 @@ async function getsReplicationUsagesOfVault() {
 }
 
 async function main() {
-  getsReplicationUsagesOfVault();
+  await getsReplicationUsagesOfVault();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a OrganizationResource
  * x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_Delete_MaximumSet_Gen.json
  */
-async function organizationsDeleteGeneratedByMaximumSetRule() {
+async function organizationsDeleteGeneratedByMaximumSetRule(): Promise<void> {
   const subscriptionId =
     process.env["ASTRO_SUBSCRIPTION_ID"] ||
     "43454B17-172A-40FE-80FA-549EA23D12B3";
@@ -34,8 +34,8 @@ async function organizationsDeleteGeneratedByMaximumSetRule() {
   console.log(result);
 }
 
-async function main() {
-  organizationsDeleteGeneratedByMaximumSetRule();
+async function main(): Promise<void> {
+  await organizationsDeleteGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

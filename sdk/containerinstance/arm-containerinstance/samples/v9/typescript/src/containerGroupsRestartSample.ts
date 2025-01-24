@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsRestart.json
  */
-async function containerRestart() {
+async function containerRestart(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,8 +36,8 @@ async function containerRestart() {
   console.log(result);
 }
 
-async function main() {
-  containerRestart();
+async function main(): Promise<void> {
+  await containerRestart();
 }
 
 main().catch(console.error);

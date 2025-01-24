@@ -36,7 +36,7 @@ async function deletePrivateDnsZone() {
 }
 
 async function main() {
-  deletePrivateDnsZone();
+  await deletePrivateDnsZone();
 }
 
 main().catch(console.error);

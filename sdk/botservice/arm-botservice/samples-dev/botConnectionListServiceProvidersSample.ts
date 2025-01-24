@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the available Service Providers for creating Connection Settings
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListServiceProviders.json
  */
-async function listAuthServiceProviders() {
+async function listAuthServiceProviders(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const credential = new DefaultAzureCredential();
@@ -27,8 +27,8 @@ async function listAuthServiceProviders() {
   console.log(result);
 }
 
-async function main() {
-  listAuthServiceProviders();
+async function main(): Promise<void> {
+  await listAuthServiceProviders();
 }
 
 main().catch(console.error);

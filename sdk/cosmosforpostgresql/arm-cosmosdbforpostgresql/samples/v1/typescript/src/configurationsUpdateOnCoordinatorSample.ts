@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates configuration of coordinator in a cluster
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ConfigurationUpdateCoordinator.json
  */
-async function updateSingleConfigurationOfCoordinator() {
+async function updateSingleConfigurationOfCoordinator(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -41,7 +41,7 @@ async function updateSingleConfigurationOfCoordinator() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateSingleConfigurationOfCoordinator();
 }
 

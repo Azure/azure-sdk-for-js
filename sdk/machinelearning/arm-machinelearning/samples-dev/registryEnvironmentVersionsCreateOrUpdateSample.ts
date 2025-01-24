@@ -69,7 +69,7 @@ async function createOrUpdateRegistryEnvironmentVersion() {
 }
 
 async function main() {
-  createOrUpdateRegistryEnvironmentVersion();
+  await createOrUpdateRegistryEnvironmentVersion();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function updateOrCreateSuppressionRuleForSubscription() {
 }
 
 async function main() {
-  updateOrCreateSuppressionRuleForSubscription();
+  await updateOrCreateSuppressionRuleForSubscription();
 }
 
 main().catch(console.error);

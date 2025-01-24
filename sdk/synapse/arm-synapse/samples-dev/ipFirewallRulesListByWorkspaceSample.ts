@@ -40,7 +40,7 @@ async function listIPFirewallRulesInAWorkspace() {
 }
 
 async function main() {
-  listIPFirewallRulesInAWorkspace();
+  await listIPFirewallRulesInAWorkspace();
 }
 
 main().catch(console.error);

@@ -106,8 +106,8 @@ async function brokerAuthenticationCreateOrUpdate() {
 }
 
 async function main() {
-  brokerAuthenticationCreateOrUpdateComplex();
-  brokerAuthenticationCreateOrUpdate();
+  await brokerAuthenticationCreateOrUpdateComplex();
+  await brokerAuthenticationCreateOrUpdate();
 }
 
 main().catch(console.error);

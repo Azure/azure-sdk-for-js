@@ -18,27 +18,27 @@ import "dotenv/config";
  * @summary Get the policy configuration at the Product level.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetProductPolicy.json
  */
-async function apiManagementGetProductPolicy() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const productId = "kjoshiarmTemplateProduct4";
-    const policyId = "policy";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.productPolicy.get(
-        resourceGroupName,
-        serviceName,
-        productId,
-        policyId
-    );
-    console.log(result);
+async function apiManagementGetProductPolicy(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const productId = "kjoshiarmTemplateProduct4";
+  const policyId = "policy";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.productPolicy.get(
+    resourceGroupName,
+    serviceName,
+    productId,
+    policyId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetProductPolicy();
+async function main(): Promise<void> {
+  await apiManagementGetProductPolicy();
 }
 
 main().catch(console.error);

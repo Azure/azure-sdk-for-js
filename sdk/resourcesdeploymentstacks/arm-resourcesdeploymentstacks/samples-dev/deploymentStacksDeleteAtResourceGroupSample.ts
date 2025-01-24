@@ -39,7 +39,7 @@ async function deploymentStacksResourceGroupDelete() {
 }
 
 async function main() {
-  deploymentStacksResourceGroupDelete();
+  await deploymentStacksResourceGroupDelete();
 }
 
 main().catch(console.error);

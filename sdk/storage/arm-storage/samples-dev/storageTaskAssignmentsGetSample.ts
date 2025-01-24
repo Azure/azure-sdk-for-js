@@ -38,7 +38,7 @@ async function getStorageTaskAssignment() {
 }
 
 async function main() {
-  getStorageTaskAssignment();
+  await getStorageTaskAssignment();
 }
 
 main().catch(console.error);

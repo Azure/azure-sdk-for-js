@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates an azure databricks accessConnector.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorPatchUpdate.json
  */
-async function updateAnAzureDatabricksAccessConnector() {
+async function updateAnAzureDatabricksAccessConnector(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const connectorName = "myAccessConnector";
@@ -39,8 +39,8 @@ async function updateAnAzureDatabricksAccessConnector() {
   console.log(result);
 }
 
-async function main() {
-  updateAnAzureDatabricksAccessConnector();
+async function main(): Promise<void> {
+  await updateAnAzureDatabricksAccessConnector();
 }
 
 main().catch(console.error);

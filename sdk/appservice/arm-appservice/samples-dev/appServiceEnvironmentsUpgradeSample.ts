@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Initiate an upgrade of an App Service Environment if one is available.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_Upgrade.json
  */
-async function initiateAnUpgradeOnAnAppServiceEnvironment() {
+async function initiateAnUpgradeOnAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,8 +33,8 @@ async function initiateAnUpgradeOnAnAppServiceEnvironment() {
   console.log(result);
 }
 
-async function main() {
-  initiateAnUpgradeOnAnAppServiceEnvironment();
+async function main(): Promise<void> {
+  await initiateAnUpgradeOnAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

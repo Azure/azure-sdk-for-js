@@ -36,7 +36,7 @@ async function getAnInstancePool() {
 }
 
 async function main() {
-  getAnInstancePool();
+  await getAnInstancePool();
 }
 
 main().catch(console.error);

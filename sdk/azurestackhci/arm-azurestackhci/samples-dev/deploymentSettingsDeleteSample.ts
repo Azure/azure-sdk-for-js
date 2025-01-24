@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a DeploymentSetting
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/DeleteDeploymentSettings.json
  */
-async function deleteDeploymentSettings() {
+async function deleteDeploymentSettings(): Promise<void> {
   const subscriptionId =
     process.env["AZURESTACKHCI_SUBSCRIPTION_ID"] ||
     "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
@@ -36,8 +36,8 @@ async function deleteDeploymentSettings() {
   console.log(result);
 }
 
-async function main() {
-  deleteDeploymentSettings();
+async function main(): Promise<void> {
+  await deleteDeploymentSettings();
 }
 
 main().catch(console.error);

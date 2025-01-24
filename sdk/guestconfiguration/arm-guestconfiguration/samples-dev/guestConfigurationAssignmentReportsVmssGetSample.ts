@@ -40,7 +40,7 @@ async function getAGuestConfigurationAssignmentReportByIdForAVirtualMachineScale
 }
 
 async function main() {
-  getAGuestConfigurationAssignmentReportByIdForAVirtualMachineScaleSet();
+  await getAGuestConfigurationAssignmentReportByIdForAVirtualMachineScaleSet();
 }
 
 main().catch(console.error);

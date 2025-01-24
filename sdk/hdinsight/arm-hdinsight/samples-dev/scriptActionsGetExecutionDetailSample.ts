@@ -36,7 +36,7 @@ async function getScriptExecutionHistoryByScriptId() {
 }
 
 async function main() {
-  getScriptExecutionHistoryByScriptId();
+  await getScriptExecutionHistoryByScriptId();
 }
 
 main().catch(console.error);

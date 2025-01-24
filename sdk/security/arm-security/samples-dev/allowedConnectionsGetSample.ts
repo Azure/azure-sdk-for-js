@@ -39,7 +39,7 @@ async function getAllowedConnections() {
 }
 
 async function main() {
-  getAllowedConnections();
+  await getAllowedConnections();
 }
 
 main().catch(console.error);

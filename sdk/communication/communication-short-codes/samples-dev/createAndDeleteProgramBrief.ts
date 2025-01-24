@@ -5,16 +5,13 @@
  * @summary Create and Submit a Program Brief (application for a short code)
  */
 
-import {
-  ShortCodesClient,
-  ShortCodesUpsertUSProgramBriefOptionalParams,
-} from "@azure-tools/communication-short-codes";
+import type { ShortCodesUpsertUSProgramBriefOptionalParams } from "@azure-tools/communication-short-codes";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Create and Submit Program Brief Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -95,12 +92,12 @@ export async function main() {
   };
 
   // create program brief
-  var createResponse = await client.upsertUSProgramBrief(programBriefId, {
+  const createResponse = await client.upsertUSProgramBrief(programBriefId, {
     ...programBriefRequest,
     onResponse:
       (response) =>
       (res = response) => {
-        if (!res || res.status != 201) {
+        if (!res || res.status !== 201) {
           throw new Error(
             `Program brief creation failed.
           Status code: ${res.status}; 
@@ -112,17 +109,17 @@ export async function main() {
   });
   console.log(`Successfully created a new program brief with Id ${createResponse.id}`);
 
-  var programBrief = await client.getUSProgramBrief(programBriefId);
+  const programBrief = await client.getUSProgramBrief(programBriefId);
   console.log(
     `Program brief with Id ${programBrief.id} has status ${programBrief.status} which was last updated ${programBrief.statusUpdatedDate}`,
   );
 
   // delete program brief
-  var deleteResponse = client.deleteUSProgramBrief(programBriefId, {
+  const deleteResponse = client.deleteUSProgramBrief(programBriefId, {
     onResponse:
       (response) =>
       (res = response) => {
-        if (!res || res.status != 204) {
+        if (!res || res.status !== 204) {
           throw new Error(
             `Program brief deletion failed.
           Status code: ${res.status}; 

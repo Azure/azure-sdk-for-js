@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of webhooks.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2015-10-31/examples/listWebhooksByAutomationAccount.json
  */
-async function listWebhooksByAutomationAccount() {
+async function listWebhooksByAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -34,8 +34,8 @@ async function listWebhooksByAutomationAccount() {
   console.log(resArray);
 }
 
-async function main() {
-  listWebhooksByAutomationAccount();
+async function main(): Promise<void> {
+  await listWebhooksByAutomationAccount();
 }
 
 main().catch(console.error);

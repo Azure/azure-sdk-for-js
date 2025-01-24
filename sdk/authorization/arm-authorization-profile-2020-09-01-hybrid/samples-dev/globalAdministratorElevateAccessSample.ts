@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Elevates access for a Global Administrator.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/ElevateAccess.json
  */
-async function elevateAccessGlobalAdministrator() {
+async function elevateAccessGlobalAdministrator(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,8 +28,8 @@ async function elevateAccessGlobalAdministrator() {
   console.log(result);
 }
 
-async function main() {
-  elevateAccessGlobalAdministrator();
+async function main(): Promise<void> {
+  await elevateAccessGlobalAdministrator();
 }
 
 main().catch(console.error);

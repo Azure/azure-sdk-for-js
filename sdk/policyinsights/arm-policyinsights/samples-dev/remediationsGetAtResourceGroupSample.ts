@@ -35,7 +35,7 @@ async function getRemediationAtResourceGroupScope() {
 }
 
 async function main() {
-  getRemediationAtResourceGroupScope();
+  await getRemediationAtResourceGroupScope();
 }
 
 main().catch(console.error);

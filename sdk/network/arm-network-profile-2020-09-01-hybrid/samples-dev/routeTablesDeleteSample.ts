@@ -34,7 +34,7 @@ async function deleteRouteTable() {
 }
 
 async function main() {
-  deleteRouteTable();
+  await deleteRouteTable();
 }
 
 main().catch(console.error);

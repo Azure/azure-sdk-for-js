@@ -51,7 +51,7 @@ async function createAttestationAtIndividualResourceScope() {
 }
 
 async function main() {
-  createAttestationAtIndividualResourceScope();
+  await createAttestationAtIndividualResourceScope();
 }
 
 main().catch(console.error);

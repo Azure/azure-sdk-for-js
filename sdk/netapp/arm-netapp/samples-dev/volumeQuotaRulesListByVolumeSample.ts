@@ -43,7 +43,7 @@ async function volumeQuotaRulesList() {
 }
 
 async function main() {
-  volumeQuotaRulesList();
+  await volumeQuotaRulesList();
 }
 
 main().catch(console.error);

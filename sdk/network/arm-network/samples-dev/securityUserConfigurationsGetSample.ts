@@ -38,7 +38,7 @@ async function getSecurityUserConfigurations() {
 }
 
 async function main() {
-  getSecurityUserConfigurations();
+  await getSecurityUserConfigurations();
 }
 
 main().catch(console.error);

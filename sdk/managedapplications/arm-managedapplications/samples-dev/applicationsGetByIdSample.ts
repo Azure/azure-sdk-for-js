@@ -30,7 +30,7 @@ async function getsTheManagedApplication() {
 }
 
 async function main() {
-  getsTheManagedApplication();
+  await getsTheManagedApplication();
 }
 
 main().catch(console.error);

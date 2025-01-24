@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Check the quota and actual usage of the CDN profiles under the given subscription.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/ResourceUsage_List.json
  */
-async function resourceUsageList() {
+async function resourceUsageList(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -29,8 +29,8 @@ async function resourceUsageList() {
   console.log(resArray);
 }
 
-async function main() {
-  resourceUsageList();
+async function main(): Promise<void> {
+  await resourceUsageList();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns all the resources of a particular type belonging to a subscription.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListBotsBySubscription.json
  */
-async function listBotsBySubscription() {
+async function listBotsBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const credential = new DefaultAzureCredential();
@@ -30,8 +30,8 @@ async function listBotsBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listBotsBySubscription();
+async function main(): Promise<void> {
+  await listBotsBySubscription();
 }
 
 main().catch(console.error);

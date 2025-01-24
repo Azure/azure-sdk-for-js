@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Suspend an App Service Environment.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_Suspend.json
  */
-async function suspendAnAppServiceEnvironment() {
+async function suspendAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,8 +37,8 @@ async function suspendAnAppServiceEnvironment() {
   console.log(resArray);
 }
 
-async function main() {
-  suspendAnAppServiceEnvironment();
+async function main(): Promise<void> {
+  await suspendAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

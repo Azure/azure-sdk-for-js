@@ -56,7 +56,7 @@ async function changeOrApplyRecoveryPoint() {
 }
 
 async function main() {
-  changeOrApplyRecoveryPoint();
+  await changeOrApplyRecoveryPoint();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all of the NSP configurations in the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/NspConfigurationsList.json
  */
-async function listNspConfigurations() {
+async function listNspConfigurations(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -35,8 +35,8 @@ async function listNspConfigurations() {
   console.log(resArray);
 }
 
-async function main() {
-  listNspConfigurations();
+async function main(): Promise<void> {
+  await listNspConfigurations();
 }
 
 main().catch(console.error);

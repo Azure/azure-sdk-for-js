@@ -44,7 +44,7 @@ async function scaleAStreamingEndpoint() {
 }
 
 async function main() {
-  scaleAStreamingEndpoint();
+  await scaleAStreamingEndpoint();
 }
 
 main().catch(console.error);

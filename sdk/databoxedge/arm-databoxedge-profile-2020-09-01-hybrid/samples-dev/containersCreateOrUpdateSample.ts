@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a new container or updates an existing container on the device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/ContainerPut.json
  */
-async function containerPut() {
+async function containerPut(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -43,8 +43,8 @@ async function containerPut() {
   console.log(result);
 }
 
-async function main() {
-  containerPut();
+async function main(): Promise<void> {
+  await containerPut();
 }
 
 main().catch(console.error);

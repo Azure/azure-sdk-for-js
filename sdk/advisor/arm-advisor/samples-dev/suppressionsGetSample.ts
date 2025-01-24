@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Obtains the details of a suppression.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/GetSuppressionDetail.json
  */
-async function getSuppressionDetail() {
+async function getSuppressionDetail(): Promise<void> {
   const resourceUri = "resourceUri";
   const recommendationId = "recommendationId";
   const name = "suppressionName1";
@@ -29,7 +29,7 @@ async function getSuppressionDetail() {
 }
 
 async function main(): Promise<void> {
-  getSuppressionDetail();
+  await getSuppressionDetail();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function listRepetitions() {
 }
 
 async function main() {
-  listRepetitions();
+  await listRepetitions();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function configurationCreateOrUpdate() {
 }
 
 async function main() {
-  configurationCreateOrUpdate();
+  await configurationCreateOrUpdate();
 }
 
 main().catch(console.error);

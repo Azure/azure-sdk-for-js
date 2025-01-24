@@ -40,7 +40,7 @@ async function ipCommunitiesDeleteMaximumSetGen() {
 }
 
 async function main() {
-  ipCommunitiesDeleteMaximumSetGen();
+  await ipCommunitiesDeleteMaximumSetGen();
 }
 
 main().catch(console.error);

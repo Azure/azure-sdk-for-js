@@ -82,8 +82,8 @@ async function dataProductsRemoveUserRoleMaximumSetGenGeneratedByMinimumSetRuleM
 }
 
 async function main() {
-  dataProductsRemoveUserRoleMaximumSetGen();
-  dataProductsRemoveUserRoleMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  await dataProductsRemoveUserRoleMaximumSetGen();
+  await dataProductsRemoveUserRoleMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

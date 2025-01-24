@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List the operations for the provider
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Operations_List.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const resArray = new Array();
@@ -28,8 +28,8 @@ async function operationsList() {
   console.log(resArray);
 }
 
-async function main() {
-  operationsList();
+async function main(): Promise<void> {
+  await operationsList();
 }
 
 main().catch(console.error);

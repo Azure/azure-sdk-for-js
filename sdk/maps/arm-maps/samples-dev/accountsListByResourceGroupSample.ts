@@ -38,7 +38,7 @@ async function listAccountsByResourceGroup() {
 }
 
 async function main() {
-  listAccountsByResourceGroup();
+  await listAccountsByResourceGroup();
 }
 
 main().catch(console.error);

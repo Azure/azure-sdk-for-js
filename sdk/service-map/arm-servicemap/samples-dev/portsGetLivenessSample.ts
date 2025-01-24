@@ -48,7 +48,7 @@ async function smMachinesPortsGetLivenessGet() {
 }
 
 async function main() {
-  smMachinesPortsGetLivenessGet();
+  await smMachinesPortsGetLivenessGet();
 }
 
 main().catch(console.error);

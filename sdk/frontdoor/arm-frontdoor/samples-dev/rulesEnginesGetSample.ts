@@ -36,7 +36,7 @@ async function getRulesEngineConfiguration() {
 }
 
 async function main() {
-  getRulesEngineConfiguration();
+  await getRulesEngineConfiguration();
 }
 
 main().catch(console.error);

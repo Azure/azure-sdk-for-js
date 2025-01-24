@@ -68,8 +68,8 @@ async function updateAnExistingPaymentHsm() {
 }
 
 async function main() {
-  updateAnExistingDedicatedHsm();
-  updateAnExistingPaymentHsm();
+  await updateAnExistingDedicatedHsm();
+  await updateAnExistingPaymentHsm();
 }
 
 main().catch(console.error);

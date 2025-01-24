@@ -37,7 +37,7 @@ async function networkFabricSkusListBySubscriptionMaximumSetGen() {
 }
 
 async function main() {
-  networkFabricSkusListBySubscriptionMaximumSetGen();
+  await networkFabricSkusListBySubscriptionMaximumSetGen();
 }
 
 main().catch(console.error);

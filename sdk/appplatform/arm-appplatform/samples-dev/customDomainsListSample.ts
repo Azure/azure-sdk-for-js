@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List the custom domains of one lifecycle application.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/CustomDomains_List.json
  */
-async function customDomainsList() {
+async function customDomainsList(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,8 +39,8 @@ async function customDomainsList() {
   console.log(resArray);
 }
 
-async function main() {
-  customDomainsList();
+async function main(): Promise<void> {
+  await customDomainsList();
 }
 
 main().catch(console.error);

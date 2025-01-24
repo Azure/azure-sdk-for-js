@@ -39,7 +39,7 @@ async function serverlessRuntimesServerlessResourceById() {
 }
 
 async function main() {
-  serverlessRuntimesServerlessResourceById();
+  await serverlessRuntimesServerlessResourceById();
 }
 
 main().catch(console.error);

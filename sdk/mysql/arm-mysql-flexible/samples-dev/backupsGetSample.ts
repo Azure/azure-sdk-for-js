@@ -41,7 +41,7 @@ async function getABackupForAServer() {
 }
 
 async function main() {
-  getABackupForAServer();
+  await getABackupForAServer();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A cluster does not accrue charges while it is stopped. See [stopping a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersStop.json
  */
-async function stopManagedCluster() {
+async function stopManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function stopManagedCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopManagedCluster();
 }
 

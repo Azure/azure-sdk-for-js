@@ -4,6 +4,7 @@
 
 ```ts
 
+import type { ConnectOptions } from '@playwright/test';
 import type { PlaywrightTestConfig } from '@playwright/test';
 import type { TokenCredential } from '@azure/identity';
 
@@ -16,16 +17,6 @@ export type BrowserConnectOptions = EndpointOptions & {
 };
 
 // @public
-export type ConnectOptions = {
-    headers?: {
-        [key: string]: string;
-    };
-    exposeNetwork?: string;
-    timeout?: number;
-    slowMo?: number;
-};
-
-// @public
 export type EndpointOptions = {
     wsEndpoint: string;
 };
@@ -35,12 +26,6 @@ export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptio
 
 // @public
 export const getServiceConfig: (config: PlaywrightTestConfig, options?: PlaywrightServiceAdditionalOptions) => PlaywrightTestConfig;
-
-// @public
-export interface MPTReporterConfig {
-    enableGitHubSummary?: boolean;
-    enableResultPublish?: boolean;
-}
 
 // @public
 export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
@@ -59,6 +44,12 @@ export type PlaywrightServiceAdditionalOptions = {
 };
 
 // @public
+export type ReporterConfiguration = {
+    enableGitHubSummary?: boolean;
+    enableResultPublish?: boolean;
+};
+
+// @public
 export const ServiceAuth: {
     readonly ENTRA_ID: "ENTRA_ID";
     readonly ACCESS_TOKEN: "ACCESS_TOKEN";
@@ -66,11 +57,8 @@ export const ServiceAuth: {
 
 // @public
 export const ServiceEnvironmentVariable: {
-    PLAYWRIGHT_SERVICE_OS: string;
-    PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: string;
     PLAYWRIGHT_SERVICE_ACCESS_TOKEN: string;
     PLAYWRIGHT_SERVICE_URL: string;
-    PLAYWRIGHT_SERVICE_REPORTING_URL: string;
 };
 
 // @public

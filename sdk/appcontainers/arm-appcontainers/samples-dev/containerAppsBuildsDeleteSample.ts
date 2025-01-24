@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a Container Apps Build resource
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerAppsBuilds_Delete.json
  */
-async function containerAppsBuildsDelete0() {
+async function containerAppsBuildsDelete0(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,8 +35,8 @@ async function containerAppsBuildsDelete0() {
   console.log(result);
 }
 
-async function main() {
-  containerAppsBuildsDelete0();
+async function main(): Promise<void> {
+  await containerAppsBuildsDelete0();
 }
 
 main().catch(console.error);

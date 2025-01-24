@@ -85,8 +85,8 @@ async function checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect() 
 }
 
 async function main() {
-  checkPolicyRestrictionsAtSubscriptionScope();
-  checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect();
+  await checkPolicyRestrictionsAtSubscriptionScope();
+  await checkPolicyRestrictionsAtSubscriptionScopeIncludingAuditEffect();
 }
 
 main().catch(console.error);

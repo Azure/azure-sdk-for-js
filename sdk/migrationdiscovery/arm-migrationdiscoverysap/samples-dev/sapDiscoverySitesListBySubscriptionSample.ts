@@ -34,7 +34,7 @@ async function listSapMigrationDiscoverySiteResourcesInASubscription() {
 }
 
 async function main() {
-  listSapMigrationDiscoverySiteResourcesInASubscription();
+  await listSapMigrationDiscoverySiteResourcesInASubscription();
 }
 
 main().catch(console.error);

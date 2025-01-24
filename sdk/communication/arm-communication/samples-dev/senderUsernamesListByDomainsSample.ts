@@ -18,21 +18,16 @@ import "dotenv/config";
  * @summary List all valid sender usernames for a domains resource.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/listByDomain.json
  */
-async function getSenderUsernamesResource() {
+async function getSenderUsernamesResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "contosoResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "contosoResourceGroup";
   const emailServiceName = "contosoEmailService";
   const domainName = "contoso.com";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.senderUsernames.listByDomains(
+  for await (const item of client.senderUsernames.listByDomains(
     resourceGroupName,
     emailServiceName,
     domainName,
@@ -42,8 +37,8 @@ async function getSenderUsernamesResource() {
   console.log(resArray);
 }
 
-async function main() {
-  getSenderUsernamesResource();
+async function main(): Promise<void> {
+  await getSenderUsernamesResource();
 }
 
 main().catch(console.error);

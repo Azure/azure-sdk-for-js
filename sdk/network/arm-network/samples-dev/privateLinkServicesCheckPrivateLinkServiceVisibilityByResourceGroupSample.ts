@@ -43,7 +43,7 @@ async function checkPrivateLinkServiceVisibility() {
 }
 
 async function main() {
-  checkPrivateLinkServiceVisibility();
+  await checkPrivateLinkServiceVisibility();
 }
 
 main().catch(console.error);

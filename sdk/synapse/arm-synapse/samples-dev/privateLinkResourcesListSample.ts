@@ -40,7 +40,7 @@ async function getPrivateLinkResourcesForWorkspace() {
 }
 
 async function main() {
-  getPrivateLinkResourcesForWorkspace();
+  await getPrivateLinkResourcesForWorkspace();
 }
 
 main().catch(console.error);

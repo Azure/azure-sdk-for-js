@@ -13,9 +13,7 @@ import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an integration runtime.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates an integration runtime.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_Update.json
  */
-async function integrationRuntimesUpdate() {
+async function integrationRuntimesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -46,8 +44,8 @@ async function integrationRuntimesUpdate() {
   console.log(result);
 }
 
-async function main() {
-  integrationRuntimesUpdate();
+async function main(): Promise<void> {
+  await integrationRuntimesUpdate();
 }
 
 main().catch(console.error);

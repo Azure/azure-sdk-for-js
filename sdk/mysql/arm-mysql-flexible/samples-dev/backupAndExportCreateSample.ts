@@ -50,7 +50,7 @@ async function createAndExportBackup() {
 }
 
 async function main() {
-  createAndExportBackup();
+  await createAndExportBackup();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function searchListQueryKeysBySearchService() {
 }
 
 async function main() {
-  searchListQueryKeysBySearchService();
+  await searchListQueryKeysBySearchService();
 }
 
 main().catch(console.error);

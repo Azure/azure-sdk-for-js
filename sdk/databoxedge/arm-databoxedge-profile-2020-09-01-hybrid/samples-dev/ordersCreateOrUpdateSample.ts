@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates an order.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/OrderPut.json
  */
-async function orderPut() {
+async function orderPut(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -55,8 +55,8 @@ async function orderPut() {
   console.log(result);
 }
 
-async function main() {
-  orderPut();
+async function main(): Promise<void> {
+  await orderPut();
 }
 
 main().catch(console.error);

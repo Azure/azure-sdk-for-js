@@ -39,7 +39,7 @@ async function deleteStorageAppliance() {
 }
 
 async function main() {
-  deleteStorageAppliance();
+  await deleteStorageAppliance();
 }
 
 main().catch(console.error);

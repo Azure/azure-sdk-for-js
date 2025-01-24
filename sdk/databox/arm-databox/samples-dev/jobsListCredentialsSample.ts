@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary This method gets the unencrypted secrets related to the job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsListCredentials.json
  */
-async function jobsListCredentials() {
+async function jobsListCredentials(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -36,8 +36,8 @@ async function jobsListCredentials() {
   console.log(resArray);
 }
 
-async function main() {
-  jobsListCredentials();
+async function main(): Promise<void> {
+  await jobsListCredentials();
 }
 
 main().catch(console.error);

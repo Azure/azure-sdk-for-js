@@ -37,7 +37,7 @@ async function deleteFirewallPolicyRuleCollectionGroup() {
 }
 
 async function main() {
-  deleteFirewallPolicyRuleCollectionGroup();
+  await deleteFirewallPolicyRuleCollectionGroup();
 }
 
 main().catch(console.error);

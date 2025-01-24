@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetSkus.json
  */
-async function regenerateKeys() {
+async function regenerateKeys(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "f1c637e4-72ec-4f89-8d2b-0f933c036002";
@@ -34,8 +34,8 @@ async function regenerateKeys() {
   console.log(resArray);
 }
 
-async function main() {
-  regenerateKeys();
+async function main(): Promise<void> {
+  await regenerateKeys();
 }
 
 main().catch(console.error);

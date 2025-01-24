@@ -22,7 +22,7 @@ async function getDiscoveredAssetEndpointProfile() {
 }
 
 async function main() {
-  getDiscoveredAssetEndpointProfile();
+  await getDiscoveredAssetEndpointProfile();
 }
 
 main().catch(console.error);

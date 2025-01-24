@@ -33,7 +33,7 @@ async function listVirtualMachines() {
 }
 
 async function main() {
-  listVirtualMachines();
+  await listVirtualMachines();
 }
 
 main().catch(console.error);

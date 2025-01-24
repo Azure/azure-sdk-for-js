@@ -66,7 +66,7 @@ async function createCommunicationsGatewayResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createCommunicationsGatewayResource();
+  await createCommunicationsGatewayResource();
 }
 
 main().catch(console.error);

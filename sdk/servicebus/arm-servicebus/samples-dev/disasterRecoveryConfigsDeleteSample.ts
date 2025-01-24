@@ -39,7 +39,7 @@ async function sbAliasDelete() {
 }
 
 async function main() {
-  sbAliasDelete();
+  await sbAliasDelete();
 }
 
 main().catch(console.error);

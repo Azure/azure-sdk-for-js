@@ -46,7 +46,7 @@ async function projectsUpdate() {
 }
 
 async function main() {
-  projectsUpdate();
+  await projectsUpdate();
 }
 
 main().catch(console.error);

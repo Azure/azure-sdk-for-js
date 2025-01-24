@@ -37,7 +37,7 @@ async function deletesAnExperiment() {
 }
 
 async function main() {
-  deletesAnExperiment();
+  await deletesAnExperiment();
 }
 
 main().catch(console.error);

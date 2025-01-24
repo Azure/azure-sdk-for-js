@@ -253,7 +253,6 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
         path: "./tsconfig.test.json",
       },
     ],
-    files: [],
   };
 
   await saveJson(tsconfigPath, tsConfig);
@@ -332,8 +331,7 @@ function setScriptsSection(
   scripts: PackageJson["scripts"],
   options: { browser: boolean; isArm: boolean },
 ): void {
-  scripts["build"] =
-    "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api";
+  scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   if (options.browser) {
     scripts["unit-test:browser"] =
@@ -394,6 +392,35 @@ function addTypeScriptHybridizer(packageJson: any, options: { browser: boolean }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function addNewPackages(packageJson: any, options: { browser: boolean }): Promise<void> {
+  // Update dev dependencies on the core projects
+  const newCorePackages: Record<string, string | undefined> = {
+    "@azure/abort-controller": undefined,
+    "@azure/core-auth": undefined,
+    "@azure/core-client": undefined,
+    "@azure/core-paging": undefined,
+    "@azure/core-rest-pipeline": undefined,
+    "@azure/core-tracing": undefined,
+    "@azure/core-util": undefined,
+    "@azure/logger": undefined,
+    tslib: undefined,
+  };
+
+  for (const [newPackage, desiredMinVersion] of Object.entries(newCorePackages)) {
+    if (packageJson.dependencies[newPackage]) {
+      let latestVersion = desiredMinVersion;
+      if (!latestVersion) {
+        // Get the latest version from npm
+        latestVersion = (
+          await run(["npm", "view", newPackage, "version"], {
+            captureOutput: true,
+            shell: isWindows(),
+          })
+        ).output;
+      }
+      packageJson.dependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
+    }
+  }
+
   const newPackages: Record<string, string | undefined> = {
     "@azure-tools/test-utils-vitest": "1.0.0",
     "@vitest/coverage-istanbul": undefined,
@@ -419,15 +446,34 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
+  // Freeze these packages until we have a chance to update them
+  packageJson.devDependencies["vitest"] = "^3.0.3";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.3";
+  if (options.browser) {
+    packageJson.devDependencies["@vitest/browser"] = "^3.0.3";
+  }
   const packagesToUpdate = [
-    { package: "@azure-tools/test-credential", version: "^2.0.0" },
-    { package: "@azure-tools/test-recorder", version: "^4.1.0" },
+    { package: "@azure-tools/test-credential", version: "2.0.0" },
+    { package: "@azure-tools/test-recorder", version: "4.1.0" },
+    { package: "@azure/identity", version: undefined },
+    { package: "@azure/logger", version: undefined },
+    { package: "@azure/core-util", version: undefined },
   ];
 
   // Update additional if there
   for (const { package: packageName, version } of packagesToUpdate) {
     if (packageJson.devDependencies[packageName]) {
-      packageJson.devDependencies[packageName] = version;
+      let latestVersion = version;
+      if (!latestVersion) {
+        // Get the latest version from npm
+        latestVersion = (
+          await run(["npm", "view", packageName, "version"], {
+            captureOutput: true,
+            shell: isWindows(),
+          })
+        ).output;
+      }
+      packageJson.devDependencies[packageName] = `^${latestVersion.replace("\n", "")}`;
     }
   }
 }
@@ -456,6 +502,7 @@ function removeLegacyPackages(packageJson: any): void {
     "puppeteer",
     "source-map-support",
     "ts-node",
+    "tsx",
     "uglify-js",
     "@types/chai-as-promised",
     "@types/mocha",

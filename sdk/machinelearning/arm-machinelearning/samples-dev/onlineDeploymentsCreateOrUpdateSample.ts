@@ -171,8 +171,8 @@ async function createOrUpdateManagedOnlineDeployment() {
 }
 
 async function main() {
-  createOrUpdateKubernetesOnlineDeployment();
-  createOrUpdateManagedOnlineDeployment();
+  await createOrUpdateKubernetesOnlineDeployment();
+  await createOrUpdateManagedOnlineDeployment();
 }
 
 main().catch(console.error);

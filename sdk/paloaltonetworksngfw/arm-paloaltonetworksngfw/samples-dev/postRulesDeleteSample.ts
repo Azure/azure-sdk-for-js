@@ -51,8 +51,8 @@ async function postRulesDeleteMinimumSetGen() {
 }
 
 async function main() {
-  postRulesDeleteMaximumSetGen();
-  postRulesDeleteMinimumSetGen();
+  await postRulesDeleteMaximumSetGen();
+  await postRulesDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

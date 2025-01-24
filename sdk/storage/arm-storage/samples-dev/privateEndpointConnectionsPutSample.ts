@@ -47,7 +47,7 @@ async function storageAccountPutPrivateEndpointConnection() {
 }
 
 async function main() {
-  storageAccountPutPrivateEndpointConnection();
+  await storageAccountPutPrivateEndpointConnection();
 }
 
 main().catch(console.error);

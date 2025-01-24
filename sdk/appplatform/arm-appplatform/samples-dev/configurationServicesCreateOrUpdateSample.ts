@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create the default Application Configuration Service or update the existing Application Configuration Service.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/ConfigurationServices_CreateOrUpdate.json
  */
-async function configurationServicesCreateOrUpdate() {
+async function configurationServicesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -56,8 +56,8 @@ async function configurationServicesCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  configurationServicesCreateOrUpdate();
+async function main(): Promise<void> {
+  await configurationServicesCreateOrUpdate();
 }
 
 main().catch(console.error);

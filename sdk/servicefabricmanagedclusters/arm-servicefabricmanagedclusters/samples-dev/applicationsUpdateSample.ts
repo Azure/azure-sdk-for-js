@@ -47,7 +47,7 @@ async function patchAnApplication() {
 }
 
 async function main() {
-  patchAnApplication();
+  await patchAnApplication();
 }
 
 main().catch(console.error);

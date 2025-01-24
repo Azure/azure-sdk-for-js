@@ -42,7 +42,7 @@ async function sapVirtualInstancesStop(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesStop();
+  await sapVirtualInstancesStop();
 }
 
 main().catch(console.error);

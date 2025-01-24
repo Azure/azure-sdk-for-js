@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list StorageClassResource resources by parent
  * x-ms-original-file: 2024-03-01/StorageClass_List.json
  */
-async function storageClassList0() {
+async function storageClassList0(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const resArray = new Array();
@@ -23,8 +23,8 @@ async function storageClassList0() {
   console.log(resArray);
 }
 
-async function main() {
-  storageClassList0();
+async function main(): Promise<void> {
+  await storageClassList0();
 }
 
 main().catch(console.error);

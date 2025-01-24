@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a Capability that extends a Target resource.
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DeleteCapability.json
  */
-async function deleteACapabilityThatExtendsAVirtualMachineTargetResource() {
+async function deleteACapabilityThatExtendsAVirtualMachineTargetResource(): Promise<void> {
   const subscriptionId =
     process.env["CHAOS_SUBSCRIPTION_ID"] ||
     "6b052e15-03d3-4f17-b2e1-be7f07588291";
@@ -41,8 +41,8 @@ async function deleteACapabilityThatExtendsAVirtualMachineTargetResource() {
   console.log(result);
 }
 
-async function main() {
-  deleteACapabilityThatExtendsAVirtualMachineTargetResource();
+async function main(): Promise<void> {
+  await deleteACapabilityThatExtendsAVirtualMachineTargetResource();
 }
 
 main().catch(console.error);

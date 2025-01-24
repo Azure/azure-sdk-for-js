@@ -60,8 +60,8 @@ async function grantIncludeAllocatedBudget() {
 }
 
 async function main() {
-  grant();
-  grantIncludeAllocatedBudget();
+  await grant();
+  await grantIncludeAllocatedBudget();
 }
 
 main().catch(console.error);

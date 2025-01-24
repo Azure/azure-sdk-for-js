@@ -42,7 +42,7 @@ async function namespaceTopicEventSubscriptionsGetDeliveryAttributes() {
 }
 
 async function main() {
-  namespaceTopicEventSubscriptionsGetDeliveryAttributes();
+  await namespaceTopicEventSubscriptionsGetDeliveryAttributes();
 }
 
 main().catch(console.error);

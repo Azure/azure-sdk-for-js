@@ -53,7 +53,7 @@ async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria() {
 }
 
 async function main() {
-  queryThreatIntelligenceIndicatorsAsPerFilteringCriteria();
+  await queryThreatIntelligenceIndicatorsAsPerFilteringCriteria();
 }
 
 main().catch(console.error);

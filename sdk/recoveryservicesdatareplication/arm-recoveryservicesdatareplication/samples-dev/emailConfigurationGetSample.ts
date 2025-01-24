@@ -43,7 +43,7 @@ async function emailConfigurationGet() {
 }
 
 async function main() {
-  emailConfigurationGet();
+  await emailConfigurationGet();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function listOfSpacecraftBySubscription() {
 }
 
 async function main() {
-  listOfSpacecraftBySubscription();
+  await listOfSpacecraftBySubscription();
 }
 
 main().catch(console.error);

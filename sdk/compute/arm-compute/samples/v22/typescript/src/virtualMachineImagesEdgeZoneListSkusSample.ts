@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListSkus_MaximumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
+async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaa";
@@ -44,7 +42,7 @@ async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
  * @summary Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListSkus_MinimumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen() {
+async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaa";
@@ -62,7 +60,7 @@ async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineImagesEdgeZoneListSkusMaximumSetGen();
   virtualMachineImagesEdgeZoneListSkusMinimumSetGen();
 }

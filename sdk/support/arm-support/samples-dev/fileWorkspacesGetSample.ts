@@ -32,7 +32,7 @@ async function getDetailsOfASubscriptionFileWorkspace() {
 }
 
 async function main() {
-  getDetailsOfASubscriptionFileWorkspace();
+  await getDetailsOfASubscriptionFileWorkspace();
 }
 
 main().catch(console.error);

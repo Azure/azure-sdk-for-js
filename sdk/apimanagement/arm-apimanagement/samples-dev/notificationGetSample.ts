@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Gets the details of the Notification specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetNotification.json
  */
-async function apiManagementGetNotification() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const notificationName = "RequestPublisherNotificationMessage";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.notification.get(
-        resourceGroupName,
-        serviceName,
-        notificationName
-    );
-    console.log(result);
+async function apiManagementGetNotification(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const notificationName = "RequestPublisherNotificationMessage";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.notification.get(
+    resourceGroupName,
+    serviceName,
+    notificationName
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementGetNotification();
+async function main(): Promise<void> {
+  await apiManagementGetNotification();
 }
 
 main().catch(console.error);

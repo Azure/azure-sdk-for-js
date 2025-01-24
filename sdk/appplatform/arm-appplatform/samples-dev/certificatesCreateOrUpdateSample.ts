@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update certificate resource.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Certificates_CreateOrUpdate.json
  */
-async function certificatesCreateOrUpdate() {
+async function certificatesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -49,8 +49,8 @@ async function certificatesCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  certificatesCreateOrUpdate();
+async function main(): Promise<void> {
+  await certificatesCreateOrUpdate();
 }
 
 main().catch(console.error);

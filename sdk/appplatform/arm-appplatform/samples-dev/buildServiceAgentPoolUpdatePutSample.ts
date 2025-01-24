@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Create or update build service agent pool.
  * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/BuildServiceAgentPool_UpdatePut.json
  */
-async function buildServiceAgentPoolUpdatePut() {
+async function buildServiceAgentPoolUpdatePut(): Promise<void> {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,8 +45,8 @@ async function buildServiceAgentPoolUpdatePut() {
   console.log(result);
 }
 
-async function main() {
-  buildServiceAgentPoolUpdatePut();
+async function main(): Promise<void> {
+  await buildServiceAgentPoolUpdatePut();
 }
 
 main().catch(console.error);

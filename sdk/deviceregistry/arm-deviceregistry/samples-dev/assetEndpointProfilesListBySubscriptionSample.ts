@@ -23,7 +23,7 @@ async function listAssetEndpointProfilesSubscription() {
 }
 
 async function main() {
-  listAssetEndpointProfilesSubscription();
+  await listAssetEndpointProfilesSubscription();
 }
 
 main().catch(console.error);

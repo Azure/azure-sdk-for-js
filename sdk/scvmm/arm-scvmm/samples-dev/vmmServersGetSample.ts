@@ -51,8 +51,8 @@ async function vmmServersGetMinimumSet() {
 }
 
 async function main() {
-  vmmServersGetMaximumSet();
-  vmmServersGetMinimumSet();
+  await vmmServersGetMaximumSet();
+  await vmmServersGetMinimumSet();
 }
 
 main().catch(console.error);

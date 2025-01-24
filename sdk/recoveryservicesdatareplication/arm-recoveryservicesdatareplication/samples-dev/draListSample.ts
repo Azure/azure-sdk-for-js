@@ -41,7 +41,7 @@ async function draList() {
 }
 
 async function main() {
-  draList();
+  await draList();
 }
 
 main().catch(console.error);

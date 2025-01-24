@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of dsc compilation jobs.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listCompilationJobsByAutomationAccount.json
  */
-async function listDscCompilationJobInAutomationAccount() {
+async function listDscCompilationJobInAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -34,8 +34,8 @@ async function listDscCompilationJobInAutomationAccount() {
   console.log(resArray);
 }
 
-async function main() {
-  listDscCompilationJobInAutomationAccount();
+async function main(): Promise<void> {
+  await listDscCompilationJobInAutomationAccount();
 }
 
 main().catch(console.error);

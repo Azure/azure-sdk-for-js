@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Generates a Uri for use in creating a webhook.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2015-10-31/examples/webhookGenerateUri.json
  */
-async function generateWebhookUri() {
+async function generateWebhookUri(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -31,8 +31,8 @@ async function generateWebhookUri() {
   console.log(result);
 }
 
-async function main() {
-  generateWebhookUri();
+async function main(): Promise<void> {
+  await generateWebhookUri();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function eventSubscriptionsListRegionalBySubscription() {
 }
 
 async function main() {
-  eventSubscriptionsListRegionalBySubscription();
+  await eventSubscriptionsListRegionalBySubscription();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listAllSecurityConnectorsOfASpecifiedResourceGroup() {
 }
 
 async function main() {
-  listAllSecurityConnectorsOfASpecifiedResourceGroup();
+  await listAllSecurityConnectorsOfASpecifiedResourceGroup();
 }
 
 main().catch(console.error);

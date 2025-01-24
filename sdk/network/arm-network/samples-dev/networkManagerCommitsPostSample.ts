@@ -48,7 +48,7 @@ async function networkManageCommitPost() {
 }
 
 async function main() {
-  networkManageCommitPost();
+  await networkManageCommitPost();
 }
 
 main().catch(console.error);

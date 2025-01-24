@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the Container App SourceControls in a given resource group.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/SourceControls_ListByContainer.json
  */
-async function listAppSourceControls() {
+async function listAppSourceControls(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";
@@ -37,8 +37,8 @@ async function listAppSourceControls() {
   console.log(resArray);
 }
 
-async function main() {
-  listAppSourceControls();
+async function main(): Promise<void> {
+  await listAppSourceControls();
 }
 
 main().catch(console.error);

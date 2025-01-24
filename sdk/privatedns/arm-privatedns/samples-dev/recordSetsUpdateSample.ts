@@ -231,14 +231,14 @@ async function patchPrivateDnsZoneTxtRecordSet() {
 }
 
 async function main() {
-  patchPrivateDnsZoneARecordSet();
-  patchPrivateDnsZoneAaaaRecordSet();
-  patchPrivateDnsZoneCnameRecordSet();
-  patchPrivateDnsZoneMxRecordSet();
-  patchPrivateDnsZonePtrRecordSet();
-  patchPrivateDnsZoneSoaRecordSet();
-  patchPrivateDnsZoneSrvRecordSet();
-  patchPrivateDnsZoneTxtRecordSet();
+  await patchPrivateDnsZoneARecordSet();
+  await patchPrivateDnsZoneAaaaRecordSet();
+  await patchPrivateDnsZoneCnameRecordSet();
+  await patchPrivateDnsZoneMxRecordSet();
+  await patchPrivateDnsZonePtrRecordSet();
+  await patchPrivateDnsZoneSoaRecordSet();
+  await patchPrivateDnsZoneSrvRecordSet();
+  await patchPrivateDnsZoneTxtRecordSet();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function deleteTheServerKey() {
 }
 
 async function main() {
-  deleteTheServerKey();
+  await deleteTheServerKey();
 }
 
 main().catch(console.error);

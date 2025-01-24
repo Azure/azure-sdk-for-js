@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of hybrid runbook worker groups.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/listHybridRunbookWorkerGroup.json
  */
-async function listHybridWorkerGroupsByAutomationAccount() {
+async function listHybridWorkerGroupsByAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "testaccount";
@@ -34,8 +34,8 @@ async function listHybridWorkerGroupsByAutomationAccount() {
   console.log(resArray);
 }
 
-async function main() {
-  listHybridWorkerGroupsByAutomationAccount();
+async function main(): Promise<void> {
+  await listHybridWorkerGroupsByAutomationAccount();
 }
 
 main().catch(console.error);

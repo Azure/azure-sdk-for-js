@@ -39,7 +39,7 @@ async function kustoDatabasesDelete() {
 }
 
 async function main() {
-  kustoDatabasesDelete();
+  await kustoDatabasesDelete();
 }
 
 main().catch(console.error);

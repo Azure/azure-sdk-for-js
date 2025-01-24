@@ -40,7 +40,7 @@ async function listSecurityApplicationsBySecurityConnectorLevelScope() {
 }
 
 async function main() {
-  listSecurityApplicationsBySecurityConnectorLevelScope();
+  await listSecurityApplicationsBySecurityConnectorLevelScope();
 }
 
 main().catch(console.error);

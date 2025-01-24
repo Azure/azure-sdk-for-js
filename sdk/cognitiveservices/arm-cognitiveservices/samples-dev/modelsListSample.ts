@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List Models.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListLocationModels.json
  */
-async function listLocationModels() {
+async function listLocationModels(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,8 +35,8 @@ async function listLocationModels() {
   console.log(resArray);
 }
 
-async function main() {
-  listLocationModels();
+async function main(): Promise<void> {
+  await listLocationModels();
 }
 
 main().catch(console.error);

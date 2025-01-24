@@ -39,7 +39,7 @@ async function deleteKubernetesClusterAgentPool() {
 }
 
 async function main() {
-  deleteKubernetesClusterAgentPool();
+  await deleteKubernetesClusterAgentPool();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listMobileNetworksInResourceGroup() {
 }
 
 async function main() {
-  listMobileNetworksInResourceGroup();
+  await listMobileNetworksInResourceGroup();
 }
 
 main().catch(console.error);

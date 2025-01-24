@@ -34,7 +34,7 @@ async function vpnServerConfigurationDelete() {
 }
 
 async function main() {
-  vpnServerConfigurationDelete();
+  await vpnServerConfigurationDelete();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function createOrUpdateWorkspaceActiveDirectoryAdmin() {
 }
 
 async function main() {
-  createOrUpdateWorkspaceActiveDirectoryAdmin();
+  await createOrUpdateWorkspaceActiveDirectoryAdmin();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Return quota for subscription by region
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/Locations_CheckQuotaAvailability.json
  */
-async function locationsCheckQuotaAvailability() {
+async function locationsCheckQuotaAvailability(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,8 +29,8 @@ async function locationsCheckQuotaAvailability() {
   console.log(result);
 }
 
-async function main() {
-  locationsCheckQuotaAvailability();
+async function main(): Promise<void> {
+  await locationsCheckQuotaAvailability();
 }
 
 main().catch(console.error);

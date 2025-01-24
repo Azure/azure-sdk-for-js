@@ -41,7 +41,7 @@ async function getsListOfLedgerDigestUploadSettingsOnADatabase() {
 }
 
 async function main() {
-  getsListOfLedgerDigestUploadSettingsOnADatabase();
+  await getsListOfLedgerDigestUploadSettingsOnADatabase();
 }
 
 main().catch(console.error);

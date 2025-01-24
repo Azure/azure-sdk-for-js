@@ -99,10 +99,10 @@ async function getSubnetPeering() {
 }
 
 async function main() {
-  getV6SubnetPeering();
-  getPeering();
-  getPeeringWithRemoteVirtualNetworkEncryption();
-  getSubnetPeering();
+  await getV6SubnetPeering();
+  await getPeering();
+  await getPeeringWithRemoteVirtualNetworkEncryption();
+  await getSubnetPeering();
 }
 
 main().catch(console.error);

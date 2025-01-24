@@ -53,7 +53,7 @@ async function createAnAzureAdAdministrator() {
 }
 
 async function main() {
-  createAnAzureAdAdministrator();
+  await createAnAzureAdAdministrator();
 }
 
 main().catch(console.error);

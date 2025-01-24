@@ -34,7 +34,7 @@ async function deleteNetworkInterface() {
 }
 
 async function main() {
-  deleteNetworkInterface();
+  await deleteNetworkInterface();
 }
 
 main().catch(console.error);

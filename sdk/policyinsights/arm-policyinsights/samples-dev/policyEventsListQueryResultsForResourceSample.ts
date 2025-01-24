@@ -192,13 +192,13 @@ async function queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignm
 }
 
 async function main() {
-  queryAtNestedResourceScope();
-  queryAtResourceScope();
-  queryAtResourceScopeWithNextLink();
-  queryAtSubscriptionLevelNestedResourceScope();
-  queryAtSubscriptionLevelResourceScope();
-  queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForResourceScopeFilteredByGivenAssignment();
-  queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignment();
+  await queryAtNestedResourceScope();
+  await queryAtResourceScope();
+  await queryAtResourceScopeWithNextLink();
+  await queryAtSubscriptionLevelNestedResourceScope();
+  await queryAtSubscriptionLevelResourceScope();
+  await queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForResourceScopeFilteredByGivenAssignment();
+  await queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignment();
 }
 
 main().catch(console.error);

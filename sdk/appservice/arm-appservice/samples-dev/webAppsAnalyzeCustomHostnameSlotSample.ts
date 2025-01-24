@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Analyze a custom hostname.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AnalyzeCustomHostNameSlot.json
  */
-async function analyzeCustomHostnameForSlot() {
+async function analyzeCustomHostnameForSlot(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,8 +36,8 @@ async function analyzeCustomHostnameForSlot() {
   console.log(result);
 }
 
-async function main() {
-  analyzeCustomHostnameForSlot();
+async function main(): Promise<void> {
+  await analyzeCustomHostnameForSlot();
 }
 
 main().catch(console.error);

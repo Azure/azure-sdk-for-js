@@ -74,8 +74,8 @@ async function sapVirtualInstancesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesTrustedAccessEnableUpdate();
-  sapVirtualInstancesUpdate();
+  await sapVirtualInstancesTrustedAccessEnableUpdate();
+  await sapVirtualInstancesUpdate();
 }
 
 main().catch(console.error);

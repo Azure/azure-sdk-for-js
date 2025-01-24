@@ -18,25 +18,25 @@ import "dotenv/config";
  * @summary Get the policy configuration at the API level.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiPolicies.json
  */
-async function apiManagementListApiPolicies() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "5600b59475ff190048040001";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.apiPolicy.listByApi(
-        resourceGroupName,
-        serviceName,
-        apiId
-    );
-    console.log(result);
+async function apiManagementListApiPolicies(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "5600b59475ff190048040001";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiPolicy.listByApi(
+    resourceGroupName,
+    serviceName,
+    apiId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementListApiPolicies();
+async function main(): Promise<void> {
+  await apiManagementListApiPolicies();
 }
 
 main().catch(console.error);

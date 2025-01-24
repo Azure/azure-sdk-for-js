@@ -40,7 +40,7 @@ async function listBatchConfigurations() {
 }
 
 async function main() {
-  listBatchConfigurations();
+  await listBatchConfigurations();
 }
 
 main().catch(console.error);

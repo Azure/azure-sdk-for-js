@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Verify domain ownership for this certificate order.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/VerifyDomainOwnership.json
  */
-async function verifyDomainOwnership() {
+async function verifyDomainOwnership(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,8 +34,8 @@ async function verifyDomainOwnership() {
   console.log(result);
 }
 
-async function main() {
-  verifyDomainOwnership();
+async function main(): Promise<void> {
+  await verifyDomainOwnership();
 }
 
 main().catch(console.error);

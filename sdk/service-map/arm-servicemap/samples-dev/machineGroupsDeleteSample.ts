@@ -39,7 +39,7 @@ async function smMachineGroupsDelete() {
 }
 
 async function main() {
-  smMachineGroupsDelete();
+  await smMachineGroupsDelete();
 }
 
 main().catch(console.error);

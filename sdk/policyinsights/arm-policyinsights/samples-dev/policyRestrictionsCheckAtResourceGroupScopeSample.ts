@@ -93,8 +93,8 @@ async function checkPolicyRestrictionsAtResourceGroupScopeIncludingAuditEffect()
 }
 
 async function main() {
-  checkPolicyRestrictionsAtResourceGroupScope();
-  checkPolicyRestrictionsAtResourceGroupScopeIncludingAuditEffect();
+  await checkPolicyRestrictionsAtResourceGroupScope();
+  await checkPolicyRestrictionsAtResourceGroupScopeIncludingAuditEffect();
 }
 
 main().catch(console.error);

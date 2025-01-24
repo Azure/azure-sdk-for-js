@@ -37,7 +37,7 @@ async function moveCollectionsListMoveCollectionsByResourceGroup() {
 }
 
 async function main() {
-  moveCollectionsListMoveCollectionsByResourceGroup();
+  await moveCollectionsListMoveCollectionsByResourceGroup();
 }
 
 main().catch(console.error);

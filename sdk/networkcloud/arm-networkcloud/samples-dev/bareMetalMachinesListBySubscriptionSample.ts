@@ -34,7 +34,7 @@ async function listBareMetalMachinesForSubscription() {
 }
 
 async function main() {
-  listBareMetalMachinesForSubscription();
+  await listBareMetalMachinesForSubscription();
 }
 
 main().catch(console.error);

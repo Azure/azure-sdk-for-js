@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates an Azure Cosmos DB Table Role Definition.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/tablerbac/CosmosDBTableRoleDefinitionCreateUpdate.json
  */
-async function cosmosDbTableRoleDefinitionCreateUpdate() {
+async function cosmosDbTableRoleDefinitionCreateUpdate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -30,23 +30,23 @@ async function cosmosDbTableRoleDefinitionCreateUpdate() {
   const accountName = "myAccountName";
   const roleDefinitionId = "myRoleDefinitionId";
   const createUpdateTableRoleDefinitionParameters: TableRoleDefinitionResource =
-    {
-      typePropertiesType: "CustomRole",
-      assignableScopes: [
-        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/sales",
-        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases",
-      ],
-      permissions: [
-        {
-          dataActions: [
-            "Microsoft.DocumentDB/databaseAccounts/tableDatabases/containers/entities/create",
-            "Microsoft.DocumentDB/databaseAccounts/tableDatabases/containers/entities/read",
-          ],
-          notDataActions: [],
-        },
-      ],
-      roleName: "myRoleName",
-    };
+  {
+    typePropertiesType: "CustomRole",
+    assignableScopes: [
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/sales",
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases",
+    ],
+    permissions: [
+      {
+        dataActions: [
+          "Microsoft.DocumentDB/databaseAccounts/tableDatabases/containers/entities/create",
+          "Microsoft.DocumentDB/databaseAccounts/tableDatabases/containers/entities/read",
+        ],
+        notDataActions: [],
+      },
+    ],
+    roleName: "myRoleName",
+  };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result =
@@ -59,8 +59,8 @@ async function cosmosDbTableRoleDefinitionCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbTableRoleDefinitionCreateUpdate();
+async function main(): Promise<void> {
+  await cosmosDbTableRoleDefinitionCreateUpdate();
 }
 
 main().catch(console.error);

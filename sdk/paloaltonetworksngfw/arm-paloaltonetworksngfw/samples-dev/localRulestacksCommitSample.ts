@@ -59,8 +59,8 @@ async function localRulestacksCommitMinimumSetGen() {
 }
 
 async function main() {
-  localRulestacksCommitMaximumSetGen();
-  localRulestacksCommitMinimumSetGen();
+  await localRulestacksCommitMaximumSetGen();
+  await localRulestacksCommitMinimumSetGen();
 }
 
 main().catch(console.error);

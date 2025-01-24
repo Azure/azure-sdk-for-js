@@ -18,29 +18,29 @@ import "dotenv/config";
  * @summary Gets the entity state (Etag) version of the API operation policy specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiOperationPolicy.json
  */
-async function apiManagementHeadApiOperationPolicy() {
-    const subscriptionId =
-        process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
-    const resourceGroupName =
-        process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
-    const serviceName = "apimService1";
-    const apiId = "5600b539c53f5b0062040001";
-    const operationId = "5600b53ac53f5b0062080006";
-    const policyId = "policy";
-    const credential = new DefaultAzureCredential();
-    const client = new ApiManagementClient(credential, subscriptionId);
-    const result = await client.apiOperationPolicy.getEntityTag(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        operationId,
-        policyId
-    );
-    console.log(result);
+async function apiManagementHeadApiOperationPolicy(): Promise<void> {
+  const subscriptionId =
+    process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APIMANAGEMENT_RESOURCE_GROUP"] || "rg1";
+  const serviceName = "apimService1";
+  const apiId = "5600b539c53f5b0062040001";
+  const operationId = "5600b53ac53f5b0062080006";
+  const policyId = "policy";
+  const credential = new DefaultAzureCredential();
+  const client = new ApiManagementClient(credential, subscriptionId);
+  const result = await client.apiOperationPolicy.getEntityTag(
+    resourceGroupName,
+    serviceName,
+    apiId,
+    operationId,
+    policyId
+  );
+  console.log(result);
 }
 
-async function main() {
-    apiManagementHeadApiOperationPolicy();
+async function main(): Promise<void> {
+  await apiManagementHeadApiOperationPolicy();
 }
 
 main().catch(console.error);

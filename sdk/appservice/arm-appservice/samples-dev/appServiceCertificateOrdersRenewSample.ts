@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Renew an existing certificate order.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/RenewAppServiceCertificateOrder.json
  */
-async function renewAppServiceCertificateOrder() {
+async function renewAppServiceCertificateOrder(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,8 +43,8 @@ async function renewAppServiceCertificateOrder() {
   console.log(result);
 }
 
-async function main() {
-  renewAppServiceCertificateOrder();
+async function main(): Promise<void> {
+  await renewAppServiceCertificateOrder();
 }
 
 main().catch(console.error);

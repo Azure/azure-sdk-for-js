@@ -37,7 +37,7 @@ async function deleteClusterManager() {
 }
 
 async function main() {
-  deleteClusterManager();
+  await deleteClusterManager();
 }
 
 main().catch(console.error);

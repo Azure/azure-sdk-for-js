@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a hybrid runbook worker.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/getHybridRunbookWorker.json
  */
-async function getAV2HybridRunbookWorker() {
+async function getAV2HybridRunbookWorker(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "testaccount";
@@ -35,8 +35,8 @@ async function getAV2HybridRunbookWorker() {
   console.log(result);
 }
 
-async function main() {
-  getAV2HybridRunbookWorker();
+async function main(): Promise<void> {
+  await getAV2HybridRunbookWorker();
 }
 
 main().catch(console.error);

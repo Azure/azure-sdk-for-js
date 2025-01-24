@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/EdgeNodes_List.json
  */
-async function edgeNodesList() {
+async function edgeNodesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential);
   const resArray = new Array();
@@ -28,8 +28,8 @@ async function edgeNodesList() {
   console.log(resArray);
 }
 
-async function main() {
-  edgeNodesList();
+async function main(): Promise<void> {
+  await edgeNodesList();
 }
 
 main().catch(console.error);

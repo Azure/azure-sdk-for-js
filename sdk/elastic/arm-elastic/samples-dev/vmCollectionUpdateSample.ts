@@ -37,7 +37,7 @@ async function vmCollectionUpdate() {
 }
 
 async function main() {
-  vmCollectionUpdate();
+  await vmCollectionUpdate();
 }
 
 main().catch(console.error);

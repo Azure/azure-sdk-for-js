@@ -37,7 +37,7 @@ async function relayNameSpaceDelete() {
 }
 
 async function main() {
-  relayNameSpaceDelete();
+  await relayNameSpaceDelete();
 }
 
 main().catch(console.error);

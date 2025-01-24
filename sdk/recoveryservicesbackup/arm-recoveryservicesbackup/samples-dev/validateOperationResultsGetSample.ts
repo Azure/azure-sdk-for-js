@@ -39,7 +39,7 @@ async function getOperationResultsOfValidateOperation() {
 }
 
 async function main() {
-  getOperationResultsOfValidateOperation();
+  await getOperationResultsOfValidateOperation();
 }
 
 main().catch(console.error);

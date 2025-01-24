@@ -45,7 +45,7 @@ async function networkDevicesRebootMaximumSetGen() {
 }
 
 async function main() {
-  networkDevicesRebootMaximumSetGen();
+  await networkDevicesRebootMaximumSetGen();
 }
 
 main().catch(console.error);

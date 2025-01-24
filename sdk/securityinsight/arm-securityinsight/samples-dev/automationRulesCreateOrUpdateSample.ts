@@ -39,7 +39,7 @@ async function automationRulesCreateOrUpdate() {
 }
 
 async function main() {
-  automationRulesCreateOrUpdate();
+  await automationRulesCreateOrUpdate();
 }
 
 main().catch(console.error);

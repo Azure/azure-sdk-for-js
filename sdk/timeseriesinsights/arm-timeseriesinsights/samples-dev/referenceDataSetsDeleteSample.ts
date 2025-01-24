@@ -38,7 +38,7 @@ async function referenceDataSetsDelete() {
 }
 
 async function main() {
-  referenceDataSetsDelete();
+  await referenceDataSetsDelete();
 }
 
 main().catch(console.error);

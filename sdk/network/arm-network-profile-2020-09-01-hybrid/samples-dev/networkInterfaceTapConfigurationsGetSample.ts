@@ -36,7 +36,7 @@ async function getNetworkInterfaceTapConfigurations() {
 }
 
 async function main() {
-  getNetworkInterfaceTapConfigurations();
+  await getNetworkInterfaceTapConfigurations();
 }
 
 main().catch(console.error);

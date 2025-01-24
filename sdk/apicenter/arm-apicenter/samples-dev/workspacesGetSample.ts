@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Returns details of the workspace.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Workspaces_Get.json
  */
-async function workspacesGet() {
+async function workspacesGet(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,8 +36,8 @@ async function workspacesGet() {
   console.log(result);
 }
 
-async function main() {
-  workspacesGet();
+async function main(): Promise<void> {
+  await workspacesGet();
 }
 
 main().catch(console.error);

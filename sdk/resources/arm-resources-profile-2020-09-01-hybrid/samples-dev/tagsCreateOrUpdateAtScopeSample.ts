@@ -65,8 +65,8 @@ async function updateTagsOnASubscription() {
 }
 
 async function main() {
-  updateTagsOnAResource();
-  updateTagsOnASubscription();
+  await updateTagsOnAResource();
+  await updateTagsOnASubscription();
 }
 
 main().catch(console.error);

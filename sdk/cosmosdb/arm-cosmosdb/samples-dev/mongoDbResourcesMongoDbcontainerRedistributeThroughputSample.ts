@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Redistribute throughput for an Azure Cosmos DB MongoDB container
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBCollectionRedistributeThroughput.json
  */
-async function cosmosDbMongoDbcollectionRedistributeThroughput() {
+async function cosmosDbMongoDbcollectionRedistributeThroughput(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -53,8 +53,8 @@ async function cosmosDbMongoDbcollectionRedistributeThroughput() {
   console.log(result);
 }
 
-async function main() {
-  cosmosDbMongoDbcollectionRedistributeThroughput();
+async function main(): Promise<void> {
+  await cosmosDbMongoDbcollectionRedistributeThroughput();
 }
 
 main().catch(console.error);

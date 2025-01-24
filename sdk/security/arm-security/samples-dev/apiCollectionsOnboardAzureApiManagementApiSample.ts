@@ -39,7 +39,7 @@ async function onboardAnAzureApiManagementApiToMicrosoftDefenderForApIs() {
 }
 
 async function main() {
-  onboardAnAzureApiManagementApiToMicrosoftDefenderForApIs();
+  await onboardAnAzureApiManagementApiToMicrosoftDefenderForApIs();
 }
 
 main().catch(console.error);

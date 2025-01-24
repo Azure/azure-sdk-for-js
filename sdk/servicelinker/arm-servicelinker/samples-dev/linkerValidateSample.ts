@@ -34,7 +34,7 @@ async function validateLinkerSuccess() {
 }
 
 async function main() {
-  validateLinkerSuccess();
+  await validateLinkerSuccess();
 }
 
 main().catch(console.error);

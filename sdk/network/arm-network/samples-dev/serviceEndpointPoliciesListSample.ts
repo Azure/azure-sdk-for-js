@@ -32,7 +32,7 @@ async function listAllServiceEndpointPolicy() {
 }
 
 async function main() {
-  listAllServiceEndpointPolicy();
+  await listAllServiceEndpointPolicy();
 }
 
 main().catch(console.error);

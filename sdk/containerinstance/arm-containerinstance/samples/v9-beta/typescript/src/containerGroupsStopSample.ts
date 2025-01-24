@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Stops all containers in a container group. Compute resources will be deallocated and billing will stop.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupsStop.json
  */
-async function containerStop() {
+async function containerStop(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,8 +37,8 @@ async function containerStop() {
   console.log(result);
 }
 
-async function main() {
-  containerStop();
+async function main(): Promise<void> {
+  await containerStop();
 }
 
 main().catch(console.error);

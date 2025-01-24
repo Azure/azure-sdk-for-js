@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes API deployment.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Deployments_Delete.json
  */
-async function deploymentsDelete() {
+async function deploymentsDelete(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,8 +40,8 @@ async function deploymentsDelete() {
   console.log(result);
 }
 
-async function main() {
-  deploymentsDelete();
+async function main(): Promise<void> {
+  await deploymentsDelete();
 }
 
 main().catch(console.error);

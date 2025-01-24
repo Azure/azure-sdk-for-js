@@ -41,7 +41,7 @@ async function deleteAnApplicationTypeVersion() {
 }
 
 async function main() {
-  deleteAnApplicationTypeVersion();
+  await deleteAnApplicationTypeVersion();
 }
 
 main().catch(console.error);

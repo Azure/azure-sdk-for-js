@@ -35,7 +35,7 @@ async function deleteCommunicationsGatewayResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteCommunicationsGatewayResource();
+  await deleteCommunicationsGatewayResource();
 }
 
 main().catch(console.error);

@@ -70,8 +70,8 @@ async function updatesServerAutomaticTuningSettingsWithMinimalProperties() {
 }
 
 async function main() {
-  updatesServerAutomaticTuningSettingsWithAllProperties();
-  updatesServerAutomaticTuningSettingsWithMinimalProperties();
+  await updatesServerAutomaticTuningSettingsWithAllProperties();
+  await updatesServerAutomaticTuningSettingsWithMinimalProperties();
 }
 
 main().catch(console.error);

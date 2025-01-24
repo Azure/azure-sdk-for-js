@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -18,24 +16,19 @@ import "dotenv/config";
  * @summary Implements datastore GET method.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/GetDatastore.json
  */
-async function getDatastore() {
+async function getDatastore(): Promise<void> {
   const subscriptionId =
-    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
-    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName =
-    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const datastoreName = "HRDatastore";
   const credential = new DefaultAzureCredential();
-  const client = new AzureArcVMwareManagementServiceAPI(
-    credential,
-    subscriptionId
-  );
+  const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
   const result = await client.datastores.get(resourceGroupName, datastoreName);
   console.log(result);
 }
 
-async function main() {
-  getDatastore();
+async function main(): Promise<void> {
+  await getDatastore();
 }
 
 main().catch(console.error);

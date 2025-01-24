@@ -37,7 +37,7 @@ async function getResourcePool() {
 }
 
 async function main() {
-  getResourcePool();
+  await getResourcePool();
 }
 
 main().catch(console.error);

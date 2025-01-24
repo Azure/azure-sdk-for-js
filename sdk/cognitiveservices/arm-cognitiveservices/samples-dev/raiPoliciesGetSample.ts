@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the specified Content Filters associated with the Azure OpenAI account.
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetRaiPolicy.json
  */
-async function getRaiPolicy() {
+async function getRaiPolicy(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,8 +39,8 @@ async function getRaiPolicy() {
   console.log(result);
 }
 
-async function main() {
-  getRaiPolicy();
+async function main(): Promise<void> {
+  await getRaiPolicy();
 }
 
 main().catch(console.error);

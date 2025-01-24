@@ -40,7 +40,7 @@ async function volumesDelete() {
 }
 
 async function main() {
-  volumesDelete();
+  await volumesDelete();
 }
 
 main().catch(console.error);

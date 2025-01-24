@@ -79,8 +79,8 @@ async function updateTheEncryptionProtectorToServiceManaged() {
 }
 
 async function main() {
-  updateTheEncryptionProtectorToKeyVault();
-  updateTheEncryptionProtectorToServiceManaged();
+  await updateTheEncryptionProtectorToKeyVault();
+  await updateTheEncryptionProtectorToServiceManaged();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function deleteWorkspaceComponentVersion() {
 }
 
 async function main() {
-  deleteWorkspaceComponentVersion();
+  await deleteWorkspaceComponentVersion();
 }
 
 main().catch(console.error);

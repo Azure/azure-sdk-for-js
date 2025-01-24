@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ChargesListOptionalParams,
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { ChargesListOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,12 +17,10 @@ import "dotenv/config";
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesForBillingPeriodByDepartment.json
  */
-async function changesForBillingPeriodByDepartmentLegacy() {
+async function changesForBillingPeriodByDepartmentLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234/departments/42425";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234/departments/42425";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.charges.list(scope);
@@ -39,12 +33,10 @@ async function changesForBillingPeriodByDepartmentLegacy() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesForBillingPeriodByEnrollmentAccount.json
  */
-async function changesForBillingPeriodByEnrollmentAccountLegacy() {
+async function changesForBillingPeriodByEnrollmentAccountLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.charges.list(scope);
@@ -57,10 +49,9 @@ async function changesForBillingPeriodByEnrollmentAccountLegacy() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccount.json
  */
-async function chargesListByBillingAccountModern() {
+async function chargesListByBillingAccountModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/1234:56789";
   const startDate = "2019-09-01";
   const endDate = "2019-10-31";
@@ -77,10 +68,9 @@ async function chargesListByBillingAccountModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByBillingProfileId.json
  */
-async function chargesListByBillingAccountGroupByBillingProfileIdModern() {
+async function chargesListByBillingAccountGroupByBillingProfileIdModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/1234:56789";
   const startDate = "2019-09-01";
   const endDate = "2019-09-30";
@@ -98,10 +88,9 @@ async function chargesListByBillingAccountGroupByBillingProfileIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByCustomerId.json
  */
-async function chargesListByBillingAccountGroupByCustomerIdModern() {
+async function chargesListByBillingAccountGroupByCustomerIdModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/1234:56789";
   const startDate = "2019-09-01";
   const endDate = "2019-09-30";
@@ -119,12 +108,10 @@ async function chargesListByBillingAccountGroupByCustomerIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByInvoiceSectionId.json
  */
-async function chargesListByBillingAccountGroupByInvoiceSectionIdModern() {
+async function chargesListByBillingAccountGroupByInvoiceSectionIdModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425";
   const startDate = "2019-09-01";
   const endDate = "2019-09-30";
   const apply = "groupby((properties/invoiceSectionId))";
@@ -141,12 +128,10 @@ async function chargesListByBillingAccountGroupByInvoiceSectionIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfile.json
  */
-async function chargesListByBillingProfileModern() {
+async function chargesListByBillingProfileModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2460";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2460";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.charges.list(scope);
@@ -159,12 +144,10 @@ async function chargesListByBillingProfileModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfileGroupByInvoiceSectionId.json
  */
-async function chargesListByBillingProfileGroupByInvoiceSectionIdModern() {
+async function chargesListByBillingProfileGroupByInvoiceSectionIdModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425";
   const startDate = "2019-09-01";
   const endDate = "2019-09-30";
   const apply = "groupby((properties/invoiceSectionId))";
@@ -181,10 +164,9 @@ async function chargesListByBillingProfileGroupByInvoiceSectionIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfileInvoiceSection.json
  */
-async function chargesListByBillingProfileInvoiceSectionModern() {
+async function chargesListByBillingProfileInvoiceSectionModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/67890";
   const startDate = "2019-09-01";
@@ -202,12 +184,10 @@ async function chargesListByBillingProfileInvoiceSectionModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernCustomer.json
  */
-async function chargesListByCustomerModern() {
+async function chargesListByCustomerModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/67890";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/67890";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.charges.list(scope);
@@ -220,12 +200,10 @@ async function chargesListByCustomerModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListForDepartmentFilterByStartEndDate.json
  */
-async function chargesListByDepartmentLegacy() {
+async function chargesListByDepartmentLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234/departments/42425";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234/departments/42425";
   const filter = "usageStart eq '2018-04-01' AND usageEnd eq '2018-05-30'";
   const options: ChargesListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -240,12 +218,10 @@ async function chargesListByDepartmentLegacy() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernInvoiceSectionId.json
  */
-async function chargesListByInvoiceSectionIdModern() {
+async function chargesListByInvoiceSectionIdModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/97531";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/97531";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.charges.list(scope);
@@ -258,32 +234,30 @@ async function chargesListByInvoiceSectionIdModern() {
  * @summary Lists the charges based for the defined scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListForEnrollmentAccountFilterByStartEndDate.json
  */
-async function chargesListForEnrollmentAccountLegacy() {
+async function chargesListForEnrollmentAccountLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.charges.list(scope);
   console.log(result);
 }
 
-async function main() {
-  changesForBillingPeriodByDepartmentLegacy();
-  changesForBillingPeriodByEnrollmentAccountLegacy();
-  chargesListByBillingAccountModern();
-  chargesListByBillingAccountGroupByBillingProfileIdModern();
-  chargesListByBillingAccountGroupByCustomerIdModern();
-  chargesListByBillingAccountGroupByInvoiceSectionIdModern();
-  chargesListByBillingProfileModern();
-  chargesListByBillingProfileGroupByInvoiceSectionIdModern();
-  chargesListByBillingProfileInvoiceSectionModern();
-  chargesListByCustomerModern();
-  chargesListByDepartmentLegacy();
-  chargesListByInvoiceSectionIdModern();
-  chargesListForEnrollmentAccountLegacy();
+async function main(): Promise<void> {
+  await changesForBillingPeriodByDepartmentLegacy();
+  await changesForBillingPeriodByEnrollmentAccountLegacy();
+  await chargesListByBillingAccountModern();
+  await chargesListByBillingAccountGroupByBillingProfileIdModern();
+  await chargesListByBillingAccountGroupByCustomerIdModern();
+  await chargesListByBillingAccountGroupByInvoiceSectionIdModern();
+  await chargesListByBillingProfileModern();
+  await chargesListByBillingProfileGroupByInvoiceSectionIdModern();
+  await chargesListByBillingProfileInvoiceSectionModern();
+  await chargesListByCustomerModern();
+  await chargesListByDepartmentLegacy();
+  await chargesListByInvoiceSectionIdModern();
+  await chargesListForEnrollmentAccountLegacy();
 }
 
 main().catch(console.error);

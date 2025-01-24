@@ -37,7 +37,7 @@ async function getAllApplicationsForAnHdInsightCluster() {
 }
 
 async function main() {
-  getAllApplicationsForAnHdInsightCluster();
+  await getAllApplicationsForAnHdInsightCluster();
 }
 
 main().catch(console.error);

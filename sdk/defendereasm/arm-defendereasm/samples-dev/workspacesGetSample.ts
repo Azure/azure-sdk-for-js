@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EasmMgmtClient } from "@azure/arm-defendereasm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a workspace with the given name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a workspace with the given name.
  * x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2023-04-01-preview/examples/Workspaces_Get.json
  */
-async function workspaces() {
+async function workspaces(): Promise<void> {
   const subscriptionId =
     process.env["DEFENDEREASM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,8 +31,8 @@ async function workspaces() {
   console.log(result);
 }
 
-async function main() {
-  workspaces();
+async function main(): Promise<void> {
+  await workspaces();
 }
 
 main().catch(console.error);

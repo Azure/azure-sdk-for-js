@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Delete a Kubernetes Environment.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/KubeEnvironments_Delete.json
  */
-async function deleteKubeEnvironmentByName() {
+async function deleteKubeEnvironmentByName(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,8 +34,8 @@ async function deleteKubeEnvironmentByName() {
   console.log(result);
 }
 
-async function main() {
-  deleteKubeEnvironmentByName();
+async function main(): Promise<void> {
+  await deleteKubeEnvironmentByName();
 }
 
 main().catch(console.error);

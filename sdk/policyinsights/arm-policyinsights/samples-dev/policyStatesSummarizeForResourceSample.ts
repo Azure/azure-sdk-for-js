@@ -38,7 +38,7 @@ async function summarizeAtResourceScope() {
 }
 
 async function main() {
-  summarizeAtResourceScope();
+  await summarizeAtResourceScope();
 }
 
 main().catch(console.error);

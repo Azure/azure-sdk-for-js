@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all the configurations of a cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationListByCluster.json
  */
-async function listConfigurationsOfTheCluster() {
+async function listConfigurationsOfTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function listConfigurationsOfTheCluster() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listConfigurationsOfTheCluster();
 }
 

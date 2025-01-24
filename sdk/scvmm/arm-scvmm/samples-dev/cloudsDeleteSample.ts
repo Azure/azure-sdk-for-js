@@ -60,8 +60,8 @@ async function cloudsDeleteMinimumSet() {
 }
 
 async function main() {
-  cloudsDeleteMaximumSet();
-  cloudsDeleteMinimumSet();
+  await cloudsDeleteMaximumSet();
+  await cloudsDeleteMinimumSet();
 }
 
 main().catch(console.error);

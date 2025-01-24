@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary This method does all necessary pre-job creation validation under subscription.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateInputs.json
  */
-async function validateInputs() {
+async function validateInputs(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
@@ -84,8 +84,8 @@ async function validateInputs() {
   console.log(result);
 }
 
-async function main() {
-  validateInputs();
+async function main(): Promise<void> {
+  await validateInputs();
 }
 
 main().catch(console.error);

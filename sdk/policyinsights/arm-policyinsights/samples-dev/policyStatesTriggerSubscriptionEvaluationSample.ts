@@ -30,7 +30,7 @@ async function triggerEvaluationsForAllResourcesInASubscription() {
 }
 
 async function main() {
-  triggerEvaluationsForAllResourcesInASubscription();
+  await triggerEvaluationsForAllResourcesInASubscription();
 }
 
 main().catch(console.error);

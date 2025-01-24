@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the private link resources for cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateLinkResourceListByCluster.json
  */
-async function getsThePrivateLinkResourcesForCluster() {
+async function getsThePrivateLinkResourcesForCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -28,7 +28,7 @@ async function getsThePrivateLinkResourcesForCluster() {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByCluster(
+  for await (const item of client.privateLinkResources.listByCluster(
     resourceGroupName,
     clusterName,
   )) {
@@ -37,8 +37,8 @@ async function getsThePrivateLinkResourcesForCluster() {
   console.log(resArray);
 }
 
-async function main() {
-  getsThePrivateLinkResourcesForCluster();
+async function main(): Promise<void> {
+  await getsThePrivateLinkResourcesForCluster();
 }
 
 main().catch(console.error);

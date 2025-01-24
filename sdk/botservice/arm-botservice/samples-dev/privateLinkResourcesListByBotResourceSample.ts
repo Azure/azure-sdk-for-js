@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the private link resources that need to be created for a Bot.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListPrivateLinkResources.json
  */
-async function listPrivateLinkResources() {
+async function listPrivateLinkResources(): Promise<void> {
   const subscriptionId =
     process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -33,8 +33,8 @@ async function listPrivateLinkResources() {
   console.log(result);
 }
 
-async function main() {
-  listPrivateLinkResources();
+async function main(): Promise<void> {
+  await listPrivateLinkResources();
 }
 
 main().catch(console.error);

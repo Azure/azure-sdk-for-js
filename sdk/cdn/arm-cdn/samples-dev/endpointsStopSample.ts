@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Stops an existing running CDN endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_Stop.json
  */
-async function endpointsStop() {
+async function endpointsStop(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";
   const profileName = "profile1";
@@ -33,8 +33,8 @@ async function endpointsStop() {
   console.log(result);
 }
 
-async function main() {
-  endpointsStop();
+async function main(): Promise<void> {
+  await endpointsStop();
 }
 
 main().catch(console.error);

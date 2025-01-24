@@ -34,7 +34,7 @@ async function deleteFirewallPolicy() {
 }
 
 async function main() {
-  deleteFirewallPolicy();
+  await deleteFirewallPolicy();
 }
 
 main().catch(console.error);

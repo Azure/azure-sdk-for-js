@@ -37,7 +37,7 @@ async function queryPacksList() {
 }
 
 async function main() {
-  queryPacksList();
+  await queryPacksList();
 }
 
 main().catch(console.error);
