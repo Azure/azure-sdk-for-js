@@ -31,7 +31,7 @@ async function getsTheListOfRegisteredRecoveryServicesProvidersInTheVaultThisIsA
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationRecoveryServicesProviders.list(
+  for await (const item of client.replicationRecoveryServicesProviders.list(
     resourceName,
     resourceGroupName,
   )) {

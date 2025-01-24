@@ -28,7 +28,7 @@ async function listImagesByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineImageTemplates.listByResourceGroup(
+  for await (const item of client.virtualMachineImageTemplates.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

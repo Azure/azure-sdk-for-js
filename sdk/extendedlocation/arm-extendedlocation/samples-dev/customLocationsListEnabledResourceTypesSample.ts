@@ -33,7 +33,7 @@ async function getCustomLocation() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.customLocations.listEnabledResourceTypes(
+  for await (const item of client.customLocations.listEnabledResourceTypes(
     resourceGroupName,
     resourceName
   )) {

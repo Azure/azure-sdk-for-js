@@ -27,7 +27,7 @@ async function getsTheSoftwareInventoryOfAllVirtualMachinesInTheSubscriptions() 
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.softwareInventories.listBySubscription()) {
+  for await (const item of client.softwareInventories.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

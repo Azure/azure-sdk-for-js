@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyAssignmentsListForResourceGroupOptionalParams} from "@azure/arm-policy";
 import {
-  PolicyAssignmentsListForResourceGroupOptionalParams,
   PolicyClient
 } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function listPolicyAssignmentsThatApplyToAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyAssignments.listForResourceGroup(
+  for await (const item of client.policyAssignments.listForResourceGroup(
     resourceGroupName,
     options
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DiscoverySolutionListOptionalParams} from "@azure/arm-selfhelp";
 import {
-  DiscoverySolutionListOptionalParams,
   HelpRP,
 } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function listDiscoverySolutionsAtResourceScope() {
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
   const resArray = new Array();
-  for await (let item of client.discoverySolution.list(options)) {
+  for await (const item of client.discoverySolution.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

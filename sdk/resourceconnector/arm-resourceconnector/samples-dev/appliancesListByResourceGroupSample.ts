@@ -32,7 +32,7 @@ async function listAppliancesByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.appliances.listByResourceGroup(
+  for await (const item of client.appliances.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

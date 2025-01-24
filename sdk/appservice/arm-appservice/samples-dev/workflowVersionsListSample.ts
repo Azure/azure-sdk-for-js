@@ -29,7 +29,7 @@ async function listAWorkflowsVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowVersions.list(
+  for await (const item of client.workflowVersions.list(
     resourceGroupName,
     name,
     workflowName,

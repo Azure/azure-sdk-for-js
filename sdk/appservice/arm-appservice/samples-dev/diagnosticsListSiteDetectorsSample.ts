@@ -29,7 +29,7 @@ async function listAppDetectors(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diagnostics.listSiteDetectors(
+  for await (const item of client.diagnostics.listSiteDetectors(
     resourceGroupName,
     siteName,
     diagnosticCategory,
@@ -56,7 +56,7 @@ async function listAppSlotDetectors(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diagnostics.listSiteDetectors(
+  for await (const item of client.diagnostics.listSiteDetectors(
     resourceGroupName,
     siteName,
     diagnosticCategory,

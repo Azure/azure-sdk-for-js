@@ -31,7 +31,7 @@ async function listDatabasesInAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.databases.listByServer(
+  for await (const item of client.databases.listByServer(
     resourceGroupName,
     serverName,
   )) {

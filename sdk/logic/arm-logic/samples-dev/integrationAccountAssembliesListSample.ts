@@ -30,7 +30,7 @@ async function listIntegrationAccountAssemblies() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationAccountAssemblies.list(
+  for await (const item of client.integrationAccountAssemblies.list(
     resourceGroupName,
     integrationAccountName
   )) {

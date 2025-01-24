@@ -28,7 +28,7 @@ async function deploymentsListForCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deployments.listForCluster(
+  for await (const item of client.deployments.listForCluster(
     resourceGroupName,
     serviceName
   )) {

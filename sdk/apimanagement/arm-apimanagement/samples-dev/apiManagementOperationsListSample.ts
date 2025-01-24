@@ -22,7 +22,7 @@ async function apiManagementListOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.apiManagementOperations.list()) {
+  for await (const item of client.apiManagementOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

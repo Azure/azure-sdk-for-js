@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SearchServiceUpdate, SearchManagementClient } from "@azure/arm-search";
+import type { SearchServiceUpdate} from "@azure/arm-search";
+import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

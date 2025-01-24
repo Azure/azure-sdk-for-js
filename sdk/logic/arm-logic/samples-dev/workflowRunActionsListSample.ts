@@ -31,7 +31,7 @@ async function listAWorkflowRunActions() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowRunActions.list(
+  for await (const item of client.workflowRunActions.list(
     resourceGroupName,
     workflowName,
     runName

@@ -28,7 +28,7 @@ async function apiManagementListContentTypeContentItems(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.contentItem.listByService(
+  for await (const item of client.contentItem.listByService(
     resourceGroupName,
     serviceName,
     contentTypeId

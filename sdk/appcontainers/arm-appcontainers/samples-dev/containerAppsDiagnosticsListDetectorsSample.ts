@@ -28,7 +28,7 @@ async function getTheListOfAvailableDiagnosticsForAGivenContainerApp(): Promise<
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.containerAppsDiagnostics.listDetectors(
+  for await (const item of client.containerAppsDiagnostics.listDetectors(
     resourceGroupName,
     containerAppName,
   )) {

@@ -31,7 +31,7 @@ async function listAllSynapselinkWorkspacesForTheGivenDatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.synapseLinkWorkspaces.listByDatabase(
+  for await (const item of client.synapseLinkWorkspaces.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

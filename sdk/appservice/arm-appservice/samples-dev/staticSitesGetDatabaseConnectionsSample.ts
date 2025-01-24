@@ -27,7 +27,7 @@ async function listOverviewsOfDatabaseConnectionsForTheStaticSite(): Promise<voi
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticSites.listDatabaseConnections(
+  for await (const item of client.staticSites.listDatabaseConnections(
     resourceGroupName,
     name,
   )) {

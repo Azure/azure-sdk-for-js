@@ -8,9 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient, {
-  ApplicationTypesCreateOrUpdateParameters,
-} from "@azure-rest/arm-servicefabric";
+import type { ApplicationTypesCreateOrUpdateParameters } from "@azure-rest/arm-servicefabric";
+import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

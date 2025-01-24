@@ -29,7 +29,7 @@ async function apisListByWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureAPICenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apis.list(
+  for await (const item of client.apis.list(
     resourceGroupName,
     serviceName,
     workspaceName,

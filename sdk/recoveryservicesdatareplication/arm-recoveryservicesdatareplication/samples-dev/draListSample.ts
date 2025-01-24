@@ -34,7 +34,7 @@ async function draList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.dra.list(resourceGroupName, fabricName)) {
+  for await (const item of client.dra.list(resourceGroupName, fabricName)) {
     resArray.push(item);
   }
   console.log(resArray);

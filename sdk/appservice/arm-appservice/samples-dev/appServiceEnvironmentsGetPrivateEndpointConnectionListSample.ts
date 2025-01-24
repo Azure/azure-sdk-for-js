@@ -28,7 +28,7 @@ async function getsTheListOfPrivateEndpointsAssociatedWithAHostingEnvironment():
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listPrivateEndpointConnectionList(
+  for await (const item of client.appServiceEnvironments.listPrivateEndpointConnectionList(
     resourceGroupName,
     name,
   )) {

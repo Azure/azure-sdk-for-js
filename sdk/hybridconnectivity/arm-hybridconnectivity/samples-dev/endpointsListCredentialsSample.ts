@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ListCredentialsRequest,
-  EndpointsListCredentialsOptionalParams,
+  EndpointsListCredentialsOptionalParams} from "@azure/arm-hybridconnectivity";
+import {
   HybridConnectivityManagementAPI
 } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";

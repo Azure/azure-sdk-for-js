@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GitHubConnector} from "@azure/arm-securitydevops";
 import {
-  GitHubConnector,
   MicrosoftSecurityDevOps
 } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -26,7 +26,7 @@ async function listPolicySetDefinitionsAtManagementGroupLevel() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policySetDefinitions.listByManagementGroup(
+  for await (const item of client.policySetDefinitions.listByManagementGroup(
     managementGroupId
   )) {
     resArray.push(item);

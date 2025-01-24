@@ -30,7 +30,7 @@ async function caCertificatesListByNamespace() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.caCertificates.listByNamespace(
+  for await (const item of client.caCertificates.listByNamespace(
     resourceGroupName,
     namespaceName,
   )) {

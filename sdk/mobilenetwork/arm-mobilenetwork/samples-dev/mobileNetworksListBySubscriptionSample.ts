@@ -27,7 +27,7 @@ async function listMobileNetworksInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.mobileNetworks.listBySubscription()) {
+  for await (const item of client.mobileNetworks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SAPInstanceTagsUpdate} from "@azure/arm-migrationdiscoverysap";
 import {
-  SAPInstanceTagsUpdate,
   WorkloadsClient,
 } from "@azure/arm-migrationdiscoverysap";
 import { DefaultAzureCredential } from "@azure/identity";

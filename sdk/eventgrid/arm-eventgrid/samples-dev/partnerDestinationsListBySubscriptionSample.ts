@@ -27,7 +27,7 @@ async function partnerDestinationsListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.partnerDestinations.listBySubscription()) {
+  for await (const item of client.partnerDestinations.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupJobsListOptionalParams} from "@azure/arm-recoveryservicesbackup";
 import {
-  BackupJobsListOptionalParams,
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function listAllJobs() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupJobs.list(vaultName, resourceGroupName)) {
+  for await (const item of client.backupJobs.list(vaultName, resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -58,7 +59,7 @@ async function listJobsWithFilters() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupJobs.list(
+  for await (const item of client.backupJobs.list(
     vaultName,
     resourceGroupName,
     options,
@@ -87,7 +88,7 @@ async function listJobsWithTimeFilter() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupJobs.list(
+  for await (const item of client.backupJobs.list(
     vaultName,
     resourceGroupName,
     options,

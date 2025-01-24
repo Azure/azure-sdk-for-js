@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckZonePeersRequest} from "@azure/arm-resources-subscriptions";
 import {
-  CheckZonePeersRequest,
   SubscriptionClient
 } from "@azure/arm-resources-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";

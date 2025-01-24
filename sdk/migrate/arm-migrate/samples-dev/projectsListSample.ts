@@ -29,7 +29,7 @@ async function projectsList() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMigrateV2(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.projects.list(resourceGroupName)) {
+  for await (const item of client.projects.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

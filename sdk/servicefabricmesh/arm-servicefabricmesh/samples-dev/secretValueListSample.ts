@@ -33,7 +33,7 @@ async function listSecretValues() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.secretValueOperations.list(
+  for await (const item of client.secretValueOperations.list(
     resourceGroupName,
     secretResourceName
   )) {

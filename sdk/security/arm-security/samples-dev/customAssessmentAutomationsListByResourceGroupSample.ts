@@ -29,7 +29,7 @@ async function listCustomAssessmentAutomationsInASubscriptionAndAResourceGroup()
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.customAssessmentAutomations.listByResourceGroup(
+  for await (const item of client.customAssessmentAutomations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

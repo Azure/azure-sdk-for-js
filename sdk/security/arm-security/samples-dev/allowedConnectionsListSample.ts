@@ -27,7 +27,7 @@ async function getAllowedConnectionsOnASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.allowedConnections.list()) {
+  for await (const item of client.allowedConnections.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -27,7 +27,7 @@ async function workbookRevisionsList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.workbooks.listRevisionsList(
+  for await (const item of client.workbooks.listRevisionsList(
     resourceGroupName,
     resourceName
   )) {

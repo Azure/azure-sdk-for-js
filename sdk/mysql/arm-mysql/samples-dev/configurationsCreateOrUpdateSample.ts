@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Configuration, MySQLManagementClient } from "@azure/arm-mysql";
+import type { Configuration} from "@azure/arm-mysql";
+import { MySQLManagementClient } from "@azure/arm-mysql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

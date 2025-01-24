@@ -31,7 +31,7 @@ async function replicasListByServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.replicas.listByServer(
+  for await (const item of client.replicas.listByServer(
     resourceGroupName,
     serverName,
   )) {

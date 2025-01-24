@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { QuotaBucketRequest, LoadTestClient } from "@azure/arm-loadtesting";
+import type { QuotaBucketRequest} from "@azure/arm-loadtesting";
+import { LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

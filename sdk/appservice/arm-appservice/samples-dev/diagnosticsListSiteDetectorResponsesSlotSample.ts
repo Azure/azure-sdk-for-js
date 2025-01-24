@@ -29,7 +29,7 @@ async function getAppDetectorResponses(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diagnostics.listSiteDetectorResponsesSlot(
+  for await (const item of client.diagnostics.listSiteDetectorResponsesSlot(
     resourceGroupName,
     siteName,
     slot,
@@ -56,7 +56,7 @@ async function getAppSlotDetectorResponses(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diagnostics.listSiteDetectorResponsesSlot(
+  for await (const item of client.diagnostics.listSiteDetectorResponsesSlot(
     resourceGroupName,
     siteName,
     slot,

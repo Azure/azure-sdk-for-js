@@ -26,7 +26,7 @@ async function hybridConnectivityEndpointsGet() {
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
   const resArray = new Array();
-  for await (let item of client.endpoints.list(resourceUri)) {
+  for await (const item of client.endpoints.list(resourceUri)) {
     resArray.push(item);
   }
   console.log(resArray);

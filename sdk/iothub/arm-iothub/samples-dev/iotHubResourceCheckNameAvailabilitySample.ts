@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OperationInputs, IotHubClient } from "@azure/arm-iothub";
+import type { OperationInputs} from "@azure/arm-iothub";
+import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

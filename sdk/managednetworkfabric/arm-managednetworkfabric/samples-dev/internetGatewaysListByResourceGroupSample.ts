@@ -32,7 +32,7 @@ async function internetGatewaysListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.internetGateways.listByResourceGroup(
+  for await (const item of client.internetGateways.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

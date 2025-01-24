@@ -31,7 +31,7 @@ async function serverCapabilitiesList() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.serverCapabilities.list(
+  for await (const item of client.serverCapabilities.list(
     resourceGroupName,
     serverName,
   )) {

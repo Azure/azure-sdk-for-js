@@ -27,7 +27,7 @@ async function cosmosDbManagedCassandraClusterListByResourceGroup(): Promise<voi
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cassandraClusters.listByResourceGroup(
+  for await (const item of client.cassandraClusters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

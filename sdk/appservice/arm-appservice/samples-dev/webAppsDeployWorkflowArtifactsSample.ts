@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   WorkflowArtifacts,
-  WebAppsDeployWorkflowArtifactsOptionalParams,
+  WebAppsDeployWorkflowArtifactsOptionalParams} from "@azure/arm-appservice";
+import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";

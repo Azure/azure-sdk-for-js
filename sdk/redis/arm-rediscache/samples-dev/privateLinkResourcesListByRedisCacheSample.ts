@@ -26,7 +26,7 @@ async function storageAccountListPrivateLinkResources(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByRedisCache(
+  for await (const item of client.privateLinkResources.listByRedisCache(
     resourceGroupName,
     cacheName,
   )) {

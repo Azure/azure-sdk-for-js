@@ -27,7 +27,7 @@ async function getAllAppServiceEnvironmentsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listByResourceGroup(
+  for await (const item of client.appServiceEnvironments.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

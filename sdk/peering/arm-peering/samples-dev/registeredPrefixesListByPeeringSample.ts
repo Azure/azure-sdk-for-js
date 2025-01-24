@@ -24,7 +24,7 @@ async function listAllTheRegisteredPrefixesAssociatedWithThePeering() {
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.registeredPrefixes.listByPeering(
+  for await (const item of client.registeredPrefixes.listByPeering(
     resourceGroupName,
     peeringName
   )) {

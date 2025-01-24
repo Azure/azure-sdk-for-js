@@ -31,7 +31,7 @@ async function listTheSqlAnalyticsPoolManagementOperations() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPoolOperations.list(
+  for await (const item of client.sqlPoolOperations.list(
     resourceGroupName,
     workspaceName,
     sqlPoolName

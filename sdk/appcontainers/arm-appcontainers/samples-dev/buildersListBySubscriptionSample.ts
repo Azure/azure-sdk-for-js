@@ -25,7 +25,7 @@ async function buildersListBySubscription0(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.builders.listBySubscription()) {
+  for await (const item of client.builders.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

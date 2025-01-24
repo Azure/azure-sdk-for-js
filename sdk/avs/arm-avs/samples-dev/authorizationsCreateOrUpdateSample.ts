@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ExpressRouteAuthorization} from "@azure/arm-avs";
 import {
-  ExpressRouteAuthorization,
   AzureVMwareSolutionAPI,
 } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";

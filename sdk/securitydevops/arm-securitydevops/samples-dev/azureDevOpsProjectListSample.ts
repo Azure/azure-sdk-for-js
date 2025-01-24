@@ -31,7 +31,7 @@ async function azureDevOpsProjectList() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSecurityDevOps(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureDevOpsProjectOperations.list(
+  for await (const item of client.azureDevOpsProjectOperations.list(
     resourceGroupName,
     azureDevOpsConnectorName,
     azureDevOpsOrgName

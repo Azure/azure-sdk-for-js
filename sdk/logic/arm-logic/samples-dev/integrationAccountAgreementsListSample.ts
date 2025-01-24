@@ -30,7 +30,7 @@ async function getAgreementsByIntegrationAccountName() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationAccountAgreements.list(
+  for await (const item of client.integrationAccountAgreements.list(
     resourceGroupName,
     integrationAccountName
   )) {

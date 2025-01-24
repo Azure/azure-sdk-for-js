@@ -31,7 +31,7 @@ async function kustoPrincipalAssignmentsList() {
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databasePrincipalAssignments.list(
+  for await (const item of client.databasePrincipalAssignments.list(
     resourceGroupName,
     clusterName,
     databaseName

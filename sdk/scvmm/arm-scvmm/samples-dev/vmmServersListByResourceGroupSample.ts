@@ -28,7 +28,7 @@ async function vmmServersListByResourceGroupMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vmmServers.listByResourceGroup(
+  for await (const item of client.vmmServers.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -50,7 +50,7 @@ async function vmmServersListByResourceGroupMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vmmServers.listByResourceGroup(
+  for await (const item of client.vmmServers.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

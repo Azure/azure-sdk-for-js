@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  OnlineDeploymentsListSkusOptionalParams} from "@azure/arm-machinelearning";
 import {
-  OnlineDeploymentsListSkusOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,7 +41,7 @@ async function listKubernetesOnlineDeploymentSkus() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.onlineDeployments.listSkus(
+  for await (const item of client.onlineDeployments.listSkus(
     resourceGroupName,
     workspaceName,
     endpointName,
@@ -75,7 +76,7 @@ async function listManagedOnlineDeploymentSkus() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.onlineDeployments.listSkus(
+  for await (const item of client.onlineDeployments.listSkus(
     resourceGroupName,
     workspaceName,
     endpointName,

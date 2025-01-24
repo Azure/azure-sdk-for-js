@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-mariadb";
 import {
-  PrivateEndpointConnection,
   MariaDBManagementClient
 } from "@azure/arm-mariadb";
 import { DefaultAzureCredential } from "@azure/identity";

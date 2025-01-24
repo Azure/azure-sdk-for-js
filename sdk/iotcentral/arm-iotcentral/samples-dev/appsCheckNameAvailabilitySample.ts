@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OperationInputs, IotCentralClient } from "@azure/arm-iotcentral";
+import type { OperationInputs} from "@azure/arm-iotcentral";
+import { IotCentralClient } from "@azure/arm-iotcentral";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

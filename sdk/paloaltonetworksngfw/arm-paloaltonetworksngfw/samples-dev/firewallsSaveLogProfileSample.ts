@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   LogSettings,
-  FirewallsSaveLogProfileOptionalParams,
+  FirewallsSaveLogProfileOptionalParams} from "@azure/arm-paloaltonetworksngfw";
+import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";

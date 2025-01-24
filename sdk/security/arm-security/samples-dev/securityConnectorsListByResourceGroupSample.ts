@@ -29,7 +29,7 @@ async function listAllSecurityConnectorsOfASpecifiedResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityConnectors.listByResourceGroup(
+  for await (const item of client.securityConnectors.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

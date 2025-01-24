@@ -24,7 +24,7 @@ async function triggerGetAllInDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.triggers.listByDataBoxEdgeDevice(
+  for await (const item of client.triggers.listByDataBoxEdgeDevice(
     deviceName,
     resourceGroupName
   )) {

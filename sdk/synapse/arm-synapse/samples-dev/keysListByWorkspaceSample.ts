@@ -30,7 +30,7 @@ async function listKeysInWorkspace() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.keys.listByWorkspace(
+  for await (const item of client.keys.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

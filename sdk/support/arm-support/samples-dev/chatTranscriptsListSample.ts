@@ -28,7 +28,7 @@ async function listChatTranscriptsForASubscriptionSupportTicket() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.chatTranscripts.list(supportTicketName)) {
+  for await (const item of client.chatTranscripts.list(supportTicketName)) {
     resArray.push(item);
   }
   console.log(resArray);

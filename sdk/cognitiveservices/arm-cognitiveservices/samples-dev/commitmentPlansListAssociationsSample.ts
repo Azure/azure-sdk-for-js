@@ -31,7 +31,7 @@ async function listCommitmentPlans(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.commitmentPlans.listAssociations(
+  for await (const item of client.commitmentPlans.listAssociations(
     resourceGroupName,
     commitmentPlanName,
   )) {

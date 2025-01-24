@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MetricDefinitionsListOptionalParams} from "@azure/arm-monitor-profile-2020-09-01-hybrid";
 import {
-  MetricDefinitionsListOptionalParams,
   MonitorClient
 } from "@azure/arm-monitor-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function getApplicationInsightsMetricDefinitionsWithoutFilter() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.metricDefinitions.list(resourceUri, options)) {
+  for await (const item of client.metricDefinitions.list(resourceUri, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -51,7 +52,7 @@ async function getMetricDefinitionsWithoutFilter() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.metricDefinitions.list(resourceUri, options)) {
+  for await (const item of client.metricDefinitions.list(resourceUri, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -71,7 +72,7 @@ async function getStorageCacheMetricDefinitionsWithMetricClass() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.metricDefinitions.list(resourceUri, options)) {
+  for await (const item of client.metricDefinitions.list(resourceUri, options)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualNetworkLink} from "@azure/arm-privatedns";
 import {
-  VirtualNetworkLink,
   PrivateDnsManagementClient,
 } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";

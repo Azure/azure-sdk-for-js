@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SoftwareAssuranceChangeRequest} from "@azure/arm-azurestackhci";
 import {
-  SoftwareAssuranceChangeRequest,
   AzureStackHCIClient,
 } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";

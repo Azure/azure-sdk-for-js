@@ -35,7 +35,7 @@ async function getSyncGroupLogs() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.syncGroups.listLogs(
+  for await (const item of client.syncGroups.listLogs(
     resourceGroupName,
     serverName,
     databaseName,

@@ -28,7 +28,7 @@ async function privateLinkResourcesListByWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByWorkspace(
+  for await (const item of client.privateLinkResources.listByWorkspace(
     resourceGroupName,
     workspaceName,
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServerUpdateParameters} from "@azure/arm-mariadb";
 import {
-  ServerUpdateParameters,
   MariaDBManagementClient
 } from "@azure/arm-mariadb";
 import { DefaultAzureCredential } from "@azure/identity";

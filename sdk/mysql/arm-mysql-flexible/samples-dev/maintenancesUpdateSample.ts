@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   MaintenanceUpdate,
-  MaintenancesUpdateOptionalParams,
+  MaintenancesUpdateOptionalParams} from "@azure/arm-mysql-flexible";
+import {
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";

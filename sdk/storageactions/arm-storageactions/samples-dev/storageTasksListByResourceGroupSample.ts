@@ -29,7 +29,7 @@ async function listStorageTasksByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new StorageActionsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTasks.listByResourceGroup(
+  for await (const item of client.storageTasks.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

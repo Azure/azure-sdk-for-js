@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RegenerateTestKeyRequestPayload} from "@azure/arm-appplatform";
 import {
-  RegenerateTestKeyRequestPayload,
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";

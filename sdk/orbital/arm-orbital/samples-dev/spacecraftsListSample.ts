@@ -29,7 +29,7 @@ async function listOfSpacecraftByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.spacecrafts.list(resourceGroupName)) {
+  for await (const item of client.spacecrafts.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

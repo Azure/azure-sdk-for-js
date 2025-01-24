@@ -34,7 +34,7 @@ async function listSourceControlConfiguration() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.sourceControlConfigurations.list(
+  for await (const item of client.sourceControlConfigurations.list(
     resourceGroupName,
     clusterRp,
     clusterResourceName,

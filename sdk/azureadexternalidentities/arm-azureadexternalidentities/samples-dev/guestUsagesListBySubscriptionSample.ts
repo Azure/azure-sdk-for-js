@@ -25,7 +25,7 @@ async function guestUsagesSubscriptionList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.guestUsages.listBySubscription()) {
+  for await (const item of client.guestUsages.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

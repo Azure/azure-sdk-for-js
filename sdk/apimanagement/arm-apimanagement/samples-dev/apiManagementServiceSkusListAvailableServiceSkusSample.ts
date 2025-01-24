@@ -27,7 +27,7 @@ async function apiManagementListSkUsConsumption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiManagementServiceSkus.listAvailableServiceSkus(
+  for await (const item of client.apiManagementServiceSkus.listAvailableServiceSkus(
     resourceGroupName,
     serviceName
   )) {
@@ -51,7 +51,7 @@ async function apiManagementListSkUsDedicated(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiManagementServiceSkus.listAvailableServiceSkus(
+  for await (const item of client.apiManagementServiceSkus.listAvailableServiceSkus(
     resourceGroupName,
     serviceName
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  IscsiDisksListMetricsOptionalParams} from "@azure/arm-storsimple1200series";
 import {
-  IscsiDisksListMetricsOptionalParams,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function iscsiDisksListMetrics() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iscsiDisks.listMetrics(
+  for await (const item of client.iscsiDisks.listMetrics(
     deviceName,
     iscsiServerName,
     diskName,

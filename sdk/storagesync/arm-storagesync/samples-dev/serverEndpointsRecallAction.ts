@@ -14,8 +14,9 @@
  * @summary Recall a server endpoint.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/ServerEndpoints_Recall.json
  */
+import type {
+  RecallActionParameters} from "@azure/arm-storagesync";
 import {
-  RecallActionParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

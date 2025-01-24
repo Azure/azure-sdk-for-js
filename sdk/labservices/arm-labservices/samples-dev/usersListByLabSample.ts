@@ -30,7 +30,7 @@ async function listUser() {
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.users.listByLab(resourceGroupName, labName)) {
+  for await (const item of client.users.listByLab(resourceGroupName, labName)) {
     resArray.push(item);
   }
   console.log(resArray);

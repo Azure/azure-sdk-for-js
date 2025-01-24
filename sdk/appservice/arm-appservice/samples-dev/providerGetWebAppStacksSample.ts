@@ -22,7 +22,7 @@ async function getWebAppStacks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.provider.listWebAppStacks()) {
+  for await (const item of client.provider.listWebAppStacks()) {
     resArray.push(item);
   }
   console.log(resArray);

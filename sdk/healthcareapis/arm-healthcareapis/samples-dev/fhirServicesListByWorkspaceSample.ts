@@ -29,7 +29,7 @@ async function listFhirservices() {
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fhirServices.listByWorkspace(
+  for await (const item of client.fhirServices.listByWorkspace(
     resourceGroupName,
     workspaceName,
   )) {

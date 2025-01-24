@@ -25,7 +25,7 @@ async function redisCacheAccessPolicyList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accessPolicy.list(
+  for await (const item of client.accessPolicy.list(
     resourceGroupName,
     cacheName,
   )) {

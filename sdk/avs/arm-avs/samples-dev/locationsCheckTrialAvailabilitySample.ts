@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   Sku,
-  LocationsCheckTrialAvailabilityOptionalParams,
+  LocationsCheckTrialAvailabilityOptionalParams} from "@azure/arm-avs";
+import {
   AzureVMwareSolutionAPI,
 } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";

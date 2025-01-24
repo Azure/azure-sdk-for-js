@@ -27,7 +27,7 @@ async function storageAccountListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageAccounts.listByResourceGroup(
+  for await (const item of client.storageAccounts.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

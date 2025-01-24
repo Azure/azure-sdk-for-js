@@ -26,7 +26,7 @@ async function listLicensesBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.licenses.listBySubscription()) {
+  for await (const item of client.licenses.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

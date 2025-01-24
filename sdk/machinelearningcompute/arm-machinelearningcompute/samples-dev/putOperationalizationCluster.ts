@@ -14,8 +14,9 @@
  * @summary Create or update an operationalization cluster.
  * x-ms-original-file: specification/machinelearningcompute/resource-manager/Microsoft.MachineLearningCompute/preview/2017-08-01-preview/examples/OperationalizationClusters_CreateOrUpdate.json
  */
+import type {
+  OperationalizationCluster} from "@azure/arm-machinelearningcompute";
 import {
-  OperationalizationCluster,
   MachineLearningComputeManagementClient
 } from "@azure/arm-machinelearningcompute";
 import { DefaultAzureCredential } from "@azure/identity";

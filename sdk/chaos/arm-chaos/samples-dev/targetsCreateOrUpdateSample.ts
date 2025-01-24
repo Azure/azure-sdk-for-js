@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Target, ChaosManagementClient } from "@azure/arm-chaos";
+import type { Target} from "@azure/arm-chaos";
+import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

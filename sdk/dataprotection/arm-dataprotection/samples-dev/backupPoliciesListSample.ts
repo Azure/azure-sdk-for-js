@@ -28,7 +28,7 @@ async function listBackupPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupPolicies.list(
+  for await (const item of client.backupPolicies.list(
     resourceGroupName,
     vaultName,
   )) {

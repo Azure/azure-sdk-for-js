@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AccountResource, GraphServices } from "@azure/arm-graphservices";
+import type { AccountResource} from "@azure/arm-graphservices";
+import { GraphServices } from "@azure/arm-graphservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

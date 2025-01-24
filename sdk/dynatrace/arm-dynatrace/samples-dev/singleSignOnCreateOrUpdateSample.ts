@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DynatraceSingleSignOnResource} from "@azure/arm-dynatrace";
 import {
-  DynatraceSingleSignOnResource,
   DynatraceObservability
 } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";

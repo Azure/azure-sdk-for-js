@@ -25,7 +25,7 @@ async function listAseregions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.listAseRegions()) {
+  for await (const item of client.listAseRegions()) {
     resArray.push(item);
   }
   console.log(resArray);

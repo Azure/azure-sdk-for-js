@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   LogAnalyticsQueryPackQuerySearchProperties,
-  QueriesSearchOptionalParams,
+  QueriesSearchOptionalParams} from "@azure/arm-operationalinsights";
+import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -44,7 +45,7 @@ async function querySearch() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.queries.listSearch(
+  for await (const item of client.queries.listSearch(
     resourceGroupName,
     queryPackName,
     querySearchProperties,

@@ -25,7 +25,7 @@ async function oepResourceListBySubscriptionId() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.energyServices.listBySubscription()) {
+  for await (const item of client.energyServices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

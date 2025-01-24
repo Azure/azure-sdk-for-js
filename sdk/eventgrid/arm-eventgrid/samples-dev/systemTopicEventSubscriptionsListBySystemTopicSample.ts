@@ -30,7 +30,7 @@ async function systemTopicEventSubscriptionsListBySystemTopic() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.systemTopicEventSubscriptions.listBySystemTopic(
+  for await (const item of client.systemTopicEventSubscriptions.listBySystemTopic(
     resourceGroupName,
     systemTopicName,
   )) {

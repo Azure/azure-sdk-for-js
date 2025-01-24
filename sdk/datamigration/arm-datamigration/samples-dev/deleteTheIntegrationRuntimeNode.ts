@@ -14,8 +14,9 @@
  * @summary Delete the integration runtime node.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/DeleteIntegrationRuntimeNode.json
  */
+import type {
+  DeleteNode} from "@azure/arm-datamigration";
 import {
-  DeleteNode,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

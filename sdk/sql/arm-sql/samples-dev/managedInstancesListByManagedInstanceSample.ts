@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedInstancesListByManagedInstanceOptionalParams} from "@azure/arm-sql";
 import {
-  ManagedInstancesListByManagedInstanceOptionalParams,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,7 +40,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
     options,
@@ -77,7 +78,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
     options,
@@ -103,7 +104,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndR
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

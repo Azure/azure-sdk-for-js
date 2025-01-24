@@ -29,7 +29,7 @@ async function annotationsList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.annotations.list(
+  for await (const item of client.annotations.list(
     resourceGroupName,
     resourceName,
     start,

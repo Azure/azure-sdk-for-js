@@ -14,8 +14,9 @@
  * @summary Create or Update SQL Migration Service.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/CreateOrUpdateMigrationServiceMAX.json
  */
+import type {
+  SqlMigrationService} from "@azure/arm-datamigration";
 import {
-  SqlMigrationService,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

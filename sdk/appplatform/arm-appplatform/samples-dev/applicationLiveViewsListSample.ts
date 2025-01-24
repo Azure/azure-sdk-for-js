@@ -28,7 +28,7 @@ async function applicationLiveViewsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applicationLiveViews.list(
+  for await (const item of client.applicationLiveViews.list(
     resourceGroupName,
     serviceName
   )) {

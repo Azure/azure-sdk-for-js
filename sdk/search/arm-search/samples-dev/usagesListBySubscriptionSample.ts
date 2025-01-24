@@ -26,7 +26,7 @@ async function getQuotaUsagesList() {
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.listBySubscription(location)) {
+  for await (const item of client.usages.listBySubscription(location)) {
     resArray.push(item);
   }
   console.log(resArray);

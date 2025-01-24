@@ -27,7 +27,7 @@ async function getScriptExecutionHistoryList() {
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.scriptExecutionHistory.listByCluster(
+  for await (const item of client.scriptExecutionHistory.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

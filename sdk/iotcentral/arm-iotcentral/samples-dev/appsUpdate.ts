@@ -14,7 +14,8 @@
  * @summary Update the metadata of an IoT Central application.
  * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/stable/2021-06-01/examples/Apps_Update.json
  */
-import { AppPatch, IotCentralClient } from "@azure/arm-iotcentral";
+import type { AppPatch} from "@azure/arm-iotcentral";
+import { IotCentralClient } from "@azure/arm-iotcentral";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function appsUpdate() {

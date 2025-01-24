@@ -26,7 +26,7 @@ async function groupQuotaLimitsRequestList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
-  for await (let item of client.groupQuotaLimitsRequest.list(
+  for await (const item of client.groupQuotaLimitsRequest.list(
     managementGroupId,
     groupQuotaName,
     resourceProviderName,

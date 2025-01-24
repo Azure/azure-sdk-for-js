@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupsListByManagerOptionalParams} from "@azure/arm-storsimple1200series";
 import {
-  BackupsListByManagerOptionalParams,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function backupsListByManager() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backups.listByManager(
+  for await (const item of client.backups.listByManager(
     resourceGroupName,
     managerName,
     options

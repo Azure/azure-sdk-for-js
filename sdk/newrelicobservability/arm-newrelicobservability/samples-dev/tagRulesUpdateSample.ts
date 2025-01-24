@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TagRuleUpdate} from "@azure/arm-newrelicobservability";
 import {
-  TagRuleUpdate,
   NewRelicObservability,
 } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DiagnosticProactiveLogCollectionSettings} from "@azure/arm-databoxedge";
 import {
-  DiagnosticProactiveLogCollectionSettings,
   DataBoxEdgeManagementClient
 } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";

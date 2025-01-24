@@ -14,7 +14,8 @@
  * @summary Creates a new peering service or updates an existing peering with the specified name under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreatePeeringService.json
  */
-import { PeeringService, PeeringManagementClient } from "@azure/arm-peering";
+import type { PeeringService} from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function createAPeeringService() {

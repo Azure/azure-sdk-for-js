@@ -29,7 +29,7 @@ async function listServerDnsAliases() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverDnsAliases.listByServer(
+  for await (const item of client.serverDnsAliases.listByServer(
     resourceGroupName,
     serverName,
   )) {

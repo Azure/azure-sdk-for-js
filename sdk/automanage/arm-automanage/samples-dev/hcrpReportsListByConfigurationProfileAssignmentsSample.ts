@@ -28,7 +28,7 @@ async function listReportsByHcrpConfigurationProfilesAssignment(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.hcrpReports.listByConfigurationProfileAssignments(
+  for await (const item of client.hcrpReports.listByConfigurationProfileAssignments(
     resourceGroupName,
     machineName,
     configurationProfileAssignmentName

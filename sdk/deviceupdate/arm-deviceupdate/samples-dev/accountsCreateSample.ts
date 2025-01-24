@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Account, DeviceUpdate } from "@azure/arm-deviceupdate";
+import type { Account} from "@azure/arm-deviceupdate";
+import { DeviceUpdate } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

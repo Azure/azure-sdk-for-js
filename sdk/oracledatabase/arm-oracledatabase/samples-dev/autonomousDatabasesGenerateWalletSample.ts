@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GenerateAutonomousDatabaseWalletDetails} from "@azure/arm-oracledatabase";
 import {
-  GenerateAutonomousDatabaseWalletDetails,
   OracleDatabaseManagementClient,
 } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";

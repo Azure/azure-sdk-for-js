@@ -25,7 +25,7 @@ async function getUsagesOfAnAutomationAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.listByAutomationAccount(
+  for await (const item of client.usages.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

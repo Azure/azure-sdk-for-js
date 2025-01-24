@@ -30,7 +30,7 @@ async function monitorsListMonitoredResourcesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listMonitoredResources(
+  for await (const item of client.monitors.listMonitoredResources(
     resourceGroupName,
     monitorName
   )) {
@@ -55,7 +55,7 @@ async function monitorsListMonitoredResourcesMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listMonitoredResources(
+  for await (const item of client.monitors.listMonitoredResources(
     resourceGroupName,
     monitorName
   )) {

@@ -25,7 +25,7 @@ async function iscsiDisksListByDevice() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iscsiDisks.listByDevice(
+  for await (const item of client.iscsiDisks.listByDevice(
     deviceName,
     resourceGroupName,
     managerName

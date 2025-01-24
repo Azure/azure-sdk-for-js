@@ -24,7 +24,7 @@ async function quotaRequestHistory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
-  for await (let item of client.quotaRequestStatus.list(scope)) {
+  for await (const item of client.quotaRequestStatus.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

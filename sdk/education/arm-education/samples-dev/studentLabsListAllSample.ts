@@ -24,7 +24,7 @@ async function studentLabList() {
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.studentLabs.listAll()) {
+  for await (const item of client.studentLabs.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);

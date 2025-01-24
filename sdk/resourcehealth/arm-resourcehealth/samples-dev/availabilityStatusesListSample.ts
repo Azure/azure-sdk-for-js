@@ -25,7 +25,7 @@ async function getHealthHistoryByResource() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
   const resArray = new Array();
-  for await (let item of client.availabilityStatuses.list(resourceUri)) {
+  for await (const item of client.availabilityStatuses.list(resourceUri)) {
     resArray.push(item);
   }
   console.log(resArray);

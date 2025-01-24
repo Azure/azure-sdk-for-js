@@ -33,7 +33,7 @@ async function listManagedNetworkSettingsRule() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.managedNetworkSettingsRule.list(
+  for await (const item of client.managedNetworkSettingsRule.list(
     resourceGroupName,
     workspaceName,
   )) {

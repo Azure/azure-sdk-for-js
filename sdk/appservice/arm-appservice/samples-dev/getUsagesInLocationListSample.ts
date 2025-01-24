@@ -26,7 +26,7 @@ async function getUsagesInLocationForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.getUsagesInLocation.list(location)) {
+  for await (const item of client.getUsagesInLocation.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

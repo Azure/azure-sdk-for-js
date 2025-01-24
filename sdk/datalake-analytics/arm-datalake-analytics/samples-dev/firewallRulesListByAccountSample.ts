@@ -27,7 +27,7 @@ async function listsTheDataLakeAnalyticsFirewallRules(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.firewallRules.listByAccount(
+  for await (const item of client.firewallRules.listByAccount(
     resourceGroupName,
     accountName
   )) {

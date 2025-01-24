@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DeploymentStack} from "@azure/arm-resourcesdeploymentstacks";
 import {
-  DeploymentStack,
   DeploymentStacksClient,
 } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";

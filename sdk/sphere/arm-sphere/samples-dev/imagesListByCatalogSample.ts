@@ -30,7 +30,7 @@ async function imagesListByCatalog() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.images.listByCatalog(
+  for await (const item of client.images.listByCatalog(
     resourceGroupName,
     catalogName,
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  NetAppResourceCheckFilePathAvailabilityOptionalParams} from "@azure/arm-netapp";
 import {
-  NetAppResourceCheckFilePathAvailabilityOptionalParams,
   NetAppManagementClient,
 } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";

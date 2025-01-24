@@ -27,7 +27,7 @@ async function listsAllOpenShiftVersionsAvailableToInstallInTheSpecifiedLocation
   const credential = new DefaultAzureCredential();
   const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.openShiftVersions.list(location)) {
+  for await (const item of client.openShiftVersions.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -14,8 +14,9 @@
  * @summary The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. This method executes a command on a running task.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Tasks_Command.json
  */
+import type {
+  MigrateSyncCompleteCommandProperties} from "@azure/arm-datamigration";
 import {
-  MigrateSyncCompleteCommandProperties,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

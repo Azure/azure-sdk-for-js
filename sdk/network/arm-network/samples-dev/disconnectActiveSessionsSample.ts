@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SessionIds, NetworkManagementClient } from "@azure/arm-network";
+import type { SessionIds} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -28,7 +29,7 @@ async function deletesTheSpecifiedActiveSession() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.listDisconnectActiveSessions(
+  for await (const item of client.listDisconnectActiveSessions(
     resourceGroupName,
     bastionHostName,
     sessionIds,

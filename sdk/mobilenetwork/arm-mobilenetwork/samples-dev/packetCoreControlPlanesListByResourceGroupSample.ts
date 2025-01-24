@@ -29,7 +29,7 @@ async function listPacketCoreControlPlanesInResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.packetCoreControlPlanes.listByResourceGroup(
+  for await (const item of client.packetCoreControlPlanes.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

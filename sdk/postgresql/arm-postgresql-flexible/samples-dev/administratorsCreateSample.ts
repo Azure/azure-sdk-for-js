@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ActiveDirectoryAdministratorAdd} from "@azure/arm-postgresql-flexible";
 import {
-  ActiveDirectoryAdministratorAdd,
   PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";

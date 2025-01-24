@@ -33,7 +33,7 @@ async function getComputes() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.computeOperations.list(
+  for await (const item of client.computeOperations.list(
     resourceGroupName,
     workspaceName,
   )) {

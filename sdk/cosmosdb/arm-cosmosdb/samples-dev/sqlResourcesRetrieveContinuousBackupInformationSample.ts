@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ContinuousBackupRestoreLocation} from "@azure/arm-cosmosdb";
 import {
-  ContinuousBackupRestoreLocation,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -29,7 +29,7 @@ async function getTrafficControllersList() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.trafficControllerInterface.listBySubscription()) {
+  for await (const item of client.trafficControllerInterface.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

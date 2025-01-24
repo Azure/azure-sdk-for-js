@@ -32,7 +32,7 @@ async function listGatewaysByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.gateway.listByResourceGroup(
+  for await (const item of client.gateway.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -31,7 +31,7 @@ async function listExtendedAuditingSettingsOfADatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.extendedSqlPoolBlobAuditingPolicies.listBySqlPool(
+  for await (const item of client.extendedSqlPoolBlobAuditingPolicies.listBySqlPool(
     resourceGroupName,
     workspaceName,
     sqlPoolName

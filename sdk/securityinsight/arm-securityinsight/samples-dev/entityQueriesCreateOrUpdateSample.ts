@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ActivityCustomEntityQuery} from "@azure/arm-securityinsight";
 import {
-  ActivityCustomEntityQuery,
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";

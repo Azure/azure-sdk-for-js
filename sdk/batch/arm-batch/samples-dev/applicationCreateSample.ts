@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   Application,
-  ApplicationCreateOptionalParams,
+  ApplicationCreateOptionalParams} from "@azure/arm-batch";
+import {
   BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";

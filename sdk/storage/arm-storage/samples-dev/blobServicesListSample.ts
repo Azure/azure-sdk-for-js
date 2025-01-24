@@ -28,7 +28,7 @@ async function listBlobServices() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobServices.list(
+  for await (const item of client.blobServices.list(
     resourceGroupName,
     accountName,
   )) {

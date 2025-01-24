@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { BackupRequest, MicrosoftStorageSync } from "@azure/arm-storagesync";
+import type { BackupRequest} from "@azure/arm-storagesync";
+import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

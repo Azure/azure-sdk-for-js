@@ -27,7 +27,7 @@ async function addonsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.addons.list(
+  for await (const item of client.addons.list(
     resourceGroupName,
     privateCloudName,
   )) {

@@ -25,7 +25,7 @@ async function deploymentStacksManagementGroupList() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential);
   const resArray = new Array();
-  for await (let item of client.deploymentStacks.listAtManagementGroup(
+  for await (const item of client.deploymentStacks.listAtManagementGroup(
     managementGroupId,
   )) {
     resArray.push(item);

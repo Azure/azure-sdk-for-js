@@ -25,7 +25,7 @@ async function listDeploymentsForARemediationAtIndividualResourceScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.remediations.listDeploymentsAtResource(
+  for await (const item of client.remediations.listDeploymentsAtResource(
     resourceId,
     remediationName,
   )) {

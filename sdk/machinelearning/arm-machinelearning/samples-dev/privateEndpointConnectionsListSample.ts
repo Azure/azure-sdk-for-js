@@ -33,7 +33,7 @@ async function storageAccountListPrivateEndpointConnections() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     workspaceName,
   )) {

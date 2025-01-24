@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Application, ApplicationClient } from "@azure/arm-managedapplications";
+import type { Application} from "@azure/arm-managedapplications";
+import { ApplicationClient } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

@@ -26,7 +26,7 @@ async function cosmosDbClientEncryptionKeysList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlResources.listClientEncryptionKeys(
+  for await (const item of client.sqlResources.listClientEncryptionKeys(
     resourceGroupName,
     accountName,
     databaseName,

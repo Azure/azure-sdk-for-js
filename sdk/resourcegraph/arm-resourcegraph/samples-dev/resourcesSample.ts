@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { QueryRequest, ResourceGraphClient } from "@azure/arm-resourcegraph";
+import type { QueryRequest} from "@azure/arm-resourcegraph";
+import { ResourceGraphClient } from "@azure/arm-resourcegraph";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

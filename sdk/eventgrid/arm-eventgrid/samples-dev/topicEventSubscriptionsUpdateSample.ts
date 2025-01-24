@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EventSubscriptionUpdateParameters} from "@azure/arm-eventgrid";
 import {
-  EventSubscriptionUpdateParameters,
   EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";

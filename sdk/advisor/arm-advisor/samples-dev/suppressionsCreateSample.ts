@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SuppressionContract, AdvisorManagementClient } from "@azure/arm-advisor";
+import type { SuppressionContract } from "@azure/arm-advisor";
+import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

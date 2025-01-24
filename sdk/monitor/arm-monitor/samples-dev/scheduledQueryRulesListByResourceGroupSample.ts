@@ -29,7 +29,7 @@ async function listScheduledQueryRulesByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.scheduledQueryRules.listByResourceGroup(
+  for await (const item of client.scheduledQueryRules.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

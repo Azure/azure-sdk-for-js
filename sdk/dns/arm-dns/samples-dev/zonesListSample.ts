@@ -25,7 +25,7 @@ async function listZonesBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.zones.list()) {
+  for await (const item of client.zones.list()) {
     resArray.push(item);
   }
   console.log(resArray);

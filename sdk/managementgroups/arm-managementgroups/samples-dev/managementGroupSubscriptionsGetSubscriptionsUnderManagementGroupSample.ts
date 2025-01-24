@@ -24,7 +24,7 @@ async function getAllSubscriptionsFromManagementGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
   const resArray = new Array();
-  for await (let item of client.managementGroupSubscriptions.listSubscriptionsUnderManagementGroup(
+  for await (const item of client.managementGroupSubscriptions.listSubscriptionsUnderManagementGroup(
     groupId
   )) {
     resArray.push(item);

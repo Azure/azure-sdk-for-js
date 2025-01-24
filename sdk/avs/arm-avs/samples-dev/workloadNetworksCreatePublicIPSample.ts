@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WorkloadNetworkPublicIP} from "@azure/arm-avs";
 import {
-  WorkloadNetworkPublicIP,
   AzureVMwareSolutionAPI,
 } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";

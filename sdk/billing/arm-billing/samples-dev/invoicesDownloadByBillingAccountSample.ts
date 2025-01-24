@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  InvoicesDownloadByBillingAccountOptionalParams} from "@azure/arm-billing";
 import {
-  InvoicesDownloadByBillingAccountOptionalParams,
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";

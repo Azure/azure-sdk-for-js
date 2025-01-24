@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrepareNetworkPoliciesRequest} from "@azure/arm-network";
 import {
-  PrepareNetworkPoliciesRequest,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

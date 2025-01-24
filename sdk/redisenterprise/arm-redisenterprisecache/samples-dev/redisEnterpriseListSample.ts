@@ -30,7 +30,7 @@ async function redisEnterpriseList() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.redisEnterprise.list()) {
+  for await (const item of client.redisEnterprise.list()) {
     resArray.push(item);
   }
   console.log(resArray);

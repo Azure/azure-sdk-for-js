@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SerialPort} from "@azure/arm-serialconsole";
 import {
-  SerialPort,
   MicrosoftSerialConsoleClient
 } from "@azure/arm-serialconsole";
 import { DefaultAzureCredential } from "@azure/identity";

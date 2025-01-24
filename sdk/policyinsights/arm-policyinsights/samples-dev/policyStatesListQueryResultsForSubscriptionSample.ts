@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyStatesListQueryResultsForSubscriptionOptionalParams} from "@azure/arm-policyinsights";
 import {
-  PolicyStatesListQueryResultsForSubscriptionOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function filterAndAggregateOnly() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForSubscription(
+  for await (const item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
@@ -71,7 +72,7 @@ async function filterAndGroupWithAggregate() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForSubscription(
+  for await (const item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
@@ -105,7 +106,7 @@ async function filterAndGroupWithoutAggregate() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForSubscription(
+  for await (const item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
@@ -138,7 +139,7 @@ async function filterAndMultipleGroups() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForSubscription(
+  for await (const item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
@@ -160,7 +161,7 @@ async function queryLatestAtSubscriptionScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForSubscription(
+  for await (const item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
   )) {
@@ -185,7 +186,7 @@ async function queryLatestAtSubscriptionScopeWithNextLink() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForSubscription(
+  for await (const item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,
@@ -221,7 +222,7 @@ async function timeRangeSortSelectAndLimit() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForSubscription(
+  for await (const item of client.policyStates.listQueryResultsForSubscription(
     policyStatesResource,
     subscriptionId,
     options,

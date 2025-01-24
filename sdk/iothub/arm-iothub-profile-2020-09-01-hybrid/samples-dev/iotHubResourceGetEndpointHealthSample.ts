@@ -30,7 +30,7 @@ async function iotHubResourceGetEndpointHealth() {
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotHubResource.listEndpointHealth(
+  for await (const item of client.iotHubResource.listEndpointHealth(
     resourceGroupName,
     iotHubName
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ConnectedClusterPatch} from "@azure/arm-hybridkubernetes";
 import {
-  ConnectedClusterPatch,
   ConnectedKubernetesClient
 } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";

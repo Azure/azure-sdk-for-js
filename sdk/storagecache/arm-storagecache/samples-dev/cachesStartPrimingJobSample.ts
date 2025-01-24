@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   PrimingJob,
-  CachesStartPrimingJobOptionalParams,
+  CachesStartPrimingJobOptionalParams} from "@azure/arm-storagecache";
+import {
   StorageCacheManagementClient,
 } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";

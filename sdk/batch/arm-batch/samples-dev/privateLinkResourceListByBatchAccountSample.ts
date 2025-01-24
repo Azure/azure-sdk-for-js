@@ -26,7 +26,7 @@ async function listPrivateLinkResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResourceOperations.listByBatchAccount(
+  for await (const item of client.privateLinkResourceOperations.listByBatchAccount(
     resourceGroupName,
     accountName,
   )) {

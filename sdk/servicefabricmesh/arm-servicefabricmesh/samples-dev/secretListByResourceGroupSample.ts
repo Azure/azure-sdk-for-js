@@ -32,7 +32,7 @@ async function listSecretsByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.secret.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.secret.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

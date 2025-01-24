@@ -28,7 +28,7 @@ async function elasticVersionsList() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticVersions.list(region)) {
+  for await (const item of client.elasticVersions.list(region)) {
     resArray.push(item);
   }
   console.log(resArray);

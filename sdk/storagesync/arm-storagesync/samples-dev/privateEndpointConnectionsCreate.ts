@@ -14,8 +14,9 @@
  * @summary Update the state of specified private endpoint connection associated with the storage sync service.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/PrivateEndpointConnections_Create.json
  */
+import type {
+  PrivateEndpointConnection} from "@azure/arm-storagesync";
 import {
-  PrivateEndpointConnection,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

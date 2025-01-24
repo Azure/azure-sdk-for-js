@@ -34,7 +34,7 @@ async function listsThePrefixesReceivedOverTheSpecifiedPeeringUnderTheGivenSubsc
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.receivedRoutes.listByPeering(
+  for await (const item of client.receivedRoutes.listByPeering(
     resourceGroupName,
     peeringName,
     options

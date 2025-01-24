@@ -29,7 +29,7 @@ async function ehAliasList() {
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.disasterRecoveryConfigs.list(
+  for await (const item of client.disasterRecoveryConfigs.list(
     resourceGroupName,
     namespaceName,
   )) {

@@ -32,7 +32,7 @@ async function l2IsolationDomainsListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.l2IsolationDomains.listByResourceGroup(
+  for await (const item of client.l2IsolationDomains.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -22,7 +22,7 @@ async function returnsAListOfAllLinkedSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureStackManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.linkedSubscriptions.listBySubscription()) {
+  for await (const item of client.linkedSubscriptions.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

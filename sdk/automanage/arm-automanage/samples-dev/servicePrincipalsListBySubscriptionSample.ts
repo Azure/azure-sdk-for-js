@@ -24,7 +24,7 @@ async function listServicePrincipalBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.servicePrincipals.listBySubscription()) {
+  for await (const item of client.servicePrincipals.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

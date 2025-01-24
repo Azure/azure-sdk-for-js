@@ -25,7 +25,7 @@ async function listCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateOperations.listByAutomationAccount(
+  for await (const item of client.certificateOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

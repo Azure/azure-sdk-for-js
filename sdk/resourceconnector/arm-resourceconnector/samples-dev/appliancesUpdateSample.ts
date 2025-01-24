@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AppliancesUpdateOptionalParams} from "@azure/arm-resourceconnector";
 import {
-  AppliancesUpdateOptionalParams,
   ResourceConnectorManagementClient
 } from "@azure/arm-resourceconnector";
 import { DefaultAzureCredential } from "@azure/identity";

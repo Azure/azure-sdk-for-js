@@ -14,8 +14,9 @@
  * @summary Creates a new job or updates an existing job in the specified subscription.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/CreateExportJob.json
  */
+import type {
+  PutJobParameters} from "@azure/arm-storageimportexport";
 import {
-  PutJobParameters,
   StorageImportExport
 } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";

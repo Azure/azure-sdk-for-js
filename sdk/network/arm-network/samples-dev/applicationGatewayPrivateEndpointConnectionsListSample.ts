@@ -27,7 +27,7 @@ async function listsAllPrivateEndpointConnectionsOnApplicationGateway() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applicationGatewayPrivateEndpointConnections.list(
+  for await (const item of client.applicationGatewayPrivateEndpointConnections.list(
     resourceGroupName,
     applicationGatewayName,
   )) {

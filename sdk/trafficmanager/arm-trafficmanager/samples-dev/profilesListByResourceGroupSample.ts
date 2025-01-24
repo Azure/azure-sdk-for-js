@@ -29,7 +29,7 @@ async function listProfilesByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.profiles.listByResourceGroup(
+  for await (const item of client.profiles.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   SAPApplicationServerInstance,
-  SAPApplicationServerInstancesCreateOptionalParams,
+  SAPApplicationServerInstancesCreateOptionalParams} from "@azure/arm-workloads";
+import {
   WorkloadsClient
 } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";

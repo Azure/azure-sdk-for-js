@@ -30,7 +30,7 @@ async function listRoutingInformationForThePacketCore() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.routingInfo.list(
+  for await (const item of client.routingInfo.list(
     resourceGroupName,
     packetCoreControlPlaneName,
   )) {

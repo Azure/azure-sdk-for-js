@@ -30,7 +30,7 @@ async function getWorkspacesBySubscription() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.workspaces.listBySubscription()) {
+  for await (const item of client.workspaces.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

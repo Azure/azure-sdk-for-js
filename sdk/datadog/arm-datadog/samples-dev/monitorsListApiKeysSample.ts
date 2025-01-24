@@ -28,7 +28,7 @@ async function monitorsListApiKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listApiKeys(
+  for await (const item of client.monitors.listApiKeys(
     resourceGroupName,
     monitorName
   )) {

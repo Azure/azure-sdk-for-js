@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Watcher, AutomationClient } from "@azure/arm-automation";
+import type { Watcher} from "@azure/arm-automation";
+import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

@@ -32,7 +32,7 @@ async function getFrontends() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.frontendsInterface.listByTrafficController(
+  for await (const item of client.frontendsInterface.listByTrafficController(
     resourceGroupName,
     trafficControllerName,
   )) {

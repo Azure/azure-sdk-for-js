@@ -28,7 +28,7 @@ async function sapDatabaseInstancesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sAPDatabaseInstances.list(
+  for await (const item of client.sAPDatabaseInstances.list(
     resourceGroupName,
     sapVirtualInstanceName,
   )) {

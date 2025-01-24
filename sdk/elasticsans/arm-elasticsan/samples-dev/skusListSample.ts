@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SkusListOptionalParams} from "@azure/arm-elasticsan";
 import {
-  SkusListOptionalParams,
   ElasticSanManagement,
 } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function skusListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.skus.list(options)) {
+  for await (const item of client.skus.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -49,7 +50,7 @@ async function skusListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.skus.list()) {
+  for await (const item of client.skus.list()) {
     resArray.push(item);
   }
   console.log(resArray);

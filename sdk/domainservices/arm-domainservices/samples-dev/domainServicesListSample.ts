@@ -22,7 +22,7 @@ async function listDomainService() {
   const credential = new DefaultAzureCredential();
   const client = new DomainServicesResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.domainServices.list()) {
+  for await (const item of client.domainServices.list()) {
     resArray.push(item);
   }
   console.log(resArray);

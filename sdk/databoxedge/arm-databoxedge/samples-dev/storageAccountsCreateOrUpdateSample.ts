@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  StorageAccount} from "@azure/arm-databoxedge";
 import {
-  StorageAccount,
   DataBoxEdgeManagementClient
 } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";

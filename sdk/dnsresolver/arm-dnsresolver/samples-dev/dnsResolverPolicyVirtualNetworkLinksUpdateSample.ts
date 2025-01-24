@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DnsResolverPolicyVirtualNetworkLinkPatch} from "@azure/arm-dnsresolver";
 import {
-  DnsResolverPolicyVirtualNetworkLinkPatch,
   DnsResolverManagementClient,
 } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";

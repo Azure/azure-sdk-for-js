@@ -34,7 +34,7 @@ async function getComputeNodesInformationForACompute() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.computeOperations.listNodes(
+  for await (const item of client.computeOperations.listNodes(
     resourceGroupName,
     workspaceName,
     computeName,

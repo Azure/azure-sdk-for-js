@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServiceTopologyResource} from "@azure/arm-deploymentmanager";
 import {
-  ServiceTopologyResource,
   AzureDeploymentManager
 } from "@azure/arm-deploymentmanager";
 import { DefaultAzureCredential } from "@azure/identity";

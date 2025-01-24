@@ -31,7 +31,7 @@ async function virtualEndpointListByServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.virtualEndpoints.listByServer(
+  for await (const item of client.virtualEndpoints.listByServer(
     resourceGroupName,
     serverName,
   )) {

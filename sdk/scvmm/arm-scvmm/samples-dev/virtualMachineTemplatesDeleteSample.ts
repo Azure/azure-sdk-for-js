@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualMachineTemplatesDeleteOptionalParams} from "@azure/arm-scvmm";
 import {
-  VirtualMachineTemplatesDeleteOptionalParams,
   ScVmm,
 } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -26,7 +26,7 @@ async function listHybridWorkersByHybridRunbookWorkerGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.hybridRunbookWorkers.listByHybridRunbookWorkerGroup(
+  for await (const item of client.hybridRunbookWorkers.listByHybridRunbookWorkerGroup(
     resourceGroupName,
     automationAccountName,
     hybridRunbookWorkerGroupName

@@ -30,7 +30,7 @@ async function certificatesList() {
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificates.list(
+  for await (const item of client.certificates.list(
     resourceGroupName,
     deploymentName,
   )) {

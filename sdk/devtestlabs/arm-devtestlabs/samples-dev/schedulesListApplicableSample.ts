@@ -25,7 +25,7 @@ async function schedulesListApplicable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.schedules.listApplicable(
+  for await (const item of client.schedules.listApplicable(
     resourceGroupName,
     labName,
     name

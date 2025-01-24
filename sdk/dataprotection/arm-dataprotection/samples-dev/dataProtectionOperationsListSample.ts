@@ -22,7 +22,7 @@ async function returnsTheListOfSupportedRestOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential);
   const resArray = new Array();
-  for await (let item of client.dataProtectionOperations.list()) {
+  for await (const item of client.dataProtectionOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

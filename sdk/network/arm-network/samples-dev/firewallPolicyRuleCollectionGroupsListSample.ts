@@ -29,7 +29,7 @@ async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.firewallPolicyRuleCollectionGroups.list(
+  for await (const item of client.firewallPolicyRuleCollectionGroups.list(
     resourceGroupName,
     firewallPolicyName,
   )) {
@@ -51,7 +51,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.firewallPolicyRuleCollectionGroups.list(
+  for await (const item of client.firewallPolicyRuleCollectionGroups.list(
     resourceGroupName,
     firewallPolicyName,
   )) {
@@ -73,7 +73,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFir
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.firewallPolicyRuleCollectionGroups.list(
+  for await (const item of client.firewallPolicyRuleCollectionGroups.list(
     resourceGroupName,
     firewallPolicyName,
   )) {

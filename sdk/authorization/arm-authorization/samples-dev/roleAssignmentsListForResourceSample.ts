@@ -30,7 +30,7 @@ async function listRoleAssignmentsForAResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.roleAssignments.listForResource(
+  for await (const item of client.roleAssignments.listForResource(
     resourceGroupName,
     resourceProviderNamespace,
     resourceType,

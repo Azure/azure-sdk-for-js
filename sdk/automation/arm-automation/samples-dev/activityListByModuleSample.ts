@@ -26,7 +26,7 @@ async function listActivitiesByAModule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.activityOperations.listByModule(
+  for await (const item of client.activityOperations.listByModule(
     resourceGroupName,
     automationAccountName,
     moduleName

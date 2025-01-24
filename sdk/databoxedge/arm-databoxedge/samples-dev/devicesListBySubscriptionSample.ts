@@ -22,7 +22,7 @@ async function dataBoxEdgeDeviceGetBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.devices.listBySubscription()) {
+  for await (const item of client.devices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

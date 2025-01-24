@@ -31,7 +31,7 @@ async function configurationStoresListKeys(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.configurationStores.listKeys(
+  for await (const item of client.configurationStores.listKeys(
     resourceGroupName,
     configStoreName,
   )) {

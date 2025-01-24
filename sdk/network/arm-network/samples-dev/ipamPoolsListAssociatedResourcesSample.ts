@@ -30,7 +30,7 @@ async function ipamPoolsListAssociatedResources() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ipamPools.listAssociatedResources(
+  for await (const item of client.ipamPools.listAssociatedResources(
     resourceGroupName,
     networkManagerName,
     poolName,

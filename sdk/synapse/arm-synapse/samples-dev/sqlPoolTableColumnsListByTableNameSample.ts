@@ -32,7 +32,7 @@ async function listTheColumnsInATableOfAGivenSchemaInASqlAnalyticsPool() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPoolTableColumns.listByTableName(
+  for await (const item of client.sqlPoolTableColumns.listByTableName(
     resourceGroupName,
     workspaceName,
     sqlPoolName,

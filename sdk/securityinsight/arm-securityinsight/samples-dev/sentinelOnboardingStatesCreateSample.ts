@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   SentinelOnboardingState,
-  SentinelOnboardingStatesCreateOptionalParams,
+  SentinelOnboardingStatesCreateOptionalParams} from "@azure/arm-securityinsight";
+import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";

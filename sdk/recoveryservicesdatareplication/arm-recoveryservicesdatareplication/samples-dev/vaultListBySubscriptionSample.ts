@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VaultListBySubscriptionOptionalParams} from "@azure/arm-recoveryservicesdatareplication";
 import {
-  VaultListBySubscriptionOptionalParams,
   AzureSiteRecoveryManagementServiceAPI
 } from "@azure/arm-recoveryservicesdatareplication";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function vaultListBySubscription() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.vault.listBySubscription(options)) {
+  for await (const item of client.vault.listBySubscription(options)) {
     resArray.push(item);
   }
   console.log(resArray);

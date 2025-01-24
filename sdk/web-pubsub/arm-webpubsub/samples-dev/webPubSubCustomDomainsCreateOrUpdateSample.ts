@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CustomDomain, WebPubSubManagementClient } from "@azure/arm-webpubsub";
+import type { CustomDomain} from "@azure/arm-webpubsub";
+import { WebPubSubManagementClient } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

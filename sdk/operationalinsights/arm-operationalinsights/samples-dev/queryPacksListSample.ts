@@ -30,7 +30,7 @@ async function queryPacksList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.queryPacks.list()) {
+  for await (const item of client.queryPacks.list()) {
     resArray.push(item);
   }
   console.log(resArray);

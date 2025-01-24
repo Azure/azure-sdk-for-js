@@ -30,7 +30,7 @@ async function listTheSchemaInASqlAnalyticsPool() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPoolSchemas.list(
+  for await (const item of client.sqlPoolSchemas.list(
     resourceGroupName,
     workspaceName,
     sqlPoolName

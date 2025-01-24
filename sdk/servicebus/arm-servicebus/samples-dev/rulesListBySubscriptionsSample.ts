@@ -32,7 +32,7 @@ async function rulesListBySubscriptions() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.rules.listBySubscriptions(
+  for await (const item of client.rules.listBySubscriptions(
     resourceGroupName,
     namespaceName,
     topicName,

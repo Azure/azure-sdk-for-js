@@ -30,7 +30,7 @@ async function getAListOfApplicationTypeNameResources() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceFabricManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applicationTypes.list(
+  for await (const item of client.applicationTypes.list(
     resourceGroupName,
     clusterName
   )) {

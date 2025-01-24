@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SetTriggerStateActionDefinition} from "@azure/arm-logic";
 import {
-  SetTriggerStateActionDefinition,
   LogicManagementClient
 } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";

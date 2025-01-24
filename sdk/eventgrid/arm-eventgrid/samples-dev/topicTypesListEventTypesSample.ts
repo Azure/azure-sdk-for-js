@@ -25,7 +25,7 @@ async function topicTypesListEventTypes() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.topicTypes.listEventTypes(topicTypeName)) {
+  for await (const item of client.topicTypes.listEventTypes(topicTypeName)) {
     resArray.push(item);
   }
   console.log(resArray);

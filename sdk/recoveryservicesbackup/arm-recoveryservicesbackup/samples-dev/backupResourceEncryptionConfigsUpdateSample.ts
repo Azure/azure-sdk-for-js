@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupResourceEncryptionConfigResource} from "@azure/arm-recoveryservicesbackup";
 import {
-  BackupResourceEncryptionConfigResource,
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

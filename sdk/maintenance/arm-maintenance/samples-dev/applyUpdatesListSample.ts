@@ -27,7 +27,7 @@ async function applyUpdatesList() {
   const credential = new DefaultAzureCredential();
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applyUpdates.list()) {
+  for await (const item of client.applyUpdates.list()) {
     resArray.push(item);
   }
   console.log(resArray);

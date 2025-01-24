@@ -32,7 +32,7 @@ async function azureDevOpsRepoList() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSecurityDevOps(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureDevOpsRepoOperations.list(
+  for await (const item of client.azureDevOpsRepoOperations.list(
     resourceGroupName,
     azureDevOpsConnectorName,
     azureDevOpsOrgName,

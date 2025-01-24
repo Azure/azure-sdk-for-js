@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ADCCatalog, DataCatalogRestClient } from "@azure/arm-datacatalog";
+import type { ADCCatalog} from "@azure/arm-datacatalog";
+import { DataCatalogRestClient } from "@azure/arm-datacatalog";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

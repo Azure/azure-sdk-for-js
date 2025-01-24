@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WebService} from "@azure/arm-webservices";
 import {
-  WebService,
   AzureMLWebServicesManagementClient
 } from "@azure/arm-webservices";
 import { DefaultAzureCredential } from "@azure/identity";

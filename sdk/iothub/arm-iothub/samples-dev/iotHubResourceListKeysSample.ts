@@ -30,7 +30,7 @@ async function iotHubResourceListKeys() {
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotHubResource.listKeys(
+  for await (const item of client.iotHubResource.listKeys(
     resourceGroupName,
     resourceName
   )) {

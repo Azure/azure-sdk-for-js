@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VaultsListBySubscriptionOptionalParams} from "@azure/arm-keyvault";
 import {
-  VaultsListBySubscriptionOptionalParams,
   KeyVaultManagementClient
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function listVaultsInTheSpecifiedSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vaults.listBySubscription(options)) {
+  for await (const item of client.vaults.listBySubscription(options)) {
     resArray.push(item);
   }
   console.log(resArray);

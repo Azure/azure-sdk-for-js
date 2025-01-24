@@ -25,7 +25,7 @@ async function b2CTenantsListBySubscription(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.b2CTenants.listBySubscription()) {
+  for await (const item of client.b2CTenants.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

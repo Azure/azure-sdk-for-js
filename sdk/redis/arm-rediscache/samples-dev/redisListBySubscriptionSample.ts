@@ -23,7 +23,7 @@ async function redisCacheList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.redis.listBySubscription()) {
+  for await (const item of client.redis.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

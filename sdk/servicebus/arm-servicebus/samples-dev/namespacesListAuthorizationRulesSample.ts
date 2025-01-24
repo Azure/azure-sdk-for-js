@@ -30,7 +30,7 @@ async function nameSpaceAuthorizationRuleListAll() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaces.listAuthorizationRules(
+  for await (const item of client.namespaces.listAuthorizationRules(
     resourceGroupName,
     namespaceName
   )) {

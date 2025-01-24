@@ -23,7 +23,7 @@ async function getLocationsWebAppStacks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.provider.listWebAppStacksForLocation(
+  for await (const item of client.provider.listWebAppStacksForLocation(
     location,
   )) {
     resArray.push(item);

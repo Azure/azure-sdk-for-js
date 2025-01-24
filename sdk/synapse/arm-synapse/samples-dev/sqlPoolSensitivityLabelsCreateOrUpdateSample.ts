@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SensitivityLabel, SynapseManagementClient } from "@azure/arm-synapse";
+import type { SensitivityLabel} from "@azure/arm-synapse";
+import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

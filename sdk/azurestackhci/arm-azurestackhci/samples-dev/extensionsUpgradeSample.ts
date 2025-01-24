@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ExtensionUpgradeParameters} from "@azure/arm-azurestackhci";
 import {
-  ExtensionUpgradeParameters,
   AzureStackHCIClient,
 } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";

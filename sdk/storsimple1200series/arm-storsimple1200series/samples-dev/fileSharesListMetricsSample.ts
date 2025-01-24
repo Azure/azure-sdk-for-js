@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FileSharesListMetricsOptionalParams} from "@azure/arm-storsimple1200series";
 import {
-  FileSharesListMetricsOptionalParams,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function fileSharesListMetrics() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.listMetrics(
+  for await (const item of client.fileShares.listMetrics(
     deviceName,
     fileServerName,
     shareName,

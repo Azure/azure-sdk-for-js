@@ -31,7 +31,7 @@ async function getAllActionsOfAlertRule() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.actions.listByAlertRule(
+  for await (const item of client.actions.listByAlertRule(
     resourceGroupName,
     workspaceName,
     ruleId

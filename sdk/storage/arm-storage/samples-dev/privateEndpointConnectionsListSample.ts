@@ -28,7 +28,7 @@ async function storageAccountListPrivateEndpointConnections() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     accountName,
   )) {

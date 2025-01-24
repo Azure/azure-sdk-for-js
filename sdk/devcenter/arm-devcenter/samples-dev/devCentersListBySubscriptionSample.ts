@@ -25,7 +25,7 @@ async function devCentersListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.devCenters.listBySubscription()) {
+  for await (const item of client.devCenters.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

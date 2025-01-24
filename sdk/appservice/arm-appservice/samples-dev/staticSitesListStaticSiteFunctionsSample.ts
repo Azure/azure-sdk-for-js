@@ -27,7 +27,7 @@ async function getsTheFunctionsOfAStaticSite(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticSites.listStaticSiteFunctions(
+  for await (const item of client.staticSites.listStaticSiteFunctions(
     resourceGroupName,
     name,
   )) {

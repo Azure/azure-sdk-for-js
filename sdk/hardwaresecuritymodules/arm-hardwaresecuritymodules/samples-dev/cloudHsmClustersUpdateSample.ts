@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CloudHsmClustersUpdateOptionalParams} from "@azure/arm-hardwaresecuritymodules";
 import {
-  CloudHsmClustersUpdateOptionalParams,
   AzureHSMResourceProvider,
 } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";

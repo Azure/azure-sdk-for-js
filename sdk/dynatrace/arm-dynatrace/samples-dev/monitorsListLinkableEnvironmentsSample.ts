@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LinkableEnvironmentRequest} from "@azure/arm-dynatrace";
 import {
-  LinkableEnvironmentRequest,
   DynatraceObservability
 } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -38,7 +39,7 @@ async function monitorsListLinkableEnvironmentsMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listLinkableEnvironments(
+  for await (const item of client.monitors.listLinkableEnvironments(
     resourceGroupName,
     monitorName,
     request
@@ -69,7 +70,7 @@ async function monitorsListLinkableEnvironmentsMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listLinkableEnvironments(
+  for await (const item of client.monitors.listLinkableEnvironments(
     resourceGroupName,
     monitorName,
     request

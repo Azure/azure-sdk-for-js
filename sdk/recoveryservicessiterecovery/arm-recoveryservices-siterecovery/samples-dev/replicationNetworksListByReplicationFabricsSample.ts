@@ -33,7 +33,7 @@ async function getsTheListOfNetworksUnderAFabric() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationNetworks.listByReplicationFabrics(
+  for await (const item of client.replicationNetworks.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
     fabricName,

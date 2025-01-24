@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TagsObject, PostgreSQLManagementClient } from "@azure/arm-postgresql";
+import type { TagsObject} from "@azure/arm-postgresql";
+import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

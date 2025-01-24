@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AdaptiveApplicationControlGroup} from "@azure/arm-security";
 import {
-  AdaptiveApplicationControlGroup,
   SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";

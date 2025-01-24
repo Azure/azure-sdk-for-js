@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LogProfileResourcePatch, MonitorClient } from "@azure/arm-monitor";
+import type { LogProfileResourcePatch} from "@azure/arm-monitor";
+import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

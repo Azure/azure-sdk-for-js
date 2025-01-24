@@ -23,7 +23,7 @@ async function batchAccountList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.batchAccountOperations.list()) {
+  for await (const item of client.batchAccountOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

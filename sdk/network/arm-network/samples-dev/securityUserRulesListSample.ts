@@ -31,7 +31,7 @@ async function listSecurityUserRules() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityUserRules.list(
+  for await (const item of client.securityUserRules.list(
     resourceGroupName,
     networkManagerName,
     configurationName,

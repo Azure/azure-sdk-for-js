@@ -14,8 +14,9 @@
  * @summary Create a new SyncGroup.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/SyncGroups_Create.json
  */
+import type {
+  SyncGroupCreateParameters} from "@azure/arm-storagesync";
 import {
-  SyncGroupCreateParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

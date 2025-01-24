@@ -28,7 +28,7 @@ async function listOperationsRequestObject(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceGuards.listUpdateProtectedItemRequestsObjects(
+  for await (const item of client.resourceGuards.listUpdateProtectedItemRequestsObjects(
     resourceGroupName,
     resourceGuardsName,
   )) {

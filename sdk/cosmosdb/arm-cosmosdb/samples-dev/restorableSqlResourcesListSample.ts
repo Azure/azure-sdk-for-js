@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RestorableSqlResourcesListOptionalParams} from "@azure/arm-cosmosdb";
 import {
-  RestorableSqlResourcesListOptionalParams,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function cosmosDbRestorableSqlResourceList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorableSqlResources.list(
+  for await (const item of client.restorableSqlResources.list(
     location,
     instanceId,
     options,

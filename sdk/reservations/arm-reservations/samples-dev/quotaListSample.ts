@@ -27,7 +27,7 @@ async function quotasListUsagesForCompute() {
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
   const resArray = new Array();
-  for await (let item of client.quota.list(
+  for await (const item of client.quota.list(
     subscriptionId,
     providerId,
     location
@@ -50,7 +50,7 @@ async function quotasListUsagesMachineLearningServices() {
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
   const resArray = new Array();
-  for await (let item of client.quota.list(
+  for await (const item of client.quota.list(
     subscriptionId,
     providerId,
     location

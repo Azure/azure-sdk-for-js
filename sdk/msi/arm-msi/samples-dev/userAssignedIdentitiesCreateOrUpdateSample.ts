@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Identity, ManagedServiceIdentityClient } from "@azure/arm-msi";
+import type { Identity} from "@azure/arm-msi";
+import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

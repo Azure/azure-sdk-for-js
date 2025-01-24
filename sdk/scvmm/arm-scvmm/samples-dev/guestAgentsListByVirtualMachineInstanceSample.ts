@@ -25,7 +25,7 @@ async function guestAgentsListByVirtualMachineInstanceMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
   const resArray = new Array();
-  for await (let item of client.guestAgents.listByVirtualMachineInstance(
+  for await (const item of client.guestAgents.listByVirtualMachineInstance(
     resourceUri,
   )) {
     resArray.push(item);
@@ -44,7 +44,7 @@ async function guestAgentsListByVirtualMachineInstanceMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
   const resArray = new Array();
-  for await (let item of client.guestAgents.listByVirtualMachineInstance(
+  for await (const item of client.guestAgents.listByVirtualMachineInstance(
     resourceUri,
   )) {
     resArray.push(item);

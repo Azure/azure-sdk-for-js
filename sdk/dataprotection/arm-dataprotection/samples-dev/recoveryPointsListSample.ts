@@ -29,7 +29,7 @@ async function listRecoveryPointsInAVault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recoveryPoints.list(
+  for await (const item of client.recoveryPoints.list(
     resourceGroupName,
     vaultName,
     backupInstanceName,

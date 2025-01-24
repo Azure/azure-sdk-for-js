@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { RecommendationsListOptionalParams, AdvisorManagementClient } from "@azure/arm-advisor";
+import type { RecommendationsListOptionalParams } from "@azure/arm-advisor";
+import { AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -25,7 +26,7 @@ async function listRecommendations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recommendations.list(options)) {
+  for await (const item of client.recommendations.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

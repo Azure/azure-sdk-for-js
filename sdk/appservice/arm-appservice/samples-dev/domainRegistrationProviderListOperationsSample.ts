@@ -22,7 +22,7 @@ async function listOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.domainRegistrationProvider.listOperations()) {
+  for await (const item of client.domainRegistrationProvider.listOperations()) {
     resArray.push(item);
   }
   console.log(resArray);

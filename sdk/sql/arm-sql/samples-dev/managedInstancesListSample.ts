@@ -27,7 +27,7 @@ async function listManagedInstances() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.list()) {
+  for await (const item of client.managedInstances.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function listManagedInstancesWithExpandAdministratorsOrActivedirectory() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.list()) {
+  for await (const item of client.managedInstances.list()) {
     resArray.push(item);
   }
   console.log(resArray);

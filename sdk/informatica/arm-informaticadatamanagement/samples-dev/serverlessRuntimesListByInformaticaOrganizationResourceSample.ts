@@ -30,7 +30,7 @@ async function serverlessRuntimesListByInformaticaOrganizationResource() {
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverlessRuntimes.listByInformaticaOrganizationResource(
+  for await (const item of client.serverlessRuntimes.listByInformaticaOrganizationResource(
     resourceGroupName,
     organizationName,
   )) {

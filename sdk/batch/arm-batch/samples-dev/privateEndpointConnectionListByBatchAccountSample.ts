@@ -26,7 +26,7 @@ async function listPrivateEndpointConnections(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnectionOperations.listByBatchAccount(
+  for await (const item of client.privateEndpointConnectionOperations.listByBatchAccount(
     resourceGroupName,
     accountName,
   )) {

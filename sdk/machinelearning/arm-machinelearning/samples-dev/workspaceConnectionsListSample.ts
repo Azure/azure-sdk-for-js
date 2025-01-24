@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WorkspaceConnectionsListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  WorkspaceConnectionsListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,7 +40,7 @@ async function listWorkspaceConnections() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.workspaceConnections.list(
+  for await (const item of client.workspaceConnections.list(
     resourceGroupName,
     workspaceName,
     options,

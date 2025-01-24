@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { BotChannel, AzureBotService } from "@azure/arm-botservice";
+import type { BotChannel} from "@azure/arm-botservice";
+import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

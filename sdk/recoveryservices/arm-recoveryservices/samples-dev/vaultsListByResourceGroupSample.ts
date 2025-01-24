@@ -30,7 +30,7 @@ async function listOfRecoveryServicesResourcesInResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vaults.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.vaults.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

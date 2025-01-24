@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   SubscriptionFeatureRegistration,
-  SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams,
+  SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams} from "@azure/arm-features";
+import {
   FeatureClient
 } from "@azure/arm-features";
 import { DefaultAzureCredential } from "@azure/identity";

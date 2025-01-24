@@ -24,7 +24,7 @@ async function quotasListUsagesForCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
-  for await (let item of client.usages.list(scope)) {
+  for await (const item of client.usages.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -42,7 +42,7 @@ async function quotasListUsagesForNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
-  for await (let item of client.usages.list(scope)) {
+  for await (const item of client.usages.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -60,7 +60,7 @@ async function quotasListUsagesMachineLearningServices(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
-  for await (let item of client.usages.list(scope)) {
+  for await (const item of client.usages.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

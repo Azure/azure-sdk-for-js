@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CrossRegionRestoreJobsRequest} from "@azure/arm-dataprotection";
 import {
-  CrossRegionRestoreJobsRequest,
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function listCrossRegionRestoreJobs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fetchCrossRegionRestoreJobs.list(
+  for await (const item of client.fetchCrossRegionRestoreJobs.list(
     resourceGroupName,
     location,
     parameters,

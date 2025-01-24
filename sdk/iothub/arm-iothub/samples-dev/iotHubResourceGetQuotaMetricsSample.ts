@@ -30,7 +30,7 @@ async function iotHubResourceGetQuotaMetrics() {
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotHubResource.listQuotaMetrics(
+  for await (const item of client.iotHubResource.listQuotaMetrics(
     resourceGroupName,
     resourceName
   )) {

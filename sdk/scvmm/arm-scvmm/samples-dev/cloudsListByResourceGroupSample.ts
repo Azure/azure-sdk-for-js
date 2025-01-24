@@ -28,7 +28,7 @@ async function cloudsListByResourceGroupMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clouds.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.clouds.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -48,7 +48,7 @@ async function cloudsListByResourceGroupMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clouds.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.clouds.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

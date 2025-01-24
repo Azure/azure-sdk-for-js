@@ -27,7 +27,7 @@ async function accessControlRecordsListByManager() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.accessControlRecords.listByManager(
+  for await (const item of client.accessControlRecords.listByManager(
     resourceGroupName,
     managerName
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ImpactedResourcesListByTenantIdAndEventIdOptionalParams} from "@azure/arm-resourcehealth";
 import {
-  ImpactedResourcesListByTenantIdAndEventIdOptionalParams,
   MicrosoftResourceHealth
 } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function listEventsByTenantId() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
   const resArray = new Array();
-  for await (let item of client.impactedResources.listByTenantIdAndEventId(
+  for await (const item of client.impactedResources.listByTenantIdAndEventId(
     eventTrackingId,
     options
   )) {

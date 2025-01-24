@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PlansListOptionalParams} from "@azure/arm-newrelicobservability";
 import {
-  PlansListOptionalParams,
   NewRelicObservability,
 } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function plansListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.plans.list(options)) {
+  for await (const item of client.plans.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -54,7 +55,7 @@ async function plansListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.plans.list(options)) {
+  for await (const item of client.plans.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

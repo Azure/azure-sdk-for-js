@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   RestartParameter,
-  ServersRestartOptionalParams,
+  ServersRestartOptionalParams} from "@azure/arm-postgresql-flexible";
+import {
   PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";

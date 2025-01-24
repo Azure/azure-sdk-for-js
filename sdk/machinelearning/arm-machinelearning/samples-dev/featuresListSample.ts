@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FeaturesListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  FeaturesListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -46,7 +47,7 @@ async function listFeature() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.features.list(
+  for await (const item of client.features.list(
     resourceGroupName,
     workspaceName,
     featuresetName,

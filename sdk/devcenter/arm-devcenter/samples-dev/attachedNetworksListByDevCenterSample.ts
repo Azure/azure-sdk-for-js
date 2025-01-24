@@ -27,7 +27,7 @@ async function attachedNetworksListByDevCenter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.attachedNetworks.listByDevCenter(
+  for await (const item of client.attachedNetworks.listByDevCenter(
     resourceGroupName,
     devCenterName,
   )) {

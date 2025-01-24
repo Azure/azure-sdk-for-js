@@ -24,7 +24,7 @@ async function formulasList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.formulas.list(resourceGroupName, labName)) {
+  for await (const item of client.formulas.list(resourceGroupName, labName)) {
     resArray.push(item);
   }
   console.log(resArray);

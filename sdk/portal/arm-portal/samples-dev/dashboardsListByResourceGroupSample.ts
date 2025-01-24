@@ -28,7 +28,7 @@ async function listAllCustomResourceProvidersOnTheResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new Portal(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dashboards.listByResourceGroup(
+  for await (const item of client.dashboards.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

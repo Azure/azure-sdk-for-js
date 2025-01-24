@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ScalingPlanPersonalSchedule} from "@azure/arm-desktopvirtualization";
 import {
-  ScalingPlanPersonalSchedule,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -27,7 +27,7 @@ async function listDedicatedHsmDevicesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHsmOperations.listBySubscription()) {
+  for await (const item of client.dedicatedHsmOperations.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function listDedicatedHsmDevicesInASubscriptionIncludingPaymentHsm() {
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHsmOperations.listBySubscription()) {
+  for await (const item of client.dedicatedHsmOperations.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -30,7 +30,7 @@ async function internetGatewayRulesListBySubscriptionMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.internetGatewayRules.listBySubscription()) {
+  for await (const item of client.internetGatewayRules.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

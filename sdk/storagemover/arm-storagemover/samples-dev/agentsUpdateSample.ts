@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AgentUpdateParameters} from "@azure/arm-storagemover";
 import {
-  AgentUpdateParameters,
   StorageMoverClient,
 } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";

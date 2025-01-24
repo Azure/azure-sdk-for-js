@@ -30,7 +30,7 @@ async function listSecurityApplicationsBySecurityConnectorLevelScope() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityConnectorApplications.list(
+  for await (const item of client.securityConnectorApplications.list(
     resourceGroupName,
     securityConnectorName,
   )) {

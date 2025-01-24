@@ -24,7 +24,7 @@ async function sacGetAllInDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageAccountCredentials.listByDataBoxEdgeDevice(
+  for await (const item of client.storageAccountCredentials.listByDataBoxEdgeDevice(
     deviceName,
     resourceGroupName
   )) {

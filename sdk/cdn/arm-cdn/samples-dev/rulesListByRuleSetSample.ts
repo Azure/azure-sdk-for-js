@@ -26,7 +26,7 @@ async function rulesListByRuleSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.rules.listByRuleSet(
+  for await (const item of client.rules.listByRuleSet(
     resourceGroupName,
     profileName,
     ruleSetName,

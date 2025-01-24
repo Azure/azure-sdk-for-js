@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ManagedHsm, KeyVaultManagementClient } from "@azure/arm-keyvault";
+import type { ManagedHsm} from "@azure/arm-keyvault";
+import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

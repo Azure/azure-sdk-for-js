@@ -28,7 +28,7 @@ async function listSubnets() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.subnets.list(
+  for await (const item of client.subnets.list(
     resourceGroupName,
     virtualNetworkName
   )) {

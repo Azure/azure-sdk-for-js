@@ -29,7 +29,7 @@ async function apiPortalCustomDomainsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiPortalCustomDomains.list(
+  for await (const item of client.apiPortalCustomDomains.list(
     resourceGroupName,
     serviceName,
     apiPortalName

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Cache, StorageCacheManagementClient } from "@azure/arm-storagecache";
+import type { Cache} from "@azure/arm-storagecache";
+import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

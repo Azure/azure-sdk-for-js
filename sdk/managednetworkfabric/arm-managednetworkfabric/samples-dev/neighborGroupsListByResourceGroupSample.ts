@@ -32,7 +32,7 @@ async function neighborGroupsListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.neighborGroups.listByResourceGroup(
+  for await (const item of client.neighborGroups.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

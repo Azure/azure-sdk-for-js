@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AccountsListOptionalParams} from "@azure/arm-datalake-analytics";
 import {
-  AccountsListOptionalParams,
   DataLakeAnalyticsAccountManagementClient
 } from "@azure/arm-datalake-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -42,7 +43,7 @@ async function getsTheFirstPageOfDataLakeAnalyticsAccountsIfAnyWithinTheCurrentS
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.accounts.list(options)) {
+  for await (const item of client.accounts.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

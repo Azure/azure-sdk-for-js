@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualMachineRestrictMovement} from "@azure/arm-avs";
 import {
-  VirtualMachineRestrictMovement,
   AzureVMwareSolutionAPI,
 } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";

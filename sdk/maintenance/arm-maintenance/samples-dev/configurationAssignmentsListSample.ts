@@ -32,7 +32,7 @@ async function configurationAssignmentsList() {
   const credential = new DefaultAzureCredential();
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurationAssignments.list(
+  for await (const item of client.configurationAssignments.list(
     resourceGroupName,
     providerName,
     resourceType,

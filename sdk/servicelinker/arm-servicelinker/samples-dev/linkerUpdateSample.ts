@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LinkerPatch} from "@azure/arm-servicelinker";
 import {
-  LinkerPatch,
   ServiceLinkerManagementClient,
 } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";

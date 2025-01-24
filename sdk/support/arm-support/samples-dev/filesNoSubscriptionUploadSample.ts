@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { UploadFile, MicrosoftSupport } from "@azure/arm-support";
+import type { UploadFile} from "@azure/arm-support";
+import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

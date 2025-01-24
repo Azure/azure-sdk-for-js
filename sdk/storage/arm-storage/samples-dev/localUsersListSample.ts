@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LocalUsersListOptionalParams} from "@azure/arm-storage";
 import {
-  LocalUsersListOptionalParams,
   StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function listLocalUsers() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localUsersOperations.list(
+  for await (const item of client.localUsersOperations.list(
     resourceGroupName,
     accountName,
   )) {
@@ -56,7 +57,7 @@ async function listNfSv3EnabledLocalUsers() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localUsersOperations.list(
+  for await (const item of client.localUsersOperations.list(
     resourceGroupName,
     accountName,
     options,

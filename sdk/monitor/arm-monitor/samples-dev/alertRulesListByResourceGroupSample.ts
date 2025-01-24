@@ -29,7 +29,7 @@ async function listAlertRules() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alertRules.listByResourceGroup(
+  for await (const item of client.alertRules.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

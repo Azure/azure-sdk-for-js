@@ -24,7 +24,7 @@ async function listBackupInstancesAssociatedWithAnAzureResource(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential);
   const resArray = new Array();
-  for await (let item of client.backupInstancesExtensionRouting.list(
+  for await (const item of client.backupInstancesExtensionRouting.list(
     resourceId,
   )) {
     resArray.push(item);

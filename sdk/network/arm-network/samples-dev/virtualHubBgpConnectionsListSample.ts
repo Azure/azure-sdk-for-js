@@ -27,7 +27,7 @@ async function virtualHubRouteTableV2List() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualHubBgpConnections.list(
+  for await (const item of client.virtualHubBgpConnections.list(
     resourceGroupName,
     virtualHubName,
   )) {

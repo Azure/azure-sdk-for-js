@@ -28,7 +28,7 @@ async function availabilitySetsListByResourceGroupMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availabilitySets.listByResourceGroup(
+  for await (const item of client.availabilitySets.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -50,7 +50,7 @@ async function availabilitySetsListByResourceGroupMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availabilitySets.listByResourceGroup(
+  for await (const item of client.availabilitySets.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

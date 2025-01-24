@@ -29,7 +29,7 @@ async function getSecurityAlertsOnAResourceGroupFromASecurityDataLocation() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alerts.listResourceGroupLevelByRegion(
+  for await (const item of client.alerts.listResourceGroupLevelByRegion(
     ascLocation,
     resourceGroupName,
   )) {

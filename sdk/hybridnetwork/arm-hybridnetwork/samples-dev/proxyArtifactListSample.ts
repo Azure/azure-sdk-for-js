@@ -30,7 +30,7 @@ async function listArtifactsUnderAnArtifactStore() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.proxyArtifact.list(
+  for await (const item of client.proxyArtifact.list(
     resourceGroupName,
     publisherName,
     artifactStoreName

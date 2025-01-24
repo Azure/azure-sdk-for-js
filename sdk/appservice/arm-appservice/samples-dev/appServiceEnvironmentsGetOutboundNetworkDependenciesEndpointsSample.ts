@@ -28,7 +28,7 @@ async function getTheNetworkEndpointsOfAllOutboundDependenciesOfAnAppServiceEnvi
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listOutboundNetworkDependenciesEndpoints(
+  for await (const item of client.appServiceEnvironments.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
     name,
   )) {

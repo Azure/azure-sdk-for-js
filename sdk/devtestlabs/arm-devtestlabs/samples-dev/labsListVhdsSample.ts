@@ -24,7 +24,7 @@ async function labsListVhds(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.labs.listVhds(resourceGroupName, name)) {
+  for await (const item of client.labs.listVhds(resourceGroupName, name)) {
     resArray.push(item);
   }
   console.log(resArray);

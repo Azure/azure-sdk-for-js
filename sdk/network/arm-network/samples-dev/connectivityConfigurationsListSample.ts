@@ -30,7 +30,7 @@ async function connectivityConfigurationsList() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.connectivityConfigurations.list(
+  for await (const item of client.connectivityConfigurations.list(
     resourceGroupName,
     networkManagerName,
   )) {

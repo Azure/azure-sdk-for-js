@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   UpgradableVersionsDescription,
-  ClustersListUpgradableVersionsOptionalParams,
+  ClustersListUpgradableVersionsOptionalParams} from "@azure/arm-servicefabric";
+import {
   ServiceFabricManagementClient
 } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";

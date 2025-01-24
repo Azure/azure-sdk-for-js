@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   DatadogMonitorResourceUpdateParameters,
-  MonitorsUpdateOptionalParams,
+  MonitorsUpdateOptionalParams} from "@azure/arm-datadog";
+import {
   MicrosoftDatadogClient
 } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";

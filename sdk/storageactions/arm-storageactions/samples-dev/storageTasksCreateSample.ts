@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  StorageTask} from "@azure/arm-storageactions";
 import {
-  StorageTask,
   StorageActionsManagementClient,
 } from "@azure/arm-storageactions";
 import { DefaultAzureCredential } from "@azure/identity";

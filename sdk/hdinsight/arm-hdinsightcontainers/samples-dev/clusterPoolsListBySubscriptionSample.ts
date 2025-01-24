@@ -30,7 +30,7 @@ async function clusterPoolsListBySubscription() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusterPools.listBySubscription()) {
+  for await (const item of client.clusterPools.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

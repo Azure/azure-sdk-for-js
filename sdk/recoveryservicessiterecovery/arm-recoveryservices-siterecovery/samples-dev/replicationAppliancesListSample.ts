@@ -31,7 +31,7 @@ async function getsTheListOfAppliances() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationAppliances.list(
+  for await (const item of client.replicationAppliances.list(
     resourceName,
     resourceGroupName,
   )) {

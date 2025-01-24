@@ -31,7 +31,7 @@ async function listTheUsagesOfASqlAnalyticsPool() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPoolUsages.list(
+  for await (const item of client.sqlPoolUsages.list(
     resourceGroupName,
     workspaceName,
     sqlPoolName

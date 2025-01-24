@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RoleEligibilityScheduleInstancesListForScopeOptionalParams} from "@azure/arm-authorization";
 import {
-  RoleEligibilityScheduleInstancesListForScopeOptionalParams,
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function getRoleEligibilityScheduleInstancesByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.roleEligibilityScheduleInstances.listForScope(
+  for await (const item of client.roleEligibilityScheduleInstances.listForScope(
     scope,
     options
   )) {

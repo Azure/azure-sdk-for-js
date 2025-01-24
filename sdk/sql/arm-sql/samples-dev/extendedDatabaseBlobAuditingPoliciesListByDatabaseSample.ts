@@ -31,7 +31,7 @@ async function listExtendedAuditingSettingsOfADatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.extendedDatabaseBlobAuditingPolicies.listByDatabase(
+  for await (const item of client.extendedDatabaseBlobAuditingPolicies.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

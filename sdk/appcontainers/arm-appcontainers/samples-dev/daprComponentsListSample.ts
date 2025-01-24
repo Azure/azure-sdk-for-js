@@ -28,7 +28,7 @@ async function listDaprComponents(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.daprComponents.list(
+  for await (const item of client.daprComponents.list(
     resourceGroupName,
     environmentName,
   )) {

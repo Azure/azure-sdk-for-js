@@ -27,7 +27,7 @@ async function listPacketCoreControlPlanesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.packetCoreControlPlanes.listBySubscription()) {
+  for await (const item of client.packetCoreControlPlanes.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

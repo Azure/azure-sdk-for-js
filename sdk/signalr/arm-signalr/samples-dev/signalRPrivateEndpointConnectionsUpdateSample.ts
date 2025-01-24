@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-signalr";
 import {
-  PrivateEndpointConnection,
   SignalRManagementClient
 } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";

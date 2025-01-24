@@ -32,7 +32,7 @@ async function listBlocklistItems(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.raiBlocklistItems.list(
+  for await (const item of client.raiBlocklistItems.list(
     resourceGroupName,
     accountName,
     raiBlocklistName,

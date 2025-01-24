@@ -31,7 +31,7 @@ async function azureLargeInstanceListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new LargeInstanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureLargeInstanceOperations.listByResourceGroup(
+  for await (const item of client.azureLargeInstanceOperations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

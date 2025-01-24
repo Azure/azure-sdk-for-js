@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ThroughputPoolUpdate,
-  ThroughputPoolUpdateOptionalParams,
+  ThroughputPoolUpdateOptionalParams} from "@azure/arm-cosmosdb";
+import {
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";

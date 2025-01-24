@@ -22,7 +22,7 @@ async function farmBeatsModelsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.farmBeatsModels.listBySubscription()) {
+  for await (const item of client.farmBeatsModels.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

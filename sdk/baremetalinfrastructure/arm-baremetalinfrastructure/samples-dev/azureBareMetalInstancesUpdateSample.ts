@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Tags} from "@azure/arm-baremetalinfrastructure";
 import {
-  Tags,
   BareMetalInfrastructureClient
 } from "@azure/arm-baremetalinfrastructure";
 import { DefaultAzureCredential } from "@azure/identity";

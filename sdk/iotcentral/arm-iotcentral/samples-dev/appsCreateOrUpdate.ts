@@ -14,7 +14,8 @@
  * @summary Create or update the metadata of an IoT Central application. The usual pattern to modify a property is to retrieve the IoT Central application metadata and security metadata, and then combine them with the modified values in a new body to update the IoT Central application.
  * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/stable/2021-06-01/examples/Apps_CreateOrUpdate.json
  */
-import { App, IotCentralClient } from "@azure/arm-iotcentral";
+import type { App} from "@azure/arm-iotcentral";
+import { IotCentralClient } from "@azure/arm-iotcentral";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function appsCreateOrUpdate() {

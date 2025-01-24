@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RolloutsRestartOptionalParams} from "@azure/arm-deploymentmanager";
 import {
-  RolloutsRestartOptionalParams,
   AzureDeploymentManager
 } from "@azure/arm-deploymentmanager";
 import { DefaultAzureCredential } from "@azure/identity";

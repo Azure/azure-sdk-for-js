@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AppServicesGetRequest} from "@azure/arm-newrelicobservability";
 import {
-  AppServicesGetRequest,
   NewRelicObservability,
 } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,7 +40,7 @@ async function monitorsListAppServicesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listAppServices(
+  for await (const item of client.monitors.listAppServices(
     resourceGroupName,
     monitorName,
     request,
@@ -71,7 +72,7 @@ async function monitorsListAppServicesMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listAppServices(
+  for await (const item of client.monitors.listAppServices(
     resourceGroupName,
     monitorName,
     request,

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ExpressRouteCrossConnectionPeering} from "@azure/arm-network";
 import {
-  ExpressRouteCrossConnectionPeering,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

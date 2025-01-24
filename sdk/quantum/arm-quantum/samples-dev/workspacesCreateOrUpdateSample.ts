@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  QuantumWorkspace} from "@azure/arm-quantum";
 import {
-  QuantumWorkspace,
   AzureQuantumManagementClient,
 } from "@azure/arm-quantum";
 import { DefaultAzureCredential } from "@azure/identity";

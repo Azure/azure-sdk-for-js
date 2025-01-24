@@ -25,7 +25,7 @@ async function getComplianceResultsOnSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (let item of client.complianceResults.list(scope)) {
+  for await (const item of client.complianceResults.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

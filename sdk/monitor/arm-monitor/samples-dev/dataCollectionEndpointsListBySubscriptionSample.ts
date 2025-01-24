@@ -27,7 +27,7 @@ async function listDataCollectionEndpointsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataCollectionEndpoints.listBySubscription()) {
+  for await (const item of client.dataCollectionEndpoints.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

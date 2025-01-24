@@ -31,7 +31,7 @@ async function replicasListByConfigurationStore(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.replicas.listByConfigurationStore(
+  for await (const item of client.replicas.listByConfigurationStore(
     resourceGroupName,
     configStoreName,
   )) {

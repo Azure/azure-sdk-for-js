@@ -30,7 +30,7 @@ async function groupsListByProject() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMigrateV2(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.groups.listByProject(
+  for await (const item of client.groups.listByProject(
     resourceGroupName,
     projectName
   )) {

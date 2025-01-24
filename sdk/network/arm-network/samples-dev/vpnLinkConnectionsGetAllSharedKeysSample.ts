@@ -29,7 +29,7 @@ async function vpnSiteLinkConnectionSharedKeysGet() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vpnLinkConnections.listAllSharedKeys(
+  for await (const item of client.vpnLinkConnections.listAllSharedKeys(
     resourceGroupName,
     gatewayName,
     connectionName,

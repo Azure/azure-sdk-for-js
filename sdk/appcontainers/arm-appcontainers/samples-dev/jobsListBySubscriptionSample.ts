@@ -25,7 +25,7 @@ async function listContainerAppsJobsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.listBySubscription()) {
+  for await (const item of client.jobs.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

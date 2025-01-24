@@ -30,7 +30,7 @@ async function topicGet() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.topics.listByNamespace(
+  for await (const item of client.topics.listByNamespace(
     resourceGroupName,
     namespaceName
   )) {

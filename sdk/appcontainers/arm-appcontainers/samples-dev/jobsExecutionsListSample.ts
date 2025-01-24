@@ -27,7 +27,7 @@ async function getAContainerAppsJobExecutions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobsExecutions.list(
+  for await (const item of client.jobsExecutions.list(
     resourceGroupName,
     jobName,
   )) {

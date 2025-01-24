@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   AzureBackupRecoveryPointBasedRestoreRequestUnion,
-  AzureBackupRestoreWithRehydrationRequest,
+  AzureBackupRestoreWithRehydrationRequest} from "@azure/arm-dataprotection";
+import {
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";

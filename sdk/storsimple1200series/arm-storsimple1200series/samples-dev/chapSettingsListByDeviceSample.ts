@@ -25,7 +25,7 @@ async function chapSettingsListByDevice() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.chapSettingsOperations.listByDevice(
+  for await (const item of client.chapSettingsOperations.listByDevice(
     deviceName,
     resourceGroupName,
     managerName

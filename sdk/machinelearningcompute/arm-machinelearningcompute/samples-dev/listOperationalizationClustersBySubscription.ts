@@ -25,7 +25,7 @@ async function listOperationalizationClustersBySubscription() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.operationalizationClusters.listBySubscriptionId()) {
+  for await (const item of client.operationalizationClusters.listBySubscriptionId()) {
     resArray.push(item);
   }
   console.log(resArray);

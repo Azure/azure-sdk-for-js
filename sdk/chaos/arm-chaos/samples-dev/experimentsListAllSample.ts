@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ExperimentsListAllOptionalParams} from "@azure/arm-chaos";
 import {
-  ExperimentsListAllOptionalParams,
   ChaosManagementClient,
 } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function listAllExperimentsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ChaosManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.experiments.listAll(options)) {
+  for await (const item of client.experiments.listAll(options)) {
     resArray.push(item);
   }
   console.log(resArray);

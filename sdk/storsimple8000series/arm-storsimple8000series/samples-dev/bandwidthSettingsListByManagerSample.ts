@@ -27,7 +27,7 @@ async function bandwidthSettingsListByManager() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.bandwidthSettings.listByManager(
+  for await (const item of client.bandwidthSettings.listByManager(
     resourceGroupName,
     managerName
   )) {

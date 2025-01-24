@@ -28,7 +28,7 @@ async function listRgDedicatedCloudServices() {
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedCloudServices.listByResourceGroup(
+  for await (const item of client.dedicatedCloudServices.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

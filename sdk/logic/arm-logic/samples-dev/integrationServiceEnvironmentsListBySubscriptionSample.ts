@@ -27,7 +27,7 @@ async function listIntegrationServiceEnvironmentsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationServiceEnvironments.listBySubscription()) {
+  for await (const item of client.integrationServiceEnvironments.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -25,7 +25,7 @@ async function getStatisticsOfAnAutomationAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.statisticsOperations.listByAutomationAccount(
+  for await (const item of client.statisticsOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

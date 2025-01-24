@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TestLine, MicrosoftVoiceServices } from "@azure/arm-voiceservices";
+import type { TestLine} from "@azure/arm-voiceservices";
+import { MicrosoftVoiceServices } from "@azure/arm-voiceservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

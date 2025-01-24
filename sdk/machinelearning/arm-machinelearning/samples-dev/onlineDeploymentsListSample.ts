@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  OnlineDeploymentsListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  OnlineDeploymentsListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,7 +41,7 @@ async function listOnlineDeployments() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.onlineDeployments.list(
+  for await (const item of client.onlineDeployments.list(
     resourceGroupName,
     workspaceName,
     endpointName,

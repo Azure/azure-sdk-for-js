@@ -30,7 +30,7 @@ async function signalRPrivateLinkResourcesList() {
   const credential = new DefaultAzureCredential();
   const client = new SignalRManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.signalRPrivateLinkResources.list(
+  for await (const item of client.signalRPrivateLinkResources.list(
     resourceGroupName,
     resourceName
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DigitalTwinsDescription} from "@azure/arm-digitaltwins";
 import {
-  DigitalTwinsDescription,
   AzureDigitalTwinsManagementClient
 } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";

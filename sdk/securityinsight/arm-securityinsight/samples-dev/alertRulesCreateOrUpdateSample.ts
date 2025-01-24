@@ -8,11 +8,12 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   FusionAlertRule,
   MicrosoftSecurityIncidentCreationAlertRule,
   NrtAlertRule,
-  ScheduledAlertRule,
+  ScheduledAlertRule} from "@azure/arm-securityinsight";
+import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";

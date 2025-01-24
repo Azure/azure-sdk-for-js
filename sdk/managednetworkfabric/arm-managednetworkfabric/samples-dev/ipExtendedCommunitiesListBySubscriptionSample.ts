@@ -30,7 +30,7 @@ async function ipExtendedCommunitiesListBySubscriptionMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.ipExtendedCommunities.listBySubscription()) {
+  for await (const item of client.ipExtendedCommunities.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

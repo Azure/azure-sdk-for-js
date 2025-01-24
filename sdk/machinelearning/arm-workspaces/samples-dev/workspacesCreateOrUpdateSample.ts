@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Workspace} from "@azure/arm-workspaces";
 import {
-  Workspace,
   MachineLearningWorkspacesManagementClient
 } from "@azure/arm-workspaces";
 import { DefaultAzureCredential } from "@azure/identity";

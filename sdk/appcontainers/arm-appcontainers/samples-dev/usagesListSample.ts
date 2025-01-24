@@ -25,7 +25,7 @@ async function listUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.list(location)) {
+  for await (const item of client.usages.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

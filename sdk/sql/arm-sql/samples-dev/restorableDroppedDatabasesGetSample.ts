@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RestorableDroppedDatabasesGetOptionalParams} from "@azure/arm-sql";
 import {
-  RestorableDroppedDatabasesGetOptionalParams,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -27,7 +27,7 @@ async function kustoPoolsListSkus() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kustoPools.listSkus()) {
+  for await (const item of client.kustoPools.listSkus()) {
     resArray.push(item);
   }
   console.log(resArray);

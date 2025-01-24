@@ -27,7 +27,7 @@ async function networkInterfaceIPConfigurationList() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkInterfaceIPConfigurations.list(
+  for await (const item of client.networkInterfaceIPConfigurations.list(
     resourceGroupName,
     networkInterfaceName
   )) {

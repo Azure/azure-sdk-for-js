@@ -29,7 +29,7 @@ async function listActivityLogAlerts() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.activityLogAlerts.listByResourceGroup(
+  for await (const item of client.activityLogAlerts.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

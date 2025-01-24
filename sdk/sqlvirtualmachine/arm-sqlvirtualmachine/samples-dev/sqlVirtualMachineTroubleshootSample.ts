@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SqlVmTroubleshooting} from "@azure/arm-sqlvirtualmachine";
 import {
-  SqlVmTroubleshooting,
   SqlVirtualMachineManagementClient
 } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";

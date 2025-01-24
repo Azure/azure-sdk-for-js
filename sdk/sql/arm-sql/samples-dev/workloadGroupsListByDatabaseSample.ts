@@ -31,7 +31,7 @@ async function getTheListOfWorkloadGroupsForADataWarehouse() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workloadGroups.listByDatabase(
+  for await (const item of client.workloadGroups.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

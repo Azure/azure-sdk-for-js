@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ArtifactGenerationProperties} from "@azure/arm-devhub";
 import {
-  ArtifactGenerationProperties,
   DeveloperHubServiceClient
 } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";

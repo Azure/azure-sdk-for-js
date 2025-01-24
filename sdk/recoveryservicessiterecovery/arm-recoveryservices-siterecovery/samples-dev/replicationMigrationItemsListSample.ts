@@ -31,7 +31,7 @@ async function getsTheListOfMigrationItemsInTheVault() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationMigrationItems.list(
+  for await (const item of client.replicationMigrationItems.list(
     resourceName,
     resourceGroupName,
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TransactionsListByInvoiceSectionOptionalParams} from "@azure/arm-billing";
 import {
-  TransactionsListByInvoiceSectionOptionalParams,
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -38,7 +39,7 @@ async function transactionsListByInvoiceSection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.transactions.listByInvoiceSection(
+  for await (const item of client.transactions.listByInvoiceSection(
     billingAccountName,
     billingProfileName,
     invoiceSectionName,

@@ -23,7 +23,7 @@ async function getAlertDefinitions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.alertDefinitions.listForScope(scope)) {
+  for await (const item of client.alertDefinitions.listForScope(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

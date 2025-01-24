@@ -34,7 +34,7 @@ async function configurationAssignmentsListParent() {
   const credential = new DefaultAzureCredential();
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurationAssignments.listParent(
+  for await (const item of client.configurationAssignments.listParent(
     resourceGroupName,
     providerName,
     resourceParentType,

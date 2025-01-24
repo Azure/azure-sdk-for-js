@@ -30,7 +30,7 @@ async function listOutboundNetworkDependencies() {
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.loadTests.listOutboundNetworkDependenciesEndpoints(
+  for await (const item of client.loadTests.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
     loadTestName
   )) {

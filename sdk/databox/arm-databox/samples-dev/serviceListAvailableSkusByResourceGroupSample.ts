@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AvailableSkuRequest} from "@azure/arm-databox";
 import {
-  AvailableSkuRequest,
   DataBoxManagementClient
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function availableSkusPost(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.service.listAvailableSkusByResourceGroup(
+  for await (const item of client.service.listAvailableSkusByResourceGroup(
     resourceGroupName,
     location,
     availableSkuRequest

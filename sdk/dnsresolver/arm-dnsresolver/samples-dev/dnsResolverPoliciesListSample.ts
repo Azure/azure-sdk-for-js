@@ -27,7 +27,7 @@ async function listDnsResolverPoliciesBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dnsResolverPolicies.list()) {
+  for await (const item of client.dnsResolverPolicies.list()) {
     resArray.push(item);
   }
   console.log(resArray);

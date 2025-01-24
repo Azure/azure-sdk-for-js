@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SecuritySettings} from "@azure/arm-databoxedge";
 import {
-  SecuritySettings,
   DataBoxEdgeManagementClient
 } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";

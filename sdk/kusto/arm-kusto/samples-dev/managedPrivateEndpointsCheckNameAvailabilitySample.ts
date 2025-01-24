@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedPrivateEndpointsCheckNameRequest} from "@azure/arm-kusto";
 import {
-  ManagedPrivateEndpointsCheckNameRequest,
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";

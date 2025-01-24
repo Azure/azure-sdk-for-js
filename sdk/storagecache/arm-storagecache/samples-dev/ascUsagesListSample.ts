@@ -28,7 +28,7 @@ async function ascUsagesList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ascUsages.list(location)) {
+  for await (const item of client.ascUsages.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

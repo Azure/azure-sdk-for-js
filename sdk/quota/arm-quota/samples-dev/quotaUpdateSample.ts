@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CurrentQuotaLimitBase} from "@azure/arm-quota";
 import {
-  CurrentQuotaLimitBase,
   AzureQuotaExtensionAPI,
 } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";

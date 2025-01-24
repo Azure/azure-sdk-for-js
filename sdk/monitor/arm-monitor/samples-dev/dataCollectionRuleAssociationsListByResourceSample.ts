@@ -26,7 +26,7 @@ async function listAssociationsForSpecifiedResource() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.dataCollectionRuleAssociations.listByResource(
+  for await (const item of client.dataCollectionRuleAssociations.listByResource(
     resourceUri,
   )) {
     resArray.push(item);

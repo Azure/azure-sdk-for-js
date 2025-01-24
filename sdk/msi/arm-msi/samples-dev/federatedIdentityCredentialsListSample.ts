@@ -29,7 +29,7 @@ async function federatedIdentityCredentialList() {
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.federatedIdentityCredentials.list(
+  for await (const item of client.federatedIdentityCredentials.list(
     resourceGroupName,
     resourceName
   )) {

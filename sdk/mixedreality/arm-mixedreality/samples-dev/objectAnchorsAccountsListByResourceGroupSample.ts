@@ -23,7 +23,7 @@ async function listObjectAnchorsAccountsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new MixedRealityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.objectAnchorsAccounts.listByResourceGroup(
+  for await (const item of client.objectAnchorsAccounts.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

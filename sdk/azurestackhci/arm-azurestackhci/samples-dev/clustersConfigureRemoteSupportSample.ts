@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RemoteSupportRequest} from "@azure/arm-azurestackhci";
 import {
-  RemoteSupportRequest,
   AzureStackHCIClient,
 } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";

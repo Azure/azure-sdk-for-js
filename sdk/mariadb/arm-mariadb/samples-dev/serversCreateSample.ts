@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ServerForCreate, MariaDBManagementClient } from "@azure/arm-mariadb";
+import type { ServerForCreate} from "@azure/arm-mariadb";
+import { MariaDBManagementClient } from "@azure/arm-mariadb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ClientGroupsListMembersOptionalParams} from "@azure/arm-servicemap";
 import {
-  ClientGroupsListMembersOptionalParams,
   ServiceMap
 } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -38,7 +39,7 @@ async function smClientGroupsListMembersGet() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceMap(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clientGroups.listMembers(
+  for await (const item of client.clientGroups.listMembers(
     resourceGroupName,
     workspaceName,
     clientGroupName,

@@ -31,7 +31,7 @@ async function kustoDatabasesListByKustoPool() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kustoPoolDatabases.listByKustoPool(
+  for await (const item of client.kustoPoolDatabases.listByKustoPool(
     resourceGroupName,
     workspaceName,
     kustoPoolName

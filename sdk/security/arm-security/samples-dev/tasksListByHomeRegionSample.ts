@@ -28,7 +28,7 @@ async function getSecurityRecommendationsTasksFromSecurityDataLocation() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tasks.listByHomeRegion(ascLocation)) {
+  for await (const item of client.tasks.listByHomeRegion(ascLocation)) {
     resArray.push(item);
   }
   console.log(resArray);

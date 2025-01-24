@@ -27,7 +27,7 @@ async function listAppServiceCertificateOrdersByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceCertificateOrders.listByResourceGroup(
+  for await (const item of client.appServiceCertificateOrders.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

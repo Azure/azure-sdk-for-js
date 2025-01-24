@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  StorageAccountsListByAccountOptionalParams} from "@azure/arm-datalake-analytics";
 import {
-  StorageAccountsListByAccountOptionalParams,
   DataLakeAnalyticsAccountManagementClient
 } from "@azure/arm-datalake-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -44,7 +45,7 @@ async function getsTheFirstPageOfAzureStorageAccountsLinkedToTheSpecifiedDataLak
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.storageAccounts.listByAccount(
+  for await (const item of client.storageAccounts.listByAccount(
     resourceGroupName,
     accountName,
     options

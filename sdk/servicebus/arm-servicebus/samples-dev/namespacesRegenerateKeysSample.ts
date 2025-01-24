@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RegenerateAccessKeyParameters} from "@azure/arm-servicebus";
 import {
-  RegenerateAccessKeyParameters,
   ServiceBusManagementClient
 } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";

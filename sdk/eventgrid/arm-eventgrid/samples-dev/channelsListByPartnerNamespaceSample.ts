@@ -30,7 +30,7 @@ async function channelsListByPartnerNamespace() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.channels.listByPartnerNamespace(
+  for await (const item of client.channels.listByPartnerNamespace(
     resourceGroupName,
     partnerNamespaceName,
   )) {

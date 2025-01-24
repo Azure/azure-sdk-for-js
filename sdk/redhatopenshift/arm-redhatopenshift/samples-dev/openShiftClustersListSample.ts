@@ -26,7 +26,7 @@ async function listsOpenShiftClustersInTheSpecifiedSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.openShiftClusters.list()) {
+  for await (const item of client.openShiftClusters.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -30,7 +30,7 @@ async function getAllBookmarks() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bookmarks.list(
+  for await (const item of client.bookmarks.list(
     resourceGroupName,
     workspaceName
   )) {

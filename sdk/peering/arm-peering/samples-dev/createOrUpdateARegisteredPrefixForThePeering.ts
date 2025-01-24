@@ -14,8 +14,9 @@
  * @summary Creates a new registered prefix with the specified name under the given subscription, resource group and peering.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreateRegisteredPrefix.json
  */
+import type {
+  PeeringRegisteredPrefix} from "@azure/arm-peering";
 import {
-  PeeringRegisteredPrefix,
   PeeringManagementClient
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";

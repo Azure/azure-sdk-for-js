@@ -14,7 +14,8 @@
  * @summary Post Backup a given CloudEndpoint.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/CloudEndpoints_PostBackup.json
  */
-import { BackupRequest, MicrosoftStorageSync } from "@azure/arm-storagesync";
+import type { BackupRequest} from "@azure/arm-storagesync";
+import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function cloudEndpointsPostBackup() {

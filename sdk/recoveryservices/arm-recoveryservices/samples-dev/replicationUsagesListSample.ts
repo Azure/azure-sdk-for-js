@@ -30,7 +30,7 @@ async function getsReplicationUsagesOfVault() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationUsages.list(
+  for await (const item of client.replicationUsages.list(
     resourceGroupName,
     vaultName,
   )) {

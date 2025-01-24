@@ -21,7 +21,7 @@ async function listSubscriptions() {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptions.list()) {
+  for await (const item of client.subscriptions.list()) {
     resArray.push(item);
   }
   console.log(resArray);

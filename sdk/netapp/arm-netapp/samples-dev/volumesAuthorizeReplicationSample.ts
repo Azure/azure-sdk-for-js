@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AuthorizeRequest, NetAppManagementClient } from "@azure/arm-netapp";
+import type { AuthorizeRequest} from "@azure/arm-netapp";
+import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

@@ -29,7 +29,7 @@ async function dpsListKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotDpsResource.listKeys(
+  for await (const item of client.iotDpsResource.listKeys(
     provisioningServiceName,
     resourceGroupName
   )) {

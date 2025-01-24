@@ -33,7 +33,7 @@ async function externalNetworksListByL3IsolationDomainMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.externalNetworks.listByL3IsolationDomain(
+  for await (const item of client.externalNetworks.listByL3IsolationDomain(
     resourceGroupName,
     l3IsolationDomainName
   )) {

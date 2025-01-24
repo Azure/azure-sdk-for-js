@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DscConfigurationListByAutomationAccountOptionalParams} from "@azure/arm-automation";
 import {
-  DscConfigurationListByAutomationAccountOptionalParams,
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function getDscConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscConfigurationOperations.listByAutomationAccount(
+  for await (const item of client.dscConfigurationOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {
@@ -60,7 +61,7 @@ async function listPagedDscConfigurationsWithNameFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscConfigurationOperations.listByAutomationAccount(
+  for await (const item of client.dscConfigurationOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options
@@ -91,7 +92,7 @@ async function listPagedDscConfigurationsWithNoFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscConfigurationOperations.listByAutomationAccount(
+  for await (const item of client.dscConfigurationOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options

@@ -30,7 +30,7 @@ async function importCollectorsListByProject() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMigrateV2(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.importCollectors.listByProject(
+  for await (const item of client.importCollectors.listByProject(
     resourceGroupName,
     projectName
   )) {

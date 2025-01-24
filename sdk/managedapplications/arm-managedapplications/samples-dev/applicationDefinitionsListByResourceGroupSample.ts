@@ -28,7 +28,7 @@ async function listsTheManagedApplicationDefinitionsInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ApplicationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applicationDefinitions.listByResourceGroup(
+  for await (const item of client.applicationDefinitions.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

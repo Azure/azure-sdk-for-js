@@ -25,7 +25,7 @@ async function transactionsListByInvoice(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.transactions.listByInvoice(
+  for await (const item of client.transactions.listByInvoice(
     billingAccountName,
     invoiceName,
   )) {

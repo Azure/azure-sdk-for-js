@@ -27,7 +27,7 @@ async function listFrontendEndpointsInAFrontDoor() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.frontendEndpoints.listByFrontDoor(
+  for await (const item of client.frontendEndpoints.listByFrontDoor(
     resourceGroupName,
     frontDoorName,
   )) {

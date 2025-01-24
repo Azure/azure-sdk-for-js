@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PartnerTopic, EventGridManagementClient } from "@azure/arm-eventgrid";
+import type { PartnerTopic} from "@azure/arm-eventgrid";
+import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

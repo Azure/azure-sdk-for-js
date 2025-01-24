@@ -33,7 +33,7 @@ async function listWorkspaceCodeContainer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.codeContainers.list(
+  for await (const item of client.codeContainers.list(
     resourceGroupName,
     workspaceName,
   )) {

@@ -29,7 +29,7 @@ async function dataProductsCatalogsListByResourceGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataProductsCatalogs.listByResourceGroup(
+  for await (const item of client.dataProductsCatalogs.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);
@@ -52,7 +52,7 @@ async function dataProductsCatalogsListByResourceGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataProductsCatalogs.listByResourceGroup(
+  for await (const item of client.dataProductsCatalogs.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

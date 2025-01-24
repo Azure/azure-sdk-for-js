@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagementGroupSubscriptionsGetSubscriptionOptionalParams} from "@azure/arm-managementgroups";
 import {
-  ManagementGroupSubscriptionsGetSubscriptionOptionalParams,
   ManagementGroupsAPI
 } from "@azure/arm-managementgroups";
 import { DefaultAzureCredential } from "@azure/identity";

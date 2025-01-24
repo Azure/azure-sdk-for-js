@@ -29,7 +29,7 @@ async function deploymentsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deployments.listByResourceGroup(
+  for await (const item of client.deployments.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

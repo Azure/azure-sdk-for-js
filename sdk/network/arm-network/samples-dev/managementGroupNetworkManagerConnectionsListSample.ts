@@ -25,7 +25,7 @@ async function listManagementGroupNetworkManagerConnection() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.managementGroupNetworkManagerConnections.list(
+  for await (const item of client.managementGroupNetworkManagerConnections.list(
     managementGroupId,
   )) {
     resArray.push(item);

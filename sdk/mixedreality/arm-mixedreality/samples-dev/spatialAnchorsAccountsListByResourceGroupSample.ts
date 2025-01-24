@@ -23,7 +23,7 @@ async function listSpatialAnchorAccountsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new MixedRealityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.spatialAnchorsAccounts.listByResourceGroup(
+  for await (const item of client.spatialAnchorsAccounts.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

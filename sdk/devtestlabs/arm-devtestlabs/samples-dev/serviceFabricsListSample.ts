@@ -25,7 +25,7 @@ async function serviceFabricsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serviceFabrics.list(
+  for await (const item of client.serviceFabrics.list(
     resourceGroupName,
     labName,
     userName

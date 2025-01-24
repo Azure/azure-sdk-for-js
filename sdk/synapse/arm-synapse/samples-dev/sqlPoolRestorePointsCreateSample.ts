@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CreateSqlPoolRestorePointDefinition} from "@azure/arm-synapse";
 import {
-  CreateSqlPoolRestorePointDefinition,
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";

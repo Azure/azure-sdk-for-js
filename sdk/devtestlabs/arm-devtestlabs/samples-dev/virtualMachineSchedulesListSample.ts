@@ -25,7 +25,7 @@ async function virtualMachineSchedulesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineSchedules.list(
+  for await (const item of client.virtualMachineSchedules.list(
     resourceGroupName,
     labName,
     virtualMachineName

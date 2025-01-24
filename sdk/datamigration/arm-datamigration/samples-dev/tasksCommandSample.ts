@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MigrateSyncCompleteCommandProperties} from "@azure/arm-datamigration";
 import {
-  MigrateSyncCompleteCommandProperties,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

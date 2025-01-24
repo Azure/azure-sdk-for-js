@@ -27,7 +27,7 @@ async function listDnsResolversBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dnsResolvers.list()) {
+  for await (const item of client.dnsResolvers.list()) {
     resArray.push(item);
   }
   console.log(resArray);

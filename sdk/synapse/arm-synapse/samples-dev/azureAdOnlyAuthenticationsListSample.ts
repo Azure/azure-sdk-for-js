@@ -30,7 +30,7 @@ async function getAListOfAzureActiveDirectoryOnlyAuthenticationProperty() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureADOnlyAuthentications.list(
+  for await (const item of client.azureADOnlyAuthentications.list(
     resourceGroupName,
     workspaceName
   )) {

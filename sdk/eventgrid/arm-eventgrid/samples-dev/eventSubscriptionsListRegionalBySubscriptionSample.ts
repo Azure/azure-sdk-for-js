@@ -28,7 +28,7 @@ async function eventSubscriptionsListRegionalBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.eventSubscriptions.listRegionalBySubscription(
+  for await (const item of client.eventSubscriptions.listRegionalBySubscription(
     location,
   )) {
     resArray.push(item);

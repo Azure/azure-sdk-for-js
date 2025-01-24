@@ -28,7 +28,7 @@ async function globalParametersListByFactory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.globalParameters.listByFactory(
+  for await (const item of client.globalParameters.listByFactory(
     resourceGroupName,
     factoryName,
   )) {

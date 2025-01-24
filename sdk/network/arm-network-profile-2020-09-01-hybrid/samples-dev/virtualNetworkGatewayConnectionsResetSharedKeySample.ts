@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ConnectionResetSharedKey} from "@azure/arm-network-profile-2020-09-01-hybrid";
 import {
-  ConnectionResetSharedKey,
   NetworkManagementClient
 } from "@azure/arm-network-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ResourcesHistoryRequest} from "@azure/arm-resourcegraph";
 import {
-  ResourcesHistoryRequest,
   ResourceGraphClient
 } from "@azure/arm-resourcegraph";
 import { DefaultAzureCredential } from "@azure/identity";

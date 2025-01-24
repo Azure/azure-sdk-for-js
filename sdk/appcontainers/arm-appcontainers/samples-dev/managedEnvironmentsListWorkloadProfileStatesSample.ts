@@ -28,7 +28,7 @@ async function listEnvironmentsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedEnvironments.listWorkloadProfileStates(
+  for await (const item of client.managedEnvironments.listWorkloadProfileStates(
     resourceGroupName,
     environmentName,
   )) {

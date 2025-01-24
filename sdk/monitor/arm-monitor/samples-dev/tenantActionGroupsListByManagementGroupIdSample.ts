@@ -26,7 +26,7 @@ async function listTenantActionGroupsAtManagementGroupLevel() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.tenantActionGroups.listByManagementGroupId(
+  for await (const item of client.tenantActionGroups.listByManagementGroupId(
     managementGroupId,
     xMsClientTenantId,
   )) {

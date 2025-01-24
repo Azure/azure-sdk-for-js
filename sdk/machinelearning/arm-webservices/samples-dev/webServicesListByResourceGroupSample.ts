@@ -26,7 +26,7 @@ async function getWebServicesByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.webServices.listByResourceGroup(
+  for await (const item of client.webServices.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

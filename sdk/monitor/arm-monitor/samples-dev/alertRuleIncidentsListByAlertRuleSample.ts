@@ -30,7 +30,7 @@ async function listAlertRuleIncidents() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alertRuleIncidents.listByAlertRule(
+  for await (const item of client.alertRuleIncidents.listByAlertRule(
     resourceGroupName,
     ruleName,
   )) {

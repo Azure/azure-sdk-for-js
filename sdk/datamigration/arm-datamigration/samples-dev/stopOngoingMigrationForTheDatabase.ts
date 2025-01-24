@@ -14,8 +14,9 @@
  * @summary Stop ongoing migration for the database.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlVmCancelDatabaseMigration.json
  */
+import type {
+  MigrationOperationInput} from "@azure/arm-datamigration";
 import {
-  MigrationOperationInput,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

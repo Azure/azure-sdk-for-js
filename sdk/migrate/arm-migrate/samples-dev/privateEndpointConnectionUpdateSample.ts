@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   PrivateEndpointConnection,
-  PrivateEndpointConnectionUpdateOptionalParams,
+  PrivateEndpointConnectionUpdateOptionalParams} from "@azure/arm-migrate";
+import {
   AzureMigrateV2
 } from "@azure/arm-migrate";
 import { DefaultAzureCredential } from "@azure/identity";

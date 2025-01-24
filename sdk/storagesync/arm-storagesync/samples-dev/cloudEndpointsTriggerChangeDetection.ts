@@ -14,8 +14,9 @@
  * @summary Triggers detection of changes performed on Azure File share connected to the specified Azure File Sync Cloud Endpoint.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/CloudEndpoints_TriggerChangeDetection.json
  */
+import type {
+  TriggerChangeDetectionParameters} from "@azure/arm-storagesync";
 import {
-  TriggerChangeDetectionParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

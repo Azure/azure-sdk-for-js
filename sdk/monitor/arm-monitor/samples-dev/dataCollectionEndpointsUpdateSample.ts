@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ResourceForUpdate,
-  DataCollectionEndpointsUpdateOptionalParams,
+  DataCollectionEndpointsUpdateOptionalParams} from "@azure/arm-monitor";
+import {
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";

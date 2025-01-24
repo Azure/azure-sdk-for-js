@@ -29,7 +29,7 @@ async function listOfQuotaUsagesForFlexibleServers() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.quotaUsages.list(locationName)) {
+  for await (const item of client.quotaUsages.list(locationName)) {
     resArray.push(item);
   }
   console.log(resArray);

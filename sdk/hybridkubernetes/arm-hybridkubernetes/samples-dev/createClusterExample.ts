@@ -14,8 +14,9 @@
  * @summary API to register a new Kubernetes cluster and create a tracked resource in Azure Resource Manager (ARM).
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/CreateClusterExample.json
  */
+import type {
+  ConnectedCluster} from "@azure/arm-hybridkubernetes";
 import {
-  ConnectedCluster,
   ConnectedKubernetesClient
 } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";

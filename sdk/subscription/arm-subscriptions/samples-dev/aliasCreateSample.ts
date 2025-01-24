@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PutAliasRequest, SubscriptionClient } from "@azure/arm-subscriptions";
+import type { PutAliasRequest} from "@azure/arm-subscriptions";
+import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

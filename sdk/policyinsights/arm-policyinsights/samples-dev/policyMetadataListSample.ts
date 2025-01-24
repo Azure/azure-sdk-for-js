@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyMetadataListOptionalParams} from "@azure/arm-policyinsights";
 import {
-  PolicyMetadataListOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -25,7 +26,7 @@ async function getCollectionOfPolicyMetadataResources() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyMetadataOperations.list()) {
+  for await (const item of client.policyMetadataOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -43,7 +44,7 @@ async function getCollectionOfPolicyMetadataResourcesUsingTopQueryParameter() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyMetadataOperations.list(options)) {
+  for await (const item of client.policyMetadataOperations.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

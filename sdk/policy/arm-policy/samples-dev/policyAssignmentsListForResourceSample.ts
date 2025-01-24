@@ -31,7 +31,7 @@ async function listAllPolicyAssignmentsThatApplyToAResource() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyAssignments.listForResource(
+  for await (const item of client.policyAssignments.listForResource(
     resourceGroupName,
     resourceProviderNamespace,
     parentResourcePath,

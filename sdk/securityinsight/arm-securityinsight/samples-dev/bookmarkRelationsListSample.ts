@@ -31,7 +31,7 @@ async function getAllBookmarkRelations() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bookmarkRelations.list(
+  for await (const item of client.bookmarkRelations.list(
     resourceGroupName,
     workspaceName,
     bookmarkId

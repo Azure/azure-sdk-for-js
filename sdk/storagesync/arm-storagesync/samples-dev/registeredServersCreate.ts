@@ -14,8 +14,9 @@
  * @summary Add a new registered server.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/RegisteredServers_Create.json
  */
+import type {
+  RegisteredServerCreateParameters} from "@azure/arm-storagesync";
 import {
-  RegisteredServerCreateParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

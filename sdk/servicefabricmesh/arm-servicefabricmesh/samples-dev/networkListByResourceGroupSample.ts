@@ -32,7 +32,7 @@ async function listNetworksByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.network.listByResourceGroup(
+  for await (const item of client.network.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

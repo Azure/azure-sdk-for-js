@@ -24,7 +24,7 @@ async function getSupportedPacketCoreControlPlaneVersions() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.packetCoreControlPlaneVersions.list()) {
+  for await (const item of client.packetCoreControlPlaneVersions.list()) {
     resArray.push(item);
   }
   console.log(resArray);

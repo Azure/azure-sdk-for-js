@@ -33,7 +33,7 @@ async function listDatabaseUsageMetrics() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticPools.listMetrics(
+  for await (const item of client.elasticPools.listMetrics(
     resourceGroupName,
     serverName,
     elasticPoolName,

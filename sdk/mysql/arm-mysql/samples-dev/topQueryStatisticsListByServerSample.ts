@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TopQueryStatisticsInput} from "@azure/arm-mysql";
 import {
-  TopQueryStatisticsInput,
   MySQLManagementClient
 } from "@azure/arm-mysql";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function topQueryStatisticsListByServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.topQueryStatistics.listByServer(
+  for await (const item of client.topQueryStatistics.listByServer(
     resourceGroupName,
     serverName,
     parameters

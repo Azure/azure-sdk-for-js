@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Slice, MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
+import type { Slice} from "@azure/arm-mobilenetwork";
+import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

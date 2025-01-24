@@ -27,7 +27,7 @@ async function loadBalancerNetworkInterfaceListSimple() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.loadBalancerNetworkInterfaces.list(
+  for await (const item of client.loadBalancerNetworkInterfaces.list(
     resourceGroupName,
     loadBalancerName
   )) {
@@ -49,7 +49,7 @@ async function loadBalancerNetworkInterfaceListVmss() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.loadBalancerNetworkInterfaces.list(
+  for await (const item of client.loadBalancerNetworkInterfaces.list(
     resourceGroupName,
     loadBalancerName
   )) {

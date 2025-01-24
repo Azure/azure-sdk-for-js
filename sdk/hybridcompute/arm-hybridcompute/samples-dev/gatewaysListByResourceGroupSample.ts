@@ -29,7 +29,7 @@ async function listGatewaysByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.gateways.listByResourceGroup(
+  for await (const item of client.gateways.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

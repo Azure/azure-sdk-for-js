@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VolumesDeleteOptionalParams} from "@azure/arm-elasticsan";
 import {
-  VolumesDeleteOptionalParams,
   ElasticSanManagement,
 } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -25,7 +25,7 @@ async function organizationsListBySubscriptionGeneratedByMaximumSetRule(): Promi
   const credential = new DefaultAzureCredential();
   const client = new AstroManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.listBySubscription()) {
+  for await (const item of client.organizations.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

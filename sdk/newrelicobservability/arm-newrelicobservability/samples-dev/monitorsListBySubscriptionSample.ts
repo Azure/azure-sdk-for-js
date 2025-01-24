@@ -27,7 +27,7 @@ async function monitorsListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listBySubscription()) {
+  for await (const item of client.monitors.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

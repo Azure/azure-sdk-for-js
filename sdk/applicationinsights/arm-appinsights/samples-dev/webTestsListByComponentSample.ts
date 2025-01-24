@@ -27,7 +27,7 @@ async function webTestListByComponent(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.webTests.listByComponent(
+  for await (const item of client.webTests.listByComponent(
     componentName,
     resourceGroupName
   )) {

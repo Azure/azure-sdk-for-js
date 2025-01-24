@@ -26,7 +26,7 @@ async function listRoleDefinitionsForScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.roleDefinitions.list(scope)) {
+  for await (const item of client.roleDefinitions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

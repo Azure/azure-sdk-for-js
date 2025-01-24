@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  InputsListByStreamingJobOptionalParams} from "@azure/arm-streamanalytics";
 import {
-  InputsListByStreamingJobOptionalParams,
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function listAllInputsInAStreamingJob() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.inputs.listByStreamingJob(
+  for await (const item of client.inputs.listByStreamingJob(
     resourceGroupName,
     jobName,
   )) {
@@ -66,7 +67,7 @@ async function listAllInputsInAStreamingJobAndIncludeDiagnosticInformationUsingT
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.inputs.listByStreamingJob(
+  for await (const item of client.inputs.listByStreamingJob(
     resourceGroupName,
     jobName,
     options,

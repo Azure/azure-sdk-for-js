@@ -30,7 +30,7 @@ async function listAllStreamingEndpoints() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.streamingEndpoints.list(
+  for await (const item of client.streamingEndpoints.list(
     resourceGroupName,
     accountName
   )) {

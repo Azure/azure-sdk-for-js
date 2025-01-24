@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DedicatedCapacity} from "@azure/arm-powerbidedicated";
 import {
-  DedicatedCapacity,
   PowerBIDedicated
 } from "@azure/arm-powerbidedicated";
 import { DefaultAzureCredential } from "@azure/identity";

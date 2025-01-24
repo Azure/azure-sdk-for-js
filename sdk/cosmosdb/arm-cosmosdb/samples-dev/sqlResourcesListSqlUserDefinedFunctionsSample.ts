@@ -27,7 +27,7 @@ async function cosmosDbSqlUserDefinedFunctionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlResources.listSqlUserDefinedFunctions(
+  for await (const item of client.sqlResources.listSqlUserDefinedFunctions(
     resourceGroupName,
     accountName,
     databaseName,

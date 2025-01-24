@@ -22,7 +22,7 @@ async function appsListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new IotCentralClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apps.listBySubscription()) {
+  for await (const item of client.apps.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

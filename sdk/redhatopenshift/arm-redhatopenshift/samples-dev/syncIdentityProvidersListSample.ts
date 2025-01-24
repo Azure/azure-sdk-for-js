@@ -29,7 +29,7 @@ async function listsSyncIdentityProvidersThatBelongToThatAzureRedHatOpenShiftClu
   const credential = new DefaultAzureCredential();
   const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.syncIdentityProviders.list(
+  for await (const item of client.syncIdentityProviders.list(
     resourceGroupName,
     resourceName,
   )) {

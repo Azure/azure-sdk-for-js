@@ -29,7 +29,7 @@ async function listWorkflowRuns(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowRuns.list(
+  for await (const item of client.workflowRuns.list(
     resourceGroupName,
     name,
     workflowName,

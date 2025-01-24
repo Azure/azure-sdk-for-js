@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   RelocateVolumeRequest,
-  VolumesRelocateOptionalParams,
+  VolumesRelocateOptionalParams} from "@azure/arm-netapp";
+import {
   NetAppManagementClient,
 } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";

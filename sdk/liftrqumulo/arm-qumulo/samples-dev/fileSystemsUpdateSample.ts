@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { FileSystemResourceUpdate, QumuloStorage } from "@azure/arm-qumulo";
+import type { FileSystemResourceUpdate} from "@azure/arm-qumulo";
+import { QumuloStorage } from "@azure/arm-qumulo";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ProcessesGetOptionalParams, ServiceMap } from "@azure/arm-servicemap";
+import type { ProcessesGetOptionalParams} from "@azure/arm-servicemap";
+import { ServiceMap } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

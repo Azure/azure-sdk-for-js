@@ -29,7 +29,7 @@ async function volumesListByVolumeContainer() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.volumes.listByVolumeContainer(
+  for await (const item of client.volumes.listByVolumeContainer(
     deviceName,
     volumeContainerName,
     resourceGroupName,

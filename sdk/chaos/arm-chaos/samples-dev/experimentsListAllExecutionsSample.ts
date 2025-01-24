@@ -27,7 +27,7 @@ async function listAllExecutionsOfAnExperiment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ChaosManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.experiments.listAllExecutions(
+  for await (const item of client.experiments.listAllExecutions(
     resourceGroupName,
     experimentName,
   )) {

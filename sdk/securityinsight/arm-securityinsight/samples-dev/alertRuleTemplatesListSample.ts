@@ -30,7 +30,7 @@ async function getAllAlertRuleTemplates() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alertRuleTemplates.list(
+  for await (const item of client.alertRuleTemplates.list(
     resourceGroupName,
     workspaceName
   )) {

@@ -30,7 +30,7 @@ async function listVirtualMachine() {
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachines.listByLab(
+  for await (const item of client.virtualMachines.listByLab(
     resourceGroupName,
     labName
   )) {

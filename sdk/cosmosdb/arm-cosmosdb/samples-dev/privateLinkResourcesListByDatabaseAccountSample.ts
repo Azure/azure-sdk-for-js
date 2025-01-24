@@ -27,7 +27,7 @@ async function getsPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByDatabaseAccount(
+  for await (const item of client.privateLinkResources.listByDatabaseAccount(
     resourceGroupName,
     accountName,
   )) {

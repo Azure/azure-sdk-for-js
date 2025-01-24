@@ -34,7 +34,7 @@ async function listANodeTypeSkUs() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.nodeTypeSkus.list(
+  for await (const item of client.nodeTypeSkus.list(
     resourceGroupName,
     clusterName,
     nodeTypeName,

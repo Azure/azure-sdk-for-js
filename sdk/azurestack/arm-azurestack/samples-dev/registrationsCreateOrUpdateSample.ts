@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RegistrationParameter} from "@azure/arm-azurestack";
 import {
-  RegistrationParameter,
   AzureStackManagementClient
 } from "@azure/arm-azurestack";
 import { DefaultAzureCredential } from "@azure/identity";

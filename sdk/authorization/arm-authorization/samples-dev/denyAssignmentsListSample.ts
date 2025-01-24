@@ -24,7 +24,7 @@ async function listDenyAssignmentsForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.denyAssignments.list()) {
+  for await (const item of client.denyAssignments.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -27,7 +27,7 @@ async function listAllPersistedScriptActionsForTheGivenCluster() {
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.scriptActions.listByCluster(
+  for await (const item of client.scriptActions.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

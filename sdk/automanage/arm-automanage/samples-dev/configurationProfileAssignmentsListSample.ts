@@ -26,7 +26,7 @@ async function listConfigurationProfileAssignmentsByResourceGroup(): Promise<voi
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurationProfileAssignments.list(
+  for await (const item of client.configurationProfileAssignments.list(
     resourceGroupName
   )) {
     resArray.push(item);

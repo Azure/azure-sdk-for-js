@@ -29,7 +29,7 @@ async function getNetworkFunctionDefinitionGroupsUnderPublisherResource() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurationGroupSchemas.listByPublisher(
+  for await (const item of client.configurationGroupSchemas.listByPublisher(
     resourceGroupName,
     publisherName
   )) {

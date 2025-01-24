@@ -24,7 +24,7 @@ async function listAppliancesOperations() {
   const credential = new DefaultAzureCredential();
   const client = new ResourceConnectorManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.appliances.listOperations()) {
+  for await (const item of client.appliances.listOperations()) {
     resArray.push(item);
   }
   console.log(resArray);

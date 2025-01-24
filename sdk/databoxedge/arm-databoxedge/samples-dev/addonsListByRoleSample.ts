@@ -25,7 +25,7 @@ async function roleListAddOns(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.addons.listByRole(
+  for await (const item of client.addons.listByRole(
     deviceName,
     roleName,
     resourceGroupName

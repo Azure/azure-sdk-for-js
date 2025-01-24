@@ -14,8 +14,9 @@
  * @summary Regenerate a new set of Authentication Keys for Self Hosted Integration Runtime.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/RegenAuthKeysMigrationService.json
  */
+import type {
+  RegenAuthKeys} from "@azure/arm-datamigration";
 import {
-  RegenAuthKeys,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

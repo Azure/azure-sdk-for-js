@@ -30,7 +30,7 @@ async function getsTheListOfNetworkSecurityPerimeterConfigurationsOfThePrivateLi
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkSecurityPerimeterConfigurations.listByPrivateLinkScope(
+  for await (const item of client.networkSecurityPerimeterConfigurations.listByPrivateLinkScope(
     resourceGroupName,
     scopeName,
   )) {

@@ -23,7 +23,7 @@ async function evidenceListByReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const resArray = new Array();
-  for await (let item of client.evidence.listByReport(reportName)) {
+  for await (const item of client.evidence.listByReport(reportName)) {
     resArray.push(item);
   }
   console.log(resArray);

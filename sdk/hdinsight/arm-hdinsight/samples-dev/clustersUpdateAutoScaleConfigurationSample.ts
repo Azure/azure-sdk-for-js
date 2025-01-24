@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AutoscaleConfigurationUpdateParameter} from "@azure/arm-hdinsight";
 import {
-  AutoscaleConfigurationUpdateParameter,
   HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";

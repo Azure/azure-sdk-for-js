@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   StopRequest,
-  SAPVirtualInstancesStopOptionalParams,
+  SAPVirtualInstancesStopOptionalParams} from "@azure/arm-workloadssapvirtualinstance";
+import {
   WorkloadsClient,
 } from "@azure/arm-workloadssapvirtualinstance";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -27,7 +27,7 @@ async function virtualMachineTemplatesListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineTemplates.listBySubscription()) {
+  for await (const item of client.virtualMachineTemplates.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function virtualMachineTemplatesListBySubscriptionMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineTemplates.listBySubscription()) {
+  for await (const item of client.virtualMachineTemplates.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

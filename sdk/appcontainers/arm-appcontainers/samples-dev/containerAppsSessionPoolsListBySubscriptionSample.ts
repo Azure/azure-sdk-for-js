@@ -25,7 +25,7 @@ async function listSessionPoolsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.containerAppsSessionPools.listBySubscription()) {
+  for await (const item of client.containerAppsSessionPools.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

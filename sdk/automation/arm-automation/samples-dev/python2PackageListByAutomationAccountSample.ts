@@ -25,7 +25,7 @@ async function listPython2PackagesByAutomationAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.python2Package.listByAutomationAccount(
+  for await (const item of client.python2Package.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

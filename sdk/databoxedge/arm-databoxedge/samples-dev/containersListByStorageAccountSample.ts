@@ -25,7 +25,7 @@ async function containerListAllInDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.containers.listByStorageAccount(
+  for await (const item of client.containers.listByStorageAccount(
     deviceName,
     storageAccountName,
     resourceGroupName

@@ -25,7 +25,7 @@ async function redisCacheFirewallRulesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.firewallRules.list(
+  for await (const item of client.firewallRules.list(
     resourceGroupName,
     cacheName,
   )) {

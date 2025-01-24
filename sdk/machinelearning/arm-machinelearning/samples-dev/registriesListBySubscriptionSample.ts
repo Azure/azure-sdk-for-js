@@ -30,7 +30,7 @@ async function listRegistriesBySubscription() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.registries.listBySubscription()) {
+  for await (const item of client.registries.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

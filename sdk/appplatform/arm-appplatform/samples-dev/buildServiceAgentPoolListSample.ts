@@ -29,7 +29,7 @@ async function buildServiceAgentPoolList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.buildServiceAgentPool.list(
+  for await (const item of client.buildServiceAgentPool.list(
     resourceGroupName,
     serviceName,
     buildServiceName

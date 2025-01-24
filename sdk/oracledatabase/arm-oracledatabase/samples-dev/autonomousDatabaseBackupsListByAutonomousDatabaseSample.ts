@@ -30,7 +30,7 @@ async function autonomousDatabaseBackupsListByAutonomousDatabase() {
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.autonomousDatabaseBackups.listByAutonomousDatabase(
+  for await (const item of client.autonomousDatabaseBackups.listByAutonomousDatabase(
     resourceGroupName,
     autonomousdatabasename,
   )) {
@@ -55,7 +55,7 @@ async function listAutonomousDatabaseBackupsByAutonomousDatabase() {
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.autonomousDatabaseBackups.listByAutonomousDatabase(
+  for await (const item of client.autonomousDatabaseBackups.listByAutonomousDatabase(
     resourceGroupName,
     autonomousdatabasename,
   )) {

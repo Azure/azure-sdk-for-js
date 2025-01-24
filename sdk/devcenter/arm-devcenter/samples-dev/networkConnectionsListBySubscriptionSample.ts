@@ -25,7 +25,7 @@ async function networkConnectionsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkConnections.listBySubscription()) {
+  for await (const item of client.networkConnections.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

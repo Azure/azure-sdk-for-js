@@ -29,7 +29,7 @@ async function listVMClustersByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudVmClusters.listByResourceGroup(
+  for await (const item of client.cloudVmClusters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

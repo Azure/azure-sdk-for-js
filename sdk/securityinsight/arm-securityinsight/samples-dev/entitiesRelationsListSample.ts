@@ -31,7 +31,7 @@ async function getAllRelationsOfAnEntity() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.entitiesRelations.list(
+  for await (const item of client.entitiesRelations.list(
     resourceGroupName,
     workspaceName,
     entityId

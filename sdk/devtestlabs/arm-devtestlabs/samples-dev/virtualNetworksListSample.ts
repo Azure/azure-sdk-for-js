@@ -24,7 +24,7 @@ async function virtualNetworksList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworks.list(
+  for await (const item of client.virtualNetworks.list(
     resourceGroupName,
     labName
   )) {

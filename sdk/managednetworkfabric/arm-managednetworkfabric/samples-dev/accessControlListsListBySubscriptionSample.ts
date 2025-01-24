@@ -30,7 +30,7 @@ async function accessControlListsListBySubscriptionMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.accessControlLists.listBySubscription()) {
+  for await (const item of client.accessControlLists.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

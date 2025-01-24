@@ -27,7 +27,7 @@ async function listSecurityAssessmentMetadataForSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.assessmentsMetadata.listBySubscription()) {
+  for await (const item of client.assessmentsMetadata.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

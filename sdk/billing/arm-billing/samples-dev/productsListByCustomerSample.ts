@@ -25,7 +25,7 @@ async function productsListByCustomer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.products.listByCustomer(
+  for await (const item of client.products.listByCustomer(
     billingAccountName,
     customerName,
   )) {

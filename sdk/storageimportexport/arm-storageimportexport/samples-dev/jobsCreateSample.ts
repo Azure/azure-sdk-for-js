@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PutJobParameters} from "@azure/arm-storageimportexport";
 import {
-  PutJobParameters,
   StorageImportExport
 } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";

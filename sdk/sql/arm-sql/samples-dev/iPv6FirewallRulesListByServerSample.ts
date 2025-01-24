@@ -30,7 +30,7 @@ async function listIPv6FirewallRules() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iPv6FirewallRules.listByServer(
+  for await (const item of client.iPv6FirewallRules.listByServer(
     resourceGroupName,
     serverName,
   )) {

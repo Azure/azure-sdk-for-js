@@ -30,7 +30,7 @@ async function clientGroupsListByNamespace() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clientGroups.listByNamespace(
+  for await (const item of client.clientGroups.listByNamespace(
     resourceGroupName,
     namespaceName,
   )) {

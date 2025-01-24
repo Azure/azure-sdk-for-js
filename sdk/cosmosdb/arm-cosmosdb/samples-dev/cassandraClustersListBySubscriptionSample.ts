@@ -25,7 +25,7 @@ async function cosmosDbManagedCassandraClusterListBySubscription(): Promise<void
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cassandraClusters.listBySubscription()) {
+  for await (const item of client.cassandraClusters.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

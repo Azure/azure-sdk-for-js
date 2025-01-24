@@ -32,7 +32,7 @@ async function listDeploymentSkus(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.deployments.listSkus(
+  for await (const item of client.deployments.listSkus(
     resourceGroupName,
     accountName,
     deploymentName,

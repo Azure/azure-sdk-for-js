@@ -31,7 +31,7 @@ async function getAllIncidentComments() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.incidentComments.list(
+  for await (const item of client.incidentComments.list(
     resourceGroupName,
     workspaceName,
     incidentId

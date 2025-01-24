@@ -22,7 +22,7 @@ async function templatesSpecsListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new TemplateSpecsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.templateSpecs.listBySubscription()) {
+  for await (const item of client.templateSpecs.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

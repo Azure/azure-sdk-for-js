@@ -30,7 +30,7 @@ async function staticMembersList() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticMembers.list(
+  for await (const item of client.staticMembers.list(
     resourceGroupName,
     networkManagerName,
     networkGroupName,

@@ -24,7 +24,7 @@ async function extensionsListByFarmBeats(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.extensions.listByFarmBeats(
+  for await (const item of client.extensions.listByFarmBeats(
     resourceGroupName,
     farmBeatsResourceName
   )) {

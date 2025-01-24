@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Profile} from "@azure/arm-trafficmanager";
 import {
-  Profile,
   TrafficManagerManagementClient
 } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";

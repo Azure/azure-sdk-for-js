@@ -25,7 +25,7 @@ async function listResourceHealthMetadataForASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceHealthMetadataOperations.list()) {
+  for await (const item of client.resourceHealthMetadataOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AccessReviewInstancesAssignedForMyApprovalListOptionalParams} from "@azure/arm-authorization";
 import {
-  AccessReviewInstancesAssignedForMyApprovalListOptionalParams,
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function getAccessReviews(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.accessReviewInstancesAssignedForMyApproval.list(
+  for await (const item of client.accessReviewInstancesAssignedForMyApproval.list(
     scheduleDefinitionId,
     options
   )) {

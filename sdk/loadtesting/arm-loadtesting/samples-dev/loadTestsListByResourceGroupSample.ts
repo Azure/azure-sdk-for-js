@@ -29,7 +29,7 @@ async function loadTestsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.loadTests.listByResourceGroup(
+  for await (const item of client.loadTests.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

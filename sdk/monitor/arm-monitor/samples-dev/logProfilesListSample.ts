@@ -27,7 +27,7 @@ async function listLogProfiles() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.logProfiles.list()) {
+  for await (const item of client.logProfiles.list()) {
     resArray.push(item);
   }
   console.log(resArray);

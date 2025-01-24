@@ -32,7 +32,7 @@ async function listClusterByResourceGroup() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.managedClusters.listByResourceGroup(
+  for await (const item of client.managedClusters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

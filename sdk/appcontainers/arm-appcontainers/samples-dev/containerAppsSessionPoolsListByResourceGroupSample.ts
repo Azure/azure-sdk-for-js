@@ -26,7 +26,7 @@ async function listSessionPoolsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.containerAppsSessionPools.listByResourceGroup(
+  for await (const item of client.containerAppsSessionPools.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

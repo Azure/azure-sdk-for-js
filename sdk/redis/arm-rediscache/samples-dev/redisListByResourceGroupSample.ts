@@ -24,7 +24,7 @@ async function redisCacheListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.redis.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.redis.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

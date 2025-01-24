@@ -27,7 +27,7 @@ async function getDetailsOfACapacity() {
   const credential = new DefaultAzureCredential();
   const client = new PowerBIDedicated(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.capacities.list()) {
+  for await (const item of client.capacities.list()) {
     resArray.push(item);
   }
   console.log(resArray);

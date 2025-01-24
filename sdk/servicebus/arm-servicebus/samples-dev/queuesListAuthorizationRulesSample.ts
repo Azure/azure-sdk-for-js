@@ -31,7 +31,7 @@ async function queueAuthorizationRuleListAll() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.queues.listAuthorizationRules(
+  for await (const item of client.queues.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
     queueName

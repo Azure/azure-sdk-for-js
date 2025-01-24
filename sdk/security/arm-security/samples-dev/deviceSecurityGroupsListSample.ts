@@ -26,7 +26,7 @@ async function listAllDeviceSecurityGroupsForTheSpecifiedIoTHubResource() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (let item of client.deviceSecurityGroups.list(resourceId)) {
+  for await (const item of client.deviceSecurityGroups.list(resourceId)) {
     resArray.push(item);
   }
   console.log(resArray);

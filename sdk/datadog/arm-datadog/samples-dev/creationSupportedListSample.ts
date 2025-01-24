@@ -26,7 +26,7 @@ async function creationSupportedList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.creationSupported.list(datadogOrganizationId)) {
+  for await (const item of client.creationSupported.list(datadogOrganizationId)) {
     resArray.push(item);
   }
   console.log(resArray);

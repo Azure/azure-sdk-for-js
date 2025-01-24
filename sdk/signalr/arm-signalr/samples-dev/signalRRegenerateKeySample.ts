@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RegenerateKeyParameters} from "@azure/arm-signalr";
 import {
-  RegenerateKeyParameters,
   SignalRManagementClient
 } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";

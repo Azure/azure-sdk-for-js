@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OrganizationResource, AstroManagementClient } from "@azure/arm-astro";
+import type { OrganizationResource} from "@azure/arm-astro";
+import { AstroManagementClient } from "@azure/arm-astro";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

@@ -28,7 +28,7 @@ async function listAppServiceCertificateDetectorResponse(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateOrdersDiagnostics.listAppServiceCertificateOrderDetectorResponse(
+  for await (const item of client.certificateOrdersDiagnostics.listAppServiceCertificateOrderDetectorResponse(
     resourceGroupName,
     certificateOrderName,
   )) {

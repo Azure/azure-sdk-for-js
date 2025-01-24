@@ -28,7 +28,7 @@ async function servicesListSupportedApmTypes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.services.listSupportedApmTypes(
+  for await (const item of client.services.listSupportedApmTypes(
     resourceGroupName,
     serviceName
   )) {

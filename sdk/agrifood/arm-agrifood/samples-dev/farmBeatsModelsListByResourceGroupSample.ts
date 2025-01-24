@@ -23,7 +23,7 @@ async function farmBeatsModelsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.farmBeatsModels.listByResourceGroup(
+  for await (const item of client.farmBeatsModels.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

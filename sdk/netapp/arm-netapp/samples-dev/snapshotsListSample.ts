@@ -31,7 +31,7 @@ async function snapshotsList() {
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.snapshots.list(
+  for await (const item of client.snapshots.list(
     resourceGroupName,
     accountName,
     poolName,

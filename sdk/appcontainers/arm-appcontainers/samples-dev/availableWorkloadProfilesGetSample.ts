@@ -26,7 +26,7 @@ async function billingMetersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availableWorkloadProfiles.list(location)) {
+  for await (const item of client.availableWorkloadProfiles.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

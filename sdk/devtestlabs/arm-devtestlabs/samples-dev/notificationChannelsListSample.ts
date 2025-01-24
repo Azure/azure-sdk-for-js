@@ -24,7 +24,7 @@ async function notificationChannelsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.notificationChannels.list(
+  for await (const item of client.notificationChannels.list(
     resourceGroupName,
     labName
   )) {

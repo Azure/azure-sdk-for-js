@@ -14,8 +14,9 @@
  * @summary Checks if the peering service provider is present within 1000 miles of customer's location
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CheckServiceProviderAvailability.json
  */
+import type {
+  CheckServiceProviderAvailabilityInput} from "@azure/arm-peering";
 import {
-  CheckServiceProviderAvailabilityInput,
   PeeringManagementClient
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";

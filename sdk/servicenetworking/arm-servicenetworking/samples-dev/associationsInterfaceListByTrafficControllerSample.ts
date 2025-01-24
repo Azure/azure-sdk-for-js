@@ -32,7 +32,7 @@ async function getAssociations() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.associationsInterface.listByTrafficController(
+  for await (const item of client.associationsInterface.listByTrafficController(
     resourceGroupName,
     trafficControllerName,
   )) {

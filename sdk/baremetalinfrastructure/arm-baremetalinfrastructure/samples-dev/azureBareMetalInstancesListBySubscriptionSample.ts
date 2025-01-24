@@ -25,7 +25,7 @@ async function listAllAzureBareMetalInstancesInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BareMetalInfrastructureClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureBareMetalInstances.listBySubscription()) {
+  for await (const item of client.azureBareMetalInstances.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

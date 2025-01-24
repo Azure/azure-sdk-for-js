@@ -26,7 +26,7 @@ async function listAllGuestConfigurationAssignmentsForASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new GuestConfigurationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.guestConfigurationAssignments.listSubscriptionList()) {
+  for await (const item of client.guestConfigurationAssignments.listSubscriptionList()) {
     resArray.push(item);
   }
   console.log(resArray);

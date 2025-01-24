@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GrantsListOptionalParams} from "@azure/arm-education";
 import {
-  GrantsListOptionalParams,
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function grantList() {
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.grants.list(
+  for await (const item of client.grants.list(
     billingAccountName,
     billingProfileName,
     options
@@ -55,7 +56,7 @@ async function grantListIncludeAllocatedBudget() {
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.grants.list(
+  for await (const item of client.grants.list(
     billingAccountName,
     billingProfileName,
     options

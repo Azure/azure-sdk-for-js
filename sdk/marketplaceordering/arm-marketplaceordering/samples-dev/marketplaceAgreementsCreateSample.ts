@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AgreementTerms} from "@azure/arm-marketplaceordering";
 import {
-  AgreementTerms,
   MarketplaceOrderingAgreements
 } from "@azure/arm-marketplaceordering";
 import { DefaultAzureCredential } from "@azure/identity";

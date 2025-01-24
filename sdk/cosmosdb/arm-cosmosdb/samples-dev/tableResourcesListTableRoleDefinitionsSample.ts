@@ -28,7 +28,7 @@ async function cosmosDbTableRoleDefinitionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tableResources.listTableRoleDefinitions(
+  for await (const item of client.tableResources.listTableRoleDefinitions(
     resourceGroupName,
     accountName,
   )) {

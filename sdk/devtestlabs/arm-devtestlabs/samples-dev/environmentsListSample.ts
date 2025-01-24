@@ -25,7 +25,7 @@ async function environmentsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.environments.list(
+  for await (const item of client.environments.list(
     resourceGroupName,
     labName,
     userName

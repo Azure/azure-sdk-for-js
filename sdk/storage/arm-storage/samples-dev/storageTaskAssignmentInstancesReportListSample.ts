@@ -30,7 +30,7 @@ async function listStorageTaskAssignmentInstancesReportSummary() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTaskAssignmentInstancesReport.list(
+  for await (const item of client.storageTaskAssignmentInstancesReport.list(
     resourceGroupName,
     accountName,
     storageTaskAssignmentName,

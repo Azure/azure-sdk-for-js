@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RedisLinkedServerCreateParameters} from "@azure/arm-rediscache";
 import {
-  RedisLinkedServerCreateParameters,
   RedisManagementClient,
 } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -29,7 +29,7 @@ async function listDataCollectionEndpointsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataCollectionEndpoints.listByResourceGroup(
+  for await (const item of client.dataCollectionEndpoints.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

@@ -27,7 +27,7 @@ async function listDomainsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.domains.listByResourceGroup(
+  for await (const item of client.domains.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

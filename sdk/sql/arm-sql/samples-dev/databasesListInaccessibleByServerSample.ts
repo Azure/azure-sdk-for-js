@@ -30,7 +30,7 @@ async function getsAListOfInaccessibleDatabasesInALogicalServer() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databases.listInaccessibleByServer(
+  for await (const item of client.databases.listInaccessibleByServer(
     resourceGroupName,
     serverName,
   )) {

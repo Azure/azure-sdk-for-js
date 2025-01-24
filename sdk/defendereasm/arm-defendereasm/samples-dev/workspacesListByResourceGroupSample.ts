@@ -27,7 +27,7 @@ async function workspaces(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new EasmMgmtClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspaces.listByResourceGroup(
+  for await (const item of client.workspaces.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

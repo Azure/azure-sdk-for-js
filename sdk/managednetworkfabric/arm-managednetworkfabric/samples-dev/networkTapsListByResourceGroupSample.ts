@@ -32,7 +32,7 @@ async function networkTapsListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkTaps.listByResourceGroup(
+  for await (const item of client.networkTaps.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

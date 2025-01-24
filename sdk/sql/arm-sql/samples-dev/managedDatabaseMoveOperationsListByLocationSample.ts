@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedDatabaseMoveOperationsListByLocationOptionalParams} from "@azure/arm-sql";
 import {
-  ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResou
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseMoveOperations.listByLocation(
+  for await (const item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
     locationName,
   )) {
@@ -60,7 +61,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseMoveOperations.listByLocation(
+  for await (const item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
     locationName,
     options,
@@ -85,7 +86,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseMoveOperations.listByLocation(
+  for await (const item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
     locationName,
   )) {

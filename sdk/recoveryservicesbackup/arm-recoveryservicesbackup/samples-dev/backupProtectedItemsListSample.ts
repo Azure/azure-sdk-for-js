@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupProtectedItemsListOptionalParams} from "@azure/arm-recoveryservicesbackup";
 import {
-  BackupProtectedItemsListOptionalParams,
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupProtectedItems.list(
+  for await (const item of client.backupProtectedItems.list(
     vaultName,
     resourceGroupName,
     options,

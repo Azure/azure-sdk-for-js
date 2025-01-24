@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   KeyValue,
-  KeyValuesCreateOrUpdateOptionalParams,
+  KeyValuesCreateOrUpdateOptionalParams} from "@azure/arm-appconfiguration";
+import {
   AppConfigurationManagementClient,
 } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";

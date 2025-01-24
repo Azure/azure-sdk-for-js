@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  UsagesListByInstancePoolOptionalParams} from "@azure/arm-sql";
 import {
-  UsagesListByInstancePoolOptionalParams,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function listInstancePoolUsagesExpandedWithChildren() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.listByInstancePool(
+  for await (const item of client.usages.listByInstancePool(
     resourceGroupName,
     instancePoolName,
     options,
@@ -59,7 +60,7 @@ async function listInstancePoolUsages() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.listByInstancePool(
+  for await (const item of client.usages.listByInstancePool(
     resourceGroupName,
     instancePoolName,
   )) {

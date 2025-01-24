@@ -26,7 +26,7 @@ async function listDryrun() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceLinkerManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.linkers.listDryrun(resourceUri)) {
+  for await (const item of client.linkers.listDryrun(resourceUri)) {
     resArray.push(item);
   }
   console.log(resArray);

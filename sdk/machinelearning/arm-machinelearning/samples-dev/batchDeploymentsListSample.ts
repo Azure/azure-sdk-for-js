@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BatchDeploymentsListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  BatchDeploymentsListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,7 +41,7 @@ async function listWorkspaceBatchDeployment() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.batchDeployments.list(
+  for await (const item of client.batchDeployments.list(
     resourceGroupName,
     workspaceName,
     endpointName,

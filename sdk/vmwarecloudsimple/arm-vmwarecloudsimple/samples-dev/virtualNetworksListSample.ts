@@ -30,7 +30,7 @@ async function listVirtualNetworks() {
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworks.list(
+  for await (const item of client.virtualNetworks.list(
     regionId,
     pcName,
     resourcePoolName

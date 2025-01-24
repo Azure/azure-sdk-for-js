@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnectionProxy} from "@azure/arm-deviceupdate";
 import {
-  PrivateEndpointConnectionProxy,
   DeviceUpdate
 } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";

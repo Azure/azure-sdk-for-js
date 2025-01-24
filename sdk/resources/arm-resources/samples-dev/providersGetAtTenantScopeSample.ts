@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ProvidersGetAtTenantScopeOptionalParams} from "@azure/arm-resources";
 import {
-  ProvidersGetAtTenantScopeOptionalParams,
   ResourceManagementClient
 } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -1,9 +1,10 @@
 import { DefaultAzureCredential } from "@azure/identity";
-import {
+import type {
     ProjectOutput,
-    isUnexpected,
     PoolOutput,
-    CreateDevBoxParameters,
+    CreateDevBoxParameters} from "@azure-rest/developer-devcenter";
+import {
+    isUnexpected,
     getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
@@ -23,7 +24,7 @@ async function createDevBox() {
         throw projectList.body.error;
     }
 
-    let project: ProjectOutput = projectList.body.value[0];
+    const project: ProjectOutput = projectList.body.value[0];
     if (project === undefined || project.name === undefined) {
         throw new Error("No projects found.");
     }
@@ -34,7 +35,7 @@ async function createDevBox() {
         throw poolList.body.error;
     }
 
-    let pool: PoolOutput = poolList.body.value[0];
+    const pool: PoolOutput = poolList.body.value[0];
     if (pool === undefined || pool.name === undefined) {
         throw new Error("No pools found.");
     }

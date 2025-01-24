@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DatabaseColumnsListByDatabaseOptionalParams} from "@azure/arm-sql";
 import {
-  DatabaseColumnsListByDatabaseOptionalParams,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -43,7 +44,7 @@ async function filterDatabaseColumns() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseColumns.listByDatabase(
+  for await (const item of client.databaseColumns.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -70,7 +71,7 @@ async function listDatabaseColumns() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseColumns.listByDatabase(
+  for await (const item of client.databaseColumns.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

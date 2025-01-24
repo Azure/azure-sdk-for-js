@@ -26,7 +26,7 @@ async function elasticSansListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticSans.listBySubscription()) {
+  for await (const item of client.elasticSans.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -44,7 +44,7 @@ async function elasticSansListBySubscriptionMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticSans.listBySubscription()) {
+  for await (const item of client.elasticSans.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

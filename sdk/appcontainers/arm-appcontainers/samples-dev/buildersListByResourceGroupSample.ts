@@ -26,7 +26,7 @@ async function buildersListByResourceGroup0(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.builders.listByResourceGroup(
+  for await (const item of client.builders.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

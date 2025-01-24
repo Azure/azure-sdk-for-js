@@ -34,7 +34,7 @@ async function getsTheListOfRecoveryPointsForAReplicationProtectedItem() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recoveryPoints.listByReplicationProtectedItems(
+  for await (const item of client.recoveryPoints.listByReplicationProtectedItems(
     resourceName,
     resourceGroupName,
     fabricName,

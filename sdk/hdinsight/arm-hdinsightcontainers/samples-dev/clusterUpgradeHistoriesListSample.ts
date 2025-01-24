@@ -34,7 +34,7 @@ async function clusterUpgradeHistoriesListResult() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusterUpgradeHistories.list(
+  for await (const item of client.clusterUpgradeHistories.list(
     resourceGroupName,
     clusterPoolName,
     clusterName,

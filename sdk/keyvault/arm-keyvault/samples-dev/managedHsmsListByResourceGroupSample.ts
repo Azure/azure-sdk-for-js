@@ -29,7 +29,7 @@ async function listManagedHsmPoolsInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedHsms.listByResourceGroup(
+  for await (const item of client.managedHsms.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

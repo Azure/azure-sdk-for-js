@@ -24,7 +24,7 @@ async function getRoleManagementPolicyAssignmentByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.roleManagementPolicyAssignments.listForScope(
+  for await (const item of client.roleManagementPolicyAssignments.listForScope(
     scope
   )) {
     resArray.push(item);

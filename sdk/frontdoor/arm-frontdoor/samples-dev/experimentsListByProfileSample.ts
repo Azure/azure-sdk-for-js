@@ -28,7 +28,7 @@ async function getsAListOfExperiments() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.experiments.listByProfile(
+  for await (const item of client.experiments.listByProfile(
     resourceGroupName,
     profileName,
   )) {

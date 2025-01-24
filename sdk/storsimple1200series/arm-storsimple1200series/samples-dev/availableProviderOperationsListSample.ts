@@ -22,7 +22,7 @@ async function operationsList() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availableProviderOperationsOperations.list()) {
+  for await (const item of client.availableProviderOperationsOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

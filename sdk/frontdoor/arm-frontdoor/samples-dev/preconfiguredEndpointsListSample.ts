@@ -28,7 +28,7 @@ async function getsAListOfPreconfiguredEndpoints() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.preconfiguredEndpoints.list(
+  for await (const item of client.preconfiguredEndpoints.list(
     resourceGroupName,
     profileName,
   )) {

@@ -30,7 +30,7 @@ async function networkDevicesListBySubscriptionMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkDevices.listBySubscription()) {
+  for await (const item of client.networkDevices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
