@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all the nodes currently configured under this Data Box Edge device
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/NodeGetAllInDevice.json
  */
-async function nodesGetAllInDevice() {
+async function nodesGetAllInDevice(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const resourceGroupName = "GroupForEdgeAutomation";

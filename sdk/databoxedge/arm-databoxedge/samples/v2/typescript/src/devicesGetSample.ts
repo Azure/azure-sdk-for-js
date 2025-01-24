@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the properties of the Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/DataBoxEdgeDeviceGetByName.json
  */
-async function dataBoxEdgeDeviceGetByName() {
+async function dataBoxEdgeDeviceGetByName(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const resourceGroupName = "GroupForEdgeAutomation";
@@ -32,7 +32,7 @@ dataBoxEdgeDeviceGetByName().catch(console.error);
  * @summary Gets the properties of the Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/DataBoxEdgeDeviceGetByNameWithDataResidency.json
  */
-async function dataBoxEdgeDeviceGetByNameWithDataResidency() {
+async function dataBoxEdgeDeviceGetByNameWithDataResidency(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const resourceGroupName = "GroupForEdgeAutomation";
