@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersDelete.json
  */
-async function deleteManagedCluster() {
+async function deleteManagedCluster(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
