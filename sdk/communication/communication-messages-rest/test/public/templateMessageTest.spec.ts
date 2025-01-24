@@ -21,10 +21,8 @@ describe("Notification Template Messages Test", () => {
     ({ client, recorder } = await createRecorderWithConnectionString(ctx));
   });
 
-  afterEach(async (ctx) => {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("send simple text template message test", async () => {
