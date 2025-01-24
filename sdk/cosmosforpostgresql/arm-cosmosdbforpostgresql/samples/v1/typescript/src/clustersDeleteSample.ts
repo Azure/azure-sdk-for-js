@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes a cluster together with servers in it.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterDelete.json
  */
-async function deleteTheCluster() {
+async function deleteTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -34,7 +34,7 @@ async function deleteTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteTheCluster();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about a cluster firewall rule.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/FirewallRuleGet.json
  */
-async function getTheFirewallRuleOfTheCluster() {
+async function getTheFirewallRuleOfTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function getTheFirewallRuleOfTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheFirewallRuleOfTheCluster();
 }
 

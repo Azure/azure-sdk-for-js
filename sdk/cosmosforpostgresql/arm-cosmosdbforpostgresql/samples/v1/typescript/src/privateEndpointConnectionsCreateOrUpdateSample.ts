@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Approves or Rejects a private endpoint connection with a given name.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/PrivateEndpointConnectionCreateOrUpdate.json
  */
-async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName() {
+async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -46,7 +46,7 @@ async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   approvesOrRejectsAPrivateEndpointConnectionWithAGivenName();
 }
 
