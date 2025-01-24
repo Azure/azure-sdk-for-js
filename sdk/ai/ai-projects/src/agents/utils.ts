@@ -141,20 +141,32 @@ export class ToolUtility {
         type: "azure_function",
         azureFunction: { 
           function: {name: name, description: description, parameters: parameters}, 
-          inputBinding: {type: "storage_queue", storageQueue: inputQueue},
-          outputBinding: {type: "storage_queue", storageQueue: outputQueue}
+          inputBinding: {
+            type: "storage_queue", 
+            storageQueue:{ 
+              queueServiceEndpoint: inputQueue.queueServiceEndpoint, 
+              queueName: inputQueue.queueName
+            }
+          },
+          outputBinding: {
+            type: "storage_queue", 
+            storageQueue:{ 
+              queueServiceEndpoint: inputQueue.queueServiceEndpoint, 
+              queueName: inputQueue.queueName
+            }
         },
       },
-      resources: {
-        azureFunction: {
-          name: name,
-          description: description,
-          parameters: parameters,
-          inputQueue: inputQueue,
-          outputQueue: outputQueue,
-        },
+    },
+    resources: {
+      azureFunction: {
+        name: name,
+        description: description,
+        parameters: parameters,
+        inputQueue: inputQueue,
+        outputQueue: outputQueue,
       },
-    };
+    },
+  };
   }
   /**
    * Creates an Azure AI search tool
