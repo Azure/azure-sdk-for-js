@@ -14,10 +14,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { RedisManagementClient } from "../src/redisManagementClient";
+import { RedisManagementClient } from "../src/redisManagementClient.js";
 import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
@@ -46,35 +45,31 @@ describe("Redis test", () => {
   let subnetName: string;
   let name: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || "";
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new RedisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroupName = "myjstest";
-    networkName = "networknamex";
-    subnetName = "subnetworknamex";
-    name = "myrediscachexxx111";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || "";
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new RedisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroupName = "myjstest";
+      networkName = "networknamex";
+      subnetName = "subnetworknamex";
+      name = "myrediscachexxx111";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
-
-  function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   async function createVirtualNetwork(
     groupName: any,
     location: any,
     networkName: any,
     subnetName: any
-  ) {
+  ): Promise<void> {
     const parameter: VirtualNetwork = {
       location: location,
       addressSpace: {
@@ -82,9 +77,9 @@ describe("Redis test", () => {
       },
     };
     //network create
-    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(groupName, networkName, parameter, testPollingOptions);
+    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(groupName, networkName, parameter, testPollingOptions);
     //subnet create
-    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" }, testPollingOptions);
+    await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" }, testPollingOptions);
   }
 
   it("operations list test", async function () {
@@ -172,15 +167,15 @@ describe("Redis test", () => {
         await delay(isPlaybackMode() ? 1000 : 300000);
       }
     }
-  }).timeout(3600000);
+  });
 
   it("patchSchedules delete for redis test", async function () {
-    const res = await client.patchSchedules.delete(resourceGroupName, name, "default");
+    await client.patchSchedules.delete(resourceGroupName, name, "default");
     // It's can not run patchSchedules.listByRedisResource after patchSchedules.delete operation
   });
 
   it("redis delete test", async function () {
-    const res = await client.redis.beginDeleteAndWait(resourceGroupName, name, testPollingOptions);
+    await client.redis.beginDeleteAndWait(resourceGroupName, name, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.redis.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
