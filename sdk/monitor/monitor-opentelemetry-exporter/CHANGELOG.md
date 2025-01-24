@@ -6,6 +6,10 @@
 
 - Added support for operation name on dependencies and logs.
 
+### Bugs Fixed
+
+- Fixed usage of environment variable to disable resource metric creation.
+
 ### Other Changes
 
 - Fix setting statsbeat custom dimensions.
