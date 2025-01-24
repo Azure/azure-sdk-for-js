@@ -227,6 +227,7 @@ function getRequestData(span: ReadableSpan): RequestData {
   const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
+    requestData.Url = getUrl(span.attributes);
     if (requestData.Url) {
       try {
         const urlObj = new URL(requestData.Url);
