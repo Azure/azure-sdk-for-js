@@ -229,11 +229,11 @@ function getRequestData(span: ReadableSpan): RequestData {
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.Url = getUrl(span.attributes);
-    try {
+    if (URL.canParse(requestData.Url)) {
       const urlObj = new URL(requestData.Url);
       requestData.Name = `${httpMethod} ${urlObj.pathname}`;
-    } catch (ex: any) {
-      Logger.getInstance().info("Request data sent to live metrics has no valid URL field.", ex);
+    } else {
+      Logger.getInstance().info("Request data sent to live metrics has no valid URL field.");
     }
     const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
     if (httpStatusCode) {
@@ -273,14 +273,11 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   if (httpMethod) {
     const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
     if (httpUrl) {
-      try {
+      if (URL.canParse(String(httpUrl))) {
         const dependencyUrl = new URL(String(httpUrl));
         dependencyData.Name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) {
-        Logger.getInstance().info(
-          "Dependency data sent to live metrics has no valid URL field.",
-          ex,
-        );
+      } else {
+        Logger.getInstance().info("Dependency data sent to live metrics has no valid URL field.");
       }
     }
     dependencyData.Type = DependencyTypes.Http;
