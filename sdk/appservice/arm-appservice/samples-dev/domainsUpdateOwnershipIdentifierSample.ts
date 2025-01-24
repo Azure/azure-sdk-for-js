@@ -13,9 +13,7 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/UpdateAppServiceDomainOwnershipIdentifier.json
  */
-async function updateAppServiceDomainOwnershipIdentifier() {
+async function updateAppServiceDomainOwnershipIdentifier(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -45,7 +43,7 @@ async function updateAppServiceDomainOwnershipIdentifier() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAppServiceDomainOwnershipIdentifier();
 }
 

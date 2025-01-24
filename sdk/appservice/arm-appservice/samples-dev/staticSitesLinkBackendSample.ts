@@ -13,9 +13,7 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Link backend to a static site
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Link backend to a static site
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/LinkBackendToStaticSite.json
  */
-async function linkABackendToAStaticSite() {
+async function linkABackendToAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -46,7 +44,7 @@ async function linkABackendToAStaticSite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   linkABackendToAStaticSite();
 }
 

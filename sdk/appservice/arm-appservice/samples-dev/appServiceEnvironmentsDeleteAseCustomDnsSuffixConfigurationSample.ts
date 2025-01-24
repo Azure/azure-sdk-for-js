@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete Custom Dns Suffix configuration of an App Service Environment
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete Custom Dns Suffix configuration of an App Service Environment
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/DeleteAseCustomDnsSuffixConfiguration.json
  */
-async function deleteAseCustomDnsSuffixConfiguration() {
+async function deleteAseCustomDnsSuffixConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,7 +35,7 @@ async function deleteAseCustomDnsSuffixConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteAseCustomDnsSuffixConfiguration();
 }
 

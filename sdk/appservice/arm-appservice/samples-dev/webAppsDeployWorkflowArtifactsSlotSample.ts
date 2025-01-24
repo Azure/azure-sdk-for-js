@@ -14,9 +14,7 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Creates the artifacts for web site, or a deployment slot.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Description for Creates the artifacts for web site, or a deployment slot.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/PostDeployWorkflowArtifactsSlot.json
  */
-async function deploysWorkflowArtifactsSlot() {
+async function deploysWorkflowArtifactsSlot(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -90,7 +88,7 @@ async function deploysWorkflowArtifactsSlot() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploysWorkflowArtifactsSlot();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Description for Create or update a database connection for a static site build
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/PatchStaticSiteBuildDatabaseConnection.json
  */
-async function patchADatabaseConnectionForAStaticSiteBuild() {
+async function patchADatabaseConnectionForAStaticSiteBuild(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,7 +42,7 @@ async function patchADatabaseConnectionForAStaticSiteBuild() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchADatabaseConnectionForAStaticSiteBuild();
 }
 

@@ -13,9 +13,7 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Creates a new static site custom domain in an existing resource group and static site.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Description for Creates a new static site custom domain in an existing resource group and static site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/CreateOrUpdateStaticSiteCustomDomain.json
  */
-async function createOrUpdateACustomDomainForAStaticSite() {
+async function createOrUpdateACustomDomainForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -44,7 +42,7 @@ async function createOrUpdateACustomDomainForAStaticSite() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateACustomDomainForAStaticSite();
 }
 

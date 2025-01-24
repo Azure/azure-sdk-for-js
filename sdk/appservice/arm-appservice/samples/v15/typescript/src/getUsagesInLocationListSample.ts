@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List usages in cores for all skus used by a subscription in a given location, for a specific quota type.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetUsagesInLocation.json
  */
-async function getUsagesInLocationForSubscription() {
+async function getUsagesInLocationForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -32,7 +32,7 @@ async function getUsagesInLocationForSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getUsagesInLocationForSubscription();
 }
 

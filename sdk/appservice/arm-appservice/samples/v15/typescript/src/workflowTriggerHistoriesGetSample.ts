@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets a workflow trigger history.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowTriggerHistories_Get.json
  */
-async function getAWorkflowTriggerHistory() {
+async function getAWorkflowTriggerHistory(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -40,7 +40,7 @@ async function getAWorkflowTriggerHistory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAWorkflowTriggerHistory();
 }
 

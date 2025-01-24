@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Description for Get a domain.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Description for Get a domain.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/GetDomain.json
  */
-async function getDomain() {
+async function getDomain(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,7 +31,7 @@ async function getDomain() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDomain();
 }
 
