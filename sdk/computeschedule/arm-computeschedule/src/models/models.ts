@@ -10,15 +10,19 @@ export interface SubmitDeallocateRequest {
   /** The resources for the request */
   resources: Resources;
   /** CorrelationId item */
-  correlationid: string;
+  correlationId: string;
 }
 
-export function submitDeallocateRequestSerializer(item: SubmitDeallocateRequest): any {
+export function submitDeallocateRequestSerializer(
+  item: SubmitDeallocateRequest,
+): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
-    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
     resources: resourcesSerializer(item["resources"]),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -27,11 +31,11 @@ export interface Schedule {
   /** The deadline for the operation */
   deadline?: string;
   /** The deadline for the operation */
-  deadLine?: string;
+  userRequestDeadline?: string;
   /** The timezone for the operation */
   timezone?: string;
   /** The timezone for the operation */
-  timeZone?: string;
+  userRequestTimezone?: string;
   /** The deadlinetype of the operation, this can either be InitiateAt or CompleteBy */
   deadlineType: DeadlineType;
 }
@@ -39,9 +43,9 @@ export interface Schedule {
 export function scheduleSerializer(item: Schedule): any {
   return {
     deadline: item["deadline"],
-    deadLine: item["deadLine"],
+    deadLine: item["userRequestDeadline"],
     timezone: item["timezone"],
-    timeZone: item["timeZone"],
+    timeZone: item["userRequestTimezone"],
     deadlineType: item["deadlineType"],
   };
 }
@@ -166,7 +170,9 @@ export function deallocateResourceOperationResponseDeserializer(
   };
 }
 
-export function resourceOperationArrayDeserializer(result: Array<ResourceOperation>): any[] {
+export function resourceOperationArrayDeserializer(
+  result: Array<ResourceOperation>,
+): any[] {
   return result.map((item) => {
     return resourceOperationDeserializer(item);
   });
@@ -214,7 +220,7 @@ export interface ResourceOperationDetails {
   /** Timezone for the operation */
   timezone?: string;
   /** Timezone for the operation */
-  timeZone?: string;
+  operationTimezone?: string;
   /** Operation level errors if they exist */
   resourceOperationError?: ResourceOperationError;
   /** Time the operation was complete if errors are null */
@@ -223,7 +229,9 @@ export interface ResourceOperationDetails {
   retryPolicy?: RetryPolicy;
 }
 
-export function resourceOperationDetailsDeserializer(item: any): ResourceOperationDetails {
+export function resourceOperationDetailsDeserializer(
+  item: any,
+): ResourceOperationDetails {
   return {
     operationId: item["operationId"],
     resourceId: item["resourceId"],
@@ -233,7 +241,7 @@ export function resourceOperationDetailsDeserializer(item: any): ResourceOperati
     deadlineType: item["deadlineType"],
     state: item["state"],
     timezone: item["timezone"],
-    timeZone: item["timeZone"],
+    operationTimezone: item["timeZone"],
     resourceOperationError: !item["resourceOperationError"]
       ? item["resourceOperationError"]
       : resourceOperationErrorDeserializer(item["resourceOperationError"]),
@@ -315,11 +323,99 @@ export interface ResourceOperationError {
   errorDetails: string;
 }
 
-export function resourceOperationErrorDeserializer(item: any): ResourceOperationError {
+export function resourceOperationErrorDeserializer(
+  item: any,
+): ResourceOperationError {
   return {
     errorCode: item["errorCode"],
     errorDetails: item["errorDetails"],
   };
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
 }
 
 /** This is the request for hibernate */
@@ -331,15 +427,19 @@ export interface SubmitHibernateRequest {
   /** The resources for the request */
   resources: Resources;
   /** CorrelationId item */
-  correlationid: string;
+  correlationId: string;
 }
 
-export function submitHibernateRequestSerializer(item: SubmitHibernateRequest): any {
+export function submitHibernateRequestSerializer(
+  item: SubmitHibernateRequest,
+): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
-    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
     resources: resourcesSerializer(item["resources"]),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -377,15 +477,17 @@ export interface SubmitStartRequest {
   /** The resources for the request */
   resources: Resources;
   /** CorrelationId item */
-  correlationid: string;
+  correlationId: string;
 }
 
 export function submitStartRequestSerializer(item: SubmitStartRequest): any {
   return {
     schedule: scheduleSerializer(item["schedule"]),
-    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
     resources: resourcesSerializer(item["resources"]),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -421,14 +523,18 @@ export interface ExecuteDeallocateRequest {
   /** The resources for the request */
   resources: Resources;
   /** CorrelationId item */
-  correlationid: string;
+  correlationId: string;
 }
 
-export function executeDeallocateRequestSerializer(item: ExecuteDeallocateRequest): any {
+export function executeDeallocateRequestSerializer(
+  item: ExecuteDeallocateRequest,
+): any {
   return {
-    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
     resources: resourcesSerializer(item["resources"]),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -439,14 +545,18 @@ export interface ExecuteHibernateRequest {
   /** The resources for the request */
   resources: Resources;
   /** CorrelationId item */
-  correlationid: string;
+  correlationId: string;
 }
 
-export function executeHibernateRequestSerializer(item: ExecuteHibernateRequest): any {
+export function executeHibernateRequestSerializer(
+  item: ExecuteHibernateRequest,
+): any {
   return {
-    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
     resources: resourcesSerializer(item["resources"]),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -457,14 +567,16 @@ export interface ExecuteStartRequest {
   /** The resources for the request */
   resources: Resources;
   /** CorrelationId item */
-  correlationid: string;
+  correlationId: string;
 }
 
 export function executeStartRequestSerializer(item: ExecuteStartRequest): any {
   return {
-    executionParameters: executionParametersSerializer(item["executionParameters"]),
+    executionParameters: executionParametersSerializer(
+      item["executionParameters"],
+    ),
     resources: resourcesSerializer(item["resources"]),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -473,15 +585,17 @@ export interface GetOperationStatusRequest {
   /** The list of operation ids to get the status of */
   operationIds: string[];
   /** CorrelationId item */
-  correlationid: string;
+  correlationId: string;
 }
 
-export function getOperationStatusRequestSerializer(item: GetOperationStatusRequest): any {
+export function getOperationStatusRequestSerializer(
+  item: GetOperationStatusRequest,
+): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
     }),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -491,7 +605,9 @@ export interface GetOperationStatusResponse {
   results: ResourceOperation[];
 }
 
-export function getOperationStatusResponseDeserializer(item: any): GetOperationStatusResponse {
+export function getOperationStatusResponseDeserializer(
+  item: any,
+): GetOperationStatusResponse {
   return {
     results: resourceOperationArrayDeserializer(item["results"]),
   };
@@ -502,15 +618,17 @@ export interface CancelOperationsRequest {
   /** The list of operation ids to cancel operations on */
   operationIds: string[];
   /** CorrelationId item */
-  correlationid: string;
+  correlationId: string;
 }
 
-export function cancelOperationsRequestSerializer(item: CancelOperationsRequest): any {
+export function cancelOperationsRequestSerializer(
+  item: CancelOperationsRequest,
+): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
     }),
-    correlationid: item["correlationid"],
+    correlationid: item["correlationId"],
   };
 }
 
@@ -520,7 +638,9 @@ export interface CancelOperationsResponse {
   results: ResourceOperation[];
 }
 
-export function cancelOperationsResponseDeserializer(item: any): CancelOperationsResponse {
+export function cancelOperationsResponseDeserializer(
+  item: any,
+): CancelOperationsResponse {
   return {
     results: resourceOperationArrayDeserializer(item["results"]),
   };
@@ -532,7 +652,9 @@ export interface GetOperationErrorsRequest {
   operationIds: string[];
 }
 
-export function getOperationErrorsRequestSerializer(item: GetOperationErrorsRequest): any {
+export function getOperationErrorsRequestSerializer(
+  item: GetOperationErrorsRequest,
+): any {
   return {
     operationIds: item["operationIds"].map((p: any) => {
       return p;
@@ -546,7 +668,9 @@ export interface GetOperationErrorsResponse {
   results: OperationErrorsResult[];
 }
 
-export function getOperationErrorsResponseDeserializer(item: any): GetOperationErrorsResponse {
+export function getOperationErrorsResponseDeserializer(
+  item: any,
+): GetOperationErrorsResponse {
   return {
     results: operationErrorsResultArrayDeserializer(item["results"]),
   };
@@ -578,7 +702,9 @@ export interface OperationErrorsResult {
   requestErrorDetails?: string;
 }
 
-export function operationErrorsResultDeserializer(item: any): OperationErrorsResult {
+export function operationErrorsResultDeserializer(
+  item: any,
+): OperationErrorsResult {
   return {
     operationId: item["operationId"],
     creationTime: item["creationTime"],
@@ -609,19 +735,21 @@ export interface OperationErrorDetails {
   /** The timestamp of the error occurence */
   timestamp?: string;
   /** The timestamp of the error occurence */
-  timeStamp?: string;
+  errorDetailsTimestamp?: string;
   /** The compute operationid of the Start/Deallocate/Hibernate request */
   azureOperationName?: string;
   /** The compute operationid of the Start/Deallocate/Hibernate request */
   crpOperationId?: string;
 }
 
-export function operationErrorDetailsDeserializer(item: any): OperationErrorDetails {
+export function operationErrorDetailsDeserializer(
+  item: any,
+): OperationErrorDetails {
   return {
     errorCode: item["errorCode"],
     errorDetails: item["errorDetails"],
     timestamp: item["timestamp"],
-    timeStamp: item["timeStamp"],
+    errorDetailsTimestamp: item["timeStamp"],
     azureOperationName: item["azureOperationName"],
     crpOperationId: item["crpOperationId"],
   };
@@ -635,7 +763,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -666,7 +796,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -696,11 +828,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  User = "user",
+  user = "user",
   /** Indicates the operation is initiated by a system. */
-  System = "system",
+  system = "system",
   /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -732,5 +864,5 @@ export type ActionType = string;
 /** ComputeSchedule API versions */
 export enum KnownVersions {
   /** 2024-10-01 version */
-  "V2024-10-01" = "2024-10-01",
+  "2024-10-01" = "2024-10-01",
 }

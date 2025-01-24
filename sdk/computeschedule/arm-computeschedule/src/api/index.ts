@@ -18,3 +18,15 @@ export {
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
   OperationsListOptionalParams,
 } from "./options.js";
+export { operationsList } from "./operations/index.js";
+export {
+  scheduledActionsVirtualMachinesGetOperationErrors,
+  scheduledActionsVirtualMachinesCancelOperations,
+  scheduledActionsVirtualMachinesGetOperationStatus,
+  scheduledActionsVirtualMachinesExecuteStart,
+  scheduledActionsVirtualMachinesExecuteHibernate,
+  scheduledActionsVirtualMachinesExecuteDeallocate,
+  scheduledActionsVirtualMachinesSubmitStart,
+  scheduledActionsVirtualMachinesSubmitHibernate,
+  scheduledActionsVirtualMachinesSubmitDeallocate,
+} from "./scheduledActions/index.js";
