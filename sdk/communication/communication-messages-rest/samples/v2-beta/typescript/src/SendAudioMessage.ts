@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a interactive message
+ * @summary Send a audio message
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { InteractiveMessage, Send202Response } from "@azure-rest/communication-messages";
+import type { Send202Response } from "@azure-rest/communication-messages";
 import NotificationClient, { isUnexpected } from "@azure-rest/communication-messages";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -16,42 +16,14 @@ async function main(): Promise<void> {
     const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
     const endpoint = process.env.ACS_URL || "";
     const client = NotificationClient(endpoint, credential);
-
-    const interactiveMessage: InteractiveMessage = {
-        header: {
-            kind: "document",
-            mediaUri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-        },
-        body: {
-            kind: "text",
-            text: "Do you want to proceed?",
-        },
-        action: {
-            kind: "whatsAppButtonAction",
-            content: {
-                kind: "buttonSet",
-                buttons: [
-                    {
-                        id: "yes",
-                        title: "Yes",
-                    },
-                    {
-                        id: "no",
-                        title: "No",
-                    },
-                ]
-            }
-        }
-    };
-    
     console.log("Sending message...");
     const  result = await client.path("/messages/notifications:send").post({
         contentType: "application/json",
         body: {
             channelRegistrationId: process.env.CHANNEL_ID || "",
             to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
-            kind: "interactive",
-            interactiveMessage: interactiveMessage,
+            kind: "audio",
+            mediaUri: "https://sample-videos.com/audio/mp3/wave.mp3"
         }
     });
 

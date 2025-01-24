@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a video message
+ * @summary Send an image message
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
@@ -15,34 +15,14 @@ async function main() {
   const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
   const endpoint = process.env.ACS_URL || "";
   const client = NotificationClient(endpoint, credential);
-
-  const interactiveMessage = {
-    body: {
-      kind: "text",
-      text: "The best Guardian of Galaxy",
-    },
-    action: {
-      kind: "whatsAppUrlAction",
-      content: {
-        kind: "url",
-        title: "Rocket is the best!",
-        url: "https://wallpapercave.com/wp/wp2163723.jpg",
-      },
-    },
-    footer: {
-      kind: "text",
-      text: "Intergalactic News Ltd",
-    },
-  };
-
   console.log("Sending message...");
   const result = await client.path("/messages/notifications:send").post({
     contentType: "application/json",
     body: {
       channelRegistrationId: process.env.CHANNEL_ID || "",
       to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
-      kind: "interactive",
-      interactiveMessage: interactiveMessage,
+      kind: "image",
+      mediaUri: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
     },
   });
 

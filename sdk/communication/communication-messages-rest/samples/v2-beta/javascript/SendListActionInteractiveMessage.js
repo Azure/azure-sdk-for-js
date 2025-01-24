@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a video message
+ * @summary Send a interactive message
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
@@ -22,17 +22,40 @@ async function main() {
       text: "Do you want to proceed?",
     },
     action: {
-      kind: "whatsAppButtonAction",
+      kind: "whatsAppListAction",
       content: {
-        kind: "buttonSet",
-        buttons: [
+        kind: "group",
+        title: "Shipping Options",
+        groups: [
           {
-            id: "yes",
-            title: "Yes",
+            title: "Express Delivery",
+            items: [
+              {
+                id: "priority_mail_express",
+                title: "Priority Mail Express",
+                description: "Delivered on same day!",
+              },
+              {
+                id: "priority_mail",
+                title: "Priority Mail",
+                description: "Delivered in 1-2 days",
+              },
+            ],
           },
           {
-            id: "no",
-            title: "No",
+            title: "Normal Delivery",
+            items: [
+              {
+                id: "usps_ground_advantage",
+                title: "USPS Ground Advantage",
+                description: "Delivered in 2-5 days",
+              },
+              {
+                id: "usps_mail",
+                title: "Normal Mail",
+                description: "Delivered in 5-8 days",
+              },
+            ],
           },
         ],
       },

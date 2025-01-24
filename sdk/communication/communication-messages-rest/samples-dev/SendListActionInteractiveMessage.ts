@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a video message
+ * @summary Send a interactive message
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";

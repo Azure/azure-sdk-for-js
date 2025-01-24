@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a video message
+ * @summary Send a interactive message
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -18,46 +18,27 @@ async function main(): Promise<void> {
     const client = NotificationClient(endpoint, credential);
 
     const interactiveMessage: InteractiveMessage = {
+        header: {
+            kind: "document",
+            mediaUri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        },
         body: {
             kind: "text",
             text: "Do you want to proceed?",
         },
         action: {
-            kind: "whatsAppListAction",
+            kind: "whatsAppButtonAction",
             content: {
-                kind: "group",
-                title: "Shipping Options",
-                groups:[
+                kind: "buttonSet",
+                buttons: [
                     {
-                        title: "Express Delivery",
-                        items: [
-                            {
-                                id: "priority_mail_express",
-                                title: "Priority Mail Express",
-                                description: "Delivered on same day!",
-                            },
-                            {
-                                id: "priority_mail",
-                                title: "Priority Mail",
-                                description: "Delivered in 1-2 days",
-                            }
-                        ]
+                        id: "yes",
+                        title: "Yes",
                     },
                     {
-                        title: "Normal Delivery",
-                        items: [
-                            {
-                                id: "usps_ground_advantage",
-                                title: "USPS Ground Advantage",
-                                description: "Delivered in 2-5 days",
-                            },
-                            {
-                                id: "usps_mail",
-                                title: "Normal Mail",
-                                description: "Delivered in 5-8 days",
-                            }
-                        ]
-                    }
+                        id: "no",
+                        title: "No",
+                    },
                 ]
             }
         }

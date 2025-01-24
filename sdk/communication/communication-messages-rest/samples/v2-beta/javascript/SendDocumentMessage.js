@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a video message
+ * @summary Send a document message
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
@@ -15,42 +15,15 @@ async function main() {
   const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
   const endpoint = process.env.ACS_URL || "";
   const client = NotificationClient(endpoint, credential);
-
-  const interactiveMessage = {
-    header: {
-      kind: "image",
-      mediaUri: "https://wallpapercave.com/wp/wp2163723.jpg",
-    },
-    body: {
-      kind: "text",
-      text: "Do you want to proceed?",
-    },
-    action: {
-      kind: "whatsAppButtonAction",
-      content: {
-        kind: "buttonSet",
-        buttons: [
-          {
-            id: "yes",
-            title: "Yes",
-          },
-          {
-            id: "no",
-            title: "No",
-          },
-        ],
-      },
-    },
-  };
-
   console.log("Sending message...");
   const result = await client.path("/messages/notifications:send").post({
     contentType: "application/json",
     body: {
       channelRegistrationId: process.env.CHANNEL_ID || "",
       to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
-      kind: "interactive",
-      interactiveMessage: interactiveMessage,
+      kind: "document",
+      mediaUri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      caption: "important!!",
     },
   });
 

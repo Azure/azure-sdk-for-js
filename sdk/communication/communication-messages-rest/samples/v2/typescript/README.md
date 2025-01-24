@@ -17,17 +17,11 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [DownloadMedia.ts][downloadmedia]                                                                         | Download a media file                                               |
 | [GetMessageTemplateList.ts][getmessagetemplatelist]                                                       | Get Template list for a channel                                     |
 | [SendAudioMessage.ts][sendaudiomessage]                                                                   | Send a audio message                                                |
-| [SendButtonActionInteractiveMessage.ts][sendbuttonactioninteractivemessage]                               | Send a video message                                                |
-| [SendButtonActionWithDocHeaderInteractiveMessage.ts][sendbuttonactionwithdocheaderinteractivemessage]     | Send a video message                                                |
-| [SendButtonActionWithImageHeaderInteractiveMessage.ts][sendbuttonactionwithimageheaderinteractivemessage] | Send a video message                                                |
-| [SendButtonActionWithVideoHeaderInteractiveMessage.ts][sendbuttonactionwithvideoheaderinteractivemessage] | Send a video message                                                |
 | [SendDocumentMessage.ts][senddocumentmessage]                                                             | Send a document message                                             |
 | [SendImageMessage.ts][sendimagemessage]                                                                   | Send an image message                                               |
-| [SendListActionInteractiveMessage.ts][sendlistactioninteractivemessage]                                   | Send a video message                                                |
 | [SendTemplateMessage.ts][sendtemplatemessage]                                                             | Send a template message                                             |
 | [SendTextMessage.ts][sendtextmessage]                                                                     | Send a text message                                                 |
 | [SendTextTemplateMessageUsingAAD.ts][sendtexttemplatemessageusingaad]                                     | Use AAD token credentials when sending a whatsapp template message. |
-| [SendUrlActionInteractiveMessage.ts][sendurlactioninteractivemessage]                                     | Send a video message                                                |
 | [SendVideoMessage.ts][sendvideomessage]                                                                   | Send a video message                                                |
 
 ## Prerequisites
@@ -83,17 +77,11 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [downloadmedia]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/DownloadMedia.ts
 [getmessagetemplatelist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/GetMessageTemplateList.ts
 [sendaudiomessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendAudioMessage.ts
-[sendbuttonactioninteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendButtonActionInteractiveMessage.ts
-[sendbuttonactionwithdocheaderinteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendButtonActionWithDocHeaderInteractiveMessage.ts
-[sendbuttonactionwithimageheaderinteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendButtonActionWithImageHeaderInteractiveMessage.ts
-[sendbuttonactionwithvideoheaderinteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendButtonActionWithVideoHeaderInteractiveMessage.ts
 [senddocumentmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendDocumentMessage.ts
 [sendimagemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendImageMessage.ts
-[sendlistactioninteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendListActionInteractiveMessage.ts
 [sendtemplatemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendTemplateMessage.ts
 [sendtextmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendTextMessage.ts
 [sendtexttemplatemessageusingaad]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendTextTemplateMessageUsingAAD.ts
-[sendurlactioninteractivemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendUrlActionInteractiveMessage.ts
 [sendvideomessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/typescript/src/SendVideoMessage.ts
 [apiref]: https://learn.microsoft.com/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest
 [freesub]: https://azure.microsoft.com/free/
