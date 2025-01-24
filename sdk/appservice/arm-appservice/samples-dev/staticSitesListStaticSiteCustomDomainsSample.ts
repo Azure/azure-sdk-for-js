@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Gets all static site custom domains for a particular static site.
  *
  * @summary Description for Gets all static site custom domains for a particular static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetStaticSiteCustomDomains.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetStaticSiteCustomDomains.json
  */
-async function listCustomDomainsForAStaticSite(): Promise<void> {
+async function listCustomDomainsForAStaticSite() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,8 +38,8 @@ async function listCustomDomainsForAStaticSite(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listCustomDomainsForAStaticSite();
+async function main() {
+  listCustomDomainsForAStaticSite();
 }
 
 main().catch(console.error);

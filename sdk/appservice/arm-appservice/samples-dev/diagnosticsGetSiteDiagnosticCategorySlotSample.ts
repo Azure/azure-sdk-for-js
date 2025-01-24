@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Get Diagnostics Category
  *
  * @summary Description for Get Diagnostics Category
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetSiteDiagnosticCategory.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/Diagnostics_GetSiteDiagnosticCategory.json
  */
-async function getAppDiagnosticCategory(): Promise<void> {
+async function getAppDiagnosticCategory() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,9 +44,9 @@ async function getAppDiagnosticCategory(): Promise<void> {
  * This sample demonstrates how to Description for Get Diagnostics Category
  *
  * @summary Description for Get Diagnostics Category
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetSiteDiagnosticCategorySlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/Diagnostics_GetSiteDiagnosticCategorySlot.json
  */
-async function getAppSlotDiagnosticCategory(): Promise<void> {
+async function getAppSlotDiagnosticCategory() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -64,9 +66,9 @@ async function getAppSlotDiagnosticCategory(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getAppDiagnosticCategory();
-  await getAppSlotDiagnosticCategory();
+async function main() {
+  getAppDiagnosticCategory();
+  getAppSlotDiagnosticCategory();
 }
 
 main().catch(console.error);

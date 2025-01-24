@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Get available Function app frameworks and their versions for location
  *
  * @summary Description for Get available Function app frameworks and their versions for location
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetFunctionAppStacksForLocation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetFunctionAppStacksForLocation.json
  */
-async function getLocationsFunctionAppStacks(): Promise<void> {
+async function getLocationsFunctionAppStacks() {
   const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
@@ -31,8 +33,8 @@ async function getLocationsFunctionAppStacks(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await getLocationsFunctionAppStacks();
+async function main() {
+  getLocationsFunctionAppStacks();
 }
 
 main().catch(console.error);

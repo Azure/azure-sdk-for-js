@@ -14,15 +14,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Register a user provided function app with a static site build
  *
  * @summary Description for Register a user provided function app with a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/RegisterUserProvidedFunctionAppWithStaticSiteBuild.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/RegisterUserProvidedFunctionAppWithStaticSiteBuild.json
  */
-async function registerAUserProvidedFunctionAppWithAStaticSiteBuild(): Promise<void> {
+async function registerAUserProvidedFunctionAppWithAStaticSiteBuild() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -32,11 +34,11 @@ async function registerAUserProvidedFunctionAppWithAStaticSiteBuild(): Promise<v
   const functionAppName = "testFunctionApp";
   const isForced = true;
   const staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource =
-  {
-    functionAppRegion: "West US 2",
-    functionAppResourceId:
-      "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/functionRG/providers/Microsoft.Web/sites/testFunctionApp",
-  };
+    {
+      functionAppRegion: "West US 2",
+      functionAppResourceId:
+        "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/functionRG/providers/Microsoft.Web/sites/testFunctionApp",
+    };
   const options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams =
     { isForced };
   const credential = new DefaultAzureCredential();
@@ -53,8 +55,8 @@ async function registerAUserProvidedFunctionAppWithAStaticSiteBuild(): Promise<v
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await registerAUserProvidedFunctionAppWithAStaticSiteBuild();
+async function main() {
+  registerAUserProvidedFunctionAppWithAStaticSiteBuild();
 }
 
 main().catch(console.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Get available Web app frameworks and their versions
  *
  * @summary Description for Get available Web app frameworks and their versions
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetWebAppStacks.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetWebAppStacks.json
  */
-async function getWebAppStacks(): Promise<void> {
+async function getWebAppStacks() {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
   const resArray = new Array();
@@ -28,8 +30,8 @@ async function getWebAppStacks(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await getWebAppStacks();
+async function main() {
+  getWebAppStacks();
 }
 
 main().catch(console.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Transfer out domain to another registrar
  *
  * @summary Transfer out domain to another registrar
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/TransferOutDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/TransferOutDomain.json
  */
-async function transferOutDomain(): Promise<void> {
+async function transferOutDomain() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,8 +36,8 @@ async function transferOutDomain(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await transferOutDomain();
+async function main() {
+  transferOutDomain();
 }
 
 main().catch(console.error);

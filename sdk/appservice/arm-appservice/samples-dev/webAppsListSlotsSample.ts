@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Gets an app's deployment slots.
  *
  * @summary Description for Gets an app's deployment slots.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListWebAppSlots.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListWebAppSlots.json
  */
-async function listWebAppSlots(): Promise<void> {
+async function listWebAppSlots() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,8 +36,8 @@ async function listWebAppSlots(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listWebAppSlots();
+async function main() {
+  listWebAppSlots();
 }
 
 main().catch(console.error);

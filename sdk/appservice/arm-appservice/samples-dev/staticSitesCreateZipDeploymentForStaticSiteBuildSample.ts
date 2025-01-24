@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Deploys zipped content to a specific environment of a static site.
  *
  * @summary Description for Deploys zipped content to a specific environment of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/StaticSiteBuildZipDeploy.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/StaticSiteBuildZipDeploy.json
  */
-async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild(): Promise<void> {
+async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -49,8 +51,8 @@ async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild(): Prom
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await deployASiteFromAZippedPackageToAParticularStaticSiteBuild();
+async function main() {
+  deployASiteFromAZippedPackageToAParticularStaticSiteBuild();
 }
 
 main().catch(console.error);

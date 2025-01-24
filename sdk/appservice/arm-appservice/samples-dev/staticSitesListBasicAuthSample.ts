@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Gets the basic auth properties for a static site as a collection.
  *
  * @summary Description for Gets the basic auth properties for a static site as a collection.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListStaticSiteBasicAuth.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListStaticSiteBasicAuth.json
  */
-async function listsTheBasicAuthPropertiesForAStaticSite(): Promise<void> {
+async function listsTheBasicAuthPropertiesForAStaticSite() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,8 +38,8 @@ async function listsTheBasicAuthPropertiesForAStaticSite(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listsTheBasicAuthPropertiesForAStaticSite();
+async function main() {
+  listsTheBasicAuthPropertiesForAStaticSite();
 }
 
 main().catch(console.error);

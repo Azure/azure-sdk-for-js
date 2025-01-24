@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get custom hostnames under this subscription
  *
  * @summary Get custom hostnames under this subscription
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCustomHostNameSites.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListCustomHostNameSites.json
  */
-async function getCustomHostnamesUnderSubscription(): Promise<void> {
+async function getCustomHostnamesUnderSubscription() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,9 +40,9 @@ async function getCustomHostnamesUnderSubscription(): Promise<void> {
  * This sample demonstrates how to Get custom hostnames under this subscription
  *
  * @summary Get custom hostnames under this subscription
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCustomSpecificHostNameSites.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListCustomSpecificHostNameSites.json
  */
-async function getSpecificCustomHostnameUnderSubscription(): Promise<void> {
+async function getSpecificCustomHostnameUnderSubscription() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -55,9 +57,9 @@ async function getSpecificCustomHostnameUnderSubscription(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await getCustomHostnamesUnderSubscription();
-  await getSpecificCustomHostnameUnderSubscription();
+async function main() {
+  getCustomHostnamesUnderSubscription();
+  getSpecificCustomHostnameUnderSubscription();
 }
 
 main().catch(console.error);

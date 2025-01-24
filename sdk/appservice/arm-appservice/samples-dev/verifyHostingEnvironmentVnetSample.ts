@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { VnetParameters, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
  *
  * @summary Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/VerifyHostingEnvironmentVnet.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/VerifyHostingEnvironmentVnet.json
  */
-async function verifyHostingEnvironmentVnet(): Promise<void> {
+async function verifyHostingEnvironmentVnet() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,8 +35,8 @@ async function verifyHostingEnvironmentVnet(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await verifyHostingEnvironmentVnet();
+async function main() {
+  verifyHostingEnvironmentVnet();
 }
 
 main().catch(console.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List usages in cores for all skus used by a subscription in a given location, for a specific quota type.
  *
  * @summary List usages in cores for all skus used by a subscription in a given location, for a specific quota type.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetUsagesInLocation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetUsagesInLocation.json
  */
-async function getUsagesInLocationForSubscription(): Promise<void> {
+async function getUsagesInLocationForSubscription() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -32,8 +34,8 @@ async function getUsagesInLocationForSubscription(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await getUsagesInLocationForSubscription();
+async function main() {
+  getUsagesInLocationForSubscription();
 }
 
 main().catch(console.error);

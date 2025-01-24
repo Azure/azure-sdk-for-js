@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a workflow run action repetition.
  *
  * @summary Get a workflow run action repetition.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRunActionRepetitions_Get.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowRunActionRepetitions_Get.json
  */
-async function getARepetition(): Promise<void> {
+async function getARepetition() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,8 +44,8 @@ async function getARepetition(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getARepetition();
+async function main() {
+  getARepetition();
 }
 
 main().catch(console.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.
  *
  * @summary Description for Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetSiteConfig.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetSiteConfig.json
  */
-async function getSiteConfig(): Promise<void> {
+async function getSiteConfig() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,8 +33,8 @@ async function getSiteConfig(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getSiteConfig();
+async function main() {
+  getSiteConfig();
 }
 
 main().catch(console.error);

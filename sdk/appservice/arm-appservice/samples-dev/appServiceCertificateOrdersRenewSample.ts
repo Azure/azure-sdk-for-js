@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Renew an existing certificate order.
  *
  * @summary Description for Renew an existing certificate order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/RenewAppServiceCertificateOrder.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-04-01/examples/RenewAppServiceCertificateOrder.json
  */
-async function renewAppServiceCertificateOrder(): Promise<void> {
+async function renewAppServiceCertificateOrder() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,8 +45,8 @@ async function renewAppServiceCertificateOrder(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await renewAppServiceCertificateOrder();
+async function main() {
+  renewAppServiceCertificateOrder();
 }
 
 main().catch(console.error);

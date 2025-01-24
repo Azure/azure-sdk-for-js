@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Creates or updates a domain.
  *
  * @summary Description for Creates or updates a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/UpdateAppServiceDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/UpdateAppServiceDomain.json
  */
-async function updateAppServiceDomain(): Promise<void> {
+async function updateAppServiceDomain() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -117,8 +119,8 @@ async function updateAppServiceDomain(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await updateAppServiceDomain();
+async function main() {
+  updateAppServiceDomain();
 }
 
 main().catch(console.error);

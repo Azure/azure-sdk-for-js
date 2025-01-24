@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Returns whether FTP is allowed on the site or not.
  *
  * @summary Description for Returns whether FTP is allowed on the site or not.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetPublishingCredentialsPolicy.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetPublishingCredentialsPolicy.json
  */
-async function getFtpAllowed(): Promise<void> {
+async function getFtpAllowed() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -30,8 +32,8 @@ async function getFtpAllowed(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getFtpAllowed();
+async function main() {
+  getFtpAllowed();
 }
 
 main().catch(console.error);

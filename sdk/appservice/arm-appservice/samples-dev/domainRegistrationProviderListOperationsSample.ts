@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
  *
  * @summary Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/ListOperations.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/ListOperations.json
  */
-async function listOperations(): Promise<void> {
+async function listOperations() {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential);
   const resArray = new Array();
@@ -28,8 +30,8 @@ async function listOperations(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listOperations();
+async function main() {
+  listOperations();
 }
 
 main().catch(console.error);

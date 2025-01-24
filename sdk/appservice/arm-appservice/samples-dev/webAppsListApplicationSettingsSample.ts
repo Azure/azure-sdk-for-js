@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Gets the application settings of an app.
  *
  * @summary Description for Gets the application settings of an app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListAppSettings.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListAppSettings.json
  */
-async function listAppSettings(): Promise<void> {
+async function listAppSettings() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -34,8 +36,8 @@ async function listAppSettings(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await listAppSettings();
+async function main() {
+  listAppSettings();
 }
 
 main().catch(console.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Get all domains in a subscription.
  *
  * @summary Description for Get all domains in a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/ListDomainsBySubscription.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/ListDomainsBySubscription.json
  */
-async function listDomainsBySubscription(): Promise<void> {
+async function listDomainsBySubscription() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,8 +33,8 @@ async function listDomainsBySubscription(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listDomainsBySubscription();
+async function main() {
+  listDomainsBySubscription();
 }
 
 main().catch(console.error);

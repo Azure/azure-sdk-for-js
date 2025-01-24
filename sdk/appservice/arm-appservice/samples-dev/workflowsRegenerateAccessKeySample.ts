@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Regenerates the callback URL access key for request triggers.
  *
  * @summary Regenerates the callback URL access key for request triggers.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Workflows_RegenerateAccessKey.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/Workflows_RegenerateAccessKey.json
  */
-async function regenerateTheCallbackUrlAccessKeyForRequestTriggers(): Promise<void> {
+async function regenerateTheCallbackUrlAccessKeyForRequestTriggers() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -41,8 +43,8 @@ async function regenerateTheCallbackUrlAccessKeyForRequestTriggers(): Promise<vo
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await regenerateTheCallbackUrlAccessKeyForRequestTriggers();
+async function main() {
+  regenerateTheCallbackUrlAccessKeyForRequestTriggers();
 }
 
 main().catch(console.error);

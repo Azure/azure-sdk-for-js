@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Renew a domain.
  *
  * @summary Description for Renew a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/RenewDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/RenewDomain.json
  */
-async function renewAnExistingDomain(): Promise<void> {
+async function renewAnExistingDomain() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545";
@@ -30,8 +32,8 @@ async function renewAnExistingDomain(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await renewAnExistingDomain();
+async function main() {
+  renewAnExistingDomain();
 }
 
 main().catch(console.error);

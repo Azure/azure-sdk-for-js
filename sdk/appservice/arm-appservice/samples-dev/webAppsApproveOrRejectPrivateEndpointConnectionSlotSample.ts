@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Approves or rejects a private endpoint connection
  *
  * @summary Description for Approves or rejects a private endpoint connection
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ApproveRejectSitePrivateEndpointConnectionSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ApproveRejectSitePrivateEndpointConnectionSlot.json
  */
-async function approvesOrRejectsAPrivateEndpointConnectionForASite(): Promise<void> {
+async function approvesOrRejectsAPrivateEndpointConnectionForASite() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -49,8 +51,8 @@ async function approvesOrRejectsAPrivateEndpointConnectionForASite(): Promise<vo
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await approvesOrRejectsAPrivateEndpointConnectionForASite();
+async function main() {
+  approvesOrRejectsAPrivateEndpointConnectionForASite();
 }
 
 main().catch(console.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List the workflow run action scoped repetitions.
  *
  * @summary List the workflow run action scoped repetitions.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRunActionScopeRepetitions_List.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowRunActionScopeRepetitions_List.json
  */
-async function listTheScopedRepetitions(): Promise<void> {
+async function listTheScopedRepetitions() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,8 +45,8 @@ async function listTheScopedRepetitions(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listTheScopedRepetitions();
+async function main() {
+  listTheScopedRepetitions();
 }
 
 main().catch(console.error);

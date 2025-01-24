@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
  *
  * @summary Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-04-01/examples/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
  */
-async function getAppServiceCertificateOrderDetectorResponse(): Promise<void> {
+async function getAppServiceCertificateOrderDetectorResponse() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "5700fc96-77b4-4f8d-afce-c353d8c443bd";
@@ -37,8 +39,8 @@ async function getAppServiceCertificateOrderDetectorResponse(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getAppServiceCertificateOrderDetectorResponse();
+async function main() {
+  getAppServiceCertificateOrderDetectorResponse();
 }
 
 main().catch(console.error);

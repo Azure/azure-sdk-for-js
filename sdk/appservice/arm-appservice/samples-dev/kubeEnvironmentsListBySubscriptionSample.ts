@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Get all Kubernetes Environments for a subscription.
  *
  * @summary Description for Get all Kubernetes Environments for a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/KubeEnvironments_ListBySubscription.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/KubeEnvironments_ListBySubscription.json
  */
-async function listKubeEnvironmentsBySubscription(): Promise<void> {
+async function listKubeEnvironmentsBySubscription() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "8efdecc5-919e-44eb-b179-915dca89ebf9";
@@ -31,8 +33,8 @@ async function listKubeEnvironmentsBySubscription(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listKubeEnvironmentsBySubscription();
+async function main() {
+  listKubeEnvironmentsBySubscription();
 }
 
 main().catch(console.error);

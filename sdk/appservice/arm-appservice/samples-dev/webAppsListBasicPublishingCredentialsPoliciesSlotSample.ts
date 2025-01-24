@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
  *
  * @summary Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListPublishingCredentialsPoliciesSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListPublishingCredentialsPoliciesSlot.json
  */
-async function listPublishingCredentialsPolicies(): Promise<void> {
+async function listPublishingCredentialsPolicies() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "3fb8d758-2e2c-42e9-a528-a8acdfe87237";
@@ -39,8 +41,8 @@ async function listPublishingCredentialsPolicies(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listPublishingCredentialsPolicies();
+async function main() {
+  listPublishingCredentialsPolicies();
 }
 
 main().catch(console.error);

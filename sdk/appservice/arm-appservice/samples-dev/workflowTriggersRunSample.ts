@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Runs a workflow trigger.
  *
  * @summary Runs a workflow trigger.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowTriggers_Run.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowTriggers_Run.json
  */
-async function runAWorkflowTrigger(): Promise<void> {
+async function runAWorkflowTrigger() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,8 +40,8 @@ async function runAWorkflowTrigger(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await runAWorkflowTrigger();
+async function main() {
+  runAWorkflowTrigger();
 }
 
 main().catch(console.error);

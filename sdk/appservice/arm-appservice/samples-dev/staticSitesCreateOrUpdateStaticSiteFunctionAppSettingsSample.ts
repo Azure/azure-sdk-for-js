@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Creates or updates the function app settings of a static site.
  *
  * @summary Description for Creates or updates the function app settings of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateStaticSiteFunctionAppSettings.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/CreateOrUpdateStaticSiteFunctionAppSettings.json
  */
-async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSite(): Promise<void> {
+async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSite() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -41,8 +43,8 @@ async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSite(): Promise<vo
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await createsOrUpdatesTheFunctionAppSettingsOfAStaticSite();
+async function main() {
+  createsOrUpdatesTheFunctionAppSettingsOfAStaticSite();
 }
 
 main().catch(console.error);

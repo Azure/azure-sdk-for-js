@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for get a list of available ASE regions and its supported Skus.
  *
  * @summary Description for get a list of available ASE regions and its supported Skus.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListAseRegions.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListAseRegions.json
  */
-async function listAseregions(): Promise<void> {
+async function listAseregions() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -31,8 +33,8 @@ async function listAseregions(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listAseregions();
+async function main() {
+  listAseregions();
 }
 
 main().catch(console.error);

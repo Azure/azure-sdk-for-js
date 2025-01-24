@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Detaches a static site.
  *
  * @summary Description for Detaches a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DetachStaticSite.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/DetachStaticSite.json
  */
-async function detachAStaticSite(): Promise<void> {
+async function detachAStaticSite() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,8 +35,8 @@ async function detachAStaticSite(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await detachAStaticSite();
+async function main() {
+  detachAStaticSite();
 }
 
 main().catch(console.error);

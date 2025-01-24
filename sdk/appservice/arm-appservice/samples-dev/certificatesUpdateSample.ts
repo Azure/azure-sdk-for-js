@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Create or update a certificate.
  *
  * @summary Description for Create or update a certificate.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/PatchCertificate.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/PatchCertificate.json
  */
-async function patchCertificate(): Promise<void> {
+async function patchCertificate() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -41,8 +43,8 @@ async function patchCertificate(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await patchCertificate();
+async function main() {
+  patchCertificate();
 }
 
 main().catch(console.error);

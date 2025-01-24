@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Generate a single sign-on request for the domain management portal.
  *
  * @summary Description for Generate a single sign-on request for the domain management portal.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/GetDomainControlCenterSsoRequest.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/GetDomainControlCenterSsoRequest.json
  */
-async function getDomainControlCenterSsoRequest(): Promise<void> {
+async function getDomainControlCenterSsoRequest() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -28,8 +30,8 @@ async function getDomainControlCenterSsoRequest(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getDomainControlCenterSsoRequest();
+async function main() {
+  getDomainControlCenterSsoRequest();
 }
 
 main().catch(console.error);

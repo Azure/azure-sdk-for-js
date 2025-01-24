@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Get the used, available, and total worker capacity an App Service Environment.
  *
  * @summary Description for Get the used, available, and total worker capacity an App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_ListCapacities.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/AppServiceEnvironments_ListCapacities.json
  */
-async function getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment(): Promise<void> {
+async function getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -37,8 +39,8 @@ async function getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment(
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment();
+async function main() {
+  getTheUsedAvailableAndTotalWorkerCapacityAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

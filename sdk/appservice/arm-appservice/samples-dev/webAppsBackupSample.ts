@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { BackupRequest, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Creates a backup of an app.
  *
  * @summary Description for Creates a backup of an app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/BackupWebApp.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/BackupWebApp.json
  */
-async function backupWebApp(): Promise<void> {
+async function backupWebApp() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -60,8 +62,8 @@ async function backupWebApp(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await backupWebApp();
+async function main() {
+  backupWebApp();
 }
 
 main().catch(console.error);

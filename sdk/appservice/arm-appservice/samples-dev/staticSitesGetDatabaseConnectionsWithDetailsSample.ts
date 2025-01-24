@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns details of database connections for a static site
  *
  * @summary Returns details of database connections for a static site
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetStaticSiteDatabaseConnectionsWithDetails.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetStaticSiteDatabaseConnectionsWithDetails.json
  */
-async function listFullDetailsOfDatabaseConnectionsForTheStaticSite(): Promise<void> {
+async function listFullDetailsOfDatabaseConnectionsForTheStaticSite() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,8 +38,8 @@ async function listFullDetailsOfDatabaseConnectionsForTheStaticSite(): Promise<v
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listFullDetailsOfDatabaseConnectionsForTheStaticSite();
+async function main() {
+  listFullDetailsOfDatabaseConnectionsForTheStaticSite();
 }
 
 main().catch(console.error);

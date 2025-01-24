@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { Workflow, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Validates the workflow definition.
  *
  * @summary Validates the workflow definition.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Workflows_Validate.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/Workflows_Validate.json
  */
-async function validateAWorkflow(): Promise<void> {
+async function validateAWorkflow() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -49,8 +51,8 @@ async function validateAWorkflow(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await validateAWorkflow();
+async function main() {
+  validateAWorkflow();
 }
 
 main().catch(console.error);

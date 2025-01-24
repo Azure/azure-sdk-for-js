@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
  *
  * @summary Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListResourceHealthMetadataByResourceGroup.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListResourceHealthMetadataByResourceGroup.json
  */
-async function listResourceHealthMetadataForAResourceGroup(): Promise<void> {
+async function listResourceHealthMetadataForAResourceGroup() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "4adb32ad-8327-4cbb-b775-b84b4465bb38";
@@ -35,8 +37,8 @@ async function listResourceHealthMetadataForAResourceGroup(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listResourceHealthMetadataForAResourceGroup();
+async function main() {
+  listResourceHealthMetadataForAResourceGroup();
 }
 
 main().catch(console.error);

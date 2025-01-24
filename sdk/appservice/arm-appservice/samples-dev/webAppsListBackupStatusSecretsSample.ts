@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { BackupRequest, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body.
  *
  * @summary Description for Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetWebAppBackupWithSecrets.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetWebAppBackupWithSecrets.json
  */
-async function getWebAppBackupWithSecrets(): Promise<void> {
+async function getWebAppBackupWithSecrets() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -66,8 +68,8 @@ async function getWebAppBackupWithSecrets(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getWebAppBackupWithSecrets();
+async function main() {
+  getWebAppBackupWithSecrets();
 }
 
 main().catch(console.error);

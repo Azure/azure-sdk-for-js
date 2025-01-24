@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { Site, WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CloneWebApp.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/CloneWebApp.json
  */
-async function cloneWebApp(): Promise<void> {
+async function cloneWebApp() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -55,9 +57,9 @@ async function cloneWebApp(): Promise<void> {
  * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateFunctionAppFlexConsumption.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/CreateOrUpdateFunctionAppFlexConsumption.json
  */
-async function createOrUpdateFlexConsumptionFunctionApp(): Promise<void> {
+async function createOrUpdateFlexConsumptionFunctionApp() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -114,9 +116,9 @@ async function createOrUpdateFlexConsumptionFunctionApp(): Promise<void> {
  * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateFunctionAppFlexConsumptionWithDetails.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/CreateOrUpdateFunctionAppFlexConsumptionWithDetails.json
  */
-async function createOrUpdateFlexConsumptionFunctionAppWithDetails(): Promise<void> {
+async function createOrUpdateFlexConsumptionFunctionAppWithDetails() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -175,9 +177,9 @@ async function createOrUpdateFlexConsumptionFunctionAppWithDetails(): Promise<vo
  * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateWebApp.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/CreateOrUpdateWebApp.json
  */
-async function createOrUpdateWebApp(): Promise<void> {
+async function createOrUpdateWebApp() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -200,11 +202,11 @@ async function createOrUpdateWebApp(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await cloneWebApp();
-  await createOrUpdateFlexConsumptionFunctionApp();
-  await createOrUpdateFlexConsumptionFunctionAppWithDetails();
-  await createOrUpdateWebApp();
+async function main() {
+  cloneWebApp();
+  createOrUpdateFlexConsumptionFunctionApp();
+  createOrUpdateFlexConsumptionFunctionAppWithDetails();
+  createOrUpdateWebApp();
 }
 
 main().catch(console.error);

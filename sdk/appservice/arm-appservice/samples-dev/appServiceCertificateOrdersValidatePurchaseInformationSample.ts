@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Validate information for a certificate order.
  *
  * @summary Description for Validate information for a certificate order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/ValidateAppServiceCertificatePurchaseInformationBySubscription.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-04-01/examples/ValidateAppServiceCertificatePurchaseInformationBySubscription.json
  */
-async function validateAppServiceCertificatePurchaseInformationBySubscription(): Promise<void> {
+async function validateAppServiceCertificatePurchaseInformationBySubscription() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -54,8 +56,8 @@ async function validateAppServiceCertificatePurchaseInformationBySubscription():
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await validateAppServiceCertificatePurchaseInformationBySubscription();
+async function main() {
+  validateAppServiceCertificatePurchaseInformationBySubscription();
 }
 
 main().catch(console.error);

@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Description for Get Detector
  *
  * @summary Description for Get Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetSiteDetector.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/Diagnostics_GetSiteDetector.json
  */
-async function getAppDetector(): Promise<void> {
+async function getAppDetector() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,9 +44,9 @@ async function getAppDetector(): Promise<void> {
  * This sample demonstrates how to Description for Get Detector
  *
  * @summary Description for Get Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetSiteDetectorSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/Diagnostics_GetSiteDetectorSlot.json
  */
-async function getAppSlotDetector(): Promise<void> {
+async function getAppSlotDetector() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -64,9 +66,9 @@ async function getAppSlotDetector(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getAppDetector();
-  await getAppSlotDetector();
+async function main() {
+  getAppDetector();
+  getAppSlotDetector();
 }
 
 main().catch(console.error);

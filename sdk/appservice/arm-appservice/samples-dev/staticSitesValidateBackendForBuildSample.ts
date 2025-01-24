@@ -13,15 +13,17 @@ import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Validates that a backend can be linked to a static site build
  *
  * @summary Validates that a backend can be linked to a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ValidateLinkedBackendForStaticSiteBuild.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ValidateLinkedBackendForStaticSiteBuild.json
  */
-async function validateIfBackendCanBeLinkedToStaticSiteBuild(): Promise<void> {
+async function validateIfBackendCanBeLinkedToStaticSiteBuild() {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -46,8 +48,8 @@ async function validateIfBackendCanBeLinkedToStaticSiteBuild(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await validateIfBackendCanBeLinkedToStaticSiteBuild();
+async function main() {
+  validateIfBackendCanBeLinkedToStaticSiteBuild();
 }
 
 main().catch(console.error);
