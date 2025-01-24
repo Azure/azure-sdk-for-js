@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SandboxCustomImage, KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a sandbox custom image.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a sandbox custom image.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImagesCreateOrUpdate.json
  */
-async function kustoSandboxCustomImagesCreateOrUpdate() {
+async function kustoSandboxCustomImagesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -50,7 +48,7 @@ async function kustoSandboxCustomImagesCreateOrUpdate() {
  * @summary Creates or updates a sandbox custom image.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage.json
  */
-async function kustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage() {
+async function kustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -80,7 +78,7 @@ async function kustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage() {
  * @summary Creates or updates a sandbox custom image.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage.json
  */
-async function kustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage() {
+async function kustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -104,7 +102,7 @@ async function kustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoSandboxCustomImagesCreateOrUpdate();
   kustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage();
   kustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage();

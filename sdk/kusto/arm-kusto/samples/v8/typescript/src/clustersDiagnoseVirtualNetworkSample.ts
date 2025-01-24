@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Diagnoses network connectivity status for external resources on which the service is dependent on.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Diagnoses network connectivity status for external resources on which the service is dependent on.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersDiagnoseVirtualNetwork.json
  */
-async function kustoClusterDiagnoseVirtualNetwork() {
+async function kustoClusterDiagnoseVirtualNetwork(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -36,7 +34,7 @@ async function kustoClusterDiagnoseVirtualNetwork() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoClusterDiagnoseVirtualNetwork();
 }
 

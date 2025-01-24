@@ -15,9 +15,7 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a data connection.
@@ -25,7 +23,7 @@ dotenv.config();
  * @summary Creates or updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsCosmosDbCreateOrUpdate.json
  */
-async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
+async function kustoDataConnectionsCosmosDbCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -65,7 +63,7 @@ async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
  * @summary Creates or updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsCreateOrUpdate.json
  */
-async function kustoDataConnectionsCreateOrUpdate() {
+async function kustoDataConnectionsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -101,7 +99,7 @@ async function kustoDataConnectionsCreateOrUpdate() {
  * @summary Creates or updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
  */
-async function kustoDataConnectionsEventGridCreateOrUpdate() {
+async function kustoDataConnectionsEventGridCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -141,7 +139,7 @@ async function kustoDataConnectionsEventGridCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoDataConnectionsCosmosDbCreateOrUpdate();
   kustoDataConnectionsCreateOrUpdate();
   kustoDataConnectionsEventGridCreateOrUpdate();

@@ -13,9 +13,7 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Generates an invitation token that allows attaching a follower database to this database.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Generates an invitation token that allows attaching a follower database to this database.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseInviteFollower.json
  */
-async function kustoDatabaseInviteFollower() {
+async function kustoDatabaseInviteFollower(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -55,7 +53,7 @@ async function kustoDatabaseInviteFollower() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoDatabaseInviteFollower();
 }
 

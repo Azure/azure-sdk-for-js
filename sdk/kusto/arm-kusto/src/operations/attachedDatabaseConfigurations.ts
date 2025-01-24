@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AttachedDatabaseConfigurations } from "../operationsInterfaces";
+import { AttachedDatabaseConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   AttachedDatabaseConfiguration,
   AttachedDatabaseConfigurationsListByClusterOptionalParams,
@@ -30,7 +30,7 @@ import {
   AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   AttachedDatabaseConfigurationsCreateOrUpdateResponse,
   AttachedDatabaseConfigurationsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AttachedDatabaseConfigurations operations. */

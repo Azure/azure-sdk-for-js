@@ -21,7 +21,7 @@ import {
   SandboxCustomImagesCheckNameRequest,
   SandboxCustomImagesCheckNameAvailabilityOptionalParams,
   SandboxCustomImagesCheckNameAvailabilityResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SandboxCustomImages. */

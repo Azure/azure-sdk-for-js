@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a data connection.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsCosmosDbGet.json
  */
-async function kustoDataConnectionsCosmosDbGet() {
+async function kustoDataConnectionsCosmosDbGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -46,7 +44,7 @@ async function kustoDataConnectionsCosmosDbGet() {
  * @summary Returns a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsEventGridGet.json
  */
-async function kustoDataConnectionsEventGridGet() {
+async function kustoDataConnectionsEventGridGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -72,7 +70,7 @@ async function kustoDataConnectionsEventGridGet() {
  * @summary Returns a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsGet.json
  */
-async function kustoDataConnectionsGet() {
+async function kustoDataConnectionsGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -92,7 +90,7 @@ async function kustoDataConnectionsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoDataConnectionsCosmosDbGet();
   kustoDataConnectionsEventGridGet();
   kustoDataConnectionsGet();

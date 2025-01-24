@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Cluster, ClustersGetOptionalParams, ClustersListOptionalParams, ClusterUpdate, KustoManagementClient } from "../src";
+import { KustoManagementClient } from "../src/index.js";
 import { assert } from "chai";
-import { Context } from "mocha";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
@@ -41,20 +39,20 @@ describe("KustoManagementClient", () => {
   let resourceGroup: string;
   let clusterName_1: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new KustoManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    resourceGroup = "myjstest";
-    clusterName_1 = "mytestclustername5";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new KustoManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      resourceGroup = "myjstest";
+      clusterName_1 = "mytestclustername5";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   //kusto_client.clusters.beginCreateOrUpdateAndWait
   it("could create clusters", async function () {
@@ -109,7 +107,6 @@ describe("KustoManagementClient", () => {
 
   //kusto_client.clusters.beginDeleteAndWait
   it("could delete clusters", async () => {
-    let res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1, testPollingOptions);
     const resArray = new Array();
     for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

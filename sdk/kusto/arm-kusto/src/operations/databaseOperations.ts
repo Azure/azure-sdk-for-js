@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DatabaseOperations } from "../operationsInterfaces";
+import { DatabaseOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
   DatabaseInviteFollowerRequest,
   DatabaseInviteFollowerOptionalParams,
   DatabaseInviteFollowerResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DatabaseOperations operations. */
 export class DatabaseOperationsImpl implements DatabaseOperations {

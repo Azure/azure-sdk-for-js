@@ -15,9 +15,7 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a data connection.
@@ -25,7 +23,7 @@ dotenv.config();
  * @summary Updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsCosmosDbUpdate.json
  */
-async function kustoDataConnectionsCosmosDbUpdate() {
+async function kustoDataConnectionsCosmosDbUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -65,7 +63,7 @@ async function kustoDataConnectionsCosmosDbUpdate() {
  * @summary Updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsEventGridUpdate.json
  */
-async function kustoDataConnectionsEventGridUpdate() {
+async function kustoDataConnectionsEventGridUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -111,7 +109,7 @@ async function kustoDataConnectionsEventGridUpdate() {
  * @summary Updates a data connection.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsUpdate.json
  */
-async function kustoDataConnectionsUpdate() {
+async function kustoDataConnectionsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -141,7 +139,7 @@ async function kustoDataConnectionsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoDataConnectionsCosmosDbUpdate();
   kustoDataConnectionsEventGridUpdate();
   kustoDataConnectionsUpdate();

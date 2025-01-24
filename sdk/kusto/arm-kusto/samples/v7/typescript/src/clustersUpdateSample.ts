@@ -14,9 +14,7 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Kusto cluster.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Update a Kusto cluster.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClustersUpdate.json
  */
-async function kustoClustersUpdate() {
+async function kustoClustersUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -45,7 +43,7 @@ async function kustoClustersUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoClustersUpdate();
 }
 

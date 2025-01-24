@@ -10,7 +10,7 @@ import {
   DatabaseInviteFollowerRequest,
   DatabaseInviteFollowerOptionalParams,
   DatabaseInviteFollowerResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DatabaseOperations. */
 export interface DatabaseOperations {

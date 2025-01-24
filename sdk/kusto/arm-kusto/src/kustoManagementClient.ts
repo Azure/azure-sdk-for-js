@@ -31,7 +31,7 @@ import {
   OperationsImpl,
   OperationsResultsImpl,
   OperationsResultsLocationImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Clusters,
   ClusterPrincipalAssignments,
@@ -49,8 +49,8 @@ import {
   Operations,
   OperationsResults,
   OperationsResultsLocation,
-} from "./operationsInterfaces";
-import { KustoManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { KustoManagementClientOptionalParams } from "./models/index.js";
 
 export class KustoManagementClient extends coreClient.ServiceClient {
   $host: string;

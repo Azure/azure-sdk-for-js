@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists available operations for the Microsoft.Kusto provider.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists available operations for the Microsoft.Kusto provider.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoOperationsList.json
  */
-async function kustoOperationsList() {
+async function kustoOperationsList(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function kustoOperationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoOperationsList();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the allowed callout policies for the specified service.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns the allowed callout policies for the specified service.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersListCalloutPolicies.json
  */
-async function kustoClusterListCalloutPolicies() {
+async function kustoClusterListCalloutPolicies(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -39,7 +37,7 @@ async function kustoClusterListCalloutPolicies() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoClusterListCalloutPolicies();
 }
 
