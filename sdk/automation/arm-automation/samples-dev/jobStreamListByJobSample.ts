@@ -40,7 +40,7 @@ async function listJobStreamsByJobName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listJobStreamsByJobName();
+  await listJobStreamsByJobName();
 }
 
 main().catch(console.error);

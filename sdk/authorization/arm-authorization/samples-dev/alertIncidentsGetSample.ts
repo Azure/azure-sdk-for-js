@@ -33,7 +33,7 @@ async function getAlertIncidentById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAlertIncidentById();
+  await getAlertIncidentById();
 }
 
 main().catch(console.error);

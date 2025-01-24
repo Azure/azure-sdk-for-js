@@ -102,9 +102,9 @@ async function apiManagementBackupWithUserAssignedManagedIdentity(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  apiManagementBackupWithAccessKey();
-  apiManagementBackupWithSystemManagedIdentity();
-  apiManagementBackupWithUserAssignedManagedIdentity();
+  await apiManagementBackupWithAccessKey();
+  await apiManagementBackupWithSystemManagedIdentity();
+  await apiManagementBackupWithUserAssignedManagedIdentity();
 }
 
 main().catch(console.error);

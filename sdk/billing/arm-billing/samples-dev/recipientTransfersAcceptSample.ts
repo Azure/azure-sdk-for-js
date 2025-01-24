@@ -39,7 +39,7 @@ async function acceptTransfer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  acceptTransfer();
+  await acceptTransfer();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getsVersionCompatibilityAndUpgradeProfileForAServiceMeshInACluste
 }
 
 async function main(): Promise<void> {
-  getsVersionCompatibilityAndUpgradeProfileForAServiceMeshInACluster();
+  await getsVersionCompatibilityAndUpgradeProfileForAServiceMeshInACluster();
 }
 
 main().catch(console.error);

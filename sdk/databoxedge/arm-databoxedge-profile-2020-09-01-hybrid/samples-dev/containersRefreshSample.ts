@@ -39,7 +39,7 @@ async function containerRefresh(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerRefresh();
+  await containerRefresh();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function cloudLinksList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cloudLinksList();
+  await cloudLinksList();
 }
 
 main().catch(console.error);

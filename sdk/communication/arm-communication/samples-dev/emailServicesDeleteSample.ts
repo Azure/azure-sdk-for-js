@@ -20,25 +20,17 @@ import "dotenv/config";
  */
 async function deleteEmailServiceResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.emailServices.beginDeleteAndWait(
-    resourceGroupName,
-    emailServiceName,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
+  const result = await client.emailServices.beginDeleteAndWait(resourceGroupName, emailServiceName);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  deleteEmailServiceResource();
+  await deleteEmailServiceResource();
 }
 
 main().catch(console.error);

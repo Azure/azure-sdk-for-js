@@ -44,7 +44,7 @@ async function billingSubscriptionAliasCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionAliasCreateOrUpdate();
+  await billingSubscriptionAliasCreateOrUpdate();
 }
 
 main().catch(console.error);

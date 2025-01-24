@@ -50,7 +50,7 @@ async function cacheRuleCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cacheRuleCreate();
+  await cacheRuleCreate();
 }
 
 main().catch(console.error);

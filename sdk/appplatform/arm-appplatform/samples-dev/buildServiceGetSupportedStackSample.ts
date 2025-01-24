@@ -39,7 +39,7 @@ async function buildServiceGetSupportedStack(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceGetSupportedStack();
+  await buildServiceGetSupportedStack();
 }
 
 main().catch(console.error);

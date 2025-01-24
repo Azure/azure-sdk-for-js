@@ -36,7 +36,7 @@ async function apiManagementSubscriptionListSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementSubscriptionListSecrets();
+  await apiManagementSubscriptionListSecrets();
 }
 
 main().catch(console.error);

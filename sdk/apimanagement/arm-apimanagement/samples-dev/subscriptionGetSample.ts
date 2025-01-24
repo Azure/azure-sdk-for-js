@@ -36,7 +36,7 @@ async function apiManagementGetSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetSubscription();
+  await apiManagementGetSubscription();
 }
 
 main().catch(console.error);

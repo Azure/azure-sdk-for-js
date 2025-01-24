@@ -44,7 +44,7 @@ async function apiManagementUpdateQuotaCounterKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateQuotaCounterKey();
+  await apiManagementUpdateQuotaCounterKey();
 }
 
 main().catch(console.error);

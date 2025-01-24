@@ -40,7 +40,7 @@ async function tokenGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tokenGet();
+  await tokenGet();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function buildServiceGetBuildService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceGetBuildService();
+  await buildServiceGetBuildService();
 }
 
 main().catch(console.error);

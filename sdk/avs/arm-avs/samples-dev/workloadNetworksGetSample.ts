@@ -34,7 +34,7 @@ async function workloadNetworksGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksGet();
+  await workloadNetworksGet();
 }
 
 main().catch(console.error);

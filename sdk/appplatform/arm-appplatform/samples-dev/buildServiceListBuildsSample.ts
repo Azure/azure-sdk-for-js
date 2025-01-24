@@ -40,7 +40,7 @@ async function buildServiceListBuilds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceListBuilds();
+  await buildServiceListBuilds();
 }
 
 main().catch(console.error);

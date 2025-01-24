@@ -50,7 +50,7 @@ async function createOrUpdateATrustedAccessRoleBinding(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateATrustedAccessRoleBinding();
+  await createOrUpdateATrustedAccessRoleBinding();
 }
 
 main().catch(console.error);

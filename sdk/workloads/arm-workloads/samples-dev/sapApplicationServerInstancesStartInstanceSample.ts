@@ -37,7 +37,7 @@ async function startTheSapApplicationServerInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startTheSapApplicationServerInstance();
+  await startTheSapApplicationServerInstance();
 }
 
 main().catch(console.error);

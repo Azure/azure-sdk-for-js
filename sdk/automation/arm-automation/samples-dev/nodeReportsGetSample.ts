@@ -36,7 +36,7 @@ async function getDscNodeReportDataByNodeIdAndReportId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDscNodeReportDataByNodeIdAndReportId();
+  await getDscNodeReportDataByNodeIdAndReportId();
 }
 
 main().catch(console.error);

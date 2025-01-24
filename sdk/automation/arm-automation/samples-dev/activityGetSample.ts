@@ -36,7 +36,7 @@ async function getActivityInAModule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getActivityInAModule();
+  await getActivityInAModule();
 }
 
 main().catch(console.error);

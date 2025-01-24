@@ -53,7 +53,7 @@ async function cosmosDbMongoDbroleDefinitionCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbroleDefinitionCreateUpdate();
+  await cosmosDbMongoDbroleDefinitionCreateUpdate();
 }
 
 main().catch(console.error);

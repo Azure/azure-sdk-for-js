@@ -34,7 +34,7 @@ async function privateCloudsRotateNsxtPassword(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsRotateNsxtPassword();
+  await privateCloudsRotateNsxtPassword();
 }
 
 main().catch(console.error);

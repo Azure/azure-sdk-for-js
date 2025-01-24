@@ -43,7 +43,7 @@ async function startANewNetworkTraceOperationForASite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startANewNetworkTraceOperationForASite();
+  await startANewNetworkTraceOperationForASite();
 }
 
 main().catch(console.error);

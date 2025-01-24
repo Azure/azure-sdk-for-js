@@ -37,7 +37,7 @@ async function listPolicyAssignmentsThatApplyToASubscription() {
 }
 
 async function main() {
-  listPolicyAssignmentsThatApplyToASubscription();
+  await listPolicyAssignmentsThatApplyToASubscription();
 }
 
 main().catch(console.error);

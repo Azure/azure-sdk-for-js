@@ -23,7 +23,7 @@ async function listsTheMongoClusterResourcesInAResourceGroup() {
 }
 
 async function main() {
-  listsTheMongoClusterResourcesInAResourceGroup();
+  await listsTheMongoClusterResourcesInAResourceGroup();
 }
 
 main().catch(console.error);

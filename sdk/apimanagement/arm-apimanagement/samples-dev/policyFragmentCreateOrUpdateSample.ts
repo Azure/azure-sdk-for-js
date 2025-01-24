@@ -46,7 +46,7 @@ async function apiManagementCreatePolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreatePolicy();
+  await apiManagementCreatePolicy();
 }
 
 main().catch(console.error);

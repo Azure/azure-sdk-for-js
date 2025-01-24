@@ -40,7 +40,7 @@ async function getJobStream(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getJobStream();
+  await getJobStream();
 }
 
 main().catch(console.error);

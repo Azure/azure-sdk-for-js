@@ -43,7 +43,7 @@ async function apiManagementUpdateTag(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateTag();
+  await apiManagementUpdateTag();
 }
 
 main().catch(console.error);

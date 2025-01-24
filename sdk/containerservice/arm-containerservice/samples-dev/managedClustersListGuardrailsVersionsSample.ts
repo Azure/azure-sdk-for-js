@@ -35,7 +35,7 @@ async function listGuardrailsVersions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listGuardrailsVersions();
+  await listGuardrailsVersions();
 }
 
 main().catch(console.error);

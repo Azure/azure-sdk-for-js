@@ -27,7 +27,7 @@ async function getDeletedAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDeletedAutomationAccount();
+  await getDeletedAutomationAccount();
 }
 
 main().catch(console.error);

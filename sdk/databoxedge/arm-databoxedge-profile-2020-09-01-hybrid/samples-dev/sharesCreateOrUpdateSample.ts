@@ -61,7 +61,7 @@ async function sharePut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sharePut();
+  await sharePut();
 }
 
 main().catch(console.error);

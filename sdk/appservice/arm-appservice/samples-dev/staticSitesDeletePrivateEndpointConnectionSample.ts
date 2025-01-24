@@ -37,7 +37,7 @@ async function deleteAPrivateEndpointConnectionForASite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAPrivateEndpointConnectionForASite();
+  await deleteAPrivateEndpointConnectionForASite();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getAWorkflowVersion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAWorkflowVersion();
+  await getAWorkflowVersion();
 }
 
 main().catch(console.error);

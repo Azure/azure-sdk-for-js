@@ -33,7 +33,7 @@ async function apmsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apmsGet();
+  await apmsGet();
 }
 
 main().catch(console.error);

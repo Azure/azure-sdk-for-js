@@ -37,7 +37,7 @@ async function buildsListByBuilderResource0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildsListByBuilderResource0();
+  await buildsListByBuilderResource0();
 }
 
 main().catch(console.error);

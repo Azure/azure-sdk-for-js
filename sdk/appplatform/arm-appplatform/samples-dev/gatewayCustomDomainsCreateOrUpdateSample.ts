@@ -46,7 +46,7 @@ async function gatewayCustomDomainsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewayCustomDomainsCreateOrUpdate();
+  await gatewayCustomDomainsCreateOrUpdate();
 }
 
 main().catch(console.error);

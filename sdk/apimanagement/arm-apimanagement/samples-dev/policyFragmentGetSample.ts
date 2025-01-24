@@ -65,8 +65,8 @@ async function apiManagementGetPolicyFragmentFormat(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetPolicyFragment();
-  apiManagementGetPolicyFragmentFormat();
+  await apiManagementGetPolicyFragment();
+  await apiManagementGetPolicyFragmentFormat();
 }
 
 main().catch(console.error);

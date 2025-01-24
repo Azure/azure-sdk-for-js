@@ -52,7 +52,7 @@ async function afdOriginGroupsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginGroupsUpdate();
+  await afdOriginGroupsUpdate();
 }
 
 main().catch(console.error);

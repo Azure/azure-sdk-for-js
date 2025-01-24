@@ -32,7 +32,7 @@ async function sapVirtualInstancesListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesListBySubscription();
+  await sapVirtualInstancesListBySubscription();
 }
 
 main().catch(console.error);

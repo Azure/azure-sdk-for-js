@@ -40,7 +40,7 @@ async function apiManagementGetReportsByRequest(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetReportsByRequest();
+  await apiManagementGetReportsByRequest();
 }
 
 main().catch(console.error);

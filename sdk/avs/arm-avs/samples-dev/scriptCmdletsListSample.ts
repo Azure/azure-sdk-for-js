@@ -39,7 +39,7 @@ async function scriptCmdletsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scriptCmdletsList();
+  await scriptCmdletsList();
 }
 
 main().catch(console.error);

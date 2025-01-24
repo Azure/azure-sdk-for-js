@@ -38,7 +38,7 @@ async function apiManagementDeleteApiVersionSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteApiVersionSet();
+  await apiManagementDeleteApiVersionSet();
 }
 
 main().catch(console.error);

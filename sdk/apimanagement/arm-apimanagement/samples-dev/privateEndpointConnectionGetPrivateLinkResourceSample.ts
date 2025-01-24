@@ -36,7 +36,7 @@ async function apiManagementGetPrivateLinkGroupResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetPrivateLinkGroupResource();
+  await apiManagementGetPrivateLinkGroupResource();
 }
 
 main().catch(console.error);

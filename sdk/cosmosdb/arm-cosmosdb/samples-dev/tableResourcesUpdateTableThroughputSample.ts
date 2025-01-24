@@ -43,7 +43,7 @@ async function cosmosDbTableThroughputUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbTableThroughputUpdate();
+  await cosmosDbTableThroughputUpdate();
 }
 
 main().catch(console.error);

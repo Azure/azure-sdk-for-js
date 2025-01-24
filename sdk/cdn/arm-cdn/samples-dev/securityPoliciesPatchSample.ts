@@ -59,7 +59,7 @@ async function securityPoliciesPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  securityPoliciesPatch();
+  await securityPoliciesPatch();
 }
 
 main().catch(console.error);

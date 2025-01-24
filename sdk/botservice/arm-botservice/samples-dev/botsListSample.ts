@@ -31,7 +31,7 @@ async function listBotsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listBotsBySubscription();
+  await listBotsBySubscription();
 }
 
 main().catch(console.error);

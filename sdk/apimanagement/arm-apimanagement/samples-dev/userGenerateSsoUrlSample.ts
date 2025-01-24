@@ -36,7 +36,7 @@ async function apiManagementUserGenerateSsoUrl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUserGenerateSsoUrl();
+  await apiManagementUserGenerateSsoUrl();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function apiManagementDeleteApiIssueComment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteApiIssueComment();
+  await apiManagementDeleteApiIssueComment();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function getSafeguardsAvailableVersions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSafeguardsAvailableVersions();
+  await getSafeguardsAvailableVersions();
 }
 
 main().catch(console.error);

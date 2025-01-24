@@ -35,7 +35,7 @@ async function createSuppression(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createSuppression();
+  await createSuppression();
 }
 
 main().catch(console.error);

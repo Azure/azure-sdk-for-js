@@ -36,7 +36,7 @@ async function getContentOfNode(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContentOfNode();
+  await getContentOfNode();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function deleteADscNode(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteADscNode();
+  await deleteADscNode();
 }
 
 main().catch(console.error);

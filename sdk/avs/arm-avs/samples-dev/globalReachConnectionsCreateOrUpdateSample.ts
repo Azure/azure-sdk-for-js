@@ -42,7 +42,7 @@ async function globalReachConnectionsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  globalReachConnectionsCreateOrUpdate();
+  await globalReachConnectionsCreateOrUpdate();
 }
 
 main().catch(console.error);

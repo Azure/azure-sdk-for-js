@@ -40,7 +40,7 @@ async function listMachinesInAnAgentpoolByManagedCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listMachinesInAnAgentpoolByManagedCluster();
+  await listMachinesInAnAgentpoolByManagedCluster();
 }
 
 main().catch(console.error);

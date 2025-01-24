@@ -100,8 +100,8 @@ async function buildsCreateOrUpdateWithConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildsCreateOrUpdateNoConfig();
-  buildsCreateOrUpdateWithConfig();
+  await buildsCreateOrUpdateNoConfig();
+  await buildsCreateOrUpdateWithConfig();
 }
 
 main().catch(console.error);

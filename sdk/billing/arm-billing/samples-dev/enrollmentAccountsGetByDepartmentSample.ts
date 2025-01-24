@@ -33,7 +33,7 @@ async function enrollmentAccountByDepartment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enrollmentAccountByDepartment();
+  await enrollmentAccountByDepartment();
 }
 
 main().catch(console.error);

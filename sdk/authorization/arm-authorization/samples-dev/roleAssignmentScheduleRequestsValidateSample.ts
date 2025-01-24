@@ -54,7 +54,7 @@ async function validateRoleAssignmentScheduleRequestByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateRoleAssignmentScheduleRequestByName();
+  await validateRoleAssignmentScheduleRequestByName();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function secretsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  secretsCreate();
+  await secretsCreate();
 }
 
 main().catch(console.error);

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
-import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
@@ -21,15 +20,17 @@ export default defineConfig({
       junit: "test-results.browser.xml",
     },
     browser: {
+      instances: [
+        {
+          browser: "chromium",
+          launch: {
+            args: ["--disable-web-security"],
+          },
+        },
+      ],
       enabled: true,
       headless: true,
-      name: "chromium",
       provider: "playwright",
-      providerOptions: {
-        launch: {
-          args: ["--disable-web-security"],
-        },
-      },
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],

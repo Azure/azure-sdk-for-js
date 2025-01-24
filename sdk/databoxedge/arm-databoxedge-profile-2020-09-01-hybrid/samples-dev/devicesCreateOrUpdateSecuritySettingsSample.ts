@@ -46,7 +46,7 @@ async function createOrUpdateSecuritySettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateSecuritySettings();
+  await createOrUpdateSecuritySettings();
 }
 
 main().catch(console.error);

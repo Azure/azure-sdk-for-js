@@ -38,7 +38,7 @@ async function applicationPackageList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationPackageList();
+  await applicationPackageList();
 }
 
 main().catch(console.error);

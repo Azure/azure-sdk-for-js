@@ -27,7 +27,7 @@ async function reportGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportGet();
+  await reportGet();
 }
 
 main().catch(console.error);

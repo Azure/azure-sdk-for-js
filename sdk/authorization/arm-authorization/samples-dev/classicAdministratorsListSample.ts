@@ -31,7 +31,7 @@ async function listClassicAdministrators(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listClassicAdministrators();
+  await listClassicAdministrators();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function productsListByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  productsListByBillingProfile();
+  await productsListByBillingProfile();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function cosmosDbRestorableDatabaseAccountList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbRestorableDatabaseAccountList();
+  await cosmosDbRestorableDatabaseAccountList();
 }
 
 main().catch(console.error);

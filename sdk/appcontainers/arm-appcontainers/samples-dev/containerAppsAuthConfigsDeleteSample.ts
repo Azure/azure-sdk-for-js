@@ -37,7 +37,7 @@ async function deleteContainerAppAuthConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteContainerAppAuthConfig();
+  await deleteContainerAppAuthConfig();
 }
 
 main().catch(console.error);

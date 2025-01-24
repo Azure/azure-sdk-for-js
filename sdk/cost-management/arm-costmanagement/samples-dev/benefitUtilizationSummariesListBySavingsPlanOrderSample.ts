@@ -32,7 +32,7 @@ async function savingsPlanUtilizationSummariesDaily(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlanUtilizationSummariesDaily();
+  await savingsPlanUtilizationSummariesDaily();
 }
 
 main().catch(console.error);

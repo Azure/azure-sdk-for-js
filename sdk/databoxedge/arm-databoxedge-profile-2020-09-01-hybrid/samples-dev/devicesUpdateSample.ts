@@ -42,7 +42,7 @@ async function dataBoxEdgeDevicePatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataBoxEdgeDevicePatch();
+  await dataBoxEdgeDevicePatch();
 }
 
 main().catch(console.error);

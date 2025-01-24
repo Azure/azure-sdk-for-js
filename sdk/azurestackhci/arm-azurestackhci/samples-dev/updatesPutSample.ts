@@ -64,7 +64,7 @@ async function putASpecificUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putASpecificUpdate();
+  await putASpecificUpdate();
 }
 
 main().catch(console.error);

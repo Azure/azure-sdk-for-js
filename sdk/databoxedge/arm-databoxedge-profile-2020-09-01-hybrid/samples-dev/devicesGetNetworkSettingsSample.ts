@@ -35,7 +35,7 @@ async function networkSettingsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkSettingsGet();
+  await networkSettingsGet();
 }
 
 main().catch(console.error);

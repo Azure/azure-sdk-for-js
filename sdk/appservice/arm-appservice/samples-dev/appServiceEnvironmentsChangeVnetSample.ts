@@ -45,7 +45,7 @@ async function moveAnAppServiceEnvironmentToADifferentVnet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  moveAnAppServiceEnvironmentToADifferentVnet();
+  await moveAnAppServiceEnvironmentToADifferentVnet();
 }
 
 main().catch(console.error);

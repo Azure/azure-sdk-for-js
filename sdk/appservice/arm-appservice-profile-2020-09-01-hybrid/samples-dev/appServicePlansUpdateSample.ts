@@ -46,7 +46,7 @@ async function patchServicePlan(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchServicePlan();
+  await patchServicePlan();
 }
 
 main().catch(console.error);

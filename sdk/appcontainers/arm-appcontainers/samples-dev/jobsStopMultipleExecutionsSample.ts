@@ -34,7 +34,7 @@ async function terminateMultipleContainerAppsJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  terminateMultipleContainerAppsJob();
+  await terminateMultipleContainerAppsJob();
 }
 
 main().catch(console.error);

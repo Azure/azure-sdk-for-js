@@ -32,7 +32,7 @@ async function cosmosDbDatabaseAccountListReadOnlyKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountListReadOnlyKeys();
+  await cosmosDbDatabaseAccountListReadOnlyKeys();
 }
 
 main().catch(console.error);

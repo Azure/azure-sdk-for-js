@@ -46,7 +46,7 @@ async function apiPortalCustomDomainsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiPortalCustomDomainsCreateOrUpdate();
+  await apiPortalCustomDomainsCreateOrUpdate();
 }
 
 main().catch(console.error);

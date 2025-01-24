@@ -45,7 +45,7 @@ async function createOrUpdateWebhook(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateWebhook();
+  await createOrUpdateWebhook();
 }
 
 main().catch(console.error);

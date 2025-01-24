@@ -39,7 +39,7 @@ async function placementPoliciesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  placementPoliciesList();
+  await placementPoliciesList();
 }
 
 main().catch(console.error);

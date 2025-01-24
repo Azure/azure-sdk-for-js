@@ -101,12 +101,12 @@ async function billingAccountsGetWithExpand(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountWithExpandForPoNumber();
-  billingAccountWithRegistrationNumberWithDefaultType();
-  billingAccountWithRegistrationNumberWithType();
-  billingAccountsGet();
-  billingAccountsGetEa();
-  billingAccountsGetWithExpand();
+  await billingAccountWithExpandForPoNumber();
+  await billingAccountWithRegistrationNumberWithDefaultType();
+  await billingAccountWithRegistrationNumberWithType();
+  await billingAccountsGet();
+  await billingAccountsGetEa();
+  await billingAccountsGetWithExpand();
 }
 
 main().catch(console.error);

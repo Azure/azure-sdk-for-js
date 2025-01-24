@@ -57,7 +57,7 @@ async function taskRunsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  taskRunsCreate();
+  await taskRunsCreate();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function cosmosDbCassandraTableDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraTableDelete();
+  await cosmosDbCassandraTableDelete();
 }
 
 main().catch(console.error);

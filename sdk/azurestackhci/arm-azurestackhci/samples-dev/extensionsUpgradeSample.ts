@@ -46,7 +46,7 @@ async function upgradeMachineExtensions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upgradeMachineExtensions();
+  await upgradeMachineExtensions();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function cosmosDbSqlDatabaseList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseList();
+  await cosmosDbSqlDatabaseList();
 }
 
 main().catch(console.error);

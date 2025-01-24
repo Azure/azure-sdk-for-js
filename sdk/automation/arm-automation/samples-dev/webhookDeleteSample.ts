@@ -34,7 +34,7 @@ async function deleteWebhook(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteWebhook();
+  await deleteWebhook();
 }
 
 main().catch(console.error);

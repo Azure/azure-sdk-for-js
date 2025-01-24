@@ -41,7 +41,7 @@ async function apiManagementListAuthorizationAccessPolicies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListAuthorizationAccessPolicies();
+  await apiManagementListAuthorizationAccessPolicies();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function evidenceDownload(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  evidenceDownload();
+  await evidenceDownload();
 }
 
 main().catch(console.error);

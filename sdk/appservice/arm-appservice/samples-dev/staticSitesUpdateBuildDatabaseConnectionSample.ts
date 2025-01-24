@@ -43,7 +43,7 @@ async function patchADatabaseConnectionForAStaticSiteBuild(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchADatabaseConnectionForAStaticSiteBuild();
+  await patchADatabaseConnectionForAStaticSiteBuild();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function listModelCapacities(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listModelCapacities();
+  await listModelCapacities();
 }
 
 main().catch(console.error);

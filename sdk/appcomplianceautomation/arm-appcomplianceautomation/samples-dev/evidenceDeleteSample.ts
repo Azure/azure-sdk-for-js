@@ -28,7 +28,7 @@ async function evidenceDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  evidenceDelete();
+  await evidenceDelete();
 }
 
 main().catch(console.error);

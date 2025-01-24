@@ -35,7 +35,7 @@ async function listSafeguardsVersions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSafeguardsVersions();
+  await listSafeguardsVersions();
 }
 
 main().catch(console.error);

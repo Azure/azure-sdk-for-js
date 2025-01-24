@@ -44,7 +44,7 @@ async function archiveVersionGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  archiveVersionGet();
+  await archiveVersionGet();
 }
 
 main().catch(console.error);

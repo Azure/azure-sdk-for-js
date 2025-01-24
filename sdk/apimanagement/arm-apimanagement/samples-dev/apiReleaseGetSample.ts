@@ -38,7 +38,7 @@ async function apiManagementGetApiRelease(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetApiRelease();
+  await apiManagementGetApiRelease();
 }
 
 main().catch(console.error);

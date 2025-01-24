@@ -64,8 +64,8 @@ async function updateTagsFieldOfAnAzureBareMetalInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteTagsFieldOfAnAzureBareMetalInstance();
-  updateTagsFieldOfAnAzureBareMetalInstance();
+  await deleteTagsFieldOfAnAzureBareMetalInstance();
+  await updateTagsFieldOfAnAzureBareMetalInstance();
 }
 
 main().catch(console.error);

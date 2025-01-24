@@ -66,8 +66,8 @@ async function configurationStoresCheckNameNotAvailable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationStoresCheckNameAvailable();
-  configurationStoresCheckNameNotAvailable();
+  await configurationStoresCheckNameAvailable();
+  await configurationStoresCheckNameNotAvailable();
 }
 
 main().catch(console.error);

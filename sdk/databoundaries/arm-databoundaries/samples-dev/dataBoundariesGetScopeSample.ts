@@ -29,7 +29,7 @@ async function getDataBoundaryAtScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDataBoundaryAtScope();
+  await getDataBoundaryAtScope();
 }
 
 main().catch(console.error);

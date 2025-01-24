@@ -35,7 +35,7 @@ async function restartAllServersInTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  restartAllServersInTheCluster();
+  await restartAllServersInTheCluster();
 }
 
 main().catch(console.error);

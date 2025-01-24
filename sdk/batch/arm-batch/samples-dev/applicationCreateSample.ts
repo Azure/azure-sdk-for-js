@@ -45,7 +45,7 @@ async function applicationCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationCreate();
+  await applicationCreate();
 }
 
 main().catch(console.error);

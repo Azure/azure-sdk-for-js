@@ -37,7 +37,7 @@ async function appsGetResourceUploadUrl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appsGetResourceUploadUrl();
+  await appsGetResourceUploadUrl();
 }
 
 main().catch(console.error);

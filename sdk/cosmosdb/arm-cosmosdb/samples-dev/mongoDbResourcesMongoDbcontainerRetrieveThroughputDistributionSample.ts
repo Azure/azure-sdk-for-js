@@ -44,7 +44,7 @@ async function cosmosDbMongoDbcollectionRetrieveThroughputDistribution(): Promis
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbcollectionRetrieveThroughputDistribution();
+  await cosmosDbMongoDbcollectionRetrieveThroughputDistribution();
 }
 
 main().catch(console.error);

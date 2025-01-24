@@ -43,7 +43,7 @@ async function checkEndpointNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkEndpointNameAvailability();
+  await checkEndpointNameAvailability();
 }
 
 main().catch(console.error);

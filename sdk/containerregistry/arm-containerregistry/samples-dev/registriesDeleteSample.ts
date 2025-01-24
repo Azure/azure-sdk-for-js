@@ -38,7 +38,7 @@ async function registryDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryDelete();
+  await registryDelete();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function getAListOfSourceControlSyncJobs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAListOfSourceControlSyncJobs();
+  await getAListOfSourceControlSyncJobs();
 }
 
 main().catch(console.error);

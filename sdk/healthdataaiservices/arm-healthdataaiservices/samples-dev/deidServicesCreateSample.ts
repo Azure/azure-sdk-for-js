@@ -24,7 +24,7 @@ async function deidServicesCreateGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  deidServicesCreateGeneratedByMaximumSetRuleStable();
+  await deidServicesCreateGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

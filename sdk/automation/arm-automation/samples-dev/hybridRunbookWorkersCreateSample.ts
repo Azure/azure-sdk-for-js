@@ -44,7 +44,7 @@ async function createAV2HybridRunbookWorker(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAV2HybridRunbookWorker();
+  await createAV2HybridRunbookWorker();
 }
 
 main().catch(console.error);

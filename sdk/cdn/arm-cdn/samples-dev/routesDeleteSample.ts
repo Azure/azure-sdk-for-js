@@ -36,7 +36,7 @@ async function routesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  routesDelete();
+  await routesDelete();
 }
 
 main().catch(console.error);

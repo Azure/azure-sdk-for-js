@@ -44,7 +44,7 @@ async function cosmosDbMongoDbcollectionBackupInformation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbcollectionBackupInformation();
+  await cosmosDbMongoDbcollectionBackupInformation();
 }
 
 main().catch(console.error);

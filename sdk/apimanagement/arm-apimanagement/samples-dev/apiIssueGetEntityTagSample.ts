@@ -38,7 +38,7 @@ async function apiManagementHeadApiIssue(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadApiIssue();
+  await apiManagementHeadApiIssue();
 }
 
 main().catch(console.error);

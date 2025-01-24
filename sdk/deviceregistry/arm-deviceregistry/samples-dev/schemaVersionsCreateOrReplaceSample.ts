@@ -31,7 +31,7 @@ async function createSchemaVersion() {
 }
 
 async function main() {
-  createSchemaVersion();
+  await createSchemaVersion();
 }
 
 main().catch(console.error);

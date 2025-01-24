@@ -35,7 +35,7 @@ async function getUpdateSummariesUnderClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getUpdateSummariesUnderClusterResource();
+  await getUpdateSummariesUnderClusterResource();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function gatewaysGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewaysGet();
+  await gatewaysGet();
 }
 
 main().catch(console.error);

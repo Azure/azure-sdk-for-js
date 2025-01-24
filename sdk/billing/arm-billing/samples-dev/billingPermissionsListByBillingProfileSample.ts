@@ -35,7 +35,7 @@ async function billingPermissionsListByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingPermissionsListByBillingProfile();
+  await billingPermissionsListByBillingProfile();
 }
 
 main().catch(console.error);

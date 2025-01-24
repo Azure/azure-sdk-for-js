@@ -38,7 +38,7 @@ async function placementPoliciesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  placementPoliciesDelete();
+  await placementPoliciesDelete();
 }
 
 main().catch(console.error);

@@ -59,8 +59,8 @@ async function apiManagementGetSchema2(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetSchema1();
-  apiManagementGetSchema2();
+  await apiManagementGetSchema1();
+  await apiManagementGetSchema2();
 }
 
 main().catch(console.error);

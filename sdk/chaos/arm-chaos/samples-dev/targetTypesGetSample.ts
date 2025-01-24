@@ -31,7 +31,7 @@ async function getATargetTypeForWestus2Location(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getATargetTypeForWestus2Location();
+  await getATargetTypeForWestus2Location();
 }
 
 main().catch(console.error);

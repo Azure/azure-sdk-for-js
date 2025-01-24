@@ -44,7 +44,7 @@ async function updatePrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updatePrivateEndpointConnection();
+  await updatePrivateEndpointConnection();
 }
 
 main().catch(console.error);

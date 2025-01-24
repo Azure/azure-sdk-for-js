@@ -37,7 +37,7 @@ async function sapApplicationServerInstancesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapApplicationServerInstancesDelete();
+  await sapApplicationServerInstancesDelete();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function getRoleDefinitionByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleDefinitionByName();
+  await getRoleDefinitionByName();
 }
 
 main().catch(console.error);

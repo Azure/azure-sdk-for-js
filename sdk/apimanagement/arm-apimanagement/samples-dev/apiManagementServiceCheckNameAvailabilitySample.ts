@@ -36,7 +36,7 @@ async function apiManagementServiceCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementServiceCheckNameAvailability();
+  await apiManagementServiceCheckNameAvailability();
 }
 
 main().catch(console.error);

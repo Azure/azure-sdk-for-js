@@ -40,7 +40,7 @@ async function updateFtpAllowed(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateFtpAllowed();
+  await updateFtpAllowed();
 }
 
 main().catch(console.error);

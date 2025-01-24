@@ -97,10 +97,10 @@ async function sqlDedicatedGatewayServiceDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataTransferServiceDelete();
-  graphApiComputeServiceDelete();
-  materializedViewsBuilderServiceDelete();
-  sqlDedicatedGatewayServiceDelete();
+  await dataTransferServiceDelete();
+  await graphApiComputeServiceDelete();
+  await materializedViewsBuilderServiceDelete();
+  await sqlDedicatedGatewayServiceDelete();
 }
 
 main().catch(console.error);

@@ -57,8 +57,8 @@ async function listSchedulesByAutomationAccountNext100(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSchedulesByAutomationAccountFirst100();
-  listSchedulesByAutomationAccountNext100();
+  await listSchedulesByAutomationAccountFirst100();
+  await listSchedulesByAutomationAccountNext100();
 }
 
 main().catch(console.error);

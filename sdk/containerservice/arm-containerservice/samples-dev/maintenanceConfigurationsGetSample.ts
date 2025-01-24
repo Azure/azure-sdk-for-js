@@ -61,8 +61,8 @@ async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow(): Pro
 }
 
 async function main(): Promise<void> {
-  getMaintenanceConfiguration();
-  getMaintenanceConfigurationConfiguredWithMaintenanceWindow();
+  await getMaintenanceConfiguration();
+  await getMaintenanceConfigurationConfiguredWithMaintenanceWindow();
 }
 
 main().catch(console.error);

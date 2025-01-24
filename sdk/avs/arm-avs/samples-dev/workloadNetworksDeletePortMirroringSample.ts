@@ -36,7 +36,7 @@ async function workloadNetworksDeletePortMirroring(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksDeletePortMirroring();
+  await workloadNetworksDeletePortMirroring();
 }
 
 main().catch(console.error);

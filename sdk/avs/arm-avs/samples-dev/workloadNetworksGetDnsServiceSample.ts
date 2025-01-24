@@ -36,7 +36,7 @@ async function workloadNetworksGetDnsService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksGetDnsService();
+  await workloadNetworksGetDnsService();
 }
 
 main().catch(console.error);

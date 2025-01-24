@@ -58,7 +58,7 @@ async function runAContainerAppsJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  runAContainerAppsJob();
+  await runAContainerAppsJob();
 }
 
 main().catch(console.error);

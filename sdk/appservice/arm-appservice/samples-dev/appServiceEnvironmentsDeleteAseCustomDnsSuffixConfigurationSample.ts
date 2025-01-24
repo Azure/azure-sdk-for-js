@@ -36,7 +36,7 @@ async function deleteAseCustomDnsSuffixConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAseCustomDnsSuffixConfiguration();
+  await deleteAseCustomDnsSuffixConfiguration();
 }
 
 main().catch(console.error);

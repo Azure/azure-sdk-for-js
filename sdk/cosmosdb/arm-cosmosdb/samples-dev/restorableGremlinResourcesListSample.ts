@@ -47,7 +47,7 @@ async function cosmosDbRestorableGremlinResourceList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbRestorableGremlinResourceList();
+  await cosmosDbRestorableGremlinResourceList();
 }
 
 main().catch(console.error);

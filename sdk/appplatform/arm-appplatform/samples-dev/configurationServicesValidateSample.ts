@@ -53,7 +53,7 @@ async function configurationServicesValidate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationServicesValidate();
+  await configurationServicesValidate();
 }
 
 main().catch(console.error);

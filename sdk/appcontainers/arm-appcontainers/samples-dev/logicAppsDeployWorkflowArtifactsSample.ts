@@ -120,8 +120,8 @@ async function deploysWorkflowArtifacts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteWorkflowArtifacts();
-  deploysWorkflowArtifacts();
+  await deleteWorkflowArtifacts();
+  await deploysWorkflowArtifacts();
 }
 
 main().catch(console.error);

@@ -115,9 +115,9 @@ async function apiManagementUpdateServiceToNewVnetAndAvailabilityZones(): Promis
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateServiceDisableTls10();
-  apiManagementUpdateServicePublisherDetails();
-  apiManagementUpdateServiceToNewVnetAndAvailabilityZones();
+  await apiManagementUpdateServiceDisableTls10();
+  await apiManagementUpdateServicePublisherDetails();
+  await apiManagementUpdateServiceToNewVnetAndAvailabilityZones();
 }
 
 main().catch(console.error);

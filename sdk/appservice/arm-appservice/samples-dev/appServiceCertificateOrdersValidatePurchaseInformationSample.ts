@@ -55,7 +55,7 @@ async function validateAppServiceCertificatePurchaseInformationBySubscription():
 }
 
 async function main(): Promise<void> {
-  validateAppServiceCertificatePurchaseInformationBySubscription();
+  await validateAppServiceCertificatePurchaseInformationBySubscription();
 }
 
 main().catch(console.error);

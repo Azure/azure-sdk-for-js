@@ -42,7 +42,6 @@ import type {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
 } from "../../client/ChangeFeed";
-import { changeFeedIteratorBuilder } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
@@ -53,6 +52,7 @@ import {
 } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
+import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
 
 /**
  * @hidden
@@ -254,7 +254,7 @@ export class Items {
   ): ChangeFeedPullModelIterator<T> {
     const cfOptions = changeFeedIteratorOptions !== undefined ? changeFeedIteratorOptions : {};
     validateChangeFeedIteratorOptions(cfOptions);
-    const iterator = changeFeedIteratorBuilder(
+    const iterator = new ChangeFeedIteratorBuilder<T>(
       cfOptions,
       this.clientContext,
       this.container,
@@ -342,8 +342,8 @@ export class Items {
 
       const ref = new Item(
         this.container,
-        (response.result as any).id,
         this.clientContext,
+        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
@@ -421,8 +421,8 @@ export class Items {
 
       const ref = new Item(
         this.container,
-        (response.result as any).id,
         this.clientContext,
+        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(

@@ -43,7 +43,7 @@ async function listAllCapabilitiesThatExtendAVirtualMachineTargetResource(): Pro
 }
 
 async function main(): Promise<void> {
-  listAllCapabilitiesThatExtendAVirtualMachineTargetResource();
+  await listAllCapabilitiesThatExtendAVirtualMachineTargetResource();
 }
 
 main().catch(console.error);

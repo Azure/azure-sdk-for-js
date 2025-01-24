@@ -53,7 +53,7 @@ async function deploymentsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsCreateOrUpdate();
+  await deploymentsCreateOrUpdate();
 }
 
 main().catch(console.error);

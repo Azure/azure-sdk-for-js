@@ -33,7 +33,7 @@ async function getConfigurations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getConfigurations();
+  await getConfigurations();
 }
 
 main().catch(console.error);

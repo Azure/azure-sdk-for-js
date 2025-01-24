@@ -59,8 +59,8 @@ async function clustersListZonesStretched(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clustersListZones();
-  clustersListZonesStretched();
+  await clustersListZones();
+  await clustersListZonesStretched();
 }
 
 main().catch(console.error);

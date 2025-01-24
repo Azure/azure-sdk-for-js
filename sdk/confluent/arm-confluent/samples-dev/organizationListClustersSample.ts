@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  OrganizationListClustersOptionalParams,
-  ConfluentManagementClient,
-} from "@azure/arm-confluent";
+import type { OrganizationListClustersOptionalParams } from "@azure/arm-confluent";
+import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +21,8 @@ import "dotenv/config";
  */
 async function organizationListClusters(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const environmentId = "env-12132";
   const pageSize = 10;
@@ -34,7 +30,7 @@ async function organizationListClusters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organization.listClusters(
+  for await (const item of client.organization.listClusters(
     resourceGroupName,
     organizationName,
     environmentId,
@@ -46,7 +42,7 @@ async function organizationListClusters(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationListClusters();
+  await organizationListClusters();
 }
 
 main().catch(console.error);

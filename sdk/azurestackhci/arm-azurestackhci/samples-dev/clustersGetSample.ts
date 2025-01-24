@@ -32,7 +32,7 @@ async function getCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCluster();
+  await getCluster();
 }
 
 main().catch(console.error);

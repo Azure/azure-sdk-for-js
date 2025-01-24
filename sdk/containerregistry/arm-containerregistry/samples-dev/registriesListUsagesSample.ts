@@ -38,7 +38,7 @@ async function registryListUsages(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  registryListUsages();
+  await registryListUsages();
 }
 
 main().catch(console.error);

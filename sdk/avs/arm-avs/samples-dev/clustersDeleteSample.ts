@@ -36,7 +36,7 @@ async function clustersDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clustersDelete();
+  await clustersDelete();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function datastoresList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  datastoresList();
+  await datastoresList();
 }
 
 main().catch(console.error);

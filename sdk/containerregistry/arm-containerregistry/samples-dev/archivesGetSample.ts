@@ -42,7 +42,7 @@ async function archiveGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  archiveGet();
+  await archiveGet();
 }
 
 main().catch(console.error);

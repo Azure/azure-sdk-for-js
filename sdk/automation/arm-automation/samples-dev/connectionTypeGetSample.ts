@@ -34,7 +34,7 @@ async function getConnectionType(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getConnectionType();
+  await getConnectionType();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getAListOfSyncJobStreamsIdentifiedBySyncJobId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAListOfSyncJobStreamsIdentifiedBySyncJobId();
+  await getAListOfSyncJobStreamsIdentifiedBySyncJobId();
 }
 
 main().catch(console.error);

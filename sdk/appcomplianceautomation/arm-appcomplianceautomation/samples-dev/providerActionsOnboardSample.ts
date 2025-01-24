@@ -31,7 +31,7 @@ async function onboard(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  onboard();
+  await onboard();
 }
 
 main().catch(console.error);

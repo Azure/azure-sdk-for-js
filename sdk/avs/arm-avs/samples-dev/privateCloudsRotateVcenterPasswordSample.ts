@@ -34,7 +34,7 @@ async function privateCloudsRotateVcenterPassword(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateCloudsRotateVcenterPassword();
+  await privateCloudsRotateVcenterPassword();
 }
 
 main().catch(console.error);

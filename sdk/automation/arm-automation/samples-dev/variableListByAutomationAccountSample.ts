@@ -57,8 +57,8 @@ async function listVariablesNext100(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listVariablesFirst100();
-  listVariablesNext100();
+  await listVariablesFirst100();
+  await listVariablesNext100();
 }
 
 main().catch(console.error);

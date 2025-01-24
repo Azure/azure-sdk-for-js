@@ -36,7 +36,7 @@ async function apiManagementGetIssue(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetIssue();
+  await apiManagementGetIssue();
 }
 
 main().catch(console.error);

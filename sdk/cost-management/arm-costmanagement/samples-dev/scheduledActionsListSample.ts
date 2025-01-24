@@ -51,8 +51,8 @@ async function privateScheduledActionsListFilterByViewId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateScheduledActionsList();
-  privateScheduledActionsListFilterByViewId();
+  await privateScheduledActionsList();
+  await privateScheduledActionsListFilterByViewId();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function getAMachineInAnAgentPoolsByManagedCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAMachineInAnAgentPoolsByManagedCluster();
+  await getAMachineInAnAgentPoolsByManagedCluster();
 }
 
 main().catch(console.error);

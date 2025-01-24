@@ -32,7 +32,7 @@ async function cosmosDbLocationList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbLocationList();
+  await cosmosDbLocationList();
 }
 
 main().catch(console.error);

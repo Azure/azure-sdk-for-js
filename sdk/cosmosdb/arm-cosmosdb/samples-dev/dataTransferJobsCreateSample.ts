@@ -52,7 +52,7 @@ async function cosmosDbDataTransferJobCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDataTransferJobCreate();
+  await cosmosDbDataTransferJobCreate();
 }
 
 main().catch(console.error);

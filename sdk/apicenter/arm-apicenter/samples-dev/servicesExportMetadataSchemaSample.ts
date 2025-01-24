@@ -40,7 +40,7 @@ async function servicesExportMetadataSchema(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesExportMetadataSchema();
+  await servicesExportMetadataSchema();
 }
 
 main().catch(console.error);

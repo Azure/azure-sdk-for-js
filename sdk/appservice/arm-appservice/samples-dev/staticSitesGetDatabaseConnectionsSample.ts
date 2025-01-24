@@ -37,7 +37,7 @@ async function listOverviewsOfDatabaseConnectionsForTheStaticSite(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  listOverviewsOfDatabaseConnectionsForTheStaticSite();
+  await listOverviewsOfDatabaseConnectionsForTheStaticSite();
 }
 
 main().catch(console.error);

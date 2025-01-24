@@ -36,7 +36,7 @@ async function profilesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesUpdate();
+  await profilesUpdate();
 }
 
 main().catch(console.error);

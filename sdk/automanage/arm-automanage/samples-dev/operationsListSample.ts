@@ -32,7 +32,7 @@ async function listsAllOfTheAvailableAutomanageRestApiOperations(): Promise<void
 }
 
 async function main(): Promise<void> {
-  listsAllOfTheAvailableAutomanageRestApiOperations();
+  await listsAllOfTheAvailableAutomanageRestApiOperations();
 }
 
 main().catch(console.error);

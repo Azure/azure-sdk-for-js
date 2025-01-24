@@ -32,7 +32,7 @@ async function billingSubscriptionAliasGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionAliasGet();
+  await billingSubscriptionAliasGet();
 }
 
 main().catch(console.error);

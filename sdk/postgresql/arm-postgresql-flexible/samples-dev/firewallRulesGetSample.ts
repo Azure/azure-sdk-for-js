@@ -40,7 +40,7 @@ async function firewallRuleList() {
 }
 
 async function main() {
-  firewallRuleList();
+  await firewallRuleList();
 }
 
 main().catch(console.error);

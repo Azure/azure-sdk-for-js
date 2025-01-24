@@ -32,7 +32,7 @@ describe("image embeddings test suite", () => {
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = await createModelClient("imageEmbeddings", recorder, { credentials: {}});
+    client = await createModelClient("imageEmbeddings", recorder, { credentials: {} });
   });
 
   afterEach(async () => {
@@ -44,7 +44,7 @@ describe("image embeddings test suite", () => {
     const image = getImageDataUrl("sample.png", "png");
     const embeddingParams = {
       body: {
-        input: [{image}],
+        input: [{ image }],
         dimensions: 1,
         encoding_format: "foo",
         input_type: "foo",
@@ -87,7 +87,7 @@ describe("image embeddings test suite", () => {
     const image = getImageDataUrl("sample.png", "png");
     const response = await client.path("/images/embeddings").post({
       body: {
-        input: [{image}],
+        input: [{ image }],
       },
     });
     console.log(response);

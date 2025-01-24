@@ -32,7 +32,7 @@ async function listBuiltInPolicyDefinitions() {
 }
 
 async function main() {
-  listBuiltInPolicyDefinitions();
+  await listBuiltInPolicyDefinitions();
 }
 
 main().catch(console.error);

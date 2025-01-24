@@ -36,7 +36,7 @@ async function policiesGetByCustomer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  policiesGetByCustomer();
+  await policiesGetByCustomer();
 }
 
 main().catch(console.error);

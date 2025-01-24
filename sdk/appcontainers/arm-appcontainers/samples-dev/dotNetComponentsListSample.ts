@@ -63,8 +63,8 @@ async function listNetComponentsWithServiceBinds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listNetComponents();
-  listNetComponentsWithServiceBinds();
+  await listNetComponents();
+  await listNetComponentsWithServiceBinds();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function getRateCard(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRateCard();
+  await getRateCard();
 }
 
 main().catch(console.error);

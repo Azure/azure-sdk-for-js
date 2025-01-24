@@ -35,7 +35,7 @@ async function deleteAnAzureDatabricksAccessConnector(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnAzureDatabricksAccessConnector();
+  await deleteAnAzureDatabricksAccessConnector();
 }
 
 main().catch(console.error);

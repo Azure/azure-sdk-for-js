@@ -38,7 +38,7 @@ async function listsTheAutoUpgradeProfileResourcesByFleet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listsTheAutoUpgradeProfileResourcesByFleet();
+  await listsTheAutoUpgradeProfileResourcesByFleet();
 }
 
 main().catch(console.error);

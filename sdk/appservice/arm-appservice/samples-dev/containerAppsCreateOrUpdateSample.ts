@@ -58,7 +58,7 @@ async function createOrUpdateContainerApp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateContainerApp();
+  await createOrUpdateContainerApp();
 }
 
 main().catch(console.error);

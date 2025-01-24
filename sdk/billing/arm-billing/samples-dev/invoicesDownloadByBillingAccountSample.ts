@@ -40,7 +40,7 @@ async function invoicesDownloadByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoicesDownloadByBillingAccount();
+  await invoicesDownloadByBillingAccount();
 }
 
 main().catch(console.error);

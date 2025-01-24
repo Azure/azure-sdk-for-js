@@ -95,7 +95,7 @@ async function createSoftwareUpdateConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createSoftwareUpdateConfiguration();
+  await createSoftwareUpdateConfiguration();
 }
 
 main().catch(console.error);

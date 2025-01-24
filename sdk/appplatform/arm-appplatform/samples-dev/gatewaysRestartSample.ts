@@ -37,7 +37,7 @@ async function gatewaysRestart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewaysRestart();
+  await gatewaysRestart();
 }
 
 main().catch(console.error);

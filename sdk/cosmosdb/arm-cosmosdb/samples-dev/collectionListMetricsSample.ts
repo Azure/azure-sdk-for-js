@@ -42,7 +42,7 @@ async function cosmosDbCollectionGetMetrics(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCollectionGetMetrics();
+  await cosmosDbCollectionGetMetrics();
 }
 
 main().catch(console.error);

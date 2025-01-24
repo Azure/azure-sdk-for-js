@@ -40,7 +40,7 @@ async function sample() {
 }
 
 async function main() {
-  sample();
+  await sample();
 }
 
 main().catch(console.error);

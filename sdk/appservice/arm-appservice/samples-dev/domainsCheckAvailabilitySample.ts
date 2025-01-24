@@ -30,7 +30,7 @@ async function checkDomainAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkDomainAvailability();
+  await checkDomainAvailability();
 }
 
 main().catch(console.error);

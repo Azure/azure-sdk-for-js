@@ -47,7 +47,7 @@ async function apiDefinitionsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiDefinitionsCreateOrUpdate();
+  await apiDefinitionsCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function deidServicesUpdateGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  deidServicesUpdateGeneratedByMaximumSetRuleStable();
+  await deidServicesUpdateGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

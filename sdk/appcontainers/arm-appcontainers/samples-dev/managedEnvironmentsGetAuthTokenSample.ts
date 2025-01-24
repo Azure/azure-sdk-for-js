@@ -34,7 +34,7 @@ async function getManagedEnvironmentAuthToken(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getManagedEnvironmentAuthToken();
+  await getManagedEnvironmentAuthToken();
 }
 
 main().catch(console.error);

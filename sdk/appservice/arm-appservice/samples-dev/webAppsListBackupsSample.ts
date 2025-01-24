@@ -35,7 +35,7 @@ async function listWebAppBackups(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWebAppBackups();
+  await listWebAppBackups();
 }
 
 main().catch(console.error);

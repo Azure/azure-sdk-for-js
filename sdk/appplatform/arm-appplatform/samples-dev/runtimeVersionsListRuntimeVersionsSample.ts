@@ -26,7 +26,7 @@ async function runtimeVersionsListRuntimeVersions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  runtimeVersionsListRuntimeVersions();
+  await runtimeVersionsListRuntimeVersions();
 }
 
 main().catch(console.error);

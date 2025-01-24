@@ -45,7 +45,7 @@ async function apiManagementGetAuthorizationLoginRequest(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetAuthorizationLoginRequest();
+  await apiManagementGetAuthorizationLoginRequest();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName(): Prom
 }
 
 async function main(): Promise<void> {
-  approvesOrRejectsAPrivateEndpointConnectionWithAGivenName();
+  await approvesOrRejectsAPrivateEndpointConnectionWithAGivenName();
 }
 
 main().catch(console.error);

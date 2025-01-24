@@ -35,7 +35,7 @@ async function gatewaysList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewaysList();
+  await gatewaysList();
 }
 
 main().catch(console.error);

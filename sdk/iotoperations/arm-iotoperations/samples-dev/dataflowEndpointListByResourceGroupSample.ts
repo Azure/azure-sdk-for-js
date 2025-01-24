@@ -26,7 +26,7 @@ async function dataflowEndpointListByResourceGroup() {
 }
 
 async function main() {
-  dataflowEndpointListByResourceGroup();
+  await dataflowEndpointListByResourceGroup();
 }
 
 main().catch(console.error);

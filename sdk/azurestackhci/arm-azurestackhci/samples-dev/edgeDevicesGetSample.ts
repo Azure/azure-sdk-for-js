@@ -29,7 +29,7 @@ async function getEdgeDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getEdgeDevice();
+  await getEdgeDevice();
 }
 
 main().catch(console.error);

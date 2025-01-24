@@ -38,7 +38,7 @@ async function cosmosDbSqlStoredProcedureGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlStoredProcedureGet();
+  await cosmosDbSqlStoredProcedureGet();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getRoleEligibilityScheduleByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRoleEligibilityScheduleByName();
+  await getRoleEligibilityScheduleByName();
 }
 
 main().catch(console.error);

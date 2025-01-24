@@ -51,7 +51,7 @@ async function transactionsListByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  transactionsListByBillingProfile();
+  await transactionsListByBillingProfile();
 }
 
 main().catch(console.error);

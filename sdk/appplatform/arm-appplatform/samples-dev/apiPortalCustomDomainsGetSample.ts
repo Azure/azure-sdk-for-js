@@ -39,7 +39,7 @@ async function apiPortalCustomDomainsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiPortalCustomDomainsGet();
+  await apiPortalCustomDomainsGet();
 }
 
 main().catch(console.error);

@@ -7,11 +7,15 @@ import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mock
 import { CommunicationIdentityClient } from "../../src/index.js";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient.js";
 import { isNodeLike } from "@azure/core-util";
-import { describe, it, assert, expect, vi } from "vitest";
+import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 describe("CommunicationIdentityClient [Mocked]", () => {
   const dateHeader = "x-ms-date";
   const user: CommunicationUserIdentifier = { communicationUserId: "ACS_ID" };
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it("creates instance of CommunicationIdentityClient", () => {
     const client = new CommunicationIdentityClient(

@@ -34,7 +34,7 @@ async function listDscCompilationJobStreams(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDscCompilationJobStreams();
+  await listDscCompilationJobStreams();
 }
 
 main().catch(console.error);

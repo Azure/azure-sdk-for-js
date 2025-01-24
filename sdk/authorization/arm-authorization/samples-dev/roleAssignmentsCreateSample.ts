@@ -93,9 +93,9 @@ async function createRoleAssignmentForSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createRoleAssignmentForResource();
-  createRoleAssignmentForResourceGroup();
-  createRoleAssignmentForSubscription();
+  await createRoleAssignmentForResource();
+  await createRoleAssignmentForResourceGroup();
+  await createRoleAssignmentForSubscription();
 }
 
 main().catch(console.error);

@@ -29,7 +29,7 @@ async function createCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createCluster();
+  await createCluster();
 }
 
 main().catch(console.error);

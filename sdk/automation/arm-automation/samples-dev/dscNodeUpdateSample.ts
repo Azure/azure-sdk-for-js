@@ -42,7 +42,7 @@ async function updateANode(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateANode();
+  await updateANode();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function disableAutoScale(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  disableAutoScale();
+  await disableAutoScale();
 }
 
 main().catch(console.error);

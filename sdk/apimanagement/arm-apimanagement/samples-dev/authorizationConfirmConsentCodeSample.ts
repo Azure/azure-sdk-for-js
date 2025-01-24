@@ -45,7 +45,7 @@ async function apiManagementPostAuthorizationConfirmConsentCodeRequest(): Promis
 }
 
 async function main(): Promise<void> {
-  apiManagementPostAuthorizationConfirmConsentCodeRequest();
+  await apiManagementPostAuthorizationConfirmConsentCodeRequest();
 }
 
 main().catch(console.error);

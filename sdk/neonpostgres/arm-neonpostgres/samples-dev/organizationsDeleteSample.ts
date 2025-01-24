@@ -18,7 +18,7 @@ async function organizationsDelete() {
 }
 
 async function main() {
-  organizationsDelete();
+  await organizationsDelete();
 }
 
 main().catch(console.error);

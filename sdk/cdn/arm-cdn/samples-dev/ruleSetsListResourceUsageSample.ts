@@ -37,7 +37,7 @@ async function ruleSetsListResourceUsage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ruleSetsListResourceUsage();
+  await ruleSetsListResourceUsage();
 }
 
 main().catch(console.error);

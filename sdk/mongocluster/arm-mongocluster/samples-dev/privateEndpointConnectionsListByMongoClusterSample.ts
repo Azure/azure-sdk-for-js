@@ -26,7 +26,7 @@ async function listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource
 }
 
 async function main() {
-  listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource();
+  await listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource();
 }
 
 main().catch(console.error);

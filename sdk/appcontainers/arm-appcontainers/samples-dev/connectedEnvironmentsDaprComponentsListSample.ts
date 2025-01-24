@@ -38,7 +38,7 @@ async function listDaprComponents(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDaprComponents();
+  await listDaprComponents();
 }
 
 main().catch(console.error);

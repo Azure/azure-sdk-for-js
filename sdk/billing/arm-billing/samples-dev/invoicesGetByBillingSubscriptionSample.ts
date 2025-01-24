@@ -30,7 +30,7 @@ async function invoicesGetByBillingSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoicesGetByBillingSubscription();
+  await invoicesGetByBillingSubscription();
 }
 
 main().catch(console.error);

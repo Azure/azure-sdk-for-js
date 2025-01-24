@@ -37,7 +37,7 @@ async function getATrustedAccessRoleBinding(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getATrustedAccessRoleBinding();
+  await getATrustedAccessRoleBinding();
 }
 
 main().catch(console.error);

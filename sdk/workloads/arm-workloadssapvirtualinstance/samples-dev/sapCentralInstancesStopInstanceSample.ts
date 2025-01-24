@@ -71,8 +71,8 @@ async function stopTheSapCentralServicesInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS();
-  stopTheSapCentralServicesInstance();
+  await stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS();
+  await stopTheSapCentralServicesInstance();
 }
 
 main().catch(console.error);

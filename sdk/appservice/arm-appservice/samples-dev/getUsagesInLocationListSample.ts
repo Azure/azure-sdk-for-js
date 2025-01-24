@@ -33,7 +33,7 @@ async function getUsagesInLocationForSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getUsagesInLocationForSubscription();
+  await getUsagesInLocationForSubscription();
 }
 
 main().catch(console.error);

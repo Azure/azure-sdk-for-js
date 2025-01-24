@@ -43,7 +43,7 @@ async function createSecuritySettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createSecuritySettings();
+  await createSecuritySettings();
 }
 
 main().catch(console.error);

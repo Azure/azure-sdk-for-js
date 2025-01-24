@@ -30,7 +30,7 @@ async function listContainerAppsSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listContainerAppsSecrets();
+  await listContainerAppsSecrets();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listManagedEnvironmentUsages(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listManagedEnvironmentUsages();
+  await listManagedEnvironmentUsages();
 }
 
 main().catch(console.error);

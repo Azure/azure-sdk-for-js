@@ -37,7 +37,7 @@ async function transfersList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  transfersList();
+  await transfersList();
 }
 
 main().catch(console.error);

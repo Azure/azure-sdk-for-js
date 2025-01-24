@@ -31,7 +31,7 @@ async function jobsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  jobsList();
+  await jobsList();
 }
 
 main().catch(console.error);

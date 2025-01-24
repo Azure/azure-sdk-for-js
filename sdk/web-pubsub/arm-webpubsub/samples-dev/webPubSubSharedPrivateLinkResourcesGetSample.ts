@@ -37,7 +37,7 @@ async function webPubSubSharedPrivateLinkResourcesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubSharedPrivateLinkResourcesGet();
+  await webPubSubSharedPrivateLinkResourcesGet();
 }
 
 main().catch(console.error);

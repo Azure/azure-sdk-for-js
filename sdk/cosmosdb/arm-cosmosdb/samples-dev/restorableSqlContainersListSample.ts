@@ -43,7 +43,7 @@ async function cosmosDbRestorableSqlContainerList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbRestorableSqlContainerList();
+  await cosmosDbRestorableSqlContainerList();
 }
 
 main().catch(console.error);

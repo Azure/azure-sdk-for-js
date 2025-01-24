@@ -36,7 +36,7 @@ async function hcxEnterpriseSitesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hcxEnterpriseSitesDelete();
+  await hcxEnterpriseSitesDelete();
 }
 
 main().catch(console.error);

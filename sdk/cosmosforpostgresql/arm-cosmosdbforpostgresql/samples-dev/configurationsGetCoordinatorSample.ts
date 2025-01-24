@@ -37,7 +37,7 @@ async function getConfigurationDetailsForCoordinator(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getConfigurationDetailsForCoordinator();
+  await getConfigurationDetailsForCoordinator();
 }
 
 main().catch(console.error);

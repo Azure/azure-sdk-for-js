@@ -36,7 +36,7 @@ async function getsTheBasicAuthPropertiesForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsTheBasicAuthPropertiesForAStaticSite();
+  await getsTheBasicAuthPropertiesForAStaticSite();
 }
 
 main().catch(console.error);

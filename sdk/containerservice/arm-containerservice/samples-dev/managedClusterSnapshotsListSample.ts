@@ -32,7 +32,7 @@ async function listManagedClusterSnapshots(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listManagedClusterSnapshots();
+  await listManagedClusterSnapshots();
 }
 
 main().catch(console.error);

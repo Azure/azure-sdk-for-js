@@ -37,7 +37,7 @@ async function iscsiPathsListByPrivateCloud(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  iscsiPathsListByPrivateCloud();
+  await iscsiPathsListByPrivateCloud();
 }
 
 main().catch(console.error);

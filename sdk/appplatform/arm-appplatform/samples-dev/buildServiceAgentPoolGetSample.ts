@@ -39,7 +39,7 @@ async function buildServiceAgentPoolGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceAgentPoolGet();
+  await buildServiceAgentPoolGet();
 }
 
 main().catch(console.error);

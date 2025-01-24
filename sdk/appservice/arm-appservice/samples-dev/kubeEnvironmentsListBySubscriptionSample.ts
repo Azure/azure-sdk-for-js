@@ -32,7 +32,7 @@ async function listKubeEnvironmentsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listKubeEnvironmentsBySubscription();
+  await listKubeEnvironmentsBySubscription();
 }
 
 main().catch(console.error);

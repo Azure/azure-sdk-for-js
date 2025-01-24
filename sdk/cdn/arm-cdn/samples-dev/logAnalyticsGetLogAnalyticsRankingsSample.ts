@@ -42,7 +42,7 @@ async function logAnalyticsGetLogAnalyticsRankings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  logAnalyticsGetLogAnalyticsRankings();
+  await logAnalyticsGetLogAnalyticsRankings();
 }
 
 main().catch(console.error);

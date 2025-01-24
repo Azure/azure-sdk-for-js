@@ -50,7 +50,7 @@ async function configServersUpdatePut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configServersUpdatePut();
+  await configServersUpdatePut();
 }
 
 main().catch(console.error);

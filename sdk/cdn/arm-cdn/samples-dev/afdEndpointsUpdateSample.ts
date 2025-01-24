@@ -42,7 +42,7 @@ async function afdEndpointsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdEndpointsUpdate();
+  await afdEndpointsUpdate();
 }
 
 main().catch(console.error);

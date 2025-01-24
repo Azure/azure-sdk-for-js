@@ -45,7 +45,7 @@ async function cosmosDbCassandraViewThroughputUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraViewThroughputUpdate();
+  await cosmosDbCassandraViewThroughputUpdate();
 }
 
 main().catch(console.error);

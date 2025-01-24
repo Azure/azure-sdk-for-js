@@ -37,7 +37,7 @@ async function getsAnAutoUpgradeProfileResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsAnAutoUpgradeProfileResource();
+  await getsAnAutoUpgradeProfileResource();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listDeletedAccountsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDeletedAccountsBySubscription();
+  await listDeletedAccountsBySubscription();
 }
 
 main().catch(console.error);

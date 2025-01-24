@@ -34,7 +34,7 @@ async function batchAccountListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountListByResourceGroup();
+  await batchAccountListByResourceGroup();
 }
 
 main().catch(console.error);

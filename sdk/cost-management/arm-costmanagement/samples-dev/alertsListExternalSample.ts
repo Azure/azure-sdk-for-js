@@ -49,8 +49,8 @@ async function externalSubscriptionAlerts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  externalBillingAccountAlerts();
-  externalSubscriptionAlerts();
+  await externalBillingAccountAlerts();
+  await externalSubscriptionAlerts();
 }
 
 main().catch(console.error);

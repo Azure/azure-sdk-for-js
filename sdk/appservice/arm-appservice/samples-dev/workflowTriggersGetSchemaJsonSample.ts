@@ -39,7 +39,7 @@ async function getTriggerSchema(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTriggerSchema();
+  await getTriggerSchema();
 }
 
 main().catch(console.error);

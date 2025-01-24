@@ -30,7 +30,7 @@ async function retrieveADataPolicyManifestByPolicyMode() {
 }
 
 async function main() {
-  retrieveADataPolicyManifestByPolicyMode();
+  await retrieveADataPolicyManifestByPolicyMode();
 }
 
 main().catch(console.error);

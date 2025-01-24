@@ -41,7 +41,7 @@ async function getAWorkflowTriggerHistory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAWorkflowTriggerHistory();
+  await getAWorkflowTriggerHistory();
 }
 
 main().catch(console.error);

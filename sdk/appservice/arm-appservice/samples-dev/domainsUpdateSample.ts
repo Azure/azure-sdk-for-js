@@ -118,7 +118,7 @@ async function updateAppServiceDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAppServiceDomain();
+  await updateAppServiceDomain();
 }
 
 main().catch(console.error);

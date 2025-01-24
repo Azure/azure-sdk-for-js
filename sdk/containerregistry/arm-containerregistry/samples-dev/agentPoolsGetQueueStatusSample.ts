@@ -40,7 +40,7 @@ async function agentPoolsGetQueueStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  agentPoolsGetQueueStatus();
+  await agentPoolsGetQueueStatus();
 }
 
 main().catch(console.error);

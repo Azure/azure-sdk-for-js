@@ -44,7 +44,7 @@ async function workloadNetworksCreatePublicIP(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksCreatePublicIP();
+  await workloadNetworksCreatePublicIP();
 }
 
 main().catch(console.error);

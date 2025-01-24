@@ -43,7 +43,7 @@ async function afdCustomDomainsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdCustomDomainsCreate();
+  await afdCustomDomainsCreate();
 }
 
 main().catch(console.error);

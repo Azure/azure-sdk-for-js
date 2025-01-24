@@ -37,7 +37,7 @@ async function metadataSchemasGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  metadataSchemasGet();
+  await metadataSchemasGet();
 }
 
 main().catch(console.error);

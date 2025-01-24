@@ -43,7 +43,7 @@ async function afdProfilesUpgrade(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdProfilesUpgrade();
+  await afdProfilesUpgrade();
 }
 
 main().catch(console.error);

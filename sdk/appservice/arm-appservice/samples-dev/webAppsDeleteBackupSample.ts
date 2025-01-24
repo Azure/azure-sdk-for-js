@@ -37,7 +37,7 @@ async function deleteWebAppBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteWebAppBackup();
+  await deleteWebAppBackup();
 }
 
 main().catch(console.error);

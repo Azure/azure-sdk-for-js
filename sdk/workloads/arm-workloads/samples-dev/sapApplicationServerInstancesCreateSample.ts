@@ -77,8 +77,8 @@ async function sapApplicationServerInstancesCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createSapApplicationServerInstancesForHaSystemWithAvailabilitySet();
-  sapApplicationServerInstancesCreate();
+  await createSapApplicationServerInstancesForHaSystemWithAvailabilitySet();
+  await sapApplicationServerInstancesCreate();
 }
 
 main().catch(console.error);

@@ -54,7 +54,7 @@ async function bindingsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bindingsCreateOrUpdate();
+  await bindingsCreateOrUpdate();
 }
 
 main().catch(console.error);

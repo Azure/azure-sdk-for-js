@@ -35,7 +35,7 @@ async function cosmosDbGremlinDatabaseDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinDatabaseDelete();
+  await cosmosDbGremlinDatabaseDelete();
 }
 
 main().catch(console.error);

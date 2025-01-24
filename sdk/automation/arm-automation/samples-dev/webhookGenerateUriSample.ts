@@ -32,7 +32,7 @@ async function generateWebhookUri(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  generateWebhookUri();
+  await generateWebhookUri();
 }
 
 main().catch(console.error);

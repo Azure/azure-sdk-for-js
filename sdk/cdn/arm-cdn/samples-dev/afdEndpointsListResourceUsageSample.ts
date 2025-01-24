@@ -37,7 +37,7 @@ async function afdEndpointsListResourceUsage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdEndpointsListResourceUsage();
+  await afdEndpointsListResourceUsage();
 }
 
 main().catch(console.error);

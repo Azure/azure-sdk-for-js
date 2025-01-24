@@ -37,7 +37,7 @@ async function addonsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  addonsList();
+  await addonsList();
 }
 
 main().catch(console.error);

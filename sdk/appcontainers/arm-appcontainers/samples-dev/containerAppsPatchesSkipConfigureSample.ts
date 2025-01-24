@@ -41,7 +41,7 @@ async function containerAppsPatchesSkipConfigure0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerAppsPatchesSkipConfigure0();
+  await containerAppsPatchesSkipConfigure0();
 }
 
 main().catch(console.error);

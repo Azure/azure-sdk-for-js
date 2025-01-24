@@ -57,8 +57,8 @@ async function getConnectionTypesNext100(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getConnectionTypesFirst100();
-  getConnectionTypesNext100();
+  await getConnectionTypesFirst100();
+  await getConnectionTypesNext100();
 }
 
 main().catch(console.error);

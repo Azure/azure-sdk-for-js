@@ -39,7 +39,7 @@ async function getCommitmentPlan(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getCommitmentPlan();
+  await getCommitmentPlan();
 }
 
 main().catch(console.error);

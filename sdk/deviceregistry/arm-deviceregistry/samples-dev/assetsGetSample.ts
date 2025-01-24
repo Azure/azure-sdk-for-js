@@ -33,8 +33,8 @@ async function getAssetWithSyncStatus() {
 }
 
 async function main() {
-  getAsset();
-  getAssetWithSyncStatus();
+  await getAsset();
+  await getAssetWithSyncStatus();
 }
 
 main().catch(console.error);

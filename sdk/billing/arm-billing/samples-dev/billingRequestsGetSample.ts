@@ -27,7 +27,7 @@ async function billingRequestsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingRequestsGet();
+  await billingRequestsGet();
 }
 
 main().catch(console.error);

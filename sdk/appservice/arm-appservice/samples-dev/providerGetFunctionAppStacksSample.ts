@@ -29,7 +29,7 @@ async function getFunctionAppStacks(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getFunctionAppStacks();
+  await getFunctionAppStacks();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function servicesDisableTestEndpoint(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesDisableTestEndpoint();
+  await servicesDisableTestEndpoint();
 }
 
 main().catch(console.error);

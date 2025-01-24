@@ -37,7 +37,7 @@ async function listAppResiliency(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppResiliency();
+  await listAppResiliency();
 }
 
 main().catch(console.error);

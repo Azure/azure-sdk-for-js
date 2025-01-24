@@ -59,7 +59,7 @@ async function updateCertificateOrder(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateCertificateOrder();
+  await updateCertificateOrder();
 }
 
 main().catch(console.error);

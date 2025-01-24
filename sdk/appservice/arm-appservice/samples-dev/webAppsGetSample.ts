@@ -32,7 +32,7 @@ async function getWebApp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWebApp();
+  await getWebApp();
 }
 
 main().catch(console.error);

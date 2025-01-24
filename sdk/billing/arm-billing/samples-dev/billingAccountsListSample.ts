@@ -66,9 +66,9 @@ async function billingAccountsListWithExpandForPoNumber(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingAccountForLegacyAccountDetails();
-  billingAccountsList();
-  billingAccountsListWithExpandForPoNumber();
+  await billingAccountForLegacyAccountDetails();
+  await billingAccountsList();
+  await billingAccountsListWithExpandForPoNumber();
 }
 
 main().catch(console.error);

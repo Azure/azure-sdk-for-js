@@ -67,8 +67,8 @@ async function getGraphicalRunbookContentFromRawContent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getGraphicalRawRunbookContentFromGraphicalRunbookJsonObject();
-  getGraphicalRunbookContentFromRawContent();
+  await getGraphicalRawRunbookContentFromGraphicalRunbookJsonObject();
+  await getGraphicalRunbookContentFromRawContent();
 }
 
 main().catch(console.error);

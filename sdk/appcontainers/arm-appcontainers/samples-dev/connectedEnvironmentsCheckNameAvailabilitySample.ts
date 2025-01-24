@@ -43,7 +43,7 @@ async function certificatesCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  certificatesCheckNameAvailability();
+  await certificatesCheckNameAvailability();
 }
 
 main().catch(console.error);

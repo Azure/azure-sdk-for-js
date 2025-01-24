@@ -23,7 +23,7 @@ async function organizationsListBySubscription() {
 }
 
 async function main() {
-  organizationsListBySubscription();
+  await organizationsListBySubscription();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function workloadNetworksUpdateDnsZone(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksUpdateDnsZone();
+  await workloadNetworksUpdateDnsZone();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function replicationList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  replicationList();
+  await replicationList();
 }
 
 main().catch(console.error);

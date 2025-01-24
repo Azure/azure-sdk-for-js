@@ -38,7 +38,7 @@ async function roleGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  roleGetAllInDevice();
+  await roleGetAllInDevice();
 }
 
 main().catch(console.error);

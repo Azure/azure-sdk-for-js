@@ -32,7 +32,7 @@ async function listSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSkus();
+  await listSkus();
 }
 
 main().catch(console.error);

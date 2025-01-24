@@ -37,7 +37,7 @@ async function cosmosDbSqlRoleDefinitionList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlRoleDefinitionList();
+  await cosmosDbSqlRoleDefinitionList();
 }
 
 main().catch(console.error);

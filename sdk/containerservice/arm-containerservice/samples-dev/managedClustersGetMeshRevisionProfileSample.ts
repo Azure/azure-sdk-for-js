@@ -34,7 +34,7 @@ async function getAMeshRevisionProfileForAMeshMode(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAMeshRevisionProfileForAMeshMode();
+  await getAMeshRevisionProfileForAMeshMode();
 }
 
 main().catch(console.error);

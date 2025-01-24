@@ -40,7 +40,7 @@ async function runsCancel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  runsCancel();
+  await runsCancel();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function validateSecret(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateSecret();
+  await validateSecret();
 }
 
 main().catch(console.error);

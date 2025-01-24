@@ -40,7 +40,7 @@ async function agentPoolsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  agentPoolsGet();
+  await agentPoolsGet();
 }
 
 main().catch(console.error);

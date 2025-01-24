@@ -40,7 +40,7 @@ async function administratorDelete() {
 }
 
 async function main() {
-  administratorDelete();
+  await administratorDelete();
 }
 
 main().catch(console.error);

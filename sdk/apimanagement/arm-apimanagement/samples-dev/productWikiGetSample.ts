@@ -36,7 +36,7 @@ async function apiManagementGetProductWiki(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetProductWiki();
+  await apiManagementGetProductWiki();
 }
 
 main().catch(console.error);

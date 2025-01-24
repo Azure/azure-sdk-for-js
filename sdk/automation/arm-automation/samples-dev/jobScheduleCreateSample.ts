@@ -48,7 +48,7 @@ async function createAJobSchedule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAJobSchedule();
+  await createAJobSchedule();
 }
 
 main().catch(console.error);

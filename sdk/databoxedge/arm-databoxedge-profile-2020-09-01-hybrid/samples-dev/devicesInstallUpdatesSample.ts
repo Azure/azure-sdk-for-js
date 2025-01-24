@@ -35,7 +35,7 @@ async function installUpdatesPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  installUpdatesPost();
+  await installUpdatesPost();
 }
 
 main().catch(console.error);

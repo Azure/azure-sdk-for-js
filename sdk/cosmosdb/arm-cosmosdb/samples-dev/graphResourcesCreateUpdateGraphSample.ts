@@ -44,7 +44,7 @@ async function cosmosDbGraphCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGraphCreateUpdate();
+  await cosmosDbGraphCreateUpdate();
 }
 
 main().catch(console.error);

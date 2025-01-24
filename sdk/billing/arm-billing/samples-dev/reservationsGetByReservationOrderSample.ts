@@ -97,10 +97,10 @@ async function reservationGetByBillingAccountSingleScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reservationGetByBillingAccount();
-  reservationGetByBillingAccountManagementGroup();
-  reservationGetByBillingAccountSingleResourceGroup();
-  reservationGetByBillingAccountSingleScope();
+  await reservationGetByBillingAccount();
+  await reservationGetByBillingAccountManagementGroup();
+  await reservationGetByBillingAccountSingleResourceGroup();
+  await reservationGetByBillingAccountSingleScope();
 }
 
 main().catch(console.error);

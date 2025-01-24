@@ -40,7 +40,7 @@ async function deleteRaiPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteRaiPolicy();
+  await deleteRaiPolicy();
 }
 
 main().catch(console.error);

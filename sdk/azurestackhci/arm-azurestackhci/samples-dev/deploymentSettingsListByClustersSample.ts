@@ -38,7 +38,7 @@ async function listDeploymentSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDeploymentSettings();
+  await listDeploymentSettings();
 }
 
 main().catch(console.error);

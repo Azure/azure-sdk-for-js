@@ -44,7 +44,7 @@ async function datastoresCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  datastoresCreateOrUpdate();
+  await datastoresCreateOrUpdate();
 }
 
 main().catch(console.error);

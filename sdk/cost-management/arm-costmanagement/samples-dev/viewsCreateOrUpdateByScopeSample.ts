@@ -62,7 +62,7 @@ async function resourceGroupCreateOrUpdateView(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resourceGroupCreateOrUpdateView();
+  await resourceGroupCreateOrUpdateView();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function apiManagementHeadProductWiki(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadProductWiki();
+  await apiManagementHeadProductWiki();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function runsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  runsGet();
+  await runsGet();
 }
 
 main().catch(console.error);

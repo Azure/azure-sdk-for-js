@@ -38,7 +38,7 @@ async function resumeAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resumeAnAppServiceEnvironment();
+  await resumeAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

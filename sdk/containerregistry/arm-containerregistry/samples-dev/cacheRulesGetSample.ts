@@ -40,7 +40,7 @@ async function cacheRuleGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cacheRuleGet();
+  await cacheRuleGet();
 }
 
 main().catch(console.error);

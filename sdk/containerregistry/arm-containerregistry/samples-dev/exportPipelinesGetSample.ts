@@ -40,7 +40,7 @@ async function exportPipelineGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportPipelineGet();
+  await exportPipelineGet();
 }
 
 main().catch(console.error);
