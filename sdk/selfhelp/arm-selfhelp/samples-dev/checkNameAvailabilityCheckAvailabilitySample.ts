@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   CheckNameAvailabilityRequest,
-  CheckNameAvailabilityCheckAvailabilityOptionalParams,
+  CheckNameAvailabilityCheckAvailabilityOptionalParams} from "@azure/arm-selfhelp";
+import {
   HelpRP,
 } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";

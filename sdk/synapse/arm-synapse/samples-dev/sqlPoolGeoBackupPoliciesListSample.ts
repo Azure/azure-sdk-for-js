@@ -31,7 +31,7 @@ async function getSqlPoolGeoBackupPolicy() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPoolGeoBackupPolicies.list(
+  for await (const item of client.sqlPoolGeoBackupPolicies.list(
     resourceGroupName,
     workspaceName,
     sqlPoolName

@@ -23,7 +23,7 @@ async function appsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new IotCentralClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apps.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.apps.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

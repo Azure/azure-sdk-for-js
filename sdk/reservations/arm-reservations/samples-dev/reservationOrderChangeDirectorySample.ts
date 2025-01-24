@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ChangeDirectoryRequest} from "@azure/arm-reservations";
 import {
-  ChangeDirectoryRequest,
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";

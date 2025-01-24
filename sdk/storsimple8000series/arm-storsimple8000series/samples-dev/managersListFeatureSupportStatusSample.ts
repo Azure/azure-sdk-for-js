@@ -27,7 +27,7 @@ async function managersListFeatureSupportStatus() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.managers.listFeatureSupportStatus(
+  for await (const item of client.managers.listFeatureSupportStatus(
     resourceGroupName,
     managerName
   )) {

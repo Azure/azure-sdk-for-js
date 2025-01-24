@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { BmcKeySet, NetworkCloud } from "@azure/arm-networkcloud";
+import type { BmcKeySet} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

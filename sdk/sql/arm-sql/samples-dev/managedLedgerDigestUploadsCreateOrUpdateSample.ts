@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedLedgerDigestUploads} from "@azure/arm-sql";
 import {
-  ManagedLedgerDigestUploads,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";

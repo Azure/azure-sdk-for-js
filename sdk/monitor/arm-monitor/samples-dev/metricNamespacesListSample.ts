@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MetricNamespacesListOptionalParams} from "@azure/arm-monitor";
 import {
-  MetricNamespacesListOptionalParams,
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function getMetricNamespacesWithoutFilter() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.metricNamespaces.list(resourceUri, options)) {
+  for await (const item of client.metricNamespaces.list(resourceUri, options)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyStatesSummarizeForManagementGroupOptionalParams} from "@azure/arm-policyinsights";
 import {
-  PolicyStatesSummarizeForManagementGroupOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";

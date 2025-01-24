@@ -31,7 +31,7 @@ async function clusterVersionListResult() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.availableClusterVersions.listByLocation(
+  for await (const item of client.availableClusterVersions.listByLocation(
     location,
   )) {
     resArray.push(item);

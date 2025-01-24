@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ContentKeyPoliciesListOptionalParams} from "@azure/arm-mediaservices";
 import {
-  ContentKeyPoliciesListOptionalParams,
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function listsContentKeyPoliciesOrderedByLastModified() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.contentKeyPolicies.list(
+  for await (const item of client.contentKeyPolicies.list(
     resourceGroupName,
     accountName,
     options
@@ -64,7 +65,7 @@ async function listsContentKeyPoliciesWithCreatedAndLastModifiedFilters() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.contentKeyPolicies.list(
+  for await (const item of client.contentKeyPolicies.list(
     resourceGroupName,
     accountName,
     options
@@ -90,7 +91,7 @@ async function listsAllContentKeyPolicies() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.contentKeyPolicies.list(
+  for await (const item of client.contentKeyPolicies.list(
     resourceGroupName,
     accountName
   )) {

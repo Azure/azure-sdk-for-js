@@ -22,7 +22,7 @@ async function getsAListOfFeatureRegistrations() {
   const credential = new DefaultAzureCredential();
   const client = new FeatureClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.subscriptionFeatureRegistrations.listAllBySubscription()) {
+  for await (const item of client.subscriptionFeatureRegistrations.listAllBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

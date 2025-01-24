@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DetachDiskProperties} from "@azure/arm-devtestlabs";
 import {
-  DetachDiskProperties,
   DevTestLabsClient
 } from "@azure/arm-devtestlabs";
 import { DefaultAzureCredential } from "@azure/identity";

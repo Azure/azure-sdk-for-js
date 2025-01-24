@@ -3,10 +3,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VpnServerConfigurationsAssociatedWithVirtualWanListParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { VpnServerConfigurationsAssociatedWithVirtualWanListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

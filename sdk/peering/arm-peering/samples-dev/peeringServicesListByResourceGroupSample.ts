@@ -23,7 +23,7 @@ async function listPeeringServicesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.peeringServices.listByResourceGroup(
+  for await (const item of client.peeringServices.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

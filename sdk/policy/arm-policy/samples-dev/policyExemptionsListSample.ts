@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyExemptionsListOptionalParams} from "@azure/arm-policy";
 import {
-  PolicyExemptionsListOptionalParams,
   PolicyClient
 } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function listPolicyExemptionsThatApplyToASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyExemptions.list(options)) {
+  for await (const item of client.policyExemptions.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

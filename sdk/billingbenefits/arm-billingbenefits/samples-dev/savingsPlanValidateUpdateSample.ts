@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SavingsPlanUpdateValidateRequest} from "@azure/arm-billingbenefits";
 import {
-  SavingsPlanUpdateValidateRequest,
   BillingBenefitsRP
 } from "@azure/arm-billingbenefits";
 import { DefaultAzureCredential } from "@azure/identity";

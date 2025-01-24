@@ -8,11 +8,12 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   FetchTieringCostInfoForRehydrationRequest,
   FetchTieringCostSavingsInfoForPolicyRequest,
   FetchTieringCostSavingsInfoForProtectedItemRequest,
-  FetchTieringCostSavingsInfoForVaultRequest,
+  FetchTieringCostSavingsInfoForVaultRequest} from "@azure/arm-recoveryservicesbackup";
+import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

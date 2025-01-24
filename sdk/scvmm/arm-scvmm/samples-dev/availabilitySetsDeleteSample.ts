@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AvailabilitySetsDeleteOptionalParams, ScVmm } from "@azure/arm-scvmm";
+import type { AvailabilitySetsDeleteOptionalParams} from "@azure/arm-scvmm";
+import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

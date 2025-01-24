@@ -30,7 +30,7 @@ async function listApplicationGroups() {
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applicationGroupOperations.listByNamespace(
+  for await (const item of client.applicationGroupOperations.listByNamespace(
     resourceGroupName,
     namespaceName,
   )) {

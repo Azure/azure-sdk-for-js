@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ProcessesGetLivenessOptionalParams} from "@azure/arm-servicemap";
 import {
-  ProcessesGetLivenessOptionalParams,
   ServiceMap
 } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";

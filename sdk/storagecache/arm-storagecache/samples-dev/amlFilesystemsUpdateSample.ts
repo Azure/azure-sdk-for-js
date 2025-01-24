@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AmlFilesystemUpdate} from "@azure/arm-storagecache";
 import {
-  AmlFilesystemUpdate,
   StorageCacheManagementClient,
 } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AppResource} from "@azure/arm-appplatform";
 import {
-  AppResource,
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";

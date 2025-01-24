@@ -29,7 +29,7 @@ async function listCustomEntityStoreAssignmentsInASubscriptionAndAResourceGroup(
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.customEntityStoreAssignments.listByResourceGroup(
+  for await (const item of client.customEntityStoreAssignments.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

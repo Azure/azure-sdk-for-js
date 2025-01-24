@@ -29,7 +29,7 @@ async function backupVaultsList() {
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupVaults.listByNetAppAccount(
+  for await (const item of client.backupVaults.listByNetAppAccount(
     resourceGroupName,
     accountName,
   )) {

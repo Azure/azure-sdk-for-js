@@ -27,7 +27,7 @@ async function getAllApplicationsForAnHdInsightCluster() {
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applications.listByCluster(
+  for await (const item of client.applications.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

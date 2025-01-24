@@ -25,7 +25,7 @@ async function batchAccountListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.batchAccountOperations.listByResourceGroup(
+  for await (const item of client.batchAccountOperations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

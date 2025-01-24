@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   GetSsisObjectMetadataRequest,
-  IntegrationRuntimeObjectMetadataGetOptionalParams,
+  IntegrationRuntimeObjectMetadataGetOptionalParams} from "@azure/arm-datafactory";
+import {
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";

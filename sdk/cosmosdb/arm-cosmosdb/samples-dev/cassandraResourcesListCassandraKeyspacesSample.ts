@@ -25,7 +25,7 @@ async function cosmosDbCassandraKeyspaceList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cassandraResources.listCassandraKeyspaces(
+  for await (const item of client.cassandraResources.listCassandraKeyspaces(
     resourceGroupName,
     accountName,
   )) {

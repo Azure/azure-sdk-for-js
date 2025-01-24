@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CreateOrUpdateFirewallRuleParameters} from "@azure/arm-datalake-analytics";
 import {
-  CreateOrUpdateFirewallRuleParameters,
   DataLakeAnalyticsAccountManagementClient
 } from "@azure/arm-datalake-analytics";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -27,7 +27,7 @@ async function apiManagementListCaches(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cache.listByService(
+  for await (const item of client.cache.listByService(
     resourceGroupName,
     serviceName
   )) {

@@ -25,7 +25,7 @@ async function queryTextsListByServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.queryTexts.listByServer(
+  for await (const item of client.queryTexts.listByServer(
     resourceGroupName,
     serverName,
     queryIds

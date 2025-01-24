@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WebTest} from "@azure/arm-appinsights";
 import {
-  WebTest,
   ApplicationInsightsManagementClient
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";

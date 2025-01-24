@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TransformsListOptionalParams} from "@azure/arm-mediaservices";
 import {
-  TransformsListOptionalParams,
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function listsTheTransforms() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.transforms.list(
+  for await (const item of client.transforms.list(
     resourceGroupName,
     accountName
   )) {
@@ -62,7 +63,7 @@ async function listsTheTransformsFilterByCreated() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.transforms.list(
+  for await (const item of client.transforms.list(
     resourceGroupName,
     accountName,
     options
@@ -92,7 +93,7 @@ async function listsTheTransformsFilterByLastmodified() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.transforms.list(
+  for await (const item of client.transforms.list(
     resourceGroupName,
     accountName,
     options
@@ -122,7 +123,7 @@ async function listsTheTransformsFilterByName() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.transforms.list(
+  for await (const item of client.transforms.list(
     resourceGroupName,
     accountName,
     options

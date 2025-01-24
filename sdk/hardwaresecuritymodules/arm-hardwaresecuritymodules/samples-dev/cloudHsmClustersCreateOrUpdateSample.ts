@@ -8,10 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   CloudHsmClustersCreateOrUpdateOptionalParams,
-  AzureHSMResourceProvider,
-  CloudHsmClusterSku,
+  CloudHsmClusterSku} from "@azure/arm-hardwaresecuritymodules";
+import {
+  AzureHSMResourceProvider
 } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";

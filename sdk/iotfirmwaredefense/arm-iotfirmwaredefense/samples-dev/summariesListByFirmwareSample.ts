@@ -31,7 +31,7 @@ async function summariesListByFirmwareMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.summaries.listByFirmware(
+  for await (const item of client.summaries.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,
@@ -58,7 +58,7 @@ async function summariesListByFirmwareMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.summaries.listByFirmware(
+  for await (const item of client.summaries.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,

@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   GroupQuotasEntity,
-  GroupQuotasCreateOrUpdateOptionalParams,
+  GroupQuotasCreateOrUpdateOptionalParams} from "@azure/arm-quota";
+import {
   AzureQuotaExtensionAPI,
 } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";

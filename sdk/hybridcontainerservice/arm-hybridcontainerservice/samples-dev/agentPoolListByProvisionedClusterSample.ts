@@ -26,7 +26,7 @@ async function listAgentPoolByProvisionedClusterInstance() {
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential);
   const resArray = new Array();
-  for await (let item of client.agentPoolOperations.listByProvisionedCluster(
+  for await (const item of client.agentPoolOperations.listByProvisionedCluster(
     connectedClusterResourceUri
   )) {
     resArray.push(item);

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Controller, DevSpacesManagementClient } from "@azure/arm-devspaces";
+import type { Controller} from "@azure/arm-devspaces";
+import { DevSpacesManagementClient } from "@azure/arm-devspaces";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

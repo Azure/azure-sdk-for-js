@@ -31,7 +31,7 @@ async function networkSecurityPerimeterConfigurationsList() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkSecurityPerimeterConfigurations.list(
+  for await (const item of client.networkSecurityPerimeterConfigurations.list(
     resourceGroupName,
     resourceType,
     resourceName,

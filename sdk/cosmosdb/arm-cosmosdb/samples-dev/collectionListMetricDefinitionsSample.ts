@@ -27,7 +27,7 @@ async function cosmosDbCollectionGetMetricDefinitions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.collection.listMetricDefinitions(
+  for await (const item of client.collection.listMetricDefinitions(
     resourceGroupName,
     accountName,
     databaseRid,

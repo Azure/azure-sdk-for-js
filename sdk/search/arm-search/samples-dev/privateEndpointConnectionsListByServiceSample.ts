@@ -27,7 +27,7 @@ async function listPrivateEndpointConnectionsByService() {
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByService(
+  for await (const item of client.privateEndpointConnections.listByService(
     resourceGroupName,
     searchServiceName,
   )) {

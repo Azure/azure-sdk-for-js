@@ -31,7 +31,7 @@ async function kustoPoolsListResourceSkus() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kustoPools.listSkusByResource(
+  for await (const item of client.kustoPools.listSkusByResource(
     workspaceName,
     kustoPoolName,
     resourceGroupName

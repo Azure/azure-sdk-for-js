@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SecurityPolicyUpdateParameters} from "@azure/arm-cdn";
 import {
-  SecurityPolicyUpdateParameters,
   CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";

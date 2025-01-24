@@ -27,7 +27,7 @@ async function accountList() {
   const credential = new DefaultAzureCredential();
   const client = new MLTeamAccountManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accounts.list()) {
+  for await (const item of client.accounts.list()) {
     resArray.push(item);
   }
   console.log(resArray);

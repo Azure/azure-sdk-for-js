@@ -30,7 +30,7 @@ async function kustoSandboxCustomImagesListByCluster() {
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sandboxCustomImages.listByCluster(
+  for await (const item of client.sandboxCustomImages.listByCluster(
     resourceGroupName,
     clusterName
   )) {

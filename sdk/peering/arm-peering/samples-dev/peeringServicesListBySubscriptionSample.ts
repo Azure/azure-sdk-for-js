@@ -22,7 +22,7 @@ async function listPeeringServicesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.peeringServices.listBySubscription()) {
+  for await (const item of client.peeringServices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

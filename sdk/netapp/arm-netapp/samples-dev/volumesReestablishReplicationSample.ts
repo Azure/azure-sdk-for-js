@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ReestablishReplicationRequest} from "@azure/arm-netapp";
 import {
-  ReestablishReplicationRequest,
   NetAppManagementClient,
 } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -29,7 +29,7 @@ async function listCapacitiesInResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new PowerBIDedicated(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.capacities.listByResourceGroup(
+  for await (const item of client.capacities.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

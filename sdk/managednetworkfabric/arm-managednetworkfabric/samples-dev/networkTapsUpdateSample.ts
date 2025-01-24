@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  NetworkTapPatch} from "@azure/arm-managednetworkfabric";
 import {
-  NetworkTapPatch,
   AzureNetworkFabricManagementServiceAPI
 } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -29,7 +29,7 @@ async function listTheWorkflowsSlot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webApps.listInstanceWorkflowsSlot(
+  for await (const item of client.webApps.listInstanceWorkflowsSlot(
     resourceGroupName,
     name,
     slot,

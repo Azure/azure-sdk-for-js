@@ -29,7 +29,7 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkInterfaces.listVirtualMachineScaleSetIpConfigurations(
+  for await (const item of client.networkInterfaces.listVirtualMachineScaleSetIpConfigurations(
     resourceGroupName,
     virtualMachineScaleSetName,
     virtualmachineIndex,

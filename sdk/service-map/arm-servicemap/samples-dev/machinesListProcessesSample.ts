@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MachinesListProcessesOptionalParams} from "@azure/arm-servicemap";
 import {
-  MachinesListProcessesOptionalParams,
   ServiceMap
 } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -37,7 +38,7 @@ async function smMachinesListProcessesGet() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceMap(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.machines.listProcesses(
+  for await (const item of client.machines.listProcesses(
     resourceGroupName,
     workspaceName,
     machineName,

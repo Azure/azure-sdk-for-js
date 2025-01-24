@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   GetSsisObjectMetadataRequest,
-  IntegrationRuntimeObjectMetadataListOptionalParams,
+  IntegrationRuntimeObjectMetadataListOptionalParams} from "@azure/arm-synapse";
+import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";

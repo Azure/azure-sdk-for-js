@@ -25,7 +25,7 @@ async function endpointsListByProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.endpoints.listByProfile(
+  for await (const item of client.endpoints.listByProfile(
     resourceGroupName,
     profileName,
   )) {

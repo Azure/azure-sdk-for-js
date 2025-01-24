@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SoftwareUpdateConfigurationRunsListOptionalParams} from "@azure/arm-automation";
 import {
-  SoftwareUpdateConfigurationRunsListOptionalParams,
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";

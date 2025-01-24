@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CloneRequest} from "@azure/arm-storsimple8000series";
 import {
-  CloneRequest,
   StorSimple8000SeriesManagementClient
 } from "@azure/arm-storsimple8000series";
 import { DefaultAzureCredential } from "@azure/identity";

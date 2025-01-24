@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  JobsListByManagerOptionalParams} from "@azure/arm-storsimple1200series";
 import {
-  JobsListByManagerOptionalParams,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function jobsListByManager() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.listByManager(
+  for await (const item of client.jobs.listByManager(
     resourceGroupName,
     managerName,
     options

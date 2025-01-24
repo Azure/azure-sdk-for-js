@@ -25,7 +25,7 @@ async function listNetworkExperimentProfilesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkExperimentProfiles.list()) {
+  for await (const item of client.networkExperimentProfiles.list()) {
     resArray.push(item);
   }
   console.log(resArray);

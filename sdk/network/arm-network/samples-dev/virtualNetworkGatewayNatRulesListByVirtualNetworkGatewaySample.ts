@@ -27,7 +27,7 @@ async function virtualNetworkGatewayNatRuleList() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworkGatewayNatRules.listByVirtualNetworkGateway(
+  for await (const item of client.virtualNetworkGatewayNatRules.listByVirtualNetworkGateway(
     resourceGroupName,
     virtualNetworkGatewayName,
   )) {

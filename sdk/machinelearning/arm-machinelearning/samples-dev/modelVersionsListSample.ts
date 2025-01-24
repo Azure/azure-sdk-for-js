@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ModelVersionsListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  ModelVersionsListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -53,7 +54,7 @@ async function listWorkspaceModelVersion() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.modelVersions.list(
+  for await (const item of client.modelVersions.list(
     resourceGroupName,
     workspaceName,
     name,

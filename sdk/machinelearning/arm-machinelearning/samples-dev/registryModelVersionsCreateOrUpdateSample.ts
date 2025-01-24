@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ModelVersion} from "@azure/arm-machinelearning";
 import {
-  ModelVersion,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";

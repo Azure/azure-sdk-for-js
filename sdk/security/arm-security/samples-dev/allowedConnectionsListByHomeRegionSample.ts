@@ -28,7 +28,7 @@ async function getAllowedConnectionsOnASubscriptionFromSecurityDataLocation() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.allowedConnections.listByHomeRegion(
+  for await (const item of client.allowedConnections.listByHomeRegion(
     ascLocation,
   )) {
     resArray.push(item);

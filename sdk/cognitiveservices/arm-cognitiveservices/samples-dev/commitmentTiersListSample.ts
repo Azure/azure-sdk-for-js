@@ -28,7 +28,7 @@ async function listCommitmentTiers(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.commitmentTiers.list(location)) {
+  for await (const item of client.commitmentTiers.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -26,7 +26,7 @@ async function listPermissionsForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.permissions.listForResourceGroup(
+  for await (const item of client.permissions.listForResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

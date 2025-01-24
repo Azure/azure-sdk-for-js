@@ -29,7 +29,7 @@ async function listAllWorkflowsInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflows.listByResourceGroup(
+  for await (const item of client.workflows.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -30,7 +30,7 @@ async function listJobsInAJobAgent() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.listByAgent(
+  for await (const item of client.jobs.listByAgent(
     resourceGroupName,
     serverName,
     jobAgentName,

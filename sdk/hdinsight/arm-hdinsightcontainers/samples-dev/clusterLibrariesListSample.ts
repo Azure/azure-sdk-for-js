@@ -35,7 +35,7 @@ async function listPredefinedClusterLibraries() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusterLibraries.list(
+  for await (const item of client.clusterLibraries.list(
     resourceGroupName,
     clusterPoolName,
     clusterName,
@@ -67,7 +67,7 @@ async function listUserCustomClusterLibraries() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusterLibraries.list(
+  for await (const item of client.clusterLibraries.list(
     resourceGroupName,
     clusterPoolName,
     clusterName,

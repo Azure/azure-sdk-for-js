@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  JobDefinitionUpdateParameters} from "@azure/arm-storagemover";
 import {
-  JobDefinitionUpdateParameters,
   StorageMoverClient,
 } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";

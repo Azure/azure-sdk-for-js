@@ -31,7 +31,7 @@ async function listDatabaseRestorePoints() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorePoints.listByDatabase(
+  for await (const item of client.restorePoints.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -58,7 +58,7 @@ async function listDatawarehouseDatabaseRestorePoints() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorePoints.listByDatabase(
+  for await (const item of client.restorePoints.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

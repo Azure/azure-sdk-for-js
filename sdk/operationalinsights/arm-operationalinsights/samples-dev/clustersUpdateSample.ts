@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ClusterPatch} from "@azure/arm-operationalinsights";
 import {
-  ClusterPatch,
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";

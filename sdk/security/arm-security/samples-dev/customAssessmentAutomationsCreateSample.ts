@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CustomAssessmentAutomationRequest} from "@azure/arm-security";
 import {
-  CustomAssessmentAutomationRequest,
   SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";

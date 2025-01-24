@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ProofOfPossessionNonceRequest} from "@azure/arm-sphere";
 import {
-  ProofOfPossessionNonceRequest,
   AzureSphereManagementClient,
 } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";

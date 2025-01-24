@@ -31,7 +31,7 @@ async function listAWorkflowTriggerHistory() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowTriggerHistories.list(
+  for await (const item of client.workflowTriggerHistories.list(
     resourceGroupName,
     workflowName,
     triggerName

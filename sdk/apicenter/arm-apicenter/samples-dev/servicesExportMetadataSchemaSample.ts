@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MetadataSchemaExportRequest} from "@azure/arm-apicenter";
 import {
-  MetadataSchemaExportRequest,
   AzureAPICenter,
 } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -32,7 +32,7 @@ async function ipPrefixesListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.ipPrefixes.listByResourceGroup(
+  for await (const item of client.ipPrefixes.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

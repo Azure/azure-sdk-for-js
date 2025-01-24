@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  UserSessionsDeleteOptionalParams} from "@azure/arm-desktopvirtualization";
 import {
-  UserSessionsDeleteOptionalParams,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";

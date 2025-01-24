@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RegenerateKeyParameters} from "@azure/arm-appconfiguration";
 import {
-  RegenerateKeyParameters,
   AppConfigurationManagementClient,
 } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";

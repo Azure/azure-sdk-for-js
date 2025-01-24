@@ -27,7 +27,7 @@ async function workbooksList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.myWorkbooks.listByResourceGroup(
+  for await (const item of client.myWorkbooks.listByResourceGroup(
     resourceGroupName,
     category
   )) {
@@ -54,7 +54,7 @@ async function workbooksList2(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.myWorkbooks.listByResourceGroup(
+  for await (const item of client.myWorkbooks.listByResourceGroup(
     resourceGroupName,
     category
   )) {

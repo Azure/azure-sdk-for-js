@@ -29,7 +29,7 @@ async function listPrivateLinkHubsInResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkHubs.listByResourceGroup(
+  for await (const item of client.privateLinkHubs.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

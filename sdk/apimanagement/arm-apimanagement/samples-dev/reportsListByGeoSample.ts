@@ -29,7 +29,7 @@ async function apiManagementGetReportsByGeo(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reports.listByGeo(
+  for await (const item of client.reports.listByGeo(
     resourceGroupName,
     serviceName,
     filter

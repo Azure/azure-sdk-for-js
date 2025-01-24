@@ -22,7 +22,7 @@ async function getOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
-  for await (let item of client.quotaOperation.list()) {
+  for await (const item of client.quotaOperation.list()) {
     resArray.push(item);
   }
   console.log(resArray);

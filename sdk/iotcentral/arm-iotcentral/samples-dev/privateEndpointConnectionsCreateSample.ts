@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-iotcentral";
 import {
-  PrivateEndpointConnection,
   IotCentralClient
 } from "@azure/arm-iotcentral";
 import { DefaultAzureCredential } from "@azure/identity";

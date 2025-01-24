@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { VirtualNetwork, DevTestLabsClient } from "@azure/arm-devtestlabs";
+import type { VirtualNetwork} from "@azure/arm-devtestlabs";
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

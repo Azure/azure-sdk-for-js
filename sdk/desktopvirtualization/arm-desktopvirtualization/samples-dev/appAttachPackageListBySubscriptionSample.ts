@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AppAttachPackageListBySubscriptionOptionalParams} from "@azure/arm-desktopvirtualization";
 import {
-  AppAttachPackageListBySubscriptionOptionalParams,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function appAttachPackageListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appAttachPackageOperations.listBySubscription(
+  for await (const item of client.appAttachPackageOperations.listBySubscription(
     options,
   )) {
     resArray.push(item);

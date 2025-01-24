@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Project, DevCenterClient } from "@azure/arm-devcenter";
+import type { Project} from "@azure/arm-devcenter";
+import { DevCenterClient } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

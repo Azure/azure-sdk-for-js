@@ -29,7 +29,7 @@ async function privateEndpointConnectionsListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     elasticSanName,
   )) {
@@ -53,7 +53,7 @@ async function privateEndpointConnectionsListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     elasticSanName,
   )) {

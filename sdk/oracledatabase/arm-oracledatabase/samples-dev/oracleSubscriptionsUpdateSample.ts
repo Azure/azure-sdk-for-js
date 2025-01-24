@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  OracleSubscriptionUpdate} from "@azure/arm-oracledatabase";
 import {
-  OracleSubscriptionUpdate,
   OracleDatabaseManagementClient,
 } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";

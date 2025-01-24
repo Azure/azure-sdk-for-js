@@ -26,7 +26,7 @@ async function listProvisionedClusterInstances() {
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential);
   const resArray = new Array();
-  for await (let item of client.provisionedClusterInstances.list(
+  for await (const item of client.provisionedClusterInstances.list(
     connectedClusterResourceUri
   )) {
     resArray.push(item);

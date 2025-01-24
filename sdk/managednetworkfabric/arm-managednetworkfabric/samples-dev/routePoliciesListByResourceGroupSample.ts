@@ -32,7 +32,7 @@ async function routePoliciesListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.routePolicies.listByResourceGroup(
+  for await (const item of client.routePolicies.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

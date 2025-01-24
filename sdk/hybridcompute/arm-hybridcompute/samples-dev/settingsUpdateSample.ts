@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Settings} from "@azure/arm-hybridcompute";
 import {
-  Settings,
   HybridComputeManagementClient,
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";

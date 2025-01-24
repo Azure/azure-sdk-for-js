@@ -14,8 +14,9 @@
  * @summary This method checks whether a proposed nested resource name is valid and available.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Services_CheckChildrenNameAvailability.json
  */
+import type {
+  NameAvailabilityRequest} from "@azure/arm-datamigration";
 import {
-  NameAvailabilityRequest,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

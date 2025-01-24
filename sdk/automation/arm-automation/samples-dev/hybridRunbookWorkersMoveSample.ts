@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  HybridRunbookWorkerMoveParameters} from "@azure/arm-automation";
 import {
-  HybridRunbookWorkerMoveParameters,
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DiscoverProtectableItemRequest} from "@azure/arm-recoveryservices-siterecovery";
 import {
-  DiscoverProtectableItemRequest,
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -27,7 +27,7 @@ async function listExpressRouteCircuitPeerings() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.expressRouteCircuitPeerings.list(
+  for await (const item of client.expressRouteCircuitPeerings.list(
     resourceGroupName,
     circuitName,
   )) {

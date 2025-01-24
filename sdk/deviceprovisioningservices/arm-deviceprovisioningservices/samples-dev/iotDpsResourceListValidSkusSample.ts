@@ -29,7 +29,7 @@ async function dpsGetValidSku(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotDpsResource.listValidSkus(
+  for await (const item of client.iotDpsResource.listValidSkus(
     provisioningServiceName,
     resourceGroupName
   )) {

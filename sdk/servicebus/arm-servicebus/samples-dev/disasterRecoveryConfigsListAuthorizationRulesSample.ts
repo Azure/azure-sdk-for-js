@@ -30,7 +30,7 @@ async function nameSpaceAuthorizationRuleListAll() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.disasterRecoveryConfigs.listAuthorizationRules(
+  for await (const item of client.disasterRecoveryConfigs.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
     alias

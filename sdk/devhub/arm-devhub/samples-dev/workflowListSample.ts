@@ -24,7 +24,7 @@ async function listWorkflows(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DeveloperHubServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowOperations.list()) {
+  for await (const item of client.workflowOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

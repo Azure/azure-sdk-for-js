@@ -29,7 +29,7 @@ async function apiManagementGetReportsByOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reports.listByOperation(
+  for await (const item of client.reports.listByOperation(
     resourceGroupName,
     serviceName,
     filter

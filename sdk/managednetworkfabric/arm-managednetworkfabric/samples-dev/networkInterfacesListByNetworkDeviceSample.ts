@@ -33,7 +33,7 @@ async function networkInterfacesListByNetworkDeviceMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkInterfaces.listByNetworkDevice(
+  for await (const item of client.networkInterfaces.listByNetworkDevice(
     resourceGroupName,
     networkDeviceName
   )) {

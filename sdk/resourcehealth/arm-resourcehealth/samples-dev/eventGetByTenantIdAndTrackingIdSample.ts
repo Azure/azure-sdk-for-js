@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EventGetByTenantIdAndTrackingIdOptionalParams} from "@azure/arm-resourcehealth";
 import {
-  EventGetByTenantIdAndTrackingIdOptionalParams,
   MicrosoftResourceHealth
 } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";

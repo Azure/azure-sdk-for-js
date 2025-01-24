@@ -28,7 +28,7 @@ async function listAllHybridNetworkConfigurationGroupValuesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurationGroupValues.listByResourceGroup(
+  for await (const item of client.configurationGroupValues.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

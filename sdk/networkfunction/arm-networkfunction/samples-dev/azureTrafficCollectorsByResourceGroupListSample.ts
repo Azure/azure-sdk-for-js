@@ -23,7 +23,7 @@ async function listOfTrafficCollectorsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureTrafficCollectorsByResourceGroup.list(
+  for await (const item of client.azureTrafficCollectorsByResourceGroup.list(
     resourceGroupName
   )) {
     resArray.push(item);

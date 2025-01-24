@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Database} from "@azure/arm-mysql-flexible";
 import {
-  Database,
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";

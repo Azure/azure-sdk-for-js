@@ -22,7 +22,7 @@ async function listAllSapMonitorsInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new HanaManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sapMonitors.list()) {
+  for await (const item of client.sapMonitors.list()) {
     resArray.push(item);
   }
   console.log(resArray);

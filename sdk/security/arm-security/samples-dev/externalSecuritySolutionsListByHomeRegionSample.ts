@@ -28,7 +28,7 @@ async function getExternalSecuritySolutionsOnASubscriptionFromSecurityDataLocati
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.externalSecuritySolutions.listByHomeRegion(
+  for await (const item of client.externalSecuritySolutions.listByHomeRegion(
     ascLocation,
   )) {
     resArray.push(item);

@@ -29,7 +29,7 @@ async function listVirtualNetworkRules() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworkRules.listByServer(
+  for await (const item of client.virtualNetworkRules.listByServer(
     resourceGroupName,
     serverName,
   )) {

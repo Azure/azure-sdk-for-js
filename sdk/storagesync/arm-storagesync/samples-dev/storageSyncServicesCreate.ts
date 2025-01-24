@@ -14,8 +14,9 @@
  * @summary Create a new StorageSyncService.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/StorageSyncServices_Create.json
  */
+import type {
+  StorageSyncServiceCreateParameters} from "@azure/arm-storagesync";
 import {
-  StorageSyncServiceCreateParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

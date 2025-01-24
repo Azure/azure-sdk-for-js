@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GetCatalogOptionalParams} from "@azure/arm-reservations";
 import {
-  GetCatalogOptionalParams,
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function catalog() {
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
   const resArray = new Array();
-  for await (let item of client.listCatalog(subscriptionId, options)) {
+  for await (const item of client.listCatalog(subscriptionId, options)) {
     resArray.push(item);
   }
   console.log(resArray);

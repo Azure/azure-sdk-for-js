@@ -30,7 +30,7 @@ async function listGatewaysBySubscriptionId() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.gateway.listBySubscription()) {
+  for await (const item of client.gateway.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

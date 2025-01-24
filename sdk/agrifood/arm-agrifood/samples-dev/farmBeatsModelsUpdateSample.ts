@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FarmBeatsUpdateRequestModel} from "@azure/arm-agrifood";
 import {
-  FarmBeatsUpdateRequestModel,
   AgriFoodMgmtClient
 } from "@azure/arm-agrifood";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -24,7 +24,7 @@ async function listsAllAvailableResourceSkUs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiManagementSkus.list()) {
+  for await (const item of client.apiManagementSkus.list()) {
     resArray.push(item);
   }
   console.log(resArray);

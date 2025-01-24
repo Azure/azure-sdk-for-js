@@ -23,7 +23,7 @@ async function resourceUsageList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceUsageOperations.list()) {
+  for await (const item of client.resourceUsageOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

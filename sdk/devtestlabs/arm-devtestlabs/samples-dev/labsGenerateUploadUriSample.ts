@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GenerateUploadUriParameter} from "@azure/arm-devtestlabs";
 import {
-  GenerateUploadUriParameter,
   DevTestLabsClient
 } from "@azure/arm-devtestlabs";
 import { DefaultAzureCredential } from "@azure/identity";

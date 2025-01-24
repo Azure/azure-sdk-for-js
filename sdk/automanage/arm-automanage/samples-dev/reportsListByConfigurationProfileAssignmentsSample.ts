@@ -28,7 +28,7 @@ async function listReportsByConfigurationProfilesAssignment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reports.listByConfigurationProfileAssignments(
+  for await (const item of client.reports.listByConfigurationProfileAssignments(
     resourceGroupName,
     configurationProfileAssignmentName,
     vmName

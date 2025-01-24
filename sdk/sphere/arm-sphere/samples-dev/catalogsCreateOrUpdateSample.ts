@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Catalog, AzureSphereManagementClient } from "@azure/arm-sphere";
+import type { Catalog} from "@azure/arm-sphere";
+import { AzureSphereManagementClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

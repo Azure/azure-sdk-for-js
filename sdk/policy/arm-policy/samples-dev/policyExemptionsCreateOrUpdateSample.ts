@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PolicyExemption, PolicyClient } from "@azure/arm-policy";
+import type { PolicyExemption} from "@azure/arm-policy";
+import { PolicyClient } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

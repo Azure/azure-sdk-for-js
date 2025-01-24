@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PoolListByBatchAccountOptionalParams} from "@azure/arm-batch";
 import {
-  PoolListByBatchAccountOptionalParams,
   BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function listPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.poolOperations.listByBatchAccount(
+  for await (const item of client.poolOperations.listByBatchAccount(
     resourceGroupName,
     accountName,
   )) {
@@ -57,7 +58,7 @@ async function listPoolWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.poolOperations.listByBatchAccount(
+  for await (const item of client.poolOperations.listByBatchAccount(
     resourceGroupName,
     accountName,
     options,

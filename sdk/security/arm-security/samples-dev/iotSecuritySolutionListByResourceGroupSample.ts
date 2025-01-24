@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  IotSecuritySolutionListByResourceGroupOptionalParams} from "@azure/arm-security";
 import {
-  IotSecuritySolutionListByResourceGroupOptionalParams,
   SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function listIoTSecuritySolutionsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotSecuritySolution.listByResourceGroup(
+  for await (const item of client.iotSecuritySolution.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -58,7 +59,7 @@ async function listIoTSecuritySolutionsByResourceGroupAndIoTHub() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotSecuritySolution.listByResourceGroup(
+  for await (const item of client.iotSecuritySolution.listByResourceGroup(
     resourceGroupName,
     options,
   )) {

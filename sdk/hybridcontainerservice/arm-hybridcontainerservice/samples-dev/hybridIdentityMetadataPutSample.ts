@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  HybridIdentityMetadata} from "@azure/arm-hybridcontainerservice";
 import {
-  HybridIdentityMetadata,
   HybridContainerServiceClient
 } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";

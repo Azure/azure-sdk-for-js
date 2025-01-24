@@ -27,7 +27,7 @@ async function listOfSpacecraftBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.spacecrafts.listBySubscription()) {
+  for await (const item of client.spacecrafts.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

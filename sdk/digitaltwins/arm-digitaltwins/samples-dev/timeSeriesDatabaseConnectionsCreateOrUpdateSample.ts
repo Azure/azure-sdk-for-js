@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TimeSeriesDatabaseConnection} from "@azure/arm-digitaltwins";
 import {
-  TimeSeriesDatabaseConnection,
   AzureDigitalTwinsManagementClient
 } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";

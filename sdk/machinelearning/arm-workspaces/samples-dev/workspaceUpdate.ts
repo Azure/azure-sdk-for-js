@@ -14,8 +14,9 @@
  * @summary Updates a machine learning workspace with the specified parameters.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/UpdateWorkspace.json
  */
+import type {
+  WorkspaceUpdateParameters} from "@azure/arm-workspaces";
 import {
-  WorkspaceUpdateParameters,
   MachineLearningWorkspacesManagementClient
 } from "@azure/arm-workspaces";
 import { DefaultAzureCredential } from "@azure/identity";

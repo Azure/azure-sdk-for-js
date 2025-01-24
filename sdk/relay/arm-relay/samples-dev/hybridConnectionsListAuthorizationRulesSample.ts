@@ -31,7 +31,7 @@ async function relayHybridConnectionAutorizationRuleListAll() {
   const credential = new DefaultAzureCredential();
   const client = new RelayAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.hybridConnections.listAuthorizationRules(
+  for await (const item of client.hybridConnections.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
     hybridConnectionName

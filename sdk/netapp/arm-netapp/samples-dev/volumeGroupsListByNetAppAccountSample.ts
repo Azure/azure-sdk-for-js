@@ -29,7 +29,7 @@ async function volumeGroupsListOracle() {
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.volumeGroups.listByNetAppAccount(
+  for await (const item of client.volumeGroups.listByNetAppAccount(
     resourceGroupName,
     accountName,
   )) {
@@ -53,7 +53,7 @@ async function volumeGroupsListSapHana() {
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.volumeGroups.listByNetAppAccount(
+  for await (const item of client.volumeGroups.listByNetAppAccount(
     resourceGroupName,
     accountName,
   )) {

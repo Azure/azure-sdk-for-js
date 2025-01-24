@@ -29,7 +29,7 @@ async function listAutonomousDatabaseByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.autonomousDatabases.listByResourceGroup(
+  for await (const item of client.autonomousDatabases.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

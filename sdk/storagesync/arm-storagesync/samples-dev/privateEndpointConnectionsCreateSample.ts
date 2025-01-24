@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-storagesync";
 import {
-  PrivateEndpointConnection,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

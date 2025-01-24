@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CloudVmCluster} from "@azure/arm-oracledatabase";
 import {
-  CloudVmCluster,
   OracleDatabaseManagementClient,
 } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";

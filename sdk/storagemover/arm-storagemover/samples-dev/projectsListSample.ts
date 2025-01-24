@@ -30,7 +30,7 @@ async function projectsList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.projects.list(
+  for await (const item of client.projects.list(
     resourceGroupName,
     storageMoverName,
   )) {

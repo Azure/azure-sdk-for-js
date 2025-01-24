@@ -23,7 +23,7 @@ async function listManagementLocksAtScope() {
   const credential = new DefaultAzureCredential();
   const client = new ManagementLockClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managementLocks.listByScope(scope)) {
+  for await (const item of client.managementLocks.listByScope(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

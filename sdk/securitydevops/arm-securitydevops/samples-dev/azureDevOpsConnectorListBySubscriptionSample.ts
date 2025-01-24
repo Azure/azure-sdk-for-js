@@ -27,7 +27,7 @@ async function azureDevOpsConnectorListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSecurityDevOps(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureDevOpsConnectorOperations.listBySubscription()) {
+  for await (const item of client.azureDevOpsConnectorOperations.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Cluster} from "@azure/arm-servicefabric";
 import {
-  Cluster,
   ServiceFabricManagementClient
 } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";

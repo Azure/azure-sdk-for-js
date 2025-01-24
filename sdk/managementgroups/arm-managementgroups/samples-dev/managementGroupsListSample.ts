@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagementGroupsListOptionalParams} from "@azure/arm-managementgroups";
 import {
-  ManagementGroupsListOptionalParams,
   ManagementGroupsAPI
 } from "@azure/arm-managementgroups";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function listManagementGroups() {
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
   const resArray = new Array();
-  for await (let item of client.managementGroups.list(options)) {
+  for await (const item of client.managementGroups.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

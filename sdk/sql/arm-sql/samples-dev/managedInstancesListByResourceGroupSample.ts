@@ -28,7 +28,7 @@ async function listManagedInstancesByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByResourceGroup(
+  for await (const item of client.managedInstances.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -50,7 +50,7 @@ async function listManagedInstancesByResourceGroupWithExpandAdministratorsOrActi
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByResourceGroup(
+  for await (const item of client.managedInstances.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

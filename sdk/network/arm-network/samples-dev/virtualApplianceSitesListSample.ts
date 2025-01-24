@@ -27,7 +27,7 @@ async function listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualApplian
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualApplianceSites.list(
+  for await (const item of client.virtualApplianceSites.list(
     resourceGroupName,
     networkVirtualApplianceName,
   )) {

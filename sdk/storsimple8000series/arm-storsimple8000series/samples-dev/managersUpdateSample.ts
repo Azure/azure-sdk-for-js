@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagerPatch} from "@azure/arm-storsimple8000series";
 import {
-  ManagerPatch,
   StorSimple8000SeriesManagementClient
 } from "@azure/arm-storsimple8000series";
 import { DefaultAzureCredential } from "@azure/identity";

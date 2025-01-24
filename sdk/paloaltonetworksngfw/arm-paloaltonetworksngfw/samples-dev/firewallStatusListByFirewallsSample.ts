@@ -30,7 +30,7 @@ async function firewallStatusListByFirewallsMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.firewallStatus.listByFirewalls(
+  for await (const item of client.firewallStatus.listByFirewalls(
     resourceGroupName,
     firewallName
   )) {
@@ -55,7 +55,7 @@ async function firewallStatusListByFirewallsMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.firewallStatus.listByFirewalls(
+  for await (const item of client.firewallStatus.listByFirewalls(
     resourceGroupName,
     firewallName
   )) {

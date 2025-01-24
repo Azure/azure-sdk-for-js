@@ -26,7 +26,7 @@ async function listOperationalizationClustersByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.operationalizationClusters.listByResourceGroup(
+  for await (const item of client.operationalizationClusters.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

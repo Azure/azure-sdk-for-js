@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedIdentitySqlControlSettingsModel} from "@azure/arm-synapse";
 import {
-  ManagedIdentitySqlControlSettingsModel,
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";

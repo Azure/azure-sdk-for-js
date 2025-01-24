@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PartnerInitiateTransferRequest} from "@azure/arm-billing";
 import {
-  PartnerInitiateTransferRequest,
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";

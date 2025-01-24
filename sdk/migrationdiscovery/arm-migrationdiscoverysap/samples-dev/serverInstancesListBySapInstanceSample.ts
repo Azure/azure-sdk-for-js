@@ -31,7 +31,7 @@ async function listsTheServerInstanceResourcesForTheGivenSapInstanceResource() {
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverInstances.listBySapInstance(
+  for await (const item of client.serverInstances.listBySapInstance(
     resourceGroupName,
     sapDiscoverySiteName,
     sapInstanceName,

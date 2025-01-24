@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   EffectiveRoutesParameters,
-  VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams,
+  VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams} from "@azure/arm-network";
+import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

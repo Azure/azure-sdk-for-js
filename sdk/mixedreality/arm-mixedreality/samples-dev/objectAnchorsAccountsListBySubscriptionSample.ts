@@ -22,7 +22,7 @@ async function listObjectAnchorsAccountsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MixedRealityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.objectAnchorsAccounts.listBySubscription()) {
+  for await (const item of client.objectAnchorsAccounts.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

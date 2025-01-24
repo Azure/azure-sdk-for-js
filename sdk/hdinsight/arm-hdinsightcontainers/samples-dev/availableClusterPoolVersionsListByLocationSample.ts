@@ -31,7 +31,7 @@ async function clusterPoolVersionListResult() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.availableClusterPoolVersions.listByLocation(
+  for await (const item of client.availableClusterPoolVersions.listByLocation(
     location,
   )) {
     resArray.push(item);

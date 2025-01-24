@@ -23,7 +23,7 @@ async function cosmosDbRestorableDatabaseAccountNoLocationList(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorableDatabaseAccounts.list()) {
+  for await (const item of client.restorableDatabaseAccounts.list()) {
     resArray.push(item);
   }
   console.log(resArray);

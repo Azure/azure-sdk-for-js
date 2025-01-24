@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CurrentQuotaLimitBase} from "@azure/arm-reservations";
 import {
-  CurrentQuotaLimitBase,
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";

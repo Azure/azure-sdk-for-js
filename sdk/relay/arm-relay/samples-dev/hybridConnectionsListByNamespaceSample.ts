@@ -30,7 +30,7 @@ async function relayHybridConnectionListAll() {
   const credential = new DefaultAzureCredential();
   const client = new RelayAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.hybridConnections.listByNamespace(
+  for await (const item of client.hybridConnections.listByNamespace(
     resourceGroupName,
     namespaceName
   )) {

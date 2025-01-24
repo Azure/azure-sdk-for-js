@@ -24,7 +24,7 @@ async function associatedTenantsListByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.associatedTenants.listByBillingAccount(
+  for await (const item of client.associatedTenants.listByBillingAccount(
     billingAccountName,
   )) {
     resArray.push(item);

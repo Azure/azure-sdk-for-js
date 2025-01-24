@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  JobsListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  JobsListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function listAutoMlJob() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.jobs.list(resourceGroupName, workspaceName)) {
+  for await (const item of client.jobs.list(resourceGroupName, workspaceName)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -64,7 +65,7 @@ async function listCommandJob() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     workspaceName,
     options,
@@ -96,7 +97,7 @@ async function listPipelineJob() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     workspaceName,
     options,
@@ -128,7 +129,7 @@ async function listSweepJob() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     workspaceName,
     options,

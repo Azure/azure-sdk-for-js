@@ -26,7 +26,7 @@ async function managersListByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.managers.listByResourceGroup(
+  for await (const item of client.managers.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GenerateExpressRoutePortsLOARequest} from "@azure/arm-network";
 import {
-  GenerateExpressRoutePortsLOARequest,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

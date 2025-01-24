@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AttestationsListForResourceGroupOptionalParams} from "@azure/arm-policyinsights";
 import {
-  AttestationsListForResourceGroupOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function listAttestationsAtResourceGroupScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.attestations.listForResourceGroup(
+  for await (const item of client.attestations.listForResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -60,7 +61,7 @@ async function listAttestationsAtResourceGroupScopeWithQueryParameters() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.attestations.listForResourceGroup(
+  for await (const item of client.attestations.listForResourceGroup(
     resourceGroupName,
     options,
   )) {

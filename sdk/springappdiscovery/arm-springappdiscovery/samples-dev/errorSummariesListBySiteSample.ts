@@ -32,7 +32,7 @@ async function errorSummariesListBySiteMaximumSetGen() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.errorSummaries.listBySite(
+  for await (const item of client.errorSummaries.listBySite(
     resourceGroupName,
     siteName,
   )) {
@@ -59,7 +59,7 @@ async function errorSummariesListBySiteMinimumSetGen() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.errorSummaries.listBySite(
+  for await (const item of client.errorSummaries.listBySite(
     resourceGroupName,
     siteName,
   )) {

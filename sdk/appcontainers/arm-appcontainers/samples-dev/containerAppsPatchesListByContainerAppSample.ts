@@ -27,7 +27,7 @@ async function containerAppsPatchesListByContainerApp0(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.containerAppsPatches.listByContainerApp(
+  for await (const item of client.containerAppsPatches.listByContainerApp(
     resourceGroupName,
     containerAppName,
   )) {

@@ -24,7 +24,7 @@ async function getRoleManagementPolicyByRoleDefinitionFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.roleManagementPolicies.listForScope(scope)) {
+  for await (const item of client.roleManagementPolicies.listForScope(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

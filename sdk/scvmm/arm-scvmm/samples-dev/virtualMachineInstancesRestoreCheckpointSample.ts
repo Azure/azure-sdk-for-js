@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { VirtualMachineRestoreCheckpoint, ScVmm } from "@azure/arm-scvmm";
+import type { VirtualMachineRestoreCheckpoint} from "@azure/arm-scvmm";
+import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

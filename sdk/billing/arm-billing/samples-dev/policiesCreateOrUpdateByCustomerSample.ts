@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CustomerPolicy, BillingManagementClient } from "@azure/arm-billing";
+import type { CustomerPolicy} from "@azure/arm-billing";
+import { BillingManagementClient } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

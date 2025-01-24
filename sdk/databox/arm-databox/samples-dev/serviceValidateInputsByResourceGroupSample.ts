@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CreateJobValidations} from "@azure/arm-databox";
 import {
-  CreateJobValidations,
   DataBoxManagementClient
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";

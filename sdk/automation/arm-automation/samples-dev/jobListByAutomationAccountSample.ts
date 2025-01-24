@@ -28,7 +28,7 @@ async function listJobsByAutomationAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobOperations.listByAutomationAccount(
+  for await (const item of client.jobOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

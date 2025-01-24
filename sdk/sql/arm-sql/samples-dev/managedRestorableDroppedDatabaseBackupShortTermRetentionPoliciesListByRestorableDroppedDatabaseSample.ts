@@ -31,7 +31,7 @@ async function getTheShortTermRetentionPolicyListForTheDatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies.listByRestorableDroppedDatabase(
+  for await (const item of client.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies.listByRestorableDroppedDatabase(
     resourceGroupName,
     managedInstanceName,
     restorableDroppedDatabaseId,

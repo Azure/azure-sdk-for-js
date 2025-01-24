@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RemotePrivateEndpointConnectionARMResource} from "@azure/arm-appservice";
 import {
-  RemotePrivateEndpointConnectionARMResource,
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";

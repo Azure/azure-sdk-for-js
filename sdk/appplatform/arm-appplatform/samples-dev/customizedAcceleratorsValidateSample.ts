@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CustomizedAcceleratorProperties} from "@azure/arm-appplatform";
 import {
-  CustomizedAcceleratorProperties,
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";

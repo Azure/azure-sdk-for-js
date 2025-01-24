@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RecallActionParameters} from "@azure/arm-storagesync";
 import {
-  RecallActionParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

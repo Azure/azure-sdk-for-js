@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MigrationsListByTargetServerOptionalParams} from "@azure/arm-postgresql-flexible";
 import {
-  MigrationsListByTargetServerOptionalParams,
   PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function migrationsListByTargetServer() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const resArray = new Array();
-  for await (let item of client.migrations.listByTargetServer(
+  for await (const item of client.migrations.listByTargetServer(
     subscriptionId,
     resourceGroupName,
     targetDbServerName,

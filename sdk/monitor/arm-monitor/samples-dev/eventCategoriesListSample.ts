@@ -24,7 +24,7 @@ async function getEventCategories() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.eventCategories.list()) {
+  for await (const item of client.eventCategories.list()) {
     resArray.push(item);
   }
   console.log(resArray);

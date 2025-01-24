@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Factory, DataFactoryManagementClient } from "@azure/arm-datafactory";
+import type { Factory} from "@azure/arm-datafactory";
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

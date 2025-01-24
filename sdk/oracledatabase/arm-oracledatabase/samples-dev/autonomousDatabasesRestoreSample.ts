@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RestoreAutonomousDatabaseDetails} from "@azure/arm-oracledatabase";
 import {
-  RestoreAutonomousDatabaseDetails,
   OracleDatabaseManagementClient,
 } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";

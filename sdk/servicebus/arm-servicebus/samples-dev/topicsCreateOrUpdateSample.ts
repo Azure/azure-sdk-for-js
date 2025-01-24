@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SBTopic, ServiceBusManagementClient } from "@azure/arm-servicebus";
+import type { SBTopic} from "@azure/arm-servicebus";
+import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

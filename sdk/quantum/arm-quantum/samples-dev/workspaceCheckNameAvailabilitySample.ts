@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckNameAvailabilityParameters} from "@azure/arm-quantum";
 import {
-  CheckNameAvailabilityParameters,
   AzureQuantumManagementClient,
 } from "@azure/arm-quantum";
 import { DefaultAzureCredential } from "@azure/identity";

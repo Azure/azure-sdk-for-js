@@ -29,7 +29,7 @@ async function apiManagementListApiIssueAttachments(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiIssueAttachment.listByService(
+  for await (const item of client.apiIssueAttachment.listByService(
     resourceGroupName,
     serviceName,
     apiId,

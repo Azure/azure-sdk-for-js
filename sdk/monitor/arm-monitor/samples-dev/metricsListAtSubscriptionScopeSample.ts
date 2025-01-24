@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MetricsListAtSubscriptionScopeOptionalParams} from "@azure/arm-monitor";
 import {
-  MetricsListAtSubscriptionScopeOptionalParams,
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";

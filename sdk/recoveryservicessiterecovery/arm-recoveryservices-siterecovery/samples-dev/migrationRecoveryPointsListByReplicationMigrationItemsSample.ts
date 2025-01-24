@@ -34,7 +34,7 @@ async function getsTheRecoveryPointsForAMigrationItem() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.migrationRecoveryPoints.listByReplicationMigrationItems(
+  for await (const item of client.migrationRecoveryPoints.listByReplicationMigrationItems(
     resourceName,
     resourceGroupName,
     fabricName,

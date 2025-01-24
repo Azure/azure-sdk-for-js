@@ -33,7 +33,7 @@ async function listNodeTypeOfTheSpecifiedManagedCluster() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.nodeTypes.listByManagedClusters(
+  for await (const item of client.nodeTypes.listByManagedClusters(
     resourceGroupName,
     clusterName,
   )) {

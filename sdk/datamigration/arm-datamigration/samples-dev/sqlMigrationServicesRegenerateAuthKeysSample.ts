@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RegenAuthKeys} from "@azure/arm-datamigration";
 import {
-  RegenAuthKeys,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

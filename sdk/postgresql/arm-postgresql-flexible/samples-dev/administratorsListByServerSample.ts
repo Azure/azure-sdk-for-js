@@ -31,7 +31,7 @@ async function administratorsListByServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.administrators.listByServer(
+  for await (const item of client.administrators.listByServer(
     resourceGroupName,
     serverName,
   )) {

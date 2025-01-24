@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-hardwaresecuritymodules";
 import {
-  PrivateEndpointConnection,
   AzureHSMResourceProvider,
 } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";

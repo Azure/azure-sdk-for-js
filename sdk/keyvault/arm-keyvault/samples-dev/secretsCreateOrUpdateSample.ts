@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SecretCreateOrUpdateParameters} from "@azure/arm-keyvault";
 import {
-  SecretCreateOrUpdateParameters,
   KeyVaultManagementClient
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";

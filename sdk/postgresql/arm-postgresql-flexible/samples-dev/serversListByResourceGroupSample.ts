@@ -30,7 +30,7 @@ async function serverListByResourceGroup() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.servers.listByResourceGroup(
+  for await (const item of client.servers.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

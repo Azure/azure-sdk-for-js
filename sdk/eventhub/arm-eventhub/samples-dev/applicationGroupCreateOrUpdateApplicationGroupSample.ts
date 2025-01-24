@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ApplicationGroup} from "@azure/arm-eventhub";
 import {
-  ApplicationGroup,
   EventHubManagementClient,
 } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";

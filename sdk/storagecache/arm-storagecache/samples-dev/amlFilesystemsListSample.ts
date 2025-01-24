@@ -27,7 +27,7 @@ async function amlFilesystemsList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.amlFilesystems.list()) {
+  for await (const item of client.amlFilesystems.list()) {
     resArray.push(item);
   }
   console.log(resArray);

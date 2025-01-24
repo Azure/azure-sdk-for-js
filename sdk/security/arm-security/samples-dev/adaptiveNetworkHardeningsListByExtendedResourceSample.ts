@@ -31,7 +31,7 @@ async function listAdaptiveNetworkHardeningsResourcesOfAnExtendedResource() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.adaptiveNetworkHardenings.listByExtendedResource(
+  for await (const item of client.adaptiveNetworkHardenings.listByExtendedResource(
     resourceGroupName,
     resourceNamespace,
     resourceType,

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AccessControlRecord} from "@azure/arm-storsimple1200series";
 import {
-  AccessControlRecord,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";

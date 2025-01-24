@@ -32,7 +32,7 @@ async function getSecurityPolicies() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.securityPoliciesInterface.listByTrafficController(
+  for await (const item of client.securityPoliciesInterface.listByTrafficController(
     resourceGroupName,
     trafficControllerName,
   )) {

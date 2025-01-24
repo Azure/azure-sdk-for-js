@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CertificateListByBatchAccountOptionalParams} from "@azure/arm-batch";
 import {
-  CertificateListByBatchAccountOptionalParams,
   BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function listCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateOperations.listByBatchAccount(
+  for await (const item of client.certificateOperations.listByBatchAccount(
     resourceGroupName,
     accountName,
   )) {
@@ -59,7 +60,7 @@ async function listCertificatesFilterAndSelect(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateOperations.listByBatchAccount(
+  for await (const item of client.certificateOperations.listByBatchAccount(
     resourceGroupName,
     accountName,
     options,

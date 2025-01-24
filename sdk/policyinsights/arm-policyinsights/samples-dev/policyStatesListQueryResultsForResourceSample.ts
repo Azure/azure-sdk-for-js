@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyStatesListQueryResultsForResourceOptionalParams} from "@azure/arm-policyinsights";
 import {
-  PolicyStatesListQueryResultsForResourceOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function queryAllPolicyStatesAtNestedResourceScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForResource(
+  for await (const item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
   )) {
@@ -50,7 +51,7 @@ async function queryAllPolicyStatesAtResourceScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForResource(
+  for await (const item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
   )) {
@@ -76,7 +77,7 @@ async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetai
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForResource(
+  for await (const item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
     options,
@@ -103,7 +104,7 @@ async function queryAllPolicyStatesAtResourceScopeWithNextLink() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForResource(
+  for await (const item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
     options,
@@ -126,7 +127,7 @@ async function queryAllPolicyStatesAtSubscriptionLevelNestedResourceScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForResource(
+  for await (const item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
   )) {
@@ -148,7 +149,7 @@ async function queryAllPolicyStatesAtSubscriptionLevelResourceScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForResource(
+  for await (const item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
   )) {
@@ -178,7 +179,7 @@ async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGiven
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForResource(
+  for await (const item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
     options,
@@ -209,7 +210,7 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyStates.listQueryResultsForResource(
+  for await (const item of client.policyStates.listQueryResultsForResource(
     policyStatesResource,
     resourceId,
     options,

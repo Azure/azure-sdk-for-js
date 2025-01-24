@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SharedPrivateLinkResource} from "@azure/arm-signalr";
 import {
-  SharedPrivateLinkResource,
   SignalRManagementClient
 } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";

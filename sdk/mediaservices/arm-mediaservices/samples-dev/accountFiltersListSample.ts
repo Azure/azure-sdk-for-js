@@ -30,7 +30,7 @@ async function listAllAccountFilters() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accountFilters.list(
+  for await (const item of client.accountFilters.list(
     resourceGroupName,
     accountName
   )) {

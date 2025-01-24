@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ArcSettingsPatch} from "@azure/arm-azurestackhci";
 import {
-  ArcSettingsPatch,
   AzureStackHCIClient,
 } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";

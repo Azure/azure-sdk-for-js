@@ -30,7 +30,7 @@ async function catalogsListDeployments() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.catalogs.listDeployments(
+  for await (const item of client.catalogs.listDeployments(
     resourceGroupName,
     catalogName,
   )) {

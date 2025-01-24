@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ApplyUpdate} from "@azure/arm-maintenance";
 import {
-  ApplyUpdate,
   MaintenanceManagementClient,
 } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";

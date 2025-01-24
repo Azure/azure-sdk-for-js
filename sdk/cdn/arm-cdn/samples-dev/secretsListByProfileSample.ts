@@ -25,7 +25,7 @@ async function secretsListByProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.secrets.listByProfile(
+  for await (const item of client.secrets.listByProfile(
     resourceGroupName,
     profileName,
   )) {

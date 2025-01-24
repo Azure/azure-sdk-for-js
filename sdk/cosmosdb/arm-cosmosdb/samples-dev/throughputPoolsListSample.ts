@@ -25,7 +25,7 @@ async function cosmosDbThroughputPoolList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.throughputPools.list()) {
+  for await (const item of client.throughputPools.list()) {
     resArray.push(item);
   }
   console.log(resArray);

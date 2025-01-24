@@ -26,7 +26,7 @@ async function listChanges(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ChangesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.changes.list(
+  for await (const item of client.changes.list(
     resourceGroupName,
     resourceProviderNamespace,
     resourceType,

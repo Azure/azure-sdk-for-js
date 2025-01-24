@@ -28,7 +28,7 @@ async function virtualMachinesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachines.list(
+  for await (const item of client.virtualMachines.list(
     resourceGroupName,
     privateCloudName,
     clusterName,

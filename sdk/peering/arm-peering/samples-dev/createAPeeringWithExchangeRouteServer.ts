@@ -14,7 +14,8 @@
  * @summary Creates a new peering or updates an existing peering with the specified name under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreatePeeringWithExchangeRouteServer.json
  */
-import { Peering, PeeringManagementClient } from "@azure/arm-peering";
+import type { Peering} from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function createAPeeringWithExchangeRouteServer() {

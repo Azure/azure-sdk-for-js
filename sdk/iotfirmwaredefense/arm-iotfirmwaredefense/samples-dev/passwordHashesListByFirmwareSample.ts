@@ -31,7 +31,7 @@ async function passwordHashesListByFirmwareMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.passwordHashes.listByFirmware(
+  for await (const item of client.passwordHashes.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,
@@ -58,7 +58,7 @@ async function passwordHashesListByFirmwareMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.passwordHashes.listByFirmware(
+  for await (const item of client.passwordHashes.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,

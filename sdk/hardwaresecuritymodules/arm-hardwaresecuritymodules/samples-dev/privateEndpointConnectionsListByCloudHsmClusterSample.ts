@@ -30,7 +30,7 @@ async function cloudHsmClusterPrivateEndpointConnectionListByResourceMaximumSetG
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByCloudHsmCluster(
+  for await (const item of client.privateEndpointConnections.listByCloudHsmCluster(
     resourceGroupName,
     cloudHsmClusterName,
   )) {

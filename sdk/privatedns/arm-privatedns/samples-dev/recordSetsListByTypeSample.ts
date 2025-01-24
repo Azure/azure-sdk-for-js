@@ -30,7 +30,7 @@ async function getPrivateDnsZoneARecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
     recordType,
@@ -56,7 +56,7 @@ async function getPrivateDnsZoneAaaaRecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
     recordType,
@@ -82,7 +82,7 @@ async function getPrivateDnsZoneCnameRecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
     recordType,
@@ -108,7 +108,7 @@ async function getPrivateDnsZoneMxRecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
     recordType,
@@ -134,7 +134,7 @@ async function getPrivateDnsZonePtrRecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
     recordType,
@@ -160,7 +160,7 @@ async function getPrivateDnsZoneSoaRecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
     recordType,
@@ -186,7 +186,7 @@ async function getPrivateDnsZoneSrvRecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
     recordType,
@@ -212,7 +212,7 @@ async function getPrivateDnsZoneTxtRecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     privateZoneName,
     recordType,

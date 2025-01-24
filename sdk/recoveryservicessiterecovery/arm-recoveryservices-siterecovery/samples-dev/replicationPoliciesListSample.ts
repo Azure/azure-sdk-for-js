@@ -31,7 +31,7 @@ async function getsTheListOfReplicationPolicies() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationPolicies.list(
+  for await (const item of client.replicationPolicies.list(
     resourceName,
     resourceGroupName,
   )) {

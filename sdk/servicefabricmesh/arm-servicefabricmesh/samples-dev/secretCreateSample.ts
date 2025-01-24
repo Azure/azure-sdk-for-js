@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SecretResourceDescription} from "@azure/arm-servicefabricmesh";
 import {
-  SecretResourceDescription,
   ServiceFabricMeshManagementClient
 } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";

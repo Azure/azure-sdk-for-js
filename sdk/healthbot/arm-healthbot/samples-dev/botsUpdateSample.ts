@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  HealthBotUpdateParameters} from "@azure/arm-healthbot";
 import {
-  HealthBotUpdateParameters,
   HealthbotClient
 } from "@azure/arm-healthbot";
 import { DefaultAzureCredential } from "@azure/identity";

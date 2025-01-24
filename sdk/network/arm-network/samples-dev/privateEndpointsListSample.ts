@@ -26,7 +26,7 @@ async function listPrivateEndpointsInResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpoints.list(resourceGroupName)) {
+  for await (const item of client.privateEndpoints.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

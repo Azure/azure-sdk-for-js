@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { BatchConfiguration, LogicManagementClient } from "@azure/arm-logic";
+import type { BatchConfiguration} from "@azure/arm-logic";
+import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

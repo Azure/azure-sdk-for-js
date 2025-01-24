@@ -29,7 +29,7 @@ async function getArtifactManifestListResource() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.artifactManifests.listByArtifactStore(
+  for await (const item of client.artifactManifests.listByArtifactStore(
     resourceGroupName,
     publisherName,
     artifactStoreName

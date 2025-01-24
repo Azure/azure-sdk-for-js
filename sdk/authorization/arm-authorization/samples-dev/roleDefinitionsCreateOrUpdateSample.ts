@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RoleDefinition} from "@azure/arm-authorization";
 import {
-  RoleDefinition,
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   CheckNameAvailabilityRequestBody,
-  B2CTenantsCheckNameAvailabilityOptionalParams,
+  B2CTenantsCheckNameAvailabilityOptionalParams} from "@azure/arm-azureadexternalidentities";
+import {
   ExternalIdentitiesConfigurationClient
 } from "@azure/arm-azureadexternalidentities";
 import { DefaultAzureCredential } from "@azure/identity";

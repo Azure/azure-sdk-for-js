@@ -32,7 +32,7 @@ async function networkRacksListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkRacks.listByResourceGroup(
+  for await (const item of client.networkRacks.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -29,7 +29,7 @@ async function getSecurityRecommendationTasksInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tasks.listByResourceGroup(
+  for await (const item of client.tasks.listByResourceGroup(
     resourceGroupName,
     ascLocation,
   )) {

@@ -31,7 +31,7 @@ async function kustoScriptsList() {
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.scripts.listByDatabase(
+  for await (const item of client.scripts.listByDatabase(
     resourceGroupName,
     clusterName,
     databaseName

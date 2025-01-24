@@ -32,7 +32,7 @@ async function listAzureAdAdministratorsInAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.azureADAdministrators.listByServer(
+  for await (const item of client.azureADAdministrators.listByServer(
     resourceGroupName,
     serverName,
   )) {

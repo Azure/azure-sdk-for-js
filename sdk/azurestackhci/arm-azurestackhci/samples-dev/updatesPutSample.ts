@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Update, AzureStackHCIClient } from "@azure/arm-azurestackhci";
+import type { Update} from "@azure/arm-azurestackhci";
+import { AzureStackHCIClient } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

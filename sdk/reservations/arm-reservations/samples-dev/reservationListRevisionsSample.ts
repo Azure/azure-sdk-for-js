@@ -26,7 +26,7 @@ async function reservationRevisions() {
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
   const resArray = new Array();
-  for await (let item of client.reservation.listRevisions(
+  for await (const item of client.reservation.listRevisions(
     reservationOrderId,
     reservationId
   )) {

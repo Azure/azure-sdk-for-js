@@ -27,7 +27,7 @@ async function listSecurityContactData() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityContacts.list()) {
+  for await (const item of client.securityContacts.list()) {
     resArray.push(item);
   }
   console.log(resArray);

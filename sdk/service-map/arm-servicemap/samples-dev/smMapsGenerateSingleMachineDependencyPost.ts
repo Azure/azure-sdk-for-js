@@ -14,8 +14,9 @@
  * @summary Generates the specified map.
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Maps/SMMapsGenerateSingleMachineDependencyPost.json
  */
+import type {
+  SingleMachineDependencyMapRequest} from "@azure/arm-servicemap";
 import {
-  SingleMachineDependencyMapRequest,
   ServiceMap
 } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";

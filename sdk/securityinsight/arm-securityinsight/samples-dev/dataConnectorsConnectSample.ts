@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DataConnectorConnectBody} from "@azure/arm-securityinsight";
 import {
-  DataConnectorConnectBody,
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";

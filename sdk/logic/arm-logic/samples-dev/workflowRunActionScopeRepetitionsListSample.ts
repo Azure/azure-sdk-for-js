@@ -32,7 +32,7 @@ async function listTheScopedRepetitions() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowRunActionScopeRepetitions.list(
+  for await (const item of client.workflowRunActionScopeRepetitions.list(
     resourceGroupName,
     workflowName,
     runName,

@@ -32,7 +32,7 @@ async function redisEnterpriseListByResourceGroup() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.redisEnterprise.listByResourceGroup(
+  for await (const item of client.redisEnterprise.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

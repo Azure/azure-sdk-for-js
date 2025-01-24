@@ -28,7 +28,7 @@ async function schedulesListByPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.schedules.listByPool(
+  for await (const item of client.schedules.listByPool(
     resourceGroupName,
     projectName,
     poolName,

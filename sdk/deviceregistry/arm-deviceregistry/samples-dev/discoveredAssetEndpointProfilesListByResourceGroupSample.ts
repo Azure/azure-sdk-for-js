@@ -15,7 +15,7 @@ async function listDiscoveredAssetEndpointProfilesResourceGroup() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.discoveredAssetEndpointProfiles.listByResourceGroup(
+  for await (const item of client.discoveredAssetEndpointProfiles.listByResourceGroup(
     "myResourceGroup",
   )) {
     resArray.push(item);

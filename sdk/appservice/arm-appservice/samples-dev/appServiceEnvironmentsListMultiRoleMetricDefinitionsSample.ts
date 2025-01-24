@@ -28,7 +28,7 @@ async function getMetricDefinitionsForAMultiRolePoolOfAnAppServiceEnvironment():
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listMultiRoleMetricDefinitions(
+  for await (const item of client.appServiceEnvironments.listMultiRoleMetricDefinitions(
     resourceGroupName,
     name,
   )) {

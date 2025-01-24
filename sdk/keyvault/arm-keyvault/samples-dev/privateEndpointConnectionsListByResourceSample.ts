@@ -30,7 +30,7 @@ async function keyVaultListPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByResource(
+  for await (const item of client.privateEndpointConnections.listByResource(
     resourceGroupName,
     vaultName
   )) {

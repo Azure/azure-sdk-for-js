@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EncryptedSimUploadList} from "@azure/arm-mobilenetwork";
 import {
-  EncryptedSimUploadList,
   MobileNetworkManagementClient,
 } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";

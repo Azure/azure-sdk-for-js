@@ -26,7 +26,7 @@ async function listAllHybridNetworkSitesInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.siteNetworkServices.listBySubscription()) {
+  for await (const item of client.siteNetworkServices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

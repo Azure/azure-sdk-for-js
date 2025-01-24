@@ -35,7 +35,7 @@ async function recoveryPointsList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.recoveryPoints.list(
+  for await (const item of client.recoveryPoints.list(
     resourceGroupName,
     vaultName,
     protectedItemName

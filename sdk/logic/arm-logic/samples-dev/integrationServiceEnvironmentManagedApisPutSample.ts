@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  IntegrationServiceEnvironmentManagedApi} from "@azure/arm-logic";
 import {
-  IntegrationServiceEnvironmentManagedApi,
   LogicManagementClient
 } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";

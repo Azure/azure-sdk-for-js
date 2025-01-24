@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AccessReviewScheduleSettings} from "@azure/arm-authorization";
 import {
-  AccessReviewScheduleSettings,
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";

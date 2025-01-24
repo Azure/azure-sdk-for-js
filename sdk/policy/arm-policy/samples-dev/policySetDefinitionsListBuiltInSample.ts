@@ -25,7 +25,7 @@ async function listBuiltInPolicySetDefinitions() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policySetDefinitions.listBuiltIn()) {
+  for await (const item of client.policySetDefinitions.listBuiltIn()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WebhookCreateOrUpdateParameters} from "@azure/arm-automation";
 import {
-  WebhookCreateOrUpdateParameters,
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";

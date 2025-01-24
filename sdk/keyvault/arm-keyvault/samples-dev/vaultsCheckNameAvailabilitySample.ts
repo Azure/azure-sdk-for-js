@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VaultCheckNameAvailabilityParameters} from "@azure/arm-keyvault";
 import {
-  VaultCheckNameAvailabilityParameters,
   KeyVaultManagementClient
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";

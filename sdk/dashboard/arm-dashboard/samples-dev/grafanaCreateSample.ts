@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedGrafana} from "@azure/arm-dashboard";
 import {
-  ManagedGrafana,
   DashboardManagementClient
 } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   CreateTenantRequestBody,
-  B2CTenantsCreateOptionalParams,
+  B2CTenantsCreateOptionalParams} from "@azure/arm-azureadexternalidentities";
+import {
   ExternalIdentitiesConfigurationClient
 } from "@azure/arm-azureadexternalidentities";
 import { DefaultAzureCredential } from "@azure/identity";

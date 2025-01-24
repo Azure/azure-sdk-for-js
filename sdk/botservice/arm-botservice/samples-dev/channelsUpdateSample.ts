@@ -8,13 +8,15 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ChannelsUpdateOptionalParams,
-  AzureBotService,
   EmailChannel,
   AlexaChannel,
   LineChannel,
   DirectLineSpeechChannel
+} from "@azure/arm-botservice";
+import {
+  AzureBotService
 } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";

@@ -26,7 +26,7 @@ async function listsAllTheApplicationDefinitionsWithinASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new ApplicationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applicationDefinitions.listBySubscription()) {
+  for await (const item of client.applicationDefinitions.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CustomLocation} from "@azure/arm-extendedlocation";
 import {
-  CustomLocation,
   CustomLocationsManagementClient
 } from "@azure/arm-extendedlocation";
 import { DefaultAzureCredential } from "@azure/identity";

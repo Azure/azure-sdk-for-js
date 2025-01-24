@@ -28,7 +28,7 @@ async function devicesListFailoverSets() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.devices.listFailoverSets(
+  for await (const item of client.devices.listFailoverSets(
     deviceName,
     resourceGroupName,
     managerName

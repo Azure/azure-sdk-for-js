@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LoadTestResourcePatchRequestBody} from "@azure/arm-loadtesting";
 import {
-  LoadTestResourcePatchRequestBody,
   LoadTestClient
 } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CatalogsListDeviceInsightsOptionalParams} from "@azure/arm-sphere";
 import {
-  CatalogsListDeviceInsightsOptionalParams,
   AzureSphereManagementClient,
 } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function catalogsListDeviceInsights() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.catalogs.listDeviceInsights(
+  for await (const item of client.catalogs.listDeviceInsights(
     resourceGroupName,
     catalogName,
     options,

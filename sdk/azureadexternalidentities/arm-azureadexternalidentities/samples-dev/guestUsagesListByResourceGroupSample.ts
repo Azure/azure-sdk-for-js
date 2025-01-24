@@ -26,7 +26,7 @@ async function guestUsagesResourceGroupList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.guestUsages.listByResourceGroup(
+  for await (const item of client.guestUsages.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DatabasePrincipalAssignmentCheckNameRequest} from "@azure/arm-kusto";
 import {
-  DatabasePrincipalAssignmentCheckNameRequest,
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";

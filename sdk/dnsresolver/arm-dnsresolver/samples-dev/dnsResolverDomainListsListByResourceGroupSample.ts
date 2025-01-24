@@ -29,7 +29,7 @@ async function listDnsResolverDomainListsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dnsResolverDomainLists.listByResourceGroup(
+  for await (const item of client.dnsResolverDomainLists.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

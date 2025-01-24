@@ -26,7 +26,7 @@ async function endpointServicesList() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availableEndpointServices.list(location)) {
+  for await (const item of client.availableEndpointServices.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

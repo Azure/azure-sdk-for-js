@@ -27,7 +27,7 @@ async function cloudsListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clouds.listBySubscription()) {
+  for await (const item of client.clouds.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function cloudsListBySubscriptionMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clouds.listBySubscription()) {
+  for await (const item of client.clouds.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

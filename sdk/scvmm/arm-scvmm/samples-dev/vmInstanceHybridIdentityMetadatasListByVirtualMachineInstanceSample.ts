@@ -25,7 +25,7 @@ async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMaxi
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
   const resArray = new Array();
-  for await (let item of client.vmInstanceHybridIdentityMetadatas.listByVirtualMachineInstance(
+  for await (const item of client.vmInstanceHybridIdentityMetadatas.listByVirtualMachineInstance(
     resourceUri,
   )) {
     resArray.push(item);
@@ -44,7 +44,7 @@ async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMini
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
   const resArray = new Array();
-  for await (let item of client.vmInstanceHybridIdentityMetadatas.listByVirtualMachineInstance(
+  for await (const item of client.vmInstanceHybridIdentityMetadatas.listByVirtualMachineInstance(
     resourceUri,
   )) {
     resArray.push(item);

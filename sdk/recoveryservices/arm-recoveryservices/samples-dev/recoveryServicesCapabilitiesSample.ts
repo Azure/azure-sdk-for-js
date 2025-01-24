@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ResourceCapabilities} from "@azure/arm-recoveryservices";
 import {
-  ResourceCapabilities,
   RecoveryServicesClient,
 } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";

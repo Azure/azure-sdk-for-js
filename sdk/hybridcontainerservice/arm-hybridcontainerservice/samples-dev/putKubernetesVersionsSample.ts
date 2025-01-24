@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  KubernetesVersionProfile} from "@azure/arm-hybridcontainerservice";
 import {
-  KubernetesVersionProfile,
   HybridContainerServiceClient
 } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";

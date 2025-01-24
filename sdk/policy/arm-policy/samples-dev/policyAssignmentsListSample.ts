@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyAssignmentsListOptionalParams} from "@azure/arm-policy";
 import {
-  PolicyAssignmentsListOptionalParams,
   PolicyClient
 } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function listPolicyAssignmentsThatApplyToASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyAssignments.list(options)) {
+  for await (const item of client.policyAssignments.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

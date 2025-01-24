@@ -28,7 +28,7 @@ async function listWebAppConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webApps.listConfigurations(
+  for await (const item of client.webApps.listConfigurations(
     resourceGroupName,
     name,
   )) {

@@ -30,7 +30,7 @@ async function listSqlAnalyticsPoolsInAWorkspace() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPools.listByWorkspace(
+  for await (const item of client.sqlPools.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {
@@ -55,7 +55,7 @@ async function listSqlAnalyticsPoolsInAWorkspaceWithFilter() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPools.listByWorkspace(
+  for await (const item of client.sqlPools.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

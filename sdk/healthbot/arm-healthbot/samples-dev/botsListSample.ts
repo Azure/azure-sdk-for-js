@@ -22,7 +22,7 @@ async function listBotsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new HealthbotClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bots.list()) {
+  for await (const item of client.bots.list()) {
     resArray.push(item);
   }
   console.log(resArray);

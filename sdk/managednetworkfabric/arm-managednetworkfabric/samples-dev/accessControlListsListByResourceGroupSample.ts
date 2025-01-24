@@ -32,7 +32,7 @@ async function accessControlListsListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.accessControlLists.listByResourceGroup(
+  for await (const item of client.accessControlLists.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

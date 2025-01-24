@@ -25,7 +25,7 @@ async function getWebServicesBySubscriptionId() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.webServices.listBySubscriptionId()) {
+  for await (const item of client.webServices.listBySubscriptionId()) {
     resArray.push(item);
   }
   console.log(resArray);

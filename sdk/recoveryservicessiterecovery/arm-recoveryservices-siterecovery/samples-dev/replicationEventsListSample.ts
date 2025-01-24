@@ -31,7 +31,7 @@ async function getsTheListOfAzureSiteRecoveryEvents() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationEvents.list(
+  for await (const item of client.replicationEvents.list(
     resourceName,
     resourceGroupName,
   )) {

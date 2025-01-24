@@ -31,7 +31,7 @@ async function getsTheListOfAsrFabrics() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationFabrics.list(
+  for await (const item of client.replicationFabrics.list(
     resourceName,
     resourceGroupName,
   )) {

@@ -25,7 +25,7 @@ async function listFilesUnderAWorkspace() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.filesNoSubscription.list(fileWorkspaceName)) {
+  for await (const item of client.filesNoSubscription.list(fileWorkspaceName)) {
     resArray.push(item);
   }
   console.log(resArray);

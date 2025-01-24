@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Key, SynapseManagementClient } from "@azure/arm-synapse";
+import type { Key} from "@azure/arm-synapse";
+import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

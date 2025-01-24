@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CertificateCreateOrUpdateParameters} from "@azure/arm-batch";
 import {
-  CertificateCreateOrUpdateParameters,
   BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";

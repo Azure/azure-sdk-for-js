@@ -31,7 +31,7 @@ async function cosmosDbDatabaseAccountRegionGetMetrics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.partitionKeyRangeIdRegion.listMetrics(
+  for await (const item of client.partitionKeyRangeIdRegion.listMetrics(
     resourceGroupName,
     accountName,
     region,

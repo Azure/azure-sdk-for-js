@@ -27,7 +27,7 @@ async function listSimGroupsInASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.simGroups.listBySubscription()) {
+  for await (const item of client.simGroups.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

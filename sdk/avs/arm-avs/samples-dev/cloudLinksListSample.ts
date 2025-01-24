@@ -27,7 +27,7 @@ async function cloudLinksList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudLinks.list(
+  for await (const item of client.cloudLinks.list(
     resourceGroupName,
     privateCloudName,
   )) {

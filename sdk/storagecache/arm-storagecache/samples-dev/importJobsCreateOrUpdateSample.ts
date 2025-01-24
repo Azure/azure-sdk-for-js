@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ImportJob} from "@azure/arm-storagecache";
 import {
-  ImportJob,
   StorageCacheManagementClient,
 } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";

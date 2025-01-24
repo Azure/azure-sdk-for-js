@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DataPolicyManifestsListOptionalParams} from "@azure/arm-policy";
 import {
-  DataPolicyManifestsListOptionalParams,
   PolicyClient
 } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function listDataPolicyManifests() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataPolicyManifests.list()) {
+  for await (const item of client.dataPolicyManifests.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -49,7 +50,7 @@ async function listDataPolicyManifestsWithNamespaceFilter() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataPolicyManifests.list(options)) {
+  for await (const item of client.dataPolicyManifests.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

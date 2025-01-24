@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FabricListOptionalParams} from "@azure/arm-recoveryservicesdatareplication";
 import {
-  FabricListOptionalParams,
   AzureSiteRecoveryManagementServiceAPI
 } from "@azure/arm-recoveryservicesdatareplication";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -38,7 +39,7 @@ async function fabricList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.fabric.list(resourceGroupName, options)) {
+  for await (const item of client.fabric.list(resourceGroupName, options)) {
     resArray.push(item);
   }
   console.log(resArray);

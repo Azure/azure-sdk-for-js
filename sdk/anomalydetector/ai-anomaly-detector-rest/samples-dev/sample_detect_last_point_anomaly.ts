@@ -7,11 +7,11 @@
  * @summary detects anomaly for the last point on the series.
  */
 
-import AnomalyDetector, {
+import type {
   DetectUnivariateLastPointParameters,
-  isUnexpected,
   TimeSeriesPoint,
 } from "@azure-rest/ai-anomaly-detector";
+import AnomalyDetector, { isUnexpected } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import { parse } from "csv-parse/sync";

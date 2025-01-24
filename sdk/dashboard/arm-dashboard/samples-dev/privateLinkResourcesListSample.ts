@@ -28,7 +28,7 @@ async function privateLinkResourcesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.list(
+  for await (const item of client.privateLinkResources.list(
     resourceGroupName,
     workspaceName
   )) {

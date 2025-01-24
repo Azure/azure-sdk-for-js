@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CertificateResponse} from "@azure/arm-deviceprovisioningservices";
 import {
-  CertificateResponse,
   IotDpsClient
 } from "@azure/arm-deviceprovisioningservices";
 import { DefaultAzureCredential } from "@azure/identity";

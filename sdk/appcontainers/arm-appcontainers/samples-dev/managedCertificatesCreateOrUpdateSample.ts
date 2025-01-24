@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ManagedCertificate,
-  ManagedCertificatesCreateOrUpdateOptionalParams,
+  ManagedCertificatesCreateOrUpdateOptionalParams} from "@azure/arm-appcontainers";
+import {
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";

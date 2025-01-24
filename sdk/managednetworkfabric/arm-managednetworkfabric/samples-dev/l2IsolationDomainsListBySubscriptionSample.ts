@@ -30,7 +30,7 @@ async function l2IsolationDomainsListBySubscriptionMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.l2IsolationDomains.listBySubscription()) {
+  for await (const item of client.l2IsolationDomains.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

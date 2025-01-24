@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SyncIdentityProvider} from "@azure/arm-redhatopenshift";
 import {
-  SyncIdentityProvider,
   AzureRedHatOpenShiftClient,
 } from "@azure/arm-redhatopenshift";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SecureScoreControlsListBySecureScoreOptionalParams} from "@azure/arm-security";
 import {
-  SecureScoreControlsListBySecureScoreOptionalParams,
   SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiative(
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.secureScoreControls.listBySecureScore(
+  for await (const item of client.secureScoreControls.listBySecureScore(
     secureScoreName,
   )) {
     resArray.push(item);
@@ -57,7 +58,7 @@ async function getSecurityControlsAndTheirCurrentScoreForTheSpecifiedInitiativeW
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.secureScoreControls.listBySecureScore(
+  for await (const item of client.secureScoreControls.listBySecureScore(
     secureScoreName,
     options,
   )) {

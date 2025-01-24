@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Cluster, AzureVMwareSolutionAPI } from "@azure/arm-avs";
+import type { Cluster} from "@azure/arm-avs";
+import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

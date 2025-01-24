@@ -31,7 +31,7 @@ async function getAnArtifactOverview() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.proxyArtifact.listVersions(
+  for await (const item of client.proxyArtifact.listVersions(
     resourceGroupName,
     publisherName,
     artifactStoreName,

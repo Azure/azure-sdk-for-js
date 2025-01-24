@@ -29,7 +29,7 @@ async function localRulestacksListByResourceGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localRulestacks.listByResourceGroup(
+  for await (const item of client.localRulestacks.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);
@@ -52,7 +52,7 @@ async function localRulestacksListByResourceGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localRulestacks.listByResourceGroup(
+  for await (const item of client.localRulestacks.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

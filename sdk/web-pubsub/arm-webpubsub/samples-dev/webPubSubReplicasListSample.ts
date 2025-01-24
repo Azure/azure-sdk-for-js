@@ -28,7 +28,7 @@ async function webPubSubReplicasList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebPubSubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webPubSubReplicas.list(
+  for await (const item of client.webPubSubReplicas.list(
     resourceGroupName,
     resourceName,
   )) {

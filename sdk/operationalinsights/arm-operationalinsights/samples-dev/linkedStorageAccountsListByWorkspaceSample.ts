@@ -33,7 +33,7 @@ async function getsListOfLinkedStorageAccountsOnAWorkspace() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.linkedStorageAccounts.listByWorkspace(
+  for await (const item of client.linkedStorageAccounts.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

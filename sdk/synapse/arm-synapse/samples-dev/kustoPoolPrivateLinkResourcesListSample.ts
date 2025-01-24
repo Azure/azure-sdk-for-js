@@ -30,7 +30,7 @@ async function kustoPoolPrivateLinkResourcesList() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kustoPoolPrivateLinkResourcesOperations.list(
+  for await (const item of client.kustoPoolPrivateLinkResourcesOperations.list(
     resourceGroupName,
     workspaceName,
     kustoPoolName

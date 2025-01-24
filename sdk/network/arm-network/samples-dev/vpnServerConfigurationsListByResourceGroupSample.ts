@@ -26,7 +26,7 @@ async function vpnServerConfigurationListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vpnServerConfigurations.listByResourceGroup(
+  for await (const item of client.vpnServerConfigurations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

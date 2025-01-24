@@ -29,7 +29,7 @@ async function subscriptionQuotaAllocationListRequestForCompute(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.groupQuotaSubscriptionAllocationRequest.list(
+  for await (const item of client.groupQuotaSubscriptionAllocationRequest.list(
     managementGroupId,
     groupQuotaName,
     resourceProviderName,

@@ -30,7 +30,7 @@ async function getsPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByPrivateLinkScope(
+  for await (const item of client.privateLinkResources.listByPrivateLinkScope(
     resourceGroupName,
     scopeName,
   )) {

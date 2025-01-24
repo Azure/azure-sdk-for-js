@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Gen1EnvironmentCreateOrUpdateParameters} from "@azure/arm-timeseriesinsights";
 import {
-  Gen1EnvironmentCreateOrUpdateParameters,
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";

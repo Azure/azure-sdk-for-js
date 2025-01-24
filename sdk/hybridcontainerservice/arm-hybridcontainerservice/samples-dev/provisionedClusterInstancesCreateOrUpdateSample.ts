@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ProvisionedCluster} from "@azure/arm-hybridcontainerservice";
 import {
-  ProvisionedCluster,
   HybridContainerServiceClient
 } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";

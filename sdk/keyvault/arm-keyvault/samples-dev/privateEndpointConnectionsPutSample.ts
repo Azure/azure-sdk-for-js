@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-keyvault";
 import {
-  PrivateEndpointConnection,
   KeyVaultManagementClient
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -32,7 +32,7 @@ async function kustoPoolDatabasePrincipalAssignmentsList() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kustoPoolDatabasePrincipalAssignments.list(
+  for await (const item of client.kustoPoolDatabasePrincipalAssignments.list(
     workspaceName,
     kustoPoolName,
     databaseName,

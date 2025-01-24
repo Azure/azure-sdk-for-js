@@ -28,7 +28,7 @@ async function listGiVersionsByLocation() {
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.giVersions.listByLocation(location)) {
+  for await (const item of client.giVersions.listByLocation(location)) {
     resArray.push(item);
   }
   console.log(resArray);

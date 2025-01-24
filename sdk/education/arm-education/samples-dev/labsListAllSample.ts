@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LabsListAllOptionalParams} from "@azure/arm-education";
 import {
-  LabsListAllOptionalParams,
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function labList() {
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.labs.listAll(
+  for await (const item of client.labs.listAll(
     billingAccountName,
     billingProfileName,
     options
@@ -55,7 +56,7 @@ async function labListIncludeBudget() {
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.labs.listAll(
+  for await (const item of client.labs.listAll(
     billingAccountName,
     billingProfileName,
     options

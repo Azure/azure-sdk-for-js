@@ -31,7 +31,7 @@ async function listAllServerLogFilesForAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.logFiles.listByServer(
+  for await (const item of client.logFiles.listByServer(
     resourceGroupName,
     serverName,
   )) {

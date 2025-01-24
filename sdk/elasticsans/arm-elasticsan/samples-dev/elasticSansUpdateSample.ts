@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ElasticSanUpdate, ElasticSanManagement } from "@azure/arm-elasticsan";
+import type { ElasticSanUpdate} from "@azure/arm-elasticsan";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

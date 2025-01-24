@@ -30,7 +30,7 @@ async function getsListOfOutboundFirewallRulesOnAServer() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.outboundFirewallRules.listByServer(
+  for await (const item of client.outboundFirewallRules.listByServer(
     resourceGroupName,
     serverName,
   )) {

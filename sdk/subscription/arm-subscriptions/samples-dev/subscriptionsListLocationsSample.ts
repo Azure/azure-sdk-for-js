@@ -22,7 +22,7 @@ async function listLocations() {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptions.listLocations(subscriptionId)) {
+  for await (const item of client.subscriptions.listLocations(subscriptionId)) {
     resArray.push(item);
   }
   console.log(resArray);

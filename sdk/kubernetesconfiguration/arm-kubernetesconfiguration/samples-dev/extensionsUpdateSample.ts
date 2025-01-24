@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PatchExtension} from "@azure/arm-kubernetesconfiguration";
 import {
-  PatchExtension,
   SourceControlConfigurationClient
 } from "@azure/arm-kubernetesconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";

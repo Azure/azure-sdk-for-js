@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AzureVMResourceFeatureSupportRequest} from "@azure/arm-recoveryservicesbackup";
 import {
-  AzureVMResourceFeatureSupportRequest,
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";

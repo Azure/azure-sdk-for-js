@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TargetsListOptionalParams} from "@azure/arm-chaos";
 import {
-  TargetsListOptionalParams,
   ChaosManagementClient,
 } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function listAllTargetsThatExtendAVirtualMachineResource(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const client = new ChaosManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.targets.list(
+  for await (const item of client.targets.list(
     resourceGroupName,
     parentProviderNamespace,
     parentResourceType,

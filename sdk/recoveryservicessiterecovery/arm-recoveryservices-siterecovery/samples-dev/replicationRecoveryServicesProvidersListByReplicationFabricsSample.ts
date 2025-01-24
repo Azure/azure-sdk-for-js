@@ -32,7 +32,7 @@ async function getsTheListOfRegisteredRecoveryServicesProvidersForTheFabric() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationRecoveryServicesProviders.listByReplicationFabrics(
+  for await (const item of client.replicationRecoveryServicesProviders.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
     fabricName,

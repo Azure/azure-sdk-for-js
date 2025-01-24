@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AttestationsListForSubscriptionOptionalParams} from "@azure/arm-policyinsights";
 import {
-  AttestationsListForSubscriptionOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function listAttestationsAtSubscriptionScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.attestations.listForSubscription()) {
+  for await (const item of client.attestations.listForSubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -54,7 +55,7 @@ async function listAttestationsAtSubscriptionScopeWithQueryParameters() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.attestations.listForSubscription(options)) {
+  for await (const item of client.attestations.listForSubscription(options)) {
     resArray.push(item);
   }
   console.log(resArray);

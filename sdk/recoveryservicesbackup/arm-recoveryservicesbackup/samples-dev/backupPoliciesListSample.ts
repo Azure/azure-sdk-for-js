@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupPoliciesListOptionalParams} from "@azure/arm-recoveryservicesbackup";
 import {
-  BackupPoliciesListOptionalParams,
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -37,7 +38,7 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupPolicies.list(
+  for await (const item of client.backupPolicies.list(
     vaultName,
     resourceGroupName,
     options,
@@ -67,7 +68,7 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureIaasVM
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupPolicies.list(
+  for await (const item of client.backupPolicies.list(
     vaultName,
     resourceGroupName,
     options,
@@ -97,7 +98,7 @@ async function listProtectionPoliciesWithBackupManagementTypeFilterAsAzureWorklo
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupPolicies.list(
+  for await (const item of client.backupPolicies.list(
     vaultName,
     resourceGroupName,
     options,

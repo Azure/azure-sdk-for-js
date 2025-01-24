@@ -31,7 +31,7 @@ async function getTrafficControllers() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.trafficControllerInterface.listByResourceGroup(
+  for await (const item of client.trafficControllerInterface.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

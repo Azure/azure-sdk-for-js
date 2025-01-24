@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Schedule, DevTestLabsClient } from "@azure/arm-devtestlabs";
+import type { Schedule} from "@azure/arm-devtestlabs";
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

@@ -27,7 +27,7 @@ async function getTopologyOnASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.topology.list()) {
+  for await (const item of client.topology.list()) {
     resArray.push(item);
   }
   console.log(resArray);

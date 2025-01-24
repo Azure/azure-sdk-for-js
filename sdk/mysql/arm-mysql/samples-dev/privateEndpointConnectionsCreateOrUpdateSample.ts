@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-mysql";
 import {
-  PrivateEndpointConnection,
   MySQLManagementClient
 } from "@azure/arm-mysql";
 import { DefaultAzureCredential } from "@azure/identity";

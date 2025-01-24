@@ -25,7 +25,7 @@ async function workspaceListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspaces.listBySubscription()) {
+  for await (const item of client.workspaces.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

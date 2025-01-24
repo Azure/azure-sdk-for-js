@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AutonomousDatabaseUpdate} from "@azure/arm-oracledatabase";
 import {
-  AutonomousDatabaseUpdate,
   OracleDatabaseManagementClient,
 } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";

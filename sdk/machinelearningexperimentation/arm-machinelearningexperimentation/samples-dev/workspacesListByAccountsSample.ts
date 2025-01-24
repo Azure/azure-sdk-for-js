@@ -31,7 +31,7 @@ async function listWorkspacesByAccounts() {
   const credential = new DefaultAzureCredential();
   const client = new MLTeamAccountManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspaces.listByAccounts(
+  for await (const item of client.workspaces.listByAccounts(
     accountName,
     resourceGroupName
   )) {

@@ -55,7 +55,7 @@ async function main(): Promise<void> {
   // To get more detail about a disco template, we can call the /discoTemplates path with the GET verb.
   // From here, we can see the names and seeds which would be used in a discovery run.
   // Choose a template from one of the ids printed above
-  let template_id: string = "43488";
+  const template_id: string = "43488";
 
   const disco_template_response = await client
     .path("/discoTemplates/{templateId}", template_id)

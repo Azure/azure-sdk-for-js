@@ -29,7 +29,7 @@ async function catalogsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.catalogs.listByResourceGroup(
+  for await (const item of client.catalogs.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

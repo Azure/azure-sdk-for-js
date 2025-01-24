@@ -31,7 +31,7 @@ async function listVmssvmPublicIP() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.publicIPAddresses.listCloudServiceRoleInstancePublicIPAddresses(
+  for await (const item of client.publicIPAddresses.listCloudServiceRoleInstancePublicIPAddresses(
     resourceGroupName,
     cloudServiceName,
     roleInstanceName,

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VnetParameters} from "@azure/arm-appservice-profile-2020-09-01-hybrid";
 import {
-  VnetParameters,
   WebSiteManagementClient
 } from "@azure/arm-appservice-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

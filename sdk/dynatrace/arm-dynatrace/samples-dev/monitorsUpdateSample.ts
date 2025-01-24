@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MonitorResourceUpdate} from "@azure/arm-dynatrace";
 import {
-  MonitorResourceUpdate,
   DynatraceObservability
 } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";

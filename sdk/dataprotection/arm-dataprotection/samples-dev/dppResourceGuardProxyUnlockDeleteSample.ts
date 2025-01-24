@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  UnlockDeleteRequest} from "@azure/arm-dataprotection";
 import {
-  UnlockDeleteRequest,
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";

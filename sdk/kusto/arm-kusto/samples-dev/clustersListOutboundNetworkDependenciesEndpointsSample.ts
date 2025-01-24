@@ -30,7 +30,7 @@ async function getKustoClusterOutboundNetworkDependencies() {
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.listOutboundNetworkDependenciesEndpoints(
+  for await (const item of client.clusters.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
     clusterName
   )) {

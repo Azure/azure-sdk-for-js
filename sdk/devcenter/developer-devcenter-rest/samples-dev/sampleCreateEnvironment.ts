@@ -1,10 +1,11 @@
 import { DefaultAzureCredential } from "@azure/identity";
-import {
+import type {
     ProjectOutput,
-    isUnexpected,
     CatalogOutput,
     EnvironmentTypeOutput,
-    EnvironmentDefinitionOutput,
+    EnvironmentDefinitionOutput} from "@azure-rest/developer-devcenter";
+import {
+    isUnexpected,
     getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
@@ -24,7 +25,7 @@ async function createEnvironment() {
         throw projectList.body.error;
     }
 
-    let project: ProjectOutput = projectList.body.value[0];
+    const project: ProjectOutput = projectList.body.value[0];
     if (project === undefined || project.name === undefined) {
         throw new Error("No projects found.");
     }
@@ -60,7 +61,7 @@ async function createEnvironment() {
         throw environmentTypeList.body.error;
     }
 
-    let environmentType: EnvironmentTypeOutput = environmentTypeList.body.value[0];
+    const environmentType: EnvironmentTypeOutput = environmentTypeList.body.value[0];
     if (environmentType === undefined || environmentType.name === undefined) {
         throw new Error("No environment types found.");
     }

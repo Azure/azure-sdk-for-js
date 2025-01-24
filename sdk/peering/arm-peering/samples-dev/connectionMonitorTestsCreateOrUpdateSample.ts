@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ConnectionMonitorTest} from "@azure/arm-peering";
 import {
-  ConnectionMonitorTest,
   PeeringManagementClient
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";

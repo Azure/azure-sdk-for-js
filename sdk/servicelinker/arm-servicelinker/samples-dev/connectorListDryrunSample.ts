@@ -28,7 +28,7 @@ async function connectorDryrunList() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceLinkerManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.connector.listDryrun(
+  for await (const item of client.connector.listDryrun(
     subscriptionId,
     resourceGroupName,
     location,

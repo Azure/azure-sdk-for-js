@@ -28,7 +28,7 @@ async function apiManagementListApiSchemas(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiSchema.listByApi(
+  for await (const item of client.apiSchema.listByApi(
     resourceGroupName,
     serviceName,
     apiId

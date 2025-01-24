@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ApplicationInsightsComponent} from "@azure/arm-appinsights";
 import {
-  ApplicationInsightsComponent,
   ApplicationInsightsManagementClient
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";

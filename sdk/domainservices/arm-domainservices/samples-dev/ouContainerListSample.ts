@@ -24,7 +24,7 @@ async function listOfOuContainers() {
   const credential = new DefaultAzureCredential();
   const client = new DomainServicesResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ouContainerOperationGrp.list(
+  for await (const item of client.ouContainerOperationGrp.list(
     resourceGroupName,
     domainServiceName
   )) {

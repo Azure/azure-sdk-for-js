@@ -27,7 +27,7 @@ async function organizationsListByResourceGroupGeneratedByMaximumSetRule(): Prom
   const credential = new DefaultAzureCredential();
   const client = new AstroManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.listByResourceGroup(
+  for await (const item of client.organizations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

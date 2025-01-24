@@ -27,7 +27,7 @@ async function workItemConfigurationsList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.workItemConfigurations.list(
+  for await (const item of client.workItemConfigurations.list(
     resourceGroupName,
     resourceName
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CdnWebApplicationFirewallPolicy} from "@azure/arm-cdn";
 import {
-  CdnWebApplicationFirewallPolicy,
   CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";

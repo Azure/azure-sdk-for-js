@@ -26,7 +26,7 @@ async function workbookTemplatesList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.workbookTemplates.listByResourceGroup(
+  for await (const item of client.workbookTemplates.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

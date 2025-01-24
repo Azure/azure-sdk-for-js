@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  NetworkFunction} from "@azure/arm-hybridnetwork";
 import {
-  NetworkFunction,
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";

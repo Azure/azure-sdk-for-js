@@ -29,7 +29,7 @@ async function listExtensionsUnderArcSettingResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureStackHCIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.extensions.listByArcSetting(
+  for await (const item of client.extensions.listByArcSetting(
     resourceGroupName,
     clusterName,
     arcSettingName,

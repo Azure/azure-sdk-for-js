@@ -28,7 +28,7 @@ async function listAutonomousDbNationalCharacterSetsByLocation() {
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.autonomousDatabaseNationalCharacterSets.listByLocation(
+  for await (const item of client.autonomousDatabaseNationalCharacterSets.listByLocation(
     location,
   )) {
     resArray.push(item);

@@ -30,7 +30,7 @@ async function storageTargetsList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTargets.listByCache(
+  for await (const item of client.storageTargets.listByCache(
     resourceGroupName,
     cacheName,
   )) {

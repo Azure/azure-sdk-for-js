@@ -22,7 +22,7 @@ async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

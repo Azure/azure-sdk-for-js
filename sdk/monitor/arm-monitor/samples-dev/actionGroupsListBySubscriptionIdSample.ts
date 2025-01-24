@@ -27,7 +27,7 @@ async function listActionGroupsAtSubscriptionLevel() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.actionGroups.listBySubscriptionId()) {
+  for await (const item of client.actionGroups.listBySubscriptionId()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -28,7 +28,7 @@ async function listPrivateEndpointConnectionsByManagedEnvironment(): Promise<voi
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedEnvironmentPrivateEndpointConnections.list(
+  for await (const item of client.managedEnvironmentPrivateEndpointConnections.list(
     resourceGroupName,
     environmentName,
   )) {

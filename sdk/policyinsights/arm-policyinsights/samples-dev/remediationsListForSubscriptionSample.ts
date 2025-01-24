@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RemediationsListForSubscriptionOptionalParams} from "@azure/arm-policyinsights";
 import {
-  RemediationsListForSubscriptionOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function listRemediationsAtSubscriptionScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.remediations.listForSubscription()) {
+  for await (const item of client.remediations.listForSubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -54,7 +55,7 @@ async function listRemediationsAtSubscriptionScopeWithQueryParameters() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.remediations.listForSubscription(options)) {
+  for await (const item of client.remediations.listForSubscription(options)) {
     resArray.push(item);
   }
   console.log(resArray);

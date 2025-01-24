@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WorkflowListByResourceGroupOptionalParams} from "@azure/arm-devhub";
 import {
-  WorkflowListByResourceGroupOptionalParams,
   DeveloperHubServiceClient
 } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function listWorkflows(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DeveloperHubServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowOperations.listByResourceGroup(
+  for await (const item of client.workflowOperations.listByResourceGroup(
     resourceGroupName,
     options
   )) {

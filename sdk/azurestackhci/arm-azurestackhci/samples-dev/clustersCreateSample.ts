@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Cluster, AzureStackHCIClient } from "@azure/arm-azurestackhci";
+import type { Cluster} from "@azure/arm-azurestackhci";
+import { AzureStackHCIClient } from "@azure/arm-azurestackhci";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

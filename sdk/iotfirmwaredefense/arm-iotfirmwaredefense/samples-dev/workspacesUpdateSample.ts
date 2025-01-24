@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WorkspaceUpdateDefinition} from "@azure/arm-iotfirmwaredefense";
 import {
-  WorkspaceUpdateDefinition,
   IoTFirmwareDefenseClient,
 } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -14,8 +14,9 @@
  * @summary Patch a given StorageSyncService.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/StorageSyncServices_Update.json
  */
+import type {
+  StorageSyncServiceUpdateParameters} from "@azure/arm-storagesync";
 import {
-  StorageSyncServiceUpdateParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

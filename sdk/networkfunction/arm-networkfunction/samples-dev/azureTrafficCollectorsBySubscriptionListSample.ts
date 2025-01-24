@@ -22,7 +22,7 @@ async function listOfTrafficCollectorsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureTrafficCollectorsBySubscription.list()) {
+  for await (const item of client.azureTrafficCollectorsBySubscription.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -27,7 +27,7 @@ async function cloudAppliancesListSupportedConfigurations() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.cloudAppliances.listSupportedConfigurations(
+  for await (const item of client.cloudAppliances.listSupportedConfigurations(
     resourceGroupName,
     managerName
   )) {

@@ -25,7 +25,7 @@ async function vpnGatewayListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vpnGateways.list()) {
+  for await (const item of client.vpnGateways.list()) {
     resArray.push(item);
   }
   console.log(resArray);

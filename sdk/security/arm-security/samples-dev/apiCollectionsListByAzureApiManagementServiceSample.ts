@@ -29,7 +29,7 @@ async function getsAListOfAzureApiManagementApIsThatHaveBeenOnboardedToMicrosoft
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.aPICollections.listByAzureApiManagementService(
+  for await (const item of client.aPICollections.listByAzureApiManagementService(
     resourceGroupName,
     serviceName,
   )) {

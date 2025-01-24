@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ListKeyVaultKeysDefinition} from "@azure/arm-logic";
 import {
-  ListKeyVaultKeysDefinition,
   LogicManagementClient
 } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,7 +41,7 @@ async function getIntegrationAccountCallbackUrl() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationAccounts.listKeyVaultKeys(
+  for await (const item of client.integrationAccounts.listKeyVaultKeys(
     resourceGroupName,
     integrationAccountName,
     listKeyVaultKeys

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TagsObject, DeveloperHubServiceClient } from "@azure/arm-devhub";
+import type { TagsObject} from "@azure/arm-devhub";
+import { DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

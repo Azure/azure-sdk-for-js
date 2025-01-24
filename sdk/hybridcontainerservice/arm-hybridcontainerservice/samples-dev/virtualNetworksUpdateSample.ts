@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualNetworksPatch} from "@azure/arm-hybridcontainerservice";
 import {
-  VirtualNetworksPatch,
   HybridContainerServiceClient
 } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";

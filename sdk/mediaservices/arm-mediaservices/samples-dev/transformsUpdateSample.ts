@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Transform, AzureMediaServices } from "@azure/arm-mediaservices";
+import type { Transform} from "@azure/arm-mediaservices";
+import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

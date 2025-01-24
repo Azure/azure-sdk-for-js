@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MergeParameters, CosmosDBManagementClient } from "@azure/arm-cosmosdb";
+import type { MergeParameters} from "@azure/arm-cosmosdb";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

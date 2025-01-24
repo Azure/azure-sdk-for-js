@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FailoverInput} from "@azure/arm-iothub-profile-2020-09-01-hybrid";
 import {
-  FailoverInput,
   IotHubClient
 } from "@azure/arm-iothub-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

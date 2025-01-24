@@ -28,7 +28,7 @@ async function listManagedCertificatesByManagedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedCertificates.list(
+  for await (const item of client.managedCertificates.list(
     resourceGroupName,
     environmentName,
   )) {

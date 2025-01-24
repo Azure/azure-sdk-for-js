@@ -33,7 +33,7 @@ async function getASyncMemberSchema() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.syncMembers.listMemberSchemas(
+  for await (const item of client.syncMembers.listMemberSchemas(
     resourceGroupName,
     serverName,
     databaseName,

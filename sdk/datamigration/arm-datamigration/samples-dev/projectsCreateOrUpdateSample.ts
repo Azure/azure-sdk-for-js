@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Project} from "@azure/arm-datamigration";
 import {
-  Project,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

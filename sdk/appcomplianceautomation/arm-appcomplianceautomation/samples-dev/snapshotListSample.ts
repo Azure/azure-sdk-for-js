@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SnapshotListOptionalParams} from "@azure/arm-appcomplianceautomation";
 import {
-  SnapshotListOptionalParams,
   AppComplianceAutomationToolForMicrosoft365,
 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function snapshotList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const resArray = new Array();
-  for await (let item of client.snapshot.list(reportName, options)) {
+  for await (const item of client.snapshot.list(reportName, options)) {
     resArray.push(item);
   }
   console.log(resArray);

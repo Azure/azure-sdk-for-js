@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   StepResource,
-  StepsCreateOrUpdateOptionalParams,
+  StepsCreateOrUpdateOptionalParams} from "@azure/arm-deploymentmanager";
+import {
   AzureDeploymentManager
 } from "@azure/arm-deploymentmanager";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MachineInstallPatchesParameters} from "@azure/arm-hybridcompute";
 import {
-  MachineInstallPatchesParameters,
   HybridComputeManagementClient,
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";

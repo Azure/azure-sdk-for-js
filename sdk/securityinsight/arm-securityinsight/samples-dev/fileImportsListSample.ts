@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FileImportsListOptionalParams} from "@azure/arm-securityinsight";
 import {
-  FileImportsListOptionalParams,
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function getAllFileImports() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileImports.list(
+  for await (const item of client.fileImports.list(
     resourceGroupName,
     workspaceName,
     options

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Application, BatchManagementClient } from "@azure/arm-batch";
+import type { Application} from "@azure/arm-batch";
+import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

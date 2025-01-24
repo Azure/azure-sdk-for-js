@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  IntegrationAccountSession} from "@azure/arm-logic";
 import {
-  IntegrationAccountSession,
   LogicManagementClient
 } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";

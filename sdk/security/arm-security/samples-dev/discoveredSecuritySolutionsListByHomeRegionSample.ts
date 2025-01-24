@@ -28,7 +28,7 @@ async function getDiscoveredSecuritySolutionsFromASecurityDataLocation() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.discoveredSecuritySolutions.listByHomeRegion(
+  for await (const item of client.discoveredSecuritySolutions.listByHomeRegion(
     ascLocation,
   )) {
     resArray.push(item);

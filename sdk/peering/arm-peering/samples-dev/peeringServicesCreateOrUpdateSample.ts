@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PeeringService, PeeringManagementClient } from "@azure/arm-peering";
+import type { PeeringService} from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

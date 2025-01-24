@@ -27,7 +27,7 @@ async function getOperationsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.maps.listSubscriptionOperations()) {
+  for await (const item of client.maps.listSubscriptionOperations()) {
     resArray.push(item);
   }
   console.log(resArray);

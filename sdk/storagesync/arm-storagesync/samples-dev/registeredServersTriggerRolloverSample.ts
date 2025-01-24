@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TriggerRolloverRequest} from "@azure/arm-storagesync";
 import {
-  TriggerRolloverRequest,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -31,7 +31,7 @@ async function privateEndpointConnectionList(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByConfigurationStore(
+  for await (const item of client.privateEndpointConnections.listByConfigurationStore(
     resourceGroupName,
     configStoreName,
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServerThreatProtectionSettingsModel} from "@azure/arm-postgresql-flexible";
 import {
-  ServerThreatProtectionSettingsModel,
   PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualNetwork} from "@azure/arm-hybridcontainerservice";
 import {
-  VirtualNetwork,
   HybridContainerServiceClient
 } from "@azure/arm-hybridcontainerservice";
 import { DefaultAzureCredential } from "@azure/identity";

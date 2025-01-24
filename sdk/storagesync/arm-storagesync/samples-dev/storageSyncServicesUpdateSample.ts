@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   StorageSyncServiceUpdateParameters,
-  StorageSyncServicesUpdateOptionalParams,
+  StorageSyncServicesUpdateOptionalParams} from "@azure/arm-storagesync";
+import {
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

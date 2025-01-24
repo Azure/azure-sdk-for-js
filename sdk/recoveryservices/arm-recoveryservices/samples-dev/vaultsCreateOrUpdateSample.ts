@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Vault, RecoveryServicesClient } from "@azure/arm-recoveryservices";
+import type { Vault} from "@azure/arm-recoveryservices";
+import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

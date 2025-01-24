@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { RedeemRequest, EducationManagementClient } from "@azure/arm-education";
+import type { RedeemRequest} from "@azure/arm-education";
+import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

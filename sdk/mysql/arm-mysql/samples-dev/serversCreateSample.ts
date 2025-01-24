@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ServerForCreate, MySQLManagementClient } from "@azure/arm-mysql";
+import type { ServerForCreate} from "@azure/arm-mysql";
+import { MySQLManagementClient } from "@azure/arm-mysql";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

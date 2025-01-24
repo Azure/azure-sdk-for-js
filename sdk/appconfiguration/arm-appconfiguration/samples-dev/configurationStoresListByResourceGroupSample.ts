@@ -30,7 +30,7 @@ async function configurationStoresListByResourceGroup(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.configurationStores.listByResourceGroup(
+  for await (const item of client.configurationStores.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

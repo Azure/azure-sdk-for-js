@@ -29,7 +29,7 @@ async function organizationsListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.list(userEmail, location)) {
+  for await (const item of client.organizations.list(userEmail, location)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -50,7 +50,7 @@ async function organizationsListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.list(userEmail, location)) {
+  for await (const item of client.organizations.list(userEmail, location)) {
     resArray.push(item);
   }
   console.log(resArray);

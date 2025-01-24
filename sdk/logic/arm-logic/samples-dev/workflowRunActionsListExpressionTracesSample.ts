@@ -32,7 +32,7 @@ async function listExpressionTraces() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowRunActions.listExpressionTraces(
+  for await (const item of client.workflowRunActions.listExpressionTraces(
     resourceGroupName,
     workflowName,
     runName,

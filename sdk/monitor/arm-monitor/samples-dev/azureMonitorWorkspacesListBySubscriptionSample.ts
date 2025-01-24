@@ -27,7 +27,7 @@ async function listAzureMonitorWorkspacesBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureMonitorWorkspaces.listBySubscription()) {
+  for await (const item of client.azureMonitorWorkspaces.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

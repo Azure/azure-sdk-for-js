@@ -33,7 +33,7 @@ async function linkedServicesListByWorkspace() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.linkedServices.listByWorkspace(
+  for await (const item of client.linkedServices.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

@@ -33,7 +33,7 @@ async function getClusterPoolAvailableUpgrade() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusterPoolAvailableUpgrades.list(
+  for await (const item of client.clusterPoolAvailableUpgrades.list(
     resourceGroupName,
     clusterPoolName,
   )) {

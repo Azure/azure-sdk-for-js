@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RemediationsListForResourceOptionalParams} from "@azure/arm-policyinsights";
 import {
-  RemediationsListForResourceOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -27,7 +28,7 @@ async function listRemediationsAtIndividualResourceScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.remediations.listForResource(resourceId)) {
+  for await (const item of client.remediations.listForResource(resourceId)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -49,7 +50,7 @@ async function listRemediationsAtIndividualResourceScopeWithQueryParameters() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.remediations.listForResource(
+  for await (const item of client.remediations.listForResource(
     resourceId,
     options,
   )) {

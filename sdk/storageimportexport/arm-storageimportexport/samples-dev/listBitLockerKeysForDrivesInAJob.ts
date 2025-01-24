@@ -24,7 +24,7 @@ async function listBitLockerKeysForDrivesInAJob() {
   const credential = new DefaultAzureCredential();
   const client = new StorageImportExport(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bitLockerKeys.list(
+  for await (const item of client.bitLockerKeys.list(
     jobName,
     resourceGroupName
   )) {

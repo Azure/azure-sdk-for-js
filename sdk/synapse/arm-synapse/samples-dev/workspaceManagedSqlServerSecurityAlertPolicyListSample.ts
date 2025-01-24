@@ -29,7 +29,7 @@ async function getWorkspaceManagedSqlServerSecurityAlertPolicy() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspaceManagedSqlServerSecurityAlertPolicy.list(
+  for await (const item of client.workspaceManagedSqlServerSecurityAlertPolicy.list(
     resourceGroupName,
     workspaceName
   )) {

@@ -29,7 +29,7 @@ async function imageVersionsListByImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.imageVersions.listByImage(
+  for await (const item of client.imageVersions.listByImage(
     resourceGroupName,
     devCenterName,
     galleryName,

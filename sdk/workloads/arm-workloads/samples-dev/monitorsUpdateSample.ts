@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { UpdateMonitorRequest, WorkloadsClient } from "@azure/arm-workloads";
+import type { UpdateMonitorRequest} from "@azure/arm-workloads";
+import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

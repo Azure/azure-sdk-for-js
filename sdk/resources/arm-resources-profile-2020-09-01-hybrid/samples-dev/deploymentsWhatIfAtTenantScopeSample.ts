@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ScopedDeploymentWhatIf} from "@azure/arm-resources-profile-2020-09-01-hybrid";
 import {
-  ScopedDeploymentWhatIf,
   ResourceManagementClient
 } from "@azure/arm-resources-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

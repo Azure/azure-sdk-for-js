@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   Table,
-  TableUpdateOptionalParams,
+  TableUpdateOptionalParams} from "@azure/arm-storage";
+import {
   StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";

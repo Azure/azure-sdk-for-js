@@ -27,7 +27,7 @@ async function listAccountsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accounts.listBySubscription()) {
+  for await (const item of client.accounts.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

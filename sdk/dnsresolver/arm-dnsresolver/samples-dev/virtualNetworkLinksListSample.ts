@@ -30,7 +30,7 @@ async function listVirtualNetworkLinksToADnsForwardingRuleset() {
   const credential = new DefaultAzureCredential();
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworkLinks.list(
+  for await (const item of client.virtualNetworkLinks.list(
     resourceGroupName,
     dnsForwardingRulesetName,
   )) {

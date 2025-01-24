@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Secret, AzureRedHatOpenShiftClient } from "@azure/arm-redhatopenshift";
+import type { Secret} from "@azure/arm-redhatopenshift";
+import { AzureRedHatOpenShiftClient } from "@azure/arm-redhatopenshift";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

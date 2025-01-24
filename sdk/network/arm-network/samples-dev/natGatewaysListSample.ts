@@ -26,7 +26,7 @@ async function listNatGatewaysInResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.natGateways.list(resourceGroupName)) {
+  for await (const item of client.natGateways.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

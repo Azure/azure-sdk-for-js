@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Tags, HanaManagementClient } from "@azure/arm-hanaonazure";
+import type { Tags} from "@azure/arm-hanaonazure";
+import { HanaManagementClient } from "@azure/arm-hanaonazure";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

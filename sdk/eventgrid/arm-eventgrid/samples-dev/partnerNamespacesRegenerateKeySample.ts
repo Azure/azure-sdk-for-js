@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PartnerNamespaceRegenerateKeyRequest} from "@azure/arm-eventgrid";
 import {
-  PartnerNamespaceRegenerateKeyRequest,
   EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";

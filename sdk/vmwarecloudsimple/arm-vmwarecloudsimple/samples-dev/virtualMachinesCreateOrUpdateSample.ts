@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualMachine} from "@azure/arm-vmwarecloudsimple";
 import {
-  VirtualMachine,
   VMwareCloudSimple
 } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";

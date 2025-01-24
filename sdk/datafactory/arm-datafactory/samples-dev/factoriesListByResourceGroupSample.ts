@@ -27,7 +27,7 @@ async function factoriesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.factories.listByResourceGroup(
+  for await (const item of client.factories.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

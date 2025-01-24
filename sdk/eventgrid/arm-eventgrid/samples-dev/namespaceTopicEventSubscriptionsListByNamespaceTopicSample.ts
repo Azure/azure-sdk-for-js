@@ -31,7 +31,7 @@ async function namespaceTopicEventSubscriptionsListByNamespaceTopic() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaceTopicEventSubscriptions.listByNamespaceTopic(
+  for await (const item of client.namespaceTopicEventSubscriptions.listByNamespaceTopic(
     resourceGroupName,
     namespaceName,
     topicName,

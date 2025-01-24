@@ -24,7 +24,7 @@ async function getDescendants() {
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
   const resArray = new Array();
-  for await (let item of client.managementGroups.listDescendants(groupId)) {
+  for await (const item of client.managementGroups.listDescendants(groupId)) {
     resArray.push(item);
   }
   console.log(resArray);

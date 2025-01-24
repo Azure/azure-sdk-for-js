@@ -27,7 +27,7 @@ async function usageModelsList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usageModels.list()) {
+  for await (const item of client.usageModels.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FetchSecondaryRPsRequestParameters} from "@azure/arm-dataprotection";
 import {
-  FetchSecondaryRPsRequestParameters,
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function fetchSecondaryRPs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fetchSecondaryRecoveryPoints.list(
+  for await (const item of client.fetchSecondaryRecoveryPoints.list(
     resourceGroupName,
     location,
     parameters,

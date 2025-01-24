@@ -28,7 +28,7 @@ async function listPrivateLinkResourcesByManagedEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedEnvironmentPrivateLinkResources.list(
+  for await (const item of client.managedEnvironmentPrivateLinkResources.list(
     resourceGroupName,
     environmentName,
   )) {

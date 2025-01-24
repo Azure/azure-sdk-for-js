@@ -28,7 +28,7 @@ async function listOfGroundStationsByCapability() {
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availableGroundStations.listByCapability(
+  for await (const item of client.availableGroundStations.listByCapability(
     capability
   )) {
     resArray.push(item);

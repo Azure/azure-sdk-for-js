@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DataSource} from "@azure/arm-operationalinsights";
 import {
-  DataSource,
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";

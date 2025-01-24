@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  NeighborGroup} from "@azure/arm-managednetworkfabric";
 import {
-  NeighborGroup,
   AzureNetworkFabricManagementServiceAPI
 } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";

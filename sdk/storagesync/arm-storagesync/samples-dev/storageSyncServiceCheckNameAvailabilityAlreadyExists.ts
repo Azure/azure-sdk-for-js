@@ -14,8 +14,9 @@
  * @summary Check the give namespace name availability.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/StorageSyncServiceCheckNameAvailability_AlreadyExists.json
  */
+import type {
+  CheckNameAvailabilityParameters} from "@azure/arm-storagesync";
 import {
-  CheckNameAvailabilityParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

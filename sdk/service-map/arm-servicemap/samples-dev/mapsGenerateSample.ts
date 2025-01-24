@@ -8,10 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   MachineGroupMapRequest,
   MachineListMapRequest,
-  SingleMachineDependencyMapRequest,
+  SingleMachineDependencyMapRequest} from "@azure/arm-servicemap";
+import {
   ServiceMap
 } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";

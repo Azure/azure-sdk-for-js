@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ImportLabVirtualMachineRequest} from "@azure/arm-devtestlabs";
 import {
-  ImportLabVirtualMachineRequest,
   DevTestLabsClient
 } from "@azure/arm-devtestlabs";
 import { DefaultAzureCredential } from "@azure/identity";

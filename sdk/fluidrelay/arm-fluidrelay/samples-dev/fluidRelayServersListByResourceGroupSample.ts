@@ -27,7 +27,7 @@ async function listAllFluidRelayServersInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new FluidRelayManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fluidRelayServers.listByResourceGroup(
+  for await (const item of client.fluidRelayServers.listByResourceGroup(
     resourceGroup
   )) {
     resArray.push(item);

@@ -24,7 +24,7 @@ async function verifiedPartnersList() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.verifiedPartners.list()) {
+  for await (const item of client.verifiedPartners.list()) {
     resArray.push(item);
   }
   console.log(resArray);

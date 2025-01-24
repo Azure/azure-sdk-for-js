@@ -32,7 +32,7 @@ async function networkFabricControllersListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkFabricControllers.listByResourceGroup(
+  for await (const item of client.networkFabricControllers.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

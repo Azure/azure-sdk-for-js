@@ -30,7 +30,7 @@ async function getMapsByIntegrationAccountName() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationAccountMaps.list(
+  for await (const item of client.integrationAccountMaps.list(
     resourceGroupName,
     integrationAccountName
   )) {

@@ -25,7 +25,7 @@ async function listConnectedEnvironmentsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.connectedEnvironments.listBySubscription()) {
+  for await (const item of client.connectedEnvironments.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

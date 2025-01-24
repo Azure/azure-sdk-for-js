@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ValidateCustomDomainInput} from "@azure/arm-frontdoor";
 import {
-  ValidateCustomDomainInput,
   FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";

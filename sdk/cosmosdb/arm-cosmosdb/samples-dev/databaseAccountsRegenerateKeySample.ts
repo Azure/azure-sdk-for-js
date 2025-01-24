@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DatabaseAccountRegenerateKeyParameters} from "@azure/arm-cosmosdb";
 import {
-  DatabaseAccountRegenerateKeyParameters,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";

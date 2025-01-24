@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RoleAssignmentCreateParameters} from "@azure/arm-authorization";
 import {
-  RoleAssignmentCreateParameters,
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";

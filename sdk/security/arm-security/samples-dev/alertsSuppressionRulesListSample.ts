@@ -27,7 +27,7 @@ async function getSuppressionAlertRuleForSubscriptionFilteredByAlertType() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alertsSuppressionRules.list()) {
+  for await (const item of client.alertsSuppressionRules.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function getSuppressionRulesForSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alertsSuppressionRules.list()) {
+  for await (const item of client.alertsSuppressionRules.list()) {
     resArray.push(item);
   }
   console.log(resArray);

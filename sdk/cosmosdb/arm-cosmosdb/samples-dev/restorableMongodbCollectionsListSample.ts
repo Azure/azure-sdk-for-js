@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RestorableMongodbCollectionsListOptionalParams} from "@azure/arm-cosmosdb";
 import {
-  RestorableMongodbCollectionsListOptionalParams,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function cosmosDbRestorableMongodbCollectionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorableMongodbCollections.list(
+  for await (const item of client.restorableMongodbCollections.list(
     location,
     instanceId,
     options,

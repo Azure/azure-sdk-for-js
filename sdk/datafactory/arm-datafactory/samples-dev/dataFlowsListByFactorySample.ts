@@ -28,7 +28,7 @@ async function dataFlowsListByFactory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataFlows.listByFactory(
+  for await (const item of client.dataFlows.listByFactory(
     resourceGroupName,
     factoryName,
   )) {

@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ApplicationPatchable,
-  ApplicationsUpdateOptionalParams,
+  ApplicationsUpdateOptionalParams} from "@azure/arm-managedapplications";
+import {
   ApplicationClient
 } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";

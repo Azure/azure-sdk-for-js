@@ -29,7 +29,7 @@ async function organizationsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.listByResourceGroup(
+  for await (const item of client.organizations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -52,7 +52,7 @@ async function organizationsListByResourceGroupMin() {
   const credential = new DefaultAzureCredential();
   const client = new InformaticaDataManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.listByResourceGroup(
+  for await (const item of client.organizations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

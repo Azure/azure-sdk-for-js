@@ -24,7 +24,7 @@ async function getAllTenants() {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.tenants.list()) {
+  for await (const item of client.tenants.list()) {
     resArray.push(item);
   }
   console.log(resArray);

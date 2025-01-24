@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ClusterDiskEncryptionParameters} from "@azure/arm-hdinsight";
 import {
-  ClusterDiskEncryptionParameters,
   HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";

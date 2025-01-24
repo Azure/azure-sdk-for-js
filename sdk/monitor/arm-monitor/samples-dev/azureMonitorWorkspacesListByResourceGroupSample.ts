@@ -29,7 +29,7 @@ async function listAzureMonitorWorkspacesByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(
+  for await (const item of client.azureMonitorWorkspaces.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

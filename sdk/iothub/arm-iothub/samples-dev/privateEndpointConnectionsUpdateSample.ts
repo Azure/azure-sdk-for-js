@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PrivateEndpointConnection, IotHubClient } from "@azure/arm-iothub";
+import type { PrivateEndpointConnection} from "@azure/arm-iothub";
+import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PacketCapture} from "@azure/arm-mobilenetwork";
 import {
-  PacketCapture,
   MobileNetworkManagementClient,
 } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";

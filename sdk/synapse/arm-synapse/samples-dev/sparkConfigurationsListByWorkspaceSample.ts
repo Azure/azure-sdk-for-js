@@ -30,7 +30,7 @@ async function listSparkConfigurationsInAWorkspace() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sparkConfigurations.listByWorkspace(
+  for await (const item of client.sparkConfigurations.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

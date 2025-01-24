@@ -33,7 +33,7 @@ async function redisEnterpriseListPrivateLinkResources() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByCluster(
+  for await (const item of client.privateLinkResources.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

@@ -29,7 +29,7 @@ async function listResourceGroupLabPlans() {
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.labPlans.listByResourceGroup(
+  for await (const item of client.labPlans.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

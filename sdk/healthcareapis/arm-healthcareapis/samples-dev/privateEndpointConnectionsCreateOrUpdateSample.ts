@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-healthcareapis";
 import {
-  PrivateEndpointConnection,
   HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";

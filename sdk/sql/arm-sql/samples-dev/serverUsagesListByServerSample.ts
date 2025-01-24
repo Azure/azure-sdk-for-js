@@ -30,7 +30,7 @@ async function listServersUsages() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverUsages.listByServer(
+  for await (const item of client.serverUsages.listByServer(
     resourceGroupName,
     serverName,
   )) {

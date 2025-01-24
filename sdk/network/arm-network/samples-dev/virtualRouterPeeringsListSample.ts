@@ -27,7 +27,7 @@ async function listAllVirtualRouterPeeringsForAGivenVirtualRouter() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualRouterPeerings.list(
+  for await (const item of client.virtualRouterPeerings.list(
     resourceGroupName,
     virtualRouterName,
   )) {

@@ -30,7 +30,7 @@ async function listAllLiveEvents() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.liveEvents.list(
+  for await (const item of client.liveEvents.list(
     resourceGroupName,
     accountName
   )) {

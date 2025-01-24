@@ -24,7 +24,7 @@ async function recommendedActionSessionResult() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.locationBasedRecommendedActionSessionsResult.list(
+  for await (const item of client.locationBasedRecommendedActionSessionsResult.list(
     locationName,
     operationId
   )) {

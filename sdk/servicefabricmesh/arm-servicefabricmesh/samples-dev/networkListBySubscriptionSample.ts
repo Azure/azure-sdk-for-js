@@ -30,7 +30,7 @@ async function listNetworksBySubscriptionId() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.network.listBySubscription()) {
+  for await (const item of client.network.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -27,7 +27,7 @@ async function listAllCapabilityTypesForAVirtualMachineTargetResourceOnWestus2Lo
   const credential = new DefaultAzureCredential();
   const client = new ChaosManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.capabilityTypes.list(
+  for await (const item of client.capabilityTypes.list(
     locationName,
     targetTypeName,
   )) {

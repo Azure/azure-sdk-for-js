@@ -24,7 +24,7 @@ async function privateLinkResourcesListByAccount() {
   const credential = new DefaultAzureCredential();
   const client = new PurviewManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByAccount(
+  for await (const item of client.privateLinkResources.listByAccount(
     resourceGroupName,
     accountName
   )) {

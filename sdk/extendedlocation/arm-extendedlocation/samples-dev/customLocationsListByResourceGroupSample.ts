@@ -32,7 +32,7 @@ async function listCustomLocationsByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.customLocations.listByResourceGroup(
+  for await (const item of client.customLocations.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

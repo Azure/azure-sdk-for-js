@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { BackupRequest, WebSiteManagementClient } from "@azure/arm-appservice";
+import type { BackupRequest} from "@azure/arm-appservice";
+import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

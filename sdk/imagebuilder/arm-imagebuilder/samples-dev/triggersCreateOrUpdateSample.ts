@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Trigger, ImageBuilderClient } from "@azure/arm-imagebuilder";
+import type { Trigger} from "@azure/arm-imagebuilder";
+import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

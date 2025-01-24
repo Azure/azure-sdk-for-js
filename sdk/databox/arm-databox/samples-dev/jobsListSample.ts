@@ -24,7 +24,7 @@ async function jobsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list()) {
+  for await (const item of client.jobs.list()) {
     resArray.push(item);
   }
   console.log(resArray);

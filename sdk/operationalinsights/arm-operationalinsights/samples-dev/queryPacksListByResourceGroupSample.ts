@@ -32,7 +32,7 @@ async function queryPackListByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.queryPacks.listByResourceGroup(
+  for await (const item of client.queryPacks.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Agent, StorageMoverClient } from "@azure/arm-storagemover";
+import type { Agent} from "@azure/arm-storagemover";
+import { StorageMoverClient } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

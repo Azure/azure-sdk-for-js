@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ClusterPool} from "@azure/arm-hdinsightcontainers";
 import {
-  ClusterPool,
   HDInsightContainersManagementClient,
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";

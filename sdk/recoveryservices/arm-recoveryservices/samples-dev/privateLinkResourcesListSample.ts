@@ -30,7 +30,7 @@ async function listPrivateLinkResources() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResourcesOperations.list(
+  for await (const item of client.privateLinkResourcesOperations.list(
     resourceGroupName,
     vaultName,
   )) {

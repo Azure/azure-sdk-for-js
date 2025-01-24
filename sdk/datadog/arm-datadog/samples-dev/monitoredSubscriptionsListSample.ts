@@ -28,7 +28,7 @@ async function monitorsGetMonitoredSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitoredSubscriptions.list(
+  for await (const item of client.monitoredSubscriptions.list(
     resourceGroupName,
     monitorName
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ContainerAppsListCustomHostNameAnalysisOptionalParams} from "@azure/arm-appcontainers";
 import {
-  ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";

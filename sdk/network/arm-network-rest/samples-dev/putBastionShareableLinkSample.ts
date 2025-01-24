@@ -3,8 +3,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { PutBastionShareableLinkParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, {
-  PutBastionShareableLinkParameters,
   // getLongRunningPoller,
   paginate,
 } from "@azure-rest/arm-network";

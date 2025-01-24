@@ -30,7 +30,7 @@ async function vMwareCollectorsListByProject() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMigrateV2(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vMwareCollectors.listByProject(
+  for await (const item of client.vMwareCollectors.listByProject(
     resourceGroupName,
     projectName
   )) {

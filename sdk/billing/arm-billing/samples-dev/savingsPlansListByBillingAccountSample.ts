@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SavingsPlansListByBillingAccountOptionalParams} from "@azure/arm-billing";
 import {
-  SavingsPlansListByBillingAccountOptionalParams,
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function savingsPlansList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.savingsPlans.listByBillingAccount(
+  for await (const item of client.savingsPlans.listByBillingAccount(
     billingAccountName,
     options,
   )) {

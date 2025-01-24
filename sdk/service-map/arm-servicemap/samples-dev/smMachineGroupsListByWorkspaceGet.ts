@@ -27,7 +27,7 @@ async function smMachineGroupsListByWorkspaceGet() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceMap(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.machineGroups.listByWorkspace(
+  for await (const item of client.machineGroups.listByWorkspace(
     resourceGroupName,
     workspaceName,
     options

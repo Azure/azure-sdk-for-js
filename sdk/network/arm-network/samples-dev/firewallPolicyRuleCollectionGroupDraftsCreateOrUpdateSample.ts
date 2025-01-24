@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FirewallPolicyRuleCollectionGroupDraft} from "@azure/arm-network";
 import {
-  FirewallPolicyRuleCollectionGroupDraft,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -31,7 +31,7 @@ async function getListOfRestorableDroppedSqlPools() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorableDroppedSqlPools.listByWorkspace(
+  for await (const item of client.restorableDroppedSqlPools.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

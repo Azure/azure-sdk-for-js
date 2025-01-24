@@ -30,7 +30,7 @@ async function deploymentStacksResourceGroupList() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deploymentStacks.listAtResourceGroup(
+  for await (const item of client.deploymentStacks.listAtResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServiceTagInformationListOptionalParams} from "@azure/arm-network";
 import {
-  ServiceTagInformationListOptionalParams,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function getListOfServiceTags() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serviceTagInformationOperations.list(
+  for await (const item of client.serviceTagInformationOperations.list(
     location,
   )) {
     resArray.push(item);
@@ -53,7 +54,7 @@ async function getListOfServiceTagsWithNoAddressPrefixes() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serviceTagInformationOperations.list(
+  for await (const item of client.serviceTagInformationOperations.list(
     location,
     options,
   )) {
@@ -76,7 +77,7 @@ async function getListOfServiceTagsWithTagName() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serviceTagInformationOperations.list(
+  for await (const item of client.serviceTagInformationOperations.list(
     location,
     options,
   )) {

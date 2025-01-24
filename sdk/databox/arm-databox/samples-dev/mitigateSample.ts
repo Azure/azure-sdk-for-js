@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MitigateJobRequest} from "@azure/arm-databox";
 import {
-  MitigateJobRequest,
   DataBoxManagementClient
 } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServiceFabricFragment} from "@azure/arm-devtestlabs";
 import {
-  ServiceFabricFragment,
   DevTestLabsClient
 } from "@azure/arm-devtestlabs";
 import { DefaultAzureCredential } from "@azure/identity";

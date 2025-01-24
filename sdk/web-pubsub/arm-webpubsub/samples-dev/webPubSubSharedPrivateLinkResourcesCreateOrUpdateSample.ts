@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SharedPrivateLinkResource} from "@azure/arm-webpubsub";
 import {
-  SharedPrivateLinkResource,
   WebPubSubManagementClient,
 } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";

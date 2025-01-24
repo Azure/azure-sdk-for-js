@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CommunicationsGatewayUpdate} from "@azure/arm-voiceservices";
 import {
-  CommunicationsGatewayUpdate,
   MicrosoftVoiceServices
 } from "@azure/arm-voiceservices";
 import { DefaultAzureCredential } from "@azure/identity";

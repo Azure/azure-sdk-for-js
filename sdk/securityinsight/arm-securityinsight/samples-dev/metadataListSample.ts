@@ -30,7 +30,7 @@ async function getAllMetadataWithODataFilterOrOrderbyOrSkipOrTop() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.metadata.list(
+  for await (const item of client.metadata.list(
     resourceGroupName,
     workspaceName
   )) {
@@ -55,7 +55,7 @@ async function getAllMetadata() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.metadata.list(
+  for await (const item of client.metadata.list(
     resourceGroupName,
     workspaceName
   )) {

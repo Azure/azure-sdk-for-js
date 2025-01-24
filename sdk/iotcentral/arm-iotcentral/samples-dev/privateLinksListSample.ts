@@ -24,7 +24,7 @@ async function privateLinksList() {
   const credential = new DefaultAzureCredential();
   const client = new IotCentralClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinks.list(
+  for await (const item of client.privateLinks.list(
     resourceGroupName,
     resourceName
   )) {

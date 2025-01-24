@@ -28,7 +28,7 @@ async function listCustomizationPolicies() {
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.customizationPolicies.list(regionId, pcName)) {
+  for await (const item of client.customizationPolicies.list(regionId, pcName)) {
     resArray.push(item);
   }
   console.log(resArray);

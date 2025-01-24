@@ -34,7 +34,7 @@ async function getProtectedAzureVMRecoveryPoints() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recoveryPoints.list(
+  for await (const item of client.recoveryPoints.list(
     vaultName,
     resourceGroupName,
     fabricName,

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { UpdateSupportTicket, MicrosoftSupport } from "@azure/arm-support";
+import type { UpdateSupportTicket} from "@azure/arm-support";
+import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

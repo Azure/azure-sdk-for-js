@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AzureDevOpsProject} from "@azure/arm-securitydevops";
 import {
-  AzureDevOpsProject,
   MicrosoftSecurityDevOps
 } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";

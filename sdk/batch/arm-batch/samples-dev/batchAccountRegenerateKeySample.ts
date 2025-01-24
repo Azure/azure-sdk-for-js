@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BatchAccountRegenerateKeyParameters} from "@azure/arm-batch";
 import {
-  BatchAccountRegenerateKeyParameters,
   BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -14,7 +14,8 @@
  * @summary Updates tags for a peering with the specified name under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/UpdatePeeringTags.json
  */
-import { ResourceTags, PeeringManagementClient } from "@azure/arm-peering";
+import type { ResourceTags} from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function updatePeeringTags() {

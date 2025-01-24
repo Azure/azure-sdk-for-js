@@ -25,7 +25,7 @@ async function cosmosDbSqlDatabaseList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlResources.listSqlDatabases(
+  for await (const item of client.sqlResources.listSqlDatabases(
     resourceGroupName,
     accountName,
   )) {

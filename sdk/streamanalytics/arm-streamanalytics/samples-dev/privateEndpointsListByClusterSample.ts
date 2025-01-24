@@ -33,7 +33,7 @@ async function getThePrivateEndpointsInACluster() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.privateEndpoints.listByCluster(
+  for await (const item of client.privateEndpoints.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

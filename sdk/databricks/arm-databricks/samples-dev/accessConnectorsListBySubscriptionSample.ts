@@ -26,7 +26,7 @@ async function listsAllTheAzureDatabricksAccessConnectorsWithinASubscription(): 
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.accessConnectors.listBySubscription()) {
+  for await (const item of client.accessConnectors.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

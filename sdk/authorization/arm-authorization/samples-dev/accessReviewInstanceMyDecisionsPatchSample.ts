@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AccessReviewDecisionProperties} from "@azure/arm-authorization";
 import {
-  AccessReviewDecisionProperties,
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -31,7 +31,7 @@ async function cryptoKeysListByFirmwareMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cryptoKeys.listByFirmware(
+  for await (const item of client.cryptoKeys.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,
@@ -58,7 +58,7 @@ async function cryptoKeysListByFirmwareMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cryptoKeys.listByFirmware(
+  for await (const item of client.cryptoKeys.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,

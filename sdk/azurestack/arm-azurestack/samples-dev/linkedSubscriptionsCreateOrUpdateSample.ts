@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LinkedSubscriptionParameter} from "@azure/arm-azurestack";
 import {
-  LinkedSubscriptionParameter,
   AzureStackManagementClient
 } from "@azure/arm-azurestack";
 import { DefaultAzureCredential } from "@azure/identity";

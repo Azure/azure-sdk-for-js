@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   AddDataLakeStoreParameters,
-  DataLakeStoreAccountsAddOptionalParams,
+  DataLakeStoreAccountsAddOptionalParams} from "@azure/arm-datalake-analytics";
+import {
   DataLakeAnalyticsAccountManagementClient
 } from "@azure/arm-datalake-analytics";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -25,7 +25,7 @@ async function operationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

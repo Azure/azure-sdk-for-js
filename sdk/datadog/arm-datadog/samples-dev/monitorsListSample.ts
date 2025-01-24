@@ -25,7 +25,7 @@ async function monitorsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.list()) {
+  for await (const item of client.monitors.list()) {
     resArray.push(item);
   }
   console.log(resArray);

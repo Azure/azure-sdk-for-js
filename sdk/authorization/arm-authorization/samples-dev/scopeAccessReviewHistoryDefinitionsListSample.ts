@@ -23,7 +23,7 @@ async function getAccessReviewHistoryDefinitions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.scopeAccessReviewHistoryDefinitions.list(
+  for await (const item of client.scopeAccessReviewHistoryDefinitions.list(
     scope
   )) {
     resArray.push(item);

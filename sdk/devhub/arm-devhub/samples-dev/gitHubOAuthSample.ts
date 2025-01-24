@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   GitHubOAuthCallRequest,
-  GitHubOAuthOptionalParams,
+  GitHubOAuthOptionalParams} from "@azure/arm-devhub";
+import {
   DeveloperHubServiceClient
 } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TenantActivityLogsListOptionalParams} from "@azure/arm-monitor";
 import {
-  TenantActivityLogsListOptionalParams,
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function getTenantActivityLogsWithFilter() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.tenantActivityLogs.list(options)) {
+  for await (const item of client.tenantActivityLogs.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -51,7 +52,7 @@ async function getTenantActivityLogsWithFilterAndSelect() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.tenantActivityLogs.list(options)) {
+  for await (const item of client.tenantActivityLogs.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -70,7 +71,7 @@ async function getTenantActivityLogsWithSelect() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.tenantActivityLogs.list(options)) {
+  for await (const item of client.tenantActivityLogs.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -86,7 +87,7 @@ async function getTenantActivityLogsWithoutFilterOrSelect() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.tenantActivityLogs.list()) {
+  for await (const item of client.tenantActivityLogs.list()) {
     resArray.push(item);
   }
   console.log(resArray);

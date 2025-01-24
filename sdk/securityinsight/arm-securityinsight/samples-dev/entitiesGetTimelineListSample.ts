@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EntityTimelineParameters} from "@azure/arm-securityinsight";
 import {
-  EntityTimelineParameters,
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";

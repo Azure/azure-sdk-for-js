@@ -30,7 +30,7 @@ async function getCertificatesByIntegrationAccountName() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationAccountCertificates.list(
+  for await (const item of client.integrationAccountCertificates.list(
     resourceGroupName,
     integrationAccountName
   )) {

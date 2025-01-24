@@ -33,7 +33,7 @@ async function getAListOfApplicationResources() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.applications.list(
+  for await (const item of client.applications.list(
     resourceGroupName,
     clusterName,
   )) {

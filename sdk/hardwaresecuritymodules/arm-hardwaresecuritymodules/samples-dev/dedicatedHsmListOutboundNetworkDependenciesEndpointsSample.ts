@@ -30,7 +30,7 @@ async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHsmOperations.listOutboundNetworkDependenciesEndpoints(
+  for await (const item of client.dedicatedHsmOperations.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
     name,
   )) {

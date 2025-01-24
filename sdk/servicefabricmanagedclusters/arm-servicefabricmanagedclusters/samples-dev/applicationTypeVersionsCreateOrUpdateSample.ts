@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ApplicationTypeVersionResource} from "@azure/arm-servicefabricmanagedclusters";
 import {
-  ApplicationTypeVersionResource,
   ServiceFabricManagedClustersManagementClient,
 } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";

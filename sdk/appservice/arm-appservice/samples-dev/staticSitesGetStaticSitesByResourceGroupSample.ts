@@ -26,7 +26,7 @@ async function getStaticSitesForAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticSites.listStaticSitesByResourceGroup(
+  for await (const item of client.staticSites.listStaticSitesByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

@@ -31,7 +31,7 @@ async function jobDefinitionsList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobDefinitions.list(
+  for await (const item of client.jobDefinitions.list(
     resourceGroupName,
     storageMoverName,
     projectName,

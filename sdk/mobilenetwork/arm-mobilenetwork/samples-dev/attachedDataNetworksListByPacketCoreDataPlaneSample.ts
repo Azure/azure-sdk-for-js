@@ -31,7 +31,7 @@ async function listAttachedDataNetworksInADataPlane() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.attachedDataNetworks.listByPacketCoreDataPlane(
+  for await (const item of client.attachedDataNetworks.listByPacketCoreDataPlane(
     resourceGroupName,
     packetCoreControlPlaneName,
     packetCoreDataPlaneName,

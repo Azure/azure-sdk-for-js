@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BareMetalMachineRunDataExtractsParameters} from "@azure/arm-networkcloud";
 import {
-  BareMetalMachineRunDataExtractsParameters,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";

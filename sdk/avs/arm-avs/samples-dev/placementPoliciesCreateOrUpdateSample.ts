@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PlacementPolicy, AzureVMwareSolutionAPI } from "@azure/arm-avs";
+import type { PlacementPolicy} from "@azure/arm-avs";
+import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

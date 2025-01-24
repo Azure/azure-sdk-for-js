@@ -30,7 +30,7 @@ async function getsListOfScopedResourcesInAPrivateLinkScope() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkScopedResources.listByPrivateLinkScope(
+  for await (const item of client.privateLinkScopedResources.listByPrivateLinkScope(
     resourceGroupName,
     scopeName,
   )) {

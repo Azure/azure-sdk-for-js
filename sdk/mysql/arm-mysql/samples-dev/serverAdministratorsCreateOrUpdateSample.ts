@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServerAdministratorResource} from "@azure/arm-mysql";
 import {
-  ServerAdministratorResource,
   MySQLManagementClient
 } from "@azure/arm-mysql";
 import { DefaultAzureCredential } from "@azure/identity";

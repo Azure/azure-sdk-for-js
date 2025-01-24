@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  IpCommunity} from "@azure/arm-managednetworkfabric";
 import {
-  IpCommunity,
   AzureNetworkFabricManagementServiceAPI
 } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GrantsGetOptionalParams} from "@azure/arm-education";
 import {
-  GrantsGetOptionalParams,
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";

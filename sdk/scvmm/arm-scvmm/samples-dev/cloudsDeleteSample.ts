@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CloudsDeleteOptionalParams, ScVmm } from "@azure/arm-scvmm";
+import type { CloudsDeleteOptionalParams} from "@azure/arm-scvmm";
+import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

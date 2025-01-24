@@ -28,7 +28,7 @@ async function listArcSettingResourcesByHciCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureStackHCIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.arcSettings.listByCluster(
+  for await (const item of client.arcSettings.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  StaticSiteBasicAuthPropertiesARMResource} from "@azure/arm-appservice";
 import {
-  StaticSiteBasicAuthPropertiesARMResource,
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LogAnalyticsGetLogAnalyticsMetricsOptionalParams} from "@azure/arm-cdn";
 import {
-  LogAnalyticsGetLogAnalyticsMetricsOptionalParams,
   CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -31,7 +31,7 @@ async function getADigitalTwinsInstanceEndpoints(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.digitalTwinsEndpoint.list(
+  for await (const item of client.digitalTwinsEndpoint.list(
     resourceGroupName,
     resourceName
   )) {
@@ -59,7 +59,7 @@ async function getADigitalTwinsInstanceEndpointsWithIdentity(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.digitalTwinsEndpoint.list(
+  for await (const item of client.digitalTwinsEndpoint.list(
     resourceGroupName,
     resourceName
   )) {

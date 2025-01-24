@@ -22,7 +22,7 @@ async function managersList() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managers.list()) {
+  for await (const item of client.managers.list()) {
     resArray.push(item);
   }
   console.log(resArray);

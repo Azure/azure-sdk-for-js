@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Creator, AzureMapsManagementClient } from "@azure/arm-maps";
+import type { Creator} from "@azure/arm-maps";
+import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

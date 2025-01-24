@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SharedPrivateLinkResource} from "@azure/arm-search";
 import {
-  SharedPrivateLinkResource,
   SearchManagementClient,
 } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";

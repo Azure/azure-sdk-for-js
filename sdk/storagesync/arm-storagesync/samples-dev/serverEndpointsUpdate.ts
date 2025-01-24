@@ -14,8 +14,9 @@
  * @summary Patch a given ServerEndpoint.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/ServerEndpoints_Update.json
  */
+import type {
+  ServerEndpointUpdateParameters} from "@azure/arm-storagesync";
 import {
-  ServerEndpointUpdateParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

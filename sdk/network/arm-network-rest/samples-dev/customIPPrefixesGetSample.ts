@@ -3,9 +3,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  CustomIPPrefixesGetParameters,
-} from "@azure-rest/arm-network";
+import type { CustomIPPrefixesGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

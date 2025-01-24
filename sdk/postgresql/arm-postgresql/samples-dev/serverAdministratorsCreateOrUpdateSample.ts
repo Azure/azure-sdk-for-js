@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServerAdministratorResource} from "@azure/arm-postgresql";
 import {
-  ServerAdministratorResource,
   PostgreSQLManagementClient
 } from "@azure/arm-postgresql";
 import { DefaultAzureCredential } from "@azure/identity";

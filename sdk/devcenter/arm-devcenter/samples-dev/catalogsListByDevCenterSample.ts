@@ -27,7 +27,7 @@ async function catalogsListByDevCenter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.catalogs.listByDevCenter(
+  for await (const item of client.catalogs.listByDevCenter(
     resourceGroupName,
     devCenterName,
   )) {

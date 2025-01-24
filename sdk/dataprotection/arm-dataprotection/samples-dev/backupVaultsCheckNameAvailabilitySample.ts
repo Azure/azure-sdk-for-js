@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckNameAvailabilityRequest} from "@azure/arm-dataprotection";
 import {
-  CheckNameAvailabilityRequest,
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";

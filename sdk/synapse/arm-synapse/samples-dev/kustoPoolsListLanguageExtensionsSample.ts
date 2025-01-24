@@ -31,7 +31,7 @@ async function kustoPoolListLanguageExtensions() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kustoPools.listLanguageExtensions(
+  for await (const item of client.kustoPools.listLanguageExtensions(
     workspaceName,
     kustoPoolName,
     resourceGroupName

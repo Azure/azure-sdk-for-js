@@ -30,7 +30,7 @@ async function listAuthorizationRules() {
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.disasterRecoveryConfigs.listAuthorizationRules(
+  for await (const item of client.disasterRecoveryConfigs.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
     alias,

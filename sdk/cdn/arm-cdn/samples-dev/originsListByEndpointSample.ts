@@ -26,7 +26,7 @@ async function originsListByEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.origins.listByEndpoint(
+  for await (const item of client.origins.listByEndpoint(
     resourceGroupName,
     profileName,
     endpointName,

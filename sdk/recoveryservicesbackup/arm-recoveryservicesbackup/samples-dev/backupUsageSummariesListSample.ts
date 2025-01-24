@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupUsageSummariesListOptionalParams} from "@azure/arm-recoveryservicesbackup";
 import {
-  BackupUsageSummariesListOptionalParams,
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function getProtectedContainersUsagesSummary() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupUsageSummaries.list(
+  for await (const item of client.backupUsageSummaries.list(
     vaultName,
     resourceGroupName,
     options,
@@ -63,7 +64,7 @@ async function getProtectedItemsUsagesSummary() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupUsageSummaries.list(
+  for await (const item of client.backupUsageSummaries.list(
     vaultName,
     resourceGroupName,
     options,

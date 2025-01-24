@@ -24,7 +24,7 @@ async function shareGetAllInDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.shares.listByDataBoxEdgeDevice(
+  for await (const item of client.shares.listByDataBoxEdgeDevice(
     deviceName,
     resourceGroupName
   )) {

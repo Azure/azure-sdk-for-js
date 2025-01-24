@@ -25,7 +25,7 @@ async function componentsListJson(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.components.list()) {
+  for await (const item of client.components.list()) {
     resArray.push(item);
   }
   console.log(resArray);

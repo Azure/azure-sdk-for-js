@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  NameAvailabilityRequest} from "@azure/arm-mysql";
 import {
-  NameAvailabilityRequest,
   MySQLManagementClient
 } from "@azure/arm-mysql";
 import { DefaultAzureCredential } from "@azure/identity";

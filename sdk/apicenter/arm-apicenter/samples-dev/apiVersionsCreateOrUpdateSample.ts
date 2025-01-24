@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ApiVersion, AzureAPICenter } from "@azure/arm-apicenter";
+import type { ApiVersion} from "@azure/arm-apicenter";
+import { AzureAPICenter } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

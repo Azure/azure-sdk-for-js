@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AssetsListOptionalParams} from "@azure/arm-mediaservices";
 import {
-  AssetsListOptionalParams,
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -37,7 +38,7 @@ async function listAssetCreatedInADateRange() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.assets.list(
+  for await (const item of client.assets.list(
     resourceGroupName,
     accountName,
     options
@@ -65,7 +66,7 @@ async function listAssetOrderedByDate() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.assets.list(
+  for await (const item of client.assets.list(
     resourceGroupName,
     accountName,
     options
@@ -91,7 +92,7 @@ async function listAllAssets() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.assets.list(resourceGroupName, accountName)) {
+  for await (const item of client.assets.list(resourceGroupName, accountName)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -28,7 +28,7 @@ async function deletedConfigurationStoresList(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.configurationStores.listDeleted()) {
+  for await (const item of client.configurationStores.listDeleted()) {
     resArray.push(item);
   }
   console.log(resArray);

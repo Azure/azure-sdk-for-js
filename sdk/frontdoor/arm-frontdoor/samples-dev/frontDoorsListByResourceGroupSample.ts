@@ -26,7 +26,7 @@ async function listFrontDoorsInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.frontDoors.listByResourceGroup(
+  for await (const item of client.frontDoors.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

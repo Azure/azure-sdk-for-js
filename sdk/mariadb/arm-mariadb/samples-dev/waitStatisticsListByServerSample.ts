@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WaitStatisticsInput} from "@azure/arm-mariadb";
 import {
-  WaitStatisticsInput,
   MariaDBManagementClient
 } from "@azure/arm-mariadb";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function waitStatisticsListByServer() {
   const credential = new DefaultAzureCredential();
   const client = new MariaDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.waitStatistics.listByServer(
+  for await (const item of client.waitStatistics.listByServer(
     resourceGroupName,
     serverName,
     parameters

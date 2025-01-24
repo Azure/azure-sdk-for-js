@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SaveImageBody, LabServicesClient } from "@azure/arm-labservices";
+import type { SaveImageBody} from "@azure/arm-labservices";
+import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

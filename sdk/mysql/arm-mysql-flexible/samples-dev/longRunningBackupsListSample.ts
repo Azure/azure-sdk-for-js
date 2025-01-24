@@ -32,7 +32,7 @@ async function listBackupsForAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.longRunningBackups.list(
+  for await (const item of client.longRunningBackups.list(
     resourceGroupName,
     serverName,
   )) {

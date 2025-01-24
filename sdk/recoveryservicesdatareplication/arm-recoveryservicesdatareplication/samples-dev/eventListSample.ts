@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EventListOptionalParams} from "@azure/arm-recoveryservicesdatareplication";
 import {
-  EventListOptionalParams,
   AzureSiteRecoveryManagementServiceAPI
 } from "@azure/arm-recoveryservicesdatareplication";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,7 +41,7 @@ async function eventList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.event.list(
+  for await (const item of client.event.list(
     resourceGroupName,
     vaultName,
     options

@@ -31,7 +31,7 @@ async function getAListOfTheDatabaseTransparentDataEncryptions() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseTransparentDataEncryption.listByDatabase(
+  for await (const item of client.managedDatabaseTransparentDataEncryption.listByDatabase(
     resourceGroupName,
     managedInstanceName,
     databaseName,

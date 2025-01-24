@@ -26,7 +26,7 @@ async function cosmosDbCassandraTableList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cassandraResources.listCassandraTables(
+  for await (const item of client.cassandraResources.listCassandraTables(
     resourceGroupName,
     accountName,
     keyspaceName,

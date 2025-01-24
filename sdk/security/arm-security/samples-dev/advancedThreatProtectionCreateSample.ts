@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AdvancedThreatProtectionSetting} from "@azure/arm-security";
 import {
-  AdvancedThreatProtectionSetting,
   SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";

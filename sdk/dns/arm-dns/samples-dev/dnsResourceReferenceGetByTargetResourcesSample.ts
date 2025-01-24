@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DnsResourceReferenceRequest} from "@azure/arm-dns";
 import {
-  DnsResourceReferenceRequest,
   DnsManagementClient,
 } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ChildAvailabilityStatusesGetByResourceOptionalParams} from "@azure/arm-resourcehealth";
 import {
-  ChildAvailabilityStatusesGetByResourceOptionalParams,
   MicrosoftResourceHealth
 } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  HybridComputePrivateLinkScope} from "@azure/arm-hybridcompute";
 import {
-  HybridComputePrivateLinkScope,
   HybridComputeManagementClient,
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";

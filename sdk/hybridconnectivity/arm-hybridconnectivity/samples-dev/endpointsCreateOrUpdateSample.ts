@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EndpointResource} from "@azure/arm-hybridconnectivity";
 import {
-  EndpointResource,
   HybridConnectivityManagementAPI
 } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";

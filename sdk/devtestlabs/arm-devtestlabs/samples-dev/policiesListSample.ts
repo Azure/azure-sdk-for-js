@@ -25,7 +25,7 @@ async function policiesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policies.list(
+  for await (const item of client.policies.list(
     resourceGroupName,
     labName,
     policySetName

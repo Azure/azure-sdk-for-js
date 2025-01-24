@@ -27,7 +27,7 @@ async function listSecurityAdvisoryImpactedResourcesBySubscriptionId() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityAdvisoryImpactedResources.listBySubscriptionIdAndEventId(
+  for await (const item of client.securityAdvisoryImpactedResources.listBySubscriptionIdAndEventId(
     eventTrackingId
   )) {
     resArray.push(item);

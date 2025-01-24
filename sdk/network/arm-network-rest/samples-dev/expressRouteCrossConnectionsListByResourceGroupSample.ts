@@ -3,10 +3,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ExpressRouteCrossConnectionsListByResourceGroupParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { ExpressRouteCrossConnectionsListByResourceGroupParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

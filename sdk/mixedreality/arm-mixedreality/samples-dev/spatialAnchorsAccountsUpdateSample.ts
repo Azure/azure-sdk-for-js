@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SpatialAnchorsAccount} from "@azure/arm-mixedreality";
 import {
-  SpatialAnchorsAccount,
   MixedRealityClient
 } from "@azure/arm-mixedreality";
 import { DefaultAzureCredential } from "@azure/identity";

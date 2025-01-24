@@ -25,7 +25,7 @@ async function listAllCustomIPPrefixes() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.customIPPrefixes.listAll()) {
+  for await (const item of client.customIPPrefixes.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);

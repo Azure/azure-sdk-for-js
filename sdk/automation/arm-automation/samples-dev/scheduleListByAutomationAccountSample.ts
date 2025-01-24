@@ -25,7 +25,7 @@ async function listSchedulesByAutomationAccountFirst100(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.scheduleOperations.listByAutomationAccount(
+  for await (const item of client.scheduleOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {
@@ -47,7 +47,7 @@ async function listSchedulesByAutomationAccountNext100(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.scheduleOperations.listByAutomationAccount(
+  for await (const item of client.scheduleOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

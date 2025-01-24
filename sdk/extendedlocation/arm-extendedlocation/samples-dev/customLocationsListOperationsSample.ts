@@ -30,7 +30,7 @@ async function listCustomLocationsOperations() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.customLocations.listOperations()) {
+  for await (const item of client.customLocations.listOperations()) {
     resArray.push(item);
   }
   console.log(resArray);

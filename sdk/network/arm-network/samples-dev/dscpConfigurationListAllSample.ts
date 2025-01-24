@@ -25,7 +25,7 @@ async function listAllNetworkInterfaces() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscpConfigurationOperations.listAll()) {
+  for await (const item of client.dscpConfigurationOperations.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);

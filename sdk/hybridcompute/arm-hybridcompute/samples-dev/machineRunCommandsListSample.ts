@@ -29,7 +29,7 @@ async function getAllMachineRunCommands() {
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.machineRunCommands.list(
+  for await (const item of client.machineRunCommands.list(
     resourceGroupName,
     machineName,
   )) {

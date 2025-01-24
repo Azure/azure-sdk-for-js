@@ -14,8 +14,9 @@
  * @summary Create a new CloudEndpoint.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/CloudEndpoints_Create.json
  */
+import type {
+  CloudEndpointCreateParameters} from "@azure/arm-storagesync";
 import {
-  CloudEndpointCreateParameters,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckNameAvailabilityRequest} from "@azure/arm-oep";
 import {
-  CheckNameAvailabilityRequest,
   OpenEnergyPlatformManagementServiceAPIs
 } from "@azure/arm-oep";
 import { DefaultAzureCredential } from "@azure/identity";

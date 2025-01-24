@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckNameAvailabilityRequest} from "@azure/arm-deviceupdate";
 import {
-  CheckNameAvailabilityRequest,
   DeviceUpdate
 } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";

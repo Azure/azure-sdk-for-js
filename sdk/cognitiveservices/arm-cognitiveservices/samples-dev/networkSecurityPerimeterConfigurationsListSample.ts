@@ -31,7 +31,7 @@ async function listNetworkSecurityPerimeterConfigurations(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.networkSecurityPerimeterConfigurations.list(
+  for await (const item of client.networkSecurityPerimeterConfigurations.list(
     resourceGroupName,
     accountName,
   )) {

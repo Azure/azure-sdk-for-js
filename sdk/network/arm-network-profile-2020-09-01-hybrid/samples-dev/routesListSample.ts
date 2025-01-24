@@ -27,7 +27,7 @@ async function listRoutes() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.routes.list(
+  for await (const item of client.routes.list(
     resourceGroupName,
     routeTableName
   )) {

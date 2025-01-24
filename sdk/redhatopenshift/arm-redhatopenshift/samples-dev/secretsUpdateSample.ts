@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SecretUpdate} from "@azure/arm-redhatopenshift";
 import {
-  SecretUpdate,
   AzureRedHatOpenShiftClient,
 } from "@azure/arm-redhatopenshift";
 import { DefaultAzureCredential } from "@azure/identity";

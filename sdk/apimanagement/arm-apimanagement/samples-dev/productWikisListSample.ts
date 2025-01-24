@@ -28,7 +28,7 @@ async function apiManagementGetApiWiki(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.productWikis.list(
+  for await (const item of client.productWikis.list(
     resourceGroupName,
     serviceName,
     productId

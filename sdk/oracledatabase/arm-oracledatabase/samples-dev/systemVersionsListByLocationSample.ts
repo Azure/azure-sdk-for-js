@@ -28,7 +28,7 @@ async function listExadataSystemVersionsByTheProvidedFilter() {
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.systemVersions.listByLocation(location)) {
+  for await (const item of client.systemVersions.listByLocation(location)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -48,7 +48,7 @@ async function systemVersionsListByLocation() {
   const credential = new DefaultAzureCredential();
   const client = new OracleDatabaseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.systemVersions.listByLocation(location)) {
+  for await (const item of client.systemVersions.listByLocation(location)) {
     resArray.push(item);
   }
   console.log(resArray);

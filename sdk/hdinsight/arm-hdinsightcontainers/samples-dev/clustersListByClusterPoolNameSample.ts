@@ -33,7 +33,7 @@ async function hdInsightClustersListByClusterPoolName() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusters.listByClusterPoolName(
+  for await (const item of client.clusters.listByClusterPoolName(
     resourceGroupName,
     clusterPoolName,
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MetricDefinitionsListAtSubscriptionScopeOptionalParams} from "@azure/arm-monitor";
 import {
-  MetricDefinitionsListAtSubscriptionScopeOptionalParams,
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function getSubscriptionLevelMetricDefinitionsWithoutFilter() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.metricDefinitions.listAtSubscriptionScope(
+  for await (const item of client.metricDefinitions.listAtSubscriptionScope(
     region,
     options,
   )) {

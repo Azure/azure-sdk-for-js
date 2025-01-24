@@ -27,7 +27,7 @@ async function webPubSubListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebPubSubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webPubSub.listByResourceGroup(
+  for await (const item of client.webPubSub.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

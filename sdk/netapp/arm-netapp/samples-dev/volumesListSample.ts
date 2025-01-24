@@ -30,7 +30,7 @@ async function volumesList() {
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.volumes.list(
+  for await (const item of client.volumes.list(
     resourceGroupName,
     accountName,
     poolName,

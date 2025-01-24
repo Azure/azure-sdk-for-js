@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DomainRecommendationSearchParameters} from "@azure/arm-appservice";
 import {
-  DomainRecommendationSearchParameters,
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function listDomainRecommendations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.domains.listRecommendations(parameters)) {
+  for await (const item of client.domains.listRecommendations(parameters)) {
     resArray.push(item);
   }
   console.log(resArray);

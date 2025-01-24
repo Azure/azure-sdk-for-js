@@ -29,7 +29,7 @@ async function monitorsListByResourceGroupMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listByResourceGroup(
+  for await (const item of client.monitors.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PrivateZone, PrivateDnsManagementClient } from "@azure/arm-privatedns";
+import type { PrivateZone} from "@azure/arm-privatedns";
+import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

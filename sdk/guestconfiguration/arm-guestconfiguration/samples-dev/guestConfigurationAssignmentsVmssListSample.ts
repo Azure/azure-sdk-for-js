@@ -29,7 +29,7 @@ async function listAllGuestConfigurationAssignmentsForVmss() {
   const credential = new DefaultAzureCredential();
   const client = new GuestConfigurationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.guestConfigurationAssignmentsVmss.list(
+  for await (const item of client.guestConfigurationAssignmentsVmss.list(
     resourceGroupName,
     vmssName,
   )) {

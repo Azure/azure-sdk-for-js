@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SecurityPolicyUpdate} from "@azure/arm-servicenetworking";
 import {
-  SecurityPolicyUpdate,
   ServiceNetworkingManagementClient,
 } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";

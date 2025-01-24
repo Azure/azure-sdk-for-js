@@ -25,7 +25,7 @@ async function listAllFrontDoors() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.frontDoors.list()) {
+  for await (const item of client.frontDoors.list()) {
     resArray.push(item);
   }
   console.log(resArray);

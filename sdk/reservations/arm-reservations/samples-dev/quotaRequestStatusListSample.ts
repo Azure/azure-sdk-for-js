@@ -27,7 +27,7 @@ async function quotaRequestHistory() {
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);
   const resArray = new Array();
-  for await (let item of client.quotaRequestStatus.list(
+  for await (const item of client.quotaRequestStatus.list(
     subscriptionId,
     providerId,
     location

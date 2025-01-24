@@ -22,7 +22,7 @@ async function providerOperationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.providerOperations.list()) {
+  for await (const item of client.providerOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

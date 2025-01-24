@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ClusterPatchParameters} from "@azure/arm-hdinsight";
 import {
-  ClusterPatchParameters,
   HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";

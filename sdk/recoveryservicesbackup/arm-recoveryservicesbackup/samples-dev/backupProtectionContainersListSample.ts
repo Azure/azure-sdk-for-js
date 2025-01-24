@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupProtectionContainersListOptionalParams} from "@azure/arm-recoveryservicesbackup";
 import {
-  BackupProtectionContainersListOptionalParams,
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function listBackupProtectionContainers() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupProtectionContainers.list(
+  for await (const item of client.backupProtectionContainers.list(
     vaultName,
     resourceGroupName,
     options,

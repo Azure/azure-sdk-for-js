@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyEventsListQueryResultsForResourceGroupOptionalParams} from "@azure/arm-policyinsights";
 import {
-  PolicyEventsListQueryResultsForResourceGroupOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function queryAtResourceGroupScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyEvents.listQueryResultsForResourceGroup(
+  for await (const item of client.policyEvents.listQueryResultsForResourceGroup(
     policyEventsResource,
     subscriptionId,
     resourceGroupName,
@@ -57,7 +58,7 @@ async function queryAtResourceGroupScopeWithNextLink() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.policyEvents.listQueryResultsForResourceGroup(
+  for await (const item of client.policyEvents.listQueryResultsForResourceGroup(
     policyEventsResource,
     subscriptionId,
     resourceGroupName,

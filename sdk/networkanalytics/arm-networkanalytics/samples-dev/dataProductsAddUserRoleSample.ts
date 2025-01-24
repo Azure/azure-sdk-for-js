@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RoleAssignmentCommonProperties} from "@azure/arm-networkanalytics";
 import {
-  RoleAssignmentCommonProperties,
   MicrosoftNetworkAnalytics
 } from "@azure/arm-networkanalytics";
 import { DefaultAzureCredential } from "@azure/identity";

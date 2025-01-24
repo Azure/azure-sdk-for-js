@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DevicesListMetricsOptionalParams} from "@azure/arm-storsimple1200series";
 import {
-  DevicesListMetricsOptionalParams,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function devicesListMetrics() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.devices.listMetrics(
+  for await (const item of client.devices.listMetrics(
     deviceName,
     resourceGroupName,
     managerName,

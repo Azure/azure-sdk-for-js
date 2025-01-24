@@ -27,7 +27,7 @@ async function apiKeysList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.aPIKeys.list(resourceGroupName, resourceName)) {
+  for await (const item of client.aPIKeys.list(resourceGroupName, resourceName)) {
     resArray.push(item);
   }
   console.log(resArray);

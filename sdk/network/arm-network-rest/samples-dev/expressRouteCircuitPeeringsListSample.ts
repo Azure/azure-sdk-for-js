@@ -3,10 +3,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ExpressRouteCircuitPeeringsListParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { ExpressRouteCircuitPeeringsListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

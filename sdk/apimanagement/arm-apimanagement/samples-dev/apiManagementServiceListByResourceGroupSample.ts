@@ -26,7 +26,7 @@ async function apiManagementListServiceBySubscriptionAndResourceGroup(): Promise
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiManagementService.listByResourceGroup(
+  for await (const item of client.apiManagementService.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

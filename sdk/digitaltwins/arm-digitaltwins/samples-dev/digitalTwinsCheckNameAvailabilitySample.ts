@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckNameRequest} from "@azure/arm-digitaltwins";
 import {
-  CheckNameRequest,
   AzureDigitalTwinsManagementClient
 } from "@azure/arm-digitaltwins";
 import { DefaultAzureCredential } from "@azure/identity";

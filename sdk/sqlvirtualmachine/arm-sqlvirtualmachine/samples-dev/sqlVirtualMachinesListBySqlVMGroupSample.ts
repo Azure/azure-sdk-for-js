@@ -33,7 +33,7 @@ async function getsTheListOfSqlVirtualMachinesInASqlVirtualMachineGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.sqlVirtualMachines.listBySqlVmGroup(
+  for await (const item of client.sqlVirtualMachines.listBySqlVmGroup(
     resourceGroupName,
     sqlVirtualMachineGroupName
   )) {

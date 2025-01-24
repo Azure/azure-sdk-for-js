@@ -29,7 +29,7 @@ async function maintenanceConfigurationsResourceGroupList() {
   const credential = new DefaultAzureCredential();
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.maintenanceConfigurationsForResourceGroup.list(
+  for await (const item of client.maintenanceConfigurationsForResourceGroup.list(
     resourceGroupName,
   )) {
     resArray.push(item);

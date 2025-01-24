@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  NamespaceUpdateParameters} from "@azure/arm-eventgrid";
 import {
-  NamespaceUpdateParameters,
   EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";

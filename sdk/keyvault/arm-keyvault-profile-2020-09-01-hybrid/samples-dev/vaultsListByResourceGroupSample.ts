@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VaultsListByResourceGroupOptionalParams} from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
 import {
-  VaultsListByResourceGroupOptionalParams,
   KeyVaultManagementClient
 } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function listVaultsInTheSpecifiedResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vaults.listByResourceGroup(
+  for await (const item of client.vaults.listByResourceGroup(
     resourceGroupName,
     options
   )) {

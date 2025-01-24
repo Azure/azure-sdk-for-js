@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   AADCheckRequirements,
   ASCCheckRequirements,
   Dynamics365CheckRequirements,
@@ -21,7 +21,8 @@ import {
   OfficeIRMCheckRequirements,
   OfficePowerBICheckRequirements,
   TiTaxiiCheckRequirements,
-  TICheckRequirements,
+  TICheckRequirements} from "@azure/arm-securityinsight";
+import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";

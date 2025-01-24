@@ -30,7 +30,7 @@ async function getsAllSqlVirtualMachinesInASubscription() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.sqlVirtualMachines.list()) {
+  for await (const item of client.sqlVirtualMachines.list()) {
     resArray.push(item);
   }
   console.log(resArray);

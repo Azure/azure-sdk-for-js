@@ -26,7 +26,7 @@ async function listAllVirtualRouterForAGivenResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualRouters.listByResourceGroup(
+  for await (const item of client.virtualRouters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

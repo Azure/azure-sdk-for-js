@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ExecuteScriptActionParameters} from "@azure/arm-hdinsight";
 import {
-  ExecuteScriptActionParameters,
   HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";

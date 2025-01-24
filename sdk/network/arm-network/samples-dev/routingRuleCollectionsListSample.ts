@@ -30,7 +30,7 @@ async function listRoutingRuleCollections() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.routingRuleCollections.list(
+  for await (const item of client.routingRuleCollections.list(
     resourceGroupName,
     networkManagerName,
     configurationName,

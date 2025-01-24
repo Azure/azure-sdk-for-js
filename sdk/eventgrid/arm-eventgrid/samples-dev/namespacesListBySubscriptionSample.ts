@@ -27,7 +27,7 @@ async function namespacesListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaces.listBySubscription()) {
+  for await (const item of client.namespaces.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

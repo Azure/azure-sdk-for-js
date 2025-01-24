@@ -27,7 +27,7 @@ async function cosmosDbRestorableGremlinDatabaseList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorableGremlinDatabases.list(
+  for await (const item of client.restorableGremlinDatabases.list(
     location,
     instanceId,
   )) {

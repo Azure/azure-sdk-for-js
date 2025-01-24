@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedInstanceAdvancedThreatProtection} from "@azure/arm-sql";
 import {
-  ManagedInstanceAdvancedThreatProtection,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";

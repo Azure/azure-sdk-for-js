@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   StaticSiteUserProvidedFunctionAppARMResource,
-  StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
+  StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams} from "@azure/arm-appservice";
+import {
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";

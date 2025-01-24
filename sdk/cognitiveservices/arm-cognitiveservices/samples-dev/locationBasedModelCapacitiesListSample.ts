@@ -32,7 +32,7 @@ async function listLocationBasedModelCapacities(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.locationBasedModelCapacities.list(
+  for await (const item of client.locationBasedModelCapacities.list(
     location,
     modelFormat,
     modelName,

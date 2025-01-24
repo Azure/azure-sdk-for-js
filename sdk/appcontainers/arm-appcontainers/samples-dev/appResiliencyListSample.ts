@@ -27,7 +27,7 @@ async function listAppResiliency(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appResiliencyOperations.list(
+  for await (const item of client.appResiliencyOperations.list(
     resourceGroupName,
     appName,
   )) {

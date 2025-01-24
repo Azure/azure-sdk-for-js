@@ -24,7 +24,7 @@ async function listSecurityControlsDefinition() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (let item of client.secureScoreControlDefinitions.list()) {
+  for await (const item of client.secureScoreControlDefinitions.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -29,7 +29,7 @@ async function getsTheSasToken(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.storageAccounts.listSasTokens(
+  for await (const item of client.storageAccounts.listSasTokens(
     resourceGroupName,
     accountName,
     storageAccountName,

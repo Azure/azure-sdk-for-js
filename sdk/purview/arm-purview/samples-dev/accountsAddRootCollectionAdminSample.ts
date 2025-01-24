@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CollectionAdminUpdate} from "@azure/arm-purview";
 import {
-  CollectionAdminUpdate,
   PurviewManagementClient
 } from "@azure/arm-purview";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -27,7 +27,7 @@ async function catalogsListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.catalogs.listBySubscription()) {
+  for await (const item of client.catalogs.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

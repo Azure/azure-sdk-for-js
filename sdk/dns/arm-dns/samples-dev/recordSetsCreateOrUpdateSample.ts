@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { RecordSet, DnsManagementClient } from "@azure/arm-dns";
+import type { RecordSet} from "@azure/arm-dns";
+import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

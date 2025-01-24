@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DedicatedCloudNode} from "@azure/arm-vmwarecloudsimple";
 import {
-  DedicatedCloudNode,
   VMwareCloudSimple
 } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";

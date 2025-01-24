@@ -29,7 +29,7 @@ async function privateEndpointConnectionList() {
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByService(
+  for await (const item of client.privateEndpointConnections.listByService(
     resourceGroupName,
     resourceName,
   )) {

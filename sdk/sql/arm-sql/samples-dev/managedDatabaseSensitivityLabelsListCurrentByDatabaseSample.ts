@@ -30,7 +30,7 @@ async function getsTheCurrentSensitivityLabelsOfAGivenDatabaseInAManagedDatabase
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseSensitivityLabels.listCurrentByDatabase(
+  for await (const item of client.managedDatabaseSensitivityLabels.listCurrentByDatabase(
     resourceGroupName,
     managedInstanceName,
     databaseName,

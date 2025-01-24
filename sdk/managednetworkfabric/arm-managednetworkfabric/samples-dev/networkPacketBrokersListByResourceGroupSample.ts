@@ -32,7 +32,7 @@ async function networkPacketBrokersListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkPacketBrokers.listByResourceGroup(
+  for await (const item of client.networkPacketBrokers.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

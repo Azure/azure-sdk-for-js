@@ -24,7 +24,7 @@ async function accessControlRecordsListByManager() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accessControlRecords.listByManager(
+  for await (const item of client.accessControlRecords.listByManager(
     resourceGroupName,
     managerName
   )) {

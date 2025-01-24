@@ -25,7 +25,7 @@ async function getResourceGuardsInSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceGuards.listResourcesInSubscription()) {
+  for await (const item of client.resourceGuards.listResourcesInSubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

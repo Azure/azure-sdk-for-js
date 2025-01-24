@@ -28,7 +28,7 @@ async function listWebAppBackups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webApps.listBackups(resourceGroupName, name)) {
+  for await (const item of client.webApps.listBackups(resourceGroupName, name)) {
     resArray.push(item);
   }
   console.log(resArray);

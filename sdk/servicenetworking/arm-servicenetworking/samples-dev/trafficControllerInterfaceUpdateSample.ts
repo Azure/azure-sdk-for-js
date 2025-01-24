@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TrafficControllerUpdate} from "@azure/arm-servicenetworking";
 import {
-  TrafficControllerUpdate,
   ServiceNetworkingManagementClient,
 } from "@azure/arm-servicenetworking";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -22,7 +22,7 @@ async function getMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.recommendationMetadata.list()) {
+  for await (const item of client.recommendationMetadata.list()) {
     resArray.push(item);
   }
   console.log(resArray);

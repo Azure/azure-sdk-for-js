@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { EHNamespace, EventHubManagementClient } from "@azure/arm-eventhub";
+import type { EHNamespace} from "@azure/arm-eventhub";
+import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

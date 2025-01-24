@@ -27,7 +27,7 @@ async function listsAzureDatabricksAccessConnectorsWithinAResourceGroup(): Promi
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.accessConnectors.listByResourceGroup(
+  for await (const item of client.accessConnectors.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

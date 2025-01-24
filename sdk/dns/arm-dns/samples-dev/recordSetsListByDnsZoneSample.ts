@@ -27,7 +27,7 @@ async function listRecordsetsByZone() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByDnsZone(
+  for await (const item of client.recordSets.listByDnsZone(
     resourceGroupName,
     zoneName,
   )) {

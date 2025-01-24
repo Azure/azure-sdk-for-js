@@ -29,7 +29,7 @@ async function getsListOfPrivateEndpointConnectionsOnAServer() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstancePrivateEndpointConnections.listByManagedInstance(
+  for await (const item of client.managedInstancePrivateEndpointConnections.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

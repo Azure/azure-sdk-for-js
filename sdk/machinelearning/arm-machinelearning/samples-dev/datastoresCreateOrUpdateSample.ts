@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   Datastore,
-  DatastoresCreateOrUpdateOptionalParams,
+  DatastoresCreateOrUpdateOptionalParams} from "@azure/arm-machinelearning";
+import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";

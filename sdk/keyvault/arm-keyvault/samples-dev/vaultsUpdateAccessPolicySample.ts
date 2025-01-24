@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VaultAccessPolicyParameters} from "@azure/arm-keyvault";
 import {
-  VaultAccessPolicyParameters,
   KeyVaultManagementClient
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";

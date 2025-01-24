@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  StreamingJobsListByResourceGroupOptionalParams} from "@azure/arm-streamanalytics";
 import {
-  StreamingJobsListByResourceGroupOptionalParams,
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function listAllStreamingJobsInAResourceGroupAndDoNotUseTheExpandODataQuer
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.streamingJobs.listByResourceGroup(
+  for await (const item of client.streamingJobs.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -63,7 +64,7 @@ async function listAllStreamingJobsInAResourceGroupAndUseTheExpandODataQueryPara
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.streamingJobs.listByResourceGroup(
+  for await (const item of client.streamingJobs.listByResourceGroup(
     resourceGroupName,
     options,
   )) {

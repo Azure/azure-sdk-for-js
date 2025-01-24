@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagersListMetricsOptionalParams} from "@azure/arm-storsimple1200series";
 import {
-  ManagersListMetricsOptionalParams,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function managersListMetrics() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managers.listMetrics(
+  for await (const item of client.managers.listMetrics(
     resourceGroupName,
     managerName,
     options

@@ -31,7 +31,7 @@ async function productsGenerateDefaultDeviceGroups() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.products.listGenerateDefaultDeviceGroups(
+  for await (const item of client.products.listGenerateDefaultDeviceGroups(
     resourceGroupName,
     catalogName,
     productName,

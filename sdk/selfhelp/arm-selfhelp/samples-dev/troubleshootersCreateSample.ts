@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   TroubleshooterResource,
-  TroubleshootersCreateOptionalParams,
+  TroubleshootersCreateOptionalParams} from "@azure/arm-selfhelp";
+import {
   HelpRP,
 } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";

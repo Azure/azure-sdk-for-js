@@ -27,7 +27,7 @@ async function cachesList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.caches.list()) {
+  for await (const item of client.caches.list()) {
     resArray.push(item);
   }
   console.log(resArray);

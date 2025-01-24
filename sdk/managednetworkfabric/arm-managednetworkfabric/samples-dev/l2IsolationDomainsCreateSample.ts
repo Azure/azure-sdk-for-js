@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  L2IsolationDomain} from "@azure/arm-managednetworkfabric";
 import {
-  L2IsolationDomain,
   AzureNetworkFabricManagementServiceAPI
 } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";

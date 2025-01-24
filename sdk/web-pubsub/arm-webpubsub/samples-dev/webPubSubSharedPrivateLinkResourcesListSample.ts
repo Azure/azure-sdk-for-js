@@ -28,7 +28,7 @@ async function webPubSubSharedPrivateLinkResourcesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebPubSubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webPubSubSharedPrivateLinkResources.list(
+  for await (const item of client.webPubSubSharedPrivateLinkResources.list(
     resourceGroupName,
     resourceName,
   )) {

@@ -34,7 +34,7 @@ async function replicationExtensionList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.replicationExtension.list(
+  for await (const item of client.replicationExtension.list(
     resourceGroupName,
     vaultName
   )) {

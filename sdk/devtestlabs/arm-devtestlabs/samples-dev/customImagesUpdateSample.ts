@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CustomImageFragment, DevTestLabsClient } from "@azure/arm-devtestlabs";
+import type { CustomImageFragment} from "@azure/arm-devtestlabs";
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

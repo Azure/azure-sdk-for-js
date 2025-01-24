@@ -24,7 +24,7 @@ async function getEmergingIssues() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
   const resArray = new Array();
-  for await (let item of client.emergingIssues.list()) {
+  for await (const item of client.emergingIssues.list()) {
     resArray.push(item);
   }
   console.log(resArray);

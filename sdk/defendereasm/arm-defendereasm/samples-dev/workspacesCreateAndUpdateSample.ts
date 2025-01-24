@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   WorkspaceResource,
-  WorkspacesCreateAndUpdateOptionalParams,
+  WorkspacesCreateAndUpdateOptionalParams} from "@azure/arm-defendereasm";
+import {
   EasmMgmtClient
 } from "@azure/arm-defendereasm";
 import { DefaultAzureCredential } from "@azure/identity";

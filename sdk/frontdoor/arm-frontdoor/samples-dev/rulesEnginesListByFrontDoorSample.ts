@@ -27,7 +27,7 @@ async function listRulesEngineConfigurationsInAFrontDoor() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.rulesEngines.listByFrontDoor(
+  for await (const item of client.rulesEngines.listByFrontDoor(
     resourceGroupName,
     frontDoorName,
   )) {

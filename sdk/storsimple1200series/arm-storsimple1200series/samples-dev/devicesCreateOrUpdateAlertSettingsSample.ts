@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AlertSettings} from "@azure/arm-storsimple1200series";
 import {
-  AlertSettings,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";

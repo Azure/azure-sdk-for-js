@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PipelinesCreateRunOptionalParams} from "@azure/arm-datafactory";
 import {
-  PipelinesCreateRunOptionalParams,
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";

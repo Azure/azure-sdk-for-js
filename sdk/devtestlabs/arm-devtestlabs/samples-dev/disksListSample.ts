@@ -25,7 +25,7 @@ async function disksList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.disks.list(
+  for await (const item of client.disks.list(
     resourceGroupName,
     labName,
     userName

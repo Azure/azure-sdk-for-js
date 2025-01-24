@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DataBoundaryDefinition} from "@azure/arm-databoundaries";
 import {
-  DataBoundaryDefinition,
   DataboundariesManegementClient,
 } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";

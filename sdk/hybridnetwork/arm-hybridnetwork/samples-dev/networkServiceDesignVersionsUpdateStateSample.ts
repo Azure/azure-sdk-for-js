@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  NetworkServiceDesignVersionUpdateState} from "@azure/arm-hybridnetwork";
 import {
-  NetworkServiceDesignVersionUpdateState,
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";

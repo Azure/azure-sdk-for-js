@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GuestConfigurationAssignment} from "@azure/arm-guestconfiguration";
 import {
-  GuestConfigurationAssignment,
   GuestConfigurationClient,
 } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";

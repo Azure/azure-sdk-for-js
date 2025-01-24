@@ -30,7 +30,7 @@ async function getInboundNetworkDependenciesEndpoints() {
     )
     .get();
   const res = paginate(client, initialResposne);
-  for await (let item of res) {
+  for await (const item of res) {
     result.push(item);
   }
   console.log(result);

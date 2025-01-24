@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WorkflowListOptionalParams} from "@azure/arm-recoveryservicesdatareplication";
 import {
-  WorkflowListOptionalParams,
   AzureSiteRecoveryManagementServiceAPI
 } from "@azure/arm-recoveryservicesdatareplication";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,7 +41,7 @@ async function workflowList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.workflow.list(
+  for await (const item of client.workflow.list(
     resourceGroupName,
     vaultName,
     options

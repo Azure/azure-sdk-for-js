@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TrafficFiltersDeleteOptionalParams} from "@azure/arm-elastic";
 import {
-  TrafficFiltersDeleteOptionalParams,
   MicrosoftElastic,
 } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";

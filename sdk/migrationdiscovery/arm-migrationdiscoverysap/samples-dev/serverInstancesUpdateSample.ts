@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  UpdateServerInstanceRequest} from "@azure/arm-migrationdiscoverysap";
 import {
-  UpdateServerInstanceRequest,
   WorkloadsClient,
 } from "@azure/arm-migrationdiscoverysap";
 import { DefaultAzureCredential } from "@azure/identity";

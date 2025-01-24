@@ -24,7 +24,7 @@ async function paymentMethodsListByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.paymentMethods.listByBillingAccount(
+  for await (const item of client.paymentMethods.listByBillingAccount(
     billingAccountName,
   )) {
     resArray.push(item);

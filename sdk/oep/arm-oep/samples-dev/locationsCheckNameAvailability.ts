@@ -14,8 +14,9 @@
  * @summary Checks the name availability of the resource with requested resource name.
  * x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2021-06-01-preview/examples/Locations_CheckNameAvailability.json
  */
+import type {
+  CheckNameAvailabilityRequest} from "@azure/arm-oep";
 import {
-  CheckNameAvailabilityRequest,
   OpenEnergyPlatformManagementServiceAPIs
 } from "@azure/arm-oep";
 import { DefaultAzureCredential } from "@azure/identity";

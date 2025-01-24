@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ArtifactChangeState} from "@azure/arm-hybridnetwork";
 import {
-  ArtifactChangeState,
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";

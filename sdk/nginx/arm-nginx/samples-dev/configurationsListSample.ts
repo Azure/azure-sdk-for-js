@@ -30,7 +30,7 @@ async function configurationsList() {
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurations.list(
+  for await (const item of client.configurations.list(
     resourceGroupName,
     deploymentName,
   )) {

@@ -25,7 +25,7 @@ async function listAutomanageBestPractices(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bestPractices.listByTenant()) {
+  for await (const item of client.bestPractices.listByTenant()) {
     resArray.push(item);
   }
   console.log(resArray);

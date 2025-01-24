@@ -24,7 +24,7 @@ async function listConfigurationProfileAssignmentsBySubscription(): Promise<void
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurationProfileAssignments.listBySubscription()) {
+  for await (const item of client.configurationProfileAssignments.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

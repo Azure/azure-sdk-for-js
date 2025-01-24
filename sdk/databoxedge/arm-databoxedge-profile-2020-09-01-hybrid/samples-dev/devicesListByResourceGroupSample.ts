@@ -27,7 +27,7 @@ async function dataBoxEdgeDeviceGetByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.devices.listByResourceGroup(
+  for await (const item of client.devices.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

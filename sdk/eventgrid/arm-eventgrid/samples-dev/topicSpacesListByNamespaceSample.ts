@@ -30,7 +30,7 @@ async function topicSpacesListByNamespace() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.topicSpaces.listByNamespace(
+  for await (const item of client.topicSpaces.listByNamespace(
     resourceGroupName,
     namespaceName,
   )) {

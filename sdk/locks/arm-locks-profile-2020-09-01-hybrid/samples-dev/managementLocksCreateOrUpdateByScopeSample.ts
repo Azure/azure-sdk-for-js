@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagementLockObject} from "@azure/arm-locks-profile-2020-09-01-hybrid";
 import {
-  ManagementLockObject,
   ManagementLockClient
 } from "@azure/arm-locks-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

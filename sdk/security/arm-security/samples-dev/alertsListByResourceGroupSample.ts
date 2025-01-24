@@ -28,7 +28,7 @@ async function getSecurityAlertsOnAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alerts.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.alerts.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

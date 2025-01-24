@@ -22,7 +22,7 @@ async function storageSyncServicesListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftStorageSync(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageSyncServices.listBySubscription()) {
+  for await (const item of client.storageSyncServices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

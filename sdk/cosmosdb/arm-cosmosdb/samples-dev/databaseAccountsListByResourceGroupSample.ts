@@ -24,7 +24,7 @@ async function cosmosDbDatabaseAccountListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseAccounts.listByResourceGroup(
+  for await (const item of client.databaseAccounts.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

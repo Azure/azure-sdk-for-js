@@ -27,7 +27,7 @@ async function getAListOfPrivateEndpointConnectionsAssociatedWithASite(): Promis
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticSites.listPrivateEndpointConnectionList(
+  for await (const item of client.staticSites.listPrivateEndpointConnectionList(
     resourceGroupName,
     name,
   )) {

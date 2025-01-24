@@ -25,7 +25,7 @@ async function privateCloudsListInSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateClouds.listInSubscription()) {
+  for await (const item of client.privateClouds.listInSubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -44,7 +44,7 @@ async function privateCloudsListInSubscriptionStretched(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateClouds.listInSubscription()) {
+  for await (const item of client.privateClouds.listInSubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

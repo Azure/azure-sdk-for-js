@@ -30,7 +30,7 @@ async function signalRCustomDomainsList() {
   const credential = new DefaultAzureCredential();
   const client = new SignalRManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.signalRCustomDomains.list(
+  for await (const item of client.signalRCustomDomains.list(
     resourceGroupName,
     resourceName
   )) {

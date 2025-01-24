@@ -31,7 +31,7 @@ async function binaryHardeningListByFirmwareMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.binaryHardening.listByFirmware(
+  for await (const item of client.binaryHardening.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,
@@ -58,7 +58,7 @@ async function binaryHardeningListByFirmwareMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.binaryHardening.listByFirmware(
+  for await (const item of client.binaryHardening.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SavingsPlanListAllOptionalParams} from "@azure/arm-billingbenefits";
 import {
-  SavingsPlanListAllOptionalParams,
   BillingBenefitsRP
 } from "@azure/arm-billingbenefits";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function savingsPlansList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
   const resArray = new Array();
-  for await (let item of client.savingsPlan.listAll(options)) {
+  for await (const item of client.savingsPlan.listAll(options)) {
     resArray.push(item);
   }
   console.log(resArray);

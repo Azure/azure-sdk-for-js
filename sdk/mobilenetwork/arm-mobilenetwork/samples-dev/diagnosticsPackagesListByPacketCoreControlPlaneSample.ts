@@ -30,7 +30,7 @@ async function listDiagnosticsPackagesUnderAPacketCoreControlPlane() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diagnosticsPackages.listByPacketCoreControlPlane(
+  for await (const item of client.diagnosticsPackages.listByPacketCoreControlPlane(
     resourceGroupName,
     packetCoreControlPlaneName,
   )) {

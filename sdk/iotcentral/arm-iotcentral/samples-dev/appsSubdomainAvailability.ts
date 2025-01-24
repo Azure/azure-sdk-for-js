@@ -14,7 +14,8 @@
  * @summary Check if an IoT Central application subdomain is available.
  * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/stable/2021-06-01/examples/Apps_CheckSubdomainAvailability.json
  */
-import { OperationInputs, IotCentralClient } from "@azure/arm-iotcentral";
+import type { OperationInputs} from "@azure/arm-iotcentral";
+import { IotCentralClient } from "@azure/arm-iotcentral";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function appsSubdomainAvailability() {

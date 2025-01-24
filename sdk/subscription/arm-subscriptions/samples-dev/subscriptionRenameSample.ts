@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SubscriptionName, SubscriptionClient } from "@azure/arm-subscriptions";
+import type { SubscriptionName} from "@azure/arm-subscriptions";
+import { SubscriptionClient } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

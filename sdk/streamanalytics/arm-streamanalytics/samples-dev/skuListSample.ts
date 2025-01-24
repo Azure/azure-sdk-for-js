@@ -33,7 +33,7 @@ async function getValidSkUsListForTheSpecifiedStreamingJob() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.skuOperations.list(
+  for await (const item of client.skuOperations.list(
     resourceGroupName,
     jobName,
   )) {

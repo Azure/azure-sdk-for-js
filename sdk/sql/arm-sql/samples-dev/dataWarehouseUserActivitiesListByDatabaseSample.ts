@@ -31,7 +31,7 @@ async function listOfTheUserActivitiesOfADataWarehouse() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataWarehouseUserActivitiesOperations.listByDatabase(
+  for await (const item of client.dataWarehouseUserActivitiesOperations.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

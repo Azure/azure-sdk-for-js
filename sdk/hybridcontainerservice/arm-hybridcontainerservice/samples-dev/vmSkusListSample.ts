@@ -26,7 +26,7 @@ async function listVMSkus() {
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential);
   const resArray = new Array();
-  for await (let item of client.vMSkus.list(customLocationResourceUri)) {
+  for await (const item of client.vMSkus.list(customLocationResourceUri)) {
     resArray.push(item);
   }
   console.log(resArray);

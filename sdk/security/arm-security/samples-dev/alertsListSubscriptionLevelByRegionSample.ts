@@ -28,7 +28,7 @@ async function getSecurityAlertsOnASubscriptionFromASecurityDataLocation() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alerts.listSubscriptionLevelByRegion(
+  for await (const item of client.alerts.listSubscriptionLevelByRegion(
     ascLocation,
   )) {
     resArray.push(item);

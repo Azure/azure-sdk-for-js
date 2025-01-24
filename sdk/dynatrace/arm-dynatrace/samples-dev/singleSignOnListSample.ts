@@ -30,7 +30,7 @@ async function singleSignOnListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.singleSignOn.list(
+  for await (const item of client.singleSignOn.list(
     resourceGroupName,
     monitorName
   )) {
@@ -55,7 +55,7 @@ async function singleSignOnListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.singleSignOn.list(
+  for await (const item of client.singleSignOn.list(
     resourceGroupName,
     monitorName
   )) {

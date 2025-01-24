@@ -30,7 +30,7 @@ async function listDnsSecurityRulesByDnsResolverPolicy() {
   const credential = new DefaultAzureCredential();
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dnsSecurityRules.list(
+  for await (const item of client.dnsSecurityRules.list(
     resourceGroupName,
     dnsResolverPolicyName,
   )) {

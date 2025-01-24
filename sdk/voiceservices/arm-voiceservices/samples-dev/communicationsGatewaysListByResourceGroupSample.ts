@@ -27,7 +27,7 @@ async function listCommunicationsGatewayResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftVoiceServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.communicationsGateways.listByResourceGroup(
+  for await (const item of client.communicationsGateways.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ApplicationResource} from "@azure/arm-servicefabric";
 import {
-  ApplicationResource,
   ServiceFabricManagementClient
 } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";

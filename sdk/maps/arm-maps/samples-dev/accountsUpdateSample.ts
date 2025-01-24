@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MapsAccountUpdateParameters} from "@azure/arm-maps";
 import {
-  MapsAccountUpdateParameters,
   AzureMapsManagementClient
 } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";

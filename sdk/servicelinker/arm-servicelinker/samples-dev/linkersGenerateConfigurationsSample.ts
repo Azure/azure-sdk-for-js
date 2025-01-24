@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ConfigurationInfo,
-  LinkersGenerateConfigurationsOptionalParams,
+  LinkersGenerateConfigurationsOptionalParams} from "@azure/arm-servicelinker";
+import {
   ServiceLinkerManagementClient,
 } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";

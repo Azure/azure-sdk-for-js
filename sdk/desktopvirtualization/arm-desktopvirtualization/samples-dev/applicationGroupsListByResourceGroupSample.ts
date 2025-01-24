@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ApplicationGroupsListByResourceGroupOptionalParams} from "@azure/arm-desktopvirtualization";
 import {
-  ApplicationGroupsListByResourceGroupOptionalParams,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,7 +41,7 @@ async function applicationGroupListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applicationGroups.listByResourceGroup(
+  for await (const item of client.applicationGroups.listByResourceGroup(
     resourceGroupName,
     options,
   )) {

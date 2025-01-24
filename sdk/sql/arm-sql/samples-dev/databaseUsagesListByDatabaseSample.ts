@@ -31,7 +31,7 @@ async function getsDatabaseUsages() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseUsages.listByDatabase(
+  for await (const item of client.databaseUsages.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

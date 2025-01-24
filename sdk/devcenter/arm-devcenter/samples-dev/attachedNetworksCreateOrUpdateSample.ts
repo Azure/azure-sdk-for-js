@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AttachedNetworkConnection} from "@azure/arm-devcenter";
 import {
-  AttachedNetworkConnection,
   DevCenterClient,
 } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";

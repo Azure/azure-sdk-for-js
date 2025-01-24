@@ -31,7 +31,7 @@ async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.ltrBackupOperations.listByServer(
+  for await (const item of client.ltrBackupOperations.listByServer(
     resourceGroupName,
     serverName,
   )) {

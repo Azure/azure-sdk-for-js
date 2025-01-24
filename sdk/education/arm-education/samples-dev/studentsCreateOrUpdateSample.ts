@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  StudentDetails} from "@azure/arm-education";
 import {
-  StudentDetails,
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -3,8 +3,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { VirtualNetworksListDdosProtectionStatusParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, {
-  VirtualNetworksListDdosProtectionStatusParameters,
   // getLongRunningPoller,
   paginate,
 } from "@azure-rest/arm-network";

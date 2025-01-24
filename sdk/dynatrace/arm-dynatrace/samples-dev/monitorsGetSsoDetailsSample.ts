@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   SSODetailsRequest,
-  MonitorsGetSSODetailsOptionalParams,
+  MonitorsGetSSODetailsOptionalParams} from "@azure/arm-dynatrace";
+import {
   DynatraceObservability
 } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";

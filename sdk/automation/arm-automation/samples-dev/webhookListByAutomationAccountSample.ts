@@ -25,7 +25,7 @@ async function listWebhooksByAutomationAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webhookOperations.listByAutomationAccount(
+  for await (const item of client.webhookOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

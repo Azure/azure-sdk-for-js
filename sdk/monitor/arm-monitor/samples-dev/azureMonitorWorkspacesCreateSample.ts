@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AzureMonitorWorkspaceResource} from "@azure/arm-monitor";
 import {
-  AzureMonitorWorkspaceResource,
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";

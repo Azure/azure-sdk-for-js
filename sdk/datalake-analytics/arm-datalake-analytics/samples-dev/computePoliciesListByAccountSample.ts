@@ -27,7 +27,7 @@ async function listsTheComputePoliciesWithinTheAdlaAccount(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.computePolicies.listByAccount(
+  for await (const item of client.computePolicies.listByAccount(
     resourceGroupName,
     accountName
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  OperationalizationClusterUpdateParameters} from "@azure/arm-machinelearningcompute";
 import {
-  OperationalizationClusterUpdateParameters,
   MachineLearningComputeManagementClient
 } from "@azure/arm-machinelearningcompute";
 import { DefaultAzureCredential } from "@azure/identity";

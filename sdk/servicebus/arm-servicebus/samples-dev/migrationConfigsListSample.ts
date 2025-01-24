@@ -29,7 +29,7 @@ async function migrationConfigurationsList() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.migrationConfigs.list(
+  for await (const item of client.migrationConfigs.list(
     resourceGroupName,
     namespaceName
   )) {

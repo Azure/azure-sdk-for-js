@@ -23,7 +23,7 @@ async function returnsAListOfAllRegistrations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureStackManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.registrations.list(resourceGroup)) {
+  for await (const item of client.registrations.list(resourceGroup)) {
     resArray.push(item);
   }
   console.log(resArray);

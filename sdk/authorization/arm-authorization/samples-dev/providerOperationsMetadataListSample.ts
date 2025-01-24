@@ -22,7 +22,7 @@ async function listProviderOperationsMetadataForAllResourceProviders(): Promise<
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.providerOperationsMetadataOperations.list()) {
+  for await (const item of client.providerOperationsMetadataOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

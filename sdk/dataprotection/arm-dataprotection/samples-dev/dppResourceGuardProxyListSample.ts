@@ -28,7 +28,7 @@ async function getResourceGuardProxies(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dppResourceGuardProxy.list(
+  for await (const item of client.dppResourceGuardProxy.list(
     resourceGroupName,
     vaultName,
   )) {

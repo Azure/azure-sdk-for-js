@@ -29,7 +29,7 @@ async function backupPoliciesList() {
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupPolicies.list(
+  for await (const item of client.backupPolicies.list(
     resourceGroupName,
     accountName,
   )) {

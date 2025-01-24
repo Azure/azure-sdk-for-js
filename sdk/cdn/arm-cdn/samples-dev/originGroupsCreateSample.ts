@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OriginGroup, CdnManagementClient } from "@azure/arm-cdn";
+import type { OriginGroup} from "@azure/arm-cdn";
+import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

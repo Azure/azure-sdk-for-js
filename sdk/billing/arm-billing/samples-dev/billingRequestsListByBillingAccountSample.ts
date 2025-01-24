@@ -24,7 +24,7 @@ async function billingRequestsListByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingRequests.listByBillingAccount(
+  for await (const item of client.billingRequests.listByBillingAccount(
     billingAccountName,
   )) {
     resArray.push(item);

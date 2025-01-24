@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SqlVirtualMachineGroup} from "@azure/arm-sqlvirtualmachine";
 import {
-  SqlVirtualMachineGroup,
   SqlVirtualMachineManagementClient
 } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";

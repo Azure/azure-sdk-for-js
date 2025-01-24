@@ -26,7 +26,7 @@ async function listResourceGroupPublicIPPrefixes() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.publicIPPrefixes.list(resourceGroupName)) {
+  for await (const item of client.publicIPPrefixes.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

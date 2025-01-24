@@ -25,7 +25,7 @@ async function dpsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotDpsResource.listBySubscription()) {
+  for await (const item of client.iotDpsResource.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

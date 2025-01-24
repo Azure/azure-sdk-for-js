@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   RemoteDebuggingPayload,
-  DeploymentsEnableRemoteDebuggingOptionalParams,
+  DeploymentsEnableRemoteDebuggingOptionalParams} from "@azure/arm-appplatform";
+import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";

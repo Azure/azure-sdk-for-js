@@ -25,7 +25,7 @@ async function listSecuritySubAssessments() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (let item of client.subAssessments.listAll(scope)) {
+  for await (const item of client.subAssessments.listAll(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

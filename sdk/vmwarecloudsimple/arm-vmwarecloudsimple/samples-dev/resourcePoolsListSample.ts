@@ -28,7 +28,7 @@ async function listResourcePools() {
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourcePools.list(regionId, pcName)) {
+  for await (const item of client.resourcePools.list(regionId, pcName)) {
     resArray.push(item);
   }
   console.log(resArray);

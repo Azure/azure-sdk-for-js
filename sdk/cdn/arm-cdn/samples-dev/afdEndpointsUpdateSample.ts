@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AFDEndpointUpdateParameters} from "@azure/arm-cdn";
 import {
-  AFDEndpointUpdateParameters,
   CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { APIKeys, AzureQuantumManagementClient } from "@azure/arm-quantum";
+import type { APIKeys} from "@azure/arm-quantum";
+import { AzureQuantumManagementClient } from "@azure/arm-quantum";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

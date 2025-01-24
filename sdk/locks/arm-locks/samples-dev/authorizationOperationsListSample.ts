@@ -22,7 +22,7 @@ async function listProviderOperations() {
   const credential = new DefaultAzureCredential();
   const client = new ManagementLockClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.authorizationOperations.list()) {
+  for await (const item of client.authorizationOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
