@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list Connector resources by subscription ID
  * x-ms-original-file: 2024-05-01-preview/Connectors_ListBySubscription.json
  */
-async function connectorsListBySubscription() {
+async function connectorsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "74f5e23f-d4d9-410a-bb4d-8f0608adb10d";
   const client = new ImpactClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function connectorsListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   connectorsListBySubscription();
 }
 

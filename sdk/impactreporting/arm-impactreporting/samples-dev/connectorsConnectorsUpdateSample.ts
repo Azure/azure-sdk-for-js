@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a Connector
  * x-ms-original-file: 2024-05-01-preview/Connectors_Update.json
  */
-async function connectorsUpdate() {
+async function connectorsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "74f5e23f-d4d9-410a-bb4d-8f0608adb10d";
   const client = new ImpactClient(credential, subscriptionId);
@@ -20,7 +20,7 @@ async function connectorsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   connectorsUpdate();
 }
 
