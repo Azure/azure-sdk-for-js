@@ -27,7 +27,7 @@ async function getInformationAboutAManagedDisk(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getInformationAboutAManagedDisk()
+  await getInformationAboutAManagedDisk();
 }
 
 main().catch(console.error);

@@ -66,7 +66,7 @@ async function updateAVMByDetachingDataDisk(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await updateAVMByDetachingDataDisk()
+  await updateAVMByDetachingDataDisk();
 }
 
 main().catch(console.error);
