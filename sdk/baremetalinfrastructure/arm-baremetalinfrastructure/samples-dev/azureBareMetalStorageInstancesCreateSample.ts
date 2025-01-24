@@ -57,7 +57,7 @@ async function putANewAzureBareMetalStorageInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putANewAzureBareMetalStorageInstance();
+  await putANewAzureBareMetalStorageInstance();
 }
 
 main().catch(console.error);

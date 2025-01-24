@@ -40,7 +40,7 @@ async function deleteEncryptionScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteEncryptionScope();
+  await deleteEncryptionScope();
 }
 
 main().catch(console.error);

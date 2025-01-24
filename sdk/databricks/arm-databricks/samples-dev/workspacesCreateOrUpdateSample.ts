@@ -253,13 +253,13 @@ async function updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisk
 }
 
 async function main(): Promise<void> {
-  createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption();
-  createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
-  createOrUpdateWorkspace();
-  createOrUpdateWorkspaceWithCustomParameters();
-  enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedForEncryption();
-  revertCustomerManagedKeyCmkEncryptionToMicrosoftManagedKeysEncryptionOnAWorkspace();
-  updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
+  await createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption();
+  await createAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
+  await createOrUpdateWorkspace();
+  await createOrUpdateWorkspaceWithCustomParameters();
+  await enableCustomerManagedKeyCmkEncryptionOnAWorkspaceWhichIsPreparedForEncryption();
+  await revertCustomerManagedKeyCmkEncryptionToMicrosoftManagedKeysEncryptionOnAWorkspace();
+  await updateAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
 }
 
 main().catch(console.error);

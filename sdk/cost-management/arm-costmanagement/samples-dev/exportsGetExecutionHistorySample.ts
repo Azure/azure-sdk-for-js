@@ -106,12 +106,12 @@ async function exportRunHistoryGetBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportRunHistoryGetByBillingAccount();
-  exportRunHistoryGetByDepartment();
-  exportRunHistoryGetByEnrollmentAccount();
-  exportRunHistoryGetByManagementGroup();
-  exportRunHistoryGetByResourceGroup();
-  exportRunHistoryGetBySubscription();
+  await exportRunHistoryGetByBillingAccount();
+  await exportRunHistoryGetByDepartment();
+  await exportRunHistoryGetByEnrollmentAccount();
+  await exportRunHistoryGetByManagementGroup();
+  await exportRunHistoryGetByResourceGroup();
+  await exportRunHistoryGetBySubscription();
 }
 
 main().catch(console.error);

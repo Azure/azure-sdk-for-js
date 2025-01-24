@@ -30,7 +30,7 @@ async function scopingConfigurationList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scopingConfigurationList();
+  await scopingConfigurationList();
 }
 
 main().catch(console.error);

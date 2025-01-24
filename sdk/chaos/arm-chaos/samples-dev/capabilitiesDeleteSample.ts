@@ -42,7 +42,7 @@ async function deleteACapabilityThatExtendsAVirtualMachineTargetResource(): Prom
 }
 
 async function main(): Promise<void> {
-  deleteACapabilityThatExtendsAVirtualMachineTargetResource();
+  await deleteACapabilityThatExtendsAVirtualMachineTargetResource();
 }
 
 main().catch(console.error);

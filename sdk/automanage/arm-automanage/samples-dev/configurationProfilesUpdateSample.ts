@@ -54,7 +54,7 @@ async function updateConfigurationProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateConfigurationProfile();
+  await updateConfigurationProfile();
 }
 
 main().catch(console.error);

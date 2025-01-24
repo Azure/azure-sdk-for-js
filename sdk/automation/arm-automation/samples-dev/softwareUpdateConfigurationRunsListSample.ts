@@ -63,8 +63,8 @@ async function listSoftwareUpdateConfigurationMachineRuns(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSoftwareUpdateConfigurationMachineRunWithStatusEqualToFailed();
-  listSoftwareUpdateConfigurationMachineRuns();
+  await listSoftwareUpdateConfigurationMachineRunWithStatusEqualToFailed();
+  await listSoftwareUpdateConfigurationMachineRuns();
 }
 
 main().catch(console.error);

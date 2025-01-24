@@ -37,7 +37,7 @@ async function partnerTransfersList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  partnerTransfersList();
+  await partnerTransfersList();
 }
 
 main().catch(console.error);

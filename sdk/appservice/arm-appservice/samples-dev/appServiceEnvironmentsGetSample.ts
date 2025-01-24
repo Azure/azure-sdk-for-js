@@ -35,7 +35,7 @@ async function getThePropertiesOfAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getThePropertiesOfAnAppServiceEnvironment();
+  await getThePropertiesOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

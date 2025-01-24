@@ -44,7 +44,7 @@ async function cosmosDbSqlContainerRetrieveThroughputDistribution(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlContainerRetrieveThroughputDistribution();
+  await cosmosDbSqlContainerRetrieveThroughputDistribution();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function listSchemaRegistriesResourceGroup() {
 }
 
 async function main() {
-  listSchemaRegistriesResourceGroup();
+  await listSchemaRegistriesResourceGroup();
 }
 
 main().catch(console.error);

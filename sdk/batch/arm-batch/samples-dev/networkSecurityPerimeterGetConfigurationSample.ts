@@ -37,7 +37,7 @@ async function getNspConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getNspConfiguration();
+  await getNspConfiguration();
 }
 
 main().catch(console.error);

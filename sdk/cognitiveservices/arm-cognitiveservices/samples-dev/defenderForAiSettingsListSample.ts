@@ -41,7 +41,7 @@ async function listDefenderForAiSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDefenderForAiSetting();
+  await listDefenderForAiSetting();
 }
 
 main().catch(console.error);

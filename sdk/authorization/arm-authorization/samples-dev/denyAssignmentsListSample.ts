@@ -31,7 +31,7 @@ async function listDenyAssignmentsForSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDenyAssignmentsForSubscription();
+  await listDenyAssignmentsForSubscription();
 }
 
 main().catch(console.error);

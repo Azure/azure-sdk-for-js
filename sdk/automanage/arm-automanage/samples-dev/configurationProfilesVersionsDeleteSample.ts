@@ -34,7 +34,7 @@ async function deleteAConfigurationProfileVersion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAConfigurationProfileVersion();
+  await deleteAConfigurationProfileVersion();
 }
 
 main().catch(console.error);

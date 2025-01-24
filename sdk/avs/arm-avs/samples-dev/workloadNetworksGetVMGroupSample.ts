@@ -36,7 +36,7 @@ async function workloadNetworksGetVMGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksGetVMGroup();
+  await workloadNetworksGetVMGroup();
 }
 
 main().catch(console.error);

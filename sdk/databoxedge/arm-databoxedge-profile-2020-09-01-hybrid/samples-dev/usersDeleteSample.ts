@@ -37,7 +37,7 @@ async function userDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  userDelete();
+  await userDelete();
 }
 
 main().catch(console.error);

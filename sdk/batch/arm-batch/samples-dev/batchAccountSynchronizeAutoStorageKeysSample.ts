@@ -33,7 +33,7 @@ async function batchAccountSynchronizeAutoStorageKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountSynchronizeAutoStorageKeys();
+  await batchAccountSynchronizeAutoStorageKeys();
 }
 
 main().catch(console.error);

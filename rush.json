@@ -461,11 +461,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-job-router",
-      "projectFolder": "sdk/communication/communication-job-router",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/communication-job-router",
       "projectFolder": "sdk/communication/communication-job-router-rest",
       "versionPolicyName": "client"

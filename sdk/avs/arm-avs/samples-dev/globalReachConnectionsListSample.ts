@@ -37,7 +37,7 @@ async function globalReachConnectionsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  globalReachConnectionsList();
+  await globalReachConnectionsList();
 }
 
 main().catch(console.error);

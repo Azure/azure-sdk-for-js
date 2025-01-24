@@ -35,7 +35,7 @@ async function cosmosDbNotebookWorkspaceRegenerateAuthToken(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbNotebookWorkspaceRegenerateAuthToken();
+  await cosmosDbNotebookWorkspaceRegenerateAuthToken();
 }
 
 main().catch(console.error);

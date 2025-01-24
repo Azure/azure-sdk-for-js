@@ -63,7 +63,7 @@ async function buildersCreateOrUpdate0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildersCreateOrUpdate0();
+  await buildersCreateOrUpdate0();
 }
 
 main().catch(console.error);

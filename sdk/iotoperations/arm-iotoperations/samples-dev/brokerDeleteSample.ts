@@ -18,7 +18,7 @@ async function brokerDelete() {
 }
 
 async function main() {
-  brokerDelete();
+  await brokerDelete();
 }
 
 main().catch(console.error);

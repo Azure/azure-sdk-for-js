@@ -34,7 +34,7 @@ async function deleteAExperimentInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAExperimentInAResourceGroup();
+  await deleteAExperimentInAResourceGroup();
 }
 
 main().catch(console.error);

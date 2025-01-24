@@ -23,7 +23,7 @@ async function listEligibleSKUsForANewCapacity() {
 }
 
 async function main() {
-  listEligibleSKUsForANewCapacity();
+  await listEligibleSKUsForANewCapacity();
 }
 
 main().catch(console.error);

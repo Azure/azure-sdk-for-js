@@ -44,7 +44,7 @@ async function sapDatabaseInstancesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapDatabaseInstancesUpdate();
+  await sapDatabaseInstancesUpdate();
 }
 
 main().catch(console.error);

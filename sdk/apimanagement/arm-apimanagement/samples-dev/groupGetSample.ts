@@ -36,7 +36,7 @@ async function apiManagementGetGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetGroup();
+  await apiManagementGetGroup();
 }
 
 main().catch(console.error);

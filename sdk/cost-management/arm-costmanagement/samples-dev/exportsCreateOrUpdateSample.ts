@@ -340,12 +340,12 @@ async function exportCreateOrUpdateBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportCreateOrUpdateByBillingAccount();
-  exportCreateOrUpdateByDepartment();
-  exportCreateOrUpdateByEnrollmentAccount();
-  exportCreateOrUpdateByManagementGroup();
-  exportCreateOrUpdateByResourceGroup();
-  exportCreateOrUpdateBySubscription();
+  await exportCreateOrUpdateByBillingAccount();
+  await exportCreateOrUpdateByDepartment();
+  await exportCreateOrUpdateByEnrollmentAccount();
+  await exportCreateOrUpdateByManagementGroup();
+  await exportCreateOrUpdateByResourceGroup();
+  await exportCreateOrUpdateBySubscription();
 }
 
 main().catch(console.error);

@@ -201,9 +201,9 @@ async function cosmosDbRestoreDatabaseAccountCreateUpdateJson(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountCreateMax();
-  cosmosDbDatabaseAccountCreateMin();
-  cosmosDbRestoreDatabaseAccountCreateUpdateJson();
+  await cosmosDbDatabaseAccountCreateMax();
+  await cosmosDbDatabaseAccountCreateMin();
+  await cosmosDbRestoreDatabaseAccountCreateUpdateJson();
 }
 
 main().catch(console.error);

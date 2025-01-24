@@ -20,23 +20,19 @@ import "dotenv/config";
  */
 async function cachedImages(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const location = "westcentralus";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.location.listCachedImages(location)) {
+  for await (const item of client.location.listCachedImages(location)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  cachedImages();
+  await cachedImages();
 }
 
 main().catch(console.error);

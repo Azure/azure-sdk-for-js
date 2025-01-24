@@ -35,7 +35,7 @@ async function listEnvironmentsStoragesBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listEnvironmentsStoragesBySubscription();
+  await listEnvironmentsStoragesBySubscription();
 }
 
 main().catch(console.error);

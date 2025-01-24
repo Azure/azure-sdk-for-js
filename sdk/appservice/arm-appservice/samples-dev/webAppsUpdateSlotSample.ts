@@ -45,7 +45,7 @@ async function updateWebAppSlot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateWebAppSlot();
+  await updateWebAppSlot();
 }
 
 main().catch(console.error);

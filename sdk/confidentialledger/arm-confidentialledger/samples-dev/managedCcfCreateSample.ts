@@ -54,7 +54,7 @@ async function managedCcfCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedCcfCreate();
+  await managedCcfCreate();
 }
 
 main().catch(console.error);

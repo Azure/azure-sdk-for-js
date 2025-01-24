@@ -34,7 +34,7 @@ async function getADscConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getADscConfiguration();
+  await getADscConfiguration();
 }
 
 main().catch(console.error);

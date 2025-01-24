@@ -32,7 +32,7 @@ async function listAllAzureBareMetalStorageInstancesInASubscription(): Promise<v
 }
 
 async function main(): Promise<void> {
-  listAllAzureBareMetalStorageInstancesInASubscription();
+  await listAllAzureBareMetalStorageInstancesInASubscription();
 }
 
 main().catch(console.error);

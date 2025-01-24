@@ -31,7 +31,7 @@ async function deleteBot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteBot();
+  await deleteBot();
 }
 
 main().catch(console.error);

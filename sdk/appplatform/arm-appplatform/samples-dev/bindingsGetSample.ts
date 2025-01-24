@@ -39,7 +39,7 @@ async function bindingsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bindingsGet();
+  await bindingsGet();
 }
 
 main().catch(console.error);

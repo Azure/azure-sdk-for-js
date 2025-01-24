@@ -47,7 +47,7 @@ async function cosmosDbRestorableMongodbResourceList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbRestorableMongodbResourceList();
+  await cosmosDbRestorableMongodbResourceList();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function apiManagementDeleteContentTypeContentItem(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteContentTypeContentItem();
+  await apiManagementDeleteContentTypeContentItem();
 }
 
 main().catch(console.error);

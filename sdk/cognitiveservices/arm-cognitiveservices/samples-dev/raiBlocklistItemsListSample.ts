@@ -43,7 +43,7 @@ async function listBlocklistItems(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listBlocklistItems();
+  await listBlocklistItems();
 }
 
 main().catch(console.error);

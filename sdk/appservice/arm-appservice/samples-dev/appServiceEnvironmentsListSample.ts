@@ -32,7 +32,7 @@ async function getAllAppServiceEnvironmentsForASubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAllAppServiceEnvironmentsForASubscription();
+  await getAllAppServiceEnvironmentsForASubscription();
 }
 
 main().catch(console.error);

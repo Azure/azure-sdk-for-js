@@ -40,7 +40,7 @@ async function associatedTenantsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  associatedTenantsCreateOrUpdate();
+  await associatedTenantsCreateOrUpdate();
 }
 
 main().catch(console.error);

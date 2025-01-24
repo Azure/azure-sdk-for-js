@@ -47,7 +47,7 @@ async function apiManagementCreateSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateSubscription();
+  await apiManagementCreateSubscription();
 }
 
 main().catch(console.error);

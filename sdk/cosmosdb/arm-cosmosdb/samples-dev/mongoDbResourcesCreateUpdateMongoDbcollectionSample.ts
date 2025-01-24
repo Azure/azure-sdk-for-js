@@ -100,8 +100,8 @@ async function cosmosDbMongoDbcollectionRestore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbcollectionCreateUpdate();
-  cosmosDbMongoDbcollectionRestore();
+  await cosmosDbMongoDbcollectionCreateUpdate();
+  await cosmosDbMongoDbcollectionRestore();
 }
 
 main().catch(console.error);

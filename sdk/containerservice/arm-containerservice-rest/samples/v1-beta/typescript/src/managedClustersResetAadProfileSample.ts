@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Reset the AAD Profile of a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersResetAADProfile.json
  */
-async function resetAadProfile() {
+async function resetAadProfile(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";

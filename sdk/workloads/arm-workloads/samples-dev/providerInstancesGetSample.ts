@@ -157,12 +157,12 @@ async function getPropertiesOfASapMonitorNetWeaverProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getPropertiesOfADb2Provider();
-  getPropertiesOfAMSSqlServerProvider();
-  getPropertiesOfAOSProvider();
-  getPropertiesOfAPrometheusHaClusterProvider();
-  getPropertiesOfASapMonitorHanaProvider();
-  getPropertiesOfASapMonitorNetWeaverProvider();
+  await getPropertiesOfADb2Provider();
+  await getPropertiesOfAMSSqlServerProvider();
+  await getPropertiesOfAOSProvider();
+  await getPropertiesOfAPrometheusHaClusterProvider();
+  await getPropertiesOfASapMonitorHanaProvider();
+  await getPropertiesOfASapMonitorNetWeaverProvider();
 }
 
 main().catch(console.error);

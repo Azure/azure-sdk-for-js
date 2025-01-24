@@ -61,7 +61,7 @@ async function buildpackBindingCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildpackBindingCreateOrUpdate();
+  await buildpackBindingCreateOrUpdate();
 }
 
 main().catch(console.error);

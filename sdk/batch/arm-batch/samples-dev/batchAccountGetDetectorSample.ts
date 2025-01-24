@@ -35,7 +35,7 @@ async function getDetector(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDetector();
+  await getDetector();
 }
 
 main().catch(console.error);

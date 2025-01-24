@@ -65,7 +65,7 @@ async function customizedAcceleratorsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customizedAcceleratorsCreateOrUpdate();
+  await customizedAcceleratorsCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function getAllStaticSitesInASubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAllStaticSitesInASubscription();
+  await getAllStaticSitesInASubscription();
 }
 
 main().catch(console.error);

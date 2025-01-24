@@ -49,7 +49,7 @@ async function customDomainsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customDomainsCreateOrUpdate();
+  await customDomainsCreateOrUpdate();
 }
 
 main().catch(console.error);

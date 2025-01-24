@@ -31,7 +31,7 @@ async function deleteAccessReview(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAccessReview();
+  await deleteAccessReview();
 }
 
 main().catch(console.error);

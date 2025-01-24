@@ -37,7 +37,7 @@ async function shareRefreshPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  shareRefreshPost();
+  await shareRefreshPost();
 }
 
 main().catch(console.error);

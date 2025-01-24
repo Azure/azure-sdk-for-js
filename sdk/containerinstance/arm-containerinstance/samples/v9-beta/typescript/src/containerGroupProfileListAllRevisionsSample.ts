@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get a list of all the revisions of the specified container group profile in the given subscription and resource group. This operation returns properties of each revision of the specified container group profile including containers, image registry credentials, restart policy, IP address type, OS type volumes, revision number, etc.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupProfileListAllRevisions.json
  */
-async function containerGroupProfileListAllRevisions() {
+async function containerGroupProfileListAllRevisions(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,8 +40,8 @@ async function containerGroupProfileListAllRevisions() {
   console.log(resArray);
 }
 
-async function main() {
-  containerGroupProfileListAllRevisions();
+async function main(): Promise<void> {
+  await containerGroupProfileListAllRevisions();
 }
 
 main().catch(console.error);

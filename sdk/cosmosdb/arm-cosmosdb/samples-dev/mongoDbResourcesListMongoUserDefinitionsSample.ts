@@ -37,7 +37,7 @@ async function cosmosDbMongoDbuserDefinitionList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbuserDefinitionList();
+  await cosmosDbMongoDbuserDefinitionList();
 }
 
 main().catch(console.error);

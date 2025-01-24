@@ -52,7 +52,7 @@ async function updateConnectionSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateConnectionSetting();
+  await updateConnectionSetting();
 }
 
 main().catch(console.error);

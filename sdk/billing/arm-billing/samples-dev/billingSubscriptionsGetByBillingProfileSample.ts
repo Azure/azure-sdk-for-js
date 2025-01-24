@@ -33,7 +33,7 @@ async function billingSubscriptionGetByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingSubscriptionGetByBillingProfile();
+  await billingSubscriptionGetByBillingProfile();
 }
 
 main().catch(console.error);

@@ -19,7 +19,7 @@ async function getATrustedSigningAccount() {
 }
 
 async function main() {
-  getATrustedSigningAccount();
+  await getATrustedSigningAccount();
 }
 
 main().catch(console.error);

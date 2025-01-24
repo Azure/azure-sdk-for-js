@@ -37,7 +37,7 @@ async function checkLocalNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkLocalNameAvailability();
+  await checkLocalNameAvailability();
 }
 
 main().catch(console.error);

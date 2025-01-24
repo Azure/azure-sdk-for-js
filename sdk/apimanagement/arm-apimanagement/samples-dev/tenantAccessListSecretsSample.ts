@@ -36,7 +36,7 @@ async function apiManagementListSecretsTenantAccess(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListSecretsTenantAccess();
+  await apiManagementListSecretsTenantAccess();
 }
 
 main().catch(console.error);

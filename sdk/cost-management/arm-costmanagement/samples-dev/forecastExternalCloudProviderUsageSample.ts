@@ -136,8 +136,8 @@ async function externalSubscriptionForecast(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  externalBillingAccountForecast();
-  externalSubscriptionForecast();
+  await externalBillingAccountForecast();
+  await externalSubscriptionForecast();
 }
 
 main().catch(console.error);

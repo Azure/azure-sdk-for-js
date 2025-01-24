@@ -51,7 +51,7 @@ async function createConnectionSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createConnectionSetting();
+  await createConnectionSetting();
 }
 
 main().catch(console.error);

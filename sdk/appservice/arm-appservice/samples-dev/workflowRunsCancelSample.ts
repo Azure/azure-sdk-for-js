@@ -39,7 +39,7 @@ async function cancelAWorkflowRun(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cancelAWorkflowRun();
+  await cancelAWorkflowRun();
 }
 
 main().catch(console.error);

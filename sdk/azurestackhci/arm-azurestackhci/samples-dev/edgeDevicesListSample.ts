@@ -31,7 +31,7 @@ async function listEdgeDevices(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listEdgeDevices();
+  await listEdgeDevices();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function authorizationsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  authorizationsDelete();
+  await authorizationsDelete();
 }
 
 main().catch(console.error);

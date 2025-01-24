@@ -38,7 +38,7 @@ async function listAllVNetPeeringsForTheWorkspace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllVNetPeeringsForTheWorkspace();
+  await listAllVNetPeeringsForTheWorkspace();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function cosmosDbCassandraTableThroughputUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraTableThroughputUpdate();
+  await cosmosDbCassandraTableThroughputUpdate();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listArcSettingResourcesByHciCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listArcSettingResourcesByHciCluster();
+  await listArcSettingResourcesByHciCluster();
 }
 
 main().catch(console.error);

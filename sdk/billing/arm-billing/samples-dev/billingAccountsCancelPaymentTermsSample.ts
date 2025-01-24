@@ -32,7 +32,7 @@ async function paymentTermsCancel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  paymentTermsCancel();
+  await paymentTermsCancel();
 }
 
 main().catch(console.error);

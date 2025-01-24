@@ -29,7 +29,7 @@ async function listProviderOperationsMetadataForResourceProvider(): Promise<void
 }
 
 async function main(): Promise<void> {
-  listProviderOperationsMetadataForResourceProvider();
+  await listProviderOperationsMetadataForResourceProvider();
 }
 
 main().catch(console.error);

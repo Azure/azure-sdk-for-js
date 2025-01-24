@@ -35,7 +35,7 @@ async function grafanaDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  grafanaDelete();
+  await grafanaDelete();
 }
 
 main().catch(console.error);

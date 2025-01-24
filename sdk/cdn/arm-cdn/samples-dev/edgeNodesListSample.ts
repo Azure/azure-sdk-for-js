@@ -29,7 +29,7 @@ async function edgeNodesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  edgeNodesList();
+  await edgeNodesList();
 }
 
 main().catch(console.error);

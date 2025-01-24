@@ -33,7 +33,7 @@ async function batchAccountGetKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountGetKeys();
+  await batchAccountGetKeys();
 }
 
 main().catch(console.error);

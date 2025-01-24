@@ -35,7 +35,7 @@ async function serverList() {
 }
 
 async function main() {
-  serverList();
+  await serverList();
 }
 
 main().catch(console.error);

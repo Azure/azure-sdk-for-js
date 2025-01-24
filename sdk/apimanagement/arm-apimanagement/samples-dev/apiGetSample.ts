@@ -51,8 +51,8 @@ async function apiManagementGetApiRevisionContract(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetApiContract();
-  apiManagementGetApiRevisionContract();
+  await apiManagementGetApiContract();
+  await apiManagementGetApiRevisionContract();
 }
 
 main().catch(console.error);

@@ -52,7 +52,7 @@ async function putConfigurations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putConfigurations();
+  await putConfigurations();
 }
 
 main().catch(console.error);

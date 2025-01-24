@@ -48,7 +48,7 @@ async function storagesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storagesCreateOrUpdate();
+  await storagesCreateOrUpdate();
 }
 
 main().catch(console.error);

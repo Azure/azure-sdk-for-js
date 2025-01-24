@@ -38,7 +38,7 @@ async function networkSecurityPerimeterConfigurationList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkSecurityPerimeterConfigurationList();
+  await networkSecurityPerimeterConfigurationList();
 }
 
 main().catch(console.error);

@@ -62,7 +62,7 @@ async function rulesCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rulesCreate();
+  await rulesCreate();
 }
 
 main().catch(console.error);

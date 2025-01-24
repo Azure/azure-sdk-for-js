@@ -18,7 +18,7 @@ async function deleteACapacity() {
 }
 
 async function main() {
-  deleteACapacity();
+  await deleteACapacity();
 }
 
 main().catch(console.error);

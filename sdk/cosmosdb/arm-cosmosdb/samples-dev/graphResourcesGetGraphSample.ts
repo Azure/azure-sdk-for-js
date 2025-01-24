@@ -34,7 +34,7 @@ async function cosmosDbSqlDatabaseGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabaseGet();
+  await cosmosDbSqlDatabaseGet();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function sapDatabaseInstancesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapDatabaseInstancesList();
+  await sapDatabaseInstancesList();
 }
 
 main().catch(console.error);

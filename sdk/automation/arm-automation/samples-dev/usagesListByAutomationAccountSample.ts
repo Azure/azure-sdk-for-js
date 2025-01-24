@@ -35,7 +35,7 @@ async function getUsagesOfAnAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getUsagesOfAnAutomationAccount();
+  await getUsagesOfAnAutomationAccount();
 }
 
 main().catch(console.error);

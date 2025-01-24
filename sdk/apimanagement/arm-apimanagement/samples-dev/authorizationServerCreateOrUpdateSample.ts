@@ -58,7 +58,7 @@ async function apiManagementCreateAuthorizationServer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateAuthorizationServer();
+  await apiManagementCreateAuthorizationServer();
 }
 
 main().catch(console.error);

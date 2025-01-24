@@ -39,7 +39,7 @@ async function predefinedAcceleratorsEnable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  predefinedAcceleratorsEnable();
+  await predefinedAcceleratorsEnable();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function cosmosDbDatabaseAccountFailoverPriorityChange(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountFailoverPriorityChange();
+  await cosmosDbDatabaseAccountFailoverPriorityChange();
 }
 
 main().catch(console.error);

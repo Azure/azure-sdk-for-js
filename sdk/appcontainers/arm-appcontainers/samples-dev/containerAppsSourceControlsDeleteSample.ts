@@ -49,7 +49,7 @@ async function deleteContainerAppSourceControl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteContainerAppSourceControl();
+  await deleteContainerAppSourceControl();
 }
 
 main().catch(console.error);

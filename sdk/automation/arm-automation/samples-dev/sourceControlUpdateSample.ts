@@ -49,7 +49,7 @@ async function updateASourceControl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateASourceControl();
+  await updateASourceControl();
 }
 
 main().catch(console.error);

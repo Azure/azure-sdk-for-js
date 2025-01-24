@@ -45,7 +45,7 @@ async function cosmosDbThroughputPoolAccountCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbThroughputPoolAccountCreate();
+  await cosmosDbThroughputPoolAccountCreate();
 }
 
 main().catch(console.error);

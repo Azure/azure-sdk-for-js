@@ -28,7 +28,7 @@ async function getGenerateStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getGenerateStatus();
+  await getGenerateStatus();
 }
 
 main().catch(console.error);

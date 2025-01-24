@@ -37,7 +37,7 @@ async function afdOriginGroupsListResourceUsage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdOriginGroupsListResourceUsage();
+  await afdOriginGroupsListResourceUsage();
 }
 
 main().catch(console.error);

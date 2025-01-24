@@ -44,7 +44,7 @@ async function cosmosDbRegionCollectionGetMetrics(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbRegionCollectionGetMetrics();
+  await cosmosDbRegionCollectionGetMetrics();
 }
 
 main().catch(console.error);

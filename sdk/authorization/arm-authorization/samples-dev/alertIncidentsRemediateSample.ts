@@ -33,7 +33,7 @@ async function remediateAlertIncident(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  remediateAlertIncident();
+  await remediateAlertIncident();
 }
 
 main().catch(console.error);

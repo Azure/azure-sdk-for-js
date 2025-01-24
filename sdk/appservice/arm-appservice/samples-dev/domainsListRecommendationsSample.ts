@@ -39,7 +39,7 @@ async function listDomainRecommendations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDomainRecommendations();
+  await listDomainRecommendations();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function apiManagementTenantConfigurationValidate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementTenantConfigurationValidate();
+  await apiManagementTenantConfigurationValidate();
 }
 
 main().catch(console.error);

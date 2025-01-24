@@ -39,7 +39,7 @@ async function getAzureKeyVaultSlotAppSettingReference(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAzureKeyVaultSlotAppSettingReference();
+  await getAzureKeyVaultSlotAppSettingReference();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function updateAppServiceDomainOwnershipIdentifier(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAppServiceDomainOwnershipIdentifier();
+  await updateAppServiceDomainOwnershipIdentifier();
 }
 
 main().catch(console.error);

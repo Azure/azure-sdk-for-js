@@ -36,7 +36,7 @@ async function apiManagementHeadBackend(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadBackend();
+  await apiManagementHeadBackend();
 }
 
 main().catch(console.error);

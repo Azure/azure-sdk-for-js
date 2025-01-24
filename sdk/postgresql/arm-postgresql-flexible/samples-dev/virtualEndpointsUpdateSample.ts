@@ -48,7 +48,7 @@ async function updateAVirtualEndpointForAServerToUpdateThe() {
 }
 
 async function main() {
-  updateAVirtualEndpointForAServerToUpdateThe();
+  await updateAVirtualEndpointForAServerToUpdateThe();
 }
 
 main().catch(console.error);

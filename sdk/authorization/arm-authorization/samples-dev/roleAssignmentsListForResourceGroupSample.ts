@@ -36,7 +36,7 @@ async function listRoleAssignmentsForResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRoleAssignmentsForResourceGroup();
+  await listRoleAssignmentsForResourceGroup();
 }
 
 main().catch(console.error);

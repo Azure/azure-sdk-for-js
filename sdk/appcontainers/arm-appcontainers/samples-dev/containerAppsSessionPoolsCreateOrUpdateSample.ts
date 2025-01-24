@@ -64,7 +64,7 @@ async function createOrUpdateSessionPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateSessionPool();
+  await createOrUpdateSessionPool();
 }
 
 main().catch(console.error);

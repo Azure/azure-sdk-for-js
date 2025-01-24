@@ -60,7 +60,7 @@ async function restoreWebAppFromBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  restoreWebAppFromBackup();
+  await restoreWebAppFromBackup();
 }
 
 main().catch(console.error);

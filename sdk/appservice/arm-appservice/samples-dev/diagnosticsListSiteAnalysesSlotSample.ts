@@ -71,8 +71,8 @@ async function listAppSlotAnalyses(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppAnalyses();
-  listAppSlotAnalyses();
+  await listAppAnalyses();
+  await listAppSlotAnalyses();
 }
 
 main().catch(console.error);

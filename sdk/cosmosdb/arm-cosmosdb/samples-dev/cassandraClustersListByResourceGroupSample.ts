@@ -36,7 +36,7 @@ async function cosmosDbManagedCassandraClusterListByResourceGroup(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraClusterListByResourceGroup();
+  await cosmosDbManagedCassandraClusterListByResourceGroup();
 }
 
 main().catch(console.error);

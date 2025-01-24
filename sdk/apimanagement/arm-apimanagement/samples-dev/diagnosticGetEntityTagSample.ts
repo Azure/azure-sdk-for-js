@@ -36,7 +36,7 @@ async function apiManagementHeadDiagnostic(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadDiagnostic();
+  await apiManagementHeadDiagnostic();
 }
 
 main().catch(console.error);

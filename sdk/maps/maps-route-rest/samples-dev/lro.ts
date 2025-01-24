@@ -68,7 +68,7 @@ async function main(): Promise<void> {
   const poller = await getLongRunningPoller(client, response);
   /** Wait until the total request is done */
   const finalResult = await poller.pollUntilDone();
-  logBatchResponse(finalResult as RouteGetRouteDirectionsBatch200Response);
+  await logBatchResponse(finalResult as RouteGetRouteDirectionsBatch200Response);
 }
 
 function logBatchResponse(result: RouteGetRouteDirectionsBatch200Response): void {

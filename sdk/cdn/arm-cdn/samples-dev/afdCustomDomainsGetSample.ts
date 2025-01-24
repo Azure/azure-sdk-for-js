@@ -34,7 +34,7 @@ async function afdCustomDomainsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdCustomDomainsGet();
+  await afdCustomDomainsGet();
 }
 
 main().catch(console.error);

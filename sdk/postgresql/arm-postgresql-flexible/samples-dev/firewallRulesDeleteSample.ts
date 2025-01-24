@@ -40,7 +40,7 @@ async function firewallRuleDelete() {
 }
 
 async function main() {
-  firewallRuleDelete();
+  await firewallRuleDelete();
 }
 
 main().catch(console.error);

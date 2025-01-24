@@ -68,8 +68,8 @@ async function startTheVirtualMachineSAndTheSapCentralServicesInstanceOnIt(): Pr
 }
 
 async function main(): Promise<void> {
-  startTheSapCentralServicesInstance();
-  startTheVirtualMachineSAndTheSapCentralServicesInstanceOnIt();
+  await startTheSapCentralServicesInstance();
+  await startTheVirtualMachineSAndTheSapCentralServicesInstanceOnIt();
 }
 
 main().catch(console.error);

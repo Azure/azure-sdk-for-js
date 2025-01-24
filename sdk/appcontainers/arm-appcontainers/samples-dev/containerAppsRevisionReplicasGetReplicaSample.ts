@@ -39,7 +39,7 @@ async function getContainerAppRevisionReplica(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContainerAppRevisionReplica();
+  await getContainerAppRevisionReplica();
 }
 
 main().catch(console.error);

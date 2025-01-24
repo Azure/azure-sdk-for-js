@@ -32,7 +32,7 @@ async function availableBalanceGetByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  availableBalanceGetByBillingProfile();
+  await availableBalanceGetByBillingProfile();
 }
 
 main().catch(console.error);

@@ -56,7 +56,7 @@ async function securityPoliciesCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  securityPoliciesCreate();
+  await securityPoliciesCreate();
 }
 
 main().catch(console.error);

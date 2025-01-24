@@ -36,7 +36,7 @@ async function getASourceControlSyncJobByJobId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getASourceControlSyncJobByJobId();
+  await getASourceControlSyncJobByJobId();
 }
 
 main().catch(console.error);

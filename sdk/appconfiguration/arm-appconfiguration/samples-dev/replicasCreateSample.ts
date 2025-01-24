@@ -45,7 +45,7 @@ async function replicasCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  replicasCreate();
+  await replicasCreate();
 }
 
 main().catch(console.error);

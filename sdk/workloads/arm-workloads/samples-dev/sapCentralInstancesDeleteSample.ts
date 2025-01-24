@@ -37,7 +37,7 @@ async function sapCentralInstancesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapCentralInstancesDelete();
+  await sapCentralInstancesDelete();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function createOrUpdateASourceControlSyncJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateASourceControlSyncJob();
+  await createOrUpdateASourceControlSyncJob();
 }
 
 main().catch(console.error);

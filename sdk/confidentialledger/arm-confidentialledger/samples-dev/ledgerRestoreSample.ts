@@ -39,7 +39,7 @@ async function confidentialLedgerRestore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialLedgerRestore();
+  await confidentialLedgerRestore();
 }
 
 main().catch(console.error);

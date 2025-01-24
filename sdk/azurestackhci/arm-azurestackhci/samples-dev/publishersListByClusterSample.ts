@@ -38,7 +38,7 @@ async function listPublisherResourcesByHciCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPublisherResourcesByHciCluster();
+  await listPublisherResourcesByHciCluster();
 }
 
 main().catch(console.error);

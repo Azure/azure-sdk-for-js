@@ -38,7 +38,7 @@ async function getAllWorkerPoolsOfAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAllWorkerPoolsOfAnAppServiceEnvironment();
+  await getAllWorkerPoolsOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

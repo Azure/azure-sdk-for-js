@@ -37,7 +37,7 @@ async function metadataSchemasDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  metadataSchemasDelete();
+  await metadataSchemasDelete();
 }
 
 main().catch(console.error);

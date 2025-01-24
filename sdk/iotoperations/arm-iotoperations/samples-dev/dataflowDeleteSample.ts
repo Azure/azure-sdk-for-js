@@ -23,7 +23,7 @@ async function dataflowDelete() {
 }
 
 async function main() {
-  dataflowDelete();
+  await dataflowDelete();
 }
 
 main().catch(console.error);

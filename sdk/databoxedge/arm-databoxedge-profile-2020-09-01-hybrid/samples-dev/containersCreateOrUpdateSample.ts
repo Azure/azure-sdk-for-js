@@ -44,7 +44,7 @@ async function containerPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerPut();
+  await containerPut();
 }
 
 main().catch(console.error);

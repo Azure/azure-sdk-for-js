@@ -42,7 +42,7 @@ async function updateAppSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAppSettings();
+  await updateAppSettings();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function apiManagementBackendReconnect(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementBackendReconnect();
+  await apiManagementBackendReconnect();
 }
 
 main().catch(console.error);

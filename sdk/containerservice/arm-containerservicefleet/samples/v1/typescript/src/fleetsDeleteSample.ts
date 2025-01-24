@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Delete a Fleet
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/Fleets_Delete.json
  */
-async function deletesAFleetResourceAsynchronouslyWithALongRunningOperation() {
+async function deletesAFleetResourceAsynchronouslyWithALongRunningOperation(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function deletesAFleetResourceAsynchronouslyWithALongRunningOperation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletesAFleetResourceAsynchronouslyWithALongRunningOperation();
 }
 

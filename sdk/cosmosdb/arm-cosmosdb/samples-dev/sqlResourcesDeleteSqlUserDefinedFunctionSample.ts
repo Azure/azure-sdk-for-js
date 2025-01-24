@@ -39,7 +39,7 @@ async function cosmosDbSqlUserDefinedFunctionDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlUserDefinedFunctionDelete();
+  await cosmosDbSqlUserDefinedFunctionDelete();
 }
 
 main().catch(console.error);

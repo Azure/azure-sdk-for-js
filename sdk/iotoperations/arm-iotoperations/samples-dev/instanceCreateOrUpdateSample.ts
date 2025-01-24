@@ -34,7 +34,7 @@ async function instanceCreateOrUpdate() {
 }
 
 async function main() {
-  instanceCreateOrUpdate();
+  await instanceCreateOrUpdate();
 }
 
 main().catch(console.error);

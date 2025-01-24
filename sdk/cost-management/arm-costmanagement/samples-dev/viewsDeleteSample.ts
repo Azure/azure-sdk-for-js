@@ -27,7 +27,7 @@ async function deletePrivateView(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletePrivateView();
+  await deletePrivateView();
 }
 
 main().catch(console.error);

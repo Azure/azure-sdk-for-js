@@ -36,7 +36,7 @@ async function cosmosDbMongoDbcollectionThroughputGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbcollectionThroughputGet();
+  await cosmosDbMongoDbcollectionThroughputGet();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function createForSapLandscapeMonitorDashboard(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createForSapLandscapeMonitorDashboard();
+  await createForSapLandscapeMonitorDashboard();
 }
 
 main().catch(console.error);

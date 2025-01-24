@@ -40,7 +40,7 @@ async function customizedAcceleratorsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customizedAcceleratorsList();
+  await customizedAcceleratorsList();
 }
 
 main().catch(console.error);

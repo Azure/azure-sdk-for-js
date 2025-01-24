@@ -39,7 +39,7 @@ async function agreementsListByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  agreementsListByBillingAccount();
+  await agreementsListByBillingAccount();
 }
 
 main().catch(console.error);

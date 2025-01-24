@@ -50,7 +50,7 @@ async function createOrUpdateAModule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAModule();
+  await createOrUpdateAModule();
 }
 
 main().catch(console.error);

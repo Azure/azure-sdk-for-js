@@ -23,7 +23,7 @@ async function accountQuotasGet() {
 }
 
 async function main() {
-  accountQuotasGet();
+  await accountQuotasGet();
 }
 
 main().catch(console.error);

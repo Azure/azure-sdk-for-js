@@ -307,11 +307,11 @@ async function jobsCreateWithUserAssignedIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  jobsCreate();
-  jobsCreateDevicePassword();
-  jobsCreateDoubleEncryption();
-  jobsCreateExport();
-  jobsCreateWithUserAssignedIdentity();
+  await jobsCreate();
+  await jobsCreateDevicePassword();
+  await jobsCreateDoubleEncryption();
+  await jobsCreateExport();
+  await jobsCreateWithUserAssignedIdentity();
 }
 
 main().catch(console.error);

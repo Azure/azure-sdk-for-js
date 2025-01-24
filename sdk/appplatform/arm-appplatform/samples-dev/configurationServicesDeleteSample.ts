@@ -37,7 +37,7 @@ async function configurationServicesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationServicesDelete();
+  await configurationServicesDelete();
 }
 
 main().catch(console.error);

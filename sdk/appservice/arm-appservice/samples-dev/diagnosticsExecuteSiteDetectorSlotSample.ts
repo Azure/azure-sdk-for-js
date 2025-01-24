@@ -69,8 +69,8 @@ async function executeSiteSlotDetector(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  executeSiteDetector();
-  executeSiteSlotDetector();
+  await executeSiteDetector();
+  await executeSiteSlotDetector();
 }
 
 main().catch(console.error);

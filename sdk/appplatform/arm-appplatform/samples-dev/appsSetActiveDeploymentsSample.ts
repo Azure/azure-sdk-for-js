@@ -44,7 +44,7 @@ async function appsSetActiveDeployments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appsSetActiveDeployments();
+  await appsSetActiveDeployments();
 }
 
 main().catch(console.error);

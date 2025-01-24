@@ -40,7 +40,7 @@ async function apiManagementDeleteGraphQlApiResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteGraphQlApiResolver();
+  await apiManagementDeleteGraphQlApiResolver();
 }
 
 main().catch(console.error);

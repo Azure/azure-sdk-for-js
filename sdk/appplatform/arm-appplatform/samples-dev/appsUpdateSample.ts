@@ -139,8 +139,8 @@ async function appsUpdateVNetInjection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appsUpdate();
-  appsUpdateVNetInjection();
+  await appsUpdate();
+  await appsUpdateVNetInjection();
 }
 
 main().catch(console.error);

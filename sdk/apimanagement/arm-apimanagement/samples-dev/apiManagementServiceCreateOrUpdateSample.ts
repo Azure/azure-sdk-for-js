@@ -393,16 +393,16 @@ async function apiManagementUndelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateMultiRegionServiceWithCustomHostname();
-  apiManagementCreateService();
-  apiManagementCreateServiceHavingMsi();
-  apiManagementCreateServiceInVnetWithPublicIP();
-  apiManagementCreateServiceInZones();
-  apiManagementCreateServiceWithCustomHostnameKeyVault();
-  apiManagementCreateServiceWithNatGatewayEnabled();
-  apiManagementCreateServiceWithSystemCertificates();
-  apiManagementCreateServiceWithUserAssignedIdentity();
-  apiManagementUndelete();
+  await apiManagementCreateMultiRegionServiceWithCustomHostname();
+  await apiManagementCreateService();
+  await apiManagementCreateServiceHavingMsi();
+  await apiManagementCreateServiceInVnetWithPublicIP();
+  await apiManagementCreateServiceInZones();
+  await apiManagementCreateServiceWithCustomHostnameKeyVault();
+  await apiManagementCreateServiceWithNatGatewayEnabled();
+  await apiManagementCreateServiceWithSystemCertificates();
+  await apiManagementCreateServiceWithUserAssignedIdentity();
+  await apiManagementUndelete();
 }
 
 main().catch(console.error);

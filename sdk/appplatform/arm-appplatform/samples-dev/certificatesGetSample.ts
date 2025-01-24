@@ -37,7 +37,7 @@ async function certificatesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  certificatesGet();
+  await certificatesGet();
 }
 
 main().catch(console.error);

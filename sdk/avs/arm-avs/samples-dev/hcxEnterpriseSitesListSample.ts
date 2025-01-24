@@ -37,7 +37,7 @@ async function hcxEnterpriseSitesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hcxEnterpriseSitesList();
+  await hcxEnterpriseSitesList();
 }
 
 main().catch(console.error);

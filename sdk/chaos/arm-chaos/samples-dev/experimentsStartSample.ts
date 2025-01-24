@@ -34,7 +34,7 @@ async function startAExperiment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  startAExperiment();
+  await startAExperiment();
 }
 
 main().catch(console.error);

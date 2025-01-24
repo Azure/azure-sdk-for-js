@@ -40,7 +40,7 @@ async function privateEndpointConnectionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionsDelete();
+  await privateEndpointConnectionsDelete();
 }
 
 main().catch(console.error);

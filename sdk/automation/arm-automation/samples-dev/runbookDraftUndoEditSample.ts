@@ -34,7 +34,7 @@ async function undoDraftEditToLastKnownPublishedState(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  undoDraftEditToLastKnownPublishedState();
+  await undoDraftEditToLastKnownPublishedState();
 }
 
 main().catch(console.error);

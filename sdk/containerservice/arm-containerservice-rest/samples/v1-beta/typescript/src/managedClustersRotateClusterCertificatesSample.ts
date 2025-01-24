@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary See [Certificate rotation](https://learn.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersRotateClusterCertificates.json
  */
-async function rotateClusterCertificates() {
+async function rotateClusterCertificates(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";

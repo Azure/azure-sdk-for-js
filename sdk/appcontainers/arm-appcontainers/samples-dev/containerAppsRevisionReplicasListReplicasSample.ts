@@ -37,7 +37,7 @@ async function listContainerAppReplicas(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listContainerAppReplicas();
+  await listContainerAppReplicas();
 }
 
 main().catch(console.error);

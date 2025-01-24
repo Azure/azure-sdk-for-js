@@ -30,7 +30,7 @@ async function cosmosDbRestorableDatabaseAccountNoLocationList(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  cosmosDbRestorableDatabaseAccountNoLocationList();
+  await cosmosDbRestorableDatabaseAccountNoLocationList();
 }
 
 main().catch(console.error);

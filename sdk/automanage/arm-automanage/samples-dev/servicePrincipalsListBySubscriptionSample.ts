@@ -31,7 +31,7 @@ async function listServicePrincipalBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listServicePrincipalBySubscription();
+  await listServicePrincipalBySubscription();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function gatewaysDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewaysDelete();
+  await gatewaysDelete();
 }
 
 main().catch(console.error);

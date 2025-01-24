@@ -113,9 +113,9 @@ async function configurationStoresUpdateWithIdentity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationStoresUpdate();
-  configurationStoresUpdateDisableLocalAuth();
-  configurationStoresUpdateWithIdentity();
+  await configurationStoresUpdate();
+  await configurationStoresUpdateDisableLocalAuth();
+  await configurationStoresUpdateWithIdentity();
 }
 
 main().catch(console.error);

@@ -184,8 +184,8 @@ async function appsCreateOrUpdateVNetInjection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  appsCreateOrUpdate();
-  appsCreateOrUpdateVNetInjection();
+  await appsCreateOrUpdate();
+  await appsCreateOrUpdateVNetInjection();
 }
 
 main().catch(console.error);

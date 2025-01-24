@@ -37,7 +37,7 @@ async function buildServiceGetResourceUploadUrl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceGetResourceUploadUrl();
+  await buildServiceGetResourceUploadUrl();
 }
 
 main().catch(console.error);

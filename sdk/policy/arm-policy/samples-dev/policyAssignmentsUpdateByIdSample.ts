@@ -38,7 +38,7 @@ async function updatePolicyAssignmentWithAManagedIdentityById() {
 }
 
 async function main() {
-  updatePolicyAssignmentWithAManagedIdentityById();
+  await updatePolicyAssignmentWithAManagedIdentityById();
 }
 
 main().catch(console.error);

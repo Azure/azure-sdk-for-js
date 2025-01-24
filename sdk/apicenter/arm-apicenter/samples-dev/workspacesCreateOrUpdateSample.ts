@@ -39,7 +39,7 @@ async function workspacesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workspacesCreateOrUpdate();
+  await workspacesCreateOrUpdate();
 }
 
 main().catch(console.error);

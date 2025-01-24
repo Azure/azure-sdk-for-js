@@ -51,7 +51,7 @@ async function rulesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rulesUpdate();
+  await rulesUpdate();
 }
 
 main().catch(console.error);

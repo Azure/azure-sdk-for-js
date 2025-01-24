@@ -89,7 +89,7 @@ async function apiManagementCreateContentType(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateContentType();
+  await apiManagementCreateContentType();
 }
 
 main().catch(console.error);

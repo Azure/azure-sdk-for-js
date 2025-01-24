@@ -76,9 +76,9 @@ async function retrieveAPolicyAssignmentWithAUserAssignedIdentity() {
 }
 
 async function main() {
-  retrieveAPolicyAssignment();
-  retrieveAPolicyAssignmentWithASystemAssignedIdentity();
-  retrieveAPolicyAssignmentWithAUserAssignedIdentity();
+  await retrieveAPolicyAssignment();
+  await retrieveAPolicyAssignmentWithASystemAssignedIdentity();
+  await retrieveAPolicyAssignmentWithAUserAssignedIdentity();
 }
 
 main().catch(console.error);

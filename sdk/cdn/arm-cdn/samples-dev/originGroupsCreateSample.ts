@@ -54,7 +54,7 @@ async function originGroupsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  originGroupsCreate();
+  await originGroupsCreate();
 }
 
 main().catch(console.error);

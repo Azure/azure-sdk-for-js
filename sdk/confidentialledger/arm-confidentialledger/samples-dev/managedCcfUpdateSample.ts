@@ -45,7 +45,7 @@ async function managedCcfUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedCcfUpdate();
+  await managedCcfUpdate();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function updateAServerThreatProtectionSettings() {
 }
 
 async function main() {
-  updateAServerThreatProtectionSettings();
+  await updateAServerThreatProtectionSettings();
 }
 
 main().catch(console.error);

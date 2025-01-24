@@ -23,7 +23,7 @@ async function subscriptionUsagesUsages() {
 }
 
 async function main() {
-  subscriptionUsagesUsages();
+  await subscriptionUsagesUsages();
 }
 
 main().catch(console.error);

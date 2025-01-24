@@ -34,7 +34,7 @@ async function endpointsStart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsStart();
+  await endpointsStart();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function scriptPackagesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scriptPackagesList();
+  await scriptPackagesList();
 }
 
 main().catch(console.error);

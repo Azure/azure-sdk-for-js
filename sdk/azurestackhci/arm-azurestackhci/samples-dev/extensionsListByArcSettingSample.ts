@@ -40,7 +40,7 @@ async function listExtensionsUnderArcSettingResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listExtensionsUnderArcSettingResource();
+  await listExtensionsUnderArcSettingResource();
 }
 
 main().catch(console.error);

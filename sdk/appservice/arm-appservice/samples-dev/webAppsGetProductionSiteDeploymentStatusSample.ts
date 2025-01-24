@@ -37,7 +37,7 @@ async function getDeploymentStatus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDeploymentStatus();
+  await getDeploymentStatus();
 }
 
 main().catch(console.error);

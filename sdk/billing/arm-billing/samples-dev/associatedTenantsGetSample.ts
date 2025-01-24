@@ -32,7 +32,7 @@ async function associatedTenantsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  associatedTenantsGet();
+  await associatedTenantsGet();
 }
 
 main().catch(console.error);

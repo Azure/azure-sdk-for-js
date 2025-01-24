@@ -44,7 +44,7 @@ async function updateRunbook(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateRunbook();
+  await updateRunbook();
 }
 
 main().catch(console.error);

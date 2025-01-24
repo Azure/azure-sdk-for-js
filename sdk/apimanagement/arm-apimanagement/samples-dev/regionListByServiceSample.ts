@@ -37,7 +37,7 @@ async function apiManagementListRegions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListRegions();
+  await apiManagementListRegions();
 }
 
 main().catch(console.error);

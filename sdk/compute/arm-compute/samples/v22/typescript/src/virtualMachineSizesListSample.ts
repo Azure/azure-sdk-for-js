@@ -13,9 +13,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
+ * This sample demonstrates how to This API is deprecated. Use [Resources Skus](https://learn.microsoft.com/rest/api/compute/resourceskus/list)
  *
- * @summary This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
+ * @summary This API is deprecated. Use [Resources Skus](https://learn.microsoft.com/rest/api/compute/resourceskus/list)
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/VirtualMachineSizes_List_MaximumSet_Gen.json
  */
 async function virtualMachineSizesListMaximumSetGen(): Promise<void> {
@@ -32,9 +32,9 @@ async function virtualMachineSizesListMaximumSetGen(): Promise<void> {
 }
 
 /**
- * This sample demonstrates how to This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
+ * This sample demonstrates how to This API is deprecated. Use [Resources Skus](https://learn.microsoft.com/rest/api/compute/resourceskus/list)
  *
- * @summary This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
+ * @summary This API is deprecated. Use [Resources Skus](https://learn.microsoft.com/rest/api/compute/resourceskus/list)
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/VirtualMachineSizes_List_MinimumSet_Gen.json
  */
 async function virtualMachineSizesListMinimumSetGen(): Promise<void> {

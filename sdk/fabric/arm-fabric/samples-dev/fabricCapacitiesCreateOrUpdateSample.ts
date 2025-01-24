@@ -31,7 +31,7 @@ async function createOrUpdateACapacity() {
 }
 
 async function main() {
-  createOrUpdateACapacity();
+  await createOrUpdateACapacity();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ async function updateAsset() {
 }
 
 async function main() {
-  updateAsset();
+  await updateAsset();
 }
 
 main().catch(console.error);

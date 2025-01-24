@@ -36,7 +36,7 @@ async function apiManagementSubscriptionRegenerateSecondaryKey(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  apiManagementSubscriptionRegenerateSecondaryKey();
+  await apiManagementSubscriptionRegenerateSecondaryKey();
 }
 
 main().catch(console.error);

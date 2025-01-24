@@ -38,7 +38,7 @@ async function listAllTargetTypesForWestus2Location(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllTargetTypesForWestus2Location();
+  await listAllTargetTypesForWestus2Location();
 }
 
 main().catch(console.error);

@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { AgentPool, ContainerServiceClient } from "@azure/arm-containerservice";
+import type { AgentPool } from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -20,10 +19,8 @@ import "dotenv/config";
  */
 async function associateAgentPoolWithCapacityReservationGroup(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -53,10 +50,8 @@ async function associateAgentPoolWithCapacityReservationGroup(): Promise<void> {
  */
 async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -89,10 +84,8 @@ async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
  */
 async function createAgentPoolWithCustomCaTrustEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -121,10 +114,8 @@ async function createAgentPoolWithCustomCaTrustEnabled(): Promise<void> {
  */
 async function createAgentPoolWithDedicatedHostGroup(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -154,10 +145,8 @@ async function createAgentPoolWithDedicatedHostGroup(): Promise<void> {
  */
 async function createAgentPoolWithEncryptionAtHostEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -186,10 +175,8 @@ async function createAgentPoolWithEncryptionAtHostEnabled(): Promise<void> {
  */
 async function createAgentPoolWithEphemeralOSDisk(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -219,10 +206,8 @@ async function createAgentPoolWithEphemeralOSDisk(): Promise<void> {
  */
 async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -251,10 +236,8 @@ async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
  */
 async function createAgentPoolWithGpumig(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -304,10 +287,8 @@ async function createAgentPoolWithGpumig(): Promise<void> {
  */
 async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -338,10 +319,8 @@ async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
  */
 async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -390,10 +369,8 @@ async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void>
  */
 async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -424,10 +401,8 @@ async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
  */
 async function createAgentPoolWithOssku(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -477,10 +452,8 @@ async function createAgentPoolWithOssku(): Promise<void> {
  */
 async function createAgentPoolWithPpg(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -510,10 +483,8 @@ async function createAgentPoolWithPpg(): Promise<void> {
  */
 async function createAgentPoolWithUltraSsdEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -542,10 +513,8 @@ async function createAgentPoolWithUltraSsdEnabled(): Promise<void> {
  */
 async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -580,10 +549,8 @@ async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
  */
 async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -624,10 +591,8 @@ async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(
  */
 async function createAgentPoolWithWindowsOssku(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "wnp2";
   const parameters: AgentPool = {
@@ -656,10 +621,8 @@ async function createAgentPoolWithWindowsOssku(): Promise<void> {
  */
 async function createSpotAgentPool(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -692,10 +655,8 @@ async function createSpotAgentPool(): Promise<void> {
  */
 async function createWindowsAgentPoolWithDisablingOutboundNat(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "wnp2";
   const parameters: AgentPool = {
@@ -725,10 +686,8 @@ async function createWindowsAgentPoolWithDisablingOutboundNat(): Promise<void> {
  */
 async function createOrUpdateAgentPool(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -762,10 +721,8 @@ async function createOrUpdateAgentPool(): Promise<void> {
  */
 async function startAgentPool(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = { powerState: { code: "Running" } };
@@ -788,10 +745,8 @@ async function startAgentPool(): Promise<void> {
  */
 async function stopAgentPool(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = { powerState: { code: "Stopped" } };
@@ -814,10 +769,8 @@ async function stopAgentPool(): Promise<void> {
  */
 async function updateAgentPool(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const parameters: AgentPool = {
@@ -844,29 +797,29 @@ async function updateAgentPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  associateAgentPoolWithCapacityReservationGroup();
-  createAgentPoolUsingAnAgentPoolSnapshot();
-  createAgentPoolWithCustomCaTrustEnabled();
-  createAgentPoolWithDedicatedHostGroup();
-  createAgentPoolWithEncryptionAtHostEnabled();
-  createAgentPoolWithEphemeralOSDisk();
-  createAgentPoolWithFipsEnabledOS();
-  createAgentPoolWithGpumig();
-  createAgentPoolWithKrustletAndTheWasiRuntime();
-  createAgentPoolWithKubeletConfigAndLinuxOSConfig();
-  createAgentPoolWithMessageOfTheDay();
-  createAgentPoolWithOssku();
-  createAgentPoolWithPpg();
-  createAgentPoolWithUltraSsdEnabled();
-  createAgentPoolWithVirtualMachinesPoolType();
-  createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled();
-  createAgentPoolWithWindowsOssku();
-  createSpotAgentPool();
-  createWindowsAgentPoolWithDisablingOutboundNat();
-  createOrUpdateAgentPool();
-  startAgentPool();
-  stopAgentPool();
-  updateAgentPool();
+  await associateAgentPoolWithCapacityReservationGroup();
+  await createAgentPoolUsingAnAgentPoolSnapshot();
+  await createAgentPoolWithCustomCaTrustEnabled();
+  await createAgentPoolWithDedicatedHostGroup();
+  await createAgentPoolWithEncryptionAtHostEnabled();
+  await createAgentPoolWithEphemeralOSDisk();
+  await createAgentPoolWithFipsEnabledOS();
+  await createAgentPoolWithGpumig();
+  await createAgentPoolWithKrustletAndTheWasiRuntime();
+  await createAgentPoolWithKubeletConfigAndLinuxOSConfig();
+  await createAgentPoolWithMessageOfTheDay();
+  await createAgentPoolWithOssku();
+  await createAgentPoolWithPpg();
+  await createAgentPoolWithUltraSsdEnabled();
+  await createAgentPoolWithVirtualMachinesPoolType();
+  await createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled();
+  await createAgentPoolWithWindowsOssku();
+  await createSpotAgentPool();
+  await createWindowsAgentPoolWithDisablingOutboundNat();
+  await createOrUpdateAgentPool();
+  await startAgentPool();
+  await stopAgentPool();
+  await updateAgentPool();
 }
 
 main().catch(console.error);

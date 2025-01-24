@@ -70,8 +70,8 @@ async function containerAppsCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  certificatesCheckNameAvailability();
-  containerAppsCheckNameAvailability();
+  await certificatesCheckNameAvailability();
+  await containerAppsCheckNameAvailability();
 }
 
 main().catch(console.error);

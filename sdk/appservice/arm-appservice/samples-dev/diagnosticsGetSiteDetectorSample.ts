@@ -65,8 +65,8 @@ async function getAppSlotDetector(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAppDetector();
-  getAppSlotDetector();
+  await getAppDetector();
+  await getAppSlotDetector();
 }
 
 main().catch(console.error);

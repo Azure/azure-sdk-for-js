@@ -55,7 +55,7 @@ async function confidentialLedgerCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialLedgerCreate();
+  await confidentialLedgerCreate();
 }
 
 main().catch(console.error);

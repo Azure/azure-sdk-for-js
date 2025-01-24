@@ -102,9 +102,9 @@ async function listPagedDscNodeConfigurationsByAutomationAccountWithNoFilter(): 
 }
 
 async function main(): Promise<void> {
-  listDscNodeConfigurationsByAutomationAccount();
-  listPagedDscNodeConfigurationsByAutomationAccountWithNameFilter();
-  listPagedDscNodeConfigurationsByAutomationAccountWithNoFilter();
+  await listDscNodeConfigurationsByAutomationAccount();
+  await listPagedDscNodeConfigurationsByAutomationAccountWithNameFilter();
+  await listPagedDscNodeConfigurationsByAutomationAccountWithNoFilter();
 }
 
 main().catch(console.error);

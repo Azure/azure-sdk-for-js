@@ -36,7 +36,7 @@ async function apiManagementSubscriptionRegeneratePrimaryKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementSubscriptionRegeneratePrimaryKey();
+  await apiManagementSubscriptionRegeneratePrimaryKey();
 }
 
 main().catch(console.error);

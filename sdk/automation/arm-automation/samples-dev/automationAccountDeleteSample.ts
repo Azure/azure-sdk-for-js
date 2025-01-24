@@ -32,7 +32,7 @@ async function deleteAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAutomationAccount();
+  await deleteAutomationAccount();
 }
 
 main().catch(console.error);

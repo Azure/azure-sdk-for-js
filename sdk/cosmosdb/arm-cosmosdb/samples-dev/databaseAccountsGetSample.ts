@@ -32,7 +32,7 @@ async function cosmosDbDatabaseAccountGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseAccountGet();
+  await cosmosDbDatabaseAccountGet();
 }
 
 main().catch(console.error);

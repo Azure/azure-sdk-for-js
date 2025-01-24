@@ -184,11 +184,11 @@ async function createLineChannel(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAlexaChannel();
-  createChannel();
-  createDirectLineSpeechChannel();
-  createEmailChannel();
-  createLineChannel();
+  await createAlexaChannel();
+  await createChannel();
+  await createDirectLineSpeechChannel();
+  await createEmailChannel();
+  await createLineChannel();
 }
 
 main().catch(console.error);

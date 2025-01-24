@@ -99,8 +99,8 @@ async function createOrUpdateJavaComponentWithServiceBinds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateJavaComponent();
-  createOrUpdateJavaComponentWithServiceBinds();
+  await createOrUpdateJavaComponent();
+  await createOrUpdateJavaComponentWithServiceBinds();
 }
 
 main().catch(console.error);

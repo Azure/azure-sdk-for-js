@@ -31,7 +31,7 @@ async function listContainerAppsJobSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listContainerAppsJobSecrets();
+  await listContainerAppsJobSecrets();
 }
 
 main().catch(console.error);

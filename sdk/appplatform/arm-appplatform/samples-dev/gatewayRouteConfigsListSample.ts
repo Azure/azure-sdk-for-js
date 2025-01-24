@@ -40,7 +40,7 @@ async function gatewayRouteConfigsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewayRouteConfigsList();
+  await gatewayRouteConfigsList();
 }
 
 main().catch(console.error);

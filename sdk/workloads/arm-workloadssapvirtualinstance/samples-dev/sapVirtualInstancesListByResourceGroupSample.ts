@@ -36,7 +36,7 @@ async function sapVirtualInstancesListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sapVirtualInstancesListByResourceGroup();
+  await sapVirtualInstancesListByResourceGroup();
 }
 
 main().catch(console.error);

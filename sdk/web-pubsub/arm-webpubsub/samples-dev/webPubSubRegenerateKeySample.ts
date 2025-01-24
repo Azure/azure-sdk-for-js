@@ -40,7 +40,7 @@ async function webPubSubRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubRegenerateKey();
+  await webPubSubRegenerateKey();
 }
 
 main().catch(console.error);

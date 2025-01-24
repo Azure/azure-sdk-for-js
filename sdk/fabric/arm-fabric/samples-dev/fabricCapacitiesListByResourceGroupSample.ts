@@ -25,7 +25,7 @@ async function listCapacitiesByResourceGroup() {
 }
 
 async function main() {
-  listCapacitiesByResourceGroup();
+  await listCapacitiesByResourceGroup();
 }
 
 main().catch(console.error);

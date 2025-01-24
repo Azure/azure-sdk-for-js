@@ -34,7 +34,7 @@ async function deleteAJobSchedule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAJobSchedule();
+  await deleteAJobSchedule();
 }
 
 main().catch(console.error);

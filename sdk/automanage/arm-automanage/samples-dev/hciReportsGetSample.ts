@@ -38,7 +38,7 @@ async function getAReportForAHciConfigurationProfileAssignment(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  getAReportForAHciConfigurationProfileAssignment();
+  await getAReportForAHciConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

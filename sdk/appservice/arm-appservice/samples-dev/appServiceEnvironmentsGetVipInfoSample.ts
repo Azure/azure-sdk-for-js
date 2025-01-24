@@ -35,7 +35,7 @@ async function getIPAddressesAssignedToAnAppServiceEnvironment(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  getIPAddressesAssignedToAnAppServiceEnvironment();
+  await getIPAddressesAssignedToAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

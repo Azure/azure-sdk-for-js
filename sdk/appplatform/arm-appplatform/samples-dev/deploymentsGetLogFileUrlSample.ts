@@ -39,7 +39,7 @@ async function deploymentsGetLogFileUrl(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsGetLogFileUrl();
+  await deploymentsGetLogFileUrl();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function webPubSubListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubListByResourceGroup();
+  await webPubSubListByResourceGroup();
 }
 
 main().catch(console.error);

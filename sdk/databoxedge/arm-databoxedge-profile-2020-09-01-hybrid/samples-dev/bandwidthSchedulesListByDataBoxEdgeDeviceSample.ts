@@ -38,7 +38,7 @@ async function bandwidthScheduleGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bandwidthScheduleGetAllInDevice();
+  await bandwidthScheduleGetAllInDevice();
 }
 
 main().catch(console.error);

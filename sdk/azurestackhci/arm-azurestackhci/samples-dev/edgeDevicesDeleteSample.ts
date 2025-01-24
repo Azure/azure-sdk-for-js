@@ -32,7 +32,7 @@ async function deleteEdgeDevices(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteEdgeDevices();
+  await deleteEdgeDevices();
 }
 
 main().catch(console.error);

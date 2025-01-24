@@ -23,7 +23,7 @@ async function standbyVirtualMachinePoolRuntimeViewsGet() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolRuntimeViewsGet();
+  await standbyVirtualMachinePoolRuntimeViewsGet();
 }
 
 main().catch(console.error);

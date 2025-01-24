@@ -37,7 +37,7 @@ async function getAPrivateEndpointConnectionByManagedEnvironment(): Promise<void
 }
 
 async function main(): Promise<void> {
-  getAPrivateEndpointConnectionByManagedEnvironment();
+  await getAPrivateEndpointConnectionByManagedEnvironment();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listWebAppSlots(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWebAppSlots();
+  await listWebAppSlots();
 }
 
 main().catch(console.error);

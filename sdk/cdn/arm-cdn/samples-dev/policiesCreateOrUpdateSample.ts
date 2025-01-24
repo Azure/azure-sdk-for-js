@@ -125,7 +125,7 @@ async function createsSpecificPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createsSpecificPolicy();
+  await createsSpecificPolicy();
 }
 
 main().catch(console.error);

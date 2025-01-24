@@ -68,8 +68,8 @@ async function listPoolWithFilter(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPool();
-  listPoolWithFilter();
+  await listPool();
+  await listPoolWithFilter();
 }
 
 main().catch(console.error);

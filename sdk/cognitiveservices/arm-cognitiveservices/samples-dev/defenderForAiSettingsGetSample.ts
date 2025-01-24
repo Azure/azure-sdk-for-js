@@ -40,7 +40,7 @@ async function getDefenderForAiSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDefenderForAiSetting();
+  await getDefenderForAiSetting();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function apiManagementCreateGroupUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateGroupUser();
+  await apiManagementCreateGroupUser();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function webPubSubRestart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubRestart();
+  await webPubSubRestart();
 }
 
 main().catch(console.error);

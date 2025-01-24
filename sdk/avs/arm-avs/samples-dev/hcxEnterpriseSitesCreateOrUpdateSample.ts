@@ -38,7 +38,7 @@ async function hcxEnterpriseSitesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  hcxEnterpriseSitesCreateOrUpdate();
+  await hcxEnterpriseSitesCreateOrUpdate();
 }
 
 main().catch(console.error);

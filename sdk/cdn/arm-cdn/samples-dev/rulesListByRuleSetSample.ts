@@ -37,7 +37,7 @@ async function rulesListByRuleSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  rulesListByRuleSet();
+  await rulesListByRuleSet();
 }
 
 main().catch(console.error);

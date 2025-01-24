@@ -39,7 +39,7 @@ async function listReportsByConfigurationProfilesAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listReportsByConfigurationProfilesAssignment();
+  await listReportsByConfigurationProfilesAssignment();
 }
 
 main().catch(console.error);

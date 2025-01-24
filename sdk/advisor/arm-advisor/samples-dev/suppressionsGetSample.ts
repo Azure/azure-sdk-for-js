@@ -29,7 +29,7 @@ async function getSuppressionDetail(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSuppressionDetail();
+  await getSuppressionDetail();
 }
 
 main().catch(console.error);

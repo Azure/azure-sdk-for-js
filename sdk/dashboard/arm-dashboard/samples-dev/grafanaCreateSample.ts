@@ -77,7 +77,7 @@ async function grafanaCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  grafanaCreate();
+  await grafanaCreate();
 }
 
 main().catch(console.error);

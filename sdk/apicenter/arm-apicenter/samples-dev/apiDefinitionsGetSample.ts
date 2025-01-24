@@ -43,7 +43,7 @@ async function apiDefinitionsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiDefinitionsGet();
+  await apiDefinitionsGet();
 }
 
 main().catch(console.error);

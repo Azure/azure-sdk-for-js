@@ -29,7 +29,7 @@ async function listPaymentMethodOwnedByUser(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPaymentMethodOwnedByUser();
+  await listPaymentMethodOwnedByUser();
 }
 
 main().catch(console.error);

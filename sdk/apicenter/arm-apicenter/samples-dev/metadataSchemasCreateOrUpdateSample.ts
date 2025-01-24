@@ -44,7 +44,7 @@ async function metadataSchemasCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  metadataSchemasCreateOrUpdate();
+  await metadataSchemasCreateOrUpdate();
 }
 
 main().catch(console.error);

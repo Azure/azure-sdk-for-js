@@ -38,7 +38,7 @@ async function capabilitiesList() {
 }
 
 async function main() {
-  capabilitiesList();
+  await capabilitiesList();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function updateHybridWorkerGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateHybridWorkerGroup();
+  await updateHybridWorkerGroup();
 }
 
 main().catch(console.error);

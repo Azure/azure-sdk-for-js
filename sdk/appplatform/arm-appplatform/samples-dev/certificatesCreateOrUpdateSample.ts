@@ -50,7 +50,7 @@ async function certificatesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  certificatesCreateOrUpdate();
+  await certificatesCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function getsListOfPrivateEndpointConnectionsOnACluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsListOfPrivateEndpointConnectionsOnACluster();
+  await getsListOfPrivateEndpointConnectionsOnACluster();
 }
 
 main().catch(console.error);

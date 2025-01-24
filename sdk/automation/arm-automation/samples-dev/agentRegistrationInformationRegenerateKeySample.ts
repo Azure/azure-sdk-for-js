@@ -39,7 +39,7 @@ async function regenerateRegistrationKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  regenerateRegistrationKey();
+  await regenerateRegistrationKey();
 }
 
 main().catch(console.error);

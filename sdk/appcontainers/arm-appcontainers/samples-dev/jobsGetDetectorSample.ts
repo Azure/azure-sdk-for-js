@@ -37,7 +37,7 @@ async function getDiagnosticDataForAContainerAppJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDiagnosticDataForAContainerAppJob();
+  await getDiagnosticDataForAContainerAppJob();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function createOrUpdateADscCompilationJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateADscCompilationJob();
+  await createOrUpdateADscCompilationJob();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listActivitiesByAModule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listActivitiesByAModule();
+  await listActivitiesByAModule();
 }
 
 main().catch(console.error);

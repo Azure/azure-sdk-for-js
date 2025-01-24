@@ -33,7 +33,7 @@ async function savingsPlanOrderList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlanOrderList();
+  await savingsPlanOrderList();
 }
 
 main().catch(console.error);

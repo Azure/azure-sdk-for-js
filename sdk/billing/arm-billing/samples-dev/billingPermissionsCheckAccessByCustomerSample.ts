@@ -44,7 +44,7 @@ async function checkAccessByCustomer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkAccessByCustomer();
+  await checkAccessByCustomer();
 }
 
 main().catch(console.error);

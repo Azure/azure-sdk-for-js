@@ -71,7 +71,7 @@ async function cosmosDbGremlinGraphCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinGraphCreateUpdate();
+  await cosmosDbGremlinGraphCreateUpdate();
 }
 
 main().catch(console.error);

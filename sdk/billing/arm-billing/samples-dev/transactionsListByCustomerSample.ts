@@ -50,7 +50,7 @@ async function transactionsListByCustomer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  transactionsListByCustomer();
+  await transactionsListByCustomer();
 }
 
 main().catch(console.error);

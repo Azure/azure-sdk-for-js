@@ -34,7 +34,7 @@ async function getRunbookDraft(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRunbookDraft();
+  await getRunbookDraft();
 }
 
 main().catch(console.error);

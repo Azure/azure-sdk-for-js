@@ -39,7 +39,7 @@ async function getAWorkflowSlot(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAWorkflowSlot();
+  await getAWorkflowSlot();
 }
 
 main().catch(console.error);

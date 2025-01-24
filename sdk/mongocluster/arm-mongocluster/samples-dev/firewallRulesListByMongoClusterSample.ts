@@ -23,7 +23,7 @@ async function listTheFirewallRulesOnAMongoClusterResource() {
 }
 
 async function main() {
-  listTheFirewallRulesOnAMongoClusterResource();
+  await listTheFirewallRulesOnAMongoClusterResource();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function operationsListGeneratedByMaximumSetRule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  operationsListGeneratedByMaximumSetRule();
+  await operationsListGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

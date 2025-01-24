@@ -32,7 +32,7 @@ async function getTheAgentRegistrationInformation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTheAgentRegistrationInformation();
+  await getTheAgentRegistrationInformation();
 }
 
 main().catch(console.error);

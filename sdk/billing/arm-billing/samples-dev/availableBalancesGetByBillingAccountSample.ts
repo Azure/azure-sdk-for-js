@@ -29,7 +29,7 @@ async function availableBalanceGetByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  availableBalanceGetByBillingAccount();
+  await availableBalanceGetByBillingAccount();
 }
 
 main().catch(console.error);
