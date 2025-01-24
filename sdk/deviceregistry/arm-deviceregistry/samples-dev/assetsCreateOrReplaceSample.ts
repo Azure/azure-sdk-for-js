@@ -308,10 +308,10 @@ async function createAssetWithExternalAssetId() {
 }
 
 async function main() {
-  createAssetWithoutDisplayName();
-  createAssetWithoutExternalAssetId();
-  createAssetWithDiscoveredAssetRefs();
-  createAssetWithExternalAssetId();
+  await createAssetWithoutDisplayName();
+  await createAssetWithoutExternalAssetId();
+  await createAssetWithDiscoveredAssetRefs();
+  await createAssetWithExternalAssetId();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function updateSingleConfigurationOfCoordinator(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateSingleConfigurationOfCoordinator();
+  await updateSingleConfigurationOfCoordinator();
 }
 
 main().catch(console.error);

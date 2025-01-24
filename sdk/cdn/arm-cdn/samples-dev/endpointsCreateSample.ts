@@ -143,7 +143,7 @@ async function endpointsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsCreate();
+  await endpointsCreate();
 }
 
 main().catch(console.error);

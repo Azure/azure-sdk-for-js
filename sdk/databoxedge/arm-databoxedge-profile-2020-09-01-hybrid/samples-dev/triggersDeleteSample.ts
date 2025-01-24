@@ -37,7 +37,7 @@ async function triggerDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerDelete();
+  await triggerDelete();
 }
 
 main().catch(console.error);

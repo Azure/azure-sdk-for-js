@@ -70,7 +70,7 @@ async function createOrUpdateAExperimentInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAExperimentInAResourceGroup();
+  await createOrUpdateAExperimentInAResourceGroup();
 }
 
 main().catch(console.error);

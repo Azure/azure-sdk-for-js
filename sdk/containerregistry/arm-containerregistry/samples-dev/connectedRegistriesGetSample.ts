@@ -40,7 +40,7 @@ async function connectedRegistryGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectedRegistryGet();
+  await connectedRegistryGet();
 }
 
 main().catch(console.error);

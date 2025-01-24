@@ -47,7 +47,7 @@ async function linkABackendToAStaticSiteBuild(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  linkABackendToAStaticSiteBuild();
+  await linkABackendToAStaticSiteBuild();
 }
 
 main().catch(console.error);

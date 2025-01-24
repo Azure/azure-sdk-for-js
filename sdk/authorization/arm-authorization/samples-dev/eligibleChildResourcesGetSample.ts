@@ -36,7 +36,7 @@ async function getEligibleChildResourcesByScope(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getEligibleChildResourcesByScope();
+  await getEligibleChildResourcesByScope();
 }
 
 main().catch(console.error);

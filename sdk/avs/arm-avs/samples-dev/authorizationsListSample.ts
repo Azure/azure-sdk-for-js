@@ -37,7 +37,7 @@ async function authorizationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  authorizationsList();
+  await authorizationsList();
 }
 
 main().catch(console.error);

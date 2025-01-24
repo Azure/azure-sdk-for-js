@@ -44,7 +44,7 @@ async function createsAFleetMemberResourceWithALongRunningOperation(): Promise<v
 }
 
 async function main(): Promise<void> {
-  createsAFleetMemberResourceWithALongRunningOperation();
+  await createsAFleetMemberResourceWithALongRunningOperation();
 }
 
 main().catch(console.error);

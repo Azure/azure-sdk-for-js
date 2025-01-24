@@ -40,7 +40,7 @@ async function applyWebAppSlotConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applyWebAppSlotConfig();
+  await applyWebAppSlotConfig();
 }
 
 main().catch(console.error);

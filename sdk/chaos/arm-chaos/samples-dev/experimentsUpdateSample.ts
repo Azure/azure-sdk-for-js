@@ -45,7 +45,7 @@ async function updateAnExperimentInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAnExperimentInAResourceGroup();
+  await updateAnExperimentInAResourceGroup();
 }
 
 main().catch(console.error);

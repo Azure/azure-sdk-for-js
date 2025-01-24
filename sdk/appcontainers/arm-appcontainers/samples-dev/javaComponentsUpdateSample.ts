@@ -99,8 +99,8 @@ async function patchJavaComponentWithServiceBinds(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchJavaComponent();
-  patchJavaComponentWithServiceBinds();
+  await patchJavaComponent();
+  await patchJavaComponentWithServiceBinds();
 }
 
 main().catch(console.error);

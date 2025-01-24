@@ -40,7 +40,7 @@ async function getMetricDefinitionsForASpecificInstanceOfAMultiRolePoolOfAnAppSe
 }
 
 async function main(): Promise<void> {
-  getMetricDefinitionsForASpecificInstanceOfAMultiRolePoolOfAnAppServiceEnvironment();
+  await getMetricDefinitionsForASpecificInstanceOfAMultiRolePoolOfAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

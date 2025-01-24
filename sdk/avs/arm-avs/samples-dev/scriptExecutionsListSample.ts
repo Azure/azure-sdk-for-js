@@ -37,7 +37,7 @@ async function scriptExecutionsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scriptExecutionsList();
+  await scriptExecutionsList();
 }
 
 main().catch(console.error);

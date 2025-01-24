@@ -2,7 +2,7 @@
   "name": "storage-example",
   "version": "1.0.0",
   "description": "A small example of using the Azure Storage SDK",
-  "main": "index.js",
+  "source": "storage.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,8 +13,8 @@
     "last 1 Edge version"
   ],
   "devDependencies": {
-    "@azure/core-lro": "^1.0.0",
-    "@azure/storage-blob": "^12.0.0"
-  },
-  "dependencies": {}
+    "@azure/storage-blob": "^12.26.0",
+    "buffer": "^6.0.3",
+    "process": "^0.11.10"
+  }
 }

@@ -40,7 +40,7 @@ async function replicationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  replicationGet();
+  await replicationGet();
 }
 
 main().catch(console.error);

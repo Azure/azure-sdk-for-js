@@ -36,7 +36,7 @@ async function containerAppsPatchesDelete0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerAppsPatchesDelete0();
+  await containerAppsPatchesDelete0();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listCertificates(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listCertificates();
+  await listCertificates();
 }
 
 main().catch(console.error);

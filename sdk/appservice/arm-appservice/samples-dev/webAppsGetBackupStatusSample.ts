@@ -37,7 +37,7 @@ async function getWebAppBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWebAppBackup();
+  await getWebAppBackup();
 }
 
 main().catch(console.error);

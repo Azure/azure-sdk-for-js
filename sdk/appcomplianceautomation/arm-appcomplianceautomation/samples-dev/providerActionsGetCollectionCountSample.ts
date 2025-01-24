@@ -28,7 +28,7 @@ async function reportGetCollectionCount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportGetCollectionCount();
+  await reportGetCollectionCount();
 }
 
 main().catch(console.error);

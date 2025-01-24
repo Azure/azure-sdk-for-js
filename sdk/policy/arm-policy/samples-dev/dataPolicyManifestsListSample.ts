@@ -56,8 +56,8 @@ async function listDataPolicyManifestsWithNamespaceFilter() {
 }
 
 async function main() {
-  listDataPolicyManifests();
-  listDataPolicyManifestsWithNamespaceFilter();
+  await listDataPolicyManifests();
+  await listDataPolicyManifestsWithNamespaceFilter();
 }
 
 main().catch(console.error);

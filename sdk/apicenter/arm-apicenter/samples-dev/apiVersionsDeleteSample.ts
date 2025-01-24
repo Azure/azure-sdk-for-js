@@ -41,7 +41,7 @@ async function apiVersionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiVersionsDelete();
+  await apiVersionsDelete();
 }
 
 main().catch(console.error);

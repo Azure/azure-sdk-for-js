@@ -34,7 +34,7 @@ async function apiManagementServiceGetSsoToken(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementServiceGetSsoToken();
+  await apiManagementServiceGetSsoToken();
 }
 
 main().catch(console.error);

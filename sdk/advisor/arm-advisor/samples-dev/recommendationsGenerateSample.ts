@@ -27,7 +27,7 @@ async function generateRecommendations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  generateRecommendations();
+  await generateRecommendations();
 }
 
 main().catch(console.error);

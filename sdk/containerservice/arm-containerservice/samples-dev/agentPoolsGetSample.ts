@@ -37,7 +37,7 @@ async function getAgentPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAgentPool();
+  await getAgentPool();
 }
 
 main().catch(console.error);

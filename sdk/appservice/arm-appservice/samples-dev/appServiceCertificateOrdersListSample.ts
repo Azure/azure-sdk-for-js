@@ -32,7 +32,7 @@ async function listAppServiceCertificateOrdersBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAppServiceCertificateOrdersBySubscription();
+  await listAppServiceCertificateOrdersBySubscription();
 }
 
 main().catch(console.error);

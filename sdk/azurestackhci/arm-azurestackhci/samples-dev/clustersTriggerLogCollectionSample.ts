@@ -45,7 +45,7 @@ async function triggerLogCollection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  triggerLogCollection();
+  await triggerLogCollection();
 }
 
 main().catch(console.error);

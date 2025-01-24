@@ -37,7 +37,7 @@ async function getLogicAppExtensionByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getLogicAppExtensionByName();
+  await getLogicAppExtensionByName();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function listAutomanageBestPractices(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAutomanageBestPractices();
+  await listAutomanageBestPractices();
 }
 
 main().catch(console.error);

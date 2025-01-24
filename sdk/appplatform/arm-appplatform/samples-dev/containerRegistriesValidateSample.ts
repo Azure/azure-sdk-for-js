@@ -49,7 +49,7 @@ async function containerRegistriesValidate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerRegistriesValidate();
+  await containerRegistriesValidate();
 }
 
 main().catch(console.error);

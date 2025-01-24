@@ -41,7 +41,7 @@ async function connectedRegistryList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectedRegistryList();
+  await connectedRegistryList();
 }
 
 main().catch(console.error);

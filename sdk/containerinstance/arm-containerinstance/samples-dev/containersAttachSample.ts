@@ -20,17 +20,12 @@ import "dotenv/config";
  */
 async function containerAttach(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerName = "container1";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containers.attach(
     resourceGroupName,
     containerGroupName,
@@ -40,7 +35,7 @@ async function containerAttach(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerAttach();
+  await containerAttach();
 }
 
 main().catch(console.error);

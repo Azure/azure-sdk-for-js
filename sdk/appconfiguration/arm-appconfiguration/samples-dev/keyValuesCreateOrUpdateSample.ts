@@ -50,7 +50,7 @@ async function keyValuesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  keyValuesCreateOrUpdate();
+  await keyValuesCreateOrUpdate();
 }
 
 main().catch(console.error);

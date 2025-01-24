@@ -41,7 +41,7 @@ async function createsOrUpdatesTheAppSettingsOfAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createsOrUpdatesTheAppSettingsOfAStaticSite();
+  await createsOrUpdatesTheAppSettingsOfAStaticSite();
 }
 
 main().catch(console.error);

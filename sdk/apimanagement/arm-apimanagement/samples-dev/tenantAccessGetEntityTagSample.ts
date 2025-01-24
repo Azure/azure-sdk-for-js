@@ -36,7 +36,7 @@ async function apiManagementHeadTenantAccess(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadTenantAccess();
+  await apiManagementHeadTenantAccess();
 }
 
 main().catch(console.error);

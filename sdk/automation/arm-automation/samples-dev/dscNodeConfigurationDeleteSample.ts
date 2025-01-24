@@ -34,7 +34,7 @@ async function deleteADscNodeConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteADscNodeConfiguration();
+  await deleteADscNodeConfiguration();
 }
 
 main().catch(console.error);

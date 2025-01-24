@@ -50,7 +50,7 @@ async function apiManagementPortalSettingsUpdateSignUp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementPortalSettingsUpdateSignUp();
+  await apiManagementPortalSettingsUpdateSignUp();
 }
 
 main().catch(console.error);

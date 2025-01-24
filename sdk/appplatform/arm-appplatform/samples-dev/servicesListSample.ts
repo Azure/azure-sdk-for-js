@@ -34,7 +34,7 @@ async function servicesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesList();
+  await servicesList();
 }
 
 main().catch(console.error);

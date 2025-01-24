@@ -39,7 +39,7 @@ async function apiPortalCustomDomainsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiPortalCustomDomainsDelete();
+  await apiPortalCustomDomainsDelete();
 }
 
 main().catch(console.error);

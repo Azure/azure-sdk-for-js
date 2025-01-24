@@ -64,7 +64,7 @@ async function cosmosDbManagedCassandraClusterCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraClusterCreate();
+  await cosmosDbManagedCassandraClusterCreate();
 }
 
 main().catch(console.error);

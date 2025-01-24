@@ -37,7 +37,7 @@ async function stopsAnUpdateRun(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  stopsAnUpdateRun();
+  await stopsAnUpdateRun();
 }
 
 main().catch(console.error);

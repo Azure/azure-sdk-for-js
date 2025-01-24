@@ -43,7 +43,7 @@ async function createJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createJob();
+  await createJob();
 }
 
 main().catch(console.error);

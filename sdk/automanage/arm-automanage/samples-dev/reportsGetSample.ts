@@ -38,7 +38,7 @@ async function getAReportForAConfigurationProfileAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAReportForAConfigurationProfileAssignment();
+  await getAReportForAConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

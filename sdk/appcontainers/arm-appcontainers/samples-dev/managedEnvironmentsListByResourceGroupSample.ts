@@ -36,7 +36,7 @@ async function listEnvironmentsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listEnvironmentsByResourceGroup();
+  await listEnvironmentsByResourceGroup();
 }
 
 main().catch(console.error);

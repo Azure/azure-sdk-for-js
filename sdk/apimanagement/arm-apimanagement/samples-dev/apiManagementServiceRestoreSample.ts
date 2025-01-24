@@ -45,7 +45,7 @@ async function apiManagementRestoreService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementRestoreService();
+  await apiManagementRestoreService();
 }
 
 main().catch(console.error);

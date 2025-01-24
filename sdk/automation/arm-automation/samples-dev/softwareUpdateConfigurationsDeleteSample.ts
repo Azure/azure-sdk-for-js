@@ -37,7 +37,7 @@ async function deleteSoftwareUpdateConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteSoftwareUpdateConfiguration();
+  await deleteSoftwareUpdateConfiguration();
 }
 
 main().catch(console.error);

@@ -57,7 +57,7 @@ async function cosmosDbClientEncryptionKeyCreateUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbClientEncryptionKeyCreateUpdate();
+  await cosmosDbClientEncryptionKeyCreateUpdate();
 }
 
 main().catch(console.error);

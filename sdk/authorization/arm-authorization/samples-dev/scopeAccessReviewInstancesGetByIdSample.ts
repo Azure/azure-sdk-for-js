@@ -33,7 +33,7 @@ async function getAccessReviews(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAccessReviews();
+  await getAccessReviews();
 }
 
 main().catch(console.error);

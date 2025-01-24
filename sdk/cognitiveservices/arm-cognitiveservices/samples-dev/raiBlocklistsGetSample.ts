@@ -40,7 +40,7 @@ async function getRaiBlocklist(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRaiBlocklist();
+  await getRaiBlocklist();
 }
 
 main().catch(console.error);

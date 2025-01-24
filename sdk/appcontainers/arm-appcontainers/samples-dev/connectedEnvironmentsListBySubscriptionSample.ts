@@ -32,7 +32,7 @@ async function listConnectedEnvironmentsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listConnectedEnvironmentsBySubscription();
+  await listConnectedEnvironmentsBySubscription();
 }
 
 main().catch(console.error);

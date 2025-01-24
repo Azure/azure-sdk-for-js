@@ -34,7 +34,7 @@ async function cosmosDbNotebookWorkspaceListConnectionInfo(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbNotebookWorkspaceListConnectionInfo();
+  await cosmosDbNotebookWorkspaceListConnectionInfo();
 }
 
 main().catch(console.error);

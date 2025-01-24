@@ -41,7 +41,7 @@ async function updateAnAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAnAutomationAccount();
+  await updateAnAutomationAccount();
 }
 
 main().catch(console.error);

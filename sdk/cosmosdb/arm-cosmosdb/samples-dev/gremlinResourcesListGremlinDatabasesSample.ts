@@ -35,7 +35,7 @@ async function cosmosDbGremlinDatabaseList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinDatabaseList();
+  await cosmosDbGremlinDatabaseList();
 }
 
 main().catch(console.error);

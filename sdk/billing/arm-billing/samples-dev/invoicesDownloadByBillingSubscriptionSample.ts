@@ -41,7 +41,7 @@ async function invoicesDownloadByBillingSubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  invoicesDownloadByBillingSubscription();
+  await invoicesDownloadByBillingSubscription();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Locati
 }
 
 async function main(): Promise<void> {
-  getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Location();
+  await getACapabilityTypeForAVirtualMachineTargetResourceOnWestus2Location();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function deleteEnvironmentByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteEnvironmentByName();
+  await deleteEnvironmentByName();
 }
 
 main().catch(console.error);

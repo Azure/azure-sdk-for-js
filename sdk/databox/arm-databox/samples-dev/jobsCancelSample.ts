@@ -39,7 +39,7 @@ async function jobsCancelPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  jobsCancelPost();
+  await jobsCancelPost();
 }
 
 main().catch(console.error);

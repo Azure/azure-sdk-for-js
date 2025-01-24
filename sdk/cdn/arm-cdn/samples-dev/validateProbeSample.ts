@@ -30,7 +30,7 @@ async function validateProbe(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateProbe();
+  await validateProbe();
 }
 
 main().catch(console.error);

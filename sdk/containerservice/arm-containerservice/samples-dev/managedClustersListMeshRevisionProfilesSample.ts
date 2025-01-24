@@ -35,7 +35,7 @@ async function listMeshRevisionProfilesInALocation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listMeshRevisionProfilesInALocation();
+  await listMeshRevisionProfilesInALocation();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function listAutomanageBestPracticesVersions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAutomanageBestPracticesVersions();
+  await listAutomanageBestPracticesVersions();
 }
 
 main().catch(console.error);

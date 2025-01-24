@@ -25,7 +25,7 @@ async function updateAssetEndpointProfile() {
 }
 
 async function main() {
-  updateAssetEndpointProfile();
+  await updateAssetEndpointProfile();
 }
 
 main().catch(console.error);

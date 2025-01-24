@@ -32,7 +32,7 @@ async function paymentMethodGetAtBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  paymentMethodGetAtBillingProfile();
+  await paymentMethodGetAtBillingProfile();
 }
 
 main().catch(console.error);

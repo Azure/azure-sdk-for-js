@@ -40,7 +40,7 @@ async function apiManagementGetReportsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetReportsBySubscription();
+  await apiManagementGetReportsBySubscription();
 }
 
 main().catch(console.error);

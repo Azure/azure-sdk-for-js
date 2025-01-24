@@ -32,7 +32,7 @@ async function cosmosDbManagedCassandraClusterListBySubscription(): Promise<void
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraClusterListBySubscription();
+  await cosmosDbManagedCassandraClusterListBySubscription();
 }
 
 main().catch(console.error);

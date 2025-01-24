@@ -37,7 +37,7 @@ async function storagesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storagesDelete();
+  await storagesDelete();
 }
 
 main().catch(console.error);

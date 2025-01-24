@@ -22,14 +22,14 @@ async function organizationOperationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.organizationOperations.list()) {
+  for await (const item of client.organizationOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  organizationOperationsList();
+  await organizationOperationsList();
 }
 
 main().catch(console.error);

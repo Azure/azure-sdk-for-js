@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Starts all containers in a container group. Compute resources will be allocated and billing will start.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsStart.json
  */
-async function containerStart() {
+async function containerStart(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,8 +36,8 @@ async function containerStart() {
   console.log(result);
 }
 
-async function main() {
-  containerStart();
+async function main(): Promise<void> {
+  await containerStart();
 }
 
 main().catch(console.error);

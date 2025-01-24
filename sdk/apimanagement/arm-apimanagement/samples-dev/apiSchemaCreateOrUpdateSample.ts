@@ -44,7 +44,7 @@ async function apiManagementCreateApiSchema(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateApiSchema();
+  await apiManagementCreateApiSchema();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function profilesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesDelete();
+  await profilesDelete();
 }
 
 main().catch(console.error);

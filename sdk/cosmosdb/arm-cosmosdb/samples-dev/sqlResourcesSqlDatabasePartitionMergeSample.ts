@@ -37,7 +37,7 @@ async function cosmosDbSqlDatabasePartitionMerge(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbSqlDatabasePartitionMerge();
+  await cosmosDbSqlDatabasePartitionMerge();
 }
 
 main().catch(console.error);

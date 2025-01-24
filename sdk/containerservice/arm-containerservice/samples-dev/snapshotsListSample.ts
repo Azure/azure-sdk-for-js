@@ -32,7 +32,7 @@ async function listSnapshots(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSnapshots();
+  await listSnapshots();
 }
 
 main().catch(console.error);

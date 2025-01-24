@@ -39,7 +39,7 @@ async function buildServiceGetSupportedBuildpack(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceGetSupportedBuildpack();
+  await buildServiceGetSupportedBuildpack();
 }
 
 main().catch(console.error);

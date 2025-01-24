@@ -26,7 +26,7 @@ async function storageClassCreateOrUpdate0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageClassCreateOrUpdate0();
+  await storageClassCreateOrUpdate0();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function listPoliciesInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPoliciesInAResourceGroup();
+  await listPoliciesInAResourceGroup();
 }
 
 main().catch(console.error);

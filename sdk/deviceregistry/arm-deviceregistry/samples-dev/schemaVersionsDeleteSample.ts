@@ -18,7 +18,7 @@ async function deleteSchemaVersion() {
 }
 
 async function main() {
-  deleteSchemaVersion();
+  await deleteSchemaVersion();
 }
 
 main().catch(console.error);

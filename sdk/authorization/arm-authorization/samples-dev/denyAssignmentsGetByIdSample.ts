@@ -28,7 +28,7 @@ async function getDenyAssignmentById(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDenyAssignmentById();
+  await getDenyAssignmentById();
 }
 
 main().catch(console.error);

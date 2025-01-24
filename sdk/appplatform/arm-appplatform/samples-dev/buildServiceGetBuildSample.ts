@@ -39,7 +39,7 @@ async function buildServiceGetBuild(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceGetBuild();
+  await buildServiceGetBuild();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function administratorsListByServer() {
 }
 
 async function main() {
-  administratorsListByServer();
+  await administratorsListByServer();
 }
 
 main().catch(console.error);

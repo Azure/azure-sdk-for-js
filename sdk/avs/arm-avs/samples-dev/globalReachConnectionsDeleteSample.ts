@@ -36,7 +36,7 @@ async function globalReachConnectionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  globalReachConnectionsDelete();
+  await globalReachConnectionsDelete();
 }
 
 main().catch(console.error);

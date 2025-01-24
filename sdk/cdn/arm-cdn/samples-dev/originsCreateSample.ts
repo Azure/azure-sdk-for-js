@@ -51,7 +51,7 @@ async function originsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  originsCreate();
+  await originsCreate();
 }
 
 main().catch(console.error);

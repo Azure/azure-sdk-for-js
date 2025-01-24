@@ -35,7 +35,7 @@ async function sendATestNotificationThatAnUpgradeIsAvailableForThisAppServiceEnv
 }
 
 async function main(): Promise<void> {
-  sendATestNotificationThatAnUpgradeIsAvailableForThisAppServiceEnvironment();
+  await sendATestNotificationThatAnUpgradeIsAvailableForThisAppServiceEnvironment();
 }
 
 main().catch(console.error);

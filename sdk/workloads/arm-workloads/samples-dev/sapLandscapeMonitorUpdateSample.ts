@@ -45,7 +45,7 @@ async function updateSapMonitor(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateSapMonitor();
+  await updateSapMonitor();
 }
 
 main().catch(console.error);

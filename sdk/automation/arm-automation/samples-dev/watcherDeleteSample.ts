@@ -34,7 +34,7 @@ async function deleteWatcher(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteWatcher();
+  await deleteWatcher();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function retrieveABuiltInPolicyDefinition() {
 }
 
 async function main() {
-  retrieveABuiltInPolicyDefinition();
+  await retrieveABuiltInPolicyDefinition();
 }
 
 main().catch(console.error);

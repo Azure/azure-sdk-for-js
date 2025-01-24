@@ -32,7 +32,7 @@ async function createSchema() {
 }
 
 async function main() {
-  createSchema();
+  await createSchema();
 }
 
 main().catch(console.error);

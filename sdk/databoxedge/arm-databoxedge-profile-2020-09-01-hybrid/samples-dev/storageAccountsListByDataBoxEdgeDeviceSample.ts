@@ -38,7 +38,7 @@ async function storageAccountGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountGetAllInDevice();
+  await storageAccountGetAllInDevice();
 }
 
 main().catch(console.error);

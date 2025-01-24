@@ -41,7 +41,7 @@ async function apiManagementTenantConfigurationDeploy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementTenantConfigurationDeploy();
+  await apiManagementTenantConfigurationDeploy();
 }
 
 main().catch(console.error);

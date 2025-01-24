@@ -37,7 +37,7 @@ async function getDetailsOfTheUserProvidedFunctionAppRegisteredWithAStaticSite()
 }
 
 async function main(): Promise<void> {
-  getDetailsOfTheUserProvidedFunctionAppRegisteredWithAStaticSite();
+  await getDetailsOfTheUserProvidedFunctionAppRegisteredWithAStaticSite();
 }
 
 main().catch(console.error);

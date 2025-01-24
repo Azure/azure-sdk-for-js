@@ -36,7 +36,7 @@ async function apiManagementUserConfirmationPasswordSend(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUserConfirmationPasswordSend();
+  await apiManagementUserConfirmationPasswordSend();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function bookShipmentPickupPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bookShipmentPickupPost();
+  await bookShipmentPickupPost();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function resetTheApiKeyForAStaticSite(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resetTheApiKeyForAStaticSite();
+  await resetTheApiKeyForAStaticSite();
 }
 
 main().catch(console.error);

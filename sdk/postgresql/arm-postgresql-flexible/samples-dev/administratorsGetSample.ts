@@ -40,7 +40,7 @@ async function serverGet() {
 }
 
 async function main() {
-  serverGet();
+  await serverGet();
 }
 
 main().catch(console.error);

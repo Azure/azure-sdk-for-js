@@ -35,7 +35,7 @@ async function scanForUpdatesPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scanForUpdatesPost();
+  await scanForUpdatesPost();
 }
 
 main().catch(console.error);

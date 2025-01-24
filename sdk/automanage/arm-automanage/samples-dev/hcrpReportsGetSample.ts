@@ -38,7 +38,7 @@ async function getAReportForAHcrpConfigurationProfileAssignment(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  getAReportForAHcrpConfigurationProfileAssignment();
+  await getAReportForAHcrpConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

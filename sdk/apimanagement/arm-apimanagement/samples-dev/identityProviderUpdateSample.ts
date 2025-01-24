@@ -46,7 +46,7 @@ async function apiManagementUpdateIdentityProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateIdentityProvider();
+  await apiManagementUpdateIdentityProvider();
 }
 
 main().catch(console.error);

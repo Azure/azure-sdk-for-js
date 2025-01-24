@@ -37,7 +37,7 @@ async function applicationLiveViewsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationLiveViewsDelete();
+  await applicationLiveViewsDelete();
 }
 
 main().catch(console.error);

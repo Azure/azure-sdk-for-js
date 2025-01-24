@@ -35,7 +35,7 @@ async function getPropertiesOfAMultiRolePool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getPropertiesOfAMultiRolePool();
+  await getPropertiesOfAMultiRolePool();
 }
 
 main().catch(console.error);

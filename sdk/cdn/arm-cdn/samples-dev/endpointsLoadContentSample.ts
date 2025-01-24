@@ -36,7 +36,7 @@ async function endpointsLoadContent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsLoadContent();
+  await endpointsLoadContent();
 }
 
 main().catch(console.error);

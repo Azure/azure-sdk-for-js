@@ -38,7 +38,7 @@ async function apiManagementDeleteIdentityProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteIdentityProvider();
+  await apiManagementDeleteIdentityProvider();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function apiManagementHeadIdentityProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementHeadIdentityProvider();
+  await apiManagementHeadIdentityProvider();
 }
 
 main().catch(console.error);

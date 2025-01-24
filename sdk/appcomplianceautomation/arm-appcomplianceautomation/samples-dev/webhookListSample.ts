@@ -36,7 +36,7 @@ async function webhookList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webhookList();
+  await webhookList();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function listsAllTheAzureDatabricksAccessConnectorsWithinASubscription(): 
 }
 
 async function main(): Promise<void> {
-  listsAllTheAzureDatabricksAccessConnectorsWithinASubscription();
+  await listsAllTheAzureDatabricksAccessConnectorsWithinASubscription();
 }
 
 main().catch(console.error);

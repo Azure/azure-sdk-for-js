@@ -58,7 +58,7 @@ async function scriptExecutionsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  scriptExecutionsCreateOrUpdate();
+  await scriptExecutionsCreateOrUpdate();
 }
 
 main().catch(console.error);

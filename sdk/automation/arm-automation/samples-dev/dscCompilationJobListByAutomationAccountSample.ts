@@ -35,7 +35,7 @@ async function listDscCompilationJobInAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDscCompilationJobInAutomationAccount();
+  await listDscCompilationJobInAutomationAccount();
 }
 
 main().catch(console.error);

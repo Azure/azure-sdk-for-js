@@ -36,7 +36,7 @@ async function deleteAnConfigurationProfileAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnConfigurationProfileAssignment();
+  await deleteAnConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

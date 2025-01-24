@@ -41,7 +41,7 @@ async function reportSyncCertRecord(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportSyncCertRecord();
+  await reportSyncCertRecord();
 }
 
 main().catch(console.error);

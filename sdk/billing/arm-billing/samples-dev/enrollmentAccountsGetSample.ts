@@ -31,7 +31,7 @@ async function enrollmentAccountGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enrollmentAccountGet();
+  await enrollmentAccountGet();
 }
 
 main().catch(console.error);

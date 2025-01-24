@@ -48,7 +48,7 @@ async function updateArcExtension(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateArcExtension();
+  await updateArcExtension();
 }
 
 main().catch(console.error);

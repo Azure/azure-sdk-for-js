@@ -49,8 +49,8 @@ async function retrieveAPolicyAssignmentWithAManagedIdentityById() {
 }
 
 async function main() {
-  retrieveAPolicyAssignmentById();
-  retrieveAPolicyAssignmentWithAManagedIdentityById();
+  await retrieveAPolicyAssignmentById();
+  await retrieveAPolicyAssignmentWithAManagedIdentityById();
 }
 
 main().catch(console.error);

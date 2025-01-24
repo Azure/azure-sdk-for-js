@@ -49,7 +49,7 @@ async function apiManagementCreateApiIssueAttachment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateApiIssueAttachment();
+  await apiManagementCreateApiIssueAttachment();
 }
 
 main().catch(console.error);

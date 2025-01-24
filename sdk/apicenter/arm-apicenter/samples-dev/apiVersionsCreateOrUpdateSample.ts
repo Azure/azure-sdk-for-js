@@ -45,7 +45,7 @@ async function apiVersionsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiVersionsCreateOrUpdate();
+  await apiVersionsCreateOrUpdate();
 }
 
 main().catch(console.error);

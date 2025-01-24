@@ -35,7 +35,7 @@ async function listModulesByAutomationAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listModulesByAutomationAccount();
+  await listModulesByAutomationAccount();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function listsTrustedSigningAccountsWithinASubscription() {
 }
 
 async function main() {
-  listsTrustedSigningAccountsWithinASubscription();
+  await listsTrustedSigningAccountsWithinASubscription();
 }
 
 main().catch(console.error);

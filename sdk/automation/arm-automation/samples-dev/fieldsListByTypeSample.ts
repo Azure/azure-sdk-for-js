@@ -39,7 +39,7 @@ async function getAListOfFieldsOfAGivenType(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAListOfFieldsOfAGivenType();
+  await getAListOfFieldsOfAGivenType();
 }
 
 main().catch(console.error);

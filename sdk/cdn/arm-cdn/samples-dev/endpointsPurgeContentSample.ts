@@ -36,7 +36,7 @@ async function endpointsPurgeContent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  endpointsPurgeContent();
+  await endpointsPurgeContent();
 }
 
 main().catch(console.error);

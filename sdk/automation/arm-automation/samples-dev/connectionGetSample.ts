@@ -34,7 +34,7 @@ async function getAConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAConnection();
+  await getAConnection();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function departmentsListByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  departmentsListByBillingAccount();
+  await departmentsListByBillingAccount();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function apiManagementTenantAccessSyncState(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementTenantAccessSyncState();
+  await apiManagementTenantAccessSyncState();
 }
 
 main().catch(console.error);

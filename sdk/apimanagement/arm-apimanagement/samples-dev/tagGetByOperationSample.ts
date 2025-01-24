@@ -40,7 +40,7 @@ async function apiManagementGetApiOperationTag(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetApiOperationTag();
+  await apiManagementGetApiOperationTag();
 }
 
 main().catch(console.error);

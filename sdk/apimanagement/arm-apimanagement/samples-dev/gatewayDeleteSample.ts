@@ -38,7 +38,7 @@ async function apiManagementDeleteGateway(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteGateway();
+  await apiManagementDeleteGateway();
 }
 
 main().catch(console.error);

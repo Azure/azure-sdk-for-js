@@ -48,7 +48,7 @@ async function servicesCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesCreateOrUpdate();
+  await servicesCreateOrUpdate();
 }
 
 main().catch(console.error);

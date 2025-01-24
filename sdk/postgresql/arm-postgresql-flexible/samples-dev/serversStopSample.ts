@@ -38,7 +38,7 @@ async function serverStop() {
 }
 
 async function main() {
-  serverStop();
+  await serverStop();
 }
 
 main().catch(console.error);

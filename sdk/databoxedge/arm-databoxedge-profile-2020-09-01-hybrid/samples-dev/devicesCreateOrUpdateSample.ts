@@ -44,7 +44,7 @@ async function dataBoxEdgeDevicePut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataBoxEdgeDevicePut();
+  await dataBoxEdgeDevicePut();
 }
 
 main().catch(console.error);

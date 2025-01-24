@@ -32,7 +32,7 @@ async function configServersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configServersGet();
+  await configServersGet();
 }
 
 main().catch(console.error);

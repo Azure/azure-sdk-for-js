@@ -52,7 +52,7 @@ async function webhookUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webhookUpdate();
+  await webhookUpdate();
 }
 
 main().catch(console.error);

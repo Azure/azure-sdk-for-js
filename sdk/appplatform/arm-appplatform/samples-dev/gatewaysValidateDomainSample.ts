@@ -42,7 +42,7 @@ async function gatewaysValidateDomain(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  gatewaysValidateDomain();
+  await gatewaysValidateDomain();
 }
 
 main().catch(console.error);

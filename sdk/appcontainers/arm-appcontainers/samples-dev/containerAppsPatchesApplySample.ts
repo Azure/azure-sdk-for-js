@@ -36,7 +36,7 @@ async function containerAppsPatchesApply0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerAppsPatchesApply0();
+  await containerAppsPatchesApply0();
 }
 
 main().catch(console.error);

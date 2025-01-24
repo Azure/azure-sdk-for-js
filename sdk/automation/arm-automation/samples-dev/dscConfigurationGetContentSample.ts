@@ -34,7 +34,7 @@ async function getDscConfigurationContent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDscConfigurationContent();
+  await getDscConfigurationContent();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function apiPortalsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiPortalsDelete();
+  await apiPortalsDelete();
 }
 
 main().catch(console.error);

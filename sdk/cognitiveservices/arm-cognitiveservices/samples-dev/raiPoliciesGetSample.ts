@@ -40,7 +40,7 @@ async function getRaiPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getRaiPolicy();
+  await getRaiPolicy();
 }
 
 main().catch(console.error);

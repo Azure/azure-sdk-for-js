@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  OrganizationListEnvironmentsOptionalParams,
-  ConfluentManagementClient,
-} from "@azure/arm-confluent";
+import type { OrganizationListEnvironmentsOptionalParams } from "@azure/arm-confluent";
+import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,17 +21,15 @@ import "dotenv/config";
  */
 async function organizationListEnvironments(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const pageSize = 10;
   const options: OrganizationListEnvironmentsOptionalParams = { pageSize };
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organization.listEnvironments(
+  for await (const item of client.organization.listEnvironments(
     resourceGroupName,
     organizationName,
     options,
@@ -44,7 +40,7 @@ async function organizationListEnvironments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationListEnvironments();
+  await organizationListEnvironments();
 }
 
 main().catch(console.error);

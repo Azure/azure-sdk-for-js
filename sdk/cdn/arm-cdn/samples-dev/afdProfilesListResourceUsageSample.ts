@@ -35,7 +35,7 @@ async function afdProfilesListResourceUsage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdProfilesListResourceUsage();
+  await afdProfilesListResourceUsage();
 }
 
 main().catch(console.error);

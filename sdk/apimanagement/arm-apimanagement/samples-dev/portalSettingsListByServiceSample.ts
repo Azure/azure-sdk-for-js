@@ -34,7 +34,7 @@ async function apiManagementListPortalSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListPortalSettings();
+  await apiManagementListPortalSettings();
 }
 
 main().catch(console.error);

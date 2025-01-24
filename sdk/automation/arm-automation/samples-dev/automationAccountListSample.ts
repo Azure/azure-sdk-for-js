@@ -30,7 +30,7 @@ async function listAutomationAccountsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAutomationAccountsByResourceGroup();
+  await listAutomationAccountsByResourceGroup();
 }
 
 main().catch(console.error);

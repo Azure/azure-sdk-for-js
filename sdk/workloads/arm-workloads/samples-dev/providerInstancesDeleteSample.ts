@@ -37,7 +37,7 @@ async function deletesASapMonitorProvider(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletesASapMonitorProvider();
+  await deletesASapMonitorProvider();
 }
 
 main().catch(console.error);

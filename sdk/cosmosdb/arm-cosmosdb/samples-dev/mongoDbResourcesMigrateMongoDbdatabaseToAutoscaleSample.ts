@@ -35,7 +35,7 @@ async function cosmosDbMongoDbdatabaseMigrateToAutoscale(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbdatabaseMigrateToAutoscale();
+  await cosmosDbMongoDbdatabaseMigrateToAutoscale();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listChannelsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listChannelsByResourceGroup();
+  await listChannelsByResourceGroup();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function deleteSpecificMachinesInAnAgentPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteSpecificMachinesInAnAgentPool();
+  await deleteSpecificMachinesInAnAgentPool();
 }
 
 main().catch(console.error);

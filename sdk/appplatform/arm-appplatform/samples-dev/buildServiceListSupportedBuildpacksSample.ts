@@ -37,7 +37,7 @@ async function buildServiceListSupportedBuildpacks(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  buildServiceListSupportedBuildpacks();
+  await buildServiceListSupportedBuildpacks();
 }
 
 main().catch(console.error);

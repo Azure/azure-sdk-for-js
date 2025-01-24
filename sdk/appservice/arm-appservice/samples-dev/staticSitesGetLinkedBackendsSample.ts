@@ -37,7 +37,7 @@ async function getDetailsOfTheLinkedBackendsRegisteredWithAStaticSite(): Promise
 }
 
 async function main(): Promise<void> {
-  getDetailsOfTheLinkedBackendsRegisteredWithAStaticSite();
+  await getDetailsOfTheLinkedBackendsRegisteredWithAStaticSite();
 }
 
 main().catch(console.error);

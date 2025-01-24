@@ -23,7 +23,7 @@ async function dataflowProfileGet() {
 }
 
 async function main() {
-  dataflowProfileGet();
+  await dataflowProfileGet();
 }
 
 main().catch(console.error);

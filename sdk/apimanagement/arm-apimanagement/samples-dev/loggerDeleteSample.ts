@@ -38,7 +38,7 @@ async function apiManagementDeleteLogger(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteLogger();
+  await apiManagementDeleteLogger();
 }
 
 main().catch(console.error);

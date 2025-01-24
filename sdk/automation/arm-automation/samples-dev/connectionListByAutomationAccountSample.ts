@@ -57,8 +57,8 @@ async function listConnectionsByAutomationAccountNext100(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listConnectionsByAutomationAccountFirst100();
-  listConnectionsByAutomationAccountNext100();
+  await listConnectionsByAutomationAccountFirst100();
+  await listConnectionsByAutomationAccountNext100();
 }
 
 main().catch(console.error);

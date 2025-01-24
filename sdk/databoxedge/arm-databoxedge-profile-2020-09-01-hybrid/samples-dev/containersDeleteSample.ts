@@ -39,7 +39,7 @@ async function containerDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  containerDelete();
+  await containerDelete();
 }
 
 main().catch(console.error);

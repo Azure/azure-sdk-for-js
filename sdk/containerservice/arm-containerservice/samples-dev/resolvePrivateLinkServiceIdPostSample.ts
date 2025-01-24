@@ -40,7 +40,7 @@ async function resolveThePrivateLinkServiceIdForManagedCluster(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  resolveThePrivateLinkServiceIdForManagedCluster();
+  await resolveThePrivateLinkServiceIdForManagedCluster();
 }
 
 main().catch(console.error);

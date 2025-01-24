@@ -34,7 +34,7 @@ async function afdEndpointsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdEndpointsDelete();
+  await afdEndpointsDelete();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function configurationStoresGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationStoresGet();
+  await configurationStoresGet();
 }
 
 main().catch(console.error);

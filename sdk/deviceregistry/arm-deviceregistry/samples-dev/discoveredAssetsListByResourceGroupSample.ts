@@ -23,7 +23,7 @@ async function listDiscoveredAssetsResourceGroup() {
 }
 
 async function main() {
-  listDiscoveredAssetsResourceGroup();
+  await listDiscoveredAssetsResourceGroup();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function datastoresGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  datastoresGet();
+  await datastoresGet();
 }
 
 main().catch(console.error);

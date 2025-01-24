@@ -38,7 +38,7 @@ async function webPubSubPrivateEndpointConnectionsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubPrivateEndpointConnectionsList();
+  await webPubSubPrivateEndpointConnectionsList();
 }
 
 main().catch(console.error);

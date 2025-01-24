@@ -34,7 +34,7 @@ async function deleteSessionPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteSessionPool();
+  await deleteSessionPool();
 }
 
 main().catch(console.error);

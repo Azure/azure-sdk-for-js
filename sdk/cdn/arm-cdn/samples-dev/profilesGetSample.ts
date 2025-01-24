@@ -29,7 +29,7 @@ async function profilesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesGet();
+  await profilesGet();
 }
 
 main().catch(console.error);

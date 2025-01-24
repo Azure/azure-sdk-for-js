@@ -44,7 +44,7 @@ async function applicationLiveViewsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationLiveViewsCreateOrUpdate();
+  await applicationLiveViewsCreateOrUpdate();
 }
 
 main().catch(console.error);

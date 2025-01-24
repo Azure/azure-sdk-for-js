@@ -45,7 +45,7 @@ async function apiManagementUpdateProductWiki(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateProductWiki();
+  await apiManagementUpdateProductWiki();
 }
 
 main().catch(console.error);

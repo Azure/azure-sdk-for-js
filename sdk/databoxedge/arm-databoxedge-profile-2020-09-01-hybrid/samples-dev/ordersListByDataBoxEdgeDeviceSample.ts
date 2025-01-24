@@ -38,7 +38,7 @@ async function orderGetAllInDevice(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  orderGetAllInDevice();
+  await orderGetAllInDevice();
 }
 
 main().catch(console.error);

@@ -44,7 +44,7 @@ async function createOrUpdateAVariable(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAVariable();
+  await createOrUpdateAVariable();
 }
 
 main().catch(console.error);

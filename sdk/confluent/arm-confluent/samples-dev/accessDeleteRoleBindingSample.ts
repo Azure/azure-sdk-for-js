@@ -20,10 +20,8 @@ import "dotenv/config";
  */
 async function accessDeleteRoleBinding(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const roleBindingId = "dlz-f3a90de";
   const credential = new DefaultAzureCredential();
@@ -37,7 +35,7 @@ async function accessDeleteRoleBinding(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  accessDeleteRoleBinding();
+  await accessDeleteRoleBinding();
 }
 
 main().catch(console.error);

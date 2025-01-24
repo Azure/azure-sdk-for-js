@@ -40,7 +40,7 @@ async function cacheRuleDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cacheRuleDelete();
+  await cacheRuleDelete();
 }
 
 main().catch(console.error);

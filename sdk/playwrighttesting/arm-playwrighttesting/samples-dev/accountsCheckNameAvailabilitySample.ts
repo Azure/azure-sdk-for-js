@@ -22,7 +22,7 @@ async function accountsCheckNameAvailability() {
 }
 
 async function main() {
-  accountsCheckNameAvailability();
+  await accountsCheckNameAvailability();
 }
 
 main().catch(console.error);

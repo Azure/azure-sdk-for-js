@@ -36,7 +36,7 @@ async function customDomainsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  customDomainsDelete();
+  await customDomainsDelete();
 }
 
 main().catch(console.error);

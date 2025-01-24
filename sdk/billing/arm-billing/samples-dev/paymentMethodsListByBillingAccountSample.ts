@@ -33,7 +33,7 @@ async function paymentMethodsListByBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  paymentMethodsListByBillingAccount();
+  await paymentMethodsListByBillingAccount();
 }
 
 main().catch(console.error);

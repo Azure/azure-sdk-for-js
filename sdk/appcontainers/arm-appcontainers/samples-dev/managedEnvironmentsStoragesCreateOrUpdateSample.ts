@@ -85,8 +85,8 @@ async function createOrUpdateEnvironmentsStorageForNfsAzureFile(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  createOrUpdateEnvironmentsStorage();
-  createOrUpdateEnvironmentsStorageForNfsAzureFile();
+  await createOrUpdateEnvironmentsStorage();
+  await createOrUpdateEnvironmentsStorageForNfsAzureFile();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function cosmosDbTableThroughputGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbTableThroughputGet();
+  await cosmosDbTableThroughputGet();
 }
 
 main().catch(console.error);

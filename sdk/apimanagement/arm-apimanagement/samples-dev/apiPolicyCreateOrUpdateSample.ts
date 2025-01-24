@@ -85,8 +85,8 @@ async function apiManagementCreateApiPolicyNonXmlEncoded(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateApiPolicy();
-  apiManagementCreateApiPolicyNonXmlEncoded();
+  await apiManagementCreateApiPolicy();
+  await apiManagementCreateApiPolicyNonXmlEncoded();
 }
 
 main().catch(console.error);

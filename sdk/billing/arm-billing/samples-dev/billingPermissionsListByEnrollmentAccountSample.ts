@@ -34,7 +34,7 @@ async function billingPermissionsListByEnrollmentAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  billingPermissionsListByEnrollmentAccount();
+  await billingPermissionsListByEnrollmentAccount();
 }
 
 main().catch(console.error);

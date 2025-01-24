@@ -37,7 +37,7 @@ async function serviceRegistriesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  serviceRegistriesDelete();
+  await serviceRegistriesDelete();
 }
 
 main().catch(console.error);

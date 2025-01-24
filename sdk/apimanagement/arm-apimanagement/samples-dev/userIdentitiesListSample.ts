@@ -39,7 +39,7 @@ async function apiManagementListUserIdentities(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListUserIdentities();
+  await apiManagementListUserIdentities();
 }
 
 main().catch(console.error);

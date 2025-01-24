@@ -44,7 +44,7 @@ async function apiDefinitionsListByApiVersion(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiDefinitionsListByApiVersion();
+  await apiDefinitionsListByApiVersion();
 }
 
 main().catch(console.error);

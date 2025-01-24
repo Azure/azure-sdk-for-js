@@ -36,7 +36,7 @@ async function apiManagementListPolicyFragmentReferences(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementListPolicyFragmentReferences();
+  await apiManagementListPolicyFragmentReferences();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function listConnectionSettings(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listConnectionSettings();
+  await listConnectionSettings();
 }
 
 main().catch(console.error);

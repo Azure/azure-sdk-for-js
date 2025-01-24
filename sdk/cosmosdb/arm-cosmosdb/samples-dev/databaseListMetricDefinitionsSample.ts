@@ -37,7 +37,7 @@ async function cosmosDbDatabaseGetMetricDefinitions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbDatabaseGetMetricDefinitions();
+  await cosmosDbDatabaseGetMetricDefinitions();
 }
 
 main().catch(console.error);

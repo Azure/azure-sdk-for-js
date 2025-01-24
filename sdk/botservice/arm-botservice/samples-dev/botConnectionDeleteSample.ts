@@ -36,7 +36,7 @@ async function deleteConnectionSetting(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteConnectionSetting();
+  await deleteConnectionSetting();
 }
 
 main().catch(console.error);

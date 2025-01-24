@@ -39,7 +39,7 @@ async function createLogicAppExtension(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createLogicAppExtension();
+  await createLogicAppExtension();
 }
 
 main().catch(console.error);

@@ -24,7 +24,7 @@ async function updateDiscoveredAsset() {
 }
 
 async function main() {
-  updateDiscoveredAsset();
+  await updateDiscoveredAsset();
 }
 
 main().catch(console.error);

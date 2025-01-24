@@ -37,7 +37,7 @@ async function listConfigurationProfileAssignmentsByResourceGroupAndMachine(): P
 }
 
 async function main(): Promise<void> {
-  listConfigurationProfileAssignmentsByResourceGroupAndMachine();
+  await listConfigurationProfileAssignmentsByResourceGroupAndMachine();
 }
 
 main().catch(console.error);

@@ -46,7 +46,7 @@ async function workloadNetworksCreateSegments(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksCreateSegments();
+  await workloadNetworksCreateSegments();
 }
 
 main().catch(console.error);

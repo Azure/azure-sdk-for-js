@@ -45,7 +45,7 @@ async function apiManagementApplyNetworkConfigurationUpdates(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementApplyNetworkConfigurationUpdates();
+  await apiManagementApplyNetworkConfigurationUpdates();
 }
 
 main().catch(console.error);

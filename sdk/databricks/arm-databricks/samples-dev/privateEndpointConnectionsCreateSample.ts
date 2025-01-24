@@ -53,7 +53,7 @@ async function updateAPrivateEndpointConnection(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAPrivateEndpointConnection();
+  await updateAPrivateEndpointConnection();
 }
 
 main().catch(console.error);

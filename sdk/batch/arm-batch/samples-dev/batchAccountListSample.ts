@@ -30,7 +30,7 @@ async function batchAccountList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  batchAccountList();
+  await batchAccountList();
 }
 
 main().catch(console.error);

@@ -44,8 +44,8 @@ async function singleSubscriptionAlerts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  singleResourceGroupAlerts();
-  singleSubscriptionAlerts();
+  await singleResourceGroupAlerts();
+  await singleSubscriptionAlerts();
 }
 
 main().catch(console.error);

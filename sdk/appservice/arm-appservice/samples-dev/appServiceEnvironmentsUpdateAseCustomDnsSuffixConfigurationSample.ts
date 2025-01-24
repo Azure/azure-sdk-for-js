@@ -46,7 +46,7 @@ async function updateAseCustomDnsSuffixConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateAseCustomDnsSuffixConfiguration();
+  await updateAseCustomDnsSuffixConfiguration();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function apiManagementUpdateGraphQlApiResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateGraphQlApiResolver();
+  await apiManagementUpdateGraphQlApiResolver();
 }
 
 main().catch(console.error);

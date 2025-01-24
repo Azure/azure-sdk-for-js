@@ -40,7 +40,7 @@ async function apisListByWorkspace(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apisListByWorkspace();
+  await apisListByWorkspace();
 }
 
 main().catch(console.error);

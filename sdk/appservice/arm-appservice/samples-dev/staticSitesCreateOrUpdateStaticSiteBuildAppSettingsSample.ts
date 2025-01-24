@@ -44,7 +44,7 @@ async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSiteBuild(): Promi
 }
 
 async function main(): Promise<void> {
-  createsOrUpdatesTheFunctionAppSettingsOfAStaticSiteBuild();
+  await createsOrUpdatesTheFunctionAppSettingsOfAStaticSiteBuild();
 }
 
 main().catch(console.error);

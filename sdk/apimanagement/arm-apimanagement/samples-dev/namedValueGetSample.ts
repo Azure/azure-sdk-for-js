@@ -59,8 +59,8 @@ async function apiManagementGetNamedValueWithKeyVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementGetNamedValue();
-  apiManagementGetNamedValueWithKeyVault();
+  await apiManagementGetNamedValue();
+  await apiManagementGetNamedValueWithKeyVault();
 }
 
 main().catch(console.error);

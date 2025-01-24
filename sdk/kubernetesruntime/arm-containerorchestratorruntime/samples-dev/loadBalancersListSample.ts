@@ -24,7 +24,7 @@ async function loadBalancersList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  loadBalancersList();
+  await loadBalancersList();
 }
 
 main().catch(console.error);

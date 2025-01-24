@@ -41,7 +41,7 @@ async function regionConfiguration(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  regionConfiguration();
+  await regionConfiguration();
 }
 
 main().catch(console.error);

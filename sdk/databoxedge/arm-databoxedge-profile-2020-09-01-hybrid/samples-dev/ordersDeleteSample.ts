@@ -35,7 +35,7 @@ async function orderDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  orderDelete();
+  await orderDelete();
 }
 
 main().catch(console.error);

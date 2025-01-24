@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ListAccessRequestModel,
-  ConfluentManagementClient,
-} from "@azure/arm-confluent";
+import type { ListAccessRequestModel } from "@azure/arm-confluent";
+import { ConfluentManagementClient } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +21,8 @@ import "dotenv/config";
  */
 async function organizationListRegions(): Promise<void> {
   const subscriptionId =
-    process.env["CONFLUENT_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const body: ListAccessRequestModel = {
     searchFilters: {
@@ -37,16 +33,12 @@ async function organizationListRegions(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.organization.listRegions(
-    resourceGroupName,
-    organizationName,
-    body,
-  );
+  const result = await client.organization.listRegions(resourceGroupName, organizationName, body);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  organizationListRegions();
+  await organizationListRegions();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function detachTheUserProvidedFunctionAppFromTheStaticSite(): Promise<void
 }
 
 async function main(): Promise<void> {
-  detachTheUserProvidedFunctionAppFromTheStaticSite();
+  await detachTheUserProvidedFunctionAppFromTheStaticSite();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function initiatePartnerTransfer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  initiatePartnerTransfer();
+  await initiatePartnerTransfer();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function cosmosDbMongoDbuserDefinitionDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbMongoDbuserDefinitionDelete();
+  await cosmosDbMongoDbuserDefinitionDelete();
 }
 
 main().catch(console.error);

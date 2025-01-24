@@ -38,7 +38,7 @@ async function webPubSubHubsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webPubSubHubsList();
+  await webPubSubHubsList();
 }
 
 main().catch(console.error);

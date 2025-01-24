@@ -35,7 +35,7 @@ async function cosmosDbManagedCassandraClusterDeallocate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraClusterDeallocate();
+  await cosmosDbManagedCassandraClusterDeallocate();
 }
 
 main().catch(console.error);

@@ -33,7 +33,7 @@ async function locationListVirtualMachineSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  locationListVirtualMachineSkus();
+  await locationListVirtualMachineSkus();
 }
 
 main().catch(console.error);

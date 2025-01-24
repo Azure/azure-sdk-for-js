@@ -41,7 +41,7 @@ async function afdEndpointsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  afdEndpointsCreate();
+  await afdEndpointsCreate();
 }
 
 main().catch(console.error);

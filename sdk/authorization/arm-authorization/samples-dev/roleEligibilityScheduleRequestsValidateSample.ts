@@ -53,7 +53,7 @@ async function validateRoleEligibilityScheduleRequestByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateRoleEligibilityScheduleRequestByName();
+  await validateRoleEligibilityScheduleRequestByName();
 }
 
 main().catch(console.error);

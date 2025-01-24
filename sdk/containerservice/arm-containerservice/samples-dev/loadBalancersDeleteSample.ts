@@ -37,7 +37,7 @@ async function deleteALoadBalancer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteALoadBalancer();
+  await deleteALoadBalancer();
 }
 
 main().catch(console.error);

@@ -50,7 +50,7 @@ async function apiManagementApproveOrRejectPrivateEndpointConnection(): Promise<
 }
 
 async function main(): Promise<void> {
-  apiManagementApproveOrRejectPrivateEndpointConnection();
+  await apiManagementApproveOrRejectPrivateEndpointConnection();
 }
 
 main().catch(console.error);

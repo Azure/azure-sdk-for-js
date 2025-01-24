@@ -32,7 +32,7 @@ async function dataBoxEdgeDeviceGetByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataBoxEdgeDeviceGetByName();
+  await dataBoxEdgeDeviceGetByName();
 }
 
 main().catch(console.error);

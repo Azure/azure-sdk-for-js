@@ -37,7 +37,7 @@ async function getTheRoleOfTheCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTheRoleOfTheCluster();
+  await getTheRoleOfTheCluster();
 }
 
 main().catch(console.error);

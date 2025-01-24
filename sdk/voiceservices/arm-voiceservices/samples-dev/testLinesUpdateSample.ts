@@ -42,7 +42,7 @@ async function updateTestLineResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateTestLineResource();
+  await updateTestLineResource();
 }
 
 main().catch(console.error);

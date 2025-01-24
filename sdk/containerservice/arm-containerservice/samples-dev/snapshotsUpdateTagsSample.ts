@@ -40,7 +40,7 @@ async function updateSnapshotTags(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateSnapshotTags();
+  await updateSnapshotTags();
 }
 
 main().catch(console.error);

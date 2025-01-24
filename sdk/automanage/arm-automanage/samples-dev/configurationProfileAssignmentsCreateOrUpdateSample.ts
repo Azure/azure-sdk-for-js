@@ -46,7 +46,7 @@ async function createOrUpdateConfigurationProfileAssignment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateConfigurationProfileAssignment();
+  await createOrUpdateConfigurationProfileAssignment();
 }
 
 main().catch(console.error);

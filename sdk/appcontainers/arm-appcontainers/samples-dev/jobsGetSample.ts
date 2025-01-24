@@ -31,7 +31,7 @@ async function getContainerAppsJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getContainerAppsJob();
+  await getContainerAppsJob();
 }
 
 main().catch(console.error);

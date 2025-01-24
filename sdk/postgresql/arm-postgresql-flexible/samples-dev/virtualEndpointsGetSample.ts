@@ -40,7 +40,7 @@ async function getAVirtualEndpoint() {
 }
 
 async function main() {
-  getAVirtualEndpoint();
+  await getAVirtualEndpoint();
 }
 
 main().catch(console.error);

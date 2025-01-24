@@ -38,7 +38,7 @@ async function apiManagementDeleteProductWiki(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementDeleteProductWiki();
+  await apiManagementDeleteProductWiki();
 }
 
 main().catch(console.error);

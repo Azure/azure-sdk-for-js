@@ -42,7 +42,7 @@ async function cosmosDbTableCollectionBackupInformation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbTableCollectionBackupInformation();
+  await cosmosDbTableCollectionBackupInformation();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function taskRunsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  taskRunsList();
+  await taskRunsList();
 }
 
 main().catch(console.error);

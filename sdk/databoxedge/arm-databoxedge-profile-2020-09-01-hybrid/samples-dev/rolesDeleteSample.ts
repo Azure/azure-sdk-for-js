@@ -37,7 +37,7 @@ async function roleDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  roleDelete();
+  await roleDelete();
 }
 
 main().catch(console.error);

@@ -19,7 +19,7 @@ async function poolsUpdate() {
 }
 
 async function main() {
-  poolsUpdate();
+  await poolsUpdate();
 }
 
 main().catch(console.error);

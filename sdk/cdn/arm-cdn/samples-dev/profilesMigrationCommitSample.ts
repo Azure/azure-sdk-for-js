@@ -32,7 +32,7 @@ async function profilesMigrationCommit(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  profilesMigrationCommit();
+  await profilesMigrationCommit();
 }
 
 main().catch(console.error);

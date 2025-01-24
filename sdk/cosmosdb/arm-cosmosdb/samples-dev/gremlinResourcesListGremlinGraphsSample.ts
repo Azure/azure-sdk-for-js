@@ -37,7 +37,7 @@ async function cosmosDbGremlinGraphList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinGraphList();
+  await cosmosDbGremlinGraphList();
 }
 
 main().catch(console.error);

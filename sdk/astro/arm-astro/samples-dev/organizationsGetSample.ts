@@ -35,7 +35,7 @@ async function organizationsGetGeneratedByMaximumSetRule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  organizationsGetGeneratedByMaximumSetRule();
+  await organizationsGetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

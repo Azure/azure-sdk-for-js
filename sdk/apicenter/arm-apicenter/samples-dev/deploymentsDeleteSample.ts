@@ -41,7 +41,7 @@ async function deploymentsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsDelete();
+  await deploymentsDelete();
 }
 
 main().catch(console.error);

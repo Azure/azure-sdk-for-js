@@ -28,7 +28,7 @@ async function evidenceGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  evidenceGet();
+  await evidenceGet();
 }
 
 main().catch(console.error);

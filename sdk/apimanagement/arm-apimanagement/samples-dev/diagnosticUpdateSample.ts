@@ -55,7 +55,7 @@ async function apiManagementUpdateDiagnostic(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementUpdateDiagnostic();
+  await apiManagementUpdateDiagnostic();
 }
 
 main().catch(console.error);

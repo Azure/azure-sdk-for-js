@@ -29,7 +29,7 @@ async function deleteProtectionPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteProtectionPolicy();
+  await deleteProtectionPolicy();
 }
 
 main().catch(console.error);

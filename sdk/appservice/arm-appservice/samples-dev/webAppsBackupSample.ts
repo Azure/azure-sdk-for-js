@@ -61,7 +61,7 @@ async function backupWebApp(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  backupWebApp();
+  await backupWebApp();
 }
 
 main().catch(console.error);

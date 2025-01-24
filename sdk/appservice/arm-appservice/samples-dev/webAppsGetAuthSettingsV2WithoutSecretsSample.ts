@@ -35,7 +35,7 @@ async function listAuthSettingsWithoutSecrets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAuthSettingsWithoutSecrets();
+  await listAuthSettingsWithoutSecrets();
 }
 
 main().catch(console.error);

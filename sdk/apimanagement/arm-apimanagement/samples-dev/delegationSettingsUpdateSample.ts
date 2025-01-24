@@ -46,7 +46,7 @@ async function apiManagementPortalSettingsUpdateDelegation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementPortalSettingsUpdateDelegation();
+  await apiManagementPortalSettingsUpdateDelegation();
 }
 
 main().catch(console.error);

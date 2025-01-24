@@ -38,7 +38,7 @@ async function listWebAppConfigurations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWebAppConfigurations();
+  await listWebAppConfigurations();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function cosmosDbManagedCassandraDataCenterGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbManagedCassandraDataCenterGet();
+  await cosmosDbManagedCassandraDataCenterGet();
 }
 
 main().catch(console.error);

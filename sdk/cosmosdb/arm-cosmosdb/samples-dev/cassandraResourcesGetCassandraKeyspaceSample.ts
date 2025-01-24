@@ -34,7 +34,7 @@ async function cosmosDbCassandraKeyspaceGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbCassandraKeyspaceGet();
+  await cosmosDbCassandraKeyspaceGet();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function listOfferResourcesByPublisherForTheHciCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listOfferResourcesByPublisherForTheHciCluster();
+  await listOfferResourcesByPublisherForTheHciCluster();
 }
 
 main().catch(console.error);

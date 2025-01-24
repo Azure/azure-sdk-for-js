@@ -36,7 +36,7 @@ async function listSnapshotsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSnapshotsByResourceGroup();
+  await listSnapshotsByResourceGroup();
 }
 
 main().catch(console.error);

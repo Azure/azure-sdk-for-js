@@ -42,7 +42,7 @@ async function listSkuResourcesByOfferForTheHciCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listSkuResourcesByOfferForTheHciCluster();
+  await listSkuResourcesByOfferForTheHciCluster();
 }
 
 main().catch(console.error);

@@ -35,7 +35,7 @@ async function cosmosDbGremlinDatabaseMigrateToAutoscale(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbGremlinDatabaseMigrateToAutoscale();
+  await cosmosDbGremlinDatabaseMigrateToAutoscale();
 }
 
 main().catch(console.error);

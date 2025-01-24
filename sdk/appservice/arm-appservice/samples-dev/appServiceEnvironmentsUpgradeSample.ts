@@ -34,7 +34,7 @@ async function initiateAnUpgradeOnAnAppServiceEnvironment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  initiateAnUpgradeOnAnAppServiceEnvironment();
+  await initiateAnUpgradeOnAnAppServiceEnvironment();
 }
 
 main().catch(console.error);

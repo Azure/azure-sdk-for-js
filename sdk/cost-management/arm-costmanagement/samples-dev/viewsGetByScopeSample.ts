@@ -29,7 +29,7 @@ async function resourceGroupView(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resourceGroupView();
+  await resourceGroupView();
 }
 
 main().catch(console.error);

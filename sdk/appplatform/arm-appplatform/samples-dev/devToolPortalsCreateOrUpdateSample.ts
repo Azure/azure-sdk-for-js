@@ -57,7 +57,7 @@ async function devToolPortalsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  devToolPortalsCreateOrUpdate();
+  await devToolPortalsCreateOrUpdate();
 }
 
 main().catch(console.error);

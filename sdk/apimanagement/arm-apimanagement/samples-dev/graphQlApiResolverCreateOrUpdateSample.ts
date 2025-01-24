@@ -47,7 +47,7 @@ async function apiManagementCreateGraphQlApiResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiManagementCreateGraphQlApiResolver();
+  await apiManagementCreateGraphQlApiResolver();
 }
 
 main().catch(console.error);

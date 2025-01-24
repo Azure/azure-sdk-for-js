@@ -36,7 +36,7 @@ async function deleteAnUpdateRunResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnUpdateRunResource();
+  await deleteAnUpdateRunResource();
 }
 
 main().catch(console.error);

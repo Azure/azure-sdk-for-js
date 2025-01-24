@@ -30,7 +30,7 @@ async function cosmosDbLocationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cosmosDbLocationGet();
+  await cosmosDbLocationGet();
 }
 
 main().catch(console.error);

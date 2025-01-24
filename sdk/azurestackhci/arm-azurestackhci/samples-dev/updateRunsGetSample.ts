@@ -39,7 +39,7 @@ async function getUpdateRunsUnderClusterResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getUpdateRunsUnderClusterResource();
+  await getUpdateRunsUnderClusterResource();
 }
 
 main().catch(console.error);

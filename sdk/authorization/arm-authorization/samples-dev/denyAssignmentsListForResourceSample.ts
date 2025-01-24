@@ -43,7 +43,7 @@ async function listDenyAssignmentsForResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDenyAssignmentsForResource();
+  await listDenyAssignmentsForResource();
 }
 
 main().catch(console.error);

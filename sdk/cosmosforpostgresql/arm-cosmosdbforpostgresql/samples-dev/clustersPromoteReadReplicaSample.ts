@@ -35,7 +35,7 @@ async function promoteReadReplicaClusterToAnIndependentReadWriteCluster(): Promi
 }
 
 async function main(): Promise<void> {
-  promoteReadReplicaClusterToAnIndependentReadWriteCluster();
+  await promoteReadReplicaClusterToAnIndependentReadWriteCluster();
 }
 
 main().catch(console.error);

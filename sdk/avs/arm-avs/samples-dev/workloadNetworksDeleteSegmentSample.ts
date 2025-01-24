@@ -36,7 +36,7 @@ async function workloadNetworksDeleteSegment(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workloadNetworksDeleteSegment();
+  await workloadNetworksDeleteSegment();
 }
 
 main().catch(console.error);

@@ -29,7 +29,7 @@ async function resourceGroupDeleteView(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  resourceGroupDeleteView();
+  await resourceGroupDeleteView();
 }
 
 main().catch(console.error);

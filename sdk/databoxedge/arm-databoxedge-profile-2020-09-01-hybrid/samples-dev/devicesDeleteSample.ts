@@ -35,7 +35,7 @@ async function dataBoxEdgeDeviceDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  dataBoxEdgeDeviceDelete();
+  await dataBoxEdgeDeviceDelete();
 }
 
 main().catch(console.error);

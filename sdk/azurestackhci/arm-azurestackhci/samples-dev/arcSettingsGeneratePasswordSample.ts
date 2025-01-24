@@ -37,7 +37,7 @@ async function generatePassword(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  generatePassword();
+  await generatePassword();
 }
 
 main().catch(console.error);

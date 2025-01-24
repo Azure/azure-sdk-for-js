@@ -41,7 +41,7 @@ async function listRaiPolicies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRaiPolicies();
+  await listRaiPolicies();
 }
 
 main().catch(console.error);

@@ -47,7 +47,7 @@ async function validateIfBackendCanBeLinkedToStaticSiteBuild(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateIfBackendCanBeLinkedToStaticSiteBuild();
+  await validateIfBackendCanBeLinkedToStaticSiteBuild();
 }
 
 main().catch(console.error);
