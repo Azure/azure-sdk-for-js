@@ -28,7 +28,7 @@ async function listComponentsInNetworkFunction() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.components.listByNetworkFunction(
+  for await (const item of client.components.listByNetworkFunction(
     resourceGroupName,
     networkFunctionName
   )) {

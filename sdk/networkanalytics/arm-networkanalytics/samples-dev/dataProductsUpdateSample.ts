@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DataProductUpdate} from "@azure/arm-networkanalytics";
 import {
-  DataProductUpdate,
   MicrosoftNetworkAnalytics
 } from "@azure/arm-networkanalytics";
 import { DefaultAzureCredential } from "@azure/identity";

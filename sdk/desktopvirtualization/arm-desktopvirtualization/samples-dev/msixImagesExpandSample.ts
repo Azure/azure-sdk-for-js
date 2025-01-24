@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MsixImageURI} from "@azure/arm-desktopvirtualization";
 import {
-  MsixImageURI,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function msixImageExpand(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.msixImages.listExpand(
+  for await (const item of client.msixImages.listExpand(
     resourceGroupName,
     hostPoolName,
     msixImageURI,

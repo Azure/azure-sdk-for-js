@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   MoveResource,
-  MoveResourcesCreateOptionalParams,
+  MoveResourcesCreateOptionalParams} from "@azure/arm-resourcemover";
+import {
   ResourceMoverServiceAPI
 } from "@azure/arm-resourcemover";
 import { DefaultAzureCredential } from "@azure/identity";

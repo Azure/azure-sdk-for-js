@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LocalRulesGetCountersOptionalParams} from "@azure/arm-paloaltonetworksngfw";
 import {
-  LocalRulesGetCountersOptionalParams,
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";

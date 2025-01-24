@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WebhookListOptionalParams} from "@azure/arm-appcomplianceautomation";
 import {
-  WebhookListOptionalParams,
   AppComplianceAutomationToolForMicrosoft365,
 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function webhookList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const resArray = new Array();
-  for await (let item of client.webhook.list(reportName, options)) {
+  for await (const item of client.webhook.list(reportName, options)) {
     resArray.push(item);
   }
   console.log(resArray);

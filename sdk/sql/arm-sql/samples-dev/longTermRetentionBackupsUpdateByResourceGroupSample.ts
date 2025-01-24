@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  UpdateLongTermRetentionBackupParameters} from "@azure/arm-sql";
 import {
-  UpdateLongTermRetentionBackupParameters,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";

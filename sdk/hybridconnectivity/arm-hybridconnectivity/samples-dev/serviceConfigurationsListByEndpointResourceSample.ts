@@ -27,7 +27,7 @@ async function getClustersExample() {
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
   const resArray = new Array();
-  for await (let item of client.serviceConfigurations.listByEndpointResource(
+  for await (const item of client.serviceConfigurations.listByEndpointResource(
     resourceUri,
     endpointName
   )) {

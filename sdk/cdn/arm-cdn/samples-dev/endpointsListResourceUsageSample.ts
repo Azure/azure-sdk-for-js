@@ -26,7 +26,7 @@ async function endpointsListResourceUsage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.endpoints.listResourceUsage(
+  for await (const item of client.endpoints.listResourceUsage(
     resourceGroupName,
     profileName,
     endpointName,

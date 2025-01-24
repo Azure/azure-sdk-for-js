@@ -29,7 +29,7 @@ async function unresolvedDependenciesGet() {
   const credential = new DefaultAzureCredential();
   const client = new ResourceMoverServiceAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.unresolvedDependencies.list(
+  for await (const item of client.unresolvedDependencies.list(
     resourceGroupName,
     moveCollectionName
   )) {

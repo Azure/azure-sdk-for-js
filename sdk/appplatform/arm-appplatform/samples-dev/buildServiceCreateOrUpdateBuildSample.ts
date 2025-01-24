@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Build, AppPlatformManagementClient } from "@azure/arm-appplatform";
+import type { Build} from "@azure/arm-appplatform";
+import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

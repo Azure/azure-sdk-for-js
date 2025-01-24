@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ApiCreateOrUpdateParameter} from "@azure/arm-apimanagement";
 import {
-  ApiCreateOrUpdateParameter,
   ApiManagementClient
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";

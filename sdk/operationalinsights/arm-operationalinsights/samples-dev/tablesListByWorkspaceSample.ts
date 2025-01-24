@@ -33,7 +33,7 @@ async function tablesListByWorkspace() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.tables.listByWorkspace(
+  for await (const item of client.tables.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

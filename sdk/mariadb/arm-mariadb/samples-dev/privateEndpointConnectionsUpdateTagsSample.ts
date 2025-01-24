@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TagsObject, MariaDBManagementClient } from "@azure/arm-mariadb";
+import type { TagsObject} from "@azure/arm-mariadb";
+import { MariaDBManagementClient } from "@azure/arm-mariadb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

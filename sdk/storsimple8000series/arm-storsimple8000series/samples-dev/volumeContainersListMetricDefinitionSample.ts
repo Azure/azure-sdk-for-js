@@ -29,7 +29,7 @@ async function volumeContainersListMetricDefinition() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.volumeContainers.listMetricDefinition(
+  for await (const item of client.volumeContainers.listMetricDefinition(
     deviceName,
     volumeContainerName,
     resourceGroupName,

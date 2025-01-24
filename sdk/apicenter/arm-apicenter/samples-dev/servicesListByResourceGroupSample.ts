@@ -27,7 +27,7 @@ async function servicesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureAPICenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.services.listByResourceGroup(
+  for await (const item of client.services.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

@@ -24,7 +24,7 @@ async function orderGetAllInDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.orders.listByDataBoxEdgeDevice(
+  for await (const item of client.orders.listByDataBoxEdgeDevice(
     deviceName,
     resourceGroupName
   )) {

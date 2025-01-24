@@ -29,7 +29,7 @@ async function getMetricDefinitionsForAWorkerPoolOfAnAppServiceEnvironment(): Pr
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listWebWorkerMetricDefinitions(
+  for await (const item of client.appServiceEnvironments.listWebWorkerMetricDefinitions(
     resourceGroupName,
     name,
     workerPoolName,

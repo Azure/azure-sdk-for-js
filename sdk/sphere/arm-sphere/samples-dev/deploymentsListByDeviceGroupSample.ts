@@ -32,7 +32,7 @@ async function deploymentsListByDeviceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deployments.listByDeviceGroup(
+  for await (const item of client.deployments.listByDeviceGroup(
     resourceGroupName,
     catalogName,
     productName,

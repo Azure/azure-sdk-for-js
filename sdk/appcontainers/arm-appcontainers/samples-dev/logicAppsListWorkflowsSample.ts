@@ -29,7 +29,7 @@ async function listTheWorkflows(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.logicApps.listWorkflows(
+  for await (const item of client.logicApps.listWorkflows(
     resourceGroupName,
     containerAppName,
     logicAppName,

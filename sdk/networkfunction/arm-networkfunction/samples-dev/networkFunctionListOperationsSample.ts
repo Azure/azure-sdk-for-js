@@ -22,7 +22,7 @@ async function operationsList() {
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkFunction.listOperations()) {
+  for await (const item of client.networkFunction.listOperations()) {
     resArray.push(item);
   }
   console.log(resArray);

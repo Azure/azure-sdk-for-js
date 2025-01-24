@@ -28,7 +28,7 @@ async function privateEndpointConnectionListByHostPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByHostPool(
+  for await (const item of client.privateEndpointConnections.listByHostPool(
     resourceGroupName,
     hostPoolName,
   )) {

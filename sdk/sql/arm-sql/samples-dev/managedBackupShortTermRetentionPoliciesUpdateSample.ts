@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedBackupShortTermRetentionPolicy} from "@azure/arm-sql";
 import {
-  ManagedBackupShortTermRetentionPolicy,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";

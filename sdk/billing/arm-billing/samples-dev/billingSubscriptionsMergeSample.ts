@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BillingSubscriptionMergeRequest} from "@azure/arm-billing";
 import {
-  BillingSubscriptionMergeRequest,
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";

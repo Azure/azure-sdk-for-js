@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ListConnectionDetailsParameters} from "@azure/arm-devspaces";
 import {
-  ListConnectionDetailsParameters,
   DevSpacesManagementClient
 } from "@azure/arm-devspaces";
 import { DefaultAzureCredential } from "@azure/identity";

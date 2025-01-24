@@ -31,7 +31,7 @@ async function cvesListByFirmwareMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cves.listByFirmware(
+  for await (const item of client.cves.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,
@@ -58,7 +58,7 @@ async function cvesListByFirmwareMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cves.listByFirmware(
+  for await (const item of client.cves.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,

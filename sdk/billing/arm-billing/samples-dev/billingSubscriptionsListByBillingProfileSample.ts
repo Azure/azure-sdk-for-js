@@ -24,7 +24,7 @@ async function billingSubscriptionsListByBillingProfileEa(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingSubscriptions.listByBillingProfile(
+  for await (const item of client.billingSubscriptions.listByBillingProfile(
     billingAccountName,
     billingProfileName,
   )) {
@@ -46,7 +46,7 @@ async function billingSubscriptionsListByBillingProfileMca(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingSubscriptions.listByBillingProfile(
+  for await (const item of client.billingSubscriptions.listByBillingProfile(
     billingAccountName,
     billingProfileName,
   )) {

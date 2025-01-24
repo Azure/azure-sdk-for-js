@@ -25,7 +25,7 @@ async function getConnectionTypesFirst100(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.connectionTypeOperations.listByAutomationAccount(
+  for await (const item of client.connectionTypeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {
@@ -47,7 +47,7 @@ async function getConnectionTypesNext100(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.connectionTypeOperations.listByAutomationAccount(
+  for await (const item of client.connectionTypeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

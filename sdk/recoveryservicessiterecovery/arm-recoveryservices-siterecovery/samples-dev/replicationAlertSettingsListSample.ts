@@ -31,7 +31,7 @@ async function getsTheListOfConfiguredEmailNotificationAlertConfigurations() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationAlertSettings.list(
+  for await (const item of client.replicationAlertSettings.list(
     resourceName,
     resourceGroupName,
   )) {

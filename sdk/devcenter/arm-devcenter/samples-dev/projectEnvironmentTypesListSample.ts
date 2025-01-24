@@ -27,7 +27,7 @@ async function projectEnvironmentTypesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.projectEnvironmentTypes.list(
+  for await (const item of client.projectEnvironmentTypes.list(
     resourceGroupName,
     projectName,
   )) {

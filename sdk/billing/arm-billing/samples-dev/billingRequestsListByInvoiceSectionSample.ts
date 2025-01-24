@@ -26,7 +26,7 @@ async function billingRequestsListByInvoiceSection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingRequests.listByInvoiceSection(
+  for await (const item of client.billingRequests.listByInvoiceSection(
     billingAccountName,
     billingProfileName,
     invoiceSectionName,

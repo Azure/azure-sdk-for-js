@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SBSubscription} from "@azure/arm-servicebus";
 import {
-  SBSubscription,
   ServiceBusManagementClient
 } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";

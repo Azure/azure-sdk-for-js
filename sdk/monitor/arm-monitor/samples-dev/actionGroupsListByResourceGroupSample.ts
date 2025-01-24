@@ -29,7 +29,7 @@ async function listActionGroupsAtResourceGroupLevel() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.actionGroups.listByResourceGroup(
+  for await (const item of client.actionGroups.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

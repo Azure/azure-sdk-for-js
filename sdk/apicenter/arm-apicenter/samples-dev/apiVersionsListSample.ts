@@ -30,7 +30,7 @@ async function apiVersionsListByApi(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureAPICenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiVersions.list(
+  for await (const item of client.apiVersions.list(
     resourceGroupName,
     serviceName,
     workspaceName,

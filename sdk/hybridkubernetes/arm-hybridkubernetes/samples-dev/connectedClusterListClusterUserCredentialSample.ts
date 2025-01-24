@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ListClusterUserCredentialProperties} from "@azure/arm-hybridkubernetes";
 import {
-  ListClusterUserCredentialProperties,
   ConnectedKubernetesClient
 } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";

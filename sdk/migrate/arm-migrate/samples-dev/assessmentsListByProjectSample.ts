@@ -36,7 +36,7 @@ async function assessmentsListByProject() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMigrateV2(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.assessments.listByProject(
+  for await (const item of client.assessments.listByProject(
     resourceGroupName,
     projectName
   )) {

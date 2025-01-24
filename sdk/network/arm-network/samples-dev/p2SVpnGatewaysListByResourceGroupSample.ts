@@ -26,7 +26,7 @@ async function p2SVpnGatewayListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.p2SVpnGateways.listByResourceGroup(
+  for await (const item of client.p2SVpnGateways.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

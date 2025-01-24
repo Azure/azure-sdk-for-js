@@ -32,7 +32,7 @@ async function summariesListBySiteMaximumSetGen() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.summaries.listBySite(
+  for await (const item of client.summaries.listBySite(
     resourceGroupName,
     siteName,
   )) {
@@ -59,7 +59,7 @@ async function summariesListBySiteMinimumSetGen() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.summaries.listBySite(
+  for await (const item of client.summaries.listBySite(
     resourceGroupName,
     siteName,
   )) {

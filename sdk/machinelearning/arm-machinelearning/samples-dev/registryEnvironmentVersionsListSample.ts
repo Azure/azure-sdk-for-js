@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RegistryEnvironmentVersionsListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  RegistryEnvironmentVersionsListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -43,7 +44,7 @@ async function listRegistryEnvironmentVersion() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.registryEnvironmentVersions.list(
+  for await (const item of client.registryEnvironmentVersions.list(
     resourceGroupName,
     registryName,
     environmentName,

@@ -33,7 +33,7 @@ async function networkToNetworkInterconnectsListByNetworkFabricMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkToNetworkInterconnects.listByNetworkFabric(
+  for await (const item of client.networkToNetworkInterconnects.listByNetworkFabric(
     resourceGroupName,
     networkFabricName
   )) {

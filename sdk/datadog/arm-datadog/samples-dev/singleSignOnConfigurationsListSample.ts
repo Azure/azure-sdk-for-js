@@ -28,7 +28,7 @@ async function singleSignOnConfigurationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.singleSignOnConfigurations.list(
+  for await (const item of client.singleSignOnConfigurations.list(
     resourceGroupName,
     monitorName
   )) {

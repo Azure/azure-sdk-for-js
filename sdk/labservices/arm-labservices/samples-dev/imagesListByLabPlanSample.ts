@@ -30,7 +30,7 @@ async function listImages() {
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.images.listByLabPlan(
+  for await (const item of client.images.listByLabPlan(
     resourceGroupName,
     labPlanName
   )) {

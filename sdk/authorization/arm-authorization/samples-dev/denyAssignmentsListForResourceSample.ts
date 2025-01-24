@@ -30,7 +30,7 @@ async function listDenyAssignmentsForResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.denyAssignments.listForResource(
+  for await (const item of client.denyAssignments.listForResource(
     resourceGroupName,
     resourceProviderNamespace,
     parentResourcePath,

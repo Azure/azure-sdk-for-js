@@ -26,7 +26,7 @@ async function customDomainsListByEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.customDomains.listByEndpoint(
+  for await (const item of client.customDomains.listByEndpoint(
     resourceGroupName,
     profileName,
     endpointName,

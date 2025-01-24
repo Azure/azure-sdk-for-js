@@ -28,7 +28,7 @@ async function getApplicationGroupsUnderAPublisherResource() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.artifactStores.listByPublisher(
+  for await (const item of client.artifactStores.listByPublisher(
     resourceGroupName,
     publisherName
   )) {

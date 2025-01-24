@@ -31,7 +31,7 @@ async function listAllAssetFilters() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.assetFilters.list(
+  for await (const item of client.assetFilters.list(
     resourceGroupName,
     accountName,
     assetName

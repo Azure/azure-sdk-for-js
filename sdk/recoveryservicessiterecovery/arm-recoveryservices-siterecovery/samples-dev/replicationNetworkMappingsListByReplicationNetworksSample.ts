@@ -34,7 +34,7 @@ async function getsAllTheNetworkMappingsUnderANetwork() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationNetworkMappings.listByReplicationNetworks(
+  for await (const item of client.replicationNetworkMappings.listByReplicationNetworks(
     resourceName,
     resourceGroupName,
     fabricName,

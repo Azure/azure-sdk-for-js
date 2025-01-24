@@ -27,7 +27,7 @@ async function changesListChangesBySubscription(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.changes.listChangesBySubscription(
+  for await (const item of client.changes.listChangesBySubscription(
     startTime,
     endTime
   )) {

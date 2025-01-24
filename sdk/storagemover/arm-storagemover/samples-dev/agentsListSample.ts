@@ -30,7 +30,7 @@ async function agentsListMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.agents.list(
+  for await (const item of client.agents.list(
     resourceGroupName,
     storageMoverName,
   )) {
@@ -55,7 +55,7 @@ async function agentsListMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.agents.list(
+  for await (const item of client.agents.list(
     resourceGroupName,
     storageMoverName,
   )) {

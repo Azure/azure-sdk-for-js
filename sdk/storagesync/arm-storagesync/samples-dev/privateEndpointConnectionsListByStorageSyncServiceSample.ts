@@ -24,7 +24,7 @@ async function privateEndpointConnectionsListByStorageSyncService() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftStorageSync(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByStorageSyncService(
+  for await (const item of client.privateEndpointConnections.listByStorageSyncService(
     resourceGroupName,
     storageSyncServiceName
   )) {

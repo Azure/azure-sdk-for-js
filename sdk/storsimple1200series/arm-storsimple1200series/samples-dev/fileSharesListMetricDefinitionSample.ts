@@ -27,7 +27,7 @@ async function fileSharesListMetricDefinition() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.listMetricDefinition(
+  for await (const item of client.fileShares.listMetricDefinition(
     deviceName,
     fileServerName,
     shareName,

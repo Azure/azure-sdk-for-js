@@ -12,9 +12,11 @@
  * @azsdk-weight 60
  */
 
-import DocumentIntelligence, {
+import type {
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelComposeOperationDetailsOutput,
+} from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";

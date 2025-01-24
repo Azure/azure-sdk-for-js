@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Workspace, AzureAPICenter } from "@azure/arm-apicenter";
+import type { Workspace} from "@azure/arm-apicenter";
+import { AzureAPICenter } from "@azure/arm-apicenter";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

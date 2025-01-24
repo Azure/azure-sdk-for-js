@@ -30,7 +30,7 @@ async function listAppliancesBySubscription() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.appliances.listBySubscription()) {
+  for await (const item of client.appliances.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

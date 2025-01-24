@@ -24,7 +24,7 @@ async function templateSpecVersionsList() {
   const credential = new DefaultAzureCredential();
   const client = new TemplateSpecsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.templateSpecVersions.list(
+  for await (const item of client.templateSpecVersions.list(
     resourceGroupName,
     templateSpecName
   )) {

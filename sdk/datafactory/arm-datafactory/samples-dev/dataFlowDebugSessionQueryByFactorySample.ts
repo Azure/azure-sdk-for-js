@@ -28,7 +28,7 @@ async function dataFlowDebugSessionQueryByFactory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataFlowDebugSession.listQueryByFactory(
+  for await (const item of client.dataFlowDebugSession.listQueryByFactory(
     resourceGroupName,
     factoryName,
   )) {

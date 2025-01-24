@@ -24,7 +24,7 @@ async function listAllConnectionMonitorTestsAssociatedWithThePeeringService() {
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.connectionMonitorTests.listByPeeringService(
+  for await (const item of client.connectionMonitorTests.listByPeeringService(
     resourceGroupName,
     peeringServiceName
   )) {

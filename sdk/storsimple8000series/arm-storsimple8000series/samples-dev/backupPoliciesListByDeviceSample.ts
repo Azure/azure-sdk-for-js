@@ -28,7 +28,7 @@ async function backupPoliciesListByDevice() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.backupPolicies.listByDevice(
+  for await (const item of client.backupPolicies.listByDevice(
     deviceName,
     resourceGroupName,
     managerName

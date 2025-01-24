@@ -14,8 +14,9 @@
  * @summary The PATCH operation can be used to update only the tags for a cluster. Use PUT operation to update other properties.
  * x-ms-original-file: specification/machinelearningcompute/resource-manager/Microsoft.MachineLearningCompute/preview/2017-08-01-preview/examples/OperationalizationClusters_Update.json
  */
+import type {
+  OperationalizationClusterUpdateParameters} from "@azure/arm-machinelearningcompute";
 import {
-  OperationalizationClusterUpdateParameters,
   MachineLearningComputeManagementClient
 } from "@azure/arm-machinelearningcompute";
 import { DefaultAzureCredential } from "@azure/identity";

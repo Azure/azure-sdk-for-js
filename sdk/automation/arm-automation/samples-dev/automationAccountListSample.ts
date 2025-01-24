@@ -23,7 +23,7 @@ async function listAutomationAccountsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.automationAccountOperations.list()) {
+  for await (const item of client.automationAccountOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

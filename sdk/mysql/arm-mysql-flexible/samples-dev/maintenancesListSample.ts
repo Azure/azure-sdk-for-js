@@ -32,7 +32,7 @@ async function listMaintenancesOnAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.maintenances.list(
+  for await (const item of client.maintenances.list(
     resourceGroupName,
     serverName,
   )) {

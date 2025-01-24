@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ScalingPlanPooledSchedulePatch,
-  ScalingPlanPooledSchedulesUpdateOptionalParams,
+  ScalingPlanPooledSchedulesUpdateOptionalParams} from "@azure/arm-desktopvirtualization";
+import {
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";

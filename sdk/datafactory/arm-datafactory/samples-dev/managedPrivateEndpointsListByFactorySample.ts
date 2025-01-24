@@ -29,7 +29,7 @@ async function managedPrivateEndpointsListByFactory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedPrivateEndpoints.listByFactory(
+  for await (const item of client.managedPrivateEndpoints.listByFactory(
     resourceGroupName,
     factoryName,
     managedVirtualNetworkName,

@@ -28,7 +28,7 @@ async function managedVirtualNetworksListByFactory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedVirtualNetworks.listByFactory(
+  for await (const item of client.managedVirtualNetworks.listByFactory(
     resourceGroupName,
     factoryName,
   )) {

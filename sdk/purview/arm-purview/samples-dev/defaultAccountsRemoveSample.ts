@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DefaultAccountsRemoveOptionalParams} from "@azure/arm-purview";
 import {
-  DefaultAccountsRemoveOptionalParams,
   PurviewManagementClient
 } from "@azure/arm-purview";
 import { DefaultAzureCredential } from "@azure/identity";

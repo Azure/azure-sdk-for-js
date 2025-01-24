@@ -31,7 +31,7 @@ async function getsTheListOfAllProtectionContainerMappingsInAVault() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationProtectionContainerMappings.list(
+  for await (const item of client.replicationProtectionContainerMappings.list(
     resourceName,
     resourceGroupName,
   )) {

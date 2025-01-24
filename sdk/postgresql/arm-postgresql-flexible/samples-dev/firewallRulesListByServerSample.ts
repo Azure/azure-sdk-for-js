@@ -31,7 +31,7 @@ async function firewallRuleList() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.firewallRules.listByServer(
+  for await (const item of client.firewallRules.listByServer(
     resourceGroupName,
     serverName,
   )) {

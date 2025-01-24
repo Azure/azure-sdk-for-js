@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Contact, AzureOrbital } from "@azure/arm-orbital";
+import type { Contact} from "@azure/arm-orbital";
+import { AzureOrbital } from "@azure/arm-orbital";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

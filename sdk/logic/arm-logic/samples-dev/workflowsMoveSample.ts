@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { WorkflowReference, LogicManagementClient } from "@azure/arm-logic";
+import type { WorkflowReference} from "@azure/arm-logic";
+import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

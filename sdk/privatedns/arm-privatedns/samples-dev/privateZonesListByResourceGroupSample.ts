@@ -28,7 +28,7 @@ async function getPrivateDnsZoneByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateZones.listByResourceGroup(
+  for await (const item of client.privateZones.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

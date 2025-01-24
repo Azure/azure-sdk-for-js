@@ -29,7 +29,7 @@ async function managersListMetrics() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.managers.listMetrics(
+  for await (const item of client.managers.listMetrics(
     resourceGroupName,
     managerName,
     filter

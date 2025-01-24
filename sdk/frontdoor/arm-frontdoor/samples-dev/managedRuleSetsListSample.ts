@@ -25,7 +25,7 @@ async function listPoliciesManagedRuleSetsInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedRuleSets.list()) {
+  for await (const item of client.managedRuleSets.list()) {
     resArray.push(item);
   }
   console.log(resArray);

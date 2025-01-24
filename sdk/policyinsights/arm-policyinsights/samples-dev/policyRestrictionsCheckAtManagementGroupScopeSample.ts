@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckManagementGroupRestrictionsRequest} from "@azure/arm-policyinsights";
 import {
-  CheckManagementGroupRestrictionsRequest,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";

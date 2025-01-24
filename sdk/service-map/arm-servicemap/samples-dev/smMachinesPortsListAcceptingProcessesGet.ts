@@ -29,7 +29,7 @@ async function smMachinesPortsListAcceptingProcessesGet() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceMap(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ports.listAcceptingProcesses(
+  for await (const item of client.ports.listAcceptingProcesses(
     resourceGroupName,
     workspaceName,
     machineName,

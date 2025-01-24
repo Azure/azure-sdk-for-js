@@ -33,7 +33,7 @@ async function listAllStreamingJobsInCluster() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusters.listStreamingJobs(
+  for await (const item of client.clusters.listStreamingJobs(
     resourceGroupName,
     clusterName,
   )) {

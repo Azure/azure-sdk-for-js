@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-storage-profile-2020-09-01-hybrid";
 import {
-  PrivateEndpointConnection,
   StorageManagementClient
 } from "@azure/arm-storage-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -29,7 +29,7 @@ async function listDedicatedHsmDevicesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHsmOperations.listByResourceGroup(
+  for await (const item of client.dedicatedHsmOperations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -52,7 +52,7 @@ async function listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm() {
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedHsmOperations.listByResourceGroup(
+  for await (const item of client.dedicatedHsmOperations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

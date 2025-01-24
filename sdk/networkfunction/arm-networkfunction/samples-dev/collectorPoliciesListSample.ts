@@ -24,7 +24,7 @@ async function listOfCollectionPolicies() {
   const credential = new DefaultAzureCredential();
   const client = new AzureTrafficCollectorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.collectorPolicies.list(
+  for await (const item of client.collectorPolicies.list(
     resourceGroupName,
     azureTrafficCollectorName
   )) {

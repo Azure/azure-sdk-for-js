@@ -26,7 +26,7 @@ async function listDeploymentsForARemediationAtSubscriptionScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.remediations.listDeploymentsAtSubscription(
+  for await (const item of client.remediations.listDeploymentsAtSubscription(
     remediationName,
   )) {
     resArray.push(item);

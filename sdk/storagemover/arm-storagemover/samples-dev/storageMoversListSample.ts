@@ -29,7 +29,7 @@ async function storageMoversList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageMovers.list(resourceGroupName)) {
+  for await (const item of client.storageMovers.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

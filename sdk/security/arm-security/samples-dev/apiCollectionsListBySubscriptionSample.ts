@@ -27,7 +27,7 @@ async function getsAListOfApiCollectionsWithinASubscriptionThatHaveBeenOnboarded
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.aPICollections.listBySubscription()) {
+  for await (const item of client.aPICollections.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

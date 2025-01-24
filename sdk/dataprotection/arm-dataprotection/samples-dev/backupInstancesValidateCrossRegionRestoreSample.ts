@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ValidateCrossRegionRestoreRequestObject} from "@azure/arm-dataprotection";
 import {
-  ValidateCrossRegionRestoreRequestObject,
   DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";

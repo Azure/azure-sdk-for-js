@@ -28,7 +28,7 @@ async function labels(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new EasmMgmtClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.labels.listByWorkspace(
+  for await (const item of client.labels.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

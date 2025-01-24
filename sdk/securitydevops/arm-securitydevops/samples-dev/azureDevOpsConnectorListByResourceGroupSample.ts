@@ -29,7 +29,7 @@ async function azureDevOpsConnectorListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSecurityDevOps(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureDevOpsConnectorOperations.listByResourceGroup(
+  for await (const item of client.azureDevOpsConnectorOperations.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

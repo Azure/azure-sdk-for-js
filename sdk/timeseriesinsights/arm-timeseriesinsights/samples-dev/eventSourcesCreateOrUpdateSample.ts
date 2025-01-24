@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EventHubEventSourceCreateOrUpdateParameters} from "@azure/arm-timeseriesinsights";
 import {
-  EventHubEventSourceCreateOrUpdateParameters,
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -26,7 +26,7 @@ async function workbooksList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.myWorkbooks.listBySubscription(category)) {
+  for await (const item of client.myWorkbooks.listBySubscription(category)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -49,7 +49,7 @@ async function workbooksList2(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.myWorkbooks.listBySubscription(category)) {
+  for await (const item of client.myWorkbooks.listBySubscription(category)) {
     resArray.push(item);
   }
   console.log(resArray);

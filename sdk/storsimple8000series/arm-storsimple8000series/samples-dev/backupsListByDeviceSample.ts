@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupsListByDeviceOptionalParams} from "@azure/arm-storsimple8000series";
 import {
-  BackupsListByDeviceOptionalParams,
   StorSimple8000SeriesManagementClient
 } from "@azure/arm-storsimple8000series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function backupsListByDevice() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.backups.listByDevice(
+  for await (const item of client.backups.listByDevice(
     deviceName,
     resourceGroupName,
     managerName,

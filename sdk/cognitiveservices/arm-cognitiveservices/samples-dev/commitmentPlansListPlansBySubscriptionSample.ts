@@ -28,7 +28,7 @@ async function listAccountsBySubscription(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.commitmentPlans.listPlansBySubscription()) {
+  for await (const item of client.commitmentPlans.listPlansBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

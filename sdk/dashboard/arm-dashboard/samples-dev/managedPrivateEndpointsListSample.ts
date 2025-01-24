@@ -28,7 +28,7 @@ async function managedPrivateEndpointList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedPrivateEndpoints.list(
+  for await (const item of client.managedPrivateEndpoints.list(
     resourceGroupName,
     workspaceName
   )) {

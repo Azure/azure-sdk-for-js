@@ -30,7 +30,7 @@ async function listAssociationsForSpecifiedDataCollectionEndpoint() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataCollectionRuleAssociations.listByDataCollectionEndpoint(
+  for await (const item of client.dataCollectionRuleAssociations.listByDataCollectionEndpoint(
     resourceGroupName,
     dataCollectionEndpointName,
   )) {

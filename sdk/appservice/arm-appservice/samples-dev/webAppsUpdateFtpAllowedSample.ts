@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CsmPublishingCredentialsPoliciesEntity} from "@azure/arm-appservice";
 import {
-  CsmPublishingCredentialsPoliciesEntity,
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";

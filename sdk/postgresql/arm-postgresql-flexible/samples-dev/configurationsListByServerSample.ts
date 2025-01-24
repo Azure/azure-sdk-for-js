@@ -31,7 +31,7 @@ async function configurationList() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.configurations.listByServer(
+  for await (const item of client.configurations.listByServer(
     resourceGroupName,
     serverName,
   )) {

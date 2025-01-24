@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualNetworkPeering} from "@azure/arm-network-profile-2020-09-01-hybrid";
 import {
-  VirtualNetworkPeering,
   NetworkManagementClient
 } from "@azure/arm-network-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

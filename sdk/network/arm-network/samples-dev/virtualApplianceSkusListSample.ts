@@ -25,7 +25,7 @@ async function networkVirtualApplianceSkuListResult() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualApplianceSkus.list()) {
+  for await (const item of client.virtualApplianceSkus.list()) {
     resArray.push(item);
   }
   console.log(resArray);

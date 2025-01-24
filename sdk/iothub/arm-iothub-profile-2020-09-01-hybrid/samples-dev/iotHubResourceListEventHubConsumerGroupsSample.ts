@@ -31,7 +31,7 @@ async function iotHubResourceListEventHubConsumerGroups() {
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotHubResource.listEventHubConsumerGroups(
+  for await (const item of client.iotHubResource.listEventHubConsumerGroups(
     resourceGroupName,
     resourceName,
     eventHubEndpointName

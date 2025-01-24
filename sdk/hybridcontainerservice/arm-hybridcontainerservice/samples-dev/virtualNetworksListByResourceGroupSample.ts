@@ -30,7 +30,7 @@ async function listVirtualNetworkByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworks.listByResourceGroup(
+  for await (const item of client.virtualNetworks.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

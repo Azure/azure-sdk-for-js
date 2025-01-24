@@ -28,7 +28,7 @@ async function listsTheAzureStorageContainers(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.storageAccounts.listStorageContainers(
+  for await (const item of client.storageAccounts.listStorageContainers(
     resourceGroupName,
     accountName,
     storageAccountName

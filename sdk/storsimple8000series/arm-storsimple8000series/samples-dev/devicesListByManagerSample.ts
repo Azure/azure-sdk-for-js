@@ -27,7 +27,7 @@ async function devicesListByManager() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.devices.listByManager(
+  for await (const item of client.devices.listByManager(
     resourceGroupName,
     managerName
   )) {

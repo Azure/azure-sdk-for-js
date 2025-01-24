@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckServiceProviderAvailabilityInput} from "@azure/arm-peering";
 import {
-  CheckServiceProviderAvailabilityInput,
   PeeringManagementClient
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";

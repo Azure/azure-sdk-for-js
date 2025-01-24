@@ -30,7 +30,7 @@ async function getPartnersByIntegrationAccountName() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationAccountPartners.list(
+  for await (const item of client.integrationAccountPartners.list(
     resourceGroupName,
     integrationAccountName
   )) {

@@ -28,7 +28,7 @@ async function listARecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -52,7 +52,7 @@ async function listAaaaRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -76,7 +76,7 @@ async function listCaaRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -100,7 +100,7 @@ async function listCnameRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -124,7 +124,7 @@ async function listDsRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -148,7 +148,7 @@ async function listMxRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -172,7 +172,7 @@ async function listNaptrRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -196,7 +196,7 @@ async function listNsRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -220,7 +220,7 @@ async function listPtrRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -244,7 +244,7 @@ async function listSoaRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -268,7 +268,7 @@ async function listSrvRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -292,7 +292,7 @@ async function listTlsaRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,
@@ -316,7 +316,7 @@ async function listTxtRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
+  for await (const item of client.recordSets.listByType(
     resourceGroupName,
     zoneName,
     recordType,

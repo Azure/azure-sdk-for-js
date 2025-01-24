@@ -34,7 +34,7 @@ async function getAListOfServiceResources() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.services.listByApplications(
+  for await (const item of client.services.listByApplications(
     resourceGroupName,
     clusterName,
     applicationName,

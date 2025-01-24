@@ -14,8 +14,9 @@
  * @summary The PUT method creates a new file or updates an existing one.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Files_CreateOrUpdate.json
  */
+import type {
+  ProjectFile} from "@azure/arm-datamigration";
 import {
-  ProjectFile,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

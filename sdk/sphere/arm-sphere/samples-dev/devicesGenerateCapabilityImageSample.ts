@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  GenerateCapabilityImageRequest} from "@azure/arm-sphere";
 import {
-  GenerateCapabilityImageRequest,
   AzureSphereManagementClient,
 } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";

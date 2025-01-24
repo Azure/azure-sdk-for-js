@@ -26,7 +26,7 @@ async function serviceFabricSchedulesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serviceFabricSchedules.list(
+  for await (const item of client.serviceFabricSchedules.list(
     resourceGroupName,
     labName,
     userName,

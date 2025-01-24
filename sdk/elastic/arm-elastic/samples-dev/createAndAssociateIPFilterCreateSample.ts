@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CreateAndAssociateIPFilterCreateOptionalParams} from "@azure/arm-elastic";
 import {
-  CreateAndAssociateIPFilterCreateOptionalParams,
   MicrosoftElastic,
 } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";

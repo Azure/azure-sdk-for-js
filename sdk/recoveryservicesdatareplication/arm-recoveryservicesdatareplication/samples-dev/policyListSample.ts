@@ -34,7 +34,7 @@ async function policyList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.policy.list(resourceGroupName, vaultName)) {
+  for await (const item of client.policy.list(resourceGroupName, vaultName)) {
     resArray.push(item);
   }
   console.log(resArray);

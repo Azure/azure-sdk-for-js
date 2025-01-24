@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ValidateCustomDomainInput, CdnManagementClient } from "@azure/arm-cdn";
+import type { ValidateCustomDomainInput} from "@azure/arm-cdn";
+import { CdnManagementClient } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

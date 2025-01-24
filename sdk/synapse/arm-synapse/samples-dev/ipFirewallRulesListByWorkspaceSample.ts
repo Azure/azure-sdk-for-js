@@ -30,7 +30,7 @@ async function listIPFirewallRulesInAWorkspace() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ipFirewallRules.listByWorkspace(
+  for await (const item of client.ipFirewallRules.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

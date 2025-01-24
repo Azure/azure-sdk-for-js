@@ -34,7 +34,7 @@ async function redisEnterpriseAccessPolicyAssignmentList() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.accessPolicyAssignmentOperations.list(
+  for await (const item of client.accessPolicyAssignmentOperations.list(
     resourceGroupName,
     clusterName,
     databaseName,

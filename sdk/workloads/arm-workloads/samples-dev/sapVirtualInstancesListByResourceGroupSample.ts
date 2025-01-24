@@ -27,7 +27,7 @@ async function sapVirtualInstancesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sAPVirtualInstances.listByResourceGroup(
+  for await (const item of client.sAPVirtualInstances.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

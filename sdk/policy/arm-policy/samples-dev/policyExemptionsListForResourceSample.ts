@@ -31,7 +31,7 @@ async function listAllPolicyExemptionsThatApplyToAResource() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyExemptions.listForResource(
+  for await (const item of client.policyExemptions.listForResource(
     resourceGroupName,
     resourceProviderNamespace,
     parentResourcePath,

@@ -27,7 +27,7 @@ async function publicMaintenanceConfigurationsList() {
   const credential = new DefaultAzureCredential();
   const client = new MaintenanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.publicMaintenanceConfigurations.list()) {
+  for await (const item of client.publicMaintenanceConfigurations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

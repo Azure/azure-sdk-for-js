@@ -30,7 +30,7 @@ async function listCreatorResourcesByAccount() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.creators.listByAccount(
+  for await (const item of client.creators.listByAccount(
     resourceGroupName,
     accountName
   )) {

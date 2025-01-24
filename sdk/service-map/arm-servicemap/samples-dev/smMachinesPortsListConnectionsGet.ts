@@ -29,7 +29,7 @@ async function smMachinesPortsListConnectionsGet() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceMap(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ports.listConnections(
+  for await (const item of client.ports.listConnections(
     resourceGroupName,
     workspaceName,
     machineName,

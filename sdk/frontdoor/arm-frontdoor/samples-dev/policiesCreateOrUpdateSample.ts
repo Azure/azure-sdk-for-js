@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WebApplicationFirewallPolicy} from "@azure/arm-frontdoor";
 import {
-  WebApplicationFirewallPolicy,
   FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";

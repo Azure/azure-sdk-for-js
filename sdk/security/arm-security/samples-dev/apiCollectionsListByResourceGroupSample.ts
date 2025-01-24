@@ -28,7 +28,7 @@ async function getsAListOfApiCollectionsWithinAResourceGroupThatHaveBeenOnboarde
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.aPICollections.listByResourceGroup(
+  for await (const item of client.aPICollections.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

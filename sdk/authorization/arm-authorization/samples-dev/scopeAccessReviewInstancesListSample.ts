@@ -24,7 +24,7 @@ async function getAccessReviews(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.scopeAccessReviewInstances.list(
+  for await (const item of client.scopeAccessReviewInstances.list(
     scope,
     scheduleDefinitionId
   )) {

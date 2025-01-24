@@ -26,7 +26,7 @@ async function listGovernanceAssignments() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (let item of client.governanceAssignments.list(
+  for await (const item of client.governanceAssignments.list(
     scope,
     assessmentName,
   )) {

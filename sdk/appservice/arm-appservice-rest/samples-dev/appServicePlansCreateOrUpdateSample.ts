@@ -5,9 +5,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import WebSiteManagementClient, {
-  AppServicePlansCreateOrUpdateParameters,
-} from "@azure-rest/arm-appservice";
+import type { AppServicePlansCreateOrUpdateParameters } from "@azure-rest/arm-appservice";
+import WebSiteManagementClient from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

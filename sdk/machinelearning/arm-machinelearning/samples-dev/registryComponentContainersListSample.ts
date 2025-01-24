@@ -33,7 +33,7 @@ async function listRegistryComponentContainer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.registryComponentContainers.list(
+  for await (const item of client.registryComponentContainers.list(
     resourceGroupName,
     registryName,
   )) {

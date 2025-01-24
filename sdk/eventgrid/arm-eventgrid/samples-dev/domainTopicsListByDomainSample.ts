@@ -30,7 +30,7 @@ async function domainTopicsListByDomain() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.domainTopics.listByDomain(
+  for await (const item of client.domainTopics.listByDomain(
     resourceGroupName,
     domainName,
   )) {

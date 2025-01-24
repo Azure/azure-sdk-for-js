@@ -24,7 +24,7 @@ async function getOperationsList() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.monitorOperations.list()) {
+  for await (const item of client.monitorOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

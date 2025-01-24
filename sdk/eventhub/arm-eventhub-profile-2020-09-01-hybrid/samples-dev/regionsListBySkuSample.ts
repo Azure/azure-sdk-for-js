@@ -27,7 +27,7 @@ async function regionsListBySkuBasic() {
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.regions.listBySku(sku)) {
+  for await (const item of client.regions.listBySku(sku)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function regionsListBySkuStandard() {
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.regions.listBySku(sku)) {
+  for await (const item of client.regions.listBySku(sku)) {
     resArray.push(item);
   }
   console.log(resArray);

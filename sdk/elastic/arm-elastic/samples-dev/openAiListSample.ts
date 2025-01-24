@@ -30,7 +30,7 @@ async function openAiList() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.openAI.list(resourceGroupName, monitorName)) {
+  for await (const item of client.openAI.list(resourceGroupName, monitorName)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyAssignmentsListForManagementGroupOptionalParams} from "@azure/arm-policy";
 import {
-  PolicyAssignmentsListForManagementGroupOptionalParams,
   PolicyClient
 } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function listPolicyAssignmentsThatApplyToAManagementGroup() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyAssignments.listForManagementGroup(
+  for await (const item of client.policyAssignments.listForManagementGroup(
     managementGroupId,
     options
   )) {

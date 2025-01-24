@@ -30,7 +30,7 @@ async function getAListOfExtensions() {
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.extensionMetadata.list(
+  for await (const item of client.extensionMetadata.list(
     location,
     publisher,
     extensionType,

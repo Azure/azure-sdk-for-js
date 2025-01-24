@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TargetTypesListOptionalParams} from "@azure/arm-chaos";
 import {
-  TargetTypesListOptionalParams,
   ChaosManagementClient,
 } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function listAllTargetTypesForWestus2Location(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ChaosManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.targetTypes.list(locationName, options)) {
+  for await (const item of client.targetTypes.list(locationName, options)) {
     resArray.push(item);
   }
   console.log(resArray);

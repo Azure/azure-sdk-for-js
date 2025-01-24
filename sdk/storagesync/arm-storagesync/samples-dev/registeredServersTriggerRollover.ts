@@ -14,8 +14,9 @@
  * @summary Triggers Server certificate rollover.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/RegisteredServers_TriggerRollover.json
  */
+import type {
+  TriggerRolloverRequest} from "@azure/arm-storagesync";
 import {
-  TriggerRolloverRequest,
   MicrosoftStorageSync
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";

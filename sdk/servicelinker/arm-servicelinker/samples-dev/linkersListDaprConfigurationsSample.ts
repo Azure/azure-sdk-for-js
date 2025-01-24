@@ -26,7 +26,7 @@ async function getDaprConfigurations() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceLinkerManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.linkers.listDaprConfigurations(resourceUri)) {
+  for await (const item of client.linkers.listDaprConfigurations(resourceUri)) {
     resArray.push(item);
   }
   console.log(resArray);

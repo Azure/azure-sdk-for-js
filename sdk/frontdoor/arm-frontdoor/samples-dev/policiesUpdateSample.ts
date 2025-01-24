@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TagsObject, FrontDoorManagementClient } from "@azure/arm-frontdoor";
+import type { TagsObject} from "@azure/arm-frontdoor";
+import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

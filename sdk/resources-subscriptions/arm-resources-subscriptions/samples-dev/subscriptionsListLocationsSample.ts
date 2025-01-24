@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SubscriptionsListLocationsOptionalParams} from "@azure/arm-resources-subscriptions";
 import {
-  SubscriptionsListLocationsOptionalParams,
   SubscriptionClient
 } from "@azure/arm-resources-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function getLocationsWithASubscriptionId() {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptions.listLocations(subscriptionId)) {
+  for await (const item of client.subscriptions.listLocations(subscriptionId)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -49,7 +50,7 @@ async function getLocationsWithExtendedLocations() {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptions.listLocations(
+  for await (const item of client.subscriptions.listLocations(
     subscriptionId,
     options
   )) {

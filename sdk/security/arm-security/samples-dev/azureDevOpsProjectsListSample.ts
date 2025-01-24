@@ -30,7 +30,7 @@ async function listAzureDevOpsProjects() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureDevOpsProjects.list(
+  for await (const item of client.azureDevOpsProjects.list(
     resourceGroupName,
     securityConnectorName,
     orgName,

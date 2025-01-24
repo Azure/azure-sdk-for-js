@@ -33,7 +33,7 @@ async function azureLargeStorageInstanceListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new LargeInstanceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.azureLargeStorageInstanceOperations.listByResourceGroup(
+  for await (const item of client.azureLargeStorageInstanceOperations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

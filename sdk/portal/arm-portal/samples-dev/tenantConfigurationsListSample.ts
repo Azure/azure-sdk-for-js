@@ -27,7 +27,7 @@ async function getListOfTenantConfigurations() {
   const credential = new DefaultAzureCredential();
   const client = new Portal(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tenantConfigurations.list()) {
+  for await (const item of client.tenantConfigurations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

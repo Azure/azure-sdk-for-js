@@ -29,7 +29,7 @@ async function listManagedInstancesByInstancePool() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByInstancePool(
+  for await (const item of client.managedInstances.listByInstancePool(
     resourceGroupName,
     instancePoolName,
   )) {
@@ -53,7 +53,7 @@ async function listManagedInstancesByInstancePoolWithExpandAdministratorsOrActiv
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByInstancePool(
+  for await (const item of client.managedInstances.listByInstancePool(
     resourceGroupName,
     instancePoolName,
   )) {

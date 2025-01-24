@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TemplateSpec, TemplateSpecsClient } from "@azure/arm-templatespecs";
+import type { TemplateSpec} from "@azure/arm-templatespecs";
+import { TemplateSpecsClient } from "@azure/arm-templatespecs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

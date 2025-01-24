@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RegenerateKeyRequest} from "@azure/arm-fluidrelay";
 import {
-  RegenerateKeyRequest,
   FluidRelayManagementClient
 } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";

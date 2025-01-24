@@ -27,7 +27,7 @@ async function listConfigurationProfileAssignmentsByResourceGroupAndVirtualMachi
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.configurationProfileAssignments.listByVirtualMachines(
+  for await (const item of client.configurationProfileAssignments.listByVirtualMachines(
     resourceGroupName,
     vmName
   )) {

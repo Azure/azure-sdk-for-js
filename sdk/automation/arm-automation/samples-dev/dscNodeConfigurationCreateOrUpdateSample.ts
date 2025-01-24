@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DscNodeConfigurationCreateOrUpdateParameters} from "@azure/arm-automation";
 import {
-  DscNodeConfigurationCreateOrUpdateParameters,
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";

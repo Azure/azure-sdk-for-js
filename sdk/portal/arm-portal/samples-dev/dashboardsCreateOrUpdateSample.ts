@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Dashboard, Portal } from "@azure/arm-portal";
+import type { Dashboard} from "@azure/arm-portal";
+import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

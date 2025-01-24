@@ -27,7 +27,7 @@ async function deploymentStacksSubscriptionList() {
   const credential = new DefaultAzureCredential();
   const client = new DeploymentStacksClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deploymentStacks.listAtSubscription()) {
+  for await (const item of client.deploymentStacks.listAtSubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

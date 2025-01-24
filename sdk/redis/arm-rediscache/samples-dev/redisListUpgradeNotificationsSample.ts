@@ -26,7 +26,7 @@ async function redisCacheListUpgradeNotifications(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.redis.listUpgradeNotifications(
+  for await (const item of client.redis.listUpgradeNotifications(
     resourceGroupName,
     name,
     history,

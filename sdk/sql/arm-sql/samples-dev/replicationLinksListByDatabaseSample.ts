@@ -30,7 +30,7 @@ async function listReplicationLinksOnServerOnDatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationLinks.listByDatabase(
+  for await (const item of client.replicationLinks.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

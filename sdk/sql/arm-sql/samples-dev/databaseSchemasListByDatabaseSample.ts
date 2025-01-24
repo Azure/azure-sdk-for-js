@@ -30,7 +30,7 @@ async function listDatabaseSchemas() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseSchemas.listByDatabase(
+  for await (const item of client.databaseSchemas.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

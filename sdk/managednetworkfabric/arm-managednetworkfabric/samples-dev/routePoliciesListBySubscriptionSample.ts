@@ -30,7 +30,7 @@ async function routePoliciesListBySubscriptionMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.routePolicies.listBySubscription()) {
+  for await (const item of client.routePolicies.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

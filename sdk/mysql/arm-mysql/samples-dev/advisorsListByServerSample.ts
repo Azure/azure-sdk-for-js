@@ -24,7 +24,7 @@ async function advisorsListByServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.advisors.listByServer(
+  for await (const item of client.advisors.listByServer(
     resourceGroupName,
     serverName
   )) {

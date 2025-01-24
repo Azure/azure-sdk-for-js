@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Incident, SecurityInsights } from "@azure/arm-securityinsight";
+import type { Incident} from "@azure/arm-securityinsight";
+import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

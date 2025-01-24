@@ -27,7 +27,7 @@ async function kustoClustersListSkus() {
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.listSkus()) {
+  for await (const item of client.clusters.listSkus()) {
     resArray.push(item);
   }
   console.log(resArray);

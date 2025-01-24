@@ -23,7 +23,7 @@ async function getClustersExample() {
   const credential = new DefaultAzureCredential();
   const client = new ConnectedKubernetesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.connectedClusterOperations.listByResourceGroup(
+  for await (const item of client.connectedClusterOperations.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

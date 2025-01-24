@@ -25,7 +25,7 @@ async function listGovernanceRulesByManagementGroupScope() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (let item of client.governanceRules.list(scope)) {
+  for await (const item of client.governanceRules.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -43,7 +43,7 @@ async function listGovernanceRulesBySecurityConnectorScope() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (let item of client.governanceRules.list(scope)) {
+  for await (const item of client.governanceRules.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -60,7 +60,7 @@ async function listGovernanceRulesBySubscriptionScope() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
   const resArray = new Array();
-  for await (let item of client.governanceRules.list(scope)) {
+  for await (const item of client.governanceRules.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);

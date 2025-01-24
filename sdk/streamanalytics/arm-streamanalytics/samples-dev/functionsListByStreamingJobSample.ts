@@ -33,7 +33,7 @@ async function listAllFunctionsInAStreamingJob() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.functions.listByStreamingJob(
+  for await (const item of client.functions.listByStreamingJob(
     resourceGroupName,
     jobName,
   )) {

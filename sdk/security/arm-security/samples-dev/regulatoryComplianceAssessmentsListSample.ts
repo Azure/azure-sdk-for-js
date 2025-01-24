@@ -29,7 +29,7 @@ async function getAllAssessmentsMappedToSelectedRegulatoryComplianceControl() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.regulatoryComplianceAssessments.list(
+  for await (const item of client.regulatoryComplianceAssessments.list(
     regulatoryComplianceStandardName,
     regulatoryComplianceControlName,
   )) {

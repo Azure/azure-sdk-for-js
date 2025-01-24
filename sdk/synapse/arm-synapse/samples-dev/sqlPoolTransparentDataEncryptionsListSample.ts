@@ -31,7 +31,7 @@ async function getListOfTransparentDataEncryptionConfigurationsOfASqlAnalyticsPo
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPoolTransparentDataEncryptions.list(
+  for await (const item of client.sqlPoolTransparentDataEncryptions.list(
     resourceGroupName,
     workspaceName,
     sqlPoolName

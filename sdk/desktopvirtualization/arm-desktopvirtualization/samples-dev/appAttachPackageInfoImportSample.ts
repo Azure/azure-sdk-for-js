@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ImportPackageInfoRequest} from "@azure/arm-desktopvirtualization";
 import {
-  ImportPackageInfoRequest,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function appAttachPackageInfoImport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appAttachPackageInfo.listImport(
+  for await (const item of client.appAttachPackageInfo.listImport(
     resourceGroupName,
     hostPoolName,
     importPackageInfoRequest,

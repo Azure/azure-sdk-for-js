@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  JoinRequestsListOptionalParams} from "@azure/arm-education";
 import {
-  JoinRequestsListOptionalParams,
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function joinRequestList() {
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.joinRequests.list(
+  for await (const item of client.joinRequests.list(
     billingAccountName,
     billingProfileName,
     invoiceSectionName,

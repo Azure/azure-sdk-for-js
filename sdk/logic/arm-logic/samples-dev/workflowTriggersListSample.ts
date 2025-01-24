@@ -30,7 +30,7 @@ async function listWorkflowTriggers() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowTriggers.list(
+  for await (const item of client.workflowTriggers.list(
     resourceGroupName,
     workflowName
   )) {

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ReportListOptionalParams} from "@azure/arm-appcomplianceautomation";
 import {
-  ReportListOptionalParams,
   AppComplianceAutomationToolForMicrosoft365,
 } from "@azure/arm-appcomplianceautomation";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function reportList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const resArray = new Array();
-  for await (let item of client.report.list(options)) {
+  for await (const item of client.report.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

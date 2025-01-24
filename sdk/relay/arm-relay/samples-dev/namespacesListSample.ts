@@ -27,7 +27,7 @@ async function relayNameSpaceListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new RelayAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaces.list()) {
+  for await (const item of client.namespaces.list()) {
     resArray.push(item);
   }
   console.log(resArray);

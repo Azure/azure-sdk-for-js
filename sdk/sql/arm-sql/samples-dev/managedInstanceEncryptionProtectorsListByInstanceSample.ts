@@ -30,7 +30,7 @@ async function listEncryptionProtectorsByManagedInstance() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstanceEncryptionProtectors.listByInstance(
+  for await (const item of client.managedInstanceEncryptionProtectors.listByInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

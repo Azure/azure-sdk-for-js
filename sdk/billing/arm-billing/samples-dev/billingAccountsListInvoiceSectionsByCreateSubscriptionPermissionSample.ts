@@ -24,7 +24,7 @@ async function invoiceSectionsWithCreateSubscriptionPermissionList(): Promise<vo
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingAccounts.listInvoiceSectionsByCreateSubscriptionPermission(
+  for await (const item of client.billingAccounts.listInvoiceSectionsByCreateSubscriptionPermission(
     billingAccountName,
   )) {
     resArray.push(item);

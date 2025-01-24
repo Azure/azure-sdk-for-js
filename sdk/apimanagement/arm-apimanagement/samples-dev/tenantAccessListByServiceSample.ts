@@ -27,7 +27,7 @@ async function apiManagementListTenantAccess(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tenantAccess.listByService(
+  for await (const item of client.tenantAccess.listByService(
     resourceGroupName,
     serviceName
   )) {

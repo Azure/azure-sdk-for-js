@@ -33,7 +33,7 @@ async function listWorkspaceServerlessEndpoint() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.serverlessEndpoints.list(
+  for await (const item of client.serverlessEndpoints.list(
     resourceGroupName,
     workspaceName,
   )) {

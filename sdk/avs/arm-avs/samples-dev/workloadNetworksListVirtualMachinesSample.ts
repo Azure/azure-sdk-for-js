@@ -27,7 +27,7 @@ async function workloadNetworksListVirtualMachines(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workloadNetworks.listVirtualMachines(
+  for await (const item of client.workloadNetworks.listVirtualMachines(
     resourceGroupName,
     privateCloudName,
   )) {

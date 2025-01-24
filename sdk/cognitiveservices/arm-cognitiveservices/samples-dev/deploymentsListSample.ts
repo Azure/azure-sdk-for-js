@@ -30,7 +30,7 @@ async function listDeployments(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.deployments.list(
+  for await (const item of client.deployments.list(
     resourceGroupName,
     accountName,
   )) {

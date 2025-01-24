@@ -30,7 +30,7 @@ async function subscriptionListByTopic() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.subscriptions.listByTopic(
+  for await (const item of client.subscriptions.listByTopic(
     resourceGroupName,
     namespaceName,
     topicName

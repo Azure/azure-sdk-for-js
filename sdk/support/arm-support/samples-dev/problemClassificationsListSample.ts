@@ -25,7 +25,7 @@ async function getsListOfProblemClassificationsForAServiceForWhichASupportTicket
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.problemClassifications.list(serviceName)) {
+  for await (const item of client.problemClassifications.list(serviceName)) {
     resArray.push(item);
   }
   console.log(resArray);

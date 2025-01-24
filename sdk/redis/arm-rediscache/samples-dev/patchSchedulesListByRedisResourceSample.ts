@@ -25,7 +25,7 @@ async function redisCachePatchSchedulesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.patchSchedules.listByRedisResource(
+  for await (const item of client.patchSchedules.listByRedisResource(
     resourceGroupName,
     cacheName,
   )) {

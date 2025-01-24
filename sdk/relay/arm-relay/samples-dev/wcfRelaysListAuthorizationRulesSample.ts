@@ -31,7 +31,7 @@ async function relayAutorizationRuleListAll() {
   const credential = new DefaultAzureCredential();
   const client = new RelayAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.wCFRelays.listAuthorizationRules(
+  for await (const item of client.wCFRelays.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
     relayName

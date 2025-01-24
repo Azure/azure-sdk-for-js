@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { WorkloadNetworkDnsZone, AzureVMwareSolutionAPI } from "@azure/arm-avs";
+import type { WorkloadNetworkDnsZone} from "@azure/arm-avs";
+import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

@@ -33,7 +33,7 @@ async function usagesList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.usages.list(resourceGroupName, workspaceName)) {
+  for await (const item of client.usages.list(resourceGroupName, workspaceName)) {
     resArray.push(item);
   }
   console.log(resArray);

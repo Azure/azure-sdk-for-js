@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BastionShareableLinkListRequest} from "@azure/arm-network";
 import {
-  BastionShareableLinkListRequest,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -44,7 +45,7 @@ async function returnsTheBastionShareableLinksForTheRequestVMS() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.listBastionShareableLink(
+  for await (const item of client.listBastionShareableLink(
     resourceGroupName,
     bastionHostName,
     bslRequest,

@@ -29,7 +29,7 @@ async function listGitHubOwners() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.gitHubOwners.list(
+  for await (const item of client.gitHubOwners.list(
     resourceGroupName,
     securityConnectorName,
   )) {

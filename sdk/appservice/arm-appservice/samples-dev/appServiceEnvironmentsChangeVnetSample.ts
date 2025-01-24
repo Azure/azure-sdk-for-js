@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualNetworkProfile} from "@azure/arm-appservice";
 import {
-  VirtualNetworkProfile,
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function moveAnAppServiceEnvironmentToADifferentVnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.beginListChangeVnetAndWait(
+  for await (const item of client.appServiceEnvironments.beginListChangeVnetAndWait(
     resourceGroupName,
     name,
     vnetInfo,

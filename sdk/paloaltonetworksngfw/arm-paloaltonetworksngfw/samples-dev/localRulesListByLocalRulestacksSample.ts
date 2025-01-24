@@ -30,7 +30,7 @@ async function localRulesListByLocalRulestacksMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localRules.listByLocalRulestacks(
+  for await (const item of client.localRules.listByLocalRulestacks(
     resourceGroupName,
     localRulestackName
   )) {
@@ -55,7 +55,7 @@ async function localRulesListByLocalRulestacksMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localRules.listByLocalRulestacks(
+  for await (const item of client.localRules.listByLocalRulestacks(
     resourceGroupName,
     localRulestackName
   )) {

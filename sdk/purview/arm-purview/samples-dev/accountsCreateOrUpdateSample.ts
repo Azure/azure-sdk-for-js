@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Account, PurviewManagementClient } from "@azure/arm-purview";
+import type { Account} from "@azure/arm-purview";
+import { PurviewManagementClient } from "@azure/arm-purview";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

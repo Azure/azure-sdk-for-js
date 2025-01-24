@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AutoScaleVCoreUpdateParameters} from "@azure/arm-powerbidedicated";
 import {
-  AutoScaleVCoreUpdateParameters,
   PowerBIDedicated
 } from "@azure/arm-powerbidedicated";
 import { DefaultAzureCredential } from "@azure/identity";

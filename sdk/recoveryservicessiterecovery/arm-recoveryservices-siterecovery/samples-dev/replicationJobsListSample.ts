@@ -31,7 +31,7 @@ async function getsTheListOfJobs() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationJobs.list(
+  for await (const item of client.replicationJobs.list(
     resourceName,
     resourceGroupName,
   )) {

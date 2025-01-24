@@ -26,7 +26,7 @@ async function webTestListByResourceGroup(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.webTests.listByResourceGroup(
+  for await (const item of client.webTests.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

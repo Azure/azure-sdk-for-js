@@ -31,7 +31,7 @@ async function listExpressionTraces(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowRunActions.listExpressionTraces(
+  for await (const item of client.workflowRunActions.listExpressionTraces(
     resourceGroupName,
     name,
     workflowName,

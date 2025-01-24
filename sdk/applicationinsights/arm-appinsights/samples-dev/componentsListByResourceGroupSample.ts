@@ -26,7 +26,7 @@ async function componentListByResourceGroup(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.components.listByResourceGroup(
+  for await (const item of client.components.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

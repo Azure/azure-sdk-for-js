@@ -27,7 +27,7 @@ async function listConnectionSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureBotService(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.botConnection.listByBotService(
+  for await (const item of client.botConnection.listByBotService(
     resourceGroupName,
     resourceName
   )) {

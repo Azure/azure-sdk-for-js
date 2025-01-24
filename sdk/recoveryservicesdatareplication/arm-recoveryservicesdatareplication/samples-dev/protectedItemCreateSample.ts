@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ProtectedItemModel,
-  ProtectedItemCreateOptionalParams,
+  ProtectedItemCreateOptionalParams} from "@azure/arm-recoveryservicesdatareplication";
+import {
   AzureSiteRecoveryManagementServiceAPI
 } from "@azure/arm-recoveryservicesdatareplication";
 import { DefaultAzureCredential } from "@azure/identity";

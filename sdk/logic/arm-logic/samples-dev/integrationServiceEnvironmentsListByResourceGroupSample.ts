@@ -28,7 +28,7 @@ async function listIntegrationServiceEnvironmentsByResourceGroupName() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationServiceEnvironments.listByResourceGroup(
+  for await (const item of client.integrationServiceEnvironments.listByResourceGroup(
     resourceGroup
   )) {
     resArray.push(item);

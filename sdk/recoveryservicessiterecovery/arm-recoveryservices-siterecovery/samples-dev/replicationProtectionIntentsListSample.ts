@@ -31,7 +31,7 @@ async function getsTheListOfReplicationProtectionIntentObjects() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationProtectionIntents.list(
+  for await (const item of client.replicationProtectionIntents.list(
     resourceName,
     resourceGroupName,
   )) {

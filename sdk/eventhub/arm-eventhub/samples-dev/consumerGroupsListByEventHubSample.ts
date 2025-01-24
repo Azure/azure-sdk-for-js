@@ -31,7 +31,7 @@ async function consumerGroupsListAll() {
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.consumerGroups.listByEventHub(
+  for await (const item of client.consumerGroups.listByEventHub(
     resourceGroupName,
     namespaceName,
     eventHubName,

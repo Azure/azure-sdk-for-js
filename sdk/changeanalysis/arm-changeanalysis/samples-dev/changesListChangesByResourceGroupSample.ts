@@ -28,7 +28,7 @@ async function changesListChangesByResourceGroup(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.changes.listChangesByResourceGroup(
+  for await (const item of client.changes.listChangesByResourceGroup(
     resourceGroupName,
     startTime,
     endTime

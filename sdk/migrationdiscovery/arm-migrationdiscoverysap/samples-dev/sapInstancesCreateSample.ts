@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SAPInstance, WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
+import type { SAPInstance} from "@azure/arm-migrationdiscoverysap";
+import { WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

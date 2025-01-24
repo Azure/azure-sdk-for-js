@@ -27,7 +27,7 @@ async function devBoxDefinitionsListByProject(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.devBoxDefinitions.listByProject(
+  for await (const item of client.devBoxDefinitions.listByProject(
     resourceGroupName,
     projectName,
   )) {

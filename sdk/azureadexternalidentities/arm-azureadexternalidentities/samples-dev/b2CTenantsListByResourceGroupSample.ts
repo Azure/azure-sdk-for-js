@@ -26,7 +26,7 @@ async function b2CTenantsListByResourceGroup(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.b2CTenants.listByResourceGroup(
+  for await (const item of client.b2CTenants.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

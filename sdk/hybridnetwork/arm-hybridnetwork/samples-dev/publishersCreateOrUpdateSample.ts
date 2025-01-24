@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   Publisher,
-  PublishersCreateOrUpdateOptionalParams,
+  PublishersCreateOrUpdateOptionalParams} from "@azure/arm-hybridnetwork";
+import {
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";

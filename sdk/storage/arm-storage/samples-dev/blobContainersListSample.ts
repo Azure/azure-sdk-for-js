@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BlobContainersListOptionalParams} from "@azure/arm-storage";
 import {
-  BlobContainersListOptionalParams,
   StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function listContainers() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobContainers.list(
+  for await (const item of client.blobContainers.list(
     resourceGroupName,
     accountName,
   )) {
@@ -56,7 +57,7 @@ async function listDeletedContainers() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobContainers.list(
+  for await (const item of client.blobContainers.list(
     resourceGroupName,
     accountName,
     options,

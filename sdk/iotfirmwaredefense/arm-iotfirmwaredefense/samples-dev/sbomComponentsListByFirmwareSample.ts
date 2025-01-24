@@ -31,7 +31,7 @@ async function sbomComponentsListByFirmwareMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sbomComponents.listByFirmware(
+  for await (const item of client.sbomComponents.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,
@@ -58,7 +58,7 @@ async function sbomComponentsListByFirmwareMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sbomComponents.listByFirmware(
+  for await (const item of client.sbomComponents.listByFirmware(
     resourceGroupName,
     workspaceName,
     firmwareId,

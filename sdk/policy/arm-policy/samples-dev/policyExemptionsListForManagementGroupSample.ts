@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PolicyExemptionsListForManagementGroupOptionalParams} from "@azure/arm-policy";
 import {
-  PolicyExemptionsListForManagementGroupOptionalParams,
   PolicyClient
 } from "@azure/arm-policy";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function listPolicyExemptionsThatApplyToAManagementGroup() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyExemptions.listForManagementGroup(
+  for await (const item of client.policyExemptions.listForManagementGroup(
     managementGroupId,
     options
   )) {

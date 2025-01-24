@@ -29,7 +29,7 @@ async function nameSpaceListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaces.listByResourceGroup(
+  for await (const item of client.namespaces.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EventsListBySubscriptionIdOptionalParams} from "@azure/arm-resourcehealth";
 import {
-  EventsListBySubscriptionIdOptionalParams,
   MicrosoftResourceHealth
 } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +36,7 @@ async function listEventsBySubscriptionId() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.eventsOperations.listBySubscriptionId(
+  for await (const item of client.eventsOperations.listBySubscriptionId(
     options
   )) {
     resArray.push(item);

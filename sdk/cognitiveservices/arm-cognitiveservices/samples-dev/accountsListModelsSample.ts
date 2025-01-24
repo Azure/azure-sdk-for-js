@@ -30,7 +30,7 @@ async function listAccountModels(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.accounts.listModels(
+  for await (const item of client.accounts.listModels(
     resourceGroupName,
     accountName,
   )) {

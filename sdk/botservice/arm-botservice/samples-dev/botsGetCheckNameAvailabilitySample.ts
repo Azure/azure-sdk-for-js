@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckNameAvailabilityRequestBody} from "@azure/arm-botservice";
 import {
-  CheckNameAvailabilityRequestBody,
   AzureBotService
 } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -28,7 +28,7 @@ async function tableOperationList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tableOperations.list(
+  for await (const item of client.tableOperations.list(
     resourceGroupName,
     accountName,
   )) {

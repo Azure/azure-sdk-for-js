@@ -30,7 +30,7 @@ async function listAllReportsForTheVmssGuestConfigurationAssignmentWithLatestRep
   const credential = new DefaultAzureCredential();
   const client = new GuestConfigurationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.guestConfigurationAssignmentReportsVmss.list(
+  for await (const item of client.guestConfigurationAssignmentReportsVmss.list(
     resourceGroupName,
     vmssName,
     name,

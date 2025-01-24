@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ListDeviceGroupsRequest} from "@azure/arm-sphere";
 import {
-  ListDeviceGroupsRequest,
   AzureSphereManagementClient,
 } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function catalogsListDeviceGroups() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.catalogs.listDeviceGroups(
+  for await (const item of client.catalogs.listDeviceGroups(
     resourceGroupName,
     catalogName,
     listDeviceGroupsRequest,

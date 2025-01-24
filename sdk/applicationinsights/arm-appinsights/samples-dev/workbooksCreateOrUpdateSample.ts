@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   Workbook,
-  WorkbooksCreateOrUpdateOptionalParams,
+  WorkbooksCreateOrUpdateOptionalParams} from "@azure/arm-appinsights";
+import {
   ApplicationInsightsManagementClient
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";

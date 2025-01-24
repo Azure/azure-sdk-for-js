@@ -30,7 +30,7 @@ async function listDnsResolverPoliciesByVirtualNetwork() {
   const credential = new DefaultAzureCredential();
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dnsResolverPolicies.listByVirtualNetwork(
+  for await (const item of client.dnsResolverPolicies.listByVirtualNetwork(
     resourceGroupName,
     virtualNetworkName,
   )) {

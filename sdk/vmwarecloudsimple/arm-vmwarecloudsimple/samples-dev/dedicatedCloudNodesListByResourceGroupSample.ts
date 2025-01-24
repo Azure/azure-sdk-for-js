@@ -28,7 +28,7 @@ async function listRgDedicatedCloudNodes() {
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dedicatedCloudNodes.listByResourceGroup(
+  for await (const item of client.dedicatedCloudNodes.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

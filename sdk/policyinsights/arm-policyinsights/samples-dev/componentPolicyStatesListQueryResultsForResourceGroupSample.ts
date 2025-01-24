@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams} from "@azure/arm-policyinsights";
 import {
-  ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams,
   PolicyInsightsClient,
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";

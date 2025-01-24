@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AzureTrafficCollectorsCreateOrUpdateOptionalParams} from "@azure/arm-networkfunction";
 import {
-  AzureTrafficCollectorsCreateOrUpdateOptionalParams,
   AzureTrafficCollectorClient
 } from "@azure/arm-networkfunction";
 import { DefaultAzureCredential } from "@azure/identity";

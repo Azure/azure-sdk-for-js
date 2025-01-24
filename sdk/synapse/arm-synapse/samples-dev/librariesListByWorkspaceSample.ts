@@ -30,7 +30,7 @@ async function listLibrariesInAWorkspace() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.libraries.listByWorkspace(
+  for await (const item of client.libraries.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

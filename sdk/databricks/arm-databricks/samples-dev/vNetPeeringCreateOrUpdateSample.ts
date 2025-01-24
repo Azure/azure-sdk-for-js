@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualNetworkPeering} from "@azure/arm-databricks";
 import {
-  VirtualNetworkPeering,
   AzureDatabricksManagementClient
 } from "@azure/arm-databricks";
 import { DefaultAzureCredential } from "@azure/identity";

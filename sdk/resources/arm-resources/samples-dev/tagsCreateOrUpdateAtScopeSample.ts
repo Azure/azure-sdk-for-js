@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TagsResource, ResourceManagementClient } from "@azure/arm-resources";
+import type { TagsResource} from "@azure/arm-resources";
+import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

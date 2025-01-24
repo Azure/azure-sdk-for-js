@@ -32,7 +32,7 @@ async function springbootappsListByResourceGroupMaximumSetGen() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.springbootapps.listByResourceGroup(
+  for await (const item of client.springbootapps.listByResourceGroup(
     resourceGroupName,
     siteName,
   )) {
@@ -59,7 +59,7 @@ async function springbootappsListByResourceGroupMinimumSetGen() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.springbootapps.listByResourceGroup(
+  for await (const item of client.springbootapps.listByResourceGroup(
     resourceGroupName,
     siteName,
   )) {

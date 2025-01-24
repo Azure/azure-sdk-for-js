@@ -14,8 +14,9 @@
  * @summary The project resource is a nested resource representing a stored migration project. The PUT method creates a new project or updates an existing one.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Projects_CreateOrUpdate.json
  */
+import type {
+  Project} from "@azure/arm-datamigration";
 import {
-  Project,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

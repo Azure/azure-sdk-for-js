@@ -33,7 +33,7 @@ async function storageInsightsList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.storageInsightConfigs.listByWorkspace(
+  for await (const item of client.storageInsightConfigs.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

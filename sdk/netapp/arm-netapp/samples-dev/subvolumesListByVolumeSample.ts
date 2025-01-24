@@ -31,7 +31,7 @@ async function subvolumesList() {
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.subvolumes.listByVolume(
+  for await (const item of client.subvolumes.listByVolume(
     resourceGroupName,
     accountName,
     poolName,

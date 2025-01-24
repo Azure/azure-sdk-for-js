@@ -22,7 +22,7 @@ async function listPaymentMethodOwnedByUser(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.paymentMethods.listByUser()) {
+  for await (const item of client.paymentMethods.listByUser()) {
     resArray.push(item);
   }
   console.log(resArray);

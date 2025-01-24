@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SavingsPlanOrderAliasModel} from "@azure/arm-billingbenefits";
 import {
-  SavingsPlanOrderAliasModel,
   BillingBenefitsRP
 } from "@azure/arm-billingbenefits";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  UpdateIntegrationRuntimeNodeRequest} from "@azure/arm-datafactory";
 import {
-  UpdateIntegrationRuntimeNodeRequest,
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";

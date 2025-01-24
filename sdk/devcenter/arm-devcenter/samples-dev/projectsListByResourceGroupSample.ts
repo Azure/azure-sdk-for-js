@@ -26,7 +26,7 @@ async function projectsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.projects.listByResourceGroup(
+  for await (const item of client.projects.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

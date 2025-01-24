@@ -28,7 +28,7 @@ async function getAllMachineExtensions() {
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.licenses.listByResourceGroup(
+  for await (const item of client.licenses.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

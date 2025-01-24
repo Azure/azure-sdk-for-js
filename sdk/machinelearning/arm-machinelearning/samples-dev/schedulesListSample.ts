@@ -33,7 +33,7 @@ async function listSchedules() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.schedules.list(
+  for await (const item of client.schedules.list(
     resourceGroupName,
     workspaceName,
   )) {

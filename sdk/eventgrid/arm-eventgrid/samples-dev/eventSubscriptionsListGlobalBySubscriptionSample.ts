@@ -27,7 +27,7 @@ async function eventSubscriptionsListGlobalBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.eventSubscriptions.listGlobalBySubscription()) {
+  for await (const item of client.eventSubscriptions.listGlobalBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -26,7 +26,7 @@ async function identityListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.userAssignedIdentities.listByResourceGroup(
+  for await (const item of client.userAssignedIdentities.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

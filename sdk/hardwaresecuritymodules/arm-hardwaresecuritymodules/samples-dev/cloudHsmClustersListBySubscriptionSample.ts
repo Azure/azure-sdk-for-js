@@ -27,7 +27,7 @@ async function cloudHsmClusterListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudHsmClusters.listBySubscription()) {
+  for await (const item of client.cloudHsmClusters.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

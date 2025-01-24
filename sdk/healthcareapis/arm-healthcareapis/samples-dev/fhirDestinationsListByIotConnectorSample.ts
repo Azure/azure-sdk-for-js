@@ -30,7 +30,7 @@ async function listIoTConnectors() {
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fhirDestinations.listByIotConnector(
+  for await (const item of client.fhirDestinations.listByIotConnector(
     resourceGroupName,
     workspaceName,
     iotConnectorName,

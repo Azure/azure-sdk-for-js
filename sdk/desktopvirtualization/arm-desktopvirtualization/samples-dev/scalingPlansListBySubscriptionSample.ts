@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ScalingPlansListBySubscriptionOptionalParams} from "@azure/arm-desktopvirtualization";
 import {
-  ScalingPlansListBySubscriptionOptionalParams,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function scalingPlansListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.scalingPlans.listBySubscription(options)) {
+  for await (const item of client.scalingPlans.listBySubscription(options)) {
     resArray.push(item);
   }
   console.log(resArray);

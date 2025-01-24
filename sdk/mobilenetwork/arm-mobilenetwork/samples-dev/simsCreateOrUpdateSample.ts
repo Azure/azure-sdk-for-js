@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Sim, MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
+import type { Sim} from "@azure/arm-mobilenetwork";
+import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

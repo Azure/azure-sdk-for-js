@@ -29,7 +29,7 @@ async function listsAllDistributedAvailabilityGroupsInInstance() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.distributedAvailabilityGroups.listByInstance(
+  for await (const item of client.distributedAvailabilityGroups.listByInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

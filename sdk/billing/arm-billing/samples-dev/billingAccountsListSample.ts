@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BillingAccountsListOptionalParams} from "@azure/arm-billing";
 import {
-  BillingAccountsListOptionalParams,
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -25,7 +26,7 @@ async function billingAccountForLegacyAccountDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingAccounts.list()) {
+  for await (const item of client.billingAccounts.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -41,7 +42,7 @@ async function billingAccountsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingAccounts.list()) {
+  for await (const item of client.billingAccounts.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -59,7 +60,7 @@ async function billingAccountsListWithExpandForPoNumber(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingAccounts.list(options)) {
+  for await (const item of client.billingAccounts.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -26,7 +26,7 @@ async function listBotsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureBotService(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bots.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.bots.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

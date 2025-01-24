@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ScheduledQueryRuleResourcePatch} from "@azure/arm-monitor";
 import {
-  ScheduledQueryRuleResourcePatch,
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";

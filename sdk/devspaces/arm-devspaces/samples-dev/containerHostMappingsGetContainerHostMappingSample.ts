@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ContainerHostMapping} from "@azure/arm-devspaces";
 import {
-  ContainerHostMapping,
   DevSpacesManagementClient
 } from "@azure/arm-devspaces";
 import { DefaultAzureCredential } from "@azure/identity";

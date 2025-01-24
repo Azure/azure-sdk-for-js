@@ -29,7 +29,7 @@ async function backupSchedulesListByBackupPolicy() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.backupSchedules.listByBackupPolicy(
+  for await (const item of client.backupSchedules.listByBackupPolicy(
     deviceName,
     backupPolicyName,
     resourceGroupName,

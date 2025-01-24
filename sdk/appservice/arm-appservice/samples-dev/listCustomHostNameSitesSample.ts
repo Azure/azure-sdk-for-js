@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ListCustomHostNameSitesOptionalParams} from "@azure/arm-appservice";
 import {
-  ListCustomHostNameSitesOptionalParams,
   WebSiteManagementClient,
 } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function getCustomHostnamesUnderSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.listCustomHostNameSites()) {
+  for await (const item of client.listCustomHostNameSites()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -49,7 +50,7 @@ async function getSpecificCustomHostnameUnderSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.listCustomHostNameSites(options)) {
+  for await (const item of client.listCustomHostNameSites(options)) {
     resArray.push(item);
   }
   console.log(resArray);

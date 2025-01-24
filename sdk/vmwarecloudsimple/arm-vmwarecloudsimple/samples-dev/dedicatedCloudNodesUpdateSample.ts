@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PatchPayload, VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
+import type { PatchPayload} from "@azure/arm-vmwarecloudsimple";
+import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

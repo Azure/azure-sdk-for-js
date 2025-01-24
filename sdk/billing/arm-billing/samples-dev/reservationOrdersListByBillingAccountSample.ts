@@ -24,7 +24,7 @@ async function reservationOrderListByBillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.reservationOrders.listByBillingAccount(
+  for await (const item of client.reservationOrders.listByBillingAccount(
     billingAccountName,
   )) {
     resArray.push(item);

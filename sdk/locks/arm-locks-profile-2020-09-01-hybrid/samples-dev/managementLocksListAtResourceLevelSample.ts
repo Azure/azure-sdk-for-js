@@ -32,7 +32,7 @@ async function listManagementLocksAtResourceLevel() {
   const credential = new DefaultAzureCredential();
   const client = new ManagementLockClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managementLocks.listAtResourceLevel(
+  for await (const item of client.managementLocks.listAtResourceLevel(
     resourceGroupName,
     resourceProviderNamespace,
     parentResourcePath,

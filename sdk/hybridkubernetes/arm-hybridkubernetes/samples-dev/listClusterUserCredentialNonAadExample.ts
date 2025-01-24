@@ -14,8 +14,9 @@
  * @summary Gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/ConnectedClustersListClusterCredentialResultCSPToken.json
  */
+import type {
+  ListClusterUserCredentialProperties} from "@azure/arm-hybridkubernetes";
 import {
-  ListClusterUserCredentialProperties,
   ConnectedKubernetesClient
 } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";

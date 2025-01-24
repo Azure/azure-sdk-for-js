@@ -30,7 +30,7 @@ async function getsTheIntegrationServiceEnvironmentManagedApis() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationServiceEnvironmentManagedApiOperations.list(
+  for await (const item of client.integrationServiceEnvironmentManagedApiOperations.list(
     resourceGroup,
     integrationServiceEnvironmentName,
     apiName

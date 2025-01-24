@@ -23,7 +23,7 @@ async function listRemoteRenderingAccountsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new MixedRealityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.remoteRenderingAccounts.listByResourceGroup(
+  for await (const item of client.remoteRenderingAccounts.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

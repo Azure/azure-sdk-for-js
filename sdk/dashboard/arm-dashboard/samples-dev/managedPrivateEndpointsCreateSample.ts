@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedPrivateEndpointModel} from "@azure/arm-dashboard";
 import {
-  ManagedPrivateEndpointModel,
   DashboardManagementClient
 } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";

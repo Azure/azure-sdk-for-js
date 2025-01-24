@@ -27,7 +27,7 @@ async function cosmosDbSqlStoredProcedureList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlResources.listSqlStoredProcedures(
+  for await (const item of client.sqlResources.listSqlStoredProcedures(
     resourceGroupName,
     accountName,
     databaseName,

@@ -27,7 +27,7 @@ async function iotHubResourceListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iotHubResource.listBySubscription()) {
+  for await (const item of client.iotHubResource.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

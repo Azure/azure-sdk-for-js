@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CollectionPartitionListUsagesOptionalParams} from "@azure/arm-cosmosdb";
 import {
-  CollectionPartitionListUsagesOptionalParams,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function cosmosDbCollectionGetUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.collectionPartition.listUsages(
+  for await (const item of client.collectionPartition.listUsages(
     resourceGroupName,
     accountName,
     databaseRid,

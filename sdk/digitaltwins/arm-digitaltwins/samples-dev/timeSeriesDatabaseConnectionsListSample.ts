@@ -31,7 +31,7 @@ async function listTimeSeriesDatabaseConnectionsForADigitalTwinsInstance(): Prom
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.timeSeriesDatabaseConnections.list(
+  for await (const item of client.timeSeriesDatabaseConnections.list(
     resourceGroupName,
     resourceName
   )) {

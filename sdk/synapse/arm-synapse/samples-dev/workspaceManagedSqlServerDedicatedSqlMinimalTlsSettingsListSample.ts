@@ -30,7 +30,7 @@ async function listDedicatedSqlMinimalTlsSettingsOfTheWorkspaceManagedSqlServer(
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings.list(
+  for await (const item of client.workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings.list(
     resourceGroupName,
     workspaceName
   )) {

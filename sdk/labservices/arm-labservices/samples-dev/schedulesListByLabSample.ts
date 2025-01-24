@@ -30,7 +30,7 @@ async function getListSchedule() {
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.schedules.listByLab(
+  for await (const item of client.schedules.listByLab(
     resourceGroupName,
     labName
   )) {

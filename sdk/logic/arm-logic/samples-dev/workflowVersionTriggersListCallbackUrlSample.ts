@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   GetCallbackUrlParameters,
-  WorkflowVersionTriggersListCallbackUrlOptionalParams,
+  WorkflowVersionTriggersListCallbackUrlOptionalParams} from "@azure/arm-logic";
+import {
   LogicManagementClient
 } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";

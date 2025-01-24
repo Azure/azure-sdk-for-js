@@ -30,7 +30,7 @@ async function listGitHubRepos() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.gitHubRepos.list(
+  for await (const item of client.gitHubRepos.list(
     resourceGroupName,
     securityConnectorName,
     ownerName,

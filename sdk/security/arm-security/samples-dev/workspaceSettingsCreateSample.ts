@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { WorkspaceSetting, SecurityCenter } from "@azure/arm-security";
+import type { WorkspaceSetting} from "@azure/arm-security";
+import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

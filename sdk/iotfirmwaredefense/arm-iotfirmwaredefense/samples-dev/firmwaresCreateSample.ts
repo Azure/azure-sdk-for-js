@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  Firmware} from "@azure/arm-iotfirmwaredefense";
 import {
-  Firmware,
   IoTFirmwareDefenseClient,
 } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";

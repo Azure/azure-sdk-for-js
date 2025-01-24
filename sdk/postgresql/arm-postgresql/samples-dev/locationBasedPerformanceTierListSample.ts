@@ -23,7 +23,7 @@ async function performanceTiersList() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.locationBasedPerformanceTier.list(
+  for await (const item of client.locationBasedPerformanceTier.list(
     locationName
   )) {
     resArray.push(item);

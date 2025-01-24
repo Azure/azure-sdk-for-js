@@ -29,7 +29,7 @@ async function volumeGroupsListByElasticSanMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.volumeGroups.listByElasticSan(
+  for await (const item of client.volumeGroups.listByElasticSan(
     resourceGroupName,
     elasticSanName,
   )) {
@@ -53,7 +53,7 @@ async function volumeGroupsListByElasticSanMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.volumeGroups.listByElasticSan(
+  for await (const item of client.volumeGroups.listByElasticSan(
     resourceGroupName,
     elasticSanName,
   )) {

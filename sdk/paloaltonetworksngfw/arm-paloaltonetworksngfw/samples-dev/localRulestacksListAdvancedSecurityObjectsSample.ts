@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LocalRulestacksListAdvancedSecurityObjectsOptionalParams} from "@azure/arm-paloaltonetworksngfw";
 import {
-  LocalRulestacksListAdvancedSecurityObjectsOptionalParams,
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";

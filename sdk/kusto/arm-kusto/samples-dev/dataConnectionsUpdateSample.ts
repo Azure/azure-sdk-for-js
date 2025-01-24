@@ -8,10 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   CosmosDbDataConnection,
   EventGridDataConnection,
-  EventHubDataConnection,
+  EventHubDataConnection} from "@azure/arm-kusto";
+import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";

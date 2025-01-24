@@ -33,7 +33,7 @@ async function listRepetitionRequestHistory() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowRunActionRepetitionsRequestHistories.list(
+  for await (const item of client.workflowRunActionRepetitionsRequestHistories.list(
     resourceGroupName,
     workflowName,
     runName,

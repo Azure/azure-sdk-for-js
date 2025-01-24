@@ -23,7 +23,7 @@ async function listExchangePeeringLocations() {
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.peeringLocations.list(kind)) {
+  for await (const item of client.peeringLocations.list(kind)) {
     resArray.push(item);
   }
   console.log(resArray);

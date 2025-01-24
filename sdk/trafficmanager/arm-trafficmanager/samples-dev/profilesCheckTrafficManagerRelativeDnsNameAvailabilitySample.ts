@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckTrafficManagerRelativeDnsNameAvailabilityParameters} from "@azure/arm-trafficmanager";
 import {
-  CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
   TrafficManagerManagementClient
 } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";

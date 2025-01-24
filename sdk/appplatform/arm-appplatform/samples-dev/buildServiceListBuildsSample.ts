@@ -29,7 +29,7 @@ async function buildServiceListBuilds(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.buildServiceOperations.listBuilds(
+  for await (const item of client.buildServiceOperations.listBuilds(
     resourceGroupName,
     serviceName,
     buildServiceName

@@ -29,7 +29,7 @@ async function fileSystemsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileSystems.listByResourceGroup(
+  for await (const item of client.fileSystems.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -51,7 +51,7 @@ async function fileSystemsListByResourceGroupMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new QumuloStorage(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileSystems.listByResourceGroup(
+  for await (const item of client.fileSystems.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

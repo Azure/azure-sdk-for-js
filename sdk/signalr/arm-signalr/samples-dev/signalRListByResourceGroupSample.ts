@@ -29,7 +29,7 @@ async function signalRListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SignalRManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.signalR.listByResourceGroup(
+  for await (const item of client.signalR.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

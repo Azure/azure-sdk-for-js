@@ -37,7 +37,7 @@ async function listOfContact() {
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.spacecrafts.beginListAvailableContactsAndWait(
+  for await (const item of client.spacecrafts.beginListAvailableContactsAndWait(
     resourceGroupName,
     spacecraftName,
     contactProfile,

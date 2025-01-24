@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AnalyticsItemsDeleteOptionalParams} from "@azure/arm-appinsights";
 import {
-  AnalyticsItemsDeleteOptionalParams,
   ApplicationInsightsManagementClient
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -30,7 +30,7 @@ async function listAccountsByResourceGroup(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.accounts.listByResourceGroup(
+  for await (const item of client.accounts.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

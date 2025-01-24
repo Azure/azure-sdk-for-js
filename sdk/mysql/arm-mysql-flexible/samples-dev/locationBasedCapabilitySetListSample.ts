@@ -31,7 +31,7 @@ async function capabilitySetsResult() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.locationBasedCapabilitySet.list(locationName)) {
+  for await (const item of client.locationBasedCapabilitySet.list(locationName)) {
     resArray.push(item);
   }
   console.log(resArray);

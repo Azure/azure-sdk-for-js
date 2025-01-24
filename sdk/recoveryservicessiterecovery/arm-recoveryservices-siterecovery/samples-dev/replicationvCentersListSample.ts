@@ -30,7 +30,7 @@ async function getsTheListOfVCenterRegisteredUnderTheVault() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationvCenters.list(
+  for await (const item of client.replicationvCenters.list(
     resourceName,
     resourceGroupName,
   )) {

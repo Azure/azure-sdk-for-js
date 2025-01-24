@@ -28,7 +28,7 @@ async function configurationStoresList(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.configurationStores.list()) {
+  for await (const item of client.configurationStores.list()) {
     resArray.push(item);
   }
   console.log(resArray);

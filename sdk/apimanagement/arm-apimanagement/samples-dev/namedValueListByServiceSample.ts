@@ -27,7 +27,7 @@ async function apiManagementListNamedValues(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namedValue.listByService(
+  for await (const item of client.namedValue.listByService(
     resourceGroupName,
     serviceName
   )) {

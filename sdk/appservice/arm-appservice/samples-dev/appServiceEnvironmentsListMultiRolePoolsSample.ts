@@ -28,7 +28,7 @@ async function getAllMultiRolePools(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listMultiRolePools(
+  for await (const item of client.appServiceEnvironments.listMultiRolePools(
     resourceGroupName,
     name,
   )) {

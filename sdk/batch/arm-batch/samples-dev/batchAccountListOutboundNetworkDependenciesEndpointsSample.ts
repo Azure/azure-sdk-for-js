@@ -26,7 +26,7 @@ async function listOutboundNetworkDependencies(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.batchAccountOperations.listOutboundNetworkDependenciesEndpoints(
+  for await (const item of client.batchAccountOperations.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
     accountName,
   )) {

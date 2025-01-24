@@ -22,7 +22,7 @@ async function getOperations() {
   const credential = new DefaultAzureCredential();
   const client = new DomainServicesResourceProvider(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ouContainerOperations.list()) {
+  for await (const item of client.ouContainerOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

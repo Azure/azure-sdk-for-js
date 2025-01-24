@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  StreamingJobsListOptionalParams} from "@azure/arm-streamanalytics";
 import {
-  StreamingJobsListOptionalParams,
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function listAllStreamingJobsInASubscriptionAndDoNotUseTheExpandODataQuery
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.streamingJobs.list()) {
+  for await (const item of client.streamingJobs.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -57,7 +58,7 @@ async function listAllStreamingJobsInASubscriptionAndUseTheExpandODataQueryParam
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.streamingJobs.list(options)) {
+  for await (const item of client.streamingJobs.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

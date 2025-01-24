@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ControllerUpdateParameters} from "@azure/arm-devspaces";
 import {
-  ControllerUpdateParameters,
   DevSpacesManagementClient
 } from "@azure/arm-devspaces";
 import { DefaultAzureCredential } from "@azure/identity";

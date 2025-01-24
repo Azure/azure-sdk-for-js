@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DesktopsListOptionalParams} from "@azure/arm-desktopvirtualization";
 import {
-  DesktopsListOptionalParams,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,7 +40,7 @@ async function desktopList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.desktops.list(
+  for await (const item of client.desktops.list(
     resourceGroupName,
     applicationGroupName,
     options,

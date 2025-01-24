@@ -32,7 +32,7 @@ async function workspacesGet() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.deletedWorkspaces.listByResourceGroup(
+  for await (const item of client.deletedWorkspaces.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

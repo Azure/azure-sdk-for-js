@@ -24,7 +24,7 @@ async function iscsiServersListByManager() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iscsiServers.listByManager(
+  for await (const item of client.iscsiServers.listByManager(
     resourceGroupName,
     managerName
   )) {

@@ -31,7 +31,7 @@ async function listWorkspaceQuotasByVMFamily() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.quotas.list(location)) {
+  for await (const item of client.quotas.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

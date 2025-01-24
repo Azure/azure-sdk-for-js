@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CheckNameAvailability} from "@azure/arm-servicebus";
 import {
-  CheckNameAvailability,
   ServiceBusManagementClient
 } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";

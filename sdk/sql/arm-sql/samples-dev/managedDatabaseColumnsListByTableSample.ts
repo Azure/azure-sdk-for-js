@@ -32,7 +32,7 @@ async function listManagedDatabaseColumns() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseColumns.listByTable(
+  for await (const item of client.managedDatabaseColumns.listByTable(
     resourceGroupName,
     managedInstanceName,
     databaseName,

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DatabaseAccountsListUsagesOptionalParams} from "@azure/arm-cosmosdb";
 import {
-  DatabaseAccountsListUsagesOptionalParams,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -30,7 +31,7 @@ async function cosmosDbDatabaseAccountGetUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseAccounts.listUsages(
+  for await (const item of client.databaseAccounts.listUsages(
     resourceGroupName,
     accountName,
     options,

@@ -25,7 +25,7 @@ async function filesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.files.list(
+  for await (const item of client.files.list(
     groupName,
     serviceName,
     projectName

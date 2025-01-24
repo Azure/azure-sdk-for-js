@@ -28,7 +28,7 @@ async function apiManagementListApiTagDescriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiTagDescription.listByService(
+  for await (const item of client.apiTagDescription.listByService(
     resourceGroupName,
     serviceName,
     apiId

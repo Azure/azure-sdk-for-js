@@ -29,7 +29,7 @@ async function listJobStreamsByJobName(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.testJobStreams.listByTestJob(
+  for await (const item of client.testJobStreams.listByTestJob(
     resourceGroupName,
     automationAccountName,
     runbookName

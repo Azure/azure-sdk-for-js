@@ -30,7 +30,7 @@ async function listManagedClusters() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.managedClusters.listBySubscription()) {
+  for await (const item of client.managedClusters.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

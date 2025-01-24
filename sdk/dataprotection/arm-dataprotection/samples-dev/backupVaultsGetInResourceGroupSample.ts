@@ -27,7 +27,7 @@ async function getBackupVaultsInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupVaults.listInResourceGroup(
+  for await (const item of client.backupVaults.listInResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

@@ -29,7 +29,7 @@ async function listsSecretsThatBelongToThatAzureRedHatOpenShiftCluster() {
   const credential = new DefaultAzureCredential();
   const client = new AzureRedHatOpenShiftClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.secrets.list(resourceGroupName, resourceName)) {
+  for await (const item of client.secrets.list(resourceGroupName, resourceName)) {
     resArray.push(item);
   }
   console.log(resArray);

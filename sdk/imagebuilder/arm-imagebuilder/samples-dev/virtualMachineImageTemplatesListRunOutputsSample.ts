@@ -29,7 +29,7 @@ async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineImageTemplates.listRunOutputs(
+  for await (const item of client.virtualMachineImageTemplates.listRunOutputs(
     resourceGroupName,
     imageTemplateName,
   )) {

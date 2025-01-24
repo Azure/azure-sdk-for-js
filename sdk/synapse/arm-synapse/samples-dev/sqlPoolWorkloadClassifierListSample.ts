@@ -32,7 +32,7 @@ async function getTheListOfWorkloadClassifiersOfASqlAnalyticsPoolWorkloadGroup()
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPoolWorkloadClassifier.list(
+  for await (const item of client.sqlPoolWorkloadClassifier.list(
     resourceGroupName,
     workspaceName,
     sqlPoolName,

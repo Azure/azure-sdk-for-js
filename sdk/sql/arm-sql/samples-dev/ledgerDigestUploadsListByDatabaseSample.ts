@@ -30,7 +30,7 @@ async function getsListOfLedgerDigestUploadSettingsOnADatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ledgerDigestUploadsOperations.listByDatabase(
+  for await (const item of client.ledgerDigestUploadsOperations.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

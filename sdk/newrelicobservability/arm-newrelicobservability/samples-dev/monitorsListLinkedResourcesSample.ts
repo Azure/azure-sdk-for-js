@@ -30,7 +30,7 @@ async function monitorsListLinkedResources() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listLinkedResources(
+  for await (const item of client.monitors.listLinkedResources(
     resourceGroupName,
     monitorName,
   )) {

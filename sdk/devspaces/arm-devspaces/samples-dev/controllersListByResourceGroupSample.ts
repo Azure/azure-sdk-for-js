@@ -23,7 +23,7 @@ async function controllersListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevSpacesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.controllers.listByResourceGroup(
+  for await (const item of client.controllers.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

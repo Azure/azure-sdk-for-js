@@ -34,7 +34,7 @@ async function listFluxConfiguration() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.fluxConfigurations.list(
+  for await (const item of client.fluxConfigurations.list(
     resourceGroupName,
     clusterRp,
     clusterResourceName,

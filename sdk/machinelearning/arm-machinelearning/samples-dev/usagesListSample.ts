@@ -31,7 +31,7 @@ async function listUsages() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.usages.list(location)) {
+  for await (const item of client.usages.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

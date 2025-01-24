@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AddRecoveryServicesProviderInput} from "@azure/arm-recoveryservices-siterecovery";
 import {
-  AddRecoveryServicesProviderInput,
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -29,7 +29,7 @@ async function listTriggersByImageTemplate() {
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.triggers.listByImageTemplate(
+  for await (const item of client.triggers.listByImageTemplate(
     resourceGroupName,
     imageTemplateName,
   )) {

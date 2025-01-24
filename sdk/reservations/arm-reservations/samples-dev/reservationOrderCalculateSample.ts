@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PurchaseRequest, AzureReservationAPI } from "@azure/arm-reservations";
+import type { PurchaseRequest} from "@azure/arm-reservations";
+import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

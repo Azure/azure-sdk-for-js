@@ -29,7 +29,7 @@ async function getsPrivateLinkResourcesForSql() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstancePrivateLinkResources.listByManagedInstance(
+  for await (const item of client.managedInstancePrivateLinkResources.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

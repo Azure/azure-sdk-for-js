@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ContainerAccount} from "@azure/arm-domainservices";
 import {
-  ContainerAccount,
   DomainServicesResourceProvider
 } from "@azure/arm-domainservices";
 import { DefaultAzureCredential } from "@azure/identity";

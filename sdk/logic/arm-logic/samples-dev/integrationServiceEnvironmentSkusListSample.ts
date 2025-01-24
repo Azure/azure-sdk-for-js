@@ -29,7 +29,7 @@ async function listIntegrationServiceEnvironmentSkus() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationServiceEnvironmentSkus.list(
+  for await (const item of client.integrationServiceEnvironmentSkus.list(
     resourceGroup,
     integrationServiceEnvironmentName
   )) {

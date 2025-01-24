@@ -33,7 +33,7 @@ async function listServices() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.service.list(
+  for await (const item of client.service.list(
     resourceGroupName,
     applicationResourceName
   )) {

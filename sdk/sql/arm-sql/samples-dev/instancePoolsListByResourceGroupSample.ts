@@ -28,7 +28,7 @@ async function listInstancePoolsByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.instancePools.listByResourceGroup(
+  for await (const item of client.instancePools.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

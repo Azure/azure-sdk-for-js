@@ -24,7 +24,7 @@ async function getOperations() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMapsManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.maps.listOperations()) {
+  for await (const item of client.maps.listOperations()) {
     resArray.push(item);
   }
   console.log(resArray);

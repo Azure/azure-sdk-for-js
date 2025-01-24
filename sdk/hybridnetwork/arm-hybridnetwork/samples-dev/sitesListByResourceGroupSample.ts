@@ -28,7 +28,7 @@ async function listAllNetworkSites() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sites.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.sites.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

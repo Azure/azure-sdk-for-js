@@ -22,7 +22,7 @@ async function recipientTransfersList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.recipientTransfers.list()) {
+  for await (const item of client.recipientTransfers.list()) {
     resArray.push(item);
   }
   console.log(resArray);

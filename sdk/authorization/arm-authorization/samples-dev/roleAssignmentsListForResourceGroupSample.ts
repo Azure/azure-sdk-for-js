@@ -27,7 +27,7 @@ async function listRoleAssignmentsForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.roleAssignments.listForResourceGroup(
+  for await (const item of client.roleAssignments.listForResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

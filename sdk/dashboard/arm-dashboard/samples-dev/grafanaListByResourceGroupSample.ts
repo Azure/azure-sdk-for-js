@@ -27,7 +27,7 @@ async function grafanaListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.grafana.listByResourceGroup(
+  for await (const item of client.grafana.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

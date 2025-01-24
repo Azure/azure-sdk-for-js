@@ -33,7 +33,7 @@ async function getsTheListOfStorageClassificationObjectsUnderAFabric() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationStorageClassifications.listByReplicationFabrics(
+  for await (const item of client.replicationStorageClassifications.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
     fabricName,

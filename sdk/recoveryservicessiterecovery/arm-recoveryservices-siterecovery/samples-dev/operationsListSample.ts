@@ -30,7 +30,7 @@ async function returnsTheListOfAvailableOperations() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list(resourceGroupName)) {
+  for await (const item of client.operations.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

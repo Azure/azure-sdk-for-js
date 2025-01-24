@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ThreatIntelligenceFilteringCriteria} from "@azure/arm-securityinsight";
 import {
-  ThreatIntelligenceFilteringCriteria,
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -42,7 +43,7 @@ async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.threatIntelligenceIndicator.listQueryIndicators(
+  for await (const item of client.threatIntelligenceIndicator.listQueryIndicators(
     resourceGroupName,
     workspaceName,
     threatIntelligenceFilteringCriteria

@@ -34,7 +34,7 @@ async function listExtensions() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.extensions.list(
+  for await (const item of client.extensions.list(
     resourceGroupName,
     clusterRp,
     clusterResourceName,

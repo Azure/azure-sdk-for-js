@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   StartStreamingJobParameters,
-  StreamingJobsStartOptionalParams,
+  StreamingJobsStartOptionalParams} from "@azure/arm-streamanalytics";
+import {
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";

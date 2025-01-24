@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AutoScaleVCore, PowerBIDedicated } from "@azure/arm-powerbidedicated";
+import type { AutoScaleVCore} from "@azure/arm-powerbidedicated";
+import { PowerBIDedicated } from "@azure/arm-powerbidedicated";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

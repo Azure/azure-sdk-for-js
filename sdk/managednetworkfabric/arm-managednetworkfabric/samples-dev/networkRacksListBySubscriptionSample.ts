@@ -30,7 +30,7 @@ async function networkRacksListBySubscriptionMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkRacks.listBySubscription()) {
+  for await (const item of client.networkRacks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

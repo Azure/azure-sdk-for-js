@@ -29,7 +29,7 @@ async function listRaiContentFilters(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.raiContentFilters.list(location)) {
+  for await (const item of client.raiContentFilters.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

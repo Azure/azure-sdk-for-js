@@ -24,7 +24,7 @@ async function registeredServersListByStorageSyncService() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftStorageSync(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.registeredServers.listByStorageSyncService(
+  for await (const item of client.registeredServers.listByStorageSyncService(
     resourceGroupName,
     storageSyncServiceName
   )) {

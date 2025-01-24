@@ -24,7 +24,7 @@ async function listPoliciesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policies.list(resourceGroupName)) {
+  for await (const item of client.policies.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

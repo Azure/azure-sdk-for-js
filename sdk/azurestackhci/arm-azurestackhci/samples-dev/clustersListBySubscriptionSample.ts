@@ -25,7 +25,7 @@ async function listClustersInAGivenSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureStackHCIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.listBySubscription()) {
+  for await (const item of client.clusters.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

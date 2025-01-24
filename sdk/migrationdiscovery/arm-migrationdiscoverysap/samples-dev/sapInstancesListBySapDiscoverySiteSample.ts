@@ -30,7 +30,7 @@ async function listsTheSapInstanceResourcesForTheGivenSapMigrationDiscoverySiteR
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sapInstances.listBySapDiscoverySite(
+  for await (const item of client.sapInstances.listBySapDiscoverySite(
     resourceGroupName,
     sapDiscoverySiteName,
   )) {

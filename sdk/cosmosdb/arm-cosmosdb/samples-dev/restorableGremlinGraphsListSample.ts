@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RestorableGremlinGraphsListOptionalParams} from "@azure/arm-cosmosdb";
 import {
-  RestorableGremlinGraphsListOptionalParams,
   CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function cosmosDbRestorableGremlinGraphList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.restorableGremlinGraphs.list(
+  for await (const item of client.restorableGremlinGraphs.list(
     location,
     instanceId,
     options,

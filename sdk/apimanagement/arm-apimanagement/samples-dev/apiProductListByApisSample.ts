@@ -28,7 +28,7 @@ async function apiManagementListApiProducts(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apiProduct.listByApis(
+  for await (const item of client.apiProduct.listByApis(
     resourceGroupName,
     serviceName,
     apiId

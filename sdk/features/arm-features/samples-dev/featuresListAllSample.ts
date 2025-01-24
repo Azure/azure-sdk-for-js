@@ -22,7 +22,7 @@ async function listSubscriptionFeatures() {
   const credential = new DefaultAzureCredential();
   const client = new FeatureClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.features.listAll()) {
+  for await (const item of client.features.listAll()) {
     resArray.push(item);
   }
   console.log(resArray);

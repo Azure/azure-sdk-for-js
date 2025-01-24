@@ -29,7 +29,7 @@ async function listSecurityAdminConfigurationsInANetworkManager() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityAdminConfigurations.list(
+  for await (const item of client.securityAdminConfigurations.list(
     resourceGroupName,
     networkManagerName,
   )) {

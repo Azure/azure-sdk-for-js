@@ -25,7 +25,7 @@ async function getAllHadoopOnLinuxClusters() {
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.list()) {
+  for await (const item of client.clusters.list()) {
     resArray.push(item);
   }
   console.log(resArray);

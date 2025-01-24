@@ -28,7 +28,7 @@ async function devicesListMetricDefinition() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.devices.listMetricDefinition(
+  for await (const item of client.devices.listMetricDefinition(
     deviceName,
     resourceGroupName,
     managerName

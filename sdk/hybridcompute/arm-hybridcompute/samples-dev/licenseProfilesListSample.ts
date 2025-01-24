@@ -29,7 +29,7 @@ async function listAllLicenseProfiles() {
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.licenseProfiles.list(
+  for await (const item of client.licenseProfiles.list(
     resourceGroupName,
     machineName,
   )) {

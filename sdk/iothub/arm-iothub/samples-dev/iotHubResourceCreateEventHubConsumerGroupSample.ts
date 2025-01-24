@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EventHubConsumerGroupBodyDescription} from "@azure/arm-iothub";
 import {
-  EventHubConsumerGroupBodyDescription,
   IotHubClient
 } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";

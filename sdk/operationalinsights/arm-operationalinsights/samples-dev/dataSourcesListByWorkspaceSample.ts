@@ -34,7 +34,7 @@ async function dataSourcesListByWorkspace() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.dataSources.listByWorkspace(
+  for await (const item of client.dataSources.listByWorkspace(
     resourceGroupName,
     workspaceName,
     filter

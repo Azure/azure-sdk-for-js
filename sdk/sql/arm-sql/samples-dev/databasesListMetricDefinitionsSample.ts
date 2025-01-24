@@ -31,7 +31,7 @@ async function listDatabaseUsageMetrics() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databases.listMetricDefinitions(
+  for await (const item of client.databases.listMetricDefinitions(
     resourceGroupName,
     serverName,
     databaseName,

@@ -29,7 +29,7 @@ async function getPrivateDnsZoneAllRecordSets() {
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.list(
+  for await (const item of client.recordSets.list(
     resourceGroupName,
     privateZoneName,
   )) {

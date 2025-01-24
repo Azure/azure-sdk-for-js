@@ -27,7 +27,7 @@ async function listDeletedVaultsInTheSpecifiedSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vaults.listDeleted()) {
+  for await (const item of client.vaults.listDeleted()) {
     resArray.push(item);
   }
   console.log(resArray);

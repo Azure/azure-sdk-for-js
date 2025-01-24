@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ScalingPlanPersonalSchedulesListOptionalParams} from "@azure/arm-desktopvirtualization";
 import {
-  ScalingPlanPersonalSchedulesListOptionalParams,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,7 +40,7 @@ async function scalingPlanPersonalSchedulesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.scalingPlanPersonalSchedules.list(
+  for await (const item of client.scalingPlanPersonalSchedules.list(
     resourceGroupName,
     scalingPlanName,
     options,

@@ -29,7 +29,7 @@ async function getAListOfIntegrationAccountSessions() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationAccountSessions.list(
+  for await (const item of client.integrationAccountSessions.list(
     resourceGroupName,
     integrationAccountName
   )) {

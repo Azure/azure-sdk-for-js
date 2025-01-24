@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   NginxDeployment,
-  DeploymentsCreateOrUpdateOptionalParams,
+  DeploymentsCreateOrUpdateOptionalParams} from "@azure/arm-nginx";
+import {
   NginxManagementClient,
 } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";

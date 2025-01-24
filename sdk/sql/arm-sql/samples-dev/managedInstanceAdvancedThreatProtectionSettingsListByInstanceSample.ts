@@ -30,7 +30,7 @@ async function listTheManagedInstanceAdvancedThreatProtectionSettings() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstanceAdvancedThreatProtectionSettings.listByInstance(
+  for await (const item of client.managedInstanceAdvancedThreatProtectionSettings.listByInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

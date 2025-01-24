@@ -29,7 +29,7 @@ async function predefinedAcceleratorsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.predefinedAccelerators.list(
+  for await (const item of client.predefinedAccelerators.list(
     resourceGroupName,
     serviceName,
     applicationAcceleratorName

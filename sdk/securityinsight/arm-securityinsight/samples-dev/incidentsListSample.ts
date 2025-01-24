@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  IncidentsListOptionalParams} from "@azure/arm-securityinsight";
 import {
-  IncidentsListOptionalParams,
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function getAllIncidents() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.incidents.list(
+  for await (const item of client.incidents.list(
     resourceGroupName,
     workspaceName,
     options

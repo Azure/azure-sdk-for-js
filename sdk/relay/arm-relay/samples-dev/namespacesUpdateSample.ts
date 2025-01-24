@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { RelayUpdateParameters, RelayAPI } from "@azure/arm-relay";
+import type { RelayUpdateParameters} from "@azure/arm-relay";
+import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

@@ -30,7 +30,7 @@ async function sbAliasList() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.disasterRecoveryConfigs.list(
+  for await (const item of client.disasterRecoveryConfigs.list(
     resourceGroupName,
     namespaceName
   )) {

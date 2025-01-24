@@ -27,7 +27,7 @@ async function privateLinkScopesListJson() {
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkScopes.list()) {
+  for await (const item of client.privateLinkScopes.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -27,7 +27,7 @@ async function apiManagementListPortalRevisions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.portalRevision.listByService(
+  for await (const item of client.portalRevision.listByService(
     resourceGroupName,
     serviceName
   )) {

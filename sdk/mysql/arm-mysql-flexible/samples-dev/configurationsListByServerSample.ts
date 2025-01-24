@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ConfigurationsListByServerOptionalParams} from "@azure/arm-mysql-flexible";
 import {
-  ConfigurationsListByServerOptionalParams,
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -38,7 +39,7 @@ async function listAllConfigurationsForAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.configurations.listByServer(
+  for await (const item of client.configurations.listByServer(
     resourceGroupName,
     serverName,
     options,

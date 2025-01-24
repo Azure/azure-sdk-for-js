@@ -34,7 +34,7 @@ async function emailConfigurationList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.emailConfiguration.list(
+  for await (const item of client.emailConfiguration.list(
     resourceGroupName,
     vaultName
   )) {

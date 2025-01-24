@@ -31,7 +31,7 @@ async function getAListOfServiceResources() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceFabricManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.services.list(
+  for await (const item of client.services.list(
     resourceGroupName,
     clusterName,
     applicationName

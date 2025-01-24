@@ -14,8 +14,9 @@
  * @summary Creates or updates a workspace with the specified parameters.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/CreateWorkspace.json
  */
+import type {
+  Workspace} from "@azure/arm-workspaces";
 import {
-  Workspace,
   MachineLearningWorkspacesManagementClient
 } from "@azure/arm-workspaces";
 import { DefaultAzureCredential } from "@azure/identity";

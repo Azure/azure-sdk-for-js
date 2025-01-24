@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  InformaticaOrganizationResourceUpdate} from "@azure/arm-informaticadatamanagement";
 import {
-  InformaticaOrganizationResourceUpdate,
   InformaticaDataManagement,
 } from "@azure/arm-informaticadatamanagement";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Extension, HDInsightManagementClient } from "@azure/arm-hdinsight";
+import type { Extension} from "@azure/arm-hdinsight";
+import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

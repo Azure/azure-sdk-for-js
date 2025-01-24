@@ -29,7 +29,7 @@ async function schemaRegistryListAll() {
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.schemaRegistry.listByNamespace(
+  for await (const item of client.schemaRegistry.listByNamespace(
     resourceGroupName,
     namespaceName,
   )) {

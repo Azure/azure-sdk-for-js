@@ -32,7 +32,7 @@ async function listRegistriesWithSystemCreatedAccounts() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.registries.list(resourceGroupName)) {
+  for await (const item of client.registries.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -56,7 +56,7 @@ async function listRegistriesWithUserCreatedAccounts() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.registries.list(resourceGroupName)) {
+  for await (const item of client.registries.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

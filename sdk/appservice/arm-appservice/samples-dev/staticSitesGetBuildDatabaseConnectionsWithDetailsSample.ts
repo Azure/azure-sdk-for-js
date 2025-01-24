@@ -28,7 +28,7 @@ async function listFullDetailsOfDatabaseConnectionsForTheStaticSiteBuild(): Prom
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticSites.listBuildDatabaseConnectionsWithDetails(
+  for await (const item of client.staticSites.listBuildDatabaseConnectionsWithDetails(
     resourceGroupName,
     name,
     environmentName,

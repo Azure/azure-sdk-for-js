@@ -23,7 +23,7 @@ async function listProviderFeatures() {
   const credential = new DefaultAzureCredential();
   const client = new FeatureClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.features.list(resourceProviderNamespace)) {
+  for await (const item of client.features.list(resourceProviderNamespace)) {
     resArray.push(item);
   }
   console.log(resArray);

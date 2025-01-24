@@ -27,7 +27,7 @@ async function workspacesListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspaces.listBySubscription()) {
+  for await (const item of client.workspaces.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function workspacesListBySubscriptionMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspaces.listBySubscription()) {
+  for await (const item of client.workspaces.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

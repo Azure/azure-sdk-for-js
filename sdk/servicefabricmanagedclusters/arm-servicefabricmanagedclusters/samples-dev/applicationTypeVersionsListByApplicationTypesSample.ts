@@ -34,7 +34,7 @@ async function getAListOfApplicationTypeVersionResources() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.applicationTypeVersions.listByApplicationTypes(
+  for await (const item of client.applicationTypeVersions.listByApplicationTypes(
     resourceGroupName,
     clusterName,
     applicationTypeName,

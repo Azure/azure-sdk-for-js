@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ImageTemplateUpdateParameters} from "@azure/arm-imagebuilder";
 import {
-  ImageTemplateUpdateParameters,
   ImageBuilderClient,
 } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";

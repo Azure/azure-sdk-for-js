@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  JobExecutionsListByAgentOptionalParams} from "@azure/arm-sql";
 import {
-  JobExecutionsListByAgentOptionalParams,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -45,7 +46,7 @@ async function listAllJobExecutionsInAJobAgentWithFiltering() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobExecutions.listByAgent(
+  for await (const item of client.jobExecutions.listByAgent(
     resourceGroupName,
     serverName,
     jobAgentName,
@@ -72,7 +73,7 @@ async function listAllJobExecutionsInAJobAgent() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobExecutions.listByAgent(
+  for await (const item of client.jobExecutions.listByAgent(
     resourceGroupName,
     serverName,
     jobAgentName,

@@ -28,7 +28,7 @@ async function environmentDefinitionsListByProjectCatalog(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevCenterClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.environmentDefinitions.listByProjectCatalog(
+  for await (const item of client.environmentDefinitions.listByProjectCatalog(
     resourceGroupName,
     projectName,
     catalogName,

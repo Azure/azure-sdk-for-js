@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  QueriesListOptionalParams} from "@azure/arm-operationalinsights";
 import {
-  QueriesListOptionalParams,
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -38,7 +39,7 @@ async function queryList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.queries.list(
+  for await (const item of client.queries.list(
     resourceGroupName,
     queryPackName,
     options

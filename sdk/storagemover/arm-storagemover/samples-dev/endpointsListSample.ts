@@ -30,7 +30,7 @@ async function endpointsList() {
   const credential = new DefaultAzureCredential();
   const client = new StorageMoverClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.endpoints.list(
+  for await (const item of client.endpoints.list(
     resourceGroupName,
     storageMoverName,
   )) {

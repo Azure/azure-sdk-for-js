@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { RefundRequest, AzureReservationAPI } from "@azure/arm-reservations";
+import type { RefundRequest} from "@azure/arm-reservations";
+import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

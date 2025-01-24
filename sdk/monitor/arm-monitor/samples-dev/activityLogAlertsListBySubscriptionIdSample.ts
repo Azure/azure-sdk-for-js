@@ -27,7 +27,7 @@ async function getListOfAllActivityLogAlertRulesUnderASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.activityLogAlerts.listBySubscriptionId()) {
+  for await (const item of client.activityLogAlerts.listBySubscriptionId()) {
     resArray.push(item);
   }
   console.log(resArray);

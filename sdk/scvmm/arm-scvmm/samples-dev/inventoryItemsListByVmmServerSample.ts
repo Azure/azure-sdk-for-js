@@ -29,7 +29,7 @@ async function inventoryItemsListByVmmServerMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.inventoryItems.listByVmmServer(
+  for await (const item of client.inventoryItems.listByVmmServer(
     resourceGroupName,
     vmmServerName,
   )) {
@@ -53,7 +53,7 @@ async function inventoryItemsListByVmmServerMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.inventoryItems.listByVmmServer(
+  for await (const item of client.inventoryItems.listByVmmServer(
     resourceGroupName,
     vmmServerName,
   )) {

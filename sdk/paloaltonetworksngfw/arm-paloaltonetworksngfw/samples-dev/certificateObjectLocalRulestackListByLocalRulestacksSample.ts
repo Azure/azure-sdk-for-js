@@ -30,7 +30,7 @@ async function certificateObjectLocalRulestackListByLocalRulestacksMaximumSetGen
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateObjectLocalRulestack.listByLocalRulestacks(
+  for await (const item of client.certificateObjectLocalRulestack.listByLocalRulestacks(
     resourceGroupName,
     localRulestackName
   )) {
@@ -55,7 +55,7 @@ async function certificateObjectLocalRulestackListByLocalRulestacksMinimumSetGen
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateObjectLocalRulestack.listByLocalRulestacks(
+  for await (const item of client.certificateObjectLocalRulestack.listByLocalRulestacks(
     resourceGroupName,
     localRulestackName
   )) {

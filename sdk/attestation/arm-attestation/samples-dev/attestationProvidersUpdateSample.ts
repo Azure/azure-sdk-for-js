@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AttestationServicePatchParams} from "@azure/arm-attestation";
 import {
-  AttestationServicePatchParams,
   AttestationManagementClient
 } from "@azure/arm-attestation";
 import { DefaultAzureCredential } from "@azure/identity";

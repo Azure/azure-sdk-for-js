@@ -31,7 +31,7 @@ async function listModelCapacities(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.modelCapacities.list(
+  for await (const item of client.modelCapacities.list(
     modelFormat,
     modelName,
     modelVersion,

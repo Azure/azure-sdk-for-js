@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Alert, AuthorizationManagementClient } from "@azure/arm-authorization";
+import type { Alert} from "@azure/arm-authorization";
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

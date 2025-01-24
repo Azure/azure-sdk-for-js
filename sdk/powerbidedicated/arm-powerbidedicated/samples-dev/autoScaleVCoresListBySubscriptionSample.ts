@@ -27,7 +27,7 @@ async function listAutoScaleVCoresInSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new PowerBIDedicated(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.autoScaleVCores.listBySubscription()) {
+  for await (const item of client.autoScaleVCores.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

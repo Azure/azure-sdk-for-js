@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagedDatabaseSecurityEventsListByDatabaseOptionalParams} from "@azure/arm-sql";
 import {
-  ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -44,7 +45,7 @@ async function getTheManagedDatabaseSecurityEventsWithMaximalParameters() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseSecurityEvents.listByDatabase(
+  for await (const item of client.managedDatabaseSecurityEvents.listByDatabase(
     resourceGroupName,
     managedInstanceName,
     databaseName,
@@ -71,7 +72,7 @@ async function getTheManagedDatabaseSecurityEventsWithMinimalParameters() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseSecurityEvents.listByDatabase(
+  for await (const item of client.managedDatabaseSecurityEvents.listByDatabase(
     resourceGroupName,
     managedInstanceName,
     databaseName,

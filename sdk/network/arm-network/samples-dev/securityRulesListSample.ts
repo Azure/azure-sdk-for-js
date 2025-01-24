@@ -27,7 +27,7 @@ async function listNetworkSecurityRulesInNetworkSecurityGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityRules.list(
+  for await (const item of client.securityRules.list(
     resourceGroupName,
     networkSecurityGroupName,
   )) {

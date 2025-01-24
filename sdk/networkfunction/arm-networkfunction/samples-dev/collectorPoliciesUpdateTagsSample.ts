@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  TagsObject} from "@azure/arm-networkfunction";
 import {
-  TagsObject,
   AzureTrafficCollectorClient
 } from "@azure/arm-networkfunction";
 import { DefaultAzureCredential } from "@azure/identity";

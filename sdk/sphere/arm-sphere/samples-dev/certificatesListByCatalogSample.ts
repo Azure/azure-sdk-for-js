@@ -30,7 +30,7 @@ async function certificatesListByCatalog() {
   const credential = new DefaultAzureCredential();
   const client = new AzureSphereManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificates.listByCatalog(
+  for await (const item of client.certificates.listByCatalog(
     resourceGroupName,
     catalogName,
   )) {

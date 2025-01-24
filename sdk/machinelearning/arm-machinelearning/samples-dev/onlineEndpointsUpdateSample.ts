@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PartialMinimalTrackedResourceWithIdentity} from "@azure/arm-machinelearning";
 import {
-  PartialMinimalTrackedResourceWithIdentity,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -33,7 +33,7 @@ async function hdInsightClusterGetInstanceViews() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusters.listInstanceViews(
+  for await (const item of client.clusters.listInstanceViews(
     resourceGroupName,
     clusterPoolName,
     clusterName,

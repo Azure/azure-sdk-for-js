@@ -30,7 +30,7 @@ async function getsTheRecommendedSensitivityLabelsOfAGivenSqlAnalyticsPool() {
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlPoolSensitivityLabels.listRecommended(
+  for await (const item of client.sqlPoolSensitivityLabels.listRecommended(
     resourceGroupName,
     workspaceName,
     sqlPoolName

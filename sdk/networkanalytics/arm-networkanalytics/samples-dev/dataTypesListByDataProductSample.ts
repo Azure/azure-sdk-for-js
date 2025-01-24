@@ -30,7 +30,7 @@ async function dataTypesListByDataProductMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataTypes.listByDataProduct(
+  for await (const item of client.dataTypes.listByDataProduct(
     resourceGroupName,
     dataProductName
   )) {
@@ -55,7 +55,7 @@ async function dataTypesListByDataProductMaximumSetGenGeneratedByMinimumSetRuleM
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataTypes.listByDataProduct(
+  for await (const item of client.dataTypes.listByDataProduct(
     resourceGroupName,
     dataProductName
   )) {

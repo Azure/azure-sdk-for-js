@@ -29,7 +29,7 @@ async function workspacePrivateLinkResourcesListGroupIds() {
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workspacePrivateLinkResources.listByWorkspace(
+  for await (const item of client.workspacePrivateLinkResources.listByWorkspace(
     resourceGroupName,
     workspaceName,
   )) {

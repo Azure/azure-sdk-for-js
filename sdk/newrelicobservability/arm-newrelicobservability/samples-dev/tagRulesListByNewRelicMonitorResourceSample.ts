@@ -30,7 +30,7 @@ async function tagRulesListByNewRelicMonitorResourceMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tagRules.listByNewRelicMonitorResource(
+  for await (const item of client.tagRules.listByNewRelicMonitorResource(
     resourceGroupName,
     monitorName,
   )) {
@@ -55,7 +55,7 @@ async function tagRulesListByNewRelicMonitorResourceMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tagRules.listByNewRelicMonitorResource(
+  for await (const item of client.tagRules.listByNewRelicMonitorResource(
     resourceGroupName,
     monitorName,
   )) {

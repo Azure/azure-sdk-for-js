@@ -30,7 +30,7 @@ async function monitorsListAppServicesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listAppServices(
+  for await (const item of client.monitors.listAppServices(
     resourceGroupName,
     monitorName
   )) {
@@ -55,7 +55,7 @@ async function monitorsListAppServicesMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listAppServices(
+  for await (const item of client.monitors.listAppServices(
     resourceGroupName,
     monitorName
   )) {

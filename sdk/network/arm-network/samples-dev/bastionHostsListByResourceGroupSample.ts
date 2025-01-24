@@ -26,7 +26,7 @@ async function listAllBastionHostsForAGivenResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bastionHosts.listByResourceGroup(
+  for await (const item of client.bastionHosts.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

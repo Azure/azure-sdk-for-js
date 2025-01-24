@@ -27,7 +27,7 @@ async function listUsages() {
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.list(regionId)) {
+  for await (const item of client.usages.list(regionId)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -21,7 +21,7 @@ async function savingsPlanOrderList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingBenefitsRP(credential);
   const resArray = new Array();
-  for await (let item of client.savingsPlanOrder.list()) {
+  for await (const item of client.savingsPlanOrder.list()) {
     resArray.push(item);
   }
   console.log(resArray);

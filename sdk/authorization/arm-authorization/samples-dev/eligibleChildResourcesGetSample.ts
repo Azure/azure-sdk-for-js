@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  EligibleChildResourcesGetOptionalParams} from "@azure/arm-authorization";
 import {
-  EligibleChildResourcesGetOptionalParams,
   AuthorizationManagementClient
 } from "@azure/arm-authorization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function getEligibleChildResourcesByScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AuthorizationManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.eligibleChildResources.list(scope, options)) {
+  for await (const item of client.eligibleChildResources.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);

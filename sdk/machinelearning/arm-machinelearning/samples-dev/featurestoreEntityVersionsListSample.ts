@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FeaturestoreEntityVersionsListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  FeaturestoreEntityVersionsListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -43,7 +44,7 @@ async function listWorkspaceFeaturestoreEntityVersion() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.featurestoreEntityVersions.list(
+  for await (const item of client.featurestoreEntityVersions.list(
     resourceGroupName,
     workspaceName,
     name,

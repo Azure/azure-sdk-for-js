@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AttachedDatabaseConfigurationsCheckNameRequest} from "@azure/arm-kusto";
 import {
-  AttachedDatabaseConfigurationsCheckNameRequest,
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";

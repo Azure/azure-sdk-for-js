@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CompleteDatabaseRestoreDefinition} from "@azure/arm-sql";
 import {
-  CompleteDatabaseRestoreDefinition,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MachinesListByWorkspaceOptionalParams} from "@azure/arm-servicemap";
 import {
-  MachinesListByWorkspaceOptionalParams,
   ServiceMap
 } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +37,7 @@ async function smMachinesListByWorkspaceGet() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceMap(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.machines.listByWorkspace(
+  for await (const item of client.machines.listByWorkspace(
     resourceGroupName,
     workspaceName,
     options

@@ -27,7 +27,7 @@ async function getAllBuildsForAStaticSite(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticSites.listStaticSiteBuilds(
+  for await (const item of client.staticSites.listStaticSiteBuilds(
     resourceGroupName,
     name,
   )) {

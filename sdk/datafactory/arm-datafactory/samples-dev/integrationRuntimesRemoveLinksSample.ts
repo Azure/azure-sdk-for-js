@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LinkedIntegrationRuntimeRequest} from "@azure/arm-datafactory";
 import {
-  LinkedIntegrationRuntimeRequest,
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";

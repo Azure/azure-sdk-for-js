@@ -27,7 +27,7 @@ async function listServers() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.servers.list()) {
+  for await (const item of client.servers.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function listServersWithExpandAdministratorsOrActivedirectory() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.servers.list()) {
+  for await (const item of client.servers.list()) {
     resArray.push(item);
   }
   console.log(resArray);

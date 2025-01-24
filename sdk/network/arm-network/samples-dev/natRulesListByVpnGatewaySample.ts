@@ -27,7 +27,7 @@ async function natRuleList() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.natRules.listByVpnGateway(
+  for await (const item of client.natRules.listByVpnGateway(
     resourceGroupName,
     gatewayName,
   )) {

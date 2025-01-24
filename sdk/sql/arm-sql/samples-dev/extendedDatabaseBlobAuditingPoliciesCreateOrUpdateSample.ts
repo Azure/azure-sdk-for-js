@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ExtendedDatabaseBlobAuditingPolicy} from "@azure/arm-sql";
 import {
-  ExtendedDatabaseBlobAuditingPolicy,
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";

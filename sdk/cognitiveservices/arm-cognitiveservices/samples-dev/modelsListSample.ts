@@ -29,7 +29,7 @@ async function listLocationModels(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.models.list(location)) {
+  for await (const item of client.models.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClusterMigrateRequest, KustoManagementClient } from "@azure/arm-kusto";
+import type { ClusterMigrateRequest} from "@azure/arm-kusto";
+import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

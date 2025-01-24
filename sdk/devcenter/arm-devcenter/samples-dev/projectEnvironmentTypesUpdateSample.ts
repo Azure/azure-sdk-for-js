@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ProjectEnvironmentTypeUpdate} from "@azure/arm-devcenter";
 import {
-  ProjectEnvironmentTypeUpdate,
   DevCenterClient,
 } from "@azure/arm-devcenter";
 import { DefaultAzureCredential } from "@azure/identity";

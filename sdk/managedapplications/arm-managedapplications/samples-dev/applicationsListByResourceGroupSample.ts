@@ -28,7 +28,7 @@ async function listsAllTheApplicationsWithinAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ApplicationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.applications.listByResourceGroup(
+  for await (const item of client.applications.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

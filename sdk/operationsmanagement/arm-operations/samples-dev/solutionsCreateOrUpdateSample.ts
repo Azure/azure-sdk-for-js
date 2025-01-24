@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Solution, OperationsManagementClient } from "@azure/arm-operations";
+import type { Solution} from "@azure/arm-operations";
+import { OperationsManagementClient } from "@azure/arm-operations";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

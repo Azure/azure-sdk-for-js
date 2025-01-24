@@ -24,7 +24,7 @@ async function workflowsListByStorageSyncService() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftStorageSync(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflows.listByStorageSyncService(
+  for await (const item of client.workflows.listByStorageSyncService(
     resourceGroupName,
     storageSyncServiceName
   )) {

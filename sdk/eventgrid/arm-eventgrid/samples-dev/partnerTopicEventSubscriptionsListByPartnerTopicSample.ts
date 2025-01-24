@@ -30,7 +30,7 @@ async function partnerTopicEventSubscriptionsListByPartnerTopic() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.partnerTopicEventSubscriptions.listByPartnerTopic(
+  for await (const item of client.partnerTopicEventSubscriptions.listByPartnerTopic(
     resourceGroupName,
     partnerTopicName,
   )) {

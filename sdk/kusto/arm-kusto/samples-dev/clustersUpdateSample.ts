@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ClusterUpdate,
-  ClustersUpdateOptionalParams,
+  ClustersUpdateOptionalParams} from "@azure/arm-kusto";
+import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";

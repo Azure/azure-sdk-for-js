@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ActivityLogsListOptionalParams} from "@azure/arm-monitor";
 import {
-  ActivityLogsListOptionalParams,
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,7 +33,7 @@ async function getActivityLogsWithFilter() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.activityLogs.list(filter)) {
+  for await (const item of client.activityLogs.list(filter)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -56,7 +57,7 @@ async function getActivityLogsWithFilterAndSelect() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.activityLogs.list(filter, options)) {
+  for await (const item of client.activityLogs.list(filter, options)) {
     resArray.push(item);
   }
   console.log(resArray);

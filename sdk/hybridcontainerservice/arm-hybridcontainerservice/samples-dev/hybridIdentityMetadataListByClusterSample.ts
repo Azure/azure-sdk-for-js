@@ -26,7 +26,7 @@ async function hybridIdentityMetadataListByCluster() {
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential);
   const resArray = new Array();
-  for await (let item of client.hybridIdentityMetadataOperations.listByCluster(
+  for await (const item of client.hybridIdentityMetadataOperations.listByCluster(
     connectedClusterResourceUri
   )) {
     resArray.push(item);

@@ -26,7 +26,7 @@ async function listContainerAppsJobsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.jobs.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

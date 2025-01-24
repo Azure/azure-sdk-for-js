@@ -30,7 +30,7 @@ async function getsAListOfDatabasesConfiguredWithEnclaveType() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databases.listByServer(
+  for await (const item of client.databases.listByServer(
     resourceGroupName,
     serverName,
   )) {
@@ -55,7 +55,7 @@ async function getsAListOfDatabases() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databases.listByServer(
+  for await (const item of client.databases.listByServer(
     resourceGroupName,
     serverName,
   )) {

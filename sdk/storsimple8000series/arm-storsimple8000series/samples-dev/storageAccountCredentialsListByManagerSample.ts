@@ -27,7 +27,7 @@ async function storageAccountCredentialsListByManager() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.storageAccountCredentials.listByManager(
+  for await (const item of client.storageAccountCredentials.listByManager(
     resourceGroupName,
     managerName
   )) {

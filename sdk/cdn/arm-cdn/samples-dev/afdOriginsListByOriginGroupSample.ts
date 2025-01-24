@@ -26,7 +26,7 @@ async function afdOriginsListByOriginGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.afdOrigins.listByOriginGroup(
+  for await (const item of client.afdOrigins.listByOriginGroup(
     resourceGroupName,
     profileName,
     originGroupName,

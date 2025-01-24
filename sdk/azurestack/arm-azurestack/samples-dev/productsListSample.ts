@@ -24,7 +24,7 @@ async function returnsAListOfProducts(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureStackManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.products.list(
+  for await (const item of client.products.list(
     resourceGroup,
     registrationName
   )) {

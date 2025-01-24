@@ -27,7 +27,7 @@ async function listSupportedPrivateLinkResources() {
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listSupported(
+  for await (const item of client.privateLinkResources.listSupported(
     resourceGroupName,
     searchServiceName,
   )) {

@@ -23,7 +23,7 @@ async function profilesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.profiles.list()) {
+  for await (const item of client.profiles.list()) {
     resArray.push(item);
   }
   console.log(resArray);

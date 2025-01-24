@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  SupportTicketsNoSubscriptionListOptionalParams} from "@azure/arm-support";
 import {
-  SupportTicketsNoSubscriptionListOptionalParams,
   MicrosoftSupport,
 } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -27,7 +28,7 @@ async function listSupportTickets() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.supportTicketsNoSubscription.list()) {
+  for await (const item of client.supportTicketsNoSubscription.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -45,7 +46,7 @@ async function listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenState() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.supportTicketsNoSubscription.list(options)) {
+  for await (const item of client.supportTicketsNoSubscription.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -63,7 +64,7 @@ async function listSupportTicketsCreatedOnOrAfterACertainDateAndInUpdatingState(
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.supportTicketsNoSubscription.list(options)) {
+  for await (const item of client.supportTicketsNoSubscription.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -81,7 +82,7 @@ async function listSupportTicketsInOpenState() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.supportTicketsNoSubscription.list(options)) {
+  for await (const item of client.supportTicketsNoSubscription.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -99,7 +100,7 @@ async function listSupportTicketsInUpdatingState() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.supportTicketsNoSubscription.list(options)) {
+  for await (const item of client.supportTicketsNoSubscription.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -118,7 +119,7 @@ async function listSupportTicketsWithACertainProblemClassificationId() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.supportTicketsNoSubscription.list(options)) {
+  for await (const item of client.supportTicketsNoSubscription.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -136,7 +137,7 @@ async function listSupportTicketsWithACertainServiceId() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.supportTicketsNoSubscription.list(options)) {
+  for await (const item of client.supportTicketsNoSubscription.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

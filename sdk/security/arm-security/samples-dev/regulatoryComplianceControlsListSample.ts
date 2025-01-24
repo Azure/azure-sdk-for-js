@@ -28,7 +28,7 @@ async function getAllRegulatoryComplianceControlsDetailsAndStateForSelectedStand
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.regulatoryComplianceControls.list(
+  for await (const item of client.regulatoryComplianceControls.list(
     regulatoryComplianceStandardName,
   )) {
     resArray.push(item);

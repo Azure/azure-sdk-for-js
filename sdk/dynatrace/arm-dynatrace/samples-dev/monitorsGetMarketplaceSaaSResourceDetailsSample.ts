@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  MarketplaceSaaSResourceDetailsRequest} from "@azure/arm-dynatrace";
 import {
-  MarketplaceSaaSResourceDetailsRequest,
   DynatraceObservability
 } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";

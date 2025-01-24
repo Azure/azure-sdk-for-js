@@ -25,7 +25,7 @@ async function identityListBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.userAssignedIdentities.listBySubscription()) {
+  for await (const item of client.userAssignedIdentities.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

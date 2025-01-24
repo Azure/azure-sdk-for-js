@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TagRule, DynatraceObservability } from "@azure/arm-dynatrace";
+import type { TagRule} from "@azure/arm-dynatrace";
+import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

@@ -26,7 +26,7 @@ async function listEventsBySingleResource() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
   const resArray = new Array();
-  for await (let item of client.eventsOperations.listBySingleResource(
+  for await (const item of client.eventsOperations.listBySingleResource(
     resourceUri
   )) {
     resArray.push(item);

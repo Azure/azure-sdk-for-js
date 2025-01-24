@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  InvoicesListByBillingSubscriptionOptionalParams} from "@azure/arm-billing";
 import {
-  InvoicesListByBillingSubscriptionOptionalParams,
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function invoicesListByBillingSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.invoices.listByBillingSubscription(options)) {
+  for await (const item of client.invoices.listByBillingSubscription(options)) {
     resArray.push(item);
   }
   console.log(resArray);

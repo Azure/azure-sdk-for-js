@@ -31,7 +31,7 @@ async function getAServerAdvancedThreatProtectionSettings() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.serverThreatProtectionSettings.listByServer(
+  for await (const item of client.serverThreatProtectionSettings.listByServer(
     resourceGroupName,
     serverName,
   )) {

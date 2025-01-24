@@ -26,7 +26,7 @@ async function listDDoSProtectionPlansInResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ddosProtectionPlans.listByResourceGroup(
+  for await (const item of client.ddosProtectionPlans.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

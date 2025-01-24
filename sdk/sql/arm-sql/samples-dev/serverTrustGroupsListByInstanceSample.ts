@@ -30,7 +30,7 @@ async function listServerTrustGroupsByManagedInstance() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverTrustGroups.listByInstance(
+  for await (const item of client.serverTrustGroups.listByInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

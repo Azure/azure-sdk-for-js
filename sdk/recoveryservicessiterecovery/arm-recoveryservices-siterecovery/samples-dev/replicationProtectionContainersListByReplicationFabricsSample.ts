@@ -32,7 +32,7 @@ async function getsTheListOfProtectionContainerForAFabric() {
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.replicationProtectionContainers.listByReplicationFabrics(
+  for await (const item of client.replicationProtectionContainers.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
     fabricName,

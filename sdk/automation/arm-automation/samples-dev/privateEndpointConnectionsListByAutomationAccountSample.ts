@@ -27,7 +27,7 @@ async function getsPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByAutomationAccount(
+  for await (const item of client.privateEndpointConnections.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {

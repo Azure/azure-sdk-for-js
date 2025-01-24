@@ -32,7 +32,7 @@ async function ipCommunitiesListByResourceGroupMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.ipCommunities.listByResourceGroup(
+  for await (const item of client.ipCommunities.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

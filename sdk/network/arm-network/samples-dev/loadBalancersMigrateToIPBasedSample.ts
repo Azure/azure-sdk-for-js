@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   MigrateLoadBalancerToIpBasedRequest,
-  LoadBalancersMigrateToIpBasedOptionalParams,
+  LoadBalancersMigrateToIpBasedOptionalParams} from "@azure/arm-network";
+import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

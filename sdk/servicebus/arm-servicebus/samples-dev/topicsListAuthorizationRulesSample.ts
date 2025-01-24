@@ -31,7 +31,7 @@ async function topicAuthorizationRuleListAll() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceBusManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.topics.listAuthorizationRules(
+  for await (const item of client.topics.listAuthorizationRules(
     resourceGroupName,
     namespaceName,
     topicName

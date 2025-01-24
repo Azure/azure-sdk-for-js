@@ -29,7 +29,7 @@ async function listAllGuestConfigurationAssignmentsForAVirtualMachine() {
   const credential = new DefaultAzureCredential();
   const client = new GuestConfigurationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.guestConfigurationConnectedVMwarevSphereAssignments.list(
+  for await (const item of client.guestConfigurationConnectedVMwarevSphereAssignments.list(
     resourceGroupName,
     vmName,
   )) {

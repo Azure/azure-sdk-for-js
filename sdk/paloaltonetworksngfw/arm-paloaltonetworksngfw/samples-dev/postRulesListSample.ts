@@ -25,7 +25,7 @@ async function postRulesListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
   const resArray = new Array();
-  for await (let item of client.postRules.list(globalRulestackName)) {
+  for await (const item of client.postRules.list(globalRulestackName)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -42,7 +42,7 @@ async function postRulesListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
   const resArray = new Array();
-  for await (let item of client.postRules.list(globalRulestackName)) {
+  for await (const item of client.postRules.list(globalRulestackName)) {
     resArray.push(item);
   }
   console.log(resArray);

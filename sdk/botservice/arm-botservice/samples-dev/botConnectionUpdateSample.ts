@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ConnectionSetting, AzureBotService } from "@azure/arm-botservice";
+import type { ConnectionSetting} from "@azure/arm-botservice";
+import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

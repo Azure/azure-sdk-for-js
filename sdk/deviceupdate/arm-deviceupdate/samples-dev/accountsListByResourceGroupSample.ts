@@ -27,7 +27,7 @@ async function getsListOfAccounts(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DeviceUpdate(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accounts.listByResourceGroup(
+  for await (const item of client.accounts.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  JobsListOptionalParams} from "@azure/arm-mediaservices";
 import {
-  JobsListOptionalParams,
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -38,7 +39,7 @@ async function listsJobsForTheTransformFilterByCreated() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     accountName,
     transformName,
@@ -70,7 +71,7 @@ async function listsJobsForTheTransformFilterByLastmodified() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     accountName,
     transformName,
@@ -101,7 +102,7 @@ async function listsJobsForTheTransformFilterByNameAndState() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     accountName,
     transformName,
@@ -132,7 +133,7 @@ async function listsJobsForTheTransformFilterByName() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     accountName,
     transformName,
@@ -162,7 +163,7 @@ async function listsJobsForTheTransformFilterByStateEqual() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     accountName,
     transformName,
@@ -192,7 +193,7 @@ async function listsJobsForTheTransformFilterByStateNotEqual() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     accountName,
     transformName,
@@ -220,7 +221,7 @@ async function listsAllOfTheJobsForTheTransform() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list(
+  for await (const item of client.jobs.list(
     resourceGroupName,
     accountName,
     transformName

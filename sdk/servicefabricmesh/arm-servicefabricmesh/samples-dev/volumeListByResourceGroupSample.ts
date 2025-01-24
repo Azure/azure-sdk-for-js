@@ -32,7 +32,7 @@ async function listVolumesByResourceGroup() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.volume.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.volume.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

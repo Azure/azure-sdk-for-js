@@ -28,7 +28,7 @@ async function datastoresList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.datastores.list(
+  for await (const item of client.datastores.list(
     resourceGroupName,
     privateCloudName,
     clusterName,

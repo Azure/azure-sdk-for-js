@@ -25,7 +25,7 @@ async function listTopLevelDomains(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.topLevelDomains.list()) {
+  for await (const item of client.topLevelDomains.list()) {
     resArray.push(item);
   }
   console.log(resArray);

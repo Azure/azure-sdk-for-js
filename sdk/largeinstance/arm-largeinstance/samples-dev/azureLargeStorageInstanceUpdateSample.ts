@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AzureLargeStorageInstanceTagsUpdate} from "@azure/arm-largeinstance";
 import {
-  AzureLargeStorageInstanceTagsUpdate,
   LargeInstanceManagementClient,
 } from "@azure/arm-largeinstance";
 import { DefaultAzureCredential } from "@azure/identity";

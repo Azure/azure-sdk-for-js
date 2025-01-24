@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AccountKeyRegenerateRequest} from "@azure/arm-mixedreality";
 import {
-  AccountKeyRegenerateRequest,
   MixedRealityClient
 } from "@azure/arm-mixedreality";
 import { DefaultAzureCredential } from "@azure/identity";

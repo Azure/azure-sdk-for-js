@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AgentRegistrationRegenerateKeyParameter} from "@azure/arm-automation";
 import {
-  AgentRegistrationRegenerateKeyParameter,
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";

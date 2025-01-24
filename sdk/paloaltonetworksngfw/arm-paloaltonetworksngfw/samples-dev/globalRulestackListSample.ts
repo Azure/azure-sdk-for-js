@@ -24,7 +24,7 @@ async function globalRulestackListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
   const resArray = new Array();
-  for await (let item of client.globalRulestack.list()) {
+  for await (const item of client.globalRulestack.list()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -40,7 +40,7 @@ async function globalRulestackListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
   const resArray = new Array();
-  for await (let item of client.globalRulestack.list()) {
+  for await (const item of client.globalRulestack.list()) {
     resArray.push(item);
   }
   console.log(resArray);

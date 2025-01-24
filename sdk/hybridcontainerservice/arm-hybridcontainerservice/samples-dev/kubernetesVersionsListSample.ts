@@ -26,7 +26,7 @@ async function listKubernetesVersions() {
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential);
   const resArray = new Array();
-  for await (let item of client.kubernetesVersions.list(
+  for await (const item of client.kubernetesVersions.list(
     customLocationResourceUri
   )) {
     resArray.push(item);

@@ -27,7 +27,7 @@ async function cosmosDbSqlRoleAssignmentList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlResources.listSqlRoleAssignments(
+  for await (const item of client.sqlResources.listSqlRoleAssignments(
     resourceGroupName,
     accountName,
   )) {

@@ -24,7 +24,7 @@ async function performanceTiersList() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverBasedPerformanceTier.list(
+  for await (const item of client.serverBasedPerformanceTier.list(
     resourceGroupName,
     serverName
   )) {

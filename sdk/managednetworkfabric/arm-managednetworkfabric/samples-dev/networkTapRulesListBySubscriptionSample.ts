@@ -30,7 +30,7 @@ async function networkTapRulesListBySubscriptionMaximumSetGen() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.networkTapRules.listBySubscription()) {
+  for await (const item of client.networkTapRules.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

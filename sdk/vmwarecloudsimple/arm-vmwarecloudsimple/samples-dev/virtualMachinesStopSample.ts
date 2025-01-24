@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   VirtualMachineStopMode,
-  VirtualMachinesStopOptionalParams,
+  VirtualMachinesStopOptionalParams} from "@azure/arm-vmwarecloudsimple";
+import {
   VMwareCloudSimple
 } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";

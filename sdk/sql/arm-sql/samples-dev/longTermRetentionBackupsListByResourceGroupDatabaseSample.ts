@@ -32,7 +32,7 @@ async function getAllLongTermRetentionBackupsUnderTheDatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.longTermRetentionBackups.listByResourceGroupDatabase(
+  for await (const item of client.longTermRetentionBackups.listByResourceGroupDatabase(
     resourceGroupName,
     locationName,
     longTermRetentionServerName,

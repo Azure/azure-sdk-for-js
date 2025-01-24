@@ -26,7 +26,7 @@ async function listDscReportsByNodeId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.nodeReports.listByNode(
+  for await (const item of client.nodeReports.listByNode(
     resourceGroupName,
     automationAccountName,
     nodeId
@@ -50,7 +50,7 @@ async function listPagedDscReportsByNodeId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.nodeReports.listByNode(
+  for await (const item of client.nodeReports.listByNode(
     resourceGroupName,
     automationAccountName,
     nodeId

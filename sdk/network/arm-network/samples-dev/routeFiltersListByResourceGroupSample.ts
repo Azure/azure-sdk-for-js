@@ -26,7 +26,7 @@ async function routeFilterListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.routeFilters.listByResourceGroup(
+  for await (const item of client.routeFilters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

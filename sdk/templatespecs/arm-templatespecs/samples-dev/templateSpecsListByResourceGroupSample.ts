@@ -23,7 +23,7 @@ async function templateSpecsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new TemplateSpecsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.templateSpecs.listByResourceGroup(
+  for await (const item of client.templateSpecs.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

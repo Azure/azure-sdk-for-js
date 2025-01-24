@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  WorkspaceConnectionPropertiesV2BasicResource} from "@azure/arm-machinelearning";
 import {
-  WorkspaceConnectionPropertiesV2BasicResource,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";

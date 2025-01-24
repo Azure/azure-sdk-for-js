@@ -31,7 +31,7 @@ async function privateLinkResourcesListGroupIds(): Promise<void> {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.privateLinkResources.listByConfigurationStore(
+  for await (const item of client.privateLinkResources.listByConfigurationStore(
     resourceGroupName,
     configStoreName,
   )) {

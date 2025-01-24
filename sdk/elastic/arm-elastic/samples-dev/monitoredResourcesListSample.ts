@@ -30,7 +30,7 @@ async function monitoredResourcesList() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitoredResources.list(
+  for await (const item of client.monitoredResources.list(
     resourceGroupName,
     monitorName,
   )) {

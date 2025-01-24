@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ManagementAssociation} from "@azure/arm-operations";
 import {
-  ManagementAssociation,
   OperationsManagementClient
 } from "@azure/arm-operations";
 import { DefaultAzureCredential } from "@azure/identity";

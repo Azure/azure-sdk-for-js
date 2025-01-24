@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   GuestUsagesResource,
-  GuestUsagesCreateOptionalParams,
+  GuestUsagesCreateOptionalParams} from "@azure/arm-azureadexternalidentities";
+import {
   ExternalIdentitiesConfigurationClient
 } from "@azure/arm-azureadexternalidentities";
 import { DefaultAzureCredential } from "@azure/identity";

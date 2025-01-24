@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SapMonitor, HanaManagementClient } from "@azure/arm-hanaonazure";
+import type { SapMonitor} from "@azure/arm-hanaonazure";
+import { HanaManagementClient } from "@azure/arm-hanaonazure";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

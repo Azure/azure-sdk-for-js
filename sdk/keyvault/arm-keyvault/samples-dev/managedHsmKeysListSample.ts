@@ -30,7 +30,7 @@ async function listKeysInTheManagedHsm() {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedHsmKeys.list(resourceGroupName, name)) {
+  for await (const item of client.managedHsmKeys.list(resourceGroupName, name)) {
     resArray.push(item);
   }
   console.log(resArray);

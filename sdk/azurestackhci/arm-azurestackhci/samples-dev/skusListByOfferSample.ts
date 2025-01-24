@@ -30,7 +30,7 @@ async function listSkuResourcesByOfferForTheHciCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureStackHCIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.skus.listByOffer(
+  for await (const item of client.skus.listByOffer(
     resourceGroupName,
     clusterName,
     publisherName,

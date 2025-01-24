@@ -27,7 +27,7 @@ async function availabilitySetsListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availabilitySets.listBySubscription()) {
+  for await (const item of client.availabilitySets.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function availabilitySetsListBySubscriptionMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.availabilitySets.listBySubscription()) {
+  for await (const item of client.availabilitySets.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

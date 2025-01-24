@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CustomDomain, SignalRManagementClient } from "@azure/arm-signalr";
+import type { CustomDomain} from "@azure/arm-signalr";
+import { SignalRManagementClient } from "@azure/arm-signalr";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

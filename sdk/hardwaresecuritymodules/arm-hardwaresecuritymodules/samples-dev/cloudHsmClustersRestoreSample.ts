@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RestoreRequestProperties} from "@azure/arm-hardwaresecuritymodules";
 import {
-  RestoreRequestProperties,
   AzureHSMResourceProvider,
 } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DryrunResource} from "@azure/arm-servicelinker";
 import {
-  DryrunResource,
   ServiceLinkerManagementClient,
 } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";

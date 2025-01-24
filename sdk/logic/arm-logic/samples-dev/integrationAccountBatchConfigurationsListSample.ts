@@ -30,7 +30,7 @@ async function listBatchConfigurations() {
   const credential = new DefaultAzureCredential();
   const client = new LogicManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.integrationAccountBatchConfigurations.list(
+  for await (const item of client.integrationAccountBatchConfigurations.list(
     resourceGroupName,
     integrationAccountName
   )) {

@@ -30,7 +30,7 @@ async function listMobileNetworkSitesInAMobileNetwork() {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sites.listByMobileNetwork(
+  for await (const item of client.sites.listByMobileNetwork(
     resourceGroupName,
     mobileNetworkName,
   )) {

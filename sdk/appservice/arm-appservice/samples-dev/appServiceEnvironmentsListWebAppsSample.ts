@@ -28,7 +28,7 @@ async function getAllAppsInAnAppServiceEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listWebApps(
+  for await (const item of client.appServiceEnvironments.listWebApps(
     resourceGroupName,
     name,
   )) {

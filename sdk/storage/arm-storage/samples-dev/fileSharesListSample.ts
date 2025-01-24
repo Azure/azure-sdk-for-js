@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  FileSharesListOptionalParams} from "@azure/arm-storage";
 import {
-  FileSharesListOptionalParams,
   StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function listDeletedShares() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
     options,
@@ -59,7 +60,7 @@ async function listShareSnapshots() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
     options,
@@ -83,7 +84,7 @@ async function listShares() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
   )) {

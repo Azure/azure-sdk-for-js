@@ -29,7 +29,7 @@ async function moveResourcesList() {
   const credential = new DefaultAzureCredential();
   const client = new ResourceMoverServiceAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.moveResources.list(
+  for await (const item of client.moveResources.list(
     resourceGroupName,
     moveCollectionName
   )) {

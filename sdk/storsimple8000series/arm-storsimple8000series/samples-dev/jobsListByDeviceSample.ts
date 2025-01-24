@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  JobsListByDeviceOptionalParams} from "@azure/arm-storsimple8000series";
 import {
-  JobsListByDeviceOptionalParams,
   StorSimple8000SeriesManagementClient
 } from "@azure/arm-storsimple8000series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,7 +34,7 @@ async function jobsListByDevice() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.jobs.listByDevice(
+  for await (const item of client.jobs.listByDevice(
     deviceName,
     resourceGroupName,
     managerName,

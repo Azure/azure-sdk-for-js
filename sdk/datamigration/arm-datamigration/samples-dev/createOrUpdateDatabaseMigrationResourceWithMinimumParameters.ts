@@ -14,8 +14,9 @@
  * @summary Create or Update Database Migration resource.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlVmCreateOrUpdateDatabaseMigrationMIN.json
  */
+import type {
+  DatabaseMigrationSqlVm} from "@azure/arm-datamigration";
 import {
-  DatabaseMigrationSqlVm,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

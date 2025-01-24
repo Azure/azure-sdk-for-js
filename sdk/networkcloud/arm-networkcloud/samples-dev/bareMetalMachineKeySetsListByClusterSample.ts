@@ -30,7 +30,7 @@ async function listBareMetalMachineKeySetsOfTheCluster() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bareMetalMachineKeySets.listByCluster(
+  for await (const item of client.bareMetalMachineKeySets.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

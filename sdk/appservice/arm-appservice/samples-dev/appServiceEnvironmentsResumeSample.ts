@@ -28,7 +28,7 @@ async function resumeAnAppServiceEnvironment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.beginListResumeAndWait(
+  for await (const item of client.appServiceEnvironments.beginListResumeAndWait(
     resourceGroupName,
     name,
   )) {

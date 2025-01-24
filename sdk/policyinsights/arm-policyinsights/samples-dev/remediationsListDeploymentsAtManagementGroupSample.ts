@@ -24,7 +24,7 @@ async function listDeploymentsForARemediationAtManagementGroupScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const resArray = new Array();
-  for await (let item of client.remediations.listDeploymentsAtManagementGroup(
+  for await (const item of client.remediations.listDeploymentsAtManagementGroup(
     managementGroupId,
     remediationName,
   )) {

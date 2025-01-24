@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ConfigurationProfile, AutomanageClient } from "@azure/arm-automanage";
+import type { ConfigurationProfile} from "@azure/arm-automanage";
+import { AutomanageClient } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

@@ -27,7 +27,7 @@ async function workloadNetworksListDhcp(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workloadNetworks.listDhcp(
+  for await (const item of client.workloadNetworks.listDhcp(
     resourceGroupName,
     privateCloudName,
   )) {

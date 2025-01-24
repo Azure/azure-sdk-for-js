@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { FailoverInput, IotHubClient } from "@azure/arm-iothub";
+import type { FailoverInput} from "@azure/arm-iothub";
+import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

@@ -23,7 +23,7 @@ async function globalSchedulesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DevTestLabsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.globalSchedules.listByResourceGroup(
+  for await (const item of client.globalSchedules.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

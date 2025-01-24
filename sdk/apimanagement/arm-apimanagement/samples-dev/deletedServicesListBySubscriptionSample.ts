@@ -24,7 +24,7 @@ async function apiManagementDeletedServicesListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deletedServices.listBySubscription()) {
+  for await (const item of client.deletedServices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

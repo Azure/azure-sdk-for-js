@@ -32,7 +32,7 @@ async function getsTheSoftwareInventoryOfTheVirtualMachine() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.softwareInventories.listByExtendedResource(
+  for await (const item of client.softwareInventories.listByExtendedResource(
     resourceGroupName,
     resourceNamespace,
     resourceType,

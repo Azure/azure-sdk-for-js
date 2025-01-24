@@ -14,8 +14,9 @@
  * @summary This method updates an existing file.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Files_Update.json
  */
+import type {
+  ProjectFile} from "@azure/arm-datamigration";
 import {
-  ProjectFile,
   DataMigrationManagementClient
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";

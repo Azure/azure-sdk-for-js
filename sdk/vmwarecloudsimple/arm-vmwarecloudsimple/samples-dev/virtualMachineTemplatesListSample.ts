@@ -30,7 +30,7 @@ async function listVirtualMachineTemplates() {
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineTemplates.list(
+  for await (const item of client.virtualMachineTemplates.list(
     pcName,
     regionId,
     resourcePoolName

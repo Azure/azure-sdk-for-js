@@ -28,7 +28,7 @@ async function accountsList() {
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.accounts.list(resourceGroupName)) {
+  for await (const item of client.accounts.list(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

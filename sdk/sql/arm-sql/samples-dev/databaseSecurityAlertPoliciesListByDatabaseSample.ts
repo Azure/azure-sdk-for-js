@@ -31,7 +31,7 @@ async function getTheDatabaseThreatDetectionPolicies() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseSecurityAlertPolicies.listByDatabase(
+  for await (const item of client.databaseSecurityAlertPolicies.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,

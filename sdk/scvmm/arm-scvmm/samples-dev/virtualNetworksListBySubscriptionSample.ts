@@ -27,7 +27,7 @@ async function virtualNetworksListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworks.listBySubscription()) {
+  for await (const item of client.virtualNetworks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,7 +46,7 @@ async function virtualNetworksListBySubscriptionMinimumSet() {
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworks.listBySubscription()) {
+  for await (const item of client.virtualNetworks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

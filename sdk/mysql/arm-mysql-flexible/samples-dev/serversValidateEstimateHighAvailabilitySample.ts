@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  HighAvailabilityValidationEstimation} from "@azure/arm-mysql-flexible";
 import {
-  HighAvailabilityValidationEstimation,
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";

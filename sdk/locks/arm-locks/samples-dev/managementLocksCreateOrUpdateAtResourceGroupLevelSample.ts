@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ManagementLockObject, ManagementLockClient } from "@azure/arm-locks";
+import type { ManagementLockObject} from "@azure/arm-locks";
+import { ManagementLockClient } from "@azure/arm-locks";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

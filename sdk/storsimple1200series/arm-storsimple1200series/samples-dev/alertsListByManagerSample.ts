@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AlertsListByManagerOptionalParams} from "@azure/arm-storsimple1200series";
 import {
-  AlertsListByManagerOptionalParams,
   StorSimpleManagementClient
 } from "@azure/arm-storsimple1200series";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,7 +30,7 @@ async function alertsListByManager() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.alerts.listByManager(
+  for await (const item of client.alerts.listByManager(
     resourceGroupName,
     managerName,
     options

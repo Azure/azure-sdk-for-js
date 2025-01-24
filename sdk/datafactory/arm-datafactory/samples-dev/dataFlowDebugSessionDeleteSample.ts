@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DeleteDataFlowDebugSessionRequest} from "@azure/arm-datafactory";
 import {
-  DeleteDataFlowDebugSessionRequest,
   DataFactoryManagementClient,
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";

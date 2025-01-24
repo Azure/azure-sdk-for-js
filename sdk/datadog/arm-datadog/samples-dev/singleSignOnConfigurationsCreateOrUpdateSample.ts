@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   DatadogSingleSignOnResource,
-  SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
+  SingleSignOnConfigurationsCreateOrUpdateOptionalParams} from "@azure/arm-datadog";
+import {
   MicrosoftDatadogClient
 } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PacketCoreControlPlaneCollectDiagnosticsPackage} from "@azure/arm-mobilenetwork";
 import {
-  PacketCoreControlPlaneCollectDiagnosticsPackage,
   MobileNetworkManagementClient,
 } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";

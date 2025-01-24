@@ -21,7 +21,7 @@ async function getTenantPolicyList() {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
-  for await (let item of client.subscriptionPolicy.listPolicyForTenant()) {
+  for await (const item of client.subscriptionPolicy.listPolicyForTenant()) {
     resArray.push(item);
   }
   console.log(resArray);

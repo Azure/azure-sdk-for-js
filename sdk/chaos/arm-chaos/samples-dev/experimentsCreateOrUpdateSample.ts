@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Experiment, ChaosManagementClient } from "@azure/arm-chaos";
+import type { Experiment} from "@azure/arm-chaos";
+import { ChaosManagementClient } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

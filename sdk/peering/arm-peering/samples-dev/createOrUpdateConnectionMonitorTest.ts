@@ -14,8 +14,9 @@
  * @summary Creates or updates a connection monitor test with the specified name under the given subscription, resource group and peering service.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreateOrUpdateConnectionMonitorTest.json
  */
+import type {
+  ConnectionMonitorTest} from "@azure/arm-peering";
 import {
-  ConnectionMonitorTest,
   PeeringManagementClient
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";

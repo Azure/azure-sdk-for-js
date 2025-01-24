@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Site, HybridNetworkManagementClient } from "@azure/arm-hybridnetwork";
+import type { Site} from "@azure/arm-hybridnetwork";
+import { HybridNetworkManagementClient } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

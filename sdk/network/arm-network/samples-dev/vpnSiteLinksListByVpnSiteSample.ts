@@ -27,7 +27,7 @@ async function vpnSiteLinkListByVpnSite() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.vpnSiteLinks.listByVpnSite(
+  for await (const item of client.vpnSiteLinks.listByVpnSite(
     resourceGroupName,
     vpnSiteName,
   )) {

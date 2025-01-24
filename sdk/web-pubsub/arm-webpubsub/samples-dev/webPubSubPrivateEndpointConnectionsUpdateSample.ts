@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  PrivateEndpointConnection} from "@azure/arm-webpubsub";
 import {
-  PrivateEndpointConnection,
   WebPubSubManagementClient,
 } from "@azure/arm-webpubsub";
 import { DefaultAzureCredential } from "@azure/identity";

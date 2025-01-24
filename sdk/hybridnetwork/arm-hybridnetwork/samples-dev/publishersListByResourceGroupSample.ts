@@ -27,7 +27,7 @@ async function listAllPublisherResourcesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.publishers.listByResourceGroup(
+  for await (const item of client.publishers.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

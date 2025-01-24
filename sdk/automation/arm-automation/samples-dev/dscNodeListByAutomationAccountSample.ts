@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DscNodeListByAutomationAccountOptionalParams} from "@azure/arm-automation";
 import {
-  DscNodeListByAutomationAccountOptionalParams,
   AutomationClient
 } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +29,7 @@ async function listDscNodesByAutomationAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscNodeOperations.listByAutomationAccount(
+  for await (const item of client.dscNodeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName
   )) {
@@ -60,7 +61,7 @@ async function listPagedDscNodesByAutomationAccountWhereNodeConfigurationsAreNot
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscNodeOperations.listByAutomationAccount(
+  for await (const item of client.dscNodeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options
@@ -94,7 +95,7 @@ async function listPagedDscNodesByAutomationAccountWithNodeConfigurationCustomFi
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscNodeOperations.listByAutomationAccount(
+  for await (const item of client.dscNodeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options
@@ -127,7 +128,7 @@ async function listPagedDscNodesByAutomationAccountWithNameFilter(): Promise<voi
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscNodeOperations.listByAutomationAccount(
+  for await (const item of client.dscNodeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options
@@ -158,7 +159,7 @@ async function listPagedDscNodesByAutomationAccountWithNoFilters(): Promise<void
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscNodeOperations.listByAutomationAccount(
+  for await (const item of client.dscNodeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options
@@ -191,7 +192,7 @@ async function listPagedDscNodesByAutomationAccountWithNodeStatusFilter(): Promi
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscNodeOperations.listByAutomationAccount(
+  for await (const item of client.dscNodeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options
@@ -224,7 +225,7 @@ async function listPagedDscNodesByAutomationAccountWithVersionFilter(): Promise<
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscNodeOperations.listByAutomationAccount(
+  for await (const item of client.dscNodeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options
@@ -258,7 +259,7 @@ async function listPagedDscNodesWithFiltersSeparatedByAnd(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dscNodeOperations.listByAutomationAccount(
+  for await (const item of client.dscNodeOperations.listByAutomationAccount(
     resourceGroupName,
     automationAccountName,
     options

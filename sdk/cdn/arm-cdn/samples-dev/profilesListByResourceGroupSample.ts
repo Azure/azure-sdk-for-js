@@ -24,7 +24,7 @@ async function profilesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.profiles.listByResourceGroup(
+  for await (const item of client.profiles.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

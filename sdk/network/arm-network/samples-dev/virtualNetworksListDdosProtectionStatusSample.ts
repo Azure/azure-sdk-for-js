@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  VirtualNetworksListDdosProtectionStatusOptionalParams} from "@azure/arm-network";
 import {
-  VirtualNetworksListDdosProtectionStatusOptionalParams,
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,7 +35,7 @@ async function getDdosProtectionStatusOfAVirtualNetwork() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworks.beginListDdosProtectionStatusAndWait(
+  for await (const item of client.virtualNetworks.beginListDdosProtectionStatusAndWait(
     resourceGroupName,
     virtualNetworkName,
     options,

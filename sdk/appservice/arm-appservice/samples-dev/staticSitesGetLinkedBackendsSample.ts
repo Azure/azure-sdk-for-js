@@ -27,7 +27,7 @@ async function getDetailsOfTheLinkedBackendsRegisteredWithAStaticSite(): Promise
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticSites.listLinkedBackends(
+  for await (const item of client.staticSites.listLinkedBackends(
     resourceGroupName,
     name,
   )) {

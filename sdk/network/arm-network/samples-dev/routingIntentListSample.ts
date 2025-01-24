@@ -27,7 +27,7 @@ async function routingIntentList() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.routingIntentOperations.list(
+  for await (const item of client.routingIntentOperations.list(
     resourceGroupName,
     virtualHubName,
   )) {

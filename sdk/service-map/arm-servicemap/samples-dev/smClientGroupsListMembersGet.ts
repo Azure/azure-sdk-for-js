@@ -29,7 +29,7 @@ async function smClientGroupsListMembersGet() {
   const credential = new DefaultAzureCredential();
   const client = new ServiceMap(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clientGroups.listMembers(
+  for await (const item of client.clientGroups.listMembers(
     resourceGroupName,
     workspaceName,
     clientGroupName,

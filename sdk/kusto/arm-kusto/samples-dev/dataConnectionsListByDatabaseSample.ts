@@ -31,7 +31,7 @@ async function kustoDatabasesListByCluster() {
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataConnections.listByDatabase(
+  for await (const item of client.dataConnections.listByDatabase(
     resourceGroupName,
     clusterName,
     databaseName

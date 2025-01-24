@@ -28,7 +28,7 @@ async function linkedServicesListByFactory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.linkedServices.listByFactory(
+  for await (const item of client.linkedServices.listByFactory(
     resourceGroupName,
     factoryName,
   )) {

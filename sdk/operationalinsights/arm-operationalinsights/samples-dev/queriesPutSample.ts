@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  LogAnalyticsQueryPackQuery} from "@azure/arm-operationalinsights";
 import {
-  LogAnalyticsQueryPackQuery,
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";

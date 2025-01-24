@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AcceptOwnershipRequest} from "@azure/arm-subscriptions";
 import {
-  AcceptOwnershipRequest,
   SubscriptionClient
 } from "@azure/arm-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  CommunicationsListOptionalParams} from "@azure/arm-support";
 import {
-  CommunicationsListOptionalParams,
   MicrosoftSupport,
 } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -31,7 +32,7 @@ async function listCommunicationsForASubscriptionSupportTicket() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.communications.list(supportTicketName)) {
+  for await (const item of client.communications.list(supportTicketName)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -54,7 +55,7 @@ async function listWebCommunicationCreatedOnOrAfterASpecificDateForASubscription
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.communications.list(
+  for await (const item of client.communications.list(
     supportTicketName,
     options,
   )) {
@@ -79,7 +80,7 @@ async function listWebCommunicationsForASubscriptionSupportTicket() {
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.communications.list(
+  for await (const item of client.communications.list(
     supportTicketName,
     options,
   )) {

@@ -28,7 +28,7 @@ async function listSubscriptionUsagesInTheGivenLocation() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.subscriptionUsages.listByLocation(
+  for await (const item of client.subscriptionUsages.listByLocation(
     locationName,
   )) {
     resArray.push(item);

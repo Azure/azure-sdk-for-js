@@ -29,7 +29,7 @@ async function relayNameSpaceListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new RelayAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.namespaces.listByResourceGroup(
+  for await (const item of client.namespaces.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

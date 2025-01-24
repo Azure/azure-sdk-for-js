@@ -32,7 +32,7 @@ async function listBackupsForAServer() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.backups.listByServer(
+  for await (const item of client.backups.listByServer(
     resourceGroupName,
     serverName,
   )) {

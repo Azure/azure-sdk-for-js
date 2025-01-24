@@ -29,7 +29,7 @@ async function listAutoscaleSettings() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.autoscaleSettings.listByResourceGroup(
+  for await (const item of client.autoscaleSettings.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

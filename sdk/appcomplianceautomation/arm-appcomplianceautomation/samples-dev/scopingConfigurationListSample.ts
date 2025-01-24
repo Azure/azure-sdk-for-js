@@ -23,7 +23,7 @@ async function scopingConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppComplianceAutomationToolForMicrosoft365(credential);
   const resArray = new Array();
-  for await (let item of client.scopingConfiguration.list(reportName)) {
+  for await (const item of client.scopingConfiguration.list(reportName)) {
     resArray.push(item);
   }
   console.log(resArray);

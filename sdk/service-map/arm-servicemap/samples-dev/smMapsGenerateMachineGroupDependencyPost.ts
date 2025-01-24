@@ -14,7 +14,8 @@
  * @summary Generates the specified map.
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Maps/SMMapsGenerateMachineGroupDependencyPost.json
  */
-import { MachineGroupMapRequest, ServiceMap } from "@azure/arm-servicemap";
+import type { MachineGroupMapRequest} from "@azure/arm-servicemap";
+import { ServiceMap } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function smMapsGenerateMachineGroupDependencyPost() {

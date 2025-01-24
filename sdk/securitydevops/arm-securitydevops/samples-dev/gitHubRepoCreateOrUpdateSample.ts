@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { GitHubRepo, MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
+import type { GitHubRepo} from "@azure/arm-securitydevops";
+import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

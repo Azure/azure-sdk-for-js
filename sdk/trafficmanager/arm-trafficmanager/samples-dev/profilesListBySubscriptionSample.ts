@@ -26,7 +26,7 @@ async function listBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new TrafficManagerManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.profiles.listBySubscription()) {
+  for await (const item of client.profiles.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

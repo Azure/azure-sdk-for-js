@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  QnAMakerEndpointKeysRequestBody} from "@azure/arm-botservice";
 import {
-  QnAMakerEndpointKeysRequestBody,
   AzureBotService
 } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";

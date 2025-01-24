@@ -24,7 +24,7 @@ async function listTheKeysForAPostgreSqlServer() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverKeys.list(
+  for await (const item of client.serverKeys.list(
     resourceGroupName,
     serverName
   )) {

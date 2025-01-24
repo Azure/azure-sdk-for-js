@@ -27,7 +27,7 @@ async function listAllSecurityConnectorsOfASpecifiedSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityConnectors.list()) {
+  for await (const item of client.securityConnectors.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -30,7 +30,7 @@ async function kustoClustersListResourceSkus() {
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.listSkusByResource(
+  for await (const item of client.clusters.listSkusByResource(
     resourceGroupName,
     clusterName
   )) {

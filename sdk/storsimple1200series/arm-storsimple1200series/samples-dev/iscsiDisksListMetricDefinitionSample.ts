@@ -27,7 +27,7 @@ async function iscsiDisksListMetricDefinition() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.iscsiDisks.listMetricDefinition(
+  for await (const item of client.iscsiDisks.listMetricDefinition(
     deviceName,
     iscsiServerName,
     diskName,

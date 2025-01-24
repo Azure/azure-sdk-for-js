@@ -29,7 +29,7 @@ async function listManagedServerDnsAliases() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedServerDnsAliases.listByManagedInstance(
+  for await (const item of client.managedServerDnsAliases.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

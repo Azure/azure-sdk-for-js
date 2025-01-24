@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  DatastoresListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  DatastoresListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -50,7 +51,7 @@ async function listDatastores() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.datastores.list(
+  for await (const item of client.datastores.list(
     resourceGroupName,
     workspaceName,
     options,

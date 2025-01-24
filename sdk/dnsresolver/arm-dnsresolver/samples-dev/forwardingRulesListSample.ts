@@ -30,7 +30,7 @@ async function listForwardingRulesInADnsForwardingRuleset() {
   const credential = new DefaultAzureCredential();
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.forwardingRules.list(
+  for await (const item of client.forwardingRules.list(
     resourceGroupName,
     dnsForwardingRulesetName,
   )) {

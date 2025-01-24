@@ -22,7 +22,7 @@ async function listManagementLocksAtSubscriptionLevel() {
   const credential = new DefaultAzureCredential();
   const client = new ManagementLockClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managementLocks.listAtSubscriptionLevel()) {
+  for await (const item of client.managementLocks.listAtSubscriptionLevel()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   CodelessApiPollingDataConnector,
   Dynamics365DataConnector,
   CodelessUiDataConnector,
@@ -16,7 +16,8 @@ import {
   OfficePowerBIDataConnector,
   Office365ProjectDataConnector,
   OfficeDataConnector,
-  TIDataConnector,
+  TIDataConnector} from "@azure/arm-securityinsight";
+import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";

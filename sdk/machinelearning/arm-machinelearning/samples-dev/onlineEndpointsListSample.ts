@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  OnlineEndpointsListOptionalParams} from "@azure/arm-machinelearning";
 import {
-  OnlineEndpointsListOptionalParams,
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -50,7 +51,7 @@ async function listWorkspaceOnlineEndpoint() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.onlineEndpoints.list(
+  for await (const item of client.onlineEndpoints.list(
     resourceGroupName,
     workspaceName,
     options,

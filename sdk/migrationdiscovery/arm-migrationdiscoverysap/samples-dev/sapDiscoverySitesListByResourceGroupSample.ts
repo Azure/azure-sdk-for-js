@@ -29,7 +29,7 @@ async function listSapMigrationDiscoverySiteResourcesByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sapDiscoverySites.listByResourceGroup(
+  for await (const item of client.sapDiscoverySites.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

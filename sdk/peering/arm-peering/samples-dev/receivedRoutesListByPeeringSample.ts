@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ReceivedRoutesListByPeeringOptionalParams} from "@azure/arm-peering";
 import {
-  ReceivedRoutesListByPeeringOptionalParams,
   PeeringManagementClient
 } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -37,7 +38,7 @@ async function listsThePrefixesReceivedOverTheSpecifiedPeeringUnderTheGivenSubsc
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.receivedRoutes.listByPeering(
+  for await (const item of client.receivedRoutes.listByPeering(
     resourceGroupName,
     peeringName,
     options

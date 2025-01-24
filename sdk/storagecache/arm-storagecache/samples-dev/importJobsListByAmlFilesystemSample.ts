@@ -30,7 +30,7 @@ async function importJobsListByAmlFilesystem() {
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.importJobs.listByAmlFilesystem(
+  for await (const item of client.importJobs.listByAmlFilesystem(
     resourceGroupName,
     amlFilesystemName,
   )) {

@@ -29,7 +29,7 @@ async function gatewayCustomDomainsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.gatewayCustomDomains.list(
+  for await (const item of client.gatewayCustomDomains.list(
     resourceGroupName,
     serviceName,
     gatewayName

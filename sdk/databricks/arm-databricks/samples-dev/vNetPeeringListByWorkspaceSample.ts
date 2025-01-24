@@ -28,7 +28,7 @@ async function listAllVNetPeeringsForTheWorkspace(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.vNetPeering.listByWorkspace(
+  for await (const item of client.vNetPeering.listByWorkspace(
     resourceGroupName,
     workspaceName
   )) {

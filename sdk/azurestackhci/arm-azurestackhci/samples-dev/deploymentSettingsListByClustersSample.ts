@@ -28,7 +28,7 @@ async function listDeploymentSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureStackHCIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deploymentSettings.listByClusters(
+  for await (const item of client.deploymentSettings.listByClusters(
     resourceGroupName,
     clusterName,
   )) {

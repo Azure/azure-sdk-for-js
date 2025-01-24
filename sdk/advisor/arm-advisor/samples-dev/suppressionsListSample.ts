@@ -23,7 +23,7 @@ async function listSuppressions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.suppressions.list()) {
+  for await (const item of client.suppressions.list()) {
     resArray.push(item);
   }
   console.log(resArray);

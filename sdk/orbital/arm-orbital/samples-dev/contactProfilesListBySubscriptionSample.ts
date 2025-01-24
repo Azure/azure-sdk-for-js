@@ -27,7 +27,7 @@ async function listOfContactProfiles() {
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.contactProfiles.listBySubscription()) {
+  for await (const item of client.contactProfiles.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -34,7 +34,7 @@ async function listClusterJobs() {
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.clusterJobs.list(
+  for await (const item of client.clusterJobs.list(
     resourceGroupName,
     clusterPoolName,
     clusterName,

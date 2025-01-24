@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  RoleDefinition} from "@azure/arm-authorization-profile-2020-09-01-hybrid";
 import {
-  RoleDefinition,
   AuthorizationManagementClient
 } from "@azure/arm-authorization-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";

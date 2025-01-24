@@ -34,7 +34,7 @@ async function replicasGetAll() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.serviceReplica.list(
+  for await (const item of client.serviceReplica.list(
     resourceGroupName,
     applicationResourceName,
     serviceResourceName

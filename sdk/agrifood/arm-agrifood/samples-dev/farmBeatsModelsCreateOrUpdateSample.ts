@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { FarmBeats, AgriFoodMgmtClient } from "@azure/arm-agrifood";
+import type { FarmBeats} from "@azure/arm-agrifood";
+import { AgriFoodMgmtClient } from "@azure/arm-agrifood";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

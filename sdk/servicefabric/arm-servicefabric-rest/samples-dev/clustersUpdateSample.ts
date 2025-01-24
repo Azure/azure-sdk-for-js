@@ -8,10 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import ServiceFabricManagementClient, {
-  ClustersUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-servicefabric";
+import type { ClustersUpdateParameters } from "@azure-rest/arm-servicefabric";
+import ServiceFabricManagementClient, { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

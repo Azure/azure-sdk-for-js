@@ -30,7 +30,7 @@ async function listPrivateEndpointsInAJobAgent() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobPrivateEndpoints.listByAgent(
+  for await (const item of client.jobPrivateEndpoints.listByAgent(
     resourceGroupName,
     serverName,
     jobAgentName,

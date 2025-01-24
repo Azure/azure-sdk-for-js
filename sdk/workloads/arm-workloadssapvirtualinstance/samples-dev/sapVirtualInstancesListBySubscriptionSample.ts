@@ -25,7 +25,7 @@ async function sapVirtualInstancesListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sAPVirtualInstances.listBySubscription()) {
+  for await (const item of client.sAPVirtualInstances.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

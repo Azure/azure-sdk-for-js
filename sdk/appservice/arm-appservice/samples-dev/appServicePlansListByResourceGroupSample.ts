@@ -27,7 +27,7 @@ async function listAppServicePlansByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServicePlans.listByResourceGroup(
+  for await (const item of client.appServicePlans.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

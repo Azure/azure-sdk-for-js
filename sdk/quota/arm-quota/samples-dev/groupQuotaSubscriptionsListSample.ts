@@ -24,7 +24,7 @@ async function groupQuotaSubscriptionsListSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();
-  for await (let item of client.groupQuotaSubscriptions.list(
+  for await (const item of client.groupQuotaSubscriptions.list(
     managementGroupId,
     groupQuotaName,
   )) {

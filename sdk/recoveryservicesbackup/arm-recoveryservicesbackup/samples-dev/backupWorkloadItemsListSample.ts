@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BackupWorkloadItemsListOptionalParams} from "@azure/arm-recoveryservicesbackup";
 import {
-  BackupWorkloadItemsListOptionalParams,
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -39,7 +40,7 @@ async function listWorkloadItemsInContainer() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.backupWorkloadItems.list(
+  for await (const item of client.backupWorkloadItems.list(
     vaultName,
     resourceGroupName,
     fabricName,

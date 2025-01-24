@@ -24,7 +24,7 @@ async function devicesListByManager() {
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.devices.listByManager(
+  for await (const item of client.devices.listByManager(
     resourceGroupName,
     managerName
   )) {

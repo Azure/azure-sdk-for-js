@@ -31,7 +31,7 @@ async function getsVaultUsages() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.listByVaults(
+  for await (const item of client.usages.listByVaults(
     resourceGroupName,
     vaultName,
   )) {

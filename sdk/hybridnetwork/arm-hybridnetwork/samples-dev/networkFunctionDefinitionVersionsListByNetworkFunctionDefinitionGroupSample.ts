@@ -30,7 +30,7 @@ async function getPublisherResource() {
   const credential = new DefaultAzureCredential();
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.networkFunctionDefinitionVersions.listByNetworkFunctionDefinitionGroup(
+  for await (const item of client.networkFunctionDefinitionVersions.listByNetworkFunctionDefinitionGroup(
     resourceGroupName,
     publisherName,
     networkFunctionDefinitionGroupName

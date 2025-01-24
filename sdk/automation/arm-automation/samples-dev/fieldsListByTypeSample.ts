@@ -27,7 +27,7 @@ async function getAListOfFieldsOfAGivenType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AutomationClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fields.listByType(
+  for await (const item of client.fields.listByType(
     resourceGroupName,
     automationAccountName,
     moduleName,

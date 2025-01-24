@@ -28,7 +28,7 @@ async function listAllSapMonitorsProvidersInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.providerInstances.list(
+  for await (const item of client.providerInstances.list(
     resourceGroupName,
     monitorName
   )) {

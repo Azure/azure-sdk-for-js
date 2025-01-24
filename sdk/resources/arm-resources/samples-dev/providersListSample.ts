@@ -27,7 +27,7 @@ async function getProviders() {
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.providers.list()) {
+  for await (const item of client.providers.list()) {
     resArray.push(item);
   }
   console.log(resArray);

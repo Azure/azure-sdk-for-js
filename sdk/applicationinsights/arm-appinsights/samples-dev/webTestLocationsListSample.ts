@@ -27,7 +27,7 @@ async function webTestLocationsList(): Promise<void> {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.webTestLocations.list(
+  for await (const item of client.webTestLocations.list(
     resourceGroupName,
     resourceName
   )) {

@@ -34,7 +34,7 @@ async function protectedItemList() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.protectedItem.list(
+  for await (const item of client.protectedItem.list(
     resourceGroupName,
     vaultName
   )) {

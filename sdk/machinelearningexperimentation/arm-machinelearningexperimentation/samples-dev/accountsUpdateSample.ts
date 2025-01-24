@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AccountUpdateParameters} from "@azure/arm-machinelearningexperimentation";
 import {
-  AccountUpdateParameters,
   MLTeamAccountManagementClient
 } from "@azure/arm-machinelearningexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";

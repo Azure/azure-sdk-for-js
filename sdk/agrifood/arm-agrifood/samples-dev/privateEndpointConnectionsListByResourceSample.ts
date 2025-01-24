@@ -24,7 +24,7 @@ async function privateEndpointConnectionsListByResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AgriFoodMgmtClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByResource(
+  for await (const item of client.privateEndpointConnections.listByResource(
     resourceGroupName,
     farmBeatsResourceName
   )) {

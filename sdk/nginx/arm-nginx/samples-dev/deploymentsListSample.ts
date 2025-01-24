@@ -27,7 +27,7 @@ async function deploymentsList() {
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deployments.list()) {
+  for await (const item of client.deployments.list()) {
     resArray.push(item);
   }
   console.log(resArray);

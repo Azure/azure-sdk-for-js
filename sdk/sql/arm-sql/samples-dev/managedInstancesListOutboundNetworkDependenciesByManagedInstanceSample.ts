@@ -30,7 +30,7 @@ async function getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedI
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listOutboundNetworkDependenciesByManagedInstance(
+  for await (const item of client.managedInstances.listOutboundNetworkDependenciesByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {

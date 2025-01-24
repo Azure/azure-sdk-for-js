@@ -26,7 +26,7 @@ async function getsTheDiagnosticSetting() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.diagnosticSettings.list(resourceUri)) {
+  for await (const item of client.diagnosticSettings.list(resourceUri)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -44,7 +44,7 @@ async function getsTheDiagnosticSettingForCategory() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.diagnosticSettings.list(resourceUri)) {
+  for await (const item of client.diagnosticSettings.list(resourceUri)) {
     resArray.push(item);
   }
   console.log(resArray);

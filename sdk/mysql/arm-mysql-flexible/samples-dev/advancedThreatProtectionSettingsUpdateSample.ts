@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  AdvancedThreatProtectionForUpdate} from "@azure/arm-mysql-flexible";
 import {
-  AdvancedThreatProtectionForUpdate,
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -33,7 +33,7 @@ async function listResourceSyncRulesBySubscription() {
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.resourceSyncRules.listByCustomLocationID(
+  for await (const item of client.resourceSyncRules.listByCustomLocationID(
     resourceGroupName,
     resourceName
   )) {

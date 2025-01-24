@@ -14,8 +14,9 @@
  * @summary API to update certain properties of the connected cluster resource
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/UpdateClusterExample.json
  */
+import type {
+  ConnectedClusterPatch} from "@azure/arm-hybridkubernetes";
 import {
-  ConnectedClusterPatch,
   ConnectedKubernetesClient
 } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";

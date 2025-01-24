@@ -29,7 +29,7 @@ async function getUsageMetricsForAWorkerPoolOfAnAppServiceEnvironment(): Promise
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listWebWorkerUsages(
+  for await (const item of client.appServiceEnvironments.listWebWorkerUsages(
     resourceGroupName,
     name,
     workerPoolName,

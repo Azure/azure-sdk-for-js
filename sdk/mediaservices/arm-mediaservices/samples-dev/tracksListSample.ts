@@ -31,7 +31,7 @@ async function listsAllTracks() {
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tracks.list(
+  for await (const item of client.tracks.list(
     resourceGroupName,
     accountName,
     assetName

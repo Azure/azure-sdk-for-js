@@ -28,7 +28,7 @@ async function apiManagementListAuthorizationsAuthCode(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.authorization.listByAuthorizationProvider(
+  for await (const item of client.authorization.listByAuthorizationProvider(
     resourceGroupName,
     serviceName,
     authorizationProviderId
@@ -54,7 +54,7 @@ async function apiManagementListAuthorizationsClientCred(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.authorization.listByAuthorizationProvider(
+  for await (const item of client.authorization.listByAuthorizationProvider(
     resourceGroupName,
     serviceName,
     authorizationProviderId

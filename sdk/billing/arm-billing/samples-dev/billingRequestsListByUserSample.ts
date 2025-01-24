@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  BillingRequestsListByUserOptionalParams} from "@azure/arm-billing";
 import {
-  BillingRequestsListByUserOptionalParams,
   BillingManagementClient,
 } from "@azure/arm-billing";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -25,7 +26,7 @@ async function billingRequestsListByUser(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingRequests.listByUser()) {
+  for await (const item of client.billingRequests.listByUser()) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -43,7 +44,7 @@ async function billingRequestsListByUserWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.billingRequests.listByUser(options)) {
+  for await (const item of client.billingRequests.listByUser(options)) {
     resArray.push(item);
   }
   console.log(resArray);

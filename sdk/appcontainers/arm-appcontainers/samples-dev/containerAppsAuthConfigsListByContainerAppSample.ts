@@ -28,7 +28,7 @@ async function listAuthConfigsByContainerApps(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.containerAppsAuthConfigs.listByContainerApp(
+  for await (const item of client.containerAppsAuthConfigs.listByContainerApp(
     resourceGroupName,
     containerAppName,
   )) {

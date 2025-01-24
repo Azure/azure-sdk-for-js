@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  UserSessionsListOptionalParams} from "@azure/arm-desktopvirtualization";
 import {
-  UserSessionsListOptionalParams,
   DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,7 +41,7 @@ async function userSessionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.userSessions.list(
+  for await (const item of client.userSessions.list(
     resourceGroupName,
     hostPoolName,
     sessionHostName,

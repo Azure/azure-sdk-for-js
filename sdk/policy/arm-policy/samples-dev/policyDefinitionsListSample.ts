@@ -25,7 +25,7 @@ async function listPolicyDefinitionsBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.policyDefinitions.list()) {
+  for await (const item of client.policyDefinitions.list()) {
     resArray.push(item);
   }
   console.log(resArray);

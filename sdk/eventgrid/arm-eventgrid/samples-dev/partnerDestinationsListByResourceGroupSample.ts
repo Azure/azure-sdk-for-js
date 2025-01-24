@@ -29,7 +29,7 @@ async function partnerDestinationsListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.partnerDestinations.listByResourceGroup(
+  for await (const item of client.partnerDestinations.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

@@ -24,7 +24,7 @@ async function listSolutionsOperations() {
   const credential = new DefaultAzureCredential();
   const client = new ApplicationClient(credential);
   const resArray = new Array();
-  for await (let item of client.listOperations()) {
+  for await (const item of client.listOperations()) {
     resArray.push(item);
   }
   console.log(resArray);
