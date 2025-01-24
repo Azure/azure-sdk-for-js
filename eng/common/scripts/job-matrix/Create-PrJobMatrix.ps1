@@ -74,13 +74,13 @@ function QueuePop([ref]$queue) {
 function GeneratePRMatrixForBatch {
   param (
     [Parameter(Mandatory = $true)][array] $Packages,
-    [Parameter(Mandatory = $true)][bool] $FullSparseMatrix
+    [Parameter(Mandatory = $false)][bool] $FullSparseMatrix = $false
   )
 
   $OverallResult = @()
   if (!$Packages) {
     Write-Host "Unable to generate matrix for empty package list"
-    return ,$OverallResult
+    return , $OverallResult
   }
 
   # this check assumes that we have properly separated the direct and indirect package lists
@@ -159,7 +159,7 @@ function GeneratePRMatrixForBatch {
             }
 
             if ($batchSuffixNecessary) {
-              $outputItem["name"] = $outputItem["name"] + "$batchPrefix$batchCounter"
+              $outputItem["name"] = $outputItem["name"] + "$batchNamePrefix$batchCounter"
             }
 
             $OverallResult += $outputItem
@@ -184,7 +184,7 @@ function GeneratePRMatrixForBatch {
           }
 
           if ($batchSuffixNecessary) {
-            $outputItem["name"] = $outputItem["name"] + "_ib$batchCounter"
+            $outputItem["name"] = $outputItem["name"] + "_$batchNamePrefix$batchCounter"
           }
           # now we need to take an item from the front of the matrix results, clone it, and add it to the back of the matrix results
           # we will add the cloned version to OverallResult
@@ -196,7 +196,7 @@ function GeneratePRMatrixForBatch {
   }
 
 
-  return ,$OverallResult
+  return , $OverallResult
 }
 
 if (!(Test-Path $PackagePropertiesFolder)) {
@@ -230,17 +230,17 @@ $indirectPackages = $packageProperties | Where-Object { $_.IncludedForValidation
 $OverallResult = @()
 if ($directPackages) {
   Write-Host "Discovered $($directPackages.Length) direct packages"
-  foreach($artifact in $directPackages) {
+  foreach ($artifact in $directPackages) {
     Write-Host "-> $($artifact.ArtifactName)"
   }
   $OverallResult += GeneratePRMatrixForBatch -Packages $directPackages
 }
 if ($indirectPackages) {
   Write-Host "Discovered $($indirectPackages.Length) indirect packages"
-  foreach($artifact in $indirectPackages) {
+  foreach ($artifact in $indirectPackages) {
     Write-Host "-> $($artifact.ArtifactName)"
   }
-  $OverallResult += GeneratePRMatrixForBatch -Packages $indirectPackages -FullSparseMatrix !$SparseIndirect
+  $OverallResult += GeneratePRMatrixForBatch -Packages $indirectPackages -FullSparseMatrix (-not $SparseIndirect)
 }
 $serialized = SerializePipelineMatrix $OverallResult
 
