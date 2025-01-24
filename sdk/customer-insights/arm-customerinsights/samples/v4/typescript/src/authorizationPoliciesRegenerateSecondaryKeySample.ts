@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Regenerates the secondary policy key of the specified authorization policy.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/AuthorizationPoliciesRegenerateSecondaryKey.json
  */
-async function authorizationPoliciesRegenerateSecondaryKey() {
+async function authorizationPoliciesRegenerateSecondaryKey(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "azSdkTestHub";

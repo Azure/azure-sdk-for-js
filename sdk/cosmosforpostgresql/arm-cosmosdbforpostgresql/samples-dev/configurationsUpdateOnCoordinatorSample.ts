@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ServerConfiguration} from "@azure/arm-cosmosdbforpostgresql";
 import {
-  ServerConfiguration,
   CosmosDBForPostgreSQL,
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";

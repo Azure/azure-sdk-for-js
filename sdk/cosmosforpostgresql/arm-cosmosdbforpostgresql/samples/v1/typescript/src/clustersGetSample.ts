@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterGet.json
  */
-async function getTheCluster() {
+async function getTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -31,7 +31,7 @@ async function getTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheCluster();
 }
 

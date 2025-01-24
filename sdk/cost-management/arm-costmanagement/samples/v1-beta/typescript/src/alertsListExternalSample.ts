@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the Alerts for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountAlerts.json
  */
-async function externalBillingAccountAlerts() {
+async function externalBillingAccountAlerts(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function externalBillingAccountAlerts() {
  * @summary Lists the Alerts for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalSubscriptionAlerts.json
  */
-async function externalSubscriptionAlerts() {
+async function externalSubscriptionAlerts(): Promise<void> {
   const externalCloudProviderType = "externalSubscriptions";
   const externalCloudProviderId = "100";
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function externalSubscriptionAlerts() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   externalBillingAccountAlerts();
   externalSubscriptionAlerts();
 }

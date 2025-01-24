@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Role, CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
+import type { Role} from "@azure/arm-cosmosdbforpostgresql";
+import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

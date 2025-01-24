@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Restarts all nodes in the cluster.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterRestart.json
  */
-async function restartAllServersInTheCluster() {
+async function restartAllServersInTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -34,7 +34,7 @@ async function restartAllServersInTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   restartAllServersInTheCluster();
 }
 
