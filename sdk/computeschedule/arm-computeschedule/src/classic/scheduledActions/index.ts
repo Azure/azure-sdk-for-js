@@ -140,12 +140,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
       requestBody: ExecuteStartRequest,
       options?: ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
     ) =>
-      scheduledActionsVirtualMachinesExecuteStart(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+      scheduledActionsVirtualMachinesExecuteStart(context, locationparameter, requestBody, options),
     virtualMachinesExecuteHibernate: (
       locationparameter: string,
       requestBody: ExecuteHibernateRequest,
@@ -173,12 +168,7 @@ function _getScheduledActions(context: ComputeScheduleContext) {
       requestBody: SubmitStartRequest,
       options?: ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
     ) =>
-      scheduledActionsVirtualMachinesSubmitStart(
-        context,
-        locationparameter,
-        requestBody,
-        options,
-      ),
+      scheduledActionsVirtualMachinesSubmitStart(context, locationparameter, requestBody, options),
     virtualMachinesSubmitHibernate: (
       locationparameter: string,
       requestBody: SubmitHibernateRequest,
