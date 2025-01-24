@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
  *
  * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateEndpointConnectionsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateEndpointConnectionsCreateOrUpdate.json
  */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -34,22 +34,23 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const parameters: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "Approved by johndoe@contoso.com",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    privateEndpointConnectionName,
-    parameters
-  );
+  const result =
+    await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      clusterName,
+      privateEndpointConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 
 async function main() {
-  await approveOrRejectAPrivateEndpointConnectionWithAGivenName();
+  approveOrRejectAPrivateEndpointConnectionWithAGivenName();
 }
 
 main().catch(console.error);

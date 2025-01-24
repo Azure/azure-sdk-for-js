@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a sandbox custom image
  *
  * @summary Returns a sandbox custom image
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSandboxCustomImagesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImagesGet.json
  */
 async function kustoSandboxCustomImagesGet() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function kustoSandboxCustomImagesGet() {
   const result = await client.sandboxCustomImages.get(
     resourceGroupName,
     clusterName,
-    sandboxCustomImageName
+    sandboxCustomImageName,
   );
   console.log(result);
 }
 
 async function main() {
-  await kustoSandboxCustomImagesGet();
+  kustoSandboxCustomImagesGet();
 }
 
 main().catch(console.error);

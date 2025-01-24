@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a private endpoint connection.
  *
  * @summary Gets a private endpoint connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateEndpointConnectionsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateEndpointConnectionsGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function getsPrivateEndpointConnection() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     clusterName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
 async function main() {
-  await getsPrivateEndpointConnection();
+  getsPrivateEndpointConnection();
 }
 
 main().catch(console.error);

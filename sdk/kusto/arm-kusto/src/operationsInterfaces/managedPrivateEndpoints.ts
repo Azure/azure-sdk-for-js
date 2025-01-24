@@ -20,7 +20,7 @@ import {
   ManagedPrivateEndpointsCreateOrUpdateResponse,
   ManagedPrivateEndpointsUpdateOptionalParams,
   ManagedPrivateEndpointsUpdateResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams
+  ManagedPrivateEndpointsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface ManagedPrivateEndpoints {
   list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
   /**
    * Checks that the managed private endpoints resource name is valid and is not already in use.
@@ -48,7 +48,7 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     resourceName: ManagedPrivateEndpointsCheckNameRequest,
-    options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams
+    options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams,
   ): Promise<ManagedPrivateEndpointsCheckNameAvailabilityResponse>;
   /**
    * Gets a managed private endpoint.
@@ -61,7 +61,7 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
+    options?: ManagedPrivateEndpointsGetOptionalParams,
   ): Promise<ManagedPrivateEndpointsGetResponse>;
   /**
    * Creates a managed private endpoint.
@@ -76,7 +76,7 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
@@ -96,7 +96,7 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse>;
   /**
    * Updates a managed private endpoint.
@@ -111,7 +111,7 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedPrivateEndpointsUpdateResponse>,
@@ -131,7 +131,7 @@ export interface ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsUpdateResponse>;
   /**
    * Deletes a managed private endpoint.
@@ -144,7 +144,7 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a managed private endpoint.
@@ -157,6 +157,6 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

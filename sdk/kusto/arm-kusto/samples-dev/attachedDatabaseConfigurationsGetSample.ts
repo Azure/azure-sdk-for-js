@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns an attached database configuration.
  *
  * @summary Returns an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoAttachedDatabaseConfigurationsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoAttachedDatabaseConfigurationsGet.json
  */
 async function attachedDatabaseConfigurationsGet() {
   const subscriptionId =
@@ -34,13 +34,13 @@ async function attachedDatabaseConfigurationsGet() {
   const result = await client.attachedDatabaseConfigurations.get(
     resourceGroupName,
     clusterName,
-    attachedDatabaseConfigurationName
+    attachedDatabaseConfigurationName,
   );
   console.log(result);
 }
 
 async function main() {
-  await attachedDatabaseConfigurationsGet();
+  attachedDatabaseConfigurationsGet();
 }
 
 main().catch(console.error);

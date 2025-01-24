@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterCheckNameRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that the cluster name is valid and is not already in use.
  *
  * @summary Checks that the cluster name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersCheckNameAvailability.json
  */
 async function kustoClustersCheckNameAvailability() {
   const subscriptionId =
@@ -30,19 +30,19 @@ async function kustoClustersCheckNameAvailability() {
   const location = "westus";
   const clusterName: ClusterCheckNameRequest = {
     name: "kustoCluster",
-    type: "Microsoft.Kusto/clusters"
+    type: "Microsoft.Kusto/clusters",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.checkNameAvailability(
     location,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }
 
 async function main() {
-  await kustoClustersCheckNameAvailability();
+  kustoClustersCheckNameAvailability();
 }
 
 main().catch(console.error);

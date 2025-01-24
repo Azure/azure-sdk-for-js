@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SandboxCustomImagesCheckNameRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that the sandbox custom image resource name is valid and is not already in use.
  *
  * @summary Checks that the sandbox custom image resource name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSandboxCustomImagesCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImagesCheckNameAvailability.json
  */
 async function kustoSandboxCustomImagesCheckNameAvailability() {
   const subscriptionId =
@@ -32,20 +32,20 @@ async function kustoSandboxCustomImagesCheckNameAvailability() {
   const clusterName = "kustoCluster";
   const resourceName: SandboxCustomImagesCheckNameRequest = {
     name: "sandboxCustomImage1",
-    type: "Microsoft.Kusto/clusters/sandboxCustomImages"
+    type: "Microsoft.Kusto/clusters/sandboxCustomImages",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.sandboxCustomImages.checkNameAvailability(
     resourceGroupName,
     clusterName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }
 
 async function main() {
-  await kustoSandboxCustomImagesCheckNameAvailability();
+  kustoSandboxCustomImagesCheckNameAvailability();
 }
 
 main().catch(console.error);

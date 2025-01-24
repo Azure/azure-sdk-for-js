@@ -8,40 +8,42 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KustoManagementClient } from "@azure/arm-kusto";
+import { CalloutPoliciesList, KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a Kusto database script.
+ * This sample demonstrates how to Adds a list of callout policies for engine services.
  *
- * @summary Deletes a Kusto database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoScriptsDelete.json
+ * @summary Adds a list of callout policies for engine services.
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterAddCalloutPolicies.json
  */
-async function kustoScriptsDelete() {
+async function kustoClusterAddCalloutPolicy() {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
   const resourceGroupName =
     process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase8";
-  const scriptName = "kustoScript";
+  const calloutPolicies: CalloutPoliciesList = {
+    value: [
+      { calloutType: "kusto", calloutUriRegex: "*", outboundAccess: "Allow" },
+    ],
+  };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.scripts.beginDeleteAndWait(
+  const result = await client.clusters.beginAddCalloutPoliciesAndWait(
     resourceGroupName,
     clusterName,
-    databaseName,
-    scriptName,
+    calloutPolicies,
   );
   console.log(result);
 }
 
 async function main() {
-  kustoScriptsDelete();
+  kustoClusterAddCalloutPolicy();
 }
 
 main().catch(console.error);

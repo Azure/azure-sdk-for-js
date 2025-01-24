@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the list of private link resources.
  *
  * @summary Returns the list of private link resources.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateLinkResourcesList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateLinkResourcesList.json
  */
 async function getsPrivateEndpointConnections() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getsPrivateEndpointConnections() {
   const resArray = new Array();
   for await (let item of client.privateLinkResources.list(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function getsPrivateEndpointConnections() {
 }
 
 async function main() {
-  await getsPrivateEndpointConnections();
+  getsPrivateEndpointConnections();
 }
 
 main().catch(console.error);

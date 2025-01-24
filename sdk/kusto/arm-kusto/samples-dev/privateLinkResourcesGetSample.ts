@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a private link resource.
  *
  * @summary Gets a private link resource.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateLinkResourcesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateLinkResourcesGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function getsPrivateEndpointConnection() {
   const result = await client.privateLinkResources.get(
     resourceGroupName,
     clusterName,
-    privateLinkResourceName
+    privateLinkResourceName,
   );
   console.log(result);
 }
 
 async function main() {
-  await getsPrivateEndpointConnection();
+  getsPrivateEndpointConnection();
 }
 
 main().catch(console.error);

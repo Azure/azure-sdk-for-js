@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a database.
  *
  * @summary Returns a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasesGet.json
  */
 async function kustoDatabasesGet() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function kustoDatabasesGet() {
   const result = await client.databases.get(
     resourceGroupName,
     clusterName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function kustoDatabasesGet() {
  * This sample demonstrates how to Returns a database.
  *
  * @summary Returns a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSuspendedDatabasesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSuspendedDatabasesGet.json
  */
 async function kustoSuspendedDatabasesGet() {
   const subscriptionId =
@@ -57,14 +57,14 @@ async function kustoSuspendedDatabasesGet() {
   const result = await client.databases.get(
     resourceGroupName,
     clusterName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }
 
 async function main() {
-  await kustoDatabasesGet();
-  await kustoSuspendedDatabasesGet();
+  kustoDatabasesGet();
+  kustoSuspendedDatabasesGet();
 }
 
 main().catch(console.error);

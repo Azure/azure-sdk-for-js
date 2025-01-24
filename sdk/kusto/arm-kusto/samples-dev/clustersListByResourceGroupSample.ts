@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Kusto clusters within a resource group.
  *
  * @summary Lists all Kusto clusters within a resource group.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersListByResourceGroup.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersListByResourceGroup.json
  */
 async function kustoClustersListByResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function kustoClustersListByResourceGroup() {
   const client = new KustoManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.clusters.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function kustoClustersListByResourceGroup() {
 }
 
 async function main() {
-  await kustoClustersListByResourceGroup();
+  kustoClustersListByResourceGroup();
 }
 
 main().catch(console.error);

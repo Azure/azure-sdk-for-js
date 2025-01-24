@@ -15,33 +15,32 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a Kusto database script.
+ * This sample demonstrates how to Returns a list of databases that are owned by this cluster and were followed by another cluster.
  *
- * @summary Deletes a Kusto database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoScriptsDelete.json
+ * @summary Returns a list of databases that are owned by this cluster and were followed by another cluster.
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterListFollowerDatabasesGet.json
  */
-async function kustoScriptsDelete() {
+async function kustoClusterListFollowerDatabasesGet() {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
   const resourceGroupName =
     process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase8";
-  const scriptName = "kustoScript";
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.scripts.beginDeleteAndWait(
+  const resArray = new Array();
+  for await (let item of client.clusters.listFollowerDatabasesGet(
     resourceGroupName,
     clusterName,
-    databaseName,
-    scriptName,
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  kustoScriptsDelete();
+  kustoClusterListFollowerDatabasesGet();
 }
 
 main().catch(console.error);

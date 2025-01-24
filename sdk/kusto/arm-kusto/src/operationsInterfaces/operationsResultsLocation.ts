@@ -8,7 +8,7 @@
 
 import {
   OperationsResultsLocationGetOptionalParams,
-  OperationsResultsLocationGetResponse
+  OperationsResultsLocationGetResponse,
 } from "../models";
 
 /** Interface representing a OperationsResultsLocation. */
@@ -22,6 +22,6 @@ export interface OperationsResultsLocation {
   get(
     location: string,
     operationId: string,
-    options?: OperationsResultsLocationGetOptionalParams
+    options?: OperationsResultsLocationGetOptionalParams,
   ): Promise<OperationsResultsLocationGetResponse>;
 }

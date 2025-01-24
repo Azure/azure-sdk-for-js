@@ -15,7 +15,7 @@ import { KustoManagementClient } from "../kustoManagementClient";
 import {
   SkuDescription,
   SkusListOptionalParams,
-  SkusListResponse
+  SkusListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export class SkusImpl implements Skus {
    */
   public list(
     location: string,
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): PagedAsyncIterableIterator<SkuDescription> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -53,14 +53,14 @@ export class SkusImpl implements Skus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: SkusListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<SkuDescription[]> {
     let result: SkusListResponse;
     result = await this._list(location, options);
@@ -69,7 +69,7 @@ export class SkusImpl implements Skus {
 
   private async *listPagingAll(
     location: string,
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): AsyncIterableIterator<SkuDescription> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -83,11 +83,11 @@ export class SkusImpl implements Skus {
    */
   private _list(
     location: string,
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): Promise<SkusListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -95,23 +95,22 @@ export class SkusImpl implements Skus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/skus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuDescriptionList
+      bodyMapper: Mappers.SkuDescriptionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

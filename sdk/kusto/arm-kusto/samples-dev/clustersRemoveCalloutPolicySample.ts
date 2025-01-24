@@ -8,40 +8,38 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KustoManagementClient } from "@azure/arm-kusto";
+import { CalloutPolicyToRemove, KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a Kusto database script.
+ * This sample demonstrates how to Removes callout policy for engine services.
  *
- * @summary Deletes a Kusto database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoScriptsDelete.json
+ * @summary Removes callout policy for engine services.
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterRemoveCalloutPolicy.json
  */
-async function kustoScriptsDelete() {
+async function kustoClusterDropCalloutPolicy() {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
   const resourceGroupName =
     process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
-  const databaseName = "KustoDatabase8";
-  const scriptName = "kustoScript";
+  const calloutPolicy: CalloutPolicyToRemove = { calloutId: "*_kusto" };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.scripts.beginDeleteAndWait(
+  const result = await client.clusters.beginRemoveCalloutPolicyAndWait(
     resourceGroupName,
     clusterName,
-    databaseName,
-    scriptName,
+    calloutPolicy,
   );
   console.log(result);
 }
 
 async function main() {
-  kustoScriptsDelete();
+  kustoClusterDropCalloutPolicy();
 }
 
 main().catch(console.error);

@@ -19,6 +19,6 @@ export interface Skus {
    */
   list(
     location: string,
-    options?: SkusListOptionalParams
+    options?: SkusListOptionalParams,
   ): PagedAsyncIterableIterator<SkuDescription>;
 }

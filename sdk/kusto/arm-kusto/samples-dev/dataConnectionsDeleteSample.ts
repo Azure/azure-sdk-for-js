@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the data connection with the given name.
  *
  * @summary Deletes the data connection with the given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsDelete.json
  */
 async function kustoDataConnectionsDelete() {
   const subscriptionId =
@@ -35,13 +35,13 @@ async function kustoDataConnectionsDelete() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
 
 async function main() {
-  await kustoDataConnectionsDelete();
+  kustoDataConnectionsDelete();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a managed private endpoint.
  *
  * @summary Gets a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoManagedPrivateEndpointsGet.json
  */
 async function kustoManagedPrivateEndpointsGet() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function kustoManagedPrivateEndpointsGet() {
   const result = await client.managedPrivateEndpoints.get(
     resourceGroupName,
     clusterName,
-    managedPrivateEndpointName
+    managedPrivateEndpointName,
   );
   console.log(result);
 }
 
 async function main() {
-  await kustoManagedPrivateEndpointsGet();
+  kustoManagedPrivateEndpointsGet();
 }
 
 main().catch(console.error);

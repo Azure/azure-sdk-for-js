@@ -18,7 +18,7 @@ import {
   AttachedDatabaseConfigurationsGetResponse,
   AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   AttachedDatabaseConfigurationsCreateOrUpdateResponse,
-  AttachedDatabaseConfigurationsDeleteOptionalParams
+  AttachedDatabaseConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface AttachedDatabaseConfigurations {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
+    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<AttachedDatabaseConfiguration>;
   /**
    * Checks that the attached database configuration resource name is valid and is not already in use.
@@ -46,7 +46,7 @@ export interface AttachedDatabaseConfigurations {
     resourceGroupName: string,
     clusterName: string,
     resourceName: AttachedDatabaseConfigurationsCheckNameRequest,
-    options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams
+    options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsCheckNameAvailabilityResponse>;
   /**
    * Returns an attached database configuration.
@@ -59,7 +59,7 @@ export interface AttachedDatabaseConfigurations {
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsGetOptionalParams
+    options?: AttachedDatabaseConfigurationsGetOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsGetResponse>;
   /**
    * Creates or updates an attached database configuration.
@@ -74,7 +74,7 @@ export interface AttachedDatabaseConfigurations {
     clusterName: string,
     attachedDatabaseConfigurationName: string,
     parameters: AttachedDatabaseConfiguration,
-    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
@@ -94,7 +94,7 @@ export interface AttachedDatabaseConfigurations {
     clusterName: string,
     attachedDatabaseConfigurationName: string,
     parameters: AttachedDatabaseConfiguration,
-    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse>;
   /**
    * Deletes the attached database configuration with the given name.
@@ -107,7 +107,7 @@ export interface AttachedDatabaseConfigurations {
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsDeleteOptionalParams
+    options?: AttachedDatabaseConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the attached database configuration with the given name.
@@ -120,6 +120,6 @@ export interface AttachedDatabaseConfigurations {
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsDeleteOptionalParams
+    options?: AttachedDatabaseConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

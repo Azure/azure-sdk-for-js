@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the list of private endpoint connections.
  *
  * @summary Returns the list of private endpoint connections.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateEndpointConnectionsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateEndpointConnectionsList.json
  */
 async function kustoPrivateEndpointConnectionsList() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function kustoPrivateEndpointConnectionsList() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.list(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function kustoPrivateEndpointConnectionsList() {
 }
 
 async function main() {
-  await kustoPrivateEndpointConnectionsList();
+  kustoPrivateEndpointConnectionsList();
 }
 
 main().catch(console.error);

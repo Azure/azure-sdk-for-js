@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists eligible region SKUs for Kusto resource provider by Azure region.
  *
  * @summary Lists eligible region SKUs for Kusto resource provider by Azure region.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSkus.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSkus.json
  */
 async function kustoListRegionSkus() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function kustoListRegionSkus() {
 }
 
 async function main() {
-  await kustoListRegionSkus();
+  kustoListRegionSkus();
 }
 
 main().catch(console.error);

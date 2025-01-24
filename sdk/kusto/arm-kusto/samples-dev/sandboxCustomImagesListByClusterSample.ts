@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the list of the existing sandbox custom images of the given Kusto cluster.
  *
  * @summary Returns the list of the existing sandbox custom images of the given Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSandboxCustomImagesList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImagesList.json
  */
 async function kustoSandboxCustomImagesListByCluster() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function kustoSandboxCustomImagesListByCluster() {
   const resArray = new Array();
   for await (let item of client.sandboxCustomImages.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function kustoSandboxCustomImagesListByCluster() {
 }
 
 async function main() {
-  await kustoSandboxCustomImagesListByCluster();
+  kustoSandboxCustomImagesListByCluster();
 }
 
 main().catch(console.error);

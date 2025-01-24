@@ -15,7 +15,7 @@ import { KustoManagementClient } from "../kustoManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   ClusterPrincipalAssignmentsGetResponse,
   ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ClusterPrincipalAssignmentsCreateOrUpdateResponse,
-  ClusterPrincipalAssignmentsDeleteOptionalParams
+  ClusterPrincipalAssignmentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ClusterPrincipalAssignments operations. */
 export class ClusterPrincipalAssignmentsImpl
-  implements ClusterPrincipalAssignments {
+  implements ClusterPrincipalAssignments
+{
   private readonly client: KustoManagementClient;
 
   /**
@@ -55,7 +56,7 @@ export class ClusterPrincipalAssignmentsImpl
   public list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClusterPrincipalAssignmentsListOptionalParams
+    options?: ClusterPrincipalAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<ClusterPrincipalAssignment> {
     const iter = this.listPagingAll(resourceGroupName, clusterName, options);
     return {
@@ -73,9 +74,9 @@ export class ClusterPrincipalAssignmentsImpl
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +84,7 @@ export class ClusterPrincipalAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     options?: ClusterPrincipalAssignmentsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ClusterPrincipalAssignment[]> {
     let result: ClusterPrincipalAssignmentsListResponse;
     result = await this._list(resourceGroupName, clusterName, options);
@@ -93,12 +94,12 @@ export class ClusterPrincipalAssignmentsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClusterPrincipalAssignmentsListOptionalParams
+    options?: ClusterPrincipalAssignmentsListOptionalParams,
   ): AsyncIterableIterator<ClusterPrincipalAssignment> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -115,11 +116,11 @@ export class ClusterPrincipalAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest,
-    options?: ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams
+    options?: ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   ): Promise<ClusterPrincipalAssignmentsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, principalAssignmentName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -134,11 +135,11 @@ export class ClusterPrincipalAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     principalAssignmentName: string,
-    options?: ClusterPrincipalAssignmentsGetOptionalParams
+    options?: ClusterPrincipalAssignmentsGetOptionalParams,
   ): Promise<ClusterPrincipalAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, principalAssignmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -155,7 +156,7 @@ export class ClusterPrincipalAssignmentsImpl
     clusterName: string,
     principalAssignmentName: string,
     parameters: ClusterPrincipalAssignment,
-    options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>,
@@ -164,21 +165,20 @@ export class ClusterPrincipalAssignmentsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ClusterPrincipalAssignmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -187,8 +187,8 @@ export class ClusterPrincipalAssignmentsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -196,8 +196,8 @@ export class ClusterPrincipalAssignmentsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -208,16 +208,16 @@ export class ClusterPrincipalAssignmentsImpl
         clusterName,
         principalAssignmentName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ClusterPrincipalAssignmentsCreateOrUpdateResponse,
       OperationState<ClusterPrincipalAssignmentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -236,14 +236,14 @@ export class ClusterPrincipalAssignmentsImpl
     clusterName: string,
     principalAssignmentName: string,
     parameters: ClusterPrincipalAssignment,
-    options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ClusterPrincipalAssignmentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       principalAssignmentName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -259,25 +259,24 @@ export class ClusterPrincipalAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     principalAssignmentName: string,
-    options?: ClusterPrincipalAssignmentsDeleteOptionalParams
+    options?: ClusterPrincipalAssignmentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -286,8 +285,8 @@ export class ClusterPrincipalAssignmentsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -295,8 +294,8 @@ export class ClusterPrincipalAssignmentsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -306,13 +305,13 @@ export class ClusterPrincipalAssignmentsImpl
         resourceGroupName,
         clusterName,
         principalAssignmentName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -329,13 +328,13 @@ export class ClusterPrincipalAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     principalAssignmentName: string,
-    options?: ClusterPrincipalAssignmentsDeleteOptionalParams
+    options?: ClusterPrincipalAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       principalAssignmentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -349,11 +348,11 @@ export class ClusterPrincipalAssignmentsImpl
   private _list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClusterPrincipalAssignmentsListOptionalParams
+    options?: ClusterPrincipalAssignmentsListOptionalParams,
   ): Promise<ClusterPrincipalAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -361,16 +360,15 @@ export class ClusterPrincipalAssignmentsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/checkPrincipalAssignmentNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/checkPrincipalAssignmentNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.principalAssignmentName,
   queryParameters: [Parameters.apiVersion],
@@ -378,23 +376,22 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -402,31 +399,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.principalAssignmentName1
+    Parameters.principalAssignmentName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     201: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     202: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     204: {
-      bodyMapper: Mappers.ClusterPrincipalAssignment
+      bodyMapper: Mappers.ClusterPrincipalAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -435,15 +431,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.principalAssignmentName1
+    Parameters.principalAssignmentName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments/{principalAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -451,8 +446,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -460,30 +455,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.principalAssignmentName1
+    Parameters.principalAssignmentName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/principalAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterPrincipalAssignmentListResult
+      bodyMapper: Mappers.ClusterPrincipalAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

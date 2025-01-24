@@ -15,7 +15,7 @@ import { KustoManagementClient } from "../kustoManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   AttachedDatabaseConfigurationsGetResponse,
   AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   AttachedDatabaseConfigurationsCreateOrUpdateResponse,
-  AttachedDatabaseConfigurationsDeleteOptionalParams
+  AttachedDatabaseConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AttachedDatabaseConfigurations operations. */
 export class AttachedDatabaseConfigurationsImpl
-  implements AttachedDatabaseConfigurations {
+  implements AttachedDatabaseConfigurations
+{
   private readonly client: KustoManagementClient;
 
   /**
@@ -55,12 +56,12 @@ export class AttachedDatabaseConfigurationsImpl
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
+    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<AttachedDatabaseConfiguration> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +78,9 @@ export class AttachedDatabaseConfigurationsImpl
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +88,7 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<AttachedDatabaseConfiguration[]> {
     let result: AttachedDatabaseConfigurationsListByClusterResponse;
     result = await this._listByCluster(resourceGroupName, clusterName, options);
@@ -97,12 +98,12 @@ export class AttachedDatabaseConfigurationsImpl
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
+    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
   ): AsyncIterableIterator<AttachedDatabaseConfiguration> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -119,11 +120,11 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     resourceName: AttachedDatabaseConfigurationsCheckNameRequest,
-    options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams
+    options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, resourceName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -136,11 +137,11 @@ export class AttachedDatabaseConfigurationsImpl
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
+    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -155,16 +156,16 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsGetOptionalParams
+    options?: AttachedDatabaseConfigurationsGetOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         attachedDatabaseConfigurationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -181,7 +182,7 @@ export class AttachedDatabaseConfigurationsImpl
     clusterName: string,
     attachedDatabaseConfigurationName: string,
     parameters: AttachedDatabaseConfiguration,
-    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
@@ -190,21 +191,20 @@ export class AttachedDatabaseConfigurationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -213,8 +213,8 @@ export class AttachedDatabaseConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -222,8 +222,8 @@ export class AttachedDatabaseConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -234,16 +234,16 @@ export class AttachedDatabaseConfigurationsImpl
         clusterName,
         attachedDatabaseConfigurationName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AttachedDatabaseConfigurationsCreateOrUpdateResponse,
       OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -262,14 +262,14 @@ export class AttachedDatabaseConfigurationsImpl
     clusterName: string,
     attachedDatabaseConfigurationName: string,
     parameters: AttachedDatabaseConfiguration,
-    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       attachedDatabaseConfigurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -285,25 +285,24 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsDeleteOptionalParams
+    options?: AttachedDatabaseConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -312,8 +311,8 @@ export class AttachedDatabaseConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -321,8 +320,8 @@ export class AttachedDatabaseConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -332,13 +331,13 @@ export class AttachedDatabaseConfigurationsImpl
         resourceGroupName,
         clusterName,
         attachedDatabaseConfigurationName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -355,13 +354,13 @@ export class AttachedDatabaseConfigurationsImpl
     resourceGroupName: string,
     clusterName: string,
     attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsDeleteOptionalParams
+    options?: AttachedDatabaseConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       attachedDatabaseConfigurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -370,16 +369,15 @@ export class AttachedDatabaseConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurationCheckNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurationCheckNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resourceName1,
   queryParameters: [Parameters.apiVersion],
@@ -387,45 +385,22 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDatabaseConfigurationListResult
+      bodyMapper: Mappers.AttachedDatabaseConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -433,31 +408,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+    Parameters.attachedDatabaseConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
     },
     201: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
     },
     202: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
     },
     204: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.AttachedDatabaseConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -466,15 +461,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
+    Parameters.attachedDatabaseConfigurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -482,8 +476,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -491,8 +485,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
+    Parameters.attachedDatabaseConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Kusto cluster principalAssignments.
  *
  * @summary Lists all Kusto cluster principalAssignments.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterPrincipalAssignmentsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterPrincipalAssignmentsList.json
  */
 async function kustoPrincipalAssignmentsList() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function kustoPrincipalAssignmentsList() {
   const resArray = new Array();
   for await (let item of client.clusterPrincipalAssignments.list(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function kustoPrincipalAssignmentsList() {
 }
 
 async function main() {
-  await kustoPrincipalAssignmentsList();
+  kustoPrincipalAssignmentsList();
 }
 
 main().catch(console.error);

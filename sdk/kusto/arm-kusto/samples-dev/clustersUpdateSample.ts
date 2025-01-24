@@ -11,7 +11,7 @@
 import {
   ClusterUpdate,
   ClustersUpdateOptionalParams,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update a Kusto cluster.
  *
  * @summary Update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersUpdate.json
  */
 async function kustoClustersUpdate() {
   const subscriptionId =
@@ -40,13 +40,13 @@ async function kustoClustersUpdate() {
     resourceGroupName,
     clusterName,
     parameters,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  await kustoClustersUpdate();
+  kustoClustersUpdate();
 }
 
 main().catch(console.error);

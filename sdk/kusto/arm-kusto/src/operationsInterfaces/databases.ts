@@ -27,7 +27,7 @@ import {
   DatabasesAddPrincipalsOptionalParams,
   DatabasesAddPrincipalsResponse,
   DatabasesRemovePrincipalsOptionalParams,
-  DatabasesRemovePrincipalsResponse
+  DatabasesRemovePrincipalsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export interface Databases {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: DatabasesListByClusterOptionalParams
+    options?: DatabasesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseUnion>;
   /**
    * Returns a list of database principals of the given Kusto cluster and database.
@@ -55,7 +55,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesListPrincipalsOptionalParams
+    options?: DatabasesListPrincipalsOptionalParams,
   ): PagedAsyncIterableIterator<DatabasePrincipal>;
   /**
    * Checks that the databases resource name is valid and is not already in use.
@@ -68,7 +68,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     resourceName: CheckNameRequest,
-    options?: DatabasesCheckNameAvailabilityOptionalParams
+    options?: DatabasesCheckNameAvailabilityOptionalParams,
   ): Promise<DatabasesCheckNameAvailabilityResponse>;
   /**
    * Returns a database.
@@ -81,7 +81,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesGetOptionalParams
+    options?: DatabasesGetOptionalParams,
   ): Promise<DatabasesGetResponse>;
   /**
    * Creates or updates a database.
@@ -96,7 +96,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: DatabasesCreateOrUpdateOptionalParams
+    options?: DatabasesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesCreateOrUpdateResponse>,
@@ -116,7 +116,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: DatabasesCreateOrUpdateOptionalParams
+    options?: DatabasesCreateOrUpdateOptionalParams,
   ): Promise<DatabasesCreateOrUpdateResponse>;
   /**
    * Updates a database.
@@ -131,7 +131,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesUpdateResponse>,
@@ -151,7 +151,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseUnion,
-    options?: DatabasesUpdateOptionalParams
+    options?: DatabasesUpdateOptionalParams,
   ): Promise<DatabasesUpdateResponse>;
   /**
    * Deletes the database with the given name.
@@ -164,7 +164,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the database with the given name.
@@ -177,7 +177,7 @@ export interface Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Add Database principals permissions.
@@ -192,7 +192,7 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     databasePrincipalsToAdd: DatabasePrincipalListRequest,
-    options?: DatabasesAddPrincipalsOptionalParams
+    options?: DatabasesAddPrincipalsOptionalParams,
   ): Promise<DatabasesAddPrincipalsResponse>;
   /**
    * Remove Database principals permissions.
@@ -207,6 +207,6 @@ export interface Databases {
     clusterName: string,
     databaseName: string,
     databasePrincipalsToRemove: DatabasePrincipalListRequest,
-    options?: DatabasesRemovePrincipalsOptionalParams
+    options?: DatabasesRemovePrincipalsOptionalParams,
   ): Promise<DatabasesRemovePrincipalsResponse>;
 }

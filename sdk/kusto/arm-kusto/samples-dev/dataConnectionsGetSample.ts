@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCosmosDbGet.json
  */
 async function kustoDataConnectionsCosmosDbGet() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function kustoDataConnectionsCosmosDbGet() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
@@ -44,7 +44,7 @@ async function kustoDataConnectionsCosmosDbGet() {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsEventGridGet.json
  */
 async function kustoDataConnectionsEventGridGet() {
   const subscriptionId =
@@ -61,7 +61,7 @@ async function kustoDataConnectionsEventGridGet() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
@@ -70,7 +70,7 @@ async function kustoDataConnectionsEventGridGet() {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsGet.json
  */
 async function kustoDataConnectionsGet() {
   const subscriptionId =
@@ -87,15 +87,15 @@ async function kustoDataConnectionsGet() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
 
 async function main() {
-  await kustoDataConnectionsCosmosDbGet();
-  await kustoDataConnectionsEventGridGet();
-  await kustoDataConnectionsGet();
+  kustoDataConnectionsCosmosDbGet();
+  kustoDataConnectionsEventGridGet();
+  kustoDataConnectionsGet();
 }
 
 main().catch(console.error);
