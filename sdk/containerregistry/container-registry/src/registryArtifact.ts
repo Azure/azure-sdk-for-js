@@ -191,7 +191,7 @@ export interface RegistryArtifact {
    *   console.log("tag: ", tag);
    * }
    * ```
-   * 
+   *
    * @param options - options to list tags
    */
   listTagProperties(

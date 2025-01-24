@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerRegistryClient, ContainerRegistryContentClient, KnownContainerRegistryAudience, KnownManifestMediaType, OciImageManifest } from "../src/index.js";
+import {
+  ContainerRegistryClient,
+  ContainerRegistryContentClient,
+  KnownContainerRegistryAudience,
+  KnownManifestMediaType,
+  OciImageManifest,
+} from "../src/index.js";
 import { AzureAuthorityHosts, DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -76,7 +82,7 @@ describe("snippets", () => {
     });
     // @ts-preserve-whitespace
     const image = client.getArtifact("library/hello-world", "v1");
-     // @ts-preserve-whitespace
+    // @ts-preserve-whitespace
     // Set permissions on the image's "latest" tag
     await image.updateTagProperties("latest", { canWrite: false, canDelete: false });
   });
@@ -178,11 +184,11 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Manifests of all media types have a buffer containing their content; this can be written to a file.
     writeFileSync("manifest.json", result.content);
-     // @ts-preserve-whitespace
+    // @ts-preserve-whitespace
     const configResult = await client.downloadBlob(manifest.config.digest);
     const configFile = createWriteStream("config.json");
     configResult.content.pipe(configFile);
-     // @ts-preserve-whitespace
+    // @ts-preserve-whitespace
     const trimSha = (digest: string): string => {
       const index = digest.indexOf(":");
       return index === -1 ? digest : digest.substring(index);
@@ -243,7 +249,9 @@ describe("snippets", () => {
 
     try {
       const uploadResult = await client.uploadBlob(config);
-      console.log(`Uploaded blob: digest - ${uploadResult.digest}, size - ${uploadResult.sizeInBytes}`);
+      console.log(
+        `Uploaded blob: digest - ${uploadResult.digest}, size - ${uploadResult.sizeInBytes}`,
+      );
     } catch (e) {
       // isRestError is exported by @azure/core-rest-pipeline
       if (
@@ -261,27 +269,21 @@ describe("snippets", () => {
   it("ContainerRepositoryUpdateProperties", async () => {
     const endpoint = "https://myregistryname.azurecr.io";
     const repositoryName = "library/hello-world";
-    const client = new ContainerRegistryClient(
-      endpoint,
-      new DefaultAzureCredential(),
-    );
+    const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
     const repository = client.getRepository(repositoryName);
     // @ts-preserve-whitespace
     const updated = await repository.updateProperties({
       canDelete: false,
       canList: false,
       canRead: false,
-      canWrite: false
+      canWrite: false,
     });
   });
 
   it("ContainerRepositoryListManifestProperties", async () => {
     const endpoint = "https://myregistryname.azurecr.io";
     const repositoryName = "library/hello-world";
-    const client = new ContainerRegistryClient(
-      endpoint,
-      new DefaultAzureCredential(),
-    );
+    const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
     const repository = client.getRepository(repositoryName);
     // @ts-preserve-whitespace
     for await (const manifest of repository.listManifestProperties()) {
@@ -293,17 +295,14 @@ describe("snippets", () => {
     const endpoint = "https://myregistryname.azurecr.io";
     const repositoryName = "library/hello-world";
     const artifactTagOrDigest = "latest";
-    const client = new ContainerRegistryClient(
-      endpoint,
-      new DefaultAzureCredential(),
-    );
+    const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
-    const artifact = client.getArtifact(repositoryName, artifactTagOrDigest)
+    const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
     const updated = await artifact.updateManifestProperties({
       canDelete: false,
       canList: false,
       canRead: false,
-      canWrite: false
+      canWrite: false,
     });
   });
 
@@ -312,17 +311,14 @@ describe("snippets", () => {
     const repositoryName = "library/hello-world";
     const artifactTagOrDigest = "latest";
     const tag = "latest";
-    const client = new ContainerRegistryClient(
-      endpoint,
-      new DefaultAzureCredential(),
-    );
+    const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
     const updated = await artifact.updateTagProperties(tag, {
       canDelete: false,
       canList: false,
       canRead: false,
-      canWrite: false
+      canWrite: false,
     });
   });
 
@@ -330,10 +326,7 @@ describe("snippets", () => {
     const endpoint = "https://myregistryname.azurecr.io";
     const repositoryName = "library/hello-world";
     const artifactTagOrDigest = "latest";
-    const client = new ContainerRegistryClient(
-      endpoint,
-      new DefaultAzureCredential(),
-    );
+    const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
     // @ts-preserve-whitespace
     const artifact = client.getArtifact(repositoryName, artifactTagOrDigest);
     for await (const tag of artifact.listTagProperties()) {
