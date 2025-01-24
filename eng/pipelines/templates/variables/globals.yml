@@ -9,5 +9,5 @@ variables:
   Codeql.SkipTaskAutoInjection: true
   # Disable warning until issue 21765 and 21766 are closed
   DisableDockerDetector: true
-  System.Diagnostic": true
-  System.Debug": true
+  System.Diagnostic: true
+  System.Debug: true
