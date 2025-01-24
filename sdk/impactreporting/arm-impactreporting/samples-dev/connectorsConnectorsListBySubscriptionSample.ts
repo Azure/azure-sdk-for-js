@@ -15,7 +15,7 @@ async function connectorsListBySubscription(): Promise<void> {
   const subscriptionId = "74f5e23f-d4d9-410a-bb4d-8f0608adb10d";
   const client = new ImpactClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.connectors.Connectors_listBySubscription()) {
+  for await (let item of client.connectors.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function connectorsListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectorsListBySubscription();
+  await connectorsListBySubscription();
 }
 
 main().catch(console.error);

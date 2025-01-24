@@ -14,11 +14,11 @@ async function connectorsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8F74B371-8573-4773-9BDA-D546505BDB3A";
   const client = new ImpactClient(credential, subscriptionId);
-  await client.connectors.Connectors_delete("testconnector1");
+  await client.connectors.delete("testconnector1");
 }
 
 async function main(): Promise<void> {
-  connectorsDelete();
+  await connectorsDelete();
 }
 
 main().catch(console.error);

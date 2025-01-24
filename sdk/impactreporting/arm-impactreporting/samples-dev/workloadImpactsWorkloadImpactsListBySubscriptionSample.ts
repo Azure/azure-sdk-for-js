@@ -23,7 +23,7 @@ async function listWorkloadImpactResourcesBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listWorkloadImpactResourcesBySubscription();
+  await listWorkloadImpactResourcesBySubscription();
 }
 
 main().catch(console.error);

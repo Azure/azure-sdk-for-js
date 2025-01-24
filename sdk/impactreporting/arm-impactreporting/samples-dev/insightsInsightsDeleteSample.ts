@@ -18,7 +18,7 @@ async function deleteAnInsight(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAnInsight();
+  await deleteAnInsight();
 }
 
 main().catch(console.error);

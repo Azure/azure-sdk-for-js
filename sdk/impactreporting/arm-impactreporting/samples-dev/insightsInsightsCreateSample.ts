@@ -38,7 +38,7 @@ async function creatingAnInsight(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  creatingAnInsight();
+  await creatingAnInsight();
 }
 
 main().catch(console.error);

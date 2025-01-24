@@ -25,7 +25,7 @@ async function getImpactCategoriesListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getImpactCategoriesListBySubscription();
+  await getImpactCategoriesListBySubscription();
 }
 
 main().catch(console.error);

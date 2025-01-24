@@ -19,7 +19,7 @@ async function getWorkloadImpactResourceByNameExample(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getWorkloadImpactResourceByNameExample();
+  await getWorkloadImpactResourceByNameExample();
 }
 
 main().catch(console.error);

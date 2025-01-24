@@ -127,10 +127,10 @@ async function reportingPerformanceRelatedImpact(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportingArmOperationFailure();
-  reportingAvailabilityRelatedImpact();
-  reportingAConnectivityImpact();
-  reportingPerformanceRelatedImpact();
+  await reportingArmOperationFailure();
+  await reportingAvailabilityRelatedImpact();
+  await reportingAConnectivityImpact();
+  await reportingPerformanceRelatedImpact();
 }
 
 main().catch(console.error);
