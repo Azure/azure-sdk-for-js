@@ -64,6 +64,7 @@ import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
 import type { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
+import { Logger } from "../../shared/logging";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
@@ -232,8 +233,8 @@ function getRequestData(span: ReadableSpan): RequestData {
       try {
         const urlObj = new URL(requestData.Url);
         requestData.Name = `${httpMethod} ${urlObj.pathname}`;
-      } catch (ex) {
-        /* no-op */
+      } catch (ex: any) {
+        Logger.getInstance().info("Request data sent to live metrics has no valid URL field.", ex);
       }
     }
     const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
@@ -278,7 +279,10 @@ function getDependencyData(span: ReadableSpan): DependencyData {
         const dependencyUrl = new URL(String(httpUrl));
         dependencyData.Name = `${httpMethod} ${dependencyUrl.pathname}`;
       } catch (ex: any) {
-        /* no-op */
+        Logger.getInstance().info(
+          "Dependency data sent to live metrics has no valid URL field.",
+          ex,
+        );
       }
     }
     dependencyData.Type = DependencyTypes.Http;
