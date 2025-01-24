@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all the triggers configured in the device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/TriggerGetAllInDevice.json
  */
-async function triggerGetAllInDevice() {
+async function triggerGetAllInDevice(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -34,7 +34,7 @@ async function triggerGetAllInDevice() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggerGetAllInDevice();
 }
 
