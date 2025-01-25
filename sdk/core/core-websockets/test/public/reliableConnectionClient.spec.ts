@@ -85,7 +85,7 @@ describe("ReliableConnectionClient", () => {
     });
 
     it("throws when raced with close", async () => {
-      const client = createMockClient({ retryOptions: { timeoutInMs: 10 } });
+      const client = createMockClient({ retryOptions: { timeoutInMs: 100 } });
       for (let i = 0; i < 10; i++) {
         try {
           await Promise.race([client.open(), client.close()]);
