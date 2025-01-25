@@ -31,7 +31,13 @@ async function main(): Promise<void> {
   console.log(`Partial name is ${partial_name}`);
 
   const client = EasmDefender(
-    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
+    endpoint +
+      "/subscriptions/" +
+      subscription_id +
+      "/resourceGroups/" +
+      resource_group +
+      "/workspaces/" +
+      workspace_name,
     credential,
     {},
   );
@@ -49,13 +55,13 @@ async function main(): Promise<void> {
   }
 
   await disco_templates.body.value?.forEach((disco_template) => {
-        console.log(`${disco_template.id}: ${disco_template.displayName}`);
-      });
+    console.log(`${disco_template.id}: ${disco_template.displayName}`);
+  });
 
   // To get more detail about a disco template, we can call the /discoTemplates path with the GET verb.
   // From here, we can see the names and seeds which would be used in a discovery run.
   // Choose a template from one of the ids printed above
-  let template_id: string = "43488";
+  const template_id: string = "43488";
 
   const disco_template_response = await client
     .path("/discoTemplates/{templateId}", template_id)
@@ -72,8 +78,8 @@ async function main(): Promise<void> {
   await disco_template.names?.forEach(console.log);
   console.log(`The following seeds will be used:`);
   await disco_template.seeds?.forEach((seed) => {
-        console.log(`${seed.kind}, ${seed.name}`);
-      });
+    console.log(`${seed.kind}, ${seed.name}`);
+  });
 
   // The discovery template can be used to create a discovery group with using the /discoGroups/{groupName} path with the PUT verb.
   // Don't forget to run your new disco group by calling the /discoGroups/{groupName}:run path

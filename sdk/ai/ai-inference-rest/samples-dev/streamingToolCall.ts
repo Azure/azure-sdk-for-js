@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { IncomingMessage } from "http";
+import type { IncomingMessage } from "http";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values

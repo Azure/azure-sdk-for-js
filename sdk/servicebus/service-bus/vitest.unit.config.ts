@@ -24,6 +24,9 @@ export default mergeConfig(
           "Date",
         ],
       },
+      typecheck: {
+        enabled: false,
+      },
     },
   }),
 );

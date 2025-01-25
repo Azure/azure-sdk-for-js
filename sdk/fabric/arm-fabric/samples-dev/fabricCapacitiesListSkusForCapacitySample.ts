@@ -15,10 +15,7 @@ async function listEligibleSKUsForAnExistingCapacity() {
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fabricCapacities.listSkusForCapacity(
-    "TestRG",
-    "azsdktest",
-  )) {
+  for await (const item of client.fabricCapacities.listSkusForCapacity("TestRG", "azsdktest")) {
     resArray.push(item);
   }
 

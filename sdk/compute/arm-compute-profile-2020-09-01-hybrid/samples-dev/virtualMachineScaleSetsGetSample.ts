@@ -27,7 +27,7 @@ async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutom
 }
 
 async function main(): Promise<void> {
-  await getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement()
+  await getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement();
 }
 
 main().catch(console.error);

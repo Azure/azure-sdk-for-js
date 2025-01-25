@@ -37,7 +37,7 @@ async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProvider
 }
 
 async function main(): Promise<void> {
-  await exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals()
+  await exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals();
 }
 
 main().catch(console.error);

@@ -27,7 +27,7 @@ async function generateAnSshKeyPair(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await generateAnSshKeyPair()
+  await generateAnSshKeyPair();
 }
 
 main().catch(console.error);

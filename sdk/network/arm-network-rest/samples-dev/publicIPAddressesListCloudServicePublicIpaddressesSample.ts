@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  PublicIPAddressesListCloudServicePublicIPAddressesParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { PublicIPAddressesListCloudServicePublicIPAddressesParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

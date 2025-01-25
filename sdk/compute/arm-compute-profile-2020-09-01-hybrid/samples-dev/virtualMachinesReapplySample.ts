@@ -27,7 +27,7 @@ async function reapplyTheStateOfAVirtualMachine(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await reapplyTheStateOfAVirtualMachine()
+  await reapplyTheStateOfAVirtualMachine();
 }
 
 main().catch(console.error);
