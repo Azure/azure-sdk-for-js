@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   CloudServiceOperatingSystemsGetOSFamilyParameters,
 } from "@azure-rest/arm-compute";

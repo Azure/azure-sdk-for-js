@@ -34,7 +34,7 @@ async function deleteVirtualMachineScaleSetVMExtension(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await deleteVirtualMachineScaleSetVMExtension()
+  await deleteVirtualMachineScaleSetVMExtension();
 }
 
 main().catch(console.error);

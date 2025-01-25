@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import type { DdosProtectionPlansUpdateTagsParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -1460,27 +1460,27 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  await createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage()
-  await createAPlatformImageScaleSetWithUnmanagedOSDisks()
-  await createAScaleSetFromACustomImage()
-  await createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
-  await createAScaleSetWithFpgaNetworkInterfaces()
-  await createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty()
-  await createAScaleSetWithAMarketplaceImagePlan()
-  await createAScaleSetWithAnAzureApplicationGateway()
-  await createAScaleSetWithAnAzureLoadBalancer()
-  await createAScaleSetWithAutomaticRepairsEnabled()
-  await createAScaleSetWithBootDiagnostics()
-  await createAScaleSetWithEmptyDataDisksOnEachVM()
-  await createAScaleSetWithEphemeralOSDisksUsingPlacementProperty()
-  await createAScaleSetWithEphemeralOSDisks()
-  await createAScaleSetWithExtensionTimeBudget()
-  await createAScaleSetWithManagedBootDiagnostics()
-  await createAScaleSetWithPasswordAuthentication()
-  await createAScaleSetWithPremiumStorage()
-  await createAScaleSetWithSshAuthentication()
-  await createAScaleSetWithTerminateScheduledEventsEnabled()
-  await createAScaleSetWithVirtualMachinesInDifferentZones()
+  await createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage();
+  await createAPlatformImageScaleSetWithUnmanagedOSDisks();
+  await createAScaleSetFromACustomImage();
+  await createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk();
+  await createAScaleSetWithFpgaNetworkInterfaces();
+  await createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty();
+  await createAScaleSetWithAMarketplaceImagePlan();
+  await createAScaleSetWithAnAzureApplicationGateway();
+  await createAScaleSetWithAnAzureLoadBalancer();
+  await createAScaleSetWithAutomaticRepairsEnabled();
+  await createAScaleSetWithBootDiagnostics();
+  await createAScaleSetWithEmptyDataDisksOnEachVM();
+  await createAScaleSetWithEphemeralOSDisksUsingPlacementProperty();
+  await createAScaleSetWithEphemeralOSDisks();
+  await createAScaleSetWithExtensionTimeBudget();
+  await createAScaleSetWithManagedBootDiagnostics();
+  await createAScaleSetWithPasswordAuthentication();
+  await createAScaleSetWithPremiumStorage();
+  await createAScaleSetWithSshAuthentication();
+  await createAScaleSetWithTerminateScheduledEventsEnabled();
+  await createAScaleSetWithVirtualMachinesInDifferentZones();
 }
 
 main().catch(console.error);

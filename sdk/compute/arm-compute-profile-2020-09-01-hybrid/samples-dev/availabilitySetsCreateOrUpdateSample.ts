@@ -37,7 +37,7 @@ async function createAnAvailabilitySet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createAnAvailabilitySet()
+  await createAnAvailabilitySet();
 }
 
 main().catch(console.error);

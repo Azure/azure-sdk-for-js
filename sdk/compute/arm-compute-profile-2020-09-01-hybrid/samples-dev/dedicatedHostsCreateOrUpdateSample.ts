@@ -40,7 +40,7 @@ async function createOrUpdateADedicatedHost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createOrUpdateADedicatedHost()
+  await createOrUpdateADedicatedHost();
 }
 
 main().catch(console.error);

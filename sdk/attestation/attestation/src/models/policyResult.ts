@@ -1,12 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- */
-
 import type { PolicyModification } from "./index.js";
 import * as Mappers from "../generated/models/mappers.js";
 

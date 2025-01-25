@@ -30,7 +30,13 @@ async function main(): Promise<void> {
   const saved_filter_name = "Sample saved filter";
 
   const client = EasmDefender(
-    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
+    endpoint +
+      "/subscriptions/" +
+      subscription_id +
+      "/resourceGroups/" +
+      resource_group +
+      "/workspaces/" +
+      workspace_name,
     credential,
     {},
   );
