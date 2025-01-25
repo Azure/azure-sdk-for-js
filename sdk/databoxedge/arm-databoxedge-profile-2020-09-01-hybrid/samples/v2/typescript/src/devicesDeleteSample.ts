@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes the Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/DataBoxEdgeDeviceDelete.json
  */
-async function dataBoxEdgeDeviceDelete() {
+async function dataBoxEdgeDeviceDelete(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -31,7 +31,7 @@ async function dataBoxEdgeDeviceDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataBoxEdgeDeviceDelete();
 }
 

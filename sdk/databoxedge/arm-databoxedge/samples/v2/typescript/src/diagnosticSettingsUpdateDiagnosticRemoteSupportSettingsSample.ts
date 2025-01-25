@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates the diagnostic remote support settings on a Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/UpdateDiagnosticRemoteSupportSettings.json
  */
-async function updateDiagnosticRemoteSupportSettings() {
+async function updateDiagnosticRemoteSupportSettings(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const resourceGroupName = "GroupForEdgeAutomation";
