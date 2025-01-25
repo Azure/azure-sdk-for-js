@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsDelete.json
  */
-async function jobsDelete() {
+async function jobsDelete(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -30,7 +30,7 @@ async function jobsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsDelete();
 }
 

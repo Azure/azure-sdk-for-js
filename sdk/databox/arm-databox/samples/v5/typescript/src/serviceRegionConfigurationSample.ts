@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary This API provides configuration details specific to given region/location at Subscription level.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/RegionConfiguration.json
  */
-async function regionConfiguration() {
+async function regionConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
@@ -37,7 +37,7 @@ async function regionConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   regionConfiguration();
 }
 

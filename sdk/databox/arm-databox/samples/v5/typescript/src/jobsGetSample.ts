@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGet.json
  */
-async function jobsGet() {
+async function jobsGet(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -38,7 +38,7 @@ async function jobsGet() {
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetCmk.json
  */
-async function jobsGetCmk() {
+async function jobsGetCmk(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -58,7 +58,7 @@ async function jobsGetCmk() {
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetCopyStuck.json
  */
-async function jobsGetCopyStuck() {
+async function jobsGetCopyStuck(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -78,7 +78,7 @@ async function jobsGetCopyStuck() {
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetExport.json
  */
-async function jobsGetExport() {
+async function jobsGetExport(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -98,7 +98,7 @@ async function jobsGetExport() {
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetWaitingForAction.json
  */
-async function jobsGetWaitingForAction() {
+async function jobsGetWaitingForAction(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -112,7 +112,7 @@ async function jobsGetWaitingForAction() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsGet();
   jobsGetCmk();
   jobsGetCopyStuck();
