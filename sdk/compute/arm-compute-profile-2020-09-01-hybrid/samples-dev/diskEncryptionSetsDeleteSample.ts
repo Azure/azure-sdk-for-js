@@ -30,7 +30,7 @@ async function deleteADiskEncryptionSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await deleteADiskEncryptionSet()
+  await deleteADiskEncryptionSet();
 }
 
 main().catch(console.error);

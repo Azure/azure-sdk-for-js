@@ -28,7 +28,7 @@ async function getADedicatedHost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getADedicatedHost()
+  await getADedicatedHost();
 }
 
 main().catch(console.error);

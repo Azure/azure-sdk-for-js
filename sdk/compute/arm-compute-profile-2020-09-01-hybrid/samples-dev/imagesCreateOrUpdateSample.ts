@@ -357,16 +357,16 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot(): P
 }
 
 async function main(): Promise<void> {
-  await createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource()
-  await createAVirtualMachineImageFromABlob()
-  await createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource()
-  await createAVirtualMachineImageFromAManagedDisk()
-  await createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource()
-  await createAVirtualMachineImageFromASnapshot()
-  await createAVirtualMachineImageFromAnExistingVirtualMachine()
-  await createAVirtualMachineImageThatIncludesADataDiskFromABlob()
-  await createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
-  await createAVirtualMachineImageThatIncludesADataDiskFromASnapshot()
+  await createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource();
+  await createAVirtualMachineImageFromABlob();
+  await createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource();
+  await createAVirtualMachineImageFromAManagedDisk();
+  await createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource();
+  await createAVirtualMachineImageFromASnapshot();
+  await createAVirtualMachineImageFromAnExistingVirtualMachine();
+  await createAVirtualMachineImageThatIncludesADataDiskFromABlob();
+  await createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk();
+  await createAVirtualMachineImageThatIncludesADataDiskFromASnapshot();
 }
 
 main().catch(console.error);

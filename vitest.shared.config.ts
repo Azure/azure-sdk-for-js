@@ -35,9 +35,9 @@ export default defineConfig({
       reportsDirectory: "coverage",
     },
     typecheck: {
-      include: ["test/snippets.spec.ts"],
       enabled: true,
       tsconfig: "tsconfig.test.json",
+      include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"],
     },
   },
 });
