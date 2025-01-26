@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { SandboxCustomImage, KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a sandbox custom image.
  *
  * @summary Updates a sandbox custom image.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSandboxCustomImageUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImageUpdate.json
  */
-async function kustoSandboxCustomImagesUpdate() {
+async function kustoSandboxCustomImagesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -31,7 +29,7 @@ async function kustoSandboxCustomImagesUpdate() {
   const parameters: SandboxCustomImage = {
     languageVersion: "3.10.8",
     requirementsFileContent: "Requests",
-    language: "Python"
+    language: "Python",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -39,13 +37,13 @@ async function kustoSandboxCustomImagesUpdate() {
     resourceGroupName,
     clusterName,
     sandboxCustomImageName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoSandboxCustomImagesUpdate();
+async function main(): Promise<void> {
+  await kustoSandboxCustomImagesUpdate();
 }
 
 main().catch(console.error);

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of managed private endpoints.
  *
  * @summary Returns the list of managed private endpoints.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoManagedPrivateEndpointsList.json
  */
-async function kustoManagedPrivateEndpointsList() {
+async function kustoManagedPrivateEndpointsList(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -32,15 +30,15 @@ async function kustoManagedPrivateEndpointsList() {
   const resArray = new Array();
   for await (let item of client.managedPrivateEndpoints.list(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  kustoManagedPrivateEndpointsList();
+async function main(): Promise<void> {
+  await kustoManagedPrivateEndpointsList();
 }
 
 main().catch(console.error);

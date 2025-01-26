@@ -7,17 +7,15 @@
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the network endpoints of all outbound dependencies of a Kusto cluster
  *
  * @summary Gets the network endpoints of all outbound dependencies of a Kusto cluster
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoOutboundNetworkDependenciesList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoOutboundNetworkDependenciesList.json
  */
-async function getKustoClusterOutboundNetworkDependencies() {
+async function getKustoClusterOutboundNetworkDependencies(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
@@ -34,7 +32,7 @@ async function getKustoClusterOutboundNetworkDependencies() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getKustoClusterOutboundNetworkDependencies();
 }
 

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Kusto cluster principalAssignment.
  *
  * @summary Gets a Kusto cluster principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterPrincipalAssignmentsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterPrincipalAssignmentsGet.json
  */
-async function kustoClusterPrincipalAssignmentsGet() {
+async function kustoClusterPrincipalAssignmentsGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -33,13 +31,13 @@ async function kustoClusterPrincipalAssignmentsGet() {
   const result = await client.clusterPrincipalAssignments.get(
     resourceGroupName,
     clusterName,
-    principalAssignmentName
+    principalAssignmentName,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoClusterPrincipalAssignmentsGet();
+async function main(): Promise<void> {
+  await kustoClusterPrincipalAssignmentsGet();
 }
 
 main().catch(console.error);

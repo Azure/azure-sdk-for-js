@@ -7,17 +7,15 @@
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all Kusto clusters within a subscription.
  *
  * @summary Lists all Kusto clusters within a subscription.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersList.json
  */
-async function kustoClustersList() {
+async function kustoClustersList(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function kustoClustersList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoClustersList();
 }
 
