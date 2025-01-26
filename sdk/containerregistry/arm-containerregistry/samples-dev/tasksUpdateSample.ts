@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  TaskUpdateParameters,
-  ContainerRegistryManagementClient
-} from "@azure/arm-containerregistry";
+import type { TaskUpdateParameters } from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +19,8 @@ import "dotenv/config";
  */
 async function tasksUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters: TaskUpdateParameters = {
@@ -37,18 +31,18 @@ async function tasksUpdate(): Promise<void> {
           identity: "[system]",
           password: {
             type: "Vaultsecret",
-            value: "https://myacbvault.vault.azure.net/secrets/password"
+            value: "https://myacbvault.vault.azure.net/secrets/password",
           },
-          userName: { type: "Opaque", value: "username" }
-        }
-      }
+          userName: { type: "Opaque", value: "username" },
+        },
+      },
     },
     logTemplate: "acr/tasks:{{.Run.OS}}",
     status: "Enabled",
     step: {
       type: "Docker",
       dockerFilePath: "src/DockerFile",
-      imageNames: ["azurerest:testtag1"]
+      imageNames: ["azurerest:testtag1"],
     },
     tags: { testkey: "value" },
     trigger: {
@@ -56,23 +50,20 @@ async function tasksUpdate(): Promise<void> {
         {
           name: "mySourceTrigger",
           sourceRepository: {
-            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" }
+            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
           },
-          sourceTriggerEvents: ["commit"]
-        }
-      ]
-    }
+          sourceTriggerEvents: ["commit"],
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
@@ -85,27 +76,22 @@ async function tasksUpdate(): Promise<void> {
  */
 async function tasksUpdateQuickTask(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "quicktask";
   const taskUpdateParameters: TaskUpdateParameters = {
     logTemplate: "acr/tasks:{{.Run.OS}}",
     status: "Enabled",
-    tags: { testkey: "value" }
+    tags: { testkey: "value" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
@@ -118,10 +104,8 @@ async function tasksUpdateQuickTask(): Promise<void> {
  */
 async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters: TaskUpdateParameters = {
@@ -132,21 +116,21 @@ async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
           identity: "[system]",
           password: {
             type: "Vaultsecret",
-            value: "https://myacbvault.vault.azure.net/secrets/password"
+            value: "https://myacbvault.vault.azure.net/secrets/password",
           },
           userName: {
             type: "Vaultsecret",
-            value: "https://myacbvault.vault.azure.net/secrets/username"
-          }
-        }
-      }
+            value: "https://myacbvault.vault.azure.net/secrets/username",
+          },
+        },
+      },
     },
     logTemplate: undefined,
     status: "Enabled",
     step: {
       type: "Docker",
       dockerFilePath: "src/DockerFile",
-      imageNames: ["azurerest:testtag1"]
+      imageNames: ["azurerest:testtag1"],
     },
     tags: { testkey: "value" },
     trigger: {
@@ -154,23 +138,20 @@ async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
         {
           name: "mySourceTrigger",
           sourceRepository: {
-            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" }
+            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
           },
-          sourceTriggerEvents: ["commit"]
-        }
-      ]
-    }
+          sourceTriggerEvents: ["commit"],
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
@@ -183,23 +164,21 @@ async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
  */
 async function tasksUpdateWithMsiCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters: TaskUpdateParameters = {
     agentConfiguration: { cpu: 3 },
     credentials: {
-      customRegistries: { myregistryAzurecrIo: { identity: "[system]" } }
+      customRegistries: { myregistryAzurecrIo: { identity: "[system]" } },
     },
     logTemplate: undefined,
     status: "Enabled",
     step: {
       type: "Docker",
       dockerFilePath: "src/DockerFile",
-      imageNames: ["azurerest:testtag1"]
+      imageNames: ["azurerest:testtag1"],
     },
     tags: { testkey: "value" },
     trigger: {
@@ -207,23 +186,20 @@ async function tasksUpdateWithMsiCustomCredentials(): Promise<void> {
         {
           name: "mySourceTrigger",
           sourceRepository: {
-            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" }
+            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
           },
-          sourceTriggerEvents: ["commit"]
-        }
-      ]
-    }
+          sourceTriggerEvents: ["commit"],
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
@@ -236,10 +212,8 @@ async function tasksUpdateWithMsiCustomCredentials(): Promise<void> {
  */
 async function tasksUpdateWithOpaqueCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters: TaskUpdateParameters = {
@@ -248,16 +222,16 @@ async function tasksUpdateWithOpaqueCustomCredentials(): Promise<void> {
       customRegistries: {
         myregistryAzurecrIo: {
           password: { type: "Opaque", value: "***" },
-          userName: { type: "Opaque", value: "username" }
-        }
-      }
+          userName: { type: "Opaque", value: "username" },
+        },
+      },
     },
     logTemplate: undefined,
     status: "Enabled",
     step: {
       type: "Docker",
       dockerFilePath: "src/DockerFile",
-      imageNames: ["azurerest:testtag1"]
+      imageNames: ["azurerest:testtag1"],
     },
     tags: { testkey: "value" },
     trigger: {
@@ -265,23 +239,20 @@ async function tasksUpdateWithOpaqueCustomCredentials(): Promise<void> {
         {
           name: "mySourceTrigger",
           sourceRepository: {
-            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" }
+            sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
           },
-          sourceTriggerEvents: ["commit"]
-        }
-      ]
-    }
+          sourceTriggerEvents: ["commit"],
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }

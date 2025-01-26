@@ -15,7 +15,7 @@ async function privateEndpointConnectionsListByDeidServiceGeneratedByMaximumSetR
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByDeidService(
+  for await (const item of client.privateEndpointConnections.listByDeidService(
     "rgopenapi",
     "deidTest",
   )) {

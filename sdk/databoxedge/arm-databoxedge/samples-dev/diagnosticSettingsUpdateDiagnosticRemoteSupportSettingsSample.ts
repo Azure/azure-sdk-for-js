@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DiagnosticRemoteSupportSettings,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { DiagnosticRemoteSupportSettings } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -29,16 +25,16 @@ async function updateDiagnosticRemoteSupportSettings(): Promise<void> {
       {
         accessLevel: "ReadWrite",
         expirationTimeStampInUTC: new Date("2021-07-07T00:00:00+00:00"),
-        remoteApplicationType: "Powershell"
-      }
-    ]
+        remoteApplicationType: "Powershell",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.diagnosticSettings.beginUpdateDiagnosticRemoteSupportSettingsAndWait(
     deviceName,
     resourceGroupName,
-    diagnosticRemoteSupportSettings
+    diagnosticRemoteSupportSettings,
   );
   console.log(result);
 }

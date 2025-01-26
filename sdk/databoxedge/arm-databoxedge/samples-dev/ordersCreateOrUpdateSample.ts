@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { Order, DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
+import type { Order } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -26,7 +25,7 @@ async function orderPut(): Promise<void> {
       companyName: "Microsoft",
       contactPerson: "John Mcclane",
       emailList: ["john@microsoft.com"],
-      phone: "(800) 426-9400"
+      phone: "(800) 426-9400",
     },
     shippingAddress: {
       addressLine1: "Microsoft Corporation",
@@ -35,15 +34,15 @@ async function orderPut(): Promise<void> {
       city: "WA",
       country: "USA",
       postalCode: "98052",
-      state: "WA"
-    }
+      state: "WA",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.orders.beginCreateOrUpdateAndWait(
     deviceName,
     resourceGroupName,
-    order
+    order,
   );
   console.log(result);
 }

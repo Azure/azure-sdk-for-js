@@ -95,14 +95,14 @@ function getContentType(body: any): string | undefined {
   if (typeof body === "string") {
     try {
       JSON.parse(body);
-      return "application/json; charset=UTF-8";
+      return "application/json";
     } catch (error: any) {
       // If we fail to parse the body, it is not json
       return undefined;
     }
   }
   // By default return json
-  return "application/json; charset=UTF-8";
+  return "application/json";
 }
 
 export interface InternalRequestParameters extends RequestParameters {

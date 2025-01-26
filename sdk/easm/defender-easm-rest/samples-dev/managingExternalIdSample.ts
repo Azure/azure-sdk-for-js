@@ -52,7 +52,13 @@ async function main(): Promise<void> {
   const external_id_mapping: MappingType[] = JSON.parse(process.env.MAPPING!);
 
   const client = EasmDefender(
-    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
+    endpoint +
+      "/subscriptions/" +
+      subscription_id +
+      "/resourceGroups/" +
+      resource_group +
+      "/workspaces/" +
+      workspace_name,
     credential,
     {},
   );
@@ -63,36 +69,36 @@ async function main(): Promise<void> {
   const update_ids: string[] = [];
 
   await external_id_mapping.forEach(async (mapping) => {
-        external_ids.push(mapping.external_id);
+    external_ids.push(mapping.external_id);
 
-        const task_response = await client.path("/assets").post({
-          body: {
-            externalId: mapping.external_id,
-          },
-          queryParameters: {
-            filter: `kind = ${mapping.kind} AND name = ${mapping.name}`,
-          },
-        });
+    const task_response = await client.path("/assets").post({
+      body: {
+        externalId: mapping.external_id,
+      },
+      queryParameters: {
+        filter: `kind = ${mapping.kind} AND name = ${mapping.name}`,
+      },
+    });
 
-        if (isUnexpected(task_response)) {
-          throw new Error(task_response.body?.error.message);
-        }
+    if (isUnexpected(task_response)) {
+      throw new Error(task_response.body?.error.message);
+    }
 
-        update_ids.push(task_response.body.id!);
-      });
+    update_ids.push(task_response.body.id!);
+  });
 
   // By calling the /tasks/{taskId} endpoint, we can view the progress of each update using the `get` method
   await update_ids.forEach(async (id) => {
-        const task_response = await client.path("/tasks/{taskId}", id).get();
+    const task_response = await client.path("/tasks/{taskId}", id).get();
 
-        if (isUnexpected(task_response)) {
-          throw new Error(task_response.body?.error.message);
-        }
+    if (isUnexpected(task_response)) {
+      throw new Error(task_response.body?.error.message);
+    }
 
-        const task = task_response.body;
+    const task = task_response.body;
 
-        console.log(`${task.id}: ${task.state}`);
-      });
+    console.log(`${task.id}: ${task.state}`);
+  });
 
   // The updates can be viewed by calling the /assets endpoint by creating a filter that matches on each external id using an `in` query
   const asset_filter = external_ids.join(",");
@@ -110,8 +116,8 @@ async function main(): Promise<void> {
   const assets = assets_response.body.value!;
 
   await assets.forEach((asset) => {
-        console.log(`${asset.externalId}, ${asset.name}`);
-      });
+    console.log(`${asset.externalId}, ${asset.name}`);
+  });
 }
 
 main().catch((err) => {

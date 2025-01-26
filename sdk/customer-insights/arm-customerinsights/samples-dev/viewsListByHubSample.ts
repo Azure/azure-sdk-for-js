@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,16 +21,9 @@ async function viewsListByHub(): Promise<void> {
   const hubName = "sdkTestHub";
   const userId = "*";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.views.listByHub(
-    resourceGroupName,
-    hubName,
-    userId
-  )) {
+  for await (const item of client.views.listByHub(resourceGroupName, hubName, userId)) {
     resArray.push(item);
   }
   console.log(resArray);
