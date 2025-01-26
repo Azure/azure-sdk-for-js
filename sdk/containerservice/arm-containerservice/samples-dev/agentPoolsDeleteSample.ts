@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,10 +18,8 @@ import "dotenv/config";
  */
 async function deleteAgentPool(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const credential = new DefaultAzureCredential();
@@ -44,10 +40,8 @@ async function deleteAgentPool(): Promise<void> {
  */
 async function deleteAgentPoolByIgnoringPodDisruptionBudget(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
   const credential = new DefaultAzureCredential();
@@ -61,8 +55,8 @@ async function deleteAgentPoolByIgnoringPodDisruptionBudget(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAgentPool();
-  deleteAgentPoolByIgnoringPodDisruptionBudget();
+  await deleteAgentPool();
+  await deleteAgentPoolByIgnoringPodDisruptionBudget();
 }
 
 main().catch(console.error);

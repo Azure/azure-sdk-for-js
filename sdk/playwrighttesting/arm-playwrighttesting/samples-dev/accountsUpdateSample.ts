@@ -22,7 +22,7 @@ async function accountsUpdate() {
 }
 
 async function main() {
-  accountsUpdate();
+  await accountsUpdate();
 }
 
 main().catch(console.error);

@@ -15,7 +15,7 @@ async function standbyVirtualMachinePoolsListBySubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.standbyVirtualMachinePools.listBySubscription()) {
+  for await (const item of client.standbyVirtualMachinePools.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function standbyVirtualMachinePoolsListBySubscription() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsListBySubscription();
+  await standbyVirtualMachinePoolsListBySubscription();
 }
 
 main().catch(console.error);

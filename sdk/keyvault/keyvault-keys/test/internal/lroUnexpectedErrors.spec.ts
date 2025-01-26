@@ -6,8 +6,6 @@ import { RecoverDeletedKeyPoller } from "../../src/lro/recover/poller.js";
 import { describe, it, assert } from "vitest";
 
 describe("The LROs properly throw on unexpected errors", () => {
-  const vaultUrl = `https://keyVaultName.vault.azure.net`;
-
   describe("delete LRO", () => {
     it("403 doesn't throw", async function () {
       const code = 403;
@@ -25,7 +23,6 @@ describe("The LROs properly throw on unexpected errors", () => {
         },
       };
       const poller = new DeleteKeyPoller({
-        vaultUrl,
         name: "name",
         client,
       });
@@ -51,7 +48,6 @@ describe("The LROs properly throw on unexpected errors", () => {
         },
       };
       const poller = new DeleteKeyPoller({
-        vaultUrl,
         name: "name",
         client,
       });
@@ -79,7 +75,6 @@ describe("The LROs properly throw on unexpected errors", () => {
           },
         };
         const poller = new DeleteKeyPoller({
-          vaultUrl,
           name: "name",
           client,
         });
@@ -113,7 +108,6 @@ describe("The LROs properly throw on unexpected errors", () => {
         },
       };
       const poller = new RecoverDeletedKeyPoller({
-        vaultUrl,
         name: "name",
         client,
       });
@@ -139,7 +133,6 @@ describe("The LROs properly throw on unexpected errors", () => {
         },
       };
       const poller = new RecoverDeletedKeyPoller({
-        vaultUrl,
         name: "name",
         client,
       });
@@ -167,7 +160,6 @@ describe("The LROs properly throw on unexpected errors", () => {
           },
         };
         const poller = new RecoverDeletedKeyPoller({
-          vaultUrl,
           name: "name",
           client,
         });

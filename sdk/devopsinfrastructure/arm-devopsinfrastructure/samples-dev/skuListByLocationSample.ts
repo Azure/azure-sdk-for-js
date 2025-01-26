@@ -15,7 +15,7 @@ async function skuListByLocation() {
   const subscriptionId = "a2e95d27-c161-4b61-bda4-11512c14c2c2";
   const client = new DevOpsInfrastructureClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sku.listByLocation("eastus")) {
+  for await (const item of client.sku.listByLocation("eastus")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function skuListByLocation() {
 }
 
 async function main() {
-  skuListByLocation();
+  await skuListByLocation();
 }
 
 main().catch(console.error);

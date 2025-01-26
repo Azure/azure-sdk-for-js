@@ -10,6 +10,7 @@
 
 - Should not use reserved 7th bit for statsbeat instrumentations.
 - Fix incorrectly setting the cloud role name and role instance to undefined on standard metrics in AKS environments.
+- Handle exceptions thrown when no http url is present on request telemetry quickpulse documents.
 
 ### Other Changes
 

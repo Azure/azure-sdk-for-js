@@ -15,7 +15,7 @@ async function instanceListByResourceGroup() {
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.instance.listByResourceGroup("rgiotoperations")) {
+  for await (const item of client.instance.listByResourceGroup("rgiotoperations")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function instanceListByResourceGroup() {
 }
 
 async function main() {
-  instanceListByResourceGroup();
+  await instanceListByResourceGroup();
 }
 
 main().catch(console.error);

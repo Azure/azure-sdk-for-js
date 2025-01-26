@@ -15,7 +15,7 @@ async function privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable() {
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinks.listByDeidService("rgopenapi", "deidTest")) {
+  for await (const item of client.privateLinks.listByDeidService("rgopenapi", "deidTest")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable();
+  await privateLinksListByDeidServiceGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   ScheduledAction,
   ScheduledActionsCreateOrUpdateByScopeOptionalParams,
-  CostManagementClient
 } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -31,18 +29,18 @@ async function createOrUpdateInsightAlertScheduledActionByScope(): Promise<void>
     kind: "InsightAlert",
     notification: {
       subject: "Cost anomaly detected in the resource",
-      to: ["user@gmail.com", "team@gmail.com"]
+      to: ["user@gmail.com", "team@gmail.com"],
     },
     schedule: {
       endDate: new Date("2021-06-19T22:21:51.1287144Z"),
       frequency: "Daily",
-      startDate: new Date("2020-06-19T22:21:51.1287144Z")
+      startDate: new Date("2020-06-19T22:21:51.1287144Z"),
     },
     status: "Enabled",
-    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample"
+    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample",
   };
   const options: ScheduledActionsCreateOrUpdateByScopeOptionalParams = {
-    ifMatch
+    ifMatch,
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -50,7 +48,7 @@ async function createOrUpdateInsightAlertScheduledActionByScope(): Promise<void>
     scope,
     name,
     scheduledAction,
-    options
+    options,
   );
   console.log(result);
 }
@@ -71,7 +69,7 @@ async function createOrUpdateScheduledActionByScope(): Promise<void> {
     kind: "Email",
     notification: {
       subject: "Cost by resource this month",
-      to: ["user@gmail.com", "team@gmail.com"]
+      to: ["user@gmail.com", "team@gmail.com"],
     },
     schedule: {
       daysOfWeek: ["Monday"],
@@ -79,13 +77,13 @@ async function createOrUpdateScheduledActionByScope(): Promise<void> {
       frequency: "Monthly",
       hourOfDay: 10,
       startDate: new Date("2020-06-19T22:21:51.1287144Z"),
-      weeksOfMonth: ["First", "Third"]
+      weeksOfMonth: ["First", "Third"],
     },
     status: "Enabled",
-    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample"
+    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample",
   };
   const options: ScheduledActionsCreateOrUpdateByScopeOptionalParams = {
-    ifMatch
+    ifMatch,
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -93,14 +91,14 @@ async function createOrUpdateScheduledActionByScope(): Promise<void> {
     scope,
     name,
     scheduledAction,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createOrUpdateInsightAlertScheduledActionByScope();
-  createOrUpdateScheduledActionByScope();
+  await createOrUpdateInsightAlertScheduledActionByScope();
+  await createOrUpdateScheduledActionByScope();
 }
 
 main().catch(console.error);

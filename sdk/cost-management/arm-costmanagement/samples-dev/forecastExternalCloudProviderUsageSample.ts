@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ForecastDefinition,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { ForecastDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -36,41 +32,41 @@ async function externalBillingAccountForecast(): Promise<void> {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.forecast.externalCloudProviderUsage(
     externalCloudProviderType,
     externalCloudProviderId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -96,48 +92,48 @@ async function externalSubscriptionForecast(): Promise<void> {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.forecast.externalCloudProviderUsage(
     externalCloudProviderType,
     externalCloudProviderId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  externalBillingAccountForecast();
-  externalSubscriptionForecast();
+  await externalBillingAccountForecast();
+  await externalSubscriptionForecast();
 }
 
 main().catch(console.error);

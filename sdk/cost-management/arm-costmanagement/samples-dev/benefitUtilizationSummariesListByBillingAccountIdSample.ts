@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  BenefitUtilizationSummariesListByBillingAccountIdOptionalParams,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { BenefitUtilizationSummariesListByBillingAccountIdOptionalParams } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,17 +19,16 @@ import "dotenv/config";
  */
 async function savingsPlanUtilizationSummariesBillingAccount(): Promise<void> {
   const billingAccountId = "12345";
-  const filter =
-    "properties/usageDate ge 2022-10-15 and properties/usageDate le 2022-10-18";
+  const filter = "properties/usageDate ge 2022-10-15 and properties/usageDate le 2022-10-18";
   const options: BenefitUtilizationSummariesListByBillingAccountIdOptionalParams = {
-    filter
+    filter,
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.benefitUtilizationSummaries.listByBillingAccountId(
+  for await (const item of client.benefitUtilizationSummaries.listByBillingAccountId(
     billingAccountId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -41,7 +36,7 @@ async function savingsPlanUtilizationSummariesBillingAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  savingsPlanUtilizationSummariesBillingAccount();
+  await savingsPlanUtilizationSummariesBillingAccount();
 }
 
 main().catch(console.error);

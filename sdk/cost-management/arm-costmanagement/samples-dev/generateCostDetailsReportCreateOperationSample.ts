@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GenerateCostDetailsReportRequestDefinition,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { GenerateCostDetailsReportRequestDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -25,13 +21,13 @@ async function generateCostDetailsReportByBillingAccountEnterpriseAgreementCusto
   const scope = "providers/Microsoft.Billing/billingAccounts/12345";
   const parameters: GenerateCostDetailsReportRequestDefinition = {
     billingPeriod: "202205",
-    metric: "ActualCost"
+    metric: "ActualCost",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.generateCostDetailsReport.beginCreateOperationAndWait(
     scope,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -43,17 +39,16 @@ async function generateCostDetailsReportByBillingAccountEnterpriseAgreementCusto
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateCostDetailsReportByBillingProfileAndInvoiceId.json
  */
 async function generateCostDetailsReportByBillingProfileAndInvoiceId(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const parameters: GenerateCostDetailsReportRequestDefinition = {
     invoiceId: "M1234567",
-    metric: "ActualCost"
+    metric: "ActualCost",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.generateCostDetailsReport.beginCreateOperationAndWait(
     scope,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -65,17 +60,16 @@ async function generateCostDetailsReportByBillingProfileAndInvoiceId(): Promise<
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerId.json
  */
 async function generateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerId(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579";
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579";
   const parameters: GenerateCostDetailsReportRequestDefinition = {
     invoiceId: "M1234567",
-    metric: "ActualCost"
+    metric: "ActualCost",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.generateCostDetailsReport.beginCreateOperationAndWait(
     scope,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -87,17 +81,16 @@ async function generateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerI
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateCostDetailsReportByCustomerAndTimePeriod.json
  */
 async function generateCostDetailsReportByCustomerAndTimePeriod(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579";
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579";
   const parameters: GenerateCostDetailsReportRequestDefinition = {
     metric: "ActualCost",
-    timePeriod: { end: "2020-03-15", start: "2020-03-01" }
+    timePeriod: { end: "2020-03-15", start: "2020-03-01" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.generateCostDetailsReport.beginCreateOperationAndWait(
     scope,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -112,13 +105,13 @@ async function generateCostDetailsReportByDepartmentsAndTimePeriod(): Promise<vo
   const scope = "providers/Microsoft.Billing/departments/12345";
   const parameters: GenerateCostDetailsReportRequestDefinition = {
     metric: "ActualCost",
-    timePeriod: { end: "2020-03-15", start: "2020-03-01" }
+    timePeriod: { end: "2020-03-15", start: "2020-03-01" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.generateCostDetailsReport.beginCreateOperationAndWait(
     scope,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -133,13 +126,13 @@ async function generateCostDetailsReportByEnrollmentAccountsAndTimePeriod(): Pro
   const scope = "providers/Microsoft.Billing/enrollmentAccounts/1234";
   const parameters: GenerateCostDetailsReportRequestDefinition = {
     metric: "ActualCost",
-    timePeriod: { end: "2020-03-15", start: "2020-03-01" }
+    timePeriod: { end: "2020-03-15", start: "2020-03-01" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.generateCostDetailsReport.beginCreateOperationAndWait(
     scope,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -154,25 +147,25 @@ async function generateCostDetailsReportBySubscriptionAndTimePeriod(): Promise<v
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const parameters: GenerateCostDetailsReportRequestDefinition = {
     metric: "ActualCost",
-    timePeriod: { end: "2020-03-15", start: "2020-03-01" }
+    timePeriod: { end: "2020-03-15", start: "2020-03-01" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.generateCostDetailsReport.beginCreateOperationAndWait(
     scope,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  generateCostDetailsReportByBillingAccountEnterpriseAgreementCustomerAndBillingPeriod();
-  generateCostDetailsReportByBillingProfileAndInvoiceId();
-  generateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerId();
-  generateCostDetailsReportByCustomerAndTimePeriod();
-  generateCostDetailsReportByDepartmentsAndTimePeriod();
-  generateCostDetailsReportByEnrollmentAccountsAndTimePeriod();
-  generateCostDetailsReportBySubscriptionAndTimePeriod();
+  await generateCostDetailsReportByBillingAccountEnterpriseAgreementCustomerAndBillingPeriod();
+  await generateCostDetailsReportByBillingProfileAndInvoiceId();
+  await generateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerId();
+  await generateCostDetailsReportByCustomerAndTimePeriod();
+  await generateCostDetailsReportByDepartmentsAndTimePeriod();
+  await generateCostDetailsReportByEnrollmentAccountsAndTimePeriod();
+  await generateCostDetailsReportBySubscriptionAndTimePeriod();
 }
 
 main().catch(console.error);

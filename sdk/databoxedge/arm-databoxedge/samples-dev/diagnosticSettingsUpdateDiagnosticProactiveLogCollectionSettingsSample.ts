@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DiagnosticProactiveLogCollectionSettings,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { DiagnosticProactiveLogCollectionSettings } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -25,15 +21,16 @@ async function updateDiagnosticProactiveLogCollectionSettings(): Promise<void> {
   const deviceName = "testedgedevice";
   const resourceGroupName = "GroupForEdgeAutomation";
   const proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings = {
-    userConsent: "Enabled"
+    userConsent: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
-  const result = await client.diagnosticSettings.beginUpdateDiagnosticProactiveLogCollectionSettingsAndWait(
-    deviceName,
-    resourceGroupName,
-    proactiveLogCollectionSettings
-  );
+  const result =
+    await client.diagnosticSettings.beginUpdateDiagnosticProactiveLogCollectionSettingsAndWait(
+      deviceName,
+      resourceGroupName,
+      proactiveLogCollectionSettings,
+    );
   console.log(result);
 }
 

@@ -38,13 +38,13 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const translationResponse = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = translationResponse.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
-  //get Translation Statusby ID filter
+  // get Translation Statusby ID filter
   const queryParams = {
     ids: [operationId],
   };
@@ -63,8 +63,8 @@ export async function main() {
     console.log("Total documents submitted for translation = " + translationStatus.summary.total);
     console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
   }
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

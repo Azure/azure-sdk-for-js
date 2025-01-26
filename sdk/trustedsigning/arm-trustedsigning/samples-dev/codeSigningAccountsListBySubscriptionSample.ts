@@ -15,7 +15,7 @@ async function listsTrustedSigningAccountsWithinASubscription() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.codeSigningAccounts.listBySubscription()) {
+  for await (const item of client.codeSigningAccounts.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listsTrustedSigningAccountsWithinASubscription() {
 }
 
 async function main() {
-  listsTrustedSigningAccountsWithinASubscription();
+  await listsTrustedSigningAccountsWithinASubscription();
 }
 
 main().catch(console.error);

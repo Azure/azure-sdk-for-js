@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachinesCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachinesCreateOrUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
  */
-async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
+async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -82,7 +78,7 @@ createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault().catch(console.erro
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
  */
-async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings() {
+async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -154,7 +150,7 @@ createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatf
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
  */
-async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault() {
+async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -220,7 +216,7 @@ createALinuxVMWithAPatchSettingPatchModeOfImageDefault().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
  */
-async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform() {
+async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -291,7 +287,7 @@ createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatfo
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
  */
-async function createAVMFromACommunityGalleryImage() {
+async function createAVMFromACommunityGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -351,7 +347,7 @@ createAVMFromACommunityGalleryImage().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
  */
-async function createAVMFromASharedGalleryImage() {
+async function createAVMFromASharedGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -411,7 +407,7 @@ createAVMFromASharedGalleryImage().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskControllerType.json
  */
-async function createAVMWithDiskControllerType() {
+async function createAVMWithDiskControllerType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -481,7 +477,7 @@ createAVMWithDiskControllerType().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
  */
-async function createAVMWithHibernationEnabled() {
+async function createAVMWithHibernationEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -550,7 +546,7 @@ createAVMWithHibernationEnabled().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
  */
-async function createAVMWithUefiSettingsOfSecureBootAndVTpm() {
+async function createAVMWithUefiSettingsOfSecureBootAndVTpm(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -616,7 +612,7 @@ createAVMWithUefiSettingsOfSecureBootAndVTpm().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
  */
-async function createAVMWithUserData() {
+async function createAVMWithUserData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -685,7 +681,7 @@ createAVMWithUserData().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_CreateWithVMSizeProperties.json
  */
-async function createAVMWithVMSizeProperties() {
+async function createAVMWithVMSizeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -757,7 +753,7 @@ createAVMWithVMSizeProperties().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
  */
-async function createAVMWithNetworkInterfaceConfiguration() {
+async function createAVMWithNetworkInterfaceConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -839,7 +835,7 @@ createAVMWithNetworkInterfaceConfiguration().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
  */
-async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() {
+async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -913,7 +909,7 @@ createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys().catch(console.e
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
  */
-async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() {
+async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -984,7 +980,7 @@ createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys().catch(console.e
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
  */
-async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
+async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1051,7 +1047,7 @@ createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault().catch(console.er
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
+async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1118,7 +1114,7 @@ createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS().catch(console.error)
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings() {
+async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1191,7 +1187,7 @@ createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPla
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue() {
+async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1263,7 +1259,7 @@ createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatch
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
  */
-async function createAWindowsVMWithAPatchSettingPatchModeOfManual() {
+async function createAWindowsVMWithAPatchSettingPatchModeOfManual(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1330,7 +1326,7 @@ createAWindowsVMWithAPatchSettingPatchModeOfManual().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
  */
-async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform() {
+async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1402,7 +1398,7 @@ createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatf
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
  */
-async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
+async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1464,7 +1460,7 @@ createACustomImageVMFromAnUnmanagedGeneralizedOSImage().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
  */
-async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
+async function createAPlatformImageVMWithUnmanagedOSAndDataDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1546,7 +1542,7 @@ createAPlatformImageVMWithUnmanagedOSAndDataDisks().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
  */
-async function createAVMFromACustomImage() {
+async function createAVMFromACustomImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1605,7 +1601,7 @@ createAVMFromACustomImage().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
  */
-async function createAVMFromAGeneralizedSharedImage() {
+async function createAVMFromAGeneralizedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1664,7 +1660,7 @@ createAVMFromAGeneralizedSharedImage().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
  */
-async function createAVMFromASpecializedSharedImage() {
+async function createAVMFromASpecializedSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1718,7 +1714,7 @@ createAVMFromASpecializedSharedImage().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMacine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
  */
-async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain() {
+async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1784,7 +1780,7 @@ createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain().catc
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
  */
-async function createAVMInAnAvailabilitySet() {
+async function createAVMInAnAvailabilitySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1849,7 +1845,7 @@ createAVMInAnAvailabilitySet().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
  */
-async function createAVMWithApplicationProfile() {
+async function createAVMWithApplicationProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -1929,7 +1925,7 @@ createAVMWithApplicationProfile().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
  */
-async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() {
+async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2020,7 +2016,7 @@ createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk().catch(console.e
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
  */
-async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
+async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2088,7 +2084,7 @@ createAVMWithHostEncryptionUsingEncryptionAtHostProperty().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
  */
-async function createAVMWithScheduledEventsProfile() {
+async function createAVMWithScheduledEventsProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2162,7 +2158,7 @@ createAVMWithScheduledEventsProfile().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
  */
-async function createAVMWithAMarketplaceImagePlan() {
+async function createAVMWithAMarketplaceImagePlan(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2229,7 +2225,7 @@ createAVMWithAMarketplaceImagePlan().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
  */
-async function createAVMWithAnExtensionsTimeBudget() {
+async function createAVMWithAnExtensionsTimeBudget(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2298,7 +2294,7 @@ createAVMWithAnExtensionsTimeBudget().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMacine_Create_WithBootDiagnostics.json
  */
-async function createAVMWithBootDiagnostics() {
+async function createAVMWithBootDiagnostics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2366,7 +2362,7 @@ createAVMWithBootDiagnostics().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
  */
-async function createAVMWithEmptyDataDisks() {
+async function createAVMWithEmptyDataDisks(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2432,7 +2428,7 @@ createAVMWithEmptyDataDisks().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
  */
-async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty() {
+async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2500,7 +2496,7 @@ createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty().catc
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
  */
-async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty() {
+async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2568,7 +2564,7 @@ createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty().c
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
  */
-async function createAVMWithEphemeralOSDisk() {
+async function createAVMWithEphemeralOSDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2636,7 +2632,7 @@ createAVMWithEphemeralOSDisk().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
  */
-async function createAVMWithManagedBootDiagnostics() {
+async function createAVMWithManagedBootDiagnostics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2699,7 +2695,7 @@ createAVMWithManagedBootDiagnostics().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
  */
-async function createAVMWithPasswordAuthentication() {
+async function createAVMWithPasswordAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2761,7 +2757,7 @@ createAVMWithPasswordAuthentication().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
  */
-async function createAVMWithPremiumStorage() {
+async function createAVMWithPremiumStorage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2823,7 +2819,7 @@ createAVMWithPremiumStorage().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
  */
-async function createAVMWithSshAuthentication() {
+async function createAVMWithSshAuthentication(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -2896,7 +2892,7 @@ createAVMWithSshAuthentication().catch(console.error);
  * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
  */
-async function createOrUpdateAVMWithCapacityReservation() {
+async function createOrUpdateAVMWithCapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

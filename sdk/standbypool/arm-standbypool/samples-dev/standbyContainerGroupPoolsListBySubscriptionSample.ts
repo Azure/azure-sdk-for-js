@@ -15,7 +15,7 @@ async function standbyContainerGroupPoolsListBySubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.standbyContainerGroupPools.listBySubscription()) {
+  for await (const item of client.standbyContainerGroupPools.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function standbyContainerGroupPoolsListBySubscription() {
 }
 
 async function main() {
-  standbyContainerGroupPoolsListBySubscription();
+  await standbyContainerGroupPoolsListBySubscription();
 }
 
 main().catch(console.error);

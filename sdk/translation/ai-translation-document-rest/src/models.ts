@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 export interface DocumentTranslateContentDocumentPartDescriptor {
   name: "document";
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;

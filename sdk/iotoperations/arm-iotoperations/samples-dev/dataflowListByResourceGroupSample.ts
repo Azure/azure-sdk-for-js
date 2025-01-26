@@ -15,7 +15,7 @@ async function dataflowListByProfileResource() {
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dataflow.listByResourceGroup(
+  for await (const item of client.dataflow.listByResourceGroup(
     "rgiotoperations",
     "resource-name123",
     "resource-name123",
@@ -27,7 +27,7 @@ async function dataflowListByProfileResource() {
 }
 
 async function main() {
-  dataflowListByProfileResource();
+  await dataflowListByProfileResource();
 }
 
 main().catch(console.error);

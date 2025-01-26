@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -27,7 +25,7 @@ async function getDataBoundaryForTenant(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDataBoundaryForTenant();
+  await getDataBoundaryForTenant();
 }
 
 main().catch(console.error);

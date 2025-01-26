@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  DisksCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { DisksCreateOrUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_ConfidentialVMSupportedDiskEncryptedWithCMK.json
  */
-async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey() {
+async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -62,7 +58,7 @@ createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey().catch(consol
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithDiskAccess.json
  */
-async function createAManagedDiskAndAssociateWithDiskAccessResource() {
+async function createAManagedDiskAndAssociateWithDiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -101,7 +97,7 @@ createAManagedDiskAndAssociateWithDiskAccessResource().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithDiskEncryptionSet.json
  */
-async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
+async function createAManagedDiskAndAssociateWithDiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -141,7 +137,7 @@ createAManagedDiskAndAssociateWithDiskEncryptionSet().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_ByCopyingASnapshot.json
  */
-async function createAManagedDiskByCopyingASnapshot() {
+async function createAManagedDiskByCopyingASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -180,7 +176,7 @@ createAManagedDiskByCopyingASnapshot().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_ByImportingBlobFromADifferentSubscription.json
  */
-async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription() {
+async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -220,7 +216,7 @@ createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription().catch(c
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_ByImportingBlobFromTheSameSubscription.json
  */
-async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription() {
+async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -258,7 +254,7 @@ createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription().catch(cons
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromImportSecure.json
  */
-async function createAManagedDiskFromImportSecureCreateOption() {
+async function createAManagedDiskFromImportSecureCreateOption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -303,7 +299,7 @@ createAManagedDiskFromImportSecureCreateOption().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromUploadPreparedSecure.json
  */
-async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
+async function createAManagedDiskFromUploadPreparedSecureCreateOption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -343,7 +339,7 @@ createAManagedDiskFromUploadPreparedSecureCreateOption().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAPlatformImage.json
  */
-async function createAManagedDiskFromAPlatformImage() {
+async function createAManagedDiskFromAPlatformImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -384,7 +380,7 @@ createAManagedDiskFromAPlatformImage().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryCommunityImage.json
  */
-async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
+async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -426,7 +422,7 @@ createAManagedDiskFromAnAzureComputeGalleryCommunityImage().catch(console.error)
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryDirectSharedImage.json
  */
-async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
+async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -468,7 +464,7 @@ createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage().catch(console.err
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAnAzureComputeGalleryImage.json
  */
-async function createAManagedDiskFromAnAzureComputeGalleryImage() {
+async function createAManagedDiskFromAnAzureComputeGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -509,7 +505,7 @@ createAManagedDiskFromAnAzureComputeGalleryImage().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_FromAnExistingManagedDisk.json
  */
-async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription() {
+async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -548,7 +544,7 @@ createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription().ca
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithDataAccessAuthMode.json
  */
-async function createAManagedDiskWithDataAccessAuthMode() {
+async function createAManagedDiskWithDataAccessAuthMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -585,7 +581,7 @@ createAManagedDiskWithDataAccessAuthMode().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithOptimizedForFrequentAttach.json
  */
-async function createAManagedDiskWithOptimizedForFrequentAttach() {
+async function createAManagedDiskWithOptimizedForFrequentAttach(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -622,7 +618,7 @@ createAManagedDiskWithOptimizedForFrequentAttach().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_PerformancePlus.json
  */
-async function createAManagedDiskWithPerformancePlus() {
+async function createAManagedDiskWithPerformancePlus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -657,7 +653,7 @@ createAManagedDiskWithPerformancePlus().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithPremiumV2_LRSAccountType.json
  */
-async function createAManagedDiskWithPremiumV2AccountType() {
+async function createAManagedDiskWithPremiumV2AccountType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -696,7 +692,7 @@ createAManagedDiskWithPremiumV2AccountType().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithSecurityProfile.json
  */
-async function createAManagedDiskWithSecurityProfile() {
+async function createAManagedDiskWithSecurityProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -738,7 +734,7 @@ createAManagedDiskWithSecurityProfile().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithSSDZRSAccountType.json
  */
-async function createAManagedDiskWithSsdZrsAccountType() {
+async function createAManagedDiskWithSsdZrsAccountType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -772,7 +768,7 @@ createAManagedDiskWithSsdZrsAccountType().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithUltraSSD_ReadOnly.json
  */
-async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
+async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -812,7 +808,7 @@ createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet().catch(console.er
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_UploadDisk.json
  */
-async function createAManagedUploadDisk() {
+async function createAManagedUploadDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -847,7 +843,7 @@ createAManagedUploadDisk().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_InExtendedLocation.json
  */
-async function createAnEmptyManagedDiskInExtendedLocation() {
+async function createAnEmptyManagedDiskInExtendedLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -881,7 +877,7 @@ createAnEmptyManagedDiskInExtendedLocation().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_Empty.json
  */
-async function createAnEmptyManagedDisk() {
+async function createAnEmptyManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -914,7 +910,7 @@ createAnEmptyManagedDisk().catch(console.error);
  * @summary Creates or updates a disk.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_Create_WithLogicalSectorSize.json
  */
-async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
+async function createAnUltraManagedDiskWithLogicalSectorSize512E(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

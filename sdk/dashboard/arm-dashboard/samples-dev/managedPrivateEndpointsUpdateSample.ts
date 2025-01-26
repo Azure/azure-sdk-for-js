@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ManagedPrivateEndpointUpdateParameters,
-  DashboardManagementClient
-} from "@azure/arm-dashboard";
+import type { ManagedPrivateEndpointUpdateParameters } from "@azure/arm-dashboard";
+import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,14 +19,12 @@ import "dotenv/config";
  */
 async function managedPrivateEndpointsPatch(): Promise<void> {
   const subscriptionId =
-    process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["DASHBOARD_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
   const workspaceName = "myWorkspace";
   const managedPrivateEndpointName = "myMPEName";
   const requestBodyParameters: ManagedPrivateEndpointUpdateParameters = {
-    tags: { environment: "Dev 2" }
+    tags: { environment: "Dev 2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
@@ -38,13 +32,13 @@ async function managedPrivateEndpointsPatch(): Promise<void> {
     resourceGroupName,
     workspaceName,
     managedPrivateEndpointName,
-    requestBodyParameters
+    requestBodyParameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointsPatch();
+  await managedPrivateEndpointsPatch();
 }
 
 main().catch(console.error);

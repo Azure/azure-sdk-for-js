@@ -15,7 +15,7 @@ async function organizationsListByResourceGroup() {
   const subscriptionId = "1178323D-8270-4757-B639-D528B6266487";
   const client = new PostgresClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.organizations.listByResourceGroup("rgneon")) {
+  for await (const item of client.organizations.listByResourceGroup("rgneon")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function organizationsListByResourceGroup() {
 }
 
 async function main() {
-  organizationsListByResourceGroup();
+  await organizationsListByResourceGroup();
 }
 
 main().catch(console.error);

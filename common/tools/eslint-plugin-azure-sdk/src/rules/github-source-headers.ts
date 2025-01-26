@@ -8,14 +8,28 @@
 import { createRule } from "../utils/ruleCreator.js";
 import { TSESTree } from "@typescript-eslint/utils";
 
-const expectedLines = ["Copyright (c) Microsoft Corporation.", "Licensed under the MIT License."];
+const MINIMUM_NUMBER_COMMENTS_REQUIRED = 1;
+const validHeader1 = ["Copyright (c) Microsoft Corporation.", "Licensed under the MIT License."];
+const validLicenseText = ` * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT License.
+`;
 
-const expectedComments = `// ${expectedLines.join("\n// ")}\n\n`;
+const expectedComments = `// ${validHeader1.join("\n// ")}\n\n`;
 
 function isValid(comments: TSESTree.Comment[]): boolean {
-  return expectedLines
-    .map((l, idx) => ({ expected: l, actual: comments[idx] }))
-    .every((v) => v.actual.type === "Line" && v.expected === v.actual.value.trim());
+  if (comments.length < MINIMUM_NUMBER_COMMENTS_REQUIRED) {
+    return false;
+  }
+
+  if (
+    validHeader1
+      .map((l, idx) => ({ expected: l, actual: comments[idx] }))
+      .every((v) => v.actual.type === "Line" && v.expected === v.actual.value.trim())
+  ) {
+    return true;
+  }
+
+  return comments[0].type === "Block" && comments[0].value.includes(validLicenseText);
 }
 
 export default createRule({
@@ -33,7 +47,7 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    if (!/\.ts$/.test(context.filename)) {
+    if (!/\.ts|\.mts|\.cts$/.test(context.filename)) {
       return {};
     }
     return {
@@ -41,7 +55,7 @@ export default createRule({
         const sourceCode = context.sourceCode;
         const headerComments = sourceCode.getCommentsBefore(node);
 
-        if (headerComments.length < expectedLines.length || !isValid(headerComments)) {
+        if (!isValid(headerComments)) {
           const targetNode = headerComments[0] || node;
           context.report({
             node: targetNode,

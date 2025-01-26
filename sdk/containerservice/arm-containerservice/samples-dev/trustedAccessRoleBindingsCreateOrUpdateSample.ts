@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  TrustedAccessRoleBinding,
-  ContainerServiceClient,
-} from "@azure/arm-containerservice";
+import type { TrustedAccessRoleBinding } from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +19,8 @@ import "dotenv/config";
  */
 async function createOrUpdateATrustedAccessRoleBinding(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const trustedAccessRoleBindingName = "binding1";
   const trustedAccessRoleBinding: TrustedAccessRoleBinding = {
@@ -39,18 +33,17 @@ async function createOrUpdateATrustedAccessRoleBinding(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result =
-    await client.trustedAccessRoleBindings.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      resourceName,
-      trustedAccessRoleBindingName,
-      trustedAccessRoleBinding,
-    );
+  const result = await client.trustedAccessRoleBindings.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    resourceName,
+    trustedAccessRoleBindingName,
+    trustedAccessRoleBinding,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createOrUpdateATrustedAccessRoleBinding();
+  await createOrUpdateATrustedAccessRoleBinding();
 }
 
 main().catch(console.error);

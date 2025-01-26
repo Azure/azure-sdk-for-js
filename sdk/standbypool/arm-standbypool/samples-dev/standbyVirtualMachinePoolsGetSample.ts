@@ -19,7 +19,7 @@ async function standbyVirtualMachinePoolsGet() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsGet();
+  await standbyVirtualMachinePoolsGet();
 }
 
 main().catch(console.error);

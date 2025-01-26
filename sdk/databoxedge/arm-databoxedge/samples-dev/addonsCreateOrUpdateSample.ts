@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { ArcAddon, DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
+import type { ArcAddon } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -28,7 +27,7 @@ async function putAddOns(): Promise<void> {
     resourceGroupName: "GroupForEdgeAutomation",
     resourceLocation: "EastUS",
     resourceName: "testedgedevice",
-    subscriptionId: "4385cf00-2d3a-425a-832f-f4285b1c9dce"
+    subscriptionId: "4385cf00-2d3a-425a-832f-f4285b1c9dce",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
@@ -37,7 +36,7 @@ async function putAddOns(): Promise<void> {
     roleName,
     addonName,
     resourceGroupName,
-    addon
+    addon,
   );
   console.log(result);
 }

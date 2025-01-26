@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  CredentialSetUpdateParameters,
-  ContainerRegistryManagementClient
-} from "@azure/arm-containerregistry";
+import type { CredentialSetUpdateParameters } from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,39 +19,32 @@ import "dotenv/config";
  */
 async function credentialSetUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const credentialSetName = "myCredentialSet";
   const credentialSetUpdateParameters: CredentialSetUpdateParameters = {
     authCredentials: [
       {
         name: "Credential1",
-        passwordSecretIdentifier:
-          "https://myvault.vault.azure.net/secrets/password2",
-        usernameSecretIdentifier:
-          "https://myvault.vault.azure.net/secrets/username2"
-      }
-    ]
+        passwordSecretIdentifier: "https://myvault.vault.azure.net/secrets/password2",
+        usernameSecretIdentifier: "https://myvault.vault.azure.net/secrets/username2",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.credentialSets.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     credentialSetName,
-    credentialSetUpdateParameters
+    credentialSetUpdateParameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  credentialSetUpdate();
+  await credentialSetUpdate();
 }
 
 main().catch(console.error);

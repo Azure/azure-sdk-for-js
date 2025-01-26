@@ -5,15 +5,12 @@
  * @summary Exchange an AAD access token of a Teams user for a new Communication Identity access token.
  */
 
-import {
-  CommunicationAccessToken,
-  CommunicationIdentityClient,
-} from "@azure/communication-identity";
+import type { CommunicationAccessToken } from "@azure/communication-identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { PublicClientApplication } from "@azure/msal-node";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
@@ -26,7 +23,7 @@ const aadAuthority =
 const msalUsername = process.env["COMMUNICATION_MSAL_USERNAME"] || "<msal username>";
 const msalPassword = process.env["COMMUNICATION_MSAL_PASSWORD"] || "<msal password>";
 
-export async function main() {
+export async function main(): Promise<void> {
   if (process.env["SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST"] === "true") {
     console.log("Skipping the Get Access Token for Teams User sample");
     return;
@@ -62,11 +59,11 @@ export async function main() {
 
   // Retrieve the AAD token and object ID of a Teams user
   const response = await msalInstance.acquireTokenByUsernamePassword(usernamePasswordRequest);
-  let teamsToken = response!.accessToken;
+  const teamsToken = response!.accessToken;
   console.log(`Retrieved a token with the expiration: ${response!.extExpiresOn}`);
 
   // Retrieve the user object ID
-  let userObjectId = response!.uniqueId;
+  const userObjectId = response!.uniqueId;
 
   console.log("Exchanging the AAD access token for a Communication access token");
 

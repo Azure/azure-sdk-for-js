@@ -58,14 +58,15 @@ export class ContainerRegistryClient {
    * Creates an instance of a ContainerRegistryClient.
    *
    * Example usage:
-   * ```ts
-   * import { ContainerRegistryClient } from "@azure/container-registry";
-   * import { DefaultAzureCredential} from "@azure/identity";
+   * ```ts snippet:ReadmeSampleCreateClient_Node
+   * import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * const client = new ContainerRegistryClient(
-   *    "<container registry API endpoint>",
-   *    new DefaultAzureCredential()
-   * );
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * // Create a ContainerRegistryClient that will authenticate through Active Directory
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+   *   audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
+   * });
    * ```
    * @param endpoint - the URL endpoint of the container registry
    * @param credential - used to authenticate requests to the service
@@ -84,12 +85,14 @@ export class ContainerRegistryClient {
    * methods will throw errors.
    *
    * Example usage:
-   * ```ts
-   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * ```ts snippet:ReadmeSampleCreateClient_Anonymous
+   * import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
    *
-   * const client = new ContainerRegistryClient(
-   *    "<container registry API endpoint>",
-   * );
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * // Create a new ContainerRegistryClient for anonymous access
+   * const client = new ContainerRegistryClient(endpoint, {
+   *   audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
+   * });
    * ```
    * @param endpoint - the URL endpoint of the container registry
    * @param options - optional configuration used to send requests to the service
@@ -200,41 +203,22 @@ export class ContainerRegistryClient {
    * Returns an async iterable iterator to list names of repositories in this registry.
    *
    * Example usage:
-   * ```javascript
-   * let client = new ContainerRegistryClient(url, credential);
-   * for await (const repository of client.listRepositoryNames()) {
-   *   console.log("repository name: ", repository);
+   * ```ts snippet:SampleReadmeListRepositories
+   * import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+   *   audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
+   * });
+   *
+   * const iterator = client.listRepositoryNames();
+   * for await (const repository of iterator) {
+   *   console.log(`  repository: ${repository}`);
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```javascript
-   * let iter = client.listRepositoryNames();
-   * let item = await iter.next();
-   * while (!item.done) {
-   *   console.log(`repository name: ${item.value}`);
-   *   item = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```javascript
-   * const pages = client.listRepositoryNames().byPage({ maxPageSize: 2 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const name of page.value) {
-   *      console.log(`  repository name: ${name}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
-   * @param options -
+   * @param options - The options for the request
    */
   public listRepositoryNames(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options

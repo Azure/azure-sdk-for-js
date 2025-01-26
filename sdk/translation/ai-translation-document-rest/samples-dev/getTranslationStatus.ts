@@ -19,7 +19,7 @@ import {
   createBatchRequest,
   getTranslationOperationID,
 } from "../test/public/utils/testHelper";
-import { GetTranslationStatus200Response } from "../src/responses";
+import type { GetTranslationStatus200Response } from "../src/responses";
 import { isUnexpected } from "../src";
 dotenv.config();
 
@@ -39,13 +39,13 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const translationResponse = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = translationResponse.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
-  //get Translation Status
+  // get Translation Status
   const response = (await client
     .path("/document/batches/{id}", operationId)
     .get()) as GetTranslationStatus200Response;
@@ -60,8 +60,8 @@ export async function main() {
   console.log("Translation lastActionDateTimeUtc = " + responseBody.lastActionDateTimeUtc);
   console.log("Total documents submitted for translation = " + responseBody.summary.total);
   console.log("Total characters charged = " + responseBody.summary.totalCharacterCharged);
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

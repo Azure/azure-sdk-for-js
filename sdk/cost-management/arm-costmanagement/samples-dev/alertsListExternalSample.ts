@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -25,7 +23,7 @@ async function externalBillingAccountAlerts(): Promise<void> {
   const client = new CostManagementClient(credential);
   const result = await client.alerts.listExternal(
     externalCloudProviderType,
-    externalCloudProviderId
+    externalCloudProviderId,
   );
   console.log(result);
 }
@@ -43,14 +41,14 @@ async function externalSubscriptionAlerts(): Promise<void> {
   const client = new CostManagementClient(credential);
   const result = await client.alerts.listExternal(
     externalCloudProviderType,
-    externalCloudProviderId
+    externalCloudProviderId,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  externalBillingAccountAlerts();
-  externalSubscriptionAlerts();
+  await externalBillingAccountAlerts();
+  await externalSubscriptionAlerts();
 }
 
 main().catch(console.error);

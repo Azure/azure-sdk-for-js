@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DataBoundaryDefinition,
-  DataboundariesManegementClient,
-} from "@azure/arm-databoundaries";
+import type { DataBoundaryDefinition } from "@azure/arm-databoundaries";
+import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -28,15 +24,12 @@ async function optInToDataBoundary(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new DataboundariesManegementClient(credential);
-  const result = await client.dataBoundaries.put(
-    defaultParam,
-    dataBoundaryDefinition,
-  );
+  const result = await client.dataBoundaries.put(defaultParam, dataBoundaryDefinition);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  optInToDataBoundary();
+  await optInToDataBoundary();
 }
 
 main().catch(console.error);

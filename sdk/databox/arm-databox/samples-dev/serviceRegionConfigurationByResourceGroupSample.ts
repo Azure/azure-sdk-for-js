@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  RegionConfigurationRequest,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
+import type { RegionConfigurationRequest } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,29 +18,27 @@ import "dotenv/config";
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/RegionConfigurationByResourceGroup.json
  */
 async function regionConfigurationByResourceGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const location = "westus";
   const regionConfigurationRequest: RegionConfigurationRequest = {
     scheduleAvailabilityRequest: {
       skuName: "DataBox",
-      storageLocation: "westus"
-    }
+      storageLocation: "westus",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.service.regionConfigurationByResourceGroup(
     resourceGroupName,
     location,
-    regionConfigurationRequest
+    regionConfigurationRequest,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  regionConfigurationByResourceGroup();
+  await regionConfigurationByResourceGroup();
 }
 
 main().catch(console.error);
