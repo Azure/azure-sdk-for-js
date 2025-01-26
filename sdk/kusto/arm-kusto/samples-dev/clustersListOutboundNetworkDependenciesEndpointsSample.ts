@@ -38,7 +38,7 @@ async function getKustoClusterOutboundNetworkDependencies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getKustoClusterOutboundNetworkDependencies();
+  await getKustoClusterOutboundNetworkDependencies();
 }
 
 main().catch(console.error);

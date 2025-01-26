@@ -32,7 +32,7 @@ async function kustoClustersListSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersListSkus();
+  await kustoClustersListSkus();
 }
 
 main().catch(console.error);

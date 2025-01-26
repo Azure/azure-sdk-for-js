@@ -38,7 +38,7 @@ async function attachedDatabaseConfigurationsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  attachedDatabaseConfigurationsGet();
+  await attachedDatabaseConfigurationsGet();
 }
 
 main().catch(console.error);

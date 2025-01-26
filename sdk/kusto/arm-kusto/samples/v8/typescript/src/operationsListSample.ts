@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists available operations for the Microsoft.Kusto provider.
  *
  * @summary Lists available operations for the Microsoft.Kusto provider.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoOperationsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoOperationsList.json
  */
 async function kustoOperationsList(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function kustoOperationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoOperationsList();
+  await kustoOperationsList();
 }
 
 main().catch(console.error);

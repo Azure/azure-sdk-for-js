@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCosmosDbGet.json
  */
 async function kustoDataConnectionsCosmosDbGet(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function kustoDataConnectionsCosmosDbGet(): Promise<void> {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function kustoDataConnectionsCosmosDbGet(): Promise<void> {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsEventGridGet.json
  */
 async function kustoDataConnectionsEventGridGet(): Promise<void> {
   const subscriptionId =
@@ -59,7 +59,7 @@ async function kustoDataConnectionsEventGridGet(): Promise<void> {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
@@ -68,7 +68,7 @@ async function kustoDataConnectionsEventGridGet(): Promise<void> {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsGet.json
  */
 async function kustoDataConnectionsGet(): Promise<void> {
   const subscriptionId =
@@ -85,15 +85,15 @@ async function kustoDataConnectionsGet(): Promise<void> {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoDataConnectionsCosmosDbGet();
-  kustoDataConnectionsEventGridGet();
-  kustoDataConnectionsGet();
+  await kustoDataConnectionsCosmosDbGet();
+  await kustoDataConnectionsEventGridGet();
+  await kustoDataConnectionsGet();
 }
 
 main().catch(console.error);

@@ -1,15 +1,50 @@
 # Release History
-
-## 8.1.1 (Unreleased)
-
+    
+## 8.2.0 (2025-01-24)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Clusters.beginAddCalloutPolicies
+  - Added operation Clusters.beginAddCalloutPoliciesAndWait
+  - Added operation Clusters.beginRemoveCalloutPolicy
+  - Added operation Clusters.beginRemoveCalloutPolicyAndWait
+  - Added operation Clusters.listCalloutPolicies
+  - Added operation Clusters.listFollowerDatabasesGet
+  - Added Interface CalloutPoliciesList
+  - Added Interface CalloutPolicy
+  - Added Interface CalloutPolicyToRemove
+  - Added Interface ClustersAddCalloutPoliciesHeaders
+  - Added Interface ClustersAddCalloutPoliciesOptionalParams
+  - Added Interface ClustersListCalloutPoliciesOptionalParams
+  - Added Interface ClustersListFollowerDatabasesGetOptionalParams
+  - Added Interface ClustersRemoveCalloutPolicyHeaders
+  - Added Interface ClustersRemoveCalloutPolicyOptionalParams
+  - Added Interface FollowerDatabaseDefinitionGet
+  - Added Interface FollowerDatabaseListResultGet
+  - Added Type Alias CalloutType
+  - Added Type Alias ClustersListCalloutPoliciesResponse
+  - Added Type Alias ClustersListFollowerDatabasesGetResponse
+  - Added Type Alias OutboundAccess
+  - Added Type Alias PrincipalPermissionsAction
+  - Added Type Alias ScriptLevel
+  - Added Type Alias ZoneStatus
+  - Interface Cluster has a new optional parameter calloutPolicies
+  - Interface Cluster has a new optional parameter zoneStatus
+  - Interface ClusterUpdate has a new optional parameter calloutPolicies
+  - Interface ClusterUpdate has a new optional parameter zoneStatus
+  - Interface SandboxCustomImage has a new optional parameter baseImageName
+  - Interface Script has a new optional parameter principalPermissionsAction
+  - Interface Script has a new optional parameter scriptLevel
+  - Added Enum KnownCalloutType
+  - Added Enum KnownOutboundAccess
+  - Added Enum KnownPrincipalPermissionsAction
+  - Added Enum KnownScriptLevel
+  - Added Enum KnownZoneStatus
+  - Enum KnownClusterPrincipalRole has a new value AllDatabasesMonitor
+  - Enum KnownLanguageExtensionImageName has a new value Python3117
+  - Enum KnownLanguageExtensionImageName has a new value Python3117DL
+    
+    
 ## 8.1.0 (2023-10-11)
     
 ### Features Added

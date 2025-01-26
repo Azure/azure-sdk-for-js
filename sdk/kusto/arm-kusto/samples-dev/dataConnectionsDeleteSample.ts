@@ -39,7 +39,7 @@ async function kustoDataConnectionsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDataConnectionsDelete();
+  await kustoDataConnectionsDelete();
 }
 
 main().catch(console.error);

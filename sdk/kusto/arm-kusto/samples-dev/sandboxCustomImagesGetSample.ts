@@ -37,7 +37,7 @@ async function kustoSandboxCustomImagesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoSandboxCustomImagesGet();
+  await kustoSandboxCustomImagesGet();
 }
 
 main().catch(console.error);

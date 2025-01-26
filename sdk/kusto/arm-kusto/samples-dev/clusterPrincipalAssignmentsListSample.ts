@@ -38,7 +38,7 @@ async function kustoPrincipalAssignmentsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoPrincipalAssignmentsList();
+  await kustoPrincipalAssignmentsList();
 }
 
 main().catch(console.error);

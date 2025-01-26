@@ -39,7 +39,7 @@ async function kustoDatabasePrincipalAssignmentsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabasePrincipalAssignmentsGet();
+  await kustoDatabasePrincipalAssignmentsGet();
 }
 
 main().catch(console.error);

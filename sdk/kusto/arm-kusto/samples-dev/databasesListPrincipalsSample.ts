@@ -40,7 +40,7 @@ async function kustoDatabaseListPrincipals(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabaseListPrincipals();
+  await kustoDatabaseListPrincipals();
 }
 
 main().catch(console.error);

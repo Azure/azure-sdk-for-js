@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the network endpoints of all outbound dependencies of a Kusto cluster
  *
  * @summary Gets the network endpoints of all outbound dependencies of a Kusto cluster
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoOutboundNetworkDependenciesList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoOutboundNetworkDependenciesList.json
  */
 async function getKustoClusterOutboundNetworkDependencies(): Promise<void> {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getKustoClusterOutboundNetworkDependencies(): Promise<void> {
   const resArray = new Array();
   for await (let item of client.clusters.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function getKustoClusterOutboundNetworkDependencies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getKustoClusterOutboundNetworkDependencies();
+  await getKustoClusterOutboundNetworkDependencies();
 }
 
 main().catch(console.error);

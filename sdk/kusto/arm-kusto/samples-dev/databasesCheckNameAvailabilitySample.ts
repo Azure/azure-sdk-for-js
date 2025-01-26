@@ -40,7 +40,7 @@ async function kustoDatabasesCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabasesCheckNameAvailability();
+  await kustoDatabasesCheckNameAvailability();
 }
 
 main().catch(console.error);

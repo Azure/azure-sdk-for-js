@@ -38,7 +38,7 @@ async function kustoClustersListResourceSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersListResourceSkus();
+  await kustoClustersListResourceSkus();
 }
 
 main().catch(console.error);

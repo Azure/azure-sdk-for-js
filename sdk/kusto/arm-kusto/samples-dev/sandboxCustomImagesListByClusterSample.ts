@@ -38,7 +38,7 @@ async function kustoSandboxCustomImagesListByCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoSandboxCustomImagesListByCluster();
+  await kustoSandboxCustomImagesListByCluster();
 }
 
 main().catch(console.error);

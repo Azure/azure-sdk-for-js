@@ -44,7 +44,7 @@ async function kustoClustersUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersUpdate();
+  await kustoClustersUpdate();
 }
 
 main().catch(console.error);

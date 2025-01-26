@@ -61,8 +61,8 @@ async function kustoSuspendedDatabasesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabasesGet();
-  kustoSuspendedDatabasesGet();
+  await kustoDatabasesGet();
+  await kustoSuspendedDatabasesGet();
 }
 
 main().catch(console.error);

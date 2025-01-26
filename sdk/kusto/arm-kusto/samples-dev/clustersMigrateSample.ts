@@ -40,7 +40,7 @@ async function kustoClusterMigrate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClusterMigrate();
+  await kustoClusterMigrate();
 }
 
 main().catch(console.error);

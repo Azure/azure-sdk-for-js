@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedPrivateEndpoint,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a managed private endpoint.
  *
  * @summary Updates a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoManagedPrivateEndpointsUpdate.json
  */
 async function kustoManagedPrivateEndpointsUpdate(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function kustoManagedPrivateEndpointsUpdate(): Promise<void> {
     groupId: "blob",
     privateLinkResourceId:
       "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/storageAccountTest",
-    requestMessage: "Please Approve Managed Private Endpoint Request."
+    requestMessage: "Please Approve Managed Private Endpoint Request.",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -41,13 +41,13 @@ async function kustoManagedPrivateEndpointsUpdate(): Promise<void> {
     resourceGroupName,
     clusterName,
     managedPrivateEndpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoManagedPrivateEndpointsUpdate();
+  await kustoManagedPrivateEndpointsUpdate();
 }
 
 main().catch(console.error);

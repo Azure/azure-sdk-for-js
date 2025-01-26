@@ -40,7 +40,7 @@ async function kustoScriptsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoScriptsList();
+  await kustoScriptsList();
 }
 
 main().catch(console.error);

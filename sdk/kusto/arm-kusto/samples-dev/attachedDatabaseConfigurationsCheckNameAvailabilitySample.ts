@@ -44,7 +44,7 @@ async function kustoAttachedDatabaseConfigurationCheckNameAvailability(): Promis
 }
 
 async function main(): Promise<void> {
-  kustoAttachedDatabaseConfigurationCheckNameAvailability();
+  await kustoAttachedDatabaseConfigurationCheckNameAvailability();
 }
 
 main().catch(console.error);

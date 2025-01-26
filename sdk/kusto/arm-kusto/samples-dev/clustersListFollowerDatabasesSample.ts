@@ -38,7 +38,7 @@ async function kustoClusterListFollowerDatabases(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClusterListFollowerDatabases();
+  await kustoClusterListFollowerDatabases();
 }
 
 main().catch(console.error);

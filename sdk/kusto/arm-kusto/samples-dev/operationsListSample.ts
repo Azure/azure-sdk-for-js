@@ -32,7 +32,7 @@ async function kustoOperationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoOperationsList();
+  await kustoOperationsList();
 }
 
 main().catch(console.error);

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a Kusto database script.
  *
  * @summary Deletes a Kusto database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoScriptsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoScriptsDelete.json
  */
 async function kustoScriptsDelete(): Promise<void> {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function kustoScriptsDelete(): Promise<void> {
     resourceGroupName,
     clusterName,
     databaseName,
-    scriptName
+    scriptName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoScriptsDelete();
+  await kustoScriptsDelete();
 }
 
 main().catch(console.error);

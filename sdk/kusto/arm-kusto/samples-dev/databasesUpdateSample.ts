@@ -42,7 +42,7 @@ async function kustoDatabasesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabasesUpdate();
+  await kustoDatabasesUpdate();
 }
 
 main().catch(console.error);

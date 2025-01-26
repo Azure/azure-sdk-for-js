@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a managed private endpoint.
  *
  * @summary Deletes a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoManagedPrivateEndpointsDelete.json
  */
 async function managedPrivateEndpointsDelete(): Promise<void> {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function managedPrivateEndpointsDelete(): Promise<void> {
   const result = await client.managedPrivateEndpoints.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    managedPrivateEndpointName
+    managedPrivateEndpointName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointsDelete();
+  await managedPrivateEndpointsDelete();
 }
 
 main().catch(console.error);

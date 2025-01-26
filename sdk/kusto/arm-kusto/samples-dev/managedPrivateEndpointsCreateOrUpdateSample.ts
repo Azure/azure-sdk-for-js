@@ -48,7 +48,7 @@ async function kustoManagedPrivateEndpointsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoManagedPrivateEndpointsCreateOrUpdate();
+  await kustoManagedPrivateEndpointsCreateOrUpdate();
 }
 
 main().catch(console.error);

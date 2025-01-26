@@ -69,7 +69,7 @@ async function kustoDatabaseRemovePrincipals(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabaseRemovePrincipals();
+  await kustoDatabaseRemovePrincipals();
 }
 
 main().catch(console.error);

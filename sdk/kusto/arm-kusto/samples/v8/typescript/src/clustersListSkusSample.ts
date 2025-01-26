@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists eligible SKUs for Kusto resource provider.
  *
  * @summary Lists eligible SKUs for Kusto resource provider.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersListSkus.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersListSkus.json
  */
 async function kustoClustersListSkus(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function kustoClustersListSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersListSkus();
+  await kustoClustersListSkus();
 }
 
 main().catch(console.error);

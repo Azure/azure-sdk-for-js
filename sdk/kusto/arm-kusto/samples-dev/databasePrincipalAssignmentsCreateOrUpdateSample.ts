@@ -50,7 +50,7 @@ async function kustoDatabasePrincipalAssignmentsCreateOrUpdate(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  kustoDatabasePrincipalAssignmentsCreateOrUpdate();
+  await kustoDatabasePrincipalAssignmentsCreateOrUpdate();
 }
 
 main().catch(console.error);

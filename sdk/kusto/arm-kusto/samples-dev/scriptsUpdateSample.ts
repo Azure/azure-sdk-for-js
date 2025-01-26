@@ -49,7 +49,7 @@ async function kustoScriptsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoScriptsUpdate();
+  await kustoScriptsUpdate();
 }
 
 main().catch(console.error);

@@ -140,9 +140,9 @@ async function kustoDataConnectionsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDataConnectionsCosmosDbUpdate();
-  kustoDataConnectionsEventGridUpdate();
-  kustoDataConnectionsUpdate();
+  await kustoDataConnectionsCosmosDbUpdate();
+  await kustoDataConnectionsEventGridUpdate();
+  await kustoDataConnectionsUpdate();
 }
 
 main().catch(console.error);

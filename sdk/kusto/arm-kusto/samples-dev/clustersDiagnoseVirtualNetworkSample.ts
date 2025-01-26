@@ -35,7 +35,7 @@ async function kustoClusterDiagnoseVirtualNetwork(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClusterDiagnoseVirtualNetwork();
+  await kustoClusterDiagnoseVirtualNetwork();
 }
 
 main().catch(console.error);

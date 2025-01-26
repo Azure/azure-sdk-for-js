@@ -43,7 +43,7 @@ async function kustoManagedPrivateEndpointsCheckNameAvailability(): Promise<void
 }
 
 async function main(): Promise<void> {
-  kustoManagedPrivateEndpointsCheckNameAvailability();
+  await kustoManagedPrivateEndpointsCheckNameAvailability();
 }
 
 main().catch(console.error);

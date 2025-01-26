@@ -36,7 +36,7 @@ async function kustoClustersListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersListByResourceGroup();
+  await kustoClustersListByResourceGroup();
 }
 
 main().catch(console.error);

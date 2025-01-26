@@ -37,7 +37,7 @@ async function kustoClusterPrincipalAssignmentsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClusterPrincipalAssignmentsDelete();
+  await kustoClusterPrincipalAssignmentsDelete();
 }
 
 main().catch(console.error);

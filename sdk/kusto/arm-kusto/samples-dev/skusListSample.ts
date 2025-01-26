@@ -33,7 +33,7 @@ async function kustoListRegionSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoListRegionSkus();
+  await kustoListRegionSkus();
 }
 
 main().catch(console.error);

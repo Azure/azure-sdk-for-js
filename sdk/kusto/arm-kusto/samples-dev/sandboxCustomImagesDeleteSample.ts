@@ -37,7 +37,7 @@ async function sandboxCustomImagesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sandboxCustomImagesDelete();
+  await sandboxCustomImagesDelete();
 }
 
 main().catch(console.error);

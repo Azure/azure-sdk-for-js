@@ -45,7 +45,7 @@ async function kustoScriptsCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoScriptsCheckNameAvailability();
+  await kustoScriptsCheckNameAvailability();
 }
 
 main().catch(console.error);

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AttachedDatabaseConfiguration,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates an attached database configuration.
  *
  * @summary Creates or updates an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoAttachedDatabaseConfigurationsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoAttachedDatabaseConfigurationsCreateOrUpdate.json
  */
 async function attachedDatabaseConfigurationsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
@@ -43,22 +43,23 @@ async function attachedDatabaseConfigurationsCreateOrUpdate(): Promise<void> {
       materializedViewsToExclude: ["MaterializedViewTable2"],
       materializedViewsToInclude: ["MaterializedViewTable1"],
       tablesToExclude: ["Table2"],
-      tablesToInclude: ["Table1"]
-    }
+      tablesToInclude: ["Table1"],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.attachedDatabaseConfigurations.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    attachedDatabaseConfigurationName,
-    parameters
-  );
+  const result =
+    await client.attachedDatabaseConfigurations.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      clusterName,
+      attachedDatabaseConfigurationName,
+      parameters,
+    );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  attachedDatabaseConfigurationsCreateOrUpdate();
+  await attachedDatabaseConfigurationsCreateOrUpdate();
 }
 
 main().catch(console.error);

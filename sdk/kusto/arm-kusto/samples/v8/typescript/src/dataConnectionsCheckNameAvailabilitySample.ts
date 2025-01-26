@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DataConnectionCheckNameRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Checks that the data connection name is valid and is not already in use.
  *
  * @summary Checks that the data connection name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCheckNameAvailability.json
  */
 async function kustoDataConnectionsCheckNameAvailability(): Promise<void> {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function kustoDataConnectionsCheckNameAvailability(): Promise<void> {
   const databaseName = "KustoDatabase8";
   const dataConnectionName: DataConnectionCheckNameRequest = {
     name: "DataConnections8",
-    type: "Microsoft.Kusto/clusters/databases/dataConnections"
+    type: "Microsoft.Kusto/clusters/databases/dataConnections",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -39,13 +39,13 @@ async function kustoDataConnectionsCheckNameAvailability(): Promise<void> {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoDataConnectionsCheckNameAvailability();
+  await kustoDataConnectionsCheckNameAvailability();
 }
 
 main().catch(console.error);

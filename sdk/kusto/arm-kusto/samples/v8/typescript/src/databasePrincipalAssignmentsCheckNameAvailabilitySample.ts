@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DatabasePrincipalAssignmentCheckNameRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Checks that the database principal assignment is valid and is not already in use.
  *
  * @summary Checks that the database principal assignment is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasePrincipalAssignmentsCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasePrincipalAssignmentsCheckNameAvailability.json
  */
 async function kustoDatabaseCheckNameAvailability(): Promise<void> {
   const subscriptionId =
@@ -31,21 +31,22 @@ async function kustoDatabaseCheckNameAvailability(): Promise<void> {
   const databaseName = "Kustodatabase8";
   const principalAssignmentName: DatabasePrincipalAssignmentCheckNameRequest = {
     name: "kustoprincipal1",
-    type: "Microsoft.Kusto/clusters/databases/principalAssignments"
+    type: "Microsoft.Kusto/clusters/databases/principalAssignments",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.databasePrincipalAssignments.checkNameAvailability(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    principalAssignmentName
-  );
+  const result =
+    await client.databasePrincipalAssignments.checkNameAvailability(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      principalAssignmentName,
+    );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoDatabaseCheckNameAvailability();
+  await kustoDatabaseCheckNameAvailability();
 }
 
 main().catch(console.error);

@@ -40,19 +40,19 @@ describe("KustoManagementClient", () => {
   let clusterName_1: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new KustoManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      resourceGroup = "myjstest";
-      clusterName_1 = "mytestclustername5";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new KustoManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    resourceGroup = "myjstest";
+    clusterName_1 = "mytestclustername5";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   //kusto_client.clusters.beginCreateOrUpdateAndWait
   it("could create clusters", async function () {
@@ -73,7 +73,7 @@ describe("KustoManagementClient", () => {
         },
       }, testPollingOptions);
     assert.strictEqual(res.name, clusterName_1);
-  }).timeout(7200000);
+  });
 
   //kusto_client.clusters.beginUpdateAndWait
   // it("could update tags in cluster", async () => {
@@ -108,6 +108,7 @@ describe("KustoManagementClient", () => {
   //kusto_client.clusters.beginDeleteAndWait
   it("could delete clusters", async () => {
     const resArray = new Array();
+    await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1, testPollingOptions);
     for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

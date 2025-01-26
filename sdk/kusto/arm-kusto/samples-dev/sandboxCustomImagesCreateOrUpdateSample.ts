@@ -103,9 +103,9 @@ async function kustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage(): Pro
 }
 
 async function main(): Promise<void> {
-  kustoSandboxCustomImagesCreateOrUpdate();
-  kustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage();
-  kustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage();
+  await kustoSandboxCustomImagesCreateOrUpdate();
+  await kustoSandboxCustomImagesCreateOrUpdateWithCustomBaseImage();
+  await kustoSandboxCustomImagesCreateOrUpdateWithManagedBaseImage();
 }
 
 main().catch(console.error);

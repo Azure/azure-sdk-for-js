@@ -31,7 +31,7 @@ async function kustoOperationResultsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoOperationResultsGet();
+  await kustoOperationResultsGet();
 }
 
 main().catch(console.error);

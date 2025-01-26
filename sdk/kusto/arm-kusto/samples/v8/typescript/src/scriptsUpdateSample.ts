@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a database script.
  *
  * @summary Updates a database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoScriptsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoScriptsUpdate.json
  */
 async function kustoScriptsUpdate(): Promise<void> {
   const subscriptionId =
@@ -30,9 +30,11 @@ async function kustoScriptsUpdate(): Promise<void> {
   const parameters: Script = {
     continueOnErrors: true,
     forceUpdateTag: "2bcf3c21-ffd1-4444-b9dd-e52e00ee53fe",
+    principalPermissionsAction: "RemovePermissionOnScriptCompletion",
+    scriptLevel: "Database",
     scriptUrl: "https://mysa.blob.core.windows.net/container/script.txt",
     scriptUrlSasToken:
-      "?sv=2019-02-02&st=2019-04-29T22%3A18%3A26Z&se=2019-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=********************************"
+      "?sv=2019-02-02&st=2019-04-29T22%3A18%3A26Z&se=2019-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=********************************",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -41,13 +43,13 @@ async function kustoScriptsUpdate(): Promise<void> {
     clusterName,
     databaseName,
     scriptName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoScriptsUpdate();
+  await kustoScriptsUpdate();
 }
 
 main().catch(console.error);

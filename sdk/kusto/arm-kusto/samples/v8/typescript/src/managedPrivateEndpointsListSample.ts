@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns the list of managed private endpoints.
  *
  * @summary Returns the list of managed private endpoints.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoManagedPrivateEndpointsList.json
  */
 async function kustoManagedPrivateEndpointsList(): Promise<void> {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function kustoManagedPrivateEndpointsList(): Promise<void> {
   const resArray = new Array();
   for await (let item of client.managedPrivateEndpoints.list(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function kustoManagedPrivateEndpointsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoManagedPrivateEndpointsList();
+  await kustoManagedPrivateEndpointsList();
 }
 
 main().catch(console.error);

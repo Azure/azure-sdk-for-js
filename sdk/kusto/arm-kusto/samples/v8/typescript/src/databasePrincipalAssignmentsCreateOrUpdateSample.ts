@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DatabasePrincipalAssignment,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a Kusto cluster database principalAssignment.
  *
  * @summary Creates a Kusto cluster database principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasePrincipalAssignmentsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasePrincipalAssignmentsCreateOrUpdate.json
  */
 async function kustoDatabasePrincipalAssignmentsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
@@ -34,22 +34,23 @@ async function kustoDatabasePrincipalAssignmentsCreateOrUpdate(): Promise<void> 
     principalId: "87654321-1234-1234-1234-123456789123",
     principalType: "App",
     role: "Admin",
-    tenantId: "12345678-1234-1234-1234-123456789123"
+    tenantId: "12345678-1234-1234-1234-123456789123",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
-  const result = await client.databasePrincipalAssignments.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    principalAssignmentName,
-    parameters
-  );
+  const result =
+    await client.databasePrincipalAssignments.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      principalAssignmentName,
+      parameters,
+    );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoDatabasePrincipalAssignmentsCreateOrUpdate();
+  await kustoDatabasePrincipalAssignmentsCreateOrUpdate();
 }
 
 main().catch(console.error);

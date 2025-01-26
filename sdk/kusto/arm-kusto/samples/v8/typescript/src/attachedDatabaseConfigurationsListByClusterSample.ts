@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns the list of attached database configurations of the given Kusto cluster.
  *
  * @summary Returns the list of attached database configurations of the given Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoAttachedDatabaseConfigurationsListByCluster.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoAttachedDatabaseConfigurationsListByCluster.json
  */
 async function kustoAttachedDatabaseConfigurationsListByCluster(): Promise<void> {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function kustoAttachedDatabaseConfigurationsListByCluster(): Promise<void>
   const resArray = new Array();
   for await (let item of client.attachedDatabaseConfigurations.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function kustoAttachedDatabaseConfigurationsListByCluster(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  kustoAttachedDatabaseConfigurationsListByCluster();
+  await kustoAttachedDatabaseConfigurationsListByCluster();
 }
 
 main().catch(console.error);

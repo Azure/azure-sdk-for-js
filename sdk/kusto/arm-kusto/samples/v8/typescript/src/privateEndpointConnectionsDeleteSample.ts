@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a private endpoint connection with a given name.
  *
  * @summary Deletes a private endpoint connection with a given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateEndpointConnectionsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateEndpointConnectionsDelete.json
  */
 async function deletesAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function deletesAPrivateEndpointConnectionWithAGivenName(): Promise<void> 
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  deletesAPrivateEndpointConnectionWithAGivenName();
+  await deletesAPrivateEndpointConnectionWithAGivenName();
 }
 
 main().catch(console.error);

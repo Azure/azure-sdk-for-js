@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns a list of database principals of the given Kusto cluster and database.
  *
  * @summary Returns a list of database principals of the given Kusto cluster and database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseListPrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabaseListPrincipals.json
  */
 async function kustoDatabaseListPrincipals(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function kustoDatabaseListPrincipals(): Promise<void> {
   for await (let item of client.databases.listPrincipals(
     resourceGroupName,
     clusterName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function kustoDatabaseListPrincipals(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabaseListPrincipals();
+  await kustoDatabaseListPrincipals();
 }
 
 main().catch(console.error);

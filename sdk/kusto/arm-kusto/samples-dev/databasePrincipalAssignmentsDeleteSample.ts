@@ -39,7 +39,7 @@ async function kustoDatabasePrincipalAssignmentsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabasePrincipalAssignmentsDelete();
+  await kustoDatabasePrincipalAssignmentsDelete();
 }
 
 main().catch(console.error);

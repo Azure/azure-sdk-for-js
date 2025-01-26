@@ -37,7 +37,7 @@ async function kustoManagedPrivateEndpointsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoManagedPrivateEndpointsGet();
+  await kustoManagedPrivateEndpointsGet();
 }
 
 main().catch(console.error);

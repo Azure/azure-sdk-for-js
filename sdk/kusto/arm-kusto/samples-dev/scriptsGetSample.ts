@@ -39,7 +39,7 @@ async function kustoScriptsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoScriptsGet();
+  await kustoScriptsGet();
 }
 
 main().catch(console.error);

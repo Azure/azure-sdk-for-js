@@ -38,7 +38,7 @@ async function attachedDatabaseConfigurationsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  attachedDatabaseConfigurationsDelete();
+  await attachedDatabaseConfigurationsDelete();
 }
 
 main().catch(console.error);

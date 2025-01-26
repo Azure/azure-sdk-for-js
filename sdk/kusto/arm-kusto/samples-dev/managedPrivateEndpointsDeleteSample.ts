@@ -37,7 +37,7 @@ async function managedPrivateEndpointsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedPrivateEndpointsDelete();
+  await managedPrivateEndpointsDelete();
 }
 
 main().catch(console.error);

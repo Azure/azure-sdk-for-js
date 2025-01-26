@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a sandbox custom image.
  *
  * @summary Deletes a sandbox custom image.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSandboxCustomImageDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImageDelete.json
  */
 async function sandboxCustomImagesDelete(): Promise<void> {
   const subscriptionId =
@@ -31,13 +31,13 @@ async function sandboxCustomImagesDelete(): Promise<void> {
   const result = await client.sandboxCustomImages.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    sandboxCustomImageName
+    sandboxCustomImageName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  sandboxCustomImagesDelete();
+  await sandboxCustomImagesDelete();
 }
 
 main().catch(console.error);

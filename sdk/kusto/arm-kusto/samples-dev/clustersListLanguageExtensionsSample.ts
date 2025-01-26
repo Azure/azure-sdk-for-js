@@ -38,7 +38,7 @@ async function kustoClusterListLanguageExtensions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClusterListLanguageExtensions();
+  await kustoClusterListLanguageExtensions();
 }
 
 main().catch(console.error);

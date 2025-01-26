@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a database.
  *
  * @summary Updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasesUpdate.json
  */
 async function kustoDatabasesUpdate(): Promise<void> {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function kustoDatabasesUpdate(): Promise<void> {
   const databaseName = "KustoDatabase8";
   const parameters: ReadWriteDatabase = {
     hotCachePeriod: "P1D",
-    kind: "ReadWrite"
+    kind: "ReadWrite",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -36,13 +36,13 @@ async function kustoDatabasesUpdate(): Promise<void> {
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoDatabasesUpdate();
+  await kustoDatabasesUpdate();
 }
 
 main().catch(console.error);

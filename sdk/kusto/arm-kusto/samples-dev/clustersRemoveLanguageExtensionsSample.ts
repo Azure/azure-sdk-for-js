@@ -45,7 +45,7 @@ async function kustoClusterRemoveLanguageExtensions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClusterRemoveLanguageExtensions();
+  await kustoClusterRemoveLanguageExtensions();
 }
 
 main().catch(console.error);

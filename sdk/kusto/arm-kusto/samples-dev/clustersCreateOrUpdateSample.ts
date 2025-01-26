@@ -57,7 +57,7 @@ async function kustoClustersCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersCreateOrUpdate();
+  await kustoClustersCreateOrUpdate();
 }
 
 main().catch(console.error);

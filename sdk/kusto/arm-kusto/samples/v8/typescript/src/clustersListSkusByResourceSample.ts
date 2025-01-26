@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns the SKUs available for the provided resource.
  *
  * @summary Returns the SKUs available for the provided resource.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersListResourceSkus.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersListResourceSkus.json
  */
 async function kustoClustersListResourceSkus(): Promise<void> {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function kustoClustersListResourceSkus(): Promise<void> {
   const resArray = new Array();
   for await (let item of client.clusters.listSkusByResource(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +38,7 @@ async function kustoClustersListResourceSkus(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersListResourceSkus();
+  await kustoClustersListResourceSkus();
 }
 
 main().catch(console.error);

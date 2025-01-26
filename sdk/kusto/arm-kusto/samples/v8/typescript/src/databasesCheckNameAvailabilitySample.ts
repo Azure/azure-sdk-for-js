@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Checks that the databases resource name is valid and is not already in use.
  *
  * @summary Checks that the databases resource name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasesCheckNameAvailability.json
  */
 async function kustoDatabasesCheckNameAvailability(): Promise<void> {
   const subscriptionId =
@@ -27,20 +27,20 @@ async function kustoDatabasesCheckNameAvailability(): Promise<void> {
   const clusterName = "kustoCluster";
   const resourceName: CheckNameRequest = {
     name: "database1",
-    type: "Microsoft.Kusto/clusters/databases"
+    type: "Microsoft.Kusto/clusters/databases",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.databases.checkNameAvailability(
     resourceGroupName,
     clusterName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoDatabasesCheckNameAvailability();
+  await kustoDatabasesCheckNameAvailability();
 }
 
 main().catch(console.error);

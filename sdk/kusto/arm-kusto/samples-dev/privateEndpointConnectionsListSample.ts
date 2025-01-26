@@ -38,7 +38,7 @@ async function kustoPrivateEndpointConnectionsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoPrivateEndpointConnectionsList();
+  await kustoPrivateEndpointConnectionsList();
 }
 
 main().catch(console.error);

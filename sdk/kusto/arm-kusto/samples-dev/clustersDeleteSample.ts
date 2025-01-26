@@ -35,7 +35,7 @@ async function kustoClustersDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersDelete();
+  await kustoClustersDelete();
 }
 
 main().catch(console.error);

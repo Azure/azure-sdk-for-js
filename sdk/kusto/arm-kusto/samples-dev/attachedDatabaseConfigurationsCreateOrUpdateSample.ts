@@ -59,7 +59,7 @@ async function attachedDatabaseConfigurationsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  attachedDatabaseConfigurationsCreateOrUpdate();
+  await attachedDatabaseConfigurationsCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns operation results.
  *
  * @summary Returns operation results.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoOperationResultsOperationResultResponseTypeGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoOperationResultsOperationResultResponseTypeGet.json
  */
 async function kustoOperationsResultsLocationGet(): Promise<void> {
   const subscriptionId =
@@ -28,13 +28,13 @@ async function kustoOperationsResultsLocationGet(): Promise<void> {
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.operationsResultsLocation.get(
     location,
-    operationId
+    operationId,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoOperationsResultsLocationGet();
+  await kustoOperationsResultsLocationGet();
 }
 
 main().catch(console.error);

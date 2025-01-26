@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DatabasePrincipalListRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Remove Database principals permissions.
  *
  * @summary Remove Database principals permissions.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseRemovePrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabaseRemovePrincipals.json
  */
 async function kustoDatabaseRemovePrincipals(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function kustoDatabaseRemovePrincipals(): Promise<void> {
         appId: "",
         email: "user@microsoft.com",
         fqn: "aaduser=some_guid",
-        role: "Admin"
+        role: "Admin",
       },
       {
         name: "Kusto",
@@ -45,7 +45,7 @@ async function kustoDatabaseRemovePrincipals(): Promise<void> {
         appId: "",
         email: "kusto@microsoft.com",
         fqn: "aadgroup=some_guid",
-        role: "Viewer"
+        role: "Viewer",
       },
       {
         name: "SomeApp",
@@ -53,9 +53,9 @@ async function kustoDatabaseRemovePrincipals(): Promise<void> {
         appId: "some_guid_app_id",
         email: "",
         fqn: "aadapp=some_guid_app_id",
-        role: "Admin"
-      }
-    ]
+        role: "Admin",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -63,13 +63,13 @@ async function kustoDatabaseRemovePrincipals(): Promise<void> {
     resourceGroupName,
     clusterName,
     databaseName,
-    databasePrincipalsToRemove
+    databasePrincipalsToRemove,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoDatabaseRemovePrincipals();
+  await kustoDatabaseRemovePrincipals();
 }
 
 main().catch(console.error);

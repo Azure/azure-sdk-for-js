@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterPrincipalAssignmentCheckNameRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Checks that the principal assignment name is valid and is not already in use.
  *
  * @summary Checks that the principal assignment name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterPrincipalAssignmentsCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterPrincipalAssignmentsCheckNameAvailability.json
  */
 async function kustoClusterPrincipalAssignmentsCheckNameAvailability(): Promise<void> {
   const subscriptionId =
@@ -30,20 +30,20 @@ async function kustoClusterPrincipalAssignmentsCheckNameAvailability(): Promise<
   const clusterName = "kustoCluster";
   const principalAssignmentName: ClusterPrincipalAssignmentCheckNameRequest = {
     name: "kustoprincipal1",
-    type: "Microsoft.Kusto/clusters/principalAssignments"
+    type: "Microsoft.Kusto/clusters/principalAssignments",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusterPrincipalAssignments.checkNameAvailability(
     resourceGroupName,
     clusterName,
-    principalAssignmentName
+    principalAssignmentName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoClusterPrincipalAssignmentsCheckNameAvailability();
+  await kustoClusterPrincipalAssignmentsCheckNameAvailability();
 }
 
 main().catch(console.error);

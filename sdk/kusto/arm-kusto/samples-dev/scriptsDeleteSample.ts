@@ -39,7 +39,7 @@ async function kustoScriptsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoScriptsDelete();
+  await kustoScriptsDelete();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function kustoClustersCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersCheckNameAvailability();
+  await kustoClustersCheckNameAvailability();
 }
 
 main().catch(console.error);

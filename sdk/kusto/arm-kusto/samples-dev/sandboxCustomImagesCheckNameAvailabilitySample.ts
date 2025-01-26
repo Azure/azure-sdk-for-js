@@ -43,7 +43,7 @@ async function kustoSandboxCustomImagesCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoSandboxCustomImagesCheckNameAvailability();
+  await kustoSandboxCustomImagesCheckNameAvailability();
 }
 
 main().catch(console.error);

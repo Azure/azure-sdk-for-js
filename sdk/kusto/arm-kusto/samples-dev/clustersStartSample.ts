@@ -35,7 +35,7 @@ async function kustoClustersStart(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersStart();
+  await kustoClustersStart();
 }
 
 main().catch(console.error);

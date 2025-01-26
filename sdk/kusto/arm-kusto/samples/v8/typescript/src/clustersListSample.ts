@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all Kusto clusters within a subscription.
  *
  * @summary Lists all Kusto clusters within a subscription.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersList.json
  */
 async function kustoClustersList(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function kustoClustersList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClustersList();
+  await kustoClustersList();
 }
 
 main().catch(console.error);

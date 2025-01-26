@@ -38,7 +38,7 @@ async function kustoAttachedDatabaseConfigurationsListByCluster(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  kustoAttachedDatabaseConfigurationsListByCluster();
+  await kustoAttachedDatabaseConfigurationsListByCluster();
 }
 
 main().catch(console.error);

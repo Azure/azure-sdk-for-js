@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a sandbox custom image.
  *
  * @summary Updates a sandbox custom image.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoSandboxCustomImageUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoSandboxCustomImageUpdate.json
  */
 async function kustoSandboxCustomImagesUpdate(): Promise<void> {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function kustoSandboxCustomImagesUpdate(): Promise<void> {
   const parameters: SandboxCustomImage = {
     languageVersion: "3.10.8",
     requirementsFileContent: "Requests",
-    language: "Python"
+    language: "Python",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -37,13 +37,13 @@ async function kustoSandboxCustomImagesUpdate(): Promise<void> {
     resourceGroupName,
     clusterName,
     sandboxCustomImageName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoSandboxCustomImagesUpdate();
+  await kustoSandboxCustomImagesUpdate();
 }
 
 main().catch(console.error);

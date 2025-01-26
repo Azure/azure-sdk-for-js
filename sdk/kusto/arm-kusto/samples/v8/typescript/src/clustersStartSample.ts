@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Starts a Kusto cluster.
  *
  * @summary Starts a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersStart.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersStart.json
  */
 async function kustoClustersStart(): Promise<void> {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function kustoClustersStart(): Promise<void> {
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginStartAndWait(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoClustersStart();
+  await kustoClustersStart();
 }
 
 main().catch(console.error);

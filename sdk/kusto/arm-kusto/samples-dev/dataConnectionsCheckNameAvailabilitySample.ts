@@ -45,7 +45,7 @@ async function kustoDataConnectionsCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDataConnectionsCheckNameAvailability();
+  await kustoDataConnectionsCheckNameAvailability();
 }
 
 main().catch(console.error);

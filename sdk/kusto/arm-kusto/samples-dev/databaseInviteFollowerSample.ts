@@ -54,7 +54,7 @@ async function kustoDatabaseInviteFollower(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabaseInviteFollower();
+  await kustoDatabaseInviteFollower();
 }
 
 main().catch(console.error);

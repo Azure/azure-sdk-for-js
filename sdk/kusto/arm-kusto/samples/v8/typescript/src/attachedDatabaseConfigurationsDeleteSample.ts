@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the attached database configuration with the given name.
  *
  * @summary Deletes the attached database configuration with the given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoAttachedDatabaseConfigurationsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoAttachedDatabaseConfigurationsDelete.json
  */
 async function attachedDatabaseConfigurationsDelete(): Promise<void> {
   const subscriptionId =
@@ -32,13 +32,13 @@ async function attachedDatabaseConfigurationsDelete(): Promise<void> {
   const result = await client.attachedDatabaseConfigurations.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    attachedDatabaseConfigurationName
+    attachedDatabaseConfigurationName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  attachedDatabaseConfigurationsDelete();
+  await attachedDatabaseConfigurationsDelete();
 }
 
 main().catch(console.error);

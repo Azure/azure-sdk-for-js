@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Diagnoses network connectivity status for external resources on which the service is dependent on.
  *
  * @summary Diagnoses network connectivity status for external resources on which the service is dependent on.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersDiagnoseVirtualNetwork.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersDiagnoseVirtualNetwork.json
  */
 async function kustoClusterDiagnoseVirtualNetwork(): Promise<void> {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function kustoClusterDiagnoseVirtualNetwork(): Promise<void> {
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginDiagnoseVirtualNetworkAndWait(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoClusterDiagnoseVirtualNetwork();
+  await kustoClusterDiagnoseVirtualNetwork();
 }
 
 main().catch(console.error);

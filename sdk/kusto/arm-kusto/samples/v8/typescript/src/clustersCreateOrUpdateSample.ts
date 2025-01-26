@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update a Kusto cluster.
  *
  * @summary Create or update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersCreateOrUpdate.json
  */
 async function kustoClustersCreateOrUpdate(): Promise<void> {
   const subscriptionId =
@@ -36,28 +36,28 @@ async function kustoClustersCreateOrUpdate(): Promise<void> {
       value: [
         {
           languageExtensionImageName: "Python3_10_8",
-          languageExtensionName: "PYTHON"
+          languageExtensionName: "PYTHON",
         },
-        { languageExtensionImageName: "R", languageExtensionName: "R" }
-      ]
+        { languageExtensionImageName: "R", languageExtensionName: "R" },
+      ],
     },
     location: "westus",
     publicIPType: "DualStack",
     publicNetworkAccess: "Enabled",
-    sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" }
+    sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  kustoClustersCreateOrUpdate();
+  await kustoClustersCreateOrUpdate();
 }
 
 main().catch(console.error);

@@ -48,7 +48,7 @@ async function kustoClusterPrincipalAssignmentsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoClusterPrincipalAssignmentsCreateOrUpdate();
+  await kustoClusterPrincipalAssignmentsCreateOrUpdate();
 }
 
 main().catch(console.error);

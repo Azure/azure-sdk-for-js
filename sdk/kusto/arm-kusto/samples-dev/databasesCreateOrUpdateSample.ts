@@ -81,8 +81,8 @@ async function kustoReadWriteDatabaseCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoReadOnlyDatabaseUpdate();
-  kustoReadWriteDatabaseCreateOrUpdate();
+  await kustoReadOnlyDatabaseUpdate();
+  await kustoReadWriteDatabaseCreateOrUpdate();
 }
 
 main().catch(console.error);

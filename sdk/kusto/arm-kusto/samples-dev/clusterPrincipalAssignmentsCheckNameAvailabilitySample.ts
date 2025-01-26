@@ -43,7 +43,7 @@ async function kustoClusterPrincipalAssignmentsCheckNameAvailability(): Promise<
 }
 
 async function main(): Promise<void> {
-  kustoClusterPrincipalAssignmentsCheckNameAvailability();
+  await kustoClusterPrincipalAssignmentsCheckNameAvailability();
 }
 
 main().catch(console.error);

@@ -34,7 +34,7 @@ async function kustoOperationsResultsLocationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoOperationsResultsLocationGet();
+  await kustoOperationsResultsLocationGet();
 }
 
 main().catch(console.error);

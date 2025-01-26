@@ -37,7 +37,7 @@ async function kustoDatabasesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  kustoDatabasesDelete();
+  await kustoDatabasesDelete();
 }
 
 main().catch(console.error);
