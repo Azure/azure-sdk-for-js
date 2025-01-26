@@ -36,7 +36,7 @@ async function listDnsResolverPoliciesByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDnsResolverPoliciesByResourceGroup();
+  await listDnsResolverPoliciesByResourceGroup();
 }
 
 main().catch(console.error);

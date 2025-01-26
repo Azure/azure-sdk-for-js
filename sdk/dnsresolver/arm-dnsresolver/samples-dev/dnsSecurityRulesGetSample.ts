@@ -37,7 +37,7 @@ async function retrieveDnsSecurityRuleForDnsResolverPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveDnsSecurityRuleForDnsResolverPolicy();
+  await retrieveDnsSecurityRuleForDnsResolverPolicy();
 }
 
 main().catch(console.error);

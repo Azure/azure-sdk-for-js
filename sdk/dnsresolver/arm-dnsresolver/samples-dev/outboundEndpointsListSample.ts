@@ -38,7 +38,7 @@ async function listOutboundEndpointsByDnsResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listOutboundEndpointsByDnsResolver();
+  await listOutboundEndpointsByDnsResolver();
 }
 
 main().catch(console.error);

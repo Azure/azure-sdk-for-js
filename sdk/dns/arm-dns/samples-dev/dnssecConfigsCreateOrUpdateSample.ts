@@ -32,7 +32,7 @@ async function createDnssecConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createDnssecConfig();
+  await createDnssecConfig();
 }
 
 main().catch(console.error);

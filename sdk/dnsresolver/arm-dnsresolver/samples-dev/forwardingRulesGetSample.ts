@@ -37,7 +37,7 @@ async function retrieveForwardingRuleInADnsForwardingRuleset(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveForwardingRuleInADnsForwardingRuleset();
+  await retrieveForwardingRuleInADnsForwardingRuleset();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function updateDnsResolverPolicyVirtualNetworkLink(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateDnsResolverPolicyVirtualNetworkLink();
+  await updateDnsResolverPolicyVirtualNetworkLink();
 }
 
 main().catch(console.error);

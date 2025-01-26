@@ -37,7 +37,7 @@ async function retrieveDnsResolverPolicyVirtualNetworkLink(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveDnsResolverPolicyVirtualNetworkLink();
+  await retrieveDnsResolverPolicyVirtualNetworkLink();
 }
 
 main().catch(console.error);

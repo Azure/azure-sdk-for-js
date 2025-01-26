@@ -31,7 +31,7 @@ async function listZonesByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listZonesByResourceGroup();
+  await listZonesByResourceGroup();
 }
 
 main().catch(console.error);

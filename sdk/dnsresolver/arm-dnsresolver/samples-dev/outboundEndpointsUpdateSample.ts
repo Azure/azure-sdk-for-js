@@ -42,7 +42,7 @@ async function updateOutboundEndpointForDnsResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateOutboundEndpointForDnsResolver();
+  await updateOutboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

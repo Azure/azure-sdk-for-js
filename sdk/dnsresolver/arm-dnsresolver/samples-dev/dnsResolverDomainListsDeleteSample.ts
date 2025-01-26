@@ -35,7 +35,7 @@ async function deleteDnsResolverDomainList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteDnsResolverDomainList();
+  await deleteDnsResolverDomainList();
 }
 
 main().catch(console.error);

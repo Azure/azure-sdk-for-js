@@ -38,7 +38,7 @@ async function listDnsForwardingRulesetsByVirtualNetwork(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDnsForwardingRulesetsByVirtualNetwork();
+  await listDnsForwardingRulesetsByVirtualNetwork();
 }
 
 main().catch(console.error);

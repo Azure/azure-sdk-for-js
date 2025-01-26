@@ -47,7 +47,7 @@ async function upsertVirtualNetworkLinkToADnsForwardingRuleset(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  upsertVirtualNetworkLinkToADnsForwardingRuleset();
+  await upsertVirtualNetworkLinkToADnsForwardingRuleset();
 }
 
 main().catch(console.error);

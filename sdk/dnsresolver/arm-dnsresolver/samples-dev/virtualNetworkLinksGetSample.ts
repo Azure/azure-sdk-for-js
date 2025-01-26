@@ -37,7 +37,7 @@ async function retrieveVirtualNetworkLinkToADnsForwardingRuleset(): Promise<void
 }
 
 async function main(): Promise<void> {
-  retrieveVirtualNetworkLinkToADnsForwardingRuleset();
+  await retrieveVirtualNetworkLinkToADnsForwardingRuleset();
 }
 
 main().catch(console.error);

@@ -43,7 +43,7 @@ async function upsertDnsResolverPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upsertDnsResolverPolicy();
+  await upsertDnsResolverPolicy();
 }
 
 main().catch(console.error);

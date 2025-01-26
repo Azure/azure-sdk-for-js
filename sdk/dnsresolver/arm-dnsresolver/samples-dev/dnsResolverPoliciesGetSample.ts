@@ -35,7 +35,7 @@ async function retrieveDnsResolverPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveDnsResolverPolicy();
+  await retrieveDnsResolverPolicy();
 }
 
 main().catch(console.error);

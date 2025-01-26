@@ -45,7 +45,7 @@ async function updateDnsSecurityRuleForDnsResolverPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateDnsSecurityRuleForDnsResolverPolicy();
+  await updateDnsSecurityRuleForDnsResolverPolicy();
 }
 
 main().catch(console.error);

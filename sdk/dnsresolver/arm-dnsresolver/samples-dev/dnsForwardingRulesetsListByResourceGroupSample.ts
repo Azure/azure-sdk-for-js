@@ -36,7 +36,7 @@ async function listDnsForwardingRulesetsByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDnsForwardingRulesetsByResourceGroup();
+  await listDnsForwardingRulesetsByResourceGroup();
 }
 
 main().catch(console.error);

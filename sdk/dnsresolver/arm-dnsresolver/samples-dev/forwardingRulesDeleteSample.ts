@@ -37,7 +37,7 @@ async function deleteForwardingRuleInADnsForwardingRuleset(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteForwardingRuleInADnsForwardingRuleset();
+  await deleteForwardingRuleInADnsForwardingRuleset();
 }
 
 main().catch(console.error);

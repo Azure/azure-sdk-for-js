@@ -29,7 +29,7 @@ async function getZone(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getZone();
+  await getZone();
 }
 
 main().catch(console.error);

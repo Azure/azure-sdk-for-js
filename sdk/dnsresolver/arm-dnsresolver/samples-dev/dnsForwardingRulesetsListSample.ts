@@ -32,7 +32,7 @@ async function listDnsForwardingRulesetsBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDnsForwardingRulesetsBySubscription();
+  await listDnsForwardingRulesetsBySubscription();
 }
 
 main().catch(console.error);

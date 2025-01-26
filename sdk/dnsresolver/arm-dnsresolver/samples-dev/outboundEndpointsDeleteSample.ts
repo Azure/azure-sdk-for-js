@@ -37,7 +37,7 @@ async function deleteOutboundEndpointForDnsResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteOutboundEndpointForDnsResolver();
+  await deleteOutboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

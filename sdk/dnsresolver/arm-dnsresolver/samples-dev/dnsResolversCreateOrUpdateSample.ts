@@ -46,7 +46,7 @@ async function upsertDnsResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upsertDnsResolver();
+  await upsertDnsResolver();
 }
 
 main().catch(console.error);

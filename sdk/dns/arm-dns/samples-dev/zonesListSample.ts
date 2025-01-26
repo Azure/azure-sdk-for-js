@@ -30,7 +30,7 @@ async function listZonesBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listZonesBySubscription();
+  await listZonesBySubscription();
 }
 
 main().catch(console.error);

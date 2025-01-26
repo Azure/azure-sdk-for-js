@@ -486,21 +486,21 @@ async function createTxtRecordset(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createARecordset();
-  createARecordsetWithAliasTargetResource();
-  createARecordsetWithTrafficManagementProfile();
-  createAaaaRecordset();
-  createCaaRecordset();
-  createCnameRecordset();
-  createDsRecordset();
-  createMxRecordset();
-  createNaptrRecordset();
-  createNsRecordset();
-  createPtrRecordset();
-  createSoaRecordset();
-  createSrvRecordset();
-  createTlsaRecordset();
-  createTxtRecordset();
+  await createARecordset();
+  await createARecordsetWithAliasTargetResource();
+  await createARecordsetWithTrafficManagementProfile();
+  await createAaaaRecordset();
+  await createCaaRecordset();
+  await createCnameRecordset();
+  await createDsRecordset();
+  await createMxRecordset();
+  await createNaptrRecordset();
+  await createNsRecordset();
+  await createPtrRecordset();
+  await createSoaRecordset();
+  await createSrvRecordset();
+  await createTlsaRecordset();
+  await createTxtRecordset();
 }
 
 main().catch(console.error);

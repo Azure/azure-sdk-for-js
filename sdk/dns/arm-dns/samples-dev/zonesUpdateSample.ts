@@ -34,7 +34,7 @@ async function patchZone(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchZone();
+  await patchZone();
 }
 
 main().catch(console.error);

@@ -40,7 +40,7 @@ async function updateDnsForwardingRuleset(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateDnsForwardingRuleset();
+  await updateDnsForwardingRuleset();
 }
 
 main().catch(console.error);

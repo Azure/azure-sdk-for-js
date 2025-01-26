@@ -35,7 +35,7 @@ async function listDnssecConfigs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDnssecConfigs();
+  await listDnssecConfigs();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function deleteDnssecConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteDnssecConfig();
+  await deleteDnssecConfig();
 }
 
 main().catch(console.error);

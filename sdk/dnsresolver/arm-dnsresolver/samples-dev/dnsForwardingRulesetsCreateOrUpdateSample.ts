@@ -51,7 +51,7 @@ async function upsertDnsForwardingRuleset(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upsertDnsForwardingRuleset();
+  await upsertDnsForwardingRuleset();
 }
 
 main().catch(console.error);

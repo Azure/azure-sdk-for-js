@@ -44,7 +44,7 @@ async function upsertDnsResolverDomainList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upsertDnsResolverDomainList();
+  await upsertDnsResolverDomainList();
 }
 
 main().catch(console.error);

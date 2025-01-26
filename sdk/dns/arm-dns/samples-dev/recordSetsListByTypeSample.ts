@@ -325,19 +325,19 @@ async function listTxtRecordsets(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listARecordsets();
-  listAaaaRecordsets();
-  listCaaRecordsets();
-  listCnameRecordsets();
-  listDsRecordsets();
-  listMxRecordsets();
-  listNaptrRecordsets();
-  listNsRecordsets();
-  listPtrRecordsets();
-  listSoaRecordsets();
-  listSrvRecordsets();
-  listTlsaRecordsets();
-  listTxtRecordsets();
+  await listARecordsets();
+  await listAaaaRecordsets();
+  await listCaaRecordsets();
+  await listCnameRecordsets();
+  await listDsRecordsets();
+  await listMxRecordsets();
+  await listNaptrRecordsets();
+  await listNsRecordsets();
+  await listPtrRecordsets();
+  await listSoaRecordsets();
+  await listSrvRecordsets();
+  await listTlsaRecordsets();
+  await listTxtRecordsets();
 }
 
 main().catch(console.error);

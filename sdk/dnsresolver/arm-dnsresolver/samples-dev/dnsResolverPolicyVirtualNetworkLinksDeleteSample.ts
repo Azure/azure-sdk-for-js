@@ -38,7 +38,7 @@ async function deleteDnsResolverPolicyVirtualNetworkLink(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteDnsResolverPolicyVirtualNetworkLink();
+  await deleteDnsResolverPolicyVirtualNetworkLink();
 }
 
 main().catch(console.error);

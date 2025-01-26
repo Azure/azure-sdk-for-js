@@ -35,7 +35,7 @@ async function listRecordsetsByZone(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listRecordsetsByZone();
+  await listRecordsetsByZone();
 }
 
 main().catch(console.error);

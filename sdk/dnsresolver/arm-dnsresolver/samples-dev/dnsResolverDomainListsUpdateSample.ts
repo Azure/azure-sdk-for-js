@@ -43,7 +43,7 @@ async function updateDnsResolverDomainList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateDnsResolverDomainList();
+  await updateDnsResolverDomainList();
 }
 
 main().catch(console.error);

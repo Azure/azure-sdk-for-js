@@ -53,7 +53,7 @@ async function upsertInboundEndpointForDnsResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upsertInboundEndpointForDnsResolver();
+  await upsertInboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

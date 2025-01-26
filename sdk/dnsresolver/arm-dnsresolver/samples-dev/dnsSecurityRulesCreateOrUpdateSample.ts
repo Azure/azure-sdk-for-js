@@ -53,7 +53,7 @@ async function upsertDnsSecurityRule(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upsertDnsSecurityRule();
+  await upsertDnsSecurityRule();
 }
 
 main().catch(console.error);

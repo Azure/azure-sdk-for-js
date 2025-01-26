@@ -32,7 +32,7 @@ async function deleteZone(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteZone();
+  await deleteZone();
 }
 
 main().catch(console.error);

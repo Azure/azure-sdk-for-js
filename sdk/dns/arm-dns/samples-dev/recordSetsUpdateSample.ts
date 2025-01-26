@@ -338,19 +338,19 @@ async function patchTxtRecordset(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchARecordset();
-  patchAaaaRecordset();
-  patchCaaRecordset();
-  patchCnameRecordset();
-  patchDsRecordset();
-  patchMxRecordset();
-  patchNaptrRecordset();
-  patchNsRecordset();
-  patchPtrRecordset();
-  patchSoaRecordset();
-  patchSrvRecordset();
-  patchTlsaRecordset();
-  patchTxtRecordset();
+  await patchARecordset();
+  await patchAaaaRecordset();
+  await patchCaaRecordset();
+  await patchCnameRecordset();
+  await patchDsRecordset();
+  await patchMxRecordset();
+  await patchNaptrRecordset();
+  await patchNsRecordset();
+  await patchPtrRecordset();
+  await patchSoaRecordset();
+  await patchSrvRecordset();
+  await patchTlsaRecordset();
+  await patchTxtRecordset();
 }
 
 main().catch(console.error);

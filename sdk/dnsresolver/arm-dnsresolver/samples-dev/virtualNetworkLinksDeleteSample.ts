@@ -37,7 +37,7 @@ async function deleteVirtualNetworkLinkToADnsForwardingRuleset(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  deleteVirtualNetworkLinkToADnsForwardingRuleset();
+  await deleteVirtualNetworkLinkToADnsForwardingRuleset();
 }
 
 main().catch(console.error);

@@ -32,7 +32,7 @@ async function listDnsResolverPoliciesBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDnsResolverPoliciesBySubscription();
+  await listDnsResolverPoliciesBySubscription();
 }
 
 main().catch(console.error);

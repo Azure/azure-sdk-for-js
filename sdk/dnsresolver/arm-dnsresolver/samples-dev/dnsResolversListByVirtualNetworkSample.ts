@@ -38,7 +38,7 @@ async function listDnsResolversByVirtualNetwork(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDnsResolversByVirtualNetwork();
+  await listDnsResolversByVirtualNetwork();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function listDnsResolverPolicyVirtualNetworkLinksByDnsResolverPolicy(): Pr
 }
 
 async function main(): Promise<void> {
-  listDnsResolverPolicyVirtualNetworkLinksByDnsResolverPolicy();
+  await listDnsResolverPolicyVirtualNetworkLinksByDnsResolverPolicy();
 }
 
 main().catch(console.error);

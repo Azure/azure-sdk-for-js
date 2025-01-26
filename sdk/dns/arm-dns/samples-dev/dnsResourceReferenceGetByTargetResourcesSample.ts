@@ -40,7 +40,7 @@ async function getDnsResourceReference(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDnsResourceReference();
+  await getDnsResourceReference();
 }
 
 main().catch(console.error);

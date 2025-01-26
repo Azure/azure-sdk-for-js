@@ -49,7 +49,7 @@ async function upsertDnsResolverPolicyVirtualNetworkLink(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  upsertDnsResolverPolicyVirtualNetworkLink();
+  await upsertDnsResolverPolicyVirtualNetworkLink();
 }
 
 main().catch(console.error);

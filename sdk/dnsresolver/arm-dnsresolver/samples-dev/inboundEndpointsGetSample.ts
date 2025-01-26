@@ -37,7 +37,7 @@ async function retrieveInboundEndpointForDnsResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveInboundEndpointForDnsResolver();
+  await retrieveInboundEndpointForDnsResolver();
 }
 
 main().catch(console.error);

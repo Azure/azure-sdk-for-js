@@ -312,19 +312,19 @@ async function getTxtRecordset(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getARecordset();
-  getAaaaRecordset();
-  getCaaRecordset();
-  getCnameRecordset();
-  getDsRecordset();
-  getMxRecordset();
-  getNaptrRecordset();
-  getNsRecordset();
-  getPtrRecordset();
-  getSoaRecordset();
-  getSrvRecordset();
-  getTlsaRecordset();
-  getTxtRecordset();
+  await getARecordset();
+  await getAaaaRecordset();
+  await getCaaRecordset();
+  await getCnameRecordset();
+  await getDsRecordset();
+  await getMxRecordset();
+  await getNaptrRecordset();
+  await getNsRecordset();
+  await getPtrRecordset();
+  await getSoaRecordset();
+  await getSrvRecordset();
+  await getTlsaRecordset();
+  await getTxtRecordset();
 }
 
 main().catch(console.error);

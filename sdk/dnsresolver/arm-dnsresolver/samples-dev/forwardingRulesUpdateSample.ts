@@ -45,7 +45,7 @@ async function updateForwardingRuleInADnsForwardingRuleset(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateForwardingRuleInADnsForwardingRuleset();
+  await updateForwardingRuleInADnsForwardingRuleset();
 }
 
 main().catch(console.error);

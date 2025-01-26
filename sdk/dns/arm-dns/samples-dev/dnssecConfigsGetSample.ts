@@ -29,7 +29,7 @@ async function getDnssecConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getDnssecConfig();
+  await getDnssecConfig();
 }
 
 main().catch(console.error);

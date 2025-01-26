@@ -37,7 +37,7 @@ async function deleteDnsSecurityRuleForDnsResolverPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteDnsSecurityRuleForDnsResolverPolicy();
+  await deleteDnsSecurityRuleForDnsResolverPolicy();
 }
 
 main().catch(console.error);

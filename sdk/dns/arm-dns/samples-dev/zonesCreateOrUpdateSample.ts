@@ -34,7 +34,7 @@ async function createZone(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createZone();
+  await createZone();
 }
 
 main().catch(console.error);

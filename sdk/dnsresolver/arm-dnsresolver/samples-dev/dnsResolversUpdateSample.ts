@@ -40,7 +40,7 @@ async function updateDnsResolver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateDnsResolver();
+  await updateDnsResolver();
 }
 
 main().catch(console.error);
