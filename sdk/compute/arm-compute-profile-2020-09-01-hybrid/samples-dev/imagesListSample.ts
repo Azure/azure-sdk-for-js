@@ -28,7 +28,7 @@ async function listAllVirtualMachineImagesInASubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listAllVirtualMachineImagesInASubscription()
+  await listAllVirtualMachineImagesInASubscription();
 }
 
 main().catch(console.error);

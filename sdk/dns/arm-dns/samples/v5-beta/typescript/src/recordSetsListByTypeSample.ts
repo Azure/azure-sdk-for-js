@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListARecordset.json
  */
-async function listARecordsets() {
+async function listARecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -44,7 +42,7 @@ async function listARecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListAAAARecordset.json
  */
-async function listAaaaRecordsets() {
+async function listAaaaRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -68,7 +66,7 @@ async function listAaaaRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListCaaRecordset.json
  */
-async function listCaaRecordsets() {
+async function listCaaRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -92,7 +90,7 @@ async function listCaaRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListCNAMERecordset.json
  */
-async function listCnameRecordsets() {
+async function listCnameRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -116,7 +114,7 @@ async function listCnameRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListDSRecordset.json
  */
-async function listDsRecordsets() {
+async function listDsRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -140,7 +138,7 @@ async function listDsRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListMXRecordset.json
  */
-async function listMxRecordsets() {
+async function listMxRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -164,7 +162,7 @@ async function listMxRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListNAPTRRecordset.json
  */
-async function listNaptrRecordsets() {
+async function listNaptrRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -188,7 +186,7 @@ async function listNaptrRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListNSRecordset.json
  */
-async function listNsRecordsets() {
+async function listNsRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -212,7 +210,7 @@ async function listNsRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListPTRRecordset.json
  */
-async function listPtrRecordsets() {
+async function listPtrRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "0.0.127.in-addr.arpa";
@@ -236,7 +234,7 @@ async function listPtrRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListSOARecordset.json
  */
-async function listSoaRecordsets() {
+async function listSoaRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -260,7 +258,7 @@ async function listSoaRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListSRVRecordset.json
  */
-async function listSrvRecordsets() {
+async function listSrvRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -284,7 +282,7 @@ async function listSrvRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListTLSARecordset.json
  */
-async function listTlsaRecordsets() {
+async function listTlsaRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -308,7 +306,7 @@ async function listTlsaRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListTXTRecordset.json
  */
-async function listTxtRecordsets() {
+async function listTxtRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -326,7 +324,7 @@ async function listTxtRecordsets() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listARecordsets();
   listAaaaRecordsets();
   listCaaRecordsets();

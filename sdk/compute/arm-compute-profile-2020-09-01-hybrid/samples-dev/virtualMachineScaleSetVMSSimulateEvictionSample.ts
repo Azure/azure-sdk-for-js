@@ -32,7 +32,7 @@ async function simulateEvictionAVirtualMachine(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await simulateEvictionAVirtualMachine()
+  await simulateEvictionAVirtualMachine();
 }
 
 main().catch(console.error);

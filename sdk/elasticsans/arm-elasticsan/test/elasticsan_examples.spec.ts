@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ElasticSanManagement } from "../src/elasticSanManagement";
-import { ElasticSan } from "../src/models";
+import { ElasticSanManagement } from "../src/elasticSanManagement.js";
+import { ElasticSan } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -43,8 +41,8 @@ describe("elasticSan test", () => {
   let resourceGroup: string;
   let elasticSanName: string;
   let parameters: ElasticSan
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -63,7 +61,7 @@ describe("elasticSan test", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -94,7 +92,7 @@ describe("elasticSan test", () => {
 
   it("elasticSan delete test", async function () {
     const resArray = new Array();
-    const result = await client.elasticSans.beginDeleteAndWait(
+    await client.elasticSans.beginDeleteAndWait(
       resourceGroup,
       elasticSanName
     );

@@ -22,7 +22,7 @@ const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
 
 const imageFilePath = "sample1.png";
-const imageFormat = "png"; //"jpeg", "png", etc.
+const imageFormat = "png"; // "jpeg", "png", etc.
 
 export async function main() {
   console.log("== Image File Completions Sample ==");
