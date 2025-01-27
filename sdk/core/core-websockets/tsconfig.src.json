@@ -1,0 +1,6 @@
+{
+  "extends": "../../../tsconfig.lib.json",
+  "compilerOptions": {
+    "lib": ["ES2021.Promise"]
+  }
+}
