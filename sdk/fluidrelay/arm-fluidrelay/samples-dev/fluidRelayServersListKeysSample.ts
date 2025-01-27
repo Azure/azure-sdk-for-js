@@ -7,9 +7,7 @@
  */
 import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get primary and secondary key for this server.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get primary and secondary key for this server.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_ListKeys.json
  */
-async function getKeysForAFluidRelayServer() {
+async function getKeysForAFluidRelayServer(): Promise<void> {
   const subscriptionId = process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
   const fluidRelayServerName = "myFluidRelayServer";
@@ -27,7 +25,7 @@ async function getKeysForAFluidRelayServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getKeysForAFluidRelayServer();
 }
 
