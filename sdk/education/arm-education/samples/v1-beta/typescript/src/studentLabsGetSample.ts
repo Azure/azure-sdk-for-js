@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the details for a specified lab associated with the student lab.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the details for a specified lab associated with the student lab.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/StudentLab.json
  */
-async function studentLab() {
+async function studentLab(): Promise<void> {
   const studentLabName = "{studentLabName}";
   const credential = new DefaultAzureCredential();
   const client = new EducationManagementClient(credential);
@@ -28,7 +26,7 @@ async function studentLab() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   studentLab();
 }
 

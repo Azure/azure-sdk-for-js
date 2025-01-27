@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { EventGridManagementClient } from "../src/eventGridManagementClient";
+import { EventGridManagementClient } from "../src/eventGridManagementClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -52,8 +50,8 @@ describe("Eventgrid test", () => {
   let eventSubscriptionName: string;
   let domaintopicName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
@@ -71,7 +69,7 @@ describe("Eventgrid test", () => {
     eventSubscriptionName = "myeventSubscription";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -104,7 +102,7 @@ describe("Eventgrid test", () => {
   });
 
   it("domains update test", async function () {
-    const res = await client.domains.beginUpdateAndWait(
+    await client.domains.beginUpdateAndWait(
       resourceGroupName,
       domainName,
       {
@@ -222,7 +220,7 @@ describe("Eventgrid test", () => {
   });
 
   it("domainTopicEventSubscriptions delete test", async function () {
-    const res = await client.domainTopicEventSubscriptions.beginDeleteAndWait(
+    await client.domainTopicEventSubscriptions.beginDeleteAndWait(
       resourceGroupName,
       domainName,
       topicName,
@@ -241,7 +239,7 @@ describe("Eventgrid test", () => {
   });
 
   it("domaintopics delete test", async function () {
-    const res = await client.domainTopics.beginDeleteAndWait(
+    await client.domainTopics.beginDeleteAndWait(
       resourceGroupName,
       domainName,
       domaintopicName,
@@ -255,12 +253,12 @@ describe("Eventgrid test", () => {
   });
 
   it("topics delete test", async function () {
-    const res = await client.topics.beginDeleteAndWait(
+    await client.topics.beginDeleteAndWait(
       resourceGroupName,
       topicName,
       testPollingOptions,
     );
-    const res1 = await client.topics.beginDeleteAndWait(
+    await client.topics.beginDeleteAndWait(
       resourceGroupName,
       domaintopicName,
       testPollingOptions,
@@ -273,7 +271,7 @@ describe("Eventgrid test", () => {
   });
 
   it("domains delete test", async function () {
-    const res = await client.domains.beginDeleteAndWait(
+    await client.domains.beginDeleteAndWait(
       resourceGroupName,
       domainName,
       testPollingOptions,
