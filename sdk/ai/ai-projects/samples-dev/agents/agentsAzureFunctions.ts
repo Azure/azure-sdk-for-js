@@ -46,7 +46,33 @@ const azureFunctionTool = ToolUtility.createAzureFunctionTool(
   {
     queueServiceEndpoint: storageServiceEndpoint,
     queueName: "output-queue",
-  }
+  },
+  {
+     function: { name: "azure-function-tool",
+      description: "Azure function",
+      parameters: {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "The question to ask."},
+                "outputqueueuri": {"type": "string", "description": "The full output queue uri."},
+            },
+      },
+    },
+      inputBinding: {
+        type: "storage_queue",
+        storageQueue:{
+          queueName: "input-queue",
+          queueServiceEndpoint: storageServiceEndpoint,
+        }
+      },
+      outputBinding: {
+        type: "storage_queue",
+        storageQueue:{
+          queueName: "output-queue",
+          queueServiceEndpoint: storageServiceEndpoint,
+        }
+      }
+    },
 );
 
 const agent = await client.agents.createAgent("gpt-4o-mini", 
@@ -54,21 +80,6 @@ const agent = await client.agents.createAgent("gpt-4o-mini",
     name: "azure-function-agent",
     instructions: `You are a helpful support agent. Use the provided function any time the prompt contains the string 'What would foo say?'. When you invoke the function, ALWAYS specify the output queue uri parameter as '${storageServiceEndpoint}/azure-function-tool-output'. Always responds with "Foo says" and then the response from the tool.`,
     tools: [azureFunctionTool.definition],
-    toolResources: {
-      azureFunction: {
-        name: azureFunctionTool.resources.azureFunction?.name ?? "",
-        description: azureFunctionTool.resources.azureFunction?.description ?? "",
-        parameters: azureFunctionTool.resources.azureFunction?.parameters ?? {},
-        inputQueue: {
-          queueServiceEndpoint: azureFunctionTool.resources.azureFunction?.inputQueue.queueServiceEndpoint || "",
-          queueName: azureFunctionTool.resources.azureFunction?.inputQueue.queueName || "",
-        },
-        outputQueue: {
-          queueServiceEndpoint: azureFunctionTool.resources.azureFunction?.outputQueue.queueServiceEndpoint || "",
-          queueName: azureFunctionTool.resources.azureFunction?.outputQueue.queueName || "",
-        },
-      },
-    },
   }
 );
 console.log(`Created agent, agent ID: ${agent.id}`);
