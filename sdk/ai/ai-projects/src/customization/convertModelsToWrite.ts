@@ -31,6 +31,15 @@ function convertToolResources(source: PublicModels.ToolResources): GeneratedMode
     ...(source.azureAISearch && {
       azure_ai_search: convertAzureAISearchResource(source.azureAISearch),
     }),
+    ...(source.azureFunction && {
+      azure_function: {
+      name: source.azureFunction.name,
+      description: source.azureFunction.description,
+      parameters: source.azureFunction.parameters,
+      input_queue: convertAzureFunctionStorageQueue(source.azureFunction.inputQueue),
+      output_queue: convertAzureFunctionStorageQueue(source.azureFunction.outputQueue),
+      }
+    }),
   };
 }
 
@@ -516,5 +525,14 @@ function convertToolConnection(
 ): GeneratedModels.ToolConnection {
   return {
     connection_id: source.connectionId,
+  };
+}
+
+function convertAzureFunctionStorageQueue(
+  source: PublicModels.AzureFunctionStorageQueue,
+): GeneratedModels.AzureFunctionStorageQueue {
+  return {
+    queue_service_endpoint: source.queueServiceEndpoint,
+    queue_name: source.queueName,
   };
 }

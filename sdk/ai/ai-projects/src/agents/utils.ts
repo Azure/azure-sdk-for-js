@@ -151,8 +151,8 @@ export class ToolUtility {
           outputBinding: {
             type: "storage_queue", 
             storageQueue:{ 
-              queueServiceEndpoint: inputQueue.queueServiceEndpoint, 
-              queueName: inputQueue.queueName
+              queueServiceEndpoint: outputQueue.queueServiceEndpoint, 
+              queueName: outputQueue.queueName
             }
         },
       },
