@@ -11,7 +11,7 @@ import {
   OrganizationsGetApiKeyResponse,
   OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
   OrganizationsGetElasticToAzureSubscriptionMappingResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Organizations. */
 export interface Organizations {

@@ -20,7 +20,7 @@ import {
   VMCollectionUpdate as VMCollectionUpdateMapper,
   ElasticMonitorUpgrade as ElasticMonitorUpgradeMapper,
   UserEmailId as UserEmailIdMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

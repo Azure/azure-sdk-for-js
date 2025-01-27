@@ -7,9 +7,7 @@
  */
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all monitors under the specified resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all monitors under the specified resource group.
  * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2024-03-01/examples/Monitors_ListByResourceGroup.json
  */
-async function monitorsListByResourceGroup() {
+async function monitorsListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
@@ -30,7 +28,7 @@ async function monitorsListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await monitorsListByResourceGroup();
 }
 

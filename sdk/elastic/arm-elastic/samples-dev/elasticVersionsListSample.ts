@@ -7,9 +7,7 @@
  */
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of available versions for a region.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a list of available versions for a region.
  * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2024-03-01/examples/ElasticVersions_List.json
  */
-async function elasticVersionsList() {
+async function elasticVersionsList(): Promise<void> {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const region = "myregion";
@@ -30,7 +28,7 @@ async function elasticVersionsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await elasticVersionsList();
 }
 

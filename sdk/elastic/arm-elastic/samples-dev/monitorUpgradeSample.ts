@@ -7,9 +7,7 @@
  */
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Upgradable version for a monitor resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Upgradable version for a monitor resource.
  * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2024-03-01/examples/Monitor_Upgrade.json
  */
-async function monitorUpgrade() {
+async function monitorUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["ELASTIC_RESOURCE_GROUP"] || "myResourceGroup";
@@ -28,7 +26,7 @@ async function monitorUpgrade() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await monitorUpgrade();
 }
 
