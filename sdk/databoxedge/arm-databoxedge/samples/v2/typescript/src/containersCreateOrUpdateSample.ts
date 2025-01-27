@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a new container or updates an existing container on the device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/ContainerPut.json
  */
-async function containerPut() {
+async function containerPut(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const storageAccountName = "storageaccount1";

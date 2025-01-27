@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets information about the availability of updates based on the last scan of the device. It also gets information about any ongoing download or install jobs on the device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2019-08-01/examples/UpdateSummaryGet.json
  */
-async function updateSummaryGet() {
+async function updateSummaryGet(): Promise<void> {
   const subscriptionId =
     process.env["DATABOXEDGE_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -31,7 +31,7 @@ async function updateSummaryGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateSummaryGet();
 }
 

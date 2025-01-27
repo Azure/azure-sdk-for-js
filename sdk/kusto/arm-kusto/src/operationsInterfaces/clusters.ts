@@ -9,6 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  FollowerDatabaseDefinitionGet,
+  ClustersListFollowerDatabasesGetOptionalParams,
   FollowerDatabaseDefinition,
   ClustersListFollowerDatabasesOptionalParams,
   Cluster,
@@ -20,6 +22,8 @@ import {
   ClustersListSkusByResourceOptionalParams,
   OutboundNetworkDependenciesEndpoint,
   ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
+  CalloutPolicy,
+  ClustersListCalloutPoliciesOptionalParams,
   LanguageExtension,
   ClustersListLanguageExtensionsOptionalParams,
   ClustersGetOptionalParams,
@@ -40,10 +44,14 @@ import {
   ClusterCheckNameRequest,
   ClustersCheckNameAvailabilityOptionalParams,
   ClustersCheckNameAvailabilityResponse,
+  CalloutPoliciesList,
+  ClustersAddCalloutPoliciesOptionalParams,
+  CalloutPolicyToRemove,
+  ClustersRemoveCalloutPolicyOptionalParams,
   LanguageExtensionsList,
   ClustersAddLanguageExtensionsOptionalParams,
-  ClustersRemoveLanguageExtensionsOptionalParams
-} from "../models";
+  ClustersRemoveLanguageExtensionsOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */
@@ -54,10 +62,21 @@ export interface Clusters {
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
+  listFollowerDatabasesGet(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListFollowerDatabasesGetOptionalParams,
+  ): PagedAsyncIterableIterator<FollowerDatabaseDefinitionGet>;
+  /**
+   * Returns a list of databases that are owned by this cluster and were followed by another cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param options The options parameters.
+   */
   listFollowerDatabases(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListFollowerDatabasesOptionalParams
+    options?: ClustersListFollowerDatabasesOptionalParams,
   ): PagedAsyncIterableIterator<FollowerDatabaseDefinition>;
   /**
    * Lists all Kusto clusters within a resource group.
@@ -66,21 +85,21 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists all Kusto clusters within a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists eligible SKUs for Kusto resource provider.
    * @param options The options parameters.
    */
   listSkus(
-    options?: ClustersListSkusOptionalParams
+    options?: ClustersListSkusOptionalParams,
   ): PagedAsyncIterableIterator<SkuDescription>;
   /**
    * Returns the SKUs available for the provided resource.
@@ -91,7 +110,7 @@ export interface Clusters {
   listSkusByResource(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListSkusByResourceOptionalParams
+    options?: ClustersListSkusByResourceOptionalParams,
   ): PagedAsyncIterableIterator<AzureResourceSku>;
   /**
    * Gets the network endpoints of all outbound dependencies of a Kusto cluster
@@ -102,8 +121,19 @@ export interface Clusters {
   listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundNetworkDependenciesEndpoint>;
+  /**
+   * Returns the allowed callout policies for the specified service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param options The options parameters.
+   */
+  listCalloutPolicies(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListCalloutPoliciesOptionalParams,
+  ): PagedAsyncIterableIterator<CalloutPolicy>;
   /**
    * Returns a list of language extensions that can run within KQL queries.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -113,7 +143,7 @@ export interface Clusters {
   listLanguageExtensions(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListLanguageExtensionsOptionalParams
+    options?: ClustersListLanguageExtensionsOptionalParams,
   ): PagedAsyncIterableIterator<LanguageExtension>;
   /**
    * Gets a Kusto cluster.
@@ -124,7 +154,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * Create or update a Kusto cluster.
@@ -137,7 +167,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersCreateOrUpdateResponse>,
@@ -155,7 +185,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<ClustersCreateOrUpdateResponse>;
   /**
    * Update a Kusto cluster.
@@ -168,7 +198,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersUpdateResponse>,
@@ -186,7 +216,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
    * Deletes a Kusto cluster.
@@ -197,7 +227,7 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto cluster.
@@ -208,7 +238,7 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Stops a Kusto cluster.
@@ -219,7 +249,7 @@ export interface Clusters {
   beginStop(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStopOptionalParams
+    options?: ClustersStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a Kusto cluster.
@@ -230,7 +260,7 @@ export interface Clusters {
   beginStopAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStopOptionalParams
+    options?: ClustersStopOptionalParams,
   ): Promise<void>;
   /**
    * Starts a Kusto cluster.
@@ -241,7 +271,7 @@ export interface Clusters {
   beginStart(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStartOptionalParams
+    options?: ClustersStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a Kusto cluster.
@@ -252,7 +282,7 @@ export interface Clusters {
   beginStartAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStartOptionalParams
+    options?: ClustersStartOptionalParams,
   ): Promise<void>;
   /**
    * Migrate data from a Kusto cluster to another cluster.
@@ -265,7 +295,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     clusterMigrateRequest: ClusterMigrateRequest,
-    options?: ClustersMigrateOptionalParams
+    options?: ClustersMigrateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Migrate data from a Kusto cluster to another cluster.
@@ -278,7 +308,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     clusterMigrateRequest: ClusterMigrateRequest,
-    options?: ClustersMigrateOptionalParams
+    options?: ClustersMigrateOptionalParams,
   ): Promise<void>;
   /**
    * Detaches all followers of a database owned by this cluster.
@@ -291,7 +321,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     followerDatabaseToRemove: FollowerDatabaseDefinition,
-    options?: ClustersDetachFollowerDatabasesOptionalParams
+    options?: ClustersDetachFollowerDatabasesOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Detaches all followers of a database owned by this cluster.
@@ -304,7 +334,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     followerDatabaseToRemove: FollowerDatabaseDefinition,
-    options?: ClustersDetachFollowerDatabasesOptionalParams
+    options?: ClustersDetachFollowerDatabasesOptionalParams,
   ): Promise<void>;
   /**
    * Diagnoses network connectivity status for external resources on which the service is dependent on.
@@ -315,7 +345,7 @@ export interface Clusters {
   beginDiagnoseVirtualNetwork(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDiagnoseVirtualNetworkOptionalParams
+    options?: ClustersDiagnoseVirtualNetworkOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersDiagnoseVirtualNetworkResponse>,
@@ -331,7 +361,7 @@ export interface Clusters {
   beginDiagnoseVirtualNetworkAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDiagnoseVirtualNetworkOptionalParams
+    options?: ClustersDiagnoseVirtualNetworkOptionalParams,
   ): Promise<ClustersDiagnoseVirtualNetworkResponse>;
   /**
    * Checks that the cluster name is valid and is not already in use.
@@ -342,8 +372,60 @@ export interface Clusters {
   checkNameAvailability(
     location: string,
     clusterName: ClusterCheckNameRequest,
-    options?: ClustersCheckNameAvailabilityOptionalParams
+    options?: ClustersCheckNameAvailabilityOptionalParams,
   ): Promise<ClustersCheckNameAvailabilityResponse>;
+  /**
+   * Adds a list of callout policies for engine services.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param calloutPolicies The callout policies to add.
+   * @param options The options parameters.
+   */
+  beginAddCalloutPolicies(
+    resourceGroupName: string,
+    clusterName: string,
+    calloutPolicies: CalloutPoliciesList,
+    options?: ClustersAddCalloutPoliciesOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Adds a list of callout policies for engine services.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param calloutPolicies The callout policies to add.
+   * @param options The options parameters.
+   */
+  beginAddCalloutPoliciesAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    calloutPolicies: CalloutPoliciesList,
+    options?: ClustersAddCalloutPoliciesOptionalParams,
+  ): Promise<void>;
+  /**
+   * Removes callout policy for engine services.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param calloutPolicy The callout policies to remove.
+   * @param options The options parameters.
+   */
+  beginRemoveCalloutPolicy(
+    resourceGroupName: string,
+    clusterName: string,
+    calloutPolicy: CalloutPolicyToRemove,
+    options?: ClustersRemoveCalloutPolicyOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Removes callout policy for engine services.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the Kusto cluster.
+   * @param calloutPolicy The callout policies to remove.
+   * @param options The options parameters.
+   */
+  beginRemoveCalloutPolicyAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    calloutPolicy: CalloutPolicyToRemove,
+    options?: ClustersRemoveCalloutPolicyOptionalParams,
+  ): Promise<void>;
   /**
    * Add a list of language extensions that can run within KQL queries.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -355,7 +437,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     languageExtensionsToAdd: LanguageExtensionsList,
-    options?: ClustersAddLanguageExtensionsOptionalParams
+    options?: ClustersAddLanguageExtensionsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Add a list of language extensions that can run within KQL queries.
@@ -368,7 +450,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     languageExtensionsToAdd: LanguageExtensionsList,
-    options?: ClustersAddLanguageExtensionsOptionalParams
+    options?: ClustersAddLanguageExtensionsOptionalParams,
   ): Promise<void>;
   /**
    * Remove a list of language extensions that can run within KQL queries.
@@ -381,7 +463,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     languageExtensionsToRemove: LanguageExtensionsList,
-    options?: ClustersRemoveLanguageExtensionsOptionalParams
+    options?: ClustersRemoveLanguageExtensionsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Remove a list of language extensions that can run within KQL queries.
@@ -394,6 +476,6 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     languageExtensionsToRemove: LanguageExtensionsList,
-    options?: ClustersRemoveLanguageExtensionsOptionalParams
+    options?: ClustersRemoveLanguageExtensionsOptionalParams,
   ): Promise<void>;
 }

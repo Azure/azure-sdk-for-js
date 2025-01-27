@@ -7,17 +7,15 @@
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCosmosDbGet.json
  */
-async function kustoDataConnectionsCosmosDbGet() {
+async function kustoDataConnectionsCosmosDbGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
@@ -39,9 +37,9 @@ async function kustoDataConnectionsCosmosDbGet() {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsEventGridGet.json
  */
-async function kustoDataConnectionsEventGridGet() {
+async function kustoDataConnectionsEventGridGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
@@ -63,9 +61,9 @@ async function kustoDataConnectionsEventGridGet() {
  * This sample demonstrates how to Returns a data connection.
  *
  * @summary Returns a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsGet.json
  */
-async function kustoDataConnectionsGet() {
+async function kustoDataConnectionsGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
@@ -83,7 +81,7 @@ async function kustoDataConnectionsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoDataConnectionsCosmosDbGet();
   await kustoDataConnectionsEventGridGet();
   await kustoDataConnectionsGet();

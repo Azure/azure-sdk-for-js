@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Kusto cluster database script.
  *
  * @summary Gets a Kusto cluster database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoScriptsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoScriptsGet.json
  */
-async function kustoScriptsGet() {
+async function kustoScriptsGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -35,13 +33,13 @@ async function kustoScriptsGet() {
     resourceGroupName,
     clusterName,
     databaseName,
-    scriptName
+    scriptName,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoScriptsGet();
+async function main(): Promise<void> {
+  await kustoScriptsGet();
 }
 
 main().catch(console.error);

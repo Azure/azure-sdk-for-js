@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns a list of databases that are owned by this cluster and were followed by another cluster.
  *
  * @summary Returns a list of databases that are owned by this cluster and were followed by another cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterListFollowerDatabases.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterListFollowerDatabases.json
  */
 async function kustoClusterListFollowerDatabases() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function kustoClusterListFollowerDatabases() {
 }
 
 async function main() {
-  kustoClusterListFollowerDatabases();
+  await kustoClusterListFollowerDatabases();
 }
 
 main().catch(console.error);

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
  *
  * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateEndpointConnectionsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateEndpointConnectionsCreateOrUpdate.json
  */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
 }
 
 async function main() {
-  approveOrRejectAPrivateEndpointConnectionWithAGivenName();
+  await approveOrRejectAPrivateEndpointConnectionWithAGivenName();
 }
 
 main().catch(console.error);

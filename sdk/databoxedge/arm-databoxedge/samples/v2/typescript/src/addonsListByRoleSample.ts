@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all the addons configured in the role.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/RoleListAddOns.json
  */
-async function roleListAddOns() {
+async function roleListAddOns(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const roleName = "IoTRole1";

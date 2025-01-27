@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary This method provides the list of available skus for the given subscription, resource group and location.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/AvailableSkusPost.json
  */
-async function availableSkusPost() {
+async function availableSkusPost(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -42,7 +42,7 @@ async function availableSkusPost() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   availableSkusPost();
 }
 

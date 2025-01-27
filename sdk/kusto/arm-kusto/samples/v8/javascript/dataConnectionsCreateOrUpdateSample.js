@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCosmosDbCreateOrUpdate.json
  */
 async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCreateOrUpdate.json
  */
 async function kustoDataConnectionsCreateOrUpdate() {
   const subscriptionId =
@@ -88,7 +88,7 @@ async function kustoDataConnectionsCreateOrUpdate() {
  * This sample demonstrates how to Creates or updates a data connection.
  *
  * @summary Creates or updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
  */
 async function kustoDataConnectionsEventGridCreateOrUpdate() {
   const subscriptionId =
@@ -100,7 +100,7 @@ async function kustoDataConnectionsEventGridCreateOrUpdate() {
   const parameters = {
     blobStorageEventType: "Microsoft.Storage.BlobCreated",
     consumerGroup: "$Default",
-    dataFormat: "JSON",
+    dataFormat: "MULTIJSON",
     databaseRouting: "Single",
     eventGridResourceId:
       "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
@@ -129,9 +129,9 @@ async function kustoDataConnectionsEventGridCreateOrUpdate() {
 }
 
 async function main() {
-  kustoDataConnectionsCosmosDbCreateOrUpdate();
-  kustoDataConnectionsCreateOrUpdate();
-  kustoDataConnectionsEventGridCreateOrUpdate();
+  await kustoDataConnectionsCosmosDbCreateOrUpdate();
+  await kustoDataConnectionsCreateOrUpdate();
+  await kustoDataConnectionsEventGridCreateOrUpdate();
 }
 
 main().catch(console.error);

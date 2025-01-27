@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Book shipment pick up.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/BookShipmentPickupPost.json
  */
-async function bookShipmentPickupPost() {
+async function bookShipmentPickupPost(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function bookShipmentPickupPost() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   bookShipmentPickupPost();
 }
 

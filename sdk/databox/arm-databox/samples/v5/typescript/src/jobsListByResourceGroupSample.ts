@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all the jobs available under the given resource group.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsListByResourceGroup.json
  */
-async function jobsListByResourceGroup() {
+async function jobsListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const resourceGroupName =
@@ -29,7 +29,7 @@ async function jobsListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobsListByResourceGroup();
 }
 

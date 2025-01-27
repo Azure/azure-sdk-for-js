@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { Script, KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a database script.
  *
  * @summary Updates a database script.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoScriptsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoScriptsUpdate.json
  */
-async function kustoScriptsUpdate() {
+async function kustoScriptsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -32,9 +30,11 @@ async function kustoScriptsUpdate() {
   const parameters: Script = {
     continueOnErrors: true,
     forceUpdateTag: "2bcf3c21-ffd1-4444-b9dd-e52e00ee53fe",
+    principalPermissionsAction: "RemovePermissionOnScriptCompletion",
+    scriptLevel: "Database",
     scriptUrl: "https://mysa.blob.core.windows.net/container/script.txt",
     scriptUrlSasToken:
-      "?sv=2019-02-02&st=2019-04-29T22%3A18%3A26Z&se=2019-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=********************************"
+      "?sv=2019-02-02&st=2019-04-29T22%3A18%3A26Z&se=2019-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=********************************",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -43,13 +43,13 @@ async function kustoScriptsUpdate() {
     clusterName,
     databaseName,
     scriptName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoScriptsUpdate();
+async function main(): Promise<void> {
+  await kustoScriptsUpdate();
 }
 
 main().catch(console.error);
