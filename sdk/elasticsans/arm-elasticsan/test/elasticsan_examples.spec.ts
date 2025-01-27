@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ElasticSanManagement } from "../src/elasticSanManagement";
-import { ElasticSan } from "../src/models";
+import { ElasticSanManagement } from "../src/elasticSanManagement.js";
+import { ElasticSan } from "../src/models/index.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -43,29 +41,29 @@ describe("elasticSan test", () => {
   let resourceGroup: string;
   let elasticSanName: string;
   let parameters: ElasticSan
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ElasticSanManagement(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2";
-    resourceGroup = "myjstest";
-    elasticSanName = "testelasticsan";
-    parameters = {
-      location,
-      properties: {
-        baseSizeTiB: 15,
-        extendedCapacitySizeTiB: 27,
-        sku: { name: "Premium_LRS" }
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ElasticSanManagement(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus2";
+      resourceGroup = "myjstest";
+      elasticSanName = "testelasticsan";
+      parameters = {
+        location,
+        properties: {
+          baseSizeTiB: 15,
+          extendedCapacitySizeTiB: 27,
+          sku: { name: "Premium_LRS" }
+        }
       }
-    }
-  });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operations list test", async function () {
     const resArray = new Array();
@@ -94,10 +92,6 @@ describe("elasticSan test", () => {
 
   it("elasticSan delete test", async function () {
     const resArray = new Array();
-    const result = await client.elasticSans.beginDeleteAndWait(
-      resourceGroup,
-      elasticSanName
-    );
     for await (let item of client.elasticSans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

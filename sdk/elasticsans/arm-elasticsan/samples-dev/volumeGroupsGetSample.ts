@@ -7,9 +7,7 @@
  */
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get an VolumeGroups.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get an VolumeGroups.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Get_MaximumSet_Gen.json
  */
-async function volumeGroupsGetMaximumSetGen() {
+async function volumeGroupsGetMaximumSetGen(): Promise<void> {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
@@ -34,7 +32,7 @@ async function volumeGroupsGetMaximumSetGen() {
  * @summary Get an VolumeGroups.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/VolumeGroups_Get_MinimumSet_Gen.json
  */
-async function volumeGroupsGetMinimumSetGen() {
+async function volumeGroupsGetMinimumSetGen(): Promise<void> {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
@@ -45,7 +43,7 @@ async function volumeGroupsGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await volumeGroupsGetMaximumSetGen();
   await volumeGroupsGetMinimumSetGen();
 }

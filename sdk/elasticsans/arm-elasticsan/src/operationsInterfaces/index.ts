@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./skus";
-export * from "./elasticSans";
-export * from "./volumeGroups";
-export * from "./volumes";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./volumeSnapshots";
+export * from "./operations.js";
+export * from "./skus.js";
+export * from "./elasticSans.js";
+export * from "./volumeGroups.js";
+export * from "./volumes.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./volumeSnapshots.js";
