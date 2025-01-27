@@ -5,7 +5,7 @@ import { describe, it } from "vitest";
 import { assert } from "../utils/vitest.js";
 import { createIdentifier, createMockClient } from "../utils/reliableConnectionClientMocks.js";
 import type { CloseInfo } from "../../src/index.js";
-import { delay } from "../../../core-util/dist/commonjs/delay.js";
+import { delay } from "@azure/core-util";
 import { createFullRetryOptions } from "../utils/mockRretryOptions.js";
 
 describe("ReliableConnectionClient", () => {
