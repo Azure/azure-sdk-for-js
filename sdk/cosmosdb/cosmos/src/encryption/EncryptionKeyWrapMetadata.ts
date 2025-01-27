@@ -11,7 +11,7 @@ export class EncryptionKeyWrapMetadata {
   public type: EncryptionKeyResolverName;
   /** Identifier of customer managed key */
   public name: string;
-  /** Path to customer managed key */
+  /** Path to customer managed key. */
   public value: string;
   /** Algorithm to be used for wrapping/unwrapping the data encryption key */
   public algorithm: KeyEncryptionAlgorithm;

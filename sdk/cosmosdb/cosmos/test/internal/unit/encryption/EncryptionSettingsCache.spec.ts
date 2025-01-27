@@ -21,7 +21,7 @@ describe("EncryptionSettingsCache", function () {
 
     const clientEncryptionPolicy = new ClientEncryptionPolicy([path], 2);
     const encryptionSettingsCache = new EncryptionSettingsCache();
-    const encryptionSettings = await encryptionSettingsCache.createAndSetEncryptionSettings(
+    const encryptionSettings = await encryptionSettingsCache.create(
       id,
       containerRid,
       partitionKeyPaths,
@@ -42,7 +42,7 @@ describe("EncryptionSettingsCache", function () {
     const partitionKeyPaths = ["/mockPath"];
     const encryptionSettingsCache = new EncryptionSettingsCache();
 
-    const encryptionSettings = await encryptionSettingsCache.createAndSetEncryptionSettings(
+    const encryptionSettings = await encryptionSettingsCache.create(
       id,
       containerRid,
       partitionKeyPaths,

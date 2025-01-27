@@ -49,13 +49,13 @@ export class EncryptionSettingForProperty {
     encryptionManager: EncryptionManager,
     forceRefresh?: boolean,
   ): Promise<ProtectedDataEncryptionKey> {
-    const keyEncryptionKey = encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
+    const keyEncryptionKey = encryptionManager.keyEncryptionKeyCache.getOrCreate(
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.name,
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.value,
       encryptionManager.encryptionKeyStoreProvider,
     );
     const protectedDataEncryptionKey =
-      await encryptionManager.protectedDataEncryptionKeyCache.getOrCreateProtectedDataEncryptionKey(
+      await encryptionManager.protectedDataEncryptionKeyCache.getOrCreate(
         this.encryptionKeyId,
         keyEncryptionKey,
         clientEncryptionKeyProperties.wrappedDataEncryptionKey,

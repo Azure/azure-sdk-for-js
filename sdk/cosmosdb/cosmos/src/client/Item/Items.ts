@@ -40,14 +40,12 @@ import {
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { convertToInternalPartitionKey } from "../../documents";
 import type {
-  PartitionKey,
-  PartitionKeyDefinition
-} from "../../documents";
-import {
-  convertToInternalPartitionKey
-} from "../../documents";
-import type { ChangeFeedPullModelIterator, ChangeFeedIteratorOptions } from "../../client/ChangeFeed";
+  ChangeFeedPullModelIterator,
+  ChangeFeedIteratorOptions,
+} from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
@@ -155,9 +153,8 @@ export class Items {
         options,
         fetchFunction,
         this.container,
-      )
-    }
-    else {
+      );
+    } else {
       iterator = new QueryIterator<T>(
         this.clientContext,
         query,
@@ -757,7 +754,6 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
-              err.message,
               err.message,
             );
           }

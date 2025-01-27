@@ -331,7 +331,7 @@ export class EncryptionProcessor {
         const clientEncryptionPolicy = response.result.clientEncryptionPolicy;
         const partitionKeyPaths = response.result.partitionKey.paths;
         const updatedEncryptionSetting =
-          await this.encryptionManager.encryptionSettingsCache.createAndSetEncryptionSettings(
+          await this.encryptionManager.encryptionSettingsCache.create(
             key,
             containerRid,
             partitionKeyPaths,

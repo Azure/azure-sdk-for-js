@@ -102,7 +102,9 @@ export class QueryIterator<T> {
   /**
    * @internal
    */
-  protected async *getAsyncIteratorInternal(diagnosticNode: DiagnosticNodeInternal): AsyncIterable<FeedResponse<T>> {
+  protected async *getAsyncIteratorInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): AsyncIterable<FeedResponse<T>> {
     this.reset();
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
@@ -187,7 +189,9 @@ export class QueryIterator<T> {
   /**
    * @internal
    */
-  protected async fetchNextInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
+  protected async fetchNextInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<FeedResponse<T>> {
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
         return this.fetchQueryPlan(metadataNode);
@@ -235,7 +239,6 @@ export class QueryIterator<T> {
       this.correlatedActivityId,
     );
   }
-
 
   private async toArrayImplementation(
     diagnosticNode: DiagnosticNodeInternal,

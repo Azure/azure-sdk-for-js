@@ -30,7 +30,7 @@ export class EncryptionManager {
       cacheTimeToLive !== undefined
         ? cacheTimeToLive
         : EncryptionTimeToLive.FromHours(Constants.DefaultEncryptionCacheTimeToLive);
-    const cacheTtlInMs = this.getCacheTtlInMilliseconds();
+    const cacheTtlInMs = this.getCacheTTlInMs();
     this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
       encryptionKeyResolver,
       encryptionKeyResolverName,
@@ -45,7 +45,7 @@ export class EncryptionManager {
   /**
    * Converts the EncryptionTimeToLive instance to a number (milliseconds).
    */
-  private getCacheTtlInMilliseconds(): number {
+  private getCacheTTlInMs(): number {
     if (this.cacheTimeToLive === EncryptionTimeToLive.NoTTL()) {
       return 0;
     } else {

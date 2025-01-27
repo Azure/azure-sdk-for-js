@@ -11,20 +11,13 @@ describe("KeyEncryptionKeyCache", function () {
     const keyStoreProvider = {} as any;
 
     const keyEncryptionKeyCache = new KeyEncryptionKeyCache();
-    const keyEncryptionKey = keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
-      name,
-      path,
-      keyStoreProvider,
-    );
+    const keyEncryptionKey = keyEncryptionKeyCache.getOrCreate(name, path, keyStoreProvider);
 
     assert.equal(keyEncryptionKey.name, name);
     assert.equal(keyEncryptionKey.path, path);
     assert.equal(keyEncryptionKey.keyStoreProvider, keyStoreProvider);
-    assert.equal(keyEncryptionKeyCache.keyEncryptionKeyCache.size, 1);
-    assert.equal(
-      keyEncryptionKeyCache.keyEncryptionKeyCache.get(JSON.stringify([name, path])),
-      keyEncryptionKey,
-    );
+    assert.equal(keyEncryptionKeyCache.cache.size, 1);
+    assert.equal(keyEncryptionKeyCache.cache.get(JSON.stringify([name, path])), keyEncryptionKey);
   });
 
   it("should get the existing KeyEncryptionKey from cache", function () {
@@ -34,20 +27,16 @@ describe("KeyEncryptionKeyCache", function () {
 
     const keyEncryptionKeyCache = new KeyEncryptionKeyCache();
 
-    const keyEncryptionKey = keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
+    const keyEncryptionKey = keyEncryptionKeyCache.getOrCreate(name, path, keyStoreProvider);
+
+    assert.equal(keyEncryptionKeyCache.cache.size, 1);
+
+    const keyEncryptionKeyFromCache = keyEncryptionKeyCache.getOrCreate(
       name,
       path,
       keyStoreProvider,
     );
-
-    assert.equal(keyEncryptionKeyCache.keyEncryptionKeyCache.size, 1);
-
-    const keyEncryptionKeyFromCache = keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
-      name,
-      path,
-      keyStoreProvider,
-    );
-    assert.equal(keyEncryptionKeyCache.keyEncryptionKeyCache.size, 1);
+    assert.equal(keyEncryptionKeyCache.cache.size, 1);
     assert.equal(keyEncryptionKey, keyEncryptionKeyFromCache);
   });
 });

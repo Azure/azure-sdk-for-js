@@ -13,38 +13,35 @@ import { Constants } from "../../common";
  */
 export class ProtectedDataEncryptionKeyCache {
   // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue.toString("hex")])
-  private protectedDataEncryptionKeyCache: Map<string, [Date, ProtectedDataEncryptionKey]>;
+  private cache: Map<string, [Date, ProtectedDataEncryptionKey]>;
   // interval for clear cache to run
   cacheRefresher: NodeJS.Timeout;
 
   constructor(private cacheTimeToLive: number) {
-    this.protectedDataEncryptionKeyCache = new Map<string, [Date, ProtectedDataEncryptionKey]>();
+    this.cache = new Map<string, [Date, ProtectedDataEncryptionKey]>();
     this.clearCacheOnTtlExpiry();
   }
 
   public get(key: string): ProtectedDataEncryptionKey | undefined {
-    if (!this.protectedDataEncryptionKeyCache.has(key)) {
+    if (!this.cache.has(key)) {
       return undefined;
     }
-    return this.protectedDataEncryptionKeyCache.get(key)[1];
+    return this.cache.get(key)[1];
   }
 
   private set(key: string, protectedDataEncryptionKey: ProtectedDataEncryptionKey): void {
     if (this.cacheTimeToLive === 0) {
       return;
     }
-    this.protectedDataEncryptionKeyCache.set(key, [new Date(), protectedDataEncryptionKey]);
+    this.cache.set(key, [new Date(), protectedDataEncryptionKey]);
   }
 
   private async clearCacheOnTtlExpiry(): Promise<void> {
     this.cacheRefresher = setInterval(() => {
       const now = new Date();
-      for (const key of this.protectedDataEncryptionKeyCache.keys()) {
-        if (
-          now.getTime() - this.protectedDataEncryptionKeyCache.get(key)[0].getTime() >
-          this.cacheTimeToLive
-        ) {
-          this.protectedDataEncryptionKeyCache.delete(key);
+      for (const key of this.cache.keys()) {
+        if (now.getTime() - this.cache.get(key)[0].getTime() > this.cacheTimeToLive) {
+          this.cache.delete(key);
         }
       }
     }, Constants.EncryptionCacheRefreshInterval);
@@ -77,7 +74,7 @@ export class ProtectedDataEncryptionKeyCache {
     return newKey;
   }
 
-  public async getOrCreateProtectedDataEncryptionKey(
+  public async getOrCreate(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
     encryptedValue?: Buffer,
