@@ -40,18 +40,18 @@ describe("DatalakeAnalytics test", () => {
   let subscriptionId: string;
   let client: DataLakeAnalyticsAccountManagementClient;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new DataLakeAnalyticsAccountManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new DataLakeAnalyticsAccountManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operations list test", async function () {
     const res = await client.operations.list();
