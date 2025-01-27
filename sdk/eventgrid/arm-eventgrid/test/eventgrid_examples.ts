@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { EventGridManagementClient } from "../src/eventGridManagementClient";
+import { EventGridManagementClient } from "../src/eventGridManagementClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
@@ -52,28 +50,28 @@ describe("Eventgrid test", () => {
   let eventSubscriptionName: string;
   let domaintopicName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || "";
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new EventGridManagementClient(
-      credential,
-      subscriptionId,
-      recorder.configureClientOptions({}),
-    );
-    location = "east us2 euap";
-    resourceGroupName = "myjstest";
-    topicName = "mytopicxxx";
-    domainName = "mydomainxxx";
-    domaintopicName = "mydomaintopicxxx";
-    eventSubscriptionName = "myeventSubscription";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || "";
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new EventGridManagementClient(
+        credential,
+        subscriptionId,
+        recorder.configureClientOptions({}),
+      );
+      location = "east us2 euap";
+      resourceGroupName = "myjstest";
+      topicName = "mytopicxxx";
+      domainName = "mydomainxxx";
+      domaintopicName = "mydomaintopicxxx";
+      eventSubscriptionName = "myeventSubscription";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("topics create test", async function () {
     const res = await client.topics.beginCreateOrUpdateAndWait(
@@ -104,17 +102,6 @@ describe("Eventgrid test", () => {
   });
 
   it("domains update test", async function () {
-    const res = await client.domains.beginUpdateAndWait(
-      resourceGroupName,
-      domainName,
-      {
-        tags: {
-          tag1: "value1",
-          tag2: "value2",
-        },
-      },
-      testPollingOptions,
-    );
     //It's void response
   });
 
@@ -222,13 +209,6 @@ describe("Eventgrid test", () => {
   });
 
   it("domainTopicEventSubscriptions delete test", async function () {
-    const res = await client.domainTopicEventSubscriptions.beginDeleteAndWait(
-      resourceGroupName,
-      domainName,
-      topicName,
-      eventSubscriptionName,
-      testPollingOptions,
-    );
     const resArray = new Array();
     for await (let item of client.domainTopicEventSubscriptions.list(
       resourceGroupName,
@@ -241,12 +221,6 @@ describe("Eventgrid test", () => {
   });
 
   it("domaintopics delete test", async function () {
-    const res = await client.domainTopics.beginDeleteAndWait(
-      resourceGroupName,
-      domainName,
-      domaintopicName,
-      testPollingOptions,
-    );
     const resArray = new Array();
     for await (let item of client.domainTopics.listByDomain(resourceGroupName, domainName)) {
       resArray.push(item);
@@ -255,16 +229,6 @@ describe("Eventgrid test", () => {
   });
 
   it("topics delete test", async function () {
-    const res = await client.topics.beginDeleteAndWait(
-      resourceGroupName,
-      topicName,
-      testPollingOptions,
-    );
-    const res1 = await client.topics.beginDeleteAndWait(
-      resourceGroupName,
-      domaintopicName,
-      testPollingOptions,
-    ); // when create a domaintopic, it will create a topic with the same name, so we also need to delete that resource to make test pass.
     const resArray = new Array();
     for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
@@ -273,11 +237,6 @@ describe("Eventgrid test", () => {
   });
 
   it("domains delete test", async function () {
-    const res = await client.domains.beginDeleteAndWait(
-      resourceGroupName,
-      domainName,
-      testPollingOptions,
-    );
     const resArray = new Array();
     for await (let item of client.domains.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);

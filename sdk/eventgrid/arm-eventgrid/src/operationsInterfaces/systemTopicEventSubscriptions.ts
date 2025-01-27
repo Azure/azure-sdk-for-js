@@ -23,7 +23,7 @@ import {
   SystemTopicEventSubscriptionsUpdateResponse,
   SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
   SystemTopicEventSubscriptionsGetFullUrlResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SystemTopicEventSubscriptions. */

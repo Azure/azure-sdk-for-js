@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of all verified partners.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a list of all verified partners.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/VerifiedPartners_List.json
  */
-async function verifiedPartnersList() {
+async function verifiedPartnersList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function verifiedPartnersList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   verifiedPartnersList();
 }
 

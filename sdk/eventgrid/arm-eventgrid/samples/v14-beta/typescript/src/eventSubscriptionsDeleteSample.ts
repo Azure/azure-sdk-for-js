@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete an existing event subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_DeleteForCustomTopic.json
  */
-async function eventSubscriptionsDeleteForCustomTopic() {
+async function eventSubscriptionsDeleteForCustomTopic(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -39,7 +37,7 @@ async function eventSubscriptionsDeleteForCustomTopic() {
  * @summary Delete an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_DeleteForResource.json
  */
-async function eventSubscriptionsDeleteForResource() {
+async function eventSubscriptionsDeleteForResource(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
   const eventSubscriptionName = "examplesubscription10";
@@ -58,7 +56,7 @@ async function eventSubscriptionsDeleteForResource() {
  * @summary Delete an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_DeleteForResourceGroup.json
  */
-async function eventSubscriptionsDeleteForResourceGroup() {
+async function eventSubscriptionsDeleteForResourceGroup(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg";
   const eventSubscriptionName = "examplesubscription2";
@@ -77,7 +75,7 @@ async function eventSubscriptionsDeleteForResourceGroup() {
  * @summary Delete an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_DeleteForSubscription.json
  */
-async function eventSubscriptionsDeleteForSubscription() {
+async function eventSubscriptionsDeleteForSubscription(): Promise<void> {
   const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const eventSubscriptionName = "examplesubscription3";
   const credential = new DefaultAzureCredential();
@@ -89,7 +87,7 @@ async function eventSubscriptionsDeleteForSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   eventSubscriptionsDeleteForCustomTopic();
   eventSubscriptionsDeleteForResource();
   eventSubscriptionsDeleteForResourceGroup();

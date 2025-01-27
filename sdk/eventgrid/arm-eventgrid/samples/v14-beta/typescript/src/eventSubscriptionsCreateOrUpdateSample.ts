@@ -13,9 +13,7 @@ import {
   EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic.json
  */
-async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
+async function eventSubscriptionsCreateOrUpdateForCustomTopic(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -55,7 +53,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_AzureFunctionDestination.json
  */
-async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination() {
+async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -93,7 +91,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestin
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_EventHubDestination.json
  */
-async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination() {
+async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -131,7 +129,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_HybridConnectionDestination.json
  */
-async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination() {
+async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -169,7 +167,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDes
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusQueueDestination.json
  */
-async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination() {
+async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -207,7 +205,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDest
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusTopicDestination.json
  */
-async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination() {
+async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -245,7 +243,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDest
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_StorageQueueDestination.json
  */
-async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination() {
+async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -285,7 +283,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestina
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_WebhookDestination.json
  */
-async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination() {
+async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -317,7 +315,7 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination(
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForResource.json
  */
-async function eventSubscriptionsCreateOrUpdateForResource() {
+async function eventSubscriptionsCreateOrUpdateForResource(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
   const eventSubscriptionName = "examplesubscription10";
@@ -348,7 +346,7 @@ async function eventSubscriptionsCreateOrUpdateForResource() {
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForResourceGroup.json
  */
-async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
+async function eventSubscriptionsCreateOrUpdateForResourceGroup(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg";
   const eventSubscriptionName = "examplesubscription2";
@@ -379,7 +377,7 @@ async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_CreateOrUpdateForSubscription.json
  */
-async function eventSubscriptionsCreateOrUpdateForSubscription() {
+async function eventSubscriptionsCreateOrUpdateForSubscription(): Promise<void> {
   const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const eventSubscriptionName = "examplesubscription3";
   const eventSubscriptionInfo: EventSubscription = {
@@ -399,7 +397,7 @@ async function eventSubscriptionsCreateOrUpdateForSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   eventSubscriptionsCreateOrUpdateForCustomTopic();
   eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination();
   eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination();

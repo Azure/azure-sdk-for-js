@@ -7,9 +7,7 @@
  */
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List event types for a topic type.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List event types for a topic type.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/TopicTypes_ListEventTypes.json
  */
-async function topicTypesListEventTypes() {
+async function topicTypesListEventTypes(): Promise<void> {
   const topicTypeName = "Microsoft.Storage.StorageAccounts";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
@@ -28,7 +26,7 @@ async function topicTypesListEventTypes() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await topicTypesListEventTypes();
 }
 

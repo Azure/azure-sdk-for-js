@@ -13,9 +13,7 @@ import {
   EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Asynchronously updates an existing event subscription.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
  */
-async function eventSubscriptionsUpdateForCustomTopic() {
+async function eventSubscriptionsUpdateForCustomTopic(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -55,7 +53,7 @@ async function eventSubscriptionsUpdateForCustomTopic() {
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_AzureFunctionDestination.json
  */
-async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination() {
+async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -93,7 +91,7 @@ async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination() 
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_EventHubDestination.json
  */
-async function eventSubscriptionsUpdateForCustomTopicEventHubDestination() {
+async function eventSubscriptionsUpdateForCustomTopicEventHubDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -126,7 +124,7 @@ async function eventSubscriptionsUpdateForCustomTopicEventHubDestination() {
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_HybridConnectionDestination.json
  */
-async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination() {
+async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -159,7 +157,7 @@ async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_ServiceBusQueueDestination.json
  */
-async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination() {
+async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -197,7 +195,7 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination(
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_ServiceBusTopicDestination.json
  */
-async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination() {
+async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -230,7 +228,7 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination(
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_StorageQueueDestination.json
  */
-async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination() {
+async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -270,7 +268,7 @@ async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination() {
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic_WebhookDestination.json
  */
-async function eventSubscriptionsUpdateForCustomTopicWebhookDestination() {
+async function eventSubscriptionsUpdateForCustomTopicWebhookDestination(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";
   const eventSubscriptionName = "examplesubscription1";
@@ -302,7 +300,7 @@ async function eventSubscriptionsUpdateForCustomTopicWebhookDestination() {
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForResource.json
  */
-async function eventSubscriptionsUpdateForResource() {
+async function eventSubscriptionsUpdateForResource(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
   const eventSubscriptionName = "examplesubscription1";
@@ -334,7 +332,7 @@ async function eventSubscriptionsUpdateForResource() {
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForResourceGroup.json
  */
-async function eventSubscriptionsUpdateForResourceGroup() {
+async function eventSubscriptionsUpdateForResourceGroup(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg";
   const eventSubscriptionName = "examplesubscription2";
@@ -367,7 +365,7 @@ async function eventSubscriptionsUpdateForResourceGroup() {
  * @summary Asynchronously updates an existing event subscription.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForSubscription.json
  */
-async function eventSubscriptionsUpdateForSubscription() {
+async function eventSubscriptionsUpdateForSubscription(): Promise<void> {
   const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40";
   const eventSubscriptionName = "examplesubscription3";
   const eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters = {
@@ -392,7 +390,7 @@ async function eventSubscriptionsUpdateForSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   eventSubscriptionsUpdateForCustomTopic();
   eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination();
   eventSubscriptionsUpdateForCustomTopicEventHubDestination();

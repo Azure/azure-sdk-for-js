@@ -23,7 +23,7 @@ import {
   DomainTopicEventSubscriptionsUpdateResponse,
   DomainTopicEventSubscriptionsGetFullUrlOptionalParams,
   DomainTopicEventSubscriptionsGetFullUrlResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DomainTopicEventSubscriptions. */
