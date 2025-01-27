@@ -8,9 +8,7 @@
 import type { RegenerateKeyRequest } from "@azure/arm-fluidrelay";
 import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Regenerate the primary or secondary key for this server.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Regenerate the primary or secondary key for this server.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_RegenerateKeys.json
  */
-async function regenerateKeysForAFluidRelayServer() {
+async function regenerateKeysForAFluidRelayServer(): Promise<void> {
   const subscriptionId = process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
   const fluidRelayServerName = "myFluidRelayServer";
@@ -33,7 +31,7 @@ async function regenerateKeysForAFluidRelayServer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await regenerateKeysForAFluidRelayServer();
 }
 
