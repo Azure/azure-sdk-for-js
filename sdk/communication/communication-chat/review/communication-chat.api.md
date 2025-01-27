@@ -69,6 +69,8 @@ export class ChatClient {
     off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
     off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
     off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    off(event: "streamingChatMessageStarted", listener: (e: StreamingChatMessageStartEvent) => void): void;
+    off(event: "streamingChatMessageChunkReceived", listener: (e: StreamingChatMessageChunkReceivedEvent) => void): void;
     on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
     on(event: "chatMessageEdited", listener: (e: ChatMessageEditedEvent) => void): void;
     on(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
@@ -79,6 +81,8 @@ export class ChatClient {
     on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
     on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
     on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    on(event: "streamingChatMessageStarted", listener: (e: StreamingChatMessageStartEvent) => void): void;
+    on(event: "streamingChatMessageChunkReceived", listener: (e: StreamingChatMessageChunkReceivedEvent) => void): void;
     on(event: "realTimeNotificationConnected", listener: () => void): void;
     on(event: "realTimeNotificationDisconnected", listener: () => void): void;
     startRealtimeNotifications(): Promise<void>;
