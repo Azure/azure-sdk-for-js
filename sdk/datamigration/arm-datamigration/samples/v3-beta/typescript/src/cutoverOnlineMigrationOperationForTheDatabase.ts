@@ -17,7 +17,7 @@ import {
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function cutoverOnlineMigrationOperationForTheDatabase() {
+async function cutoverOnlineMigrationOperationForTheDatabase(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "testrg";
   const sqlVirtualMachineName = "testvm";

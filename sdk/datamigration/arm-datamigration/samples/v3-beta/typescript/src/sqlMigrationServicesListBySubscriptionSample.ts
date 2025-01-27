@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieve all SQL migration services in the subscriptions.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/ListBySubscriptionMigrationService.json
  */
-async function getServicesInTheSubscriptions() {
+async function getServicesInTheSubscriptions(): Promise<void> {
   const subscriptionId =
     "subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/managedInstance1";
   const credential = new DefaultAzureCredential();

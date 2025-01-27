@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or Update SQL Migration Service.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/CreateOrUpdateMigrationServiceMAX.json
  */
-async function createOrUpdateSqlMigrationServiceWithMaximumParameters() {
+async function createOrUpdateSqlMigrationServiceWithMaximumParameters(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "testrg";
   const sqlMigrationServiceName = "testagent";
@@ -40,7 +40,7 @@ createOrUpdateSqlMigrationServiceWithMaximumParameters().catch(console.error);
  * @summary Create or Update SQL Migration Service.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/CreateOrUpdateMigrationServiceMIN.json
  */
-async function createOrUpdateSqlMigrationServiceWithMinimumParameters() {
+async function createOrUpdateSqlMigrationServiceWithMinimumParameters(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "testrg";
   const sqlMigrationServiceName = "testagent";

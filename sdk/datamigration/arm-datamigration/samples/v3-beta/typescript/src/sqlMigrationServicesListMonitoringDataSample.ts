@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieve the Monitoring Data.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/GetMonitorDataMigrationService.json
  */
-async function retrieveTheMonitoringData() {
+async function retrieveTheMonitoringData(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "testrg";
   const sqlMigrationServiceName = "service1";

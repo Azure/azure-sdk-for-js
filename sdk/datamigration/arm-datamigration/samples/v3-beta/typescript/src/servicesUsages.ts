@@ -14,7 +14,7 @@
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function servicesUsages() {
+async function servicesUsages(): Promise<void> {
   const subscriptionId = "90fb80a6-0f71-4761-8f03-921e7396f3c0";
   const location = "westus";
   const credential = new DefaultAzureCredential();
