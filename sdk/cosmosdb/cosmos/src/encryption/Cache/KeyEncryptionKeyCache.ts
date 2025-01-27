@@ -11,13 +11,13 @@ import { KeyEncryptionKey } from "../KeyEncryptionKey";
  */
 export class KeyEncryptionKeyCache {
   // key is JSON.stringify([name, path])
-  public keyEncryptionKeyCache: Map<string, KeyEncryptionKey>;
+  public cache: Map<string, KeyEncryptionKey>;
 
   constructor() {
-    this.keyEncryptionKeyCache = new Map<string, KeyEncryptionKey>();
+    this.cache = new Map<string, KeyEncryptionKey>();
   }
 
-  public getOrCreateKeyEncryptionKey(
+  public getOrCreate(
     name: string,
     path: string,
     keyStoreProvider: EncryptionKeyStoreProvider,
@@ -32,9 +32,9 @@ export class KeyEncryptionKeyCache {
   }
 
   private get(key: string): KeyEncryptionKey | undefined {
-    return this.keyEncryptionKeyCache.get(key);
+    return this.cache.get(key);
   }
   private set(key: string, keyEncryptionKey: KeyEncryptionKey): void {
-    this.keyEncryptionKeyCache.set(key, keyEncryptionKey);
+    this.cache.set(key, keyEncryptionKey);
   }
 }

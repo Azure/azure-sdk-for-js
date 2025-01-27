@@ -11,13 +11,13 @@ import { EncryptionSettingForProperty } from "../EncryptionSettingForProperty";
  */
 export class EncryptionSettingsCache {
   // key is databaseRid + '/' + containerRid
-  private encryptionSettingsCache: Map<string, EncryptionSettings>;
+  private cache: Map<string, EncryptionSettings>;
 
   public constructor() {
-    this.encryptionSettingsCache = new Map<string, EncryptionSettings>();
+    this.cache = new Map<string, EncryptionSettings>();
   }
 
-  public async createAndSetEncryptionSettings(
+  public async create(
     id: string,
     containerRid: string,
     partitionKeyPaths: string[],
@@ -36,10 +36,10 @@ export class EncryptionSettingsCache {
   }
 
   public get(key: string): EncryptionSettings | undefined {
-    return this.encryptionSettingsCache.get(key);
+    return this.cache.get(key);
   }
 
   public set(key: string, encryptionSettings: EncryptionSettings): void {
-    this.encryptionSettingsCache.set(key, encryptionSettings);
+    this.cache.set(key, encryptionSettings);
   }
 }

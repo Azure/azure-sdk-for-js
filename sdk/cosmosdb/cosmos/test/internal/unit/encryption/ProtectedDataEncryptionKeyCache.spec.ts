@@ -75,12 +75,11 @@ describe("ProtectedDataEncryptionKeyCache", function () {
       keyEncryptionKey.path,
       encryptedKey.toString("hex"),
     ]);
-    protectedDataEncryptionKey =
-      await protectedDataEncryptionKeyCache.getOrCreateProtectedDataEncryptionKey(
-        "encryptionKeyId",
-        keyEncryptionKey,
-        encryptedKey,
-      );
+    protectedDataEncryptionKey = await protectedDataEncryptionKeyCache.getOrCreate(
+      "encryptionKeyId",
+      keyEncryptionKey,
+      encryptedKey,
+    );
   });
 
   it("should create and cache a protected data encryption key", async function () {
@@ -98,12 +97,11 @@ describe("ProtectedDataEncryptionKeyCache", function () {
       undefined,
       "new Protected data encryption key should not be in cache.",
     );
-    const newProtectedDataEncryptionKey =
-      await protectedDataEncryptionKeyCache.getOrCreateProtectedDataEncryptionKey(
-        "newEncryptionKeyId",
-        keyEncryptionKey,
-        newEncryptedKey,
-      );
+    const newProtectedDataEncryptionKey = await protectedDataEncryptionKeyCache.getOrCreate(
+      "newEncryptionKeyId",
+      keyEncryptionKey,
+      newEncryptedKey,
+    );
     assert.ok(newProtectedDataEncryptionKey instanceof ProtectedDataEncryptionKey);
     assert.equal(protectedDataEncryptionKeyCache.get(newKey), newProtectedDataEncryptionKey);
   });
@@ -117,11 +115,7 @@ describe("ProtectedDataEncryptionKeyCache", function () {
       keyEncryptionKey.path,
       newEncryptedKey.toString("hex"),
     ]);
-    await cacheWithZeroTTL.getOrCreateProtectedDataEncryptionKey(
-      "newEncryptionKeyId",
-      keyEncryptionKey,
-      newEncryptedKey,
-    );
+    await cacheWithZeroTTL.getOrCreate("newEncryptionKeyId", keyEncryptionKey, newEncryptedKey);
     assert.equal(
       cacheWithZeroTTL.get(newKey),
       undefined,

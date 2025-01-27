@@ -441,7 +441,7 @@ export class Container {
 
         const encryptionSettingKey = this.database._rid + "/" + this._rid;
 
-        await this.encryptionManager.encryptionSettingsCache.createAndSetEncryptionSettings(
+        await this.encryptionManager.encryptionSettingsCache.create(
           encryptionSettingKey,
           this._rid,
           partitionKeyPaths,
@@ -484,10 +484,9 @@ export class Container {
       errorResponse.code === StatusCodes.BadRequest &&
       (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)
     ) {
-
-      // This code verifies if the partitionKeyPaths are encrypted. 
-      // If the paths are not encrypted, it indicates that the application passed an incorrect partition key in the request. 
-      // This ensures the issue is not caused by a mismatched encrypted value due to a policy error, 
+      // This code verifies if the partitionKeyPaths are encrypted.
+      // If the paths are not encrypted, it indicates that the application passed an incorrect partition key in the request.
+      // This ensures the issue is not caused by a mismatched encrypted value due to a policy error,
       // avoiding unnecessary force-refreshing of encryption settings.
       if (isPartitionKeyMismatch && encryptionSetting.partitionKeyPaths.length) {
         let encryptionSettingsForProperty: EncryptionSettingForProperty = null;
@@ -518,7 +517,7 @@ export class Container {
       await this.initializeEncryption();
       throw new ErrorResponse(
         "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details." +
-        errorResponse.message,
+          errorResponse.message,
       );
     }
   }

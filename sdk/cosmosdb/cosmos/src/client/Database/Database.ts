@@ -232,14 +232,14 @@ export class Database {
     }
 
     const keyEncryptionKey: KeyEncryptionKey =
-      this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
+      this.encryptionManager.keyEncryptionKeyCache.getOrCreate(
         keyWrapMetadata.name,
         keyWrapMetadata.value,
         this.encryptionManager.encryptionKeyStoreProvider,
       );
 
     const protectedDataEncryptionKey =
-      await this.encryptionManager.protectedDataEncryptionKeyCache.getOrCreateProtectedDataEncryptionKey(
+      await this.encryptionManager.protectedDataEncryptionKeyCache.getOrCreate(
         id,
         keyEncryptionKey,
       );
@@ -349,7 +349,7 @@ export class Database {
     const res = await this.readClientEncryptionKey(id);
     let clientEncryptionKeyProperties = res.clientEncryptionKeyProperties;
 
-    let keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
+    let keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreate(
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.name,
       clientEncryptionKeyProperties.encryptionKeyWrapMetadata.value,
       this.encryptionManager.encryptionKeyStoreProvider,
@@ -357,7 +357,7 @@ export class Database {
     const unwrappedKey = await keyEncryptionKey.unwrapEncryptionKey(
       clientEncryptionKeyProperties.wrappedDataEncryptionKey,
     );
-    keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreateKeyEncryptionKey(
+    keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreate(
       newKeyWrapMetadata.name,
       newKeyWrapMetadata.value,
       this.encryptionManager.encryptionKeyStoreProvider,
