@@ -54,7 +54,21 @@ const agent = await client.agents.createAgent("gpt-4o-mini",
     name: "azure-function-agent",
     instructions: `You are a helpful support agent. Use the provided function any time the prompt contains the string 'What would foo say?'. When you invoke the function, ALWAYS specify the output queue uri parameter as '${storageServiceEndpoint}/azure-function-tool-output'. Always responds with "Foo says" and then the response from the tool.`,
     tools: [azureFunctionTool.definition],
-    toolResources: azureFunctionTool.resources,
+    toolResources: {
+      azureFunction: {
+        name: azureFunctionTool.resources.azureFunction?.name ?? "",
+        description: azureFunctionTool.resources.azureFunction?.description ?? "",
+        parameters: azureFunctionTool.resources.azureFunction?.parameters ?? {},
+        inputQueue: {
+          queueServiceEndpoint: azureFunctionTool.resources.azureFunction?.inputQueue.queueServiceEndpoint || "",
+          queueName: azureFunctionTool.resources.azureFunction?.inputQueue.queueName || "",
+        },
+        outputQueue: {
+          queueServiceEndpoint: azureFunctionTool.resources.azureFunction?.outputQueue.queueServiceEndpoint || "",
+          queueName: azureFunctionTool.resources.azureFunction?.outputQueue.queueName || "",
+        },
+      },
+    },
   }
 );
 console.log(`Created agent, agent ID: ${agent.id}`);

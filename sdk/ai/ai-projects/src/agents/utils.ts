@@ -17,6 +17,7 @@ import type {
   VectorStoreConfigurations,
   VectorStoreDataSource,
   AzureFunctionStorageQueue,
+  AzureFunctionDefinition,
 } from "./inputOutputs.js";
 
 /**
@@ -135,28 +136,10 @@ export class ToolUtility {
     parameters: unknown,
     inputQueue: AzureFunctionStorageQueue,
     outputQueue: AzureFunctionStorageQueue,
+    definitionDetails: AzureFunctionDefinition,
   ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
     return {
-      definition: { 
-        type: "azure_function",
-        azureFunction: { 
-          function: {name: name, description: description, parameters: parameters}, 
-          inputBinding: {
-            type: "storage_queue", 
-            storageQueue:{ 
-              queueServiceEndpoint: inputQueue.queueServiceEndpoint, 
-              queueName: inputQueue.queueName
-            }
-          },
-          outputBinding: {
-            type: "storage_queue", 
-            storageQueue:{ 
-              queueServiceEndpoint: outputQueue.queueServiceEndpoint, 
-              queueName: outputQueue.queueName
-            }
-        },
-      },
-    },
+      definition: { type: "azure_function", azureFunction: definitionDetails },
     resources: {
       azureFunction: {
         name: name,
@@ -309,13 +292,15 @@ export class ToolSet {
     parameters: unknown,
     inputQueue: AzureFunctionStorageQueue,
     outputQueue: AzureFunctionStorageQueue,
+    definitionDetails: AzureFunctionDefinition
   ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
     const tool = ToolUtility.createAzureFunctionTool(
       name,
       description,
       parameters,
       inputQueue,
-      outputQueue
+      outputQueue,
+      definitionDetails
     );
     this.toolDefinitions.push(tool.definition);
     this.toolResources = { ...this.toolResources, ...tool.resources };

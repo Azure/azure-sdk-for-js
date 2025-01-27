@@ -1724,7 +1724,7 @@ export class ToolSet {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
     };
-    addAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue): {
+    addAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue, definitionDetails: AzureFunctionDefinition): {
         definition: AzureFunctionToolDefinition;
         resources: ToolResources;
     };
@@ -1749,7 +1749,7 @@ export class ToolUtility {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
     };
-    static createAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue): {
+    static createAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue, definitionDetails: AzureFunctionDefinition): {
         definition: AzureFunctionToolDefinition;
         resources: ToolResources;
     };
