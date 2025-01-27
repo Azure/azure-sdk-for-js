@@ -8,9 +8,7 @@
 import type { DnsResolverPolicyVirtualNetworkLinkPatch } from "@azure/arm-dnsresolver";
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a DNS resolver policy virtual network link.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates a DNS resolver policy virtual network link.
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/DnsResolverPolicyVirtualNetworkLink_Patch.json
  */
-async function updateDnsResolverPolicyVirtualNetworkLink() {
+async function updateDnsResolverPolicyVirtualNetworkLink(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] || "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const resourceGroupName = process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
@@ -38,7 +36,7 @@ async function updateDnsResolverPolicyVirtualNetworkLink() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateDnsResolverPolicyVirtualNetworkLink();
 }
 

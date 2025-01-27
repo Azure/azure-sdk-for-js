@@ -8,9 +8,7 @@
 import type { DnsResolverDomainList } from "@azure/arm-dnsresolver";
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a DNS resolver domain list.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a DNS resolver domain list.
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/DnsResolverDomainList_Put.json
  */
-async function upsertDnsResolverDomainList() {
+async function upsertDnsResolverDomainList(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] || "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const resourceGroupName = process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
@@ -38,7 +36,7 @@ async function upsertDnsResolverDomainList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await upsertDnsResolverDomainList();
 }
 
