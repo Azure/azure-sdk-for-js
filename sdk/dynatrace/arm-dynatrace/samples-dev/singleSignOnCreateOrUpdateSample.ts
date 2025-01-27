@@ -8,9 +8,7 @@
 import type { DynatraceSingleSignOnResource } from "@azure/arm-dynatrace";
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a DynatraceSingleSignOnResource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a DynatraceSingleSignOnResource
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/SingleSignOn_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function singleSignOnCreateOrUpdateMaximumSetGen() {
+async function singleSignOnCreateOrUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -48,7 +46,7 @@ async function singleSignOnCreateOrUpdateMaximumSetGen() {
  * @summary Create a DynatraceSingleSignOnResource
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/SingleSignOn_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function singleSignOnCreateOrUpdateMinimumSetGen() {
+async function singleSignOnCreateOrUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -69,7 +67,7 @@ async function singleSignOnCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await singleSignOnCreateOrUpdateMaximumSetGen();
   await singleSignOnCreateOrUpdateMinimumSetGen();
 }
