@@ -33,7 +33,7 @@ export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeS
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
     constructor(credentials: TokenCredential);
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
-    wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
+    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
 }
 
 // @public (undocumented)
@@ -1076,7 +1076,7 @@ export interface EncryptionDiagnostics {
 // @public
 export interface EncryptionKeyResolver {
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
-    wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
+    wrapKey(encryptionKeyId: string, algorithm: string, unwrappedKey: Buffer): Promise<Buffer>;
 }
 
 // @public
