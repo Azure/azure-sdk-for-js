@@ -5229,7 +5229,7 @@ export class ShareFileClient extends StorageClient {
    */
   public async createHardLink(
     targetFile: string,
-    options: FileForceCloseHandlesOptions = {},
+    options: FileCreateHardLinkOptions = {},
   ): Promise<FileCreateHardLinkResponse> {
     return tracingClient.withSpan(
       "ShareFileClient-createHardLink",

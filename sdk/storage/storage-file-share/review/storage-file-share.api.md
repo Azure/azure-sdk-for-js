@@ -661,7 +661,15 @@ export interface FileDownloadOptions extends CommonOptions {
 }
 
 // @public
-export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, FileDownloadHeaders>;
+type FileDownloadResponse = FileDownloadHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
+export { FileDownloadResponse }
+export { FileDownloadResponse as RawFileDownloadResponse }
+
+// @public
+export type FileDownloadResponseModel = WithResponse<FileDownloadResponse, FileDownloadHeaders>;
 
 // @public
 export interface FileDownloadToBufferOptions extends CommonOptions {
@@ -969,7 +977,7 @@ export interface FileServiceProperties {
 }
 
 // @public
-export interface FileSetHTTPHeadersHeaders {
+interface FileSetHttpHeadersHeaders {
     date?: Date;
     errorCode?: string;
     etag?: string;
@@ -989,6 +997,8 @@ export interface FileSetHTTPHeadersHeaders {
     requestId?: string;
     version?: string;
 }
+export { FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders }
+export { FileSetHttpHeadersHeaders }
 
 // @public
 export interface FileSetHttpHeadersOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -997,7 +1007,7 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
 }
 
 // @public
-export type FileSetHTTPHeadersResponse = WithResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>;
+export type FileSetHTTPHeadersResponse = WithResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>;
 
 // @public
 export interface FileSetMetadataHeaders {
@@ -1330,8 +1340,11 @@ export type NfsFileType = string;
 // @public
 export type OwnerCopyMode = "source" | "override";
 
-// @public (undocumented)
+// @public
 export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
+
+// @public
+export function parseSymbolicFileMode(input?: string): NfsFileMode | undefined;
 
 // @public
 export type PermissionCopyModeType = "source" | "override";
@@ -1376,12 +1389,6 @@ export interface RangeModel {
     end: number;
     start: number;
 }
-
-// @public
-export type RawFileDownloadResponse = FileDownloadHeaders & {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
 
 export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
@@ -1739,7 +1746,7 @@ export class ShareFileClient extends StorageClient {
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
-    createHardLink(targetFile: string, options?: FileForceCloseHandlesOptions): Promise<FileCreateHardLinkResponse>;
+    createHardLink(targetFile: string, options?: FileCreateHardLinkOptions): Promise<FileCreateHardLinkResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
@@ -2263,6 +2270,12 @@ export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
+
+// @public
+export function toOctalFileMode(input?: NfsFileMode): string | undefined;
+
+// @public
+export function toSymbolicFileMode(input?: NfsFileMode): string | undefined;
 
 export { WebResource }
 
