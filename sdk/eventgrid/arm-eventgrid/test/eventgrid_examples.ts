@@ -13,9 +13,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { EventGridManagementClient } from "../src/eventGridManagementClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
