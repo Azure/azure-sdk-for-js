@@ -36,28 +36,28 @@ describe("FrontDoor test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: FrontDoorManagementClient;
-  let location: string;
-  let resourceGroup: string;
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new FrontDoorManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
-
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new FrontDoorManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    resourcename = "resourcetest";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("frontDoorNameAvailability check test", async function () {
+    await client.frontDoorNameAvailability.check(
+      {
+        name: resourcename,
+        type: "Microsoft.Network/frontDoors"
+      });
   });
 
 })
