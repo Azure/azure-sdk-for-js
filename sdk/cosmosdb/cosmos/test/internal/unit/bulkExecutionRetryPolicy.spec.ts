@@ -6,7 +6,7 @@ import type { Container } from "../../../src/client/Container/Container";
 import { BulkExecutionRetryPolicy } from "../../../src/retry/bulkExecutionRetryPolicy";
 import { ResourceThrottleRetryPolicy } from "../../../src/retry/resourceThrottleRetryPolicy";
 import type { PartitionKeyRangeCache } from "../../../src/routing";
-import { ErrorResponse, StatusCodes } from "../../../src";
+import { ErrorResponse, RetryOptions, StatusCodes } from "../../../src";
 import { SubStatusCodes } from "../../../src/common";
 
 describe("BulkExecutionRetryPolicy", () => {
@@ -24,7 +24,7 @@ describe("BulkExecutionRetryPolicy", () => {
     } as unknown as PartitionKeyRangeCache;
     retryPolicy = new BulkExecutionRetryPolicy(
       mockContainer,
-      new ResourceThrottleRetryPolicy(),
+      new ResourceThrottleRetryPolicy({}),
       mockPartitionKeyRangeCache,
     );
   });
@@ -65,7 +65,7 @@ describe("BulkExecutionRetryPolicy", () => {
     // default maxTries is 9
     while (throttlingRetryPolicy.currentRetryAttemptCount < 9) {
       const shouldRetryResult = await throttlingRetryPolicy.shouldRetry(err, {
-        addData: () => {},
+        addData: () => { },
       } as any);
       assert.strictEqual(throttlingRetryPolicy.retryAfterInMs, 5);
       assert.strictEqual(shouldRetryResult, true);
@@ -77,14 +77,16 @@ describe("BulkExecutionRetryPolicy", () => {
   it("handles throttling error with custom policy", async () => {
     const err = new ErrorResponse(null, StatusCodes.TooManyRequests, null);
     err.retryAfterInMs = 50;
-    const maxTries = 5;
-    const fixedRetryIntervalInMs = 10;
-    retryPolicy.nextRetryPolicy = new ResourceThrottleRetryPolicy(maxTries, fixedRetryIntervalInMs);
+    const retryOptions: RetryOptions = {
+      maxRetryAttemptCount: 5,
+      fixedRetryIntervalInMilliseconds: 10,
+    }
+    retryPolicy.nextRetryPolicy = new ResourceThrottleRetryPolicy(retryOptions);
     const throttlingRetryPolicy = retryPolicy.nextRetryPolicy as ResourceThrottleRetryPolicy;
 
     while (throttlingRetryPolicy.currentRetryAttemptCount < 5) {
       const shouldRetryResult = await throttlingRetryPolicy.shouldRetry(err, {
-        addData: () => {},
+        addData: () => { },
       } as any);
       assert.strictEqual(throttlingRetryPolicy.retryAfterInMs, 10);
       assert.strictEqual(shouldRetryResult, true);

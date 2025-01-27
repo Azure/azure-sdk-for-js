@@ -97,7 +97,7 @@ export class BulkStreamer {
       throw new ErrorResponse("Operation is required.");
     }
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation);
-    const streamerForPartition = this.getOrCreateStreamerForPartitionKeyRange(partitionKeyRangeId);
+    const streamerForPartition = this.getOrCreateStreamerForPKRange(partitionKeyRangeId);
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
     const itemOperation = new ItemBulkOperation(this.operationIndex++, operation, context);
@@ -166,11 +166,8 @@ export class BulkStreamer {
   }
 
   private getRetryPolicy(): RetryPolicy {
-    const retryOptions = this.clientContext.getRetryOptions();
     const nextRetryPolicy = new ResourceThrottleRetryPolicy(
-      retryOptions.maxRetryAttemptCount,
-      retryOptions.fixedRetryIntervalInMilliseconds,
-      retryOptions.maxWaitTimeInSeconds,
+      this.clientContext.getRetryOptions()
     );
     return new BulkExecutionRetryPolicy(
       this.container,
@@ -186,7 +183,7 @@ export class BulkStreamer {
   ): Promise<BulkResponse> {
     if (!operations.length) return;
     const pkRangeId = operations[0].operationContext.pkRangeId;
-    const limiter = this.getOrCreateLimiterForPartitionKeyRange(pkRangeId);
+    const limiter = this.getOrCreateLimiterForPKRange(pkRangeId);
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const requestBody: Operation[] = [];
     const partitionDefinition = await readPartitionKeyDefinition(diagnosticNode, this.container);
@@ -234,28 +231,28 @@ export class BulkStreamer {
   private async reBatchOperation(operation: ItemBulkOperation): Promise<void> {
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation.operationInput);
     operation.operationContext.reRouteOperation(partitionKeyRangeId);
-    const streamer = this.getOrCreateStreamerForPartitionKeyRange(partitionKeyRangeId);
+    const streamer = this.getOrCreateStreamerForPKRange(partitionKeyRangeId);
     streamer.add(operation);
   }
 
-  private getOrCreateLimiterForPartitionKeyRange(pkRangeId: string): Limiter {
+  private getOrCreateLimiterForPKRange(pkRangeId: string): Limiter {
     let limiter = this.limitersByPartitionKeyRangeId.get(pkRangeId);
     if (!limiter) {
       limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
       // starting with degree of concurrency as 1
       for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; ++i) {
-        limiter.take(() => {});
+        limiter.take(() => { });
       }
       this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
     }
     return limiter;
   }
 
-  private getOrCreateStreamerForPartitionKeyRange(pkRangeId: string): BulkStreamerPerPartition {
+  private getOrCreateStreamerForPKRange(pkRangeId: string): BulkStreamerPerPartition {
     if (this.streamersByPartitionKeyRangeId.has(pkRangeId)) {
       return this.streamersByPartitionKeyRangeId.get(pkRangeId);
     }
-    const limiter = this.getOrCreateLimiterForPartitionKeyRange(pkRangeId);
+    const limiter = this.getOrCreateLimiterForPKRange(pkRangeId);
     const newStreamer = new BulkStreamerPerPartition(
       this.executeRequest,
       this.reBatchOperation,
