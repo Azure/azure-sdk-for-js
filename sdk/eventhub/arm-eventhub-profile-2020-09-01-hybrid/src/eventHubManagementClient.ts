@@ -19,7 +19,7 @@ import {
   ConsumerGroupsImpl,
   OperationsImpl,
   RegionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Clusters,
   Namespaces,
@@ -30,8 +30,8 @@ import {
   ConsumerGroups,
   Operations,
   Regions
-} from "./operationsInterfaces";
-import { EventHubManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { EventHubManagementClientOptionalParams } from "./models/index.js";
 
 export class EventHubManagementClient extends coreClient.ServiceClient {
   $host: string;

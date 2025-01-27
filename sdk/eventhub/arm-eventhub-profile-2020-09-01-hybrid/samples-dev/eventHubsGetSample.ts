@@ -7,9 +7,7 @@
  */
 import { EventHubManagementClient } from "@azure/arm-eventhub-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an Event Hubs description for the specified Event Hub.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets an Event Hubs description for the specified Event Hub.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2017-04-01/examples/EventHubs/EHEventHubGet.json
  */
-async function eventHubGet() {
+async function eventHubGet(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "e2f361f0-3b27-4503-a9cc-21cfba380093";
   const resourceGroupName =
@@ -30,7 +28,7 @@ async function eventHubGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await eventHubGet();
 }
 

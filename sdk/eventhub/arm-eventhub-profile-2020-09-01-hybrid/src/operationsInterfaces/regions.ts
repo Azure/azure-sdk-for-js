@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { MessagingRegions, RegionsListBySkuOptionalParams } from "../models";
+import { MessagingRegions, RegionsListBySkuOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Regions. */
