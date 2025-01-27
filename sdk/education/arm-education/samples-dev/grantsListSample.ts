@@ -8,9 +8,7 @@
 import type { GrantsListOptionalParams } from "@azure/arm-education";
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get details for a specific grant linked to the provided billing account and billing profile.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Get details for a specific grant linked to the provided billing account and billing profile.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GrantDefaultList.json
  */
-async function grantList() {
+async function grantList(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const includeAllocatedBudget = false;
@@ -38,7 +36,7 @@ async function grantList() {
  * @summary Get details for a specific grant linked to the provided billing account and billing profile.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GrantDefaultListIncludeAllocatedBudget.json
  */
-async function grantListIncludeAllocatedBudget() {
+async function grantListIncludeAllocatedBudget(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const includeAllocatedBudget = false;
@@ -52,7 +50,7 @@ async function grantListIncludeAllocatedBudget() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await grantList();
   await grantListIncludeAllocatedBudget();
 }

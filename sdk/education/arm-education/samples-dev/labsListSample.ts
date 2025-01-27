@@ -8,9 +8,7 @@
 import type { LabsListOptionalParams } from "@azure/arm-education";
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/LabListWithInvoiceSectionName.json
  */
-async function labListWithInvoiceSectionName() {
+async function labListWithInvoiceSectionName(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const invoiceSectionName = "{invoiceSectionName}";
@@ -44,7 +42,7 @@ async function labListWithInvoiceSectionName() {
  * @summary Get the details for a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/LabListWithInvoiceSectionNameIncludeBudget.json
  */
-async function labListWithInvoiceSectionNameIncludeBudget() {
+async function labListWithInvoiceSectionNameIncludeBudget(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const invoiceSectionName = "{invoiceSectionName}";
@@ -64,7 +62,7 @@ async function labListWithInvoiceSectionNameIncludeBudget() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await labListWithInvoiceSectionName();
   await labListWithInvoiceSectionNameIncludeBudget();
 }

@@ -8,9 +8,7 @@
 import type { JoinRequestsListOptionalParams } from "@azure/arm-education";
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to get student join requests
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary get student join requests
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/JoinRequestList.json
  */
-async function joinRequestList() {
+async function joinRequestList(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const invoiceSectionName = "{invoiceSectionName}";
@@ -38,7 +36,7 @@ async function joinRequestList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await joinRequestList();
 }
 

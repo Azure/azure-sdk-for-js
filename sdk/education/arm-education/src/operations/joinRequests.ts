@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { JoinRequests } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { JoinRequests } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { EducationManagementClient } from "../educationManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { EducationManagementClient } from "../educationManagementClient.js";
 import {
   JoinRequestDetails,
   JoinRequestsListNextOptionalParams,
@@ -23,7 +23,7 @@ import {
   JoinRequestsApproveOptionalParams,
   JoinRequestsDenyOptionalParams,
   JoinRequestsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing JoinRequests operations. */
