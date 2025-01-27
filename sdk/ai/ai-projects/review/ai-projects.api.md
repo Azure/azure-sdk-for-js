@@ -1065,6 +1065,7 @@ export interface OpenAIPageableListOfVectorStoreOutput {
 
 // @public
 export interface PollingOptions {
+    onResponse?: (response: any) => void;
     sleepIntervalInMs?: number;
 }
 
