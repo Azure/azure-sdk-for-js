@@ -7,9 +7,7 @@
  */
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Rules Engine Configuration with the specified name within the specified Front Door.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a Rules Engine Configuration with the specified name within the specified Front Door.
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorRulesEngineGet.json
  */
-async function getRulesEngineConfiguration() {
+async function getRulesEngineConfiguration(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
@@ -28,7 +26,7 @@ async function getRulesEngineConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getRulesEngineConfiguration();
 }
 

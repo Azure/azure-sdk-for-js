@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./policies";
-export * from "./managedRuleSets";
-export * from "./frontDoorNameAvailability";
-export * from "./frontDoorNameAvailabilityWithSubscription";
-export * from "./frontDoors";
-export * from "./frontendEndpoints";
-export * from "./endpoints";
-export * from "./rulesEngines";
-export * from "./networkExperimentProfiles";
-export * from "./preconfiguredEndpoints";
-export * from "./experiments";
-export * from "./reports";
+export * from "./policies.js";
+export * from "./managedRuleSets.js";
+export * from "./frontDoorNameAvailability.js";
+export * from "./frontDoorNameAvailabilityWithSubscription.js";
+export * from "./frontDoors.js";
+export * from "./frontendEndpoints.js";
+export * from "./endpoints.js";
+export * from "./rulesEngines.js";
+export * from "./networkExperimentProfiles.js";
+export * from "./preconfiguredEndpoints.js";
+export * from "./experiments.js";
+export * from "./reports.js";

@@ -8,9 +8,7 @@
 import type { CheckNameAvailabilityInput } from "@azure/arm-frontdoor";
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check the availability of a Front Door subdomain.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Check the availability of a Front Door subdomain.
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/CheckFrontdoorNameAvailabilityWithSubscription.json
  */
-async function checkNameAvailabilityWithSubscription() {
+async function checkNameAvailabilityWithSubscription(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput = {
     name: "sampleName",
@@ -32,7 +30,7 @@ async function checkNameAvailabilityWithSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await checkNameAvailabilityWithSubscription();
 }
 
