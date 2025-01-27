@@ -13,12 +13,14 @@ export function createPoller<T>({
   getOperationStatus,
   getOperationError,
   intervalInMs,
+  onResponse,
 }: {
   initOperation: () => Promise<T>;
   pollOperation: (currentResult: T) => Promise<T>;
   getOperationStatus: (result: T) => OperationStatus;
   getOperationError?: (result: T) => Error | undefined;
   intervalInMs?: number;
+  onResponse?: (response: any) => void;
 }): PollerLike<OperationState<T>, T>{
   let state: OperationState<T>;
   const statePromise = initOperation().then((result) => {
@@ -129,6 +131,9 @@ export function createPoller<T>({
         result,
         status: getOperationStatus(result),
         error: getOperationError ? getOperationError(result) : undefined,
+      }
+      if (onResponse) {
+        onResponse(result);
       }
 
       await handleProgressEvents();

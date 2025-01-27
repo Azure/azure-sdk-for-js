@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions, RequestParameters } from "@azure-rest/core-client";
+import type { HttpResponse, OperationOptions, RequestParameters } from "@azure-rest/core-client";
 import type { OpenAIFileOutput, ThreadRunOutput, VectorStoreFileBatchOutput, VectorStoreFileOutput, VectorStoreOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
@@ -74,6 +74,8 @@ export interface PollingOptions {
 export interface PollingOptionsParams {
   /** Options for configuring polling behavior. */
   pollingOptions?: PollingOptions;
+  /** Callback used on every response received */
+  onResponse?: (response: any) => void;
 }
 
 /**
