@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { TrafficManagerManagementClient } from "../src/trafficManagerManagementClient";
+import { TrafficManagerManagementClient } from "../src/trafficManagerManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,21 +43,21 @@ describe("TrafficManager test", () => {
   let resourceGroup: string;
   let profileName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new TrafficManagerManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "global";
-    resourceGroup = "myjstest";
-    profileName = "azsmnet6386";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new TrafficManagerManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "global";
+      resourceGroup = "myjstest";
+      profileName = "azsmnet6386";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("profiles create test", async function () {
     const res = await client.profiles.createOrUpdate(
@@ -93,7 +91,6 @@ describe("TrafficManager test", () => {
 
   it("profiles delete test", async function () {
     const resArray = new Array();
-    const res = await client.profiles.delete(resourceGroup, profileName)
     for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
