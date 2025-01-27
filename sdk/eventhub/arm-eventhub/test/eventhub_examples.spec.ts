@@ -101,7 +101,7 @@ describe("Eventhub test", () => {
     console.log(storageaccount);
   }
 
-  it.only("operations list test", async function () {
+  it("operations list test", async function () {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
@@ -109,7 +109,7 @@ describe("Eventhub test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("namespaces create test", async function () {
+  it.skip("namespaces create test", async function () {
     await createVirtualNetwork();
     await storageAccounts_beginCreateAndWait();
     const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroupName, namespaceName, {
@@ -179,7 +179,7 @@ describe("Eventhub test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("namespaces delete test", async function () {
+  it.skip("namespaces delete test", async function () {
     await client.namespaces.beginDeleteAndWait(resourceGroupName, namespaceName, testPollingOptions);
     const resArray = new Array();
     for await (const item of client.namespaces.listByResourceGroup(resourceGroupName)) {
