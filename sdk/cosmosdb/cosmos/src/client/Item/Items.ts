@@ -751,7 +751,7 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
-              err.message,
+                err.message,
             );
           }
         } else {
