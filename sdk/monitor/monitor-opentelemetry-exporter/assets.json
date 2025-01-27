@@ -1,6 +1,0 @@
-{
-  "AssetsRepo": "Azure/azure-sdk-assets",
-  "AssetsRepoPrefixPath": "js",
-  "TagPrefix": "js/monitor/monitor-opentelemetry-exporter",
-  "Tag": ""
-}
