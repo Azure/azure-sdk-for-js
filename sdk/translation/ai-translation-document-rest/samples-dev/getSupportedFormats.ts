@@ -27,12 +27,12 @@ export async function main() {
 
   const fileFormatTypes = response.body;
   await fileFormatTypes.value.forEach(
-        (fileFormatType: { format: any; contentTypes: any; fileExtensions: any }) => {
-          console.log(fileFormatType.format);
-          console.log(fileFormatType.contentTypes);
-          console.log(fileFormatType.fileExtensions);
-        },
-      );
+    (fileFormatType: { format: any; contentTypes: any; fileExtensions: any }) => {
+      console.log(fileFormatType.format);
+      console.log(fileFormatType.contentTypes);
+      console.log(fileFormatType.fileExtensions);
+    },
+  );
 }
 
 main().catch((err) => {

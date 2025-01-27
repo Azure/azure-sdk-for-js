@@ -30,26 +30,26 @@ async function batchOperations(): Promise<void> {
 
   // Add actions to the transaction
   await transaction.createEntity({
-        partitionKey,
-        rowKey: "A1",
-        name: "Marker Set",
-        price: 5.0,
-        quantity: 21,
-      });
+    partitionKey,
+    rowKey: "A1",
+    name: "Marker Set",
+    price: 5.0,
+    quantity: 21,
+  });
   await transaction.createEntity({
-        partitionKey,
-        rowKey: "A2",
-        name: "Pen Set",
-        price: 2.0,
-        quantity: 6,
-      });
+    partitionKey,
+    rowKey: "A2",
+    name: "Pen Set",
+    price: 2.0,
+    quantity: 6,
+  });
   await transaction.createEntity({
-        partitionKey,
-        rowKey: "A3",
-        name: "Pencil",
-        price: 1.5,
-        quantity: 100,
-      });
+    partitionKey,
+    rowKey: "A3",
+    name: "Pencil",
+    price: 1.5,
+    quantity: 100,
+  });
 
   // Submit the transaction using the actions list built by the helper
   const transactionResult = await client.submitTransaction(transaction.actions);

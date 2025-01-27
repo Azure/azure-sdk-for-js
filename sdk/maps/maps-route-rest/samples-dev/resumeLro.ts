@@ -81,25 +81,25 @@ async function main(): Promise<void> {
   } = (await rehydratedPoller.pollUntilDone()) as RouteGetRouteDirectionsBatch200Response;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
   await batchItems.forEach((item, index) => {
-        if (item.response.error) {
-          console.error(`Request ${index} failed with error: ${item.response.error.message}`);
-        } else {
-          console.log(`Request ${index} success!`);
-          item.response.routes.forEach(({ summary: routeSummary, legs }) => {
-            console.log(
-              `The total distance is ${routeSummary.lengthInMeters} meters, and it takes ${routeSummary.travelTimeInSeconds} seconds.`,
-            );
-            legs.forEach(({ summary: legSummary, points }, idx) => {
-              console.log(
-                `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
-                  legSummary.travelTimeInSeconds
-                } seconds. Followings are the first 10 points: `,
-              );
-              console.table(points.slice(0, 10));
-            });
-          });
-        }
+    if (item.response.error) {
+      console.error(`Request ${index} failed with error: ${item.response.error.message}`);
+    } else {
+      console.log(`Request ${index} success!`);
+      item.response.routes.forEach(({ summary: routeSummary, legs }) => {
+        console.log(
+          `The total distance is ${routeSummary.lengthInMeters} meters, and it takes ${routeSummary.travelTimeInSeconds} seconds.`,
+        );
+        legs.forEach(({ summary: legSummary, points }, idx) => {
+          console.log(
+            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
+              legSummary.travelTimeInSeconds
+            } seconds. Followings are the first 10 points: `,
+          );
+          console.table(points.slice(0, 10));
+        });
       });
+    }
+  });
 }
 
 main().catch((e) => console.error(e));

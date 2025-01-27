@@ -49,7 +49,7 @@ import {
   Topic as TopicMapper,
   TopicUpdateParameters as TopicUpdateParametersMapper,
   TopicSpace as TopicSpaceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

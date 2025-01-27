@@ -13,8 +13,8 @@
  * @summary build a model with a single document type from a training data set
  */
 
+import type { DocumentModelBuildOperationDetailsOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  DocumentModelBuildOperationDetailsOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";

@@ -37,32 +37,32 @@ async function main(): Promise<void> {
   );
 
   await client.on("connected", (e) => {
-        console.log(`Connection ${e.connectionId} is connected.`);
-      });
+    console.log(`Connection ${e.connectionId} is connected.`);
+  });
 
   await client.on("disconnected", (e) => {
-        console.log(`Connection disconnected: ${e.message}`);
-      });
+    console.log(`Connection disconnected: ${e.message}`);
+  });
 
   await client.on("server-message", (e) => {
-        if (e.message.data instanceof ArrayBuffer) {
-          console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
-        } else {
-          console.log(`Received message ${e.message.data}`);
-        }
-      });
+    if (e.message.data instanceof ArrayBuffer) {
+      console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
+    } else {
+      console.log(`Received message ${e.message.data}`);
+    }
+  });
 
   await client.on("group-message", (e) => {
-        if (e.message.data instanceof ArrayBuffer) {
-          console.log(
-            `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(
-              "base64",
-            )}`,
-          );
-        } else {
-          console.log(`Received message from ${e.message.group} ${e.message.data}`);
-        }
-      });
+    if (e.message.data instanceof ArrayBuffer) {
+      console.log(
+        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(
+          "base64",
+        )}`,
+      );
+    } else {
+      console.log(`Received message from ${e.message.group} ${e.message.data}`);
+    }
+  });
 
   await client.start();
 

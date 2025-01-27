@@ -70,10 +70,10 @@ async function main(): Promise<void> {
     `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`,
   );
   await matrix.forEach((row) => {
-        row.forEach((cell) => {
-          if (cell.response) console.dir(cell.response.routeSummary);
-        });
-      });
+    row.forEach((cell) => {
+      if (cell.response) console.dir(cell.response.routeSummary);
+    });
+  });
 }
 
 main().catch((err) => {

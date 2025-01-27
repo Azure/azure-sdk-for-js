@@ -49,10 +49,10 @@ export async function main(): Promise<void> {
   );
 
   await poller.onProgress(() => {
-        console.log(
-          `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
-        );
-      });
+    console.log(
+      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
+    );
+  });
 
   console.log(`The operation created on ${poller.getOperationState().createdOn}`);
 

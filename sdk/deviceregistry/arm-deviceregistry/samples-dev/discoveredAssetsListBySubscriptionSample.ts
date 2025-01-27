@@ -15,7 +15,7 @@ async function listDiscoveredAssetsSubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.discoveredAssets.listBySubscription()) {
+  for await (const item of client.discoveredAssets.listBySubscription()) {
     resArray.push(item);
   }
 

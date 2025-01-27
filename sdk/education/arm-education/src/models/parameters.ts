@@ -16,7 +16,7 @@ import {
   InviteCodeGenerateRequest as InviteCodeGenerateRequestMapper,
   RedeemRequest as RedeemRequestMapper,
   StudentDetails as StudentDetailsMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

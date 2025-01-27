@@ -19,15 +19,15 @@ async function main() {
   const client = new ModelsRepositoryClient({ repositoryLocation: repositoryEndpoint });
   const result = await client.getModels(dtmi, { dependencyResolution: "tryFromExpanded" });
   await Object.keys(result).forEach((fetchedDtmi) => {
-        const currentDtdl = result[fetchedDtmi] as any;
-        console.log("------------------------------------------------");
-        console.log(`DTMI is: ${fetchedDtmi}`);
-        console.log(`DTDL Display Name is: ${currentDtdl.displayName}`);
-        console.log(`DTDL Description is: ${currentDtdl.description}`);
-        console.log("------------------------------------------------");
-        console.log(JSON.stringify(result[fetchedDtmi]));
-        console.log("------------------------------------------------");
-      });
+    const currentDtdl = result[fetchedDtmi] as any;
+    console.log("------------------------------------------------");
+    console.log(`DTMI is: ${fetchedDtmi}`);
+    console.log(`DTDL Display Name is: ${currentDtdl.displayName}`);
+    console.log(`DTDL Description is: ${currentDtdl.description}`);
+    console.log("------------------------------------------------");
+    console.log(JSON.stringify(result[fetchedDtmi]));
+    console.log("------------------------------------------------");
+  });
 }
 
 main().catch((err) => {

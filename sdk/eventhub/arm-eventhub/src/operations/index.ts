@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusters";
-export * from "./namespaces";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./networkSecurityPerimeterConfigurationOperations";
-export * from "./networkSecurityPerimeterConfigurations";
-export * from "./configuration";
-export * from "./disasterRecoveryConfigs";
-export * from "./eventHubs";
-export * from "./consumerGroups";
-export * from "./operations";
-export * from "./schemaRegistry";
-export * from "./applicationGroupOperations";
+export * from "./clusters.js";
+export * from "./namespaces.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./networkSecurityPerimeterConfigurationOperations.js";
+export * from "./networkSecurityPerimeterConfigurations.js";
+export * from "./configuration.js";
+export * from "./disasterRecoveryConfigs.js";
+export * from "./eventHubs.js";
+export * from "./consumerGroups.js";
+export * from "./operations.js";
+export * from "./schemaRegistry.js";
+export * from "./applicationGroupOperations.js";

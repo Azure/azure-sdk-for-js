@@ -8,8 +8,8 @@
  * @summary copy a model from one resource to another
  */
 
+import type { DocumentModelCopyToOperationDetailsOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  DocumentModelCopyToOperationDetailsOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";

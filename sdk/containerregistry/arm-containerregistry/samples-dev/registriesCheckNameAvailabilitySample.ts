@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  RegistryNameCheckRequest,
-  ContainerRegistryManagementClient
-} from "@azure/arm-containerregistry";
+import type { RegistryNameCheckRequest } from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,20 +19,14 @@ import "dotenv/config";
  */
 async function registryCheckNameAvailable(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const registryNameCheckRequest: RegistryNameCheckRequest = {
     name: "myRegistry",
-    type: "Microsoft.ContainerRegistry/registries"
+    type: "Microsoft.ContainerRegistry/registries",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.registries.checkNameAvailability(
-    registryNameCheckRequest
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.registries.checkNameAvailability(registryNameCheckRequest);
   console.log(result);
 }
 
@@ -48,20 +38,14 @@ async function registryCheckNameAvailable(): Promise<void> {
  */
 async function registryCheckNameNotAvailable(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const registryNameCheckRequest: RegistryNameCheckRequest = {
     name: "myRegistry",
-    type: "Microsoft.ContainerRegistry/registries"
+    type: "Microsoft.ContainerRegistry/registries",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.registries.checkNameAvailability(
-    registryNameCheckRequest
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.registries.checkNameAvailability(registryNameCheckRequest);
   console.log(result);
 }
 

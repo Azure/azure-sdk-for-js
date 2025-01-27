@@ -9,7 +9,6 @@ export default mergeConfig(
   defineConfig({
     test: {
       testTimeout: 50000,
-      hookTimeout: 50000,
     },
   }),
 );

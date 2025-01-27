@@ -105,7 +105,7 @@ function getPartContentType(descriptor: PartDescriptor): HeaderValue | undefined
   }
 
   // arbitrary non-text object -> generic JSON content type by default. We will try to JSON.stringify the body.
-  return "application/json; charset=UTF-8";
+  return "application/json";
 }
 
 /**

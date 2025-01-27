@@ -15,7 +15,7 @@ import {
   SingleSignOnCreateOrUpdateResponse,
   SingleSignOnGetOptionalParams,
   SingleSignOnGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SingleSignOn. */

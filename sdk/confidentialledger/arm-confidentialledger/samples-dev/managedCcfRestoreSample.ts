@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ManagedCCFRestore} from "@azure/arm-confidentialledger";
+import type { ManagedCCFRestore } from "@azure/arm-confidentialledger";
 import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
