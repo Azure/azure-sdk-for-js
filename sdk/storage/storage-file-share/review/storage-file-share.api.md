@@ -1330,8 +1330,11 @@ export type NfsFileType = string;
 // @public
 export type OwnerCopyMode = "source" | "override";
 
-// @public (undocumented)
+// @public
 export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
+
+// @public
+export function parseSymbolicFileMode(input?: string): NfsFileMode | undefined;
 
 // @public
 export type PermissionCopyModeType = "source" | "override";
@@ -2263,6 +2266,12 @@ export type TimeNowType = "now";
 
 // @public
 export type TimePreserveType = "preserve";
+
+// @public
+export function toOctalFileMode(input?: NfsFileMode): string | undefined;
+
+// @public
+export function toSymbolicFileMode(input?: NfsFileMode): string | undefined;
 
 export { WebResource }
 

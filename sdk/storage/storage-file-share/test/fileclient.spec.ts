@@ -18,7 +18,12 @@ import { ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import type { DirectoryCreateResponse } from "../src/generatedModels";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
-import { parseOctalFileMode } from "../src/index";
+import {
+  parseOctalFileMode,
+  parseSymbolicFileMode,
+  toOctalFileMode,
+  toSymbolicFileMode,
+} from "../src/index";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import {
   bodyToString,
@@ -3000,26 +3005,7 @@ describe("FileClient - NFS", () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
-        stickyBit: false,
-      },
+      fileMode: parseOctalFileMode("0755"),
       fileType: "Regular",
     };
     const cResp = await fileClient.create(content.length, {
@@ -3052,26 +3038,7 @@ describe("FileClient - NFS", () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
-        stickyBit: false,
-      },
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
       fileType: "Regular",
     };
     const cResp = await fileClient.create(content.length);
@@ -3137,26 +3104,7 @@ describe("FileClient - NFS", () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
-        stickyBit: false,
-      },
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
       fileType: "Regular",
     };
 
@@ -3192,26 +3140,7 @@ describe("FileClient - NFS", () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
-        stickyBit: false,
-      },
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
       fileType: "Regular",
     };
 
@@ -3238,26 +3167,7 @@ describe("FileClient - NFS", () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
-        stickyBit: false,
-      },
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
       fileType: "Regular",
     };
     await fileClient.create(1024, { posixProperties: posixProperties });
@@ -3272,26 +3182,7 @@ describe("FileClient - NFS", () => {
     const newFileClient = dirClient.getFileClient(
       recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
-    const expectedDefaultFileMode: NfsFileMode = {
-      owner: {
-        read: true,
-        write: true,
-        execute: false,
-      },
-      group: {
-        read: true,
-        write: true,
-        execute: false,
-      },
-      other: {
-        read: true,
-        write: false,
-        execute: false,
-      },
-      effectiveUserIdentity: false,
-      effectiveGroupIdentity: false,
-      stickyBit: false,
-    };
+    const expectedDefaultFileMode = parseSymbolicFileMode("rw-rw-r--");
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
 
@@ -3306,26 +3197,7 @@ describe("FileClient - NFS", () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: false,
-        stickyBit: false,
-      },
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
       fileType: "Regular",
     };
     await fileClient.create(1024, { posixProperties: posixProperties });
@@ -3358,26 +3230,7 @@ describe("FileClient - NFS", () => {
     const posixProperties: FilePosixProperties = {
       owner: "123",
       group: "654",
-      fileMode: {
-        owner: {
-          read: true,
-          write: true,
-          execute: true,
-        },
-        group: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        other: {
-          read: true,
-          write: false,
-          execute: true,
-        },
-        effectiveUserIdentity: false,
-        effectiveGroupIdentity: true,
-        stickyBit: false,
-      },
+      fileMode: parseSymbolicFileMode("rwxr-sr-x"),
       fileType: "Regular",
     };
     await fileClient.create(1024, { posixProperties: posixProperties });
@@ -3481,5 +3334,102 @@ describe("FileClient - NFS", () => {
     };
     const setResp2 = await fileClient.setProperties({ posixProperties: posixProperties2 });
     assert.deepEqual(setResp2.fileMode, expectedPosixProperties2.fileMode);
+  });
+
+  it("parse file mode function unit test", async function () {
+    const expectedFileMode1: NfsFileMode = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      effectiveUserIdentity: false,
+      effectiveGroupIdentity: true,
+      stickyBit: false,
+    };
+
+    const fileModeFromOctalString1 = parseOctalFileMode("2755");
+    const octalFildMode1 = toOctalFileMode(expectedFileMode1);
+    const symblicFileModeString1 = toSymbolicFileMode(expectedFileMode1);
+    const fileModeFromSymblicString1 = parseSymbolicFileMode("rwxr-sr-x");
+
+    assert.deepEqual(fileModeFromOctalString1, expectedFileMode1);
+    assert.deepEqual(fileModeFromSymblicString1, expectedFileMode1);
+    assert.deepEqual(octalFildMode1, "2755");
+    assert.deepEqual(symblicFileModeString1, "rwxr-sr-x");
+
+    const expectedFileMode2: NfsFileMode = {
+      owner: {
+        read: true,
+        write: true,
+        execute: false,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: false,
+      },
+      other: {
+        read: true,
+        write: false,
+        execute: false,
+      },
+      effectiveUserIdentity: true,
+      effectiveGroupIdentity: true,
+      stickyBit: true,
+    };
+    const fileModeFromOctalString2 = parseOctalFileMode("7644");
+    const octalFildMode2 = toOctalFileMode(expectedFileMode2);
+    const symblicFileModeString2 = toSymbolicFileMode(expectedFileMode2);
+    const fileModeFromSymblicString2 = parseSymbolicFileMode("rwSr-Sr-S");
+    const fileModeFromSymblicString2Witht = parseSymbolicFileMode("rwSr-Sr-T");
+
+    assert.deepEqual(fileModeFromOctalString2, expectedFileMode2);
+    assert.deepEqual(fileModeFromSymblicString2, expectedFileMode2);
+    assert.deepEqual(fileModeFromSymblicString2Witht, expectedFileMode2);
+    assert.deepEqual(octalFildMode2, "7644");
+    assert.deepEqual(symblicFileModeString2, "rwSr-Sr-T");
+
+    const expectedFileMode3: NfsFileMode = {
+      owner: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: true,
+      },
+      effectiveUserIdentity: false,
+      effectiveGroupIdentity: false,
+      stickyBit: true,
+    };
+    const fileModeFromOctalString3 = parseOctalFileMode("1523");
+    const octalFildMode3 = toOctalFileMode(expectedFileMode3);
+    const symblicFileModeString3 = toSymbolicFileMode(expectedFileMode3);
+    const fileModeFromSymblicString3 = parseSymbolicFileMode("r-x-w--ws");
+    const fileModeFromSymblicString3Witht = parseSymbolicFileMode("r-x-w--wt");
+
+    assert.deepEqual(fileModeFromOctalString3, expectedFileMode3);
+    assert.deepEqual(fileModeFromSymblicString3, expectedFileMode3);
+    assert.deepEqual(fileModeFromSymblicString3Witht, expectedFileMode3);
+    assert.deepEqual(octalFildMode3, "1523");
+    assert.deepEqual(symblicFileModeString3, "r-x-w--wt");
   });
 });

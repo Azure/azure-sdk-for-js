@@ -782,8 +782,7 @@ export function asSharePermission(value: string | SharePermission): SharePermiss
 }
 
 /**
- * @param input - A 4-digit octal string representation of a File Mode.
- * @returns a {@link NfsFileMode} from the octal string representation.
+ * Parse 4-digit octal string representation of a File Mode to a {@link NfsFileMode} structure.
  */
 export function parseOctalFileMode(input?: string): NfsFileMode | undefined {
   if (input === undefined) {
@@ -820,6 +819,9 @@ export function parseOctalFileMode(input?: string): NfsFileMode | undefined {
   return nfsFileMode;
 }
 
+/**
+ * Convert {@link NfsFileMode} structure to a 4-digit octal string represenation.
+ */
 export function toOctalFileMode(input?: NfsFileMode): string | undefined {
   if (input === undefined) return undefined;
 
@@ -844,6 +846,9 @@ export function toOctalFileMode(input?: NfsFileMode): string | undefined {
   return stringFileMode;
 }
 
+/**
+ * Convert a {@link NfsFileMode} to a string in symbolic notation.
+ */
 export function toSymbolicFileMode(input?: NfsFileMode): string | undefined {
   if (input === undefined) return undefined;
   let ownerPermissions = toSymbolicRolePermissions(input.owner);
@@ -876,6 +881,9 @@ export function toSymbolicFileMode(input?: NfsFileMode): string | undefined {
   return ownerPermissions + groupPermissions + otherPermissions;
 }
 
+/**
+ * Parse a 9-character symbolic string representation of a File Mode to a {@link NfsFileMode} structure.
+ */
 export function parseSymbolicFileMode(input?: string): NfsFileMode | undefined {
   if (input === undefined) return undefined;
 
