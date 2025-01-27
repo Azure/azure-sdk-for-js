@@ -46,47 +46,47 @@ describe("Dynatrace test", () => {
   let resource: MonitorResource;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new DynatraceObservability(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      monitorName = "myMonitormtest1";
-      resource = {
-        dynatraceEnvironmentProperties: {
-          accountInfo: {},
-          environmentInfo: {},
-          singleSignOnProperties: {}
-        },
-        identity: { type: "SystemAssigned" },
-        liftrResourceCategory: "Unknown",
-        location,
-        marketplaceSubscriptionStatus: "Active",
-        monitoringStatus: "Enabled",
-        planData: {
-          billingCycle: "Monthly",
-          effectiveDate: new Date("2023-08-22T15:14:33+02:00"),
-          planDetails: "dynatraceapitestplan",
-          usageType: "Committed"
-        },
-        provisioningState: "Accepted",
-        tags: { environment: "Dev" },
-        userInfo: {
-          country: "westus2",
-          emailAddress: "alice@microsoft.com",
-          firstName: "Alice",
-          lastName: "Bobab",
-          phoneNumber: "123456"
-        }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new DynatraceObservability(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+    resourceGroup = "myjstest";
+    monitorName = "myMonitormtest1";
+    resource = {
+      dynatraceEnvironmentProperties: {
+        accountInfo: {},
+        environmentInfo: {},
+        singleSignOnProperties: {}
+      },
+      identity: { type: "SystemAssigned" },
+      liftrResourceCategory: "Unknown",
+      location,
+      marketplaceSubscriptionStatus: "Active",
+      monitoringStatus: "Enabled",
+      planData: {
+        billingCycle: "Monthly",
+        effectiveDate: new Date("2023-08-22T15:14:33+02:00"),
+        planDetails: "dynatraceapitestplan",
+        usageType: "Committed"
+      },
+      provisioningState: "Accepted",
+      tags: { environment: "Dev" },
+      userInfo: {
+        country: "westus2",
+        emailAddress: "alice@microsoft.com",
+        firstName: "Alice",
+        lastName: "Bobab",
+        phoneNumber: "123456"
       }
-    });
+    }
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it.skip("monitor create test", async function () {
     const res = await client.monitors.beginCreateOrUpdateAndWait(
@@ -122,6 +122,7 @@ describe("Dynatrace test", () => {
 
   it("monitor delete test", async function () {
     const resArray = new Array();
+    await client.monitors.beginDeleteAndWait(resourceGroup, monitorName, testPollingOptions)
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

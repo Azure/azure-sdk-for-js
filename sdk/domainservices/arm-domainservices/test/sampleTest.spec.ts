@@ -8,7 +8,9 @@
 
 import {
   Recorder,
-  RecorderStartOptions} from "@azure-tools/test-recorder";
+  RecorderStartOptions
+} from "@azure-tools/test-recorder";
+import { describe, it, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -29,13 +31,13 @@ describe("My test", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("sample test", async function () {
     console.log("Hi, I'm a test!");
