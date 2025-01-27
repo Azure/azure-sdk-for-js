@@ -2704,7 +2704,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
-    resolution: {integrity: sha512-vjq2Gao56nWls4WanTBCTwwjx58Tjne7vWsJzG6pjaM3KnNVuC91v97x+MT2OKq4EmRYJ3yTNFs6T+Vg7rVJmQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-TVqurxZGAWBtJuzZTr+rUdJM9eHGgTu7h638ukTCZG/7CrBHM+MrpfE4mEkiArgpjGYfSS7p+abAvGZJ5PYFBg==, tarball: file:projects/app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
@@ -6913,10 +6913,6 @@ packages:
   nise@6.1.1:
     resolution: {integrity: sha512-aMSAzLVY7LyeM60gvBS423nBmIPP+Wy7St7hsb+8/fc1HmeoHJfLO8CKse4u3BtOZvQLJghYPI2i/1WZrEj5/g==}
 
-  nock@13.5.6:
-    resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
-    engines: {node: '>= 10.13'}
-
   nock@14.0.0:
     resolution: {integrity: sha512-3Z2ZoZoYTR/y2I+NI16+6IzfZFKBX7MrADtoBAm7v/QKqxQUhKw+Dh+847PPS1j/FDutjfIXfrh3CJF74yITWg==}
     engines: {node: '>= 18'}
@@ -10845,7 +10841,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      nock: 13.5.6
+      nock: 14.0.0
       playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -25270,14 +25266,6 @@ snapshots:
       '@sinonjs/text-encoding': 0.7.3
       just-extend: 6.2.0
       path-to-regexp: 8.2.0
-
-  nock@13.5.6:
-    dependencies:
-      debug: 4.4.0(supports-color@8.1.1)
-      json-stringify-safe: 5.0.1
-      propagate: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
 
   nock@14.0.0:
     dependencies:
