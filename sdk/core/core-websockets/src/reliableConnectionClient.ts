@@ -91,10 +91,6 @@ export interface ConnectionManager<SendDataT, ReceiveDataT> {
    */
   open(opts?: OpenOptions): void;
   /**
-   * Checks if the connection is open.
-   */
-  isOpen(opts?: IsOpenOptions): Promise<boolean>;
-  /**
    * Closes the connection.
    */
   close(opts?: CloseOptions): void;
@@ -141,10 +137,6 @@ export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
    * Opens the connection.
    */
   open(opts?: OpenOptions): Promise<void>;
-  /**
-   * Checks if the connection is open.
-   */
-  isOpen(opts?: IsOpenOptions): Promise<boolean>;
   /**
    * Closes the connection.
    */
@@ -258,14 +250,14 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           }
         }
         const { abortSignal } = openOpts;
-        openAbortSignal = abortSignal ?? openAbortSignal;
+        openAbortSignal = abortSignal;
         async function retryableConnecting(
           opOptions: AbortableOperationOptions = {},
         ): Promise<void> {
           logger.verbose(`[${connectionId}] Opening connection`);
           client.open({ ...openOpts, ...opOptions });
           /** installs dummy handlers to activate the logic in the wrappers */
-          const emptyHandler = () => {};
+          const emptyHandler = (): void => {};
           reliableConnectionClient.onOpen(emptyHandler);
           reliableConnectionClient.onClose(emptyHandler);
           reliableConnectionClient.onError(emptyHandler);
@@ -295,12 +287,6 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
             throw error;
           }
         }
-      },
-      isOpen: async (isOpenOpts?: IsOpenOptions) => {
-        const res =
-          reliableConnectionClient.status === "connected" && (await client.isOpen(isOpenOpts));
-        logger.verbose(`[${connectionId}] isOpen: ${res}`);
-        return res;
       },
       close: async (closeOpts: CloseOptions = {}) => {
         switch (reliableConnectionClient.status) {
@@ -344,7 +330,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
       },
       send: async (data: SendDataT, sendOpts: SendOptions = {}) => {
         const { abortSignal } = sendOpts;
-        if (!(await reliableConnectionClient.isOpen({ abortSignal }))) {
+        if (reliableConnectionClient.status !== "connected") {
           logger.info(`[${connectionId}] Connection is not open, opening now to send data...`);
           await reliableConnectionClient.open({ abortSignal });
         }
@@ -390,17 +376,19 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           switch (status) {
             case "disconnected":
             case "disconnecting": {
+              /** The client is closing the connection */
               resolveAndReset();
               break;
             }
             case "connecting": {
+              /** The server is refusing to connect */
+              logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
               rejectAndReset(createError(errMsg));
-              logger.verbose(`[${connectionId}] Connection closed after it was ${status}`);
               canReconnect = client.canReconnect(info);
               break;
             }
             case "connected": {
-              rejectAndReset(createError(errMsg));
+              /** The server closed the connection */
               logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
               canReconnect = client.canReconnect(info);
               if (canReconnect) {

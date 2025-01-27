@@ -9,7 +9,7 @@ export function createFullRetryOptions(options: RetryOptions = {}): Required<Ret
     maxRetryDelayInMs = 0,
     mode = "Fixed",
     retryDelayInMs = 0,
-    timeoutInMs = 0,
+    timeoutInMs = 100,
   } = options;
   return {
     maxRetries,

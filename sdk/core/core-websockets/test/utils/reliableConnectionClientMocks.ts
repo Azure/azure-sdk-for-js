@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { TestContext } from "vitest";
 import {
-  CloseInfo,
-  ConnectionManager,
+  type CloseInfo,
+  type ConnectionManager,
   createReliableConnectionClient,
-  ReliableConnectionClient,
-  RetryOptions,
+  type ReliableConnectionClient,
+  type RetryOptions,
 } from "../../src/index.js";
 import { createFullRetryOptions } from "./mockRretryOptions.js";
 import { assert } from "./vitest.js";
 
-type testSendT = string;
-type testReceiveT = string;
+export type testSendT = string;
+export type testReceiveT = string;
 
 export function createMockClient(
   options: {
     retryOptions?: RetryOptions;
+    isRetryable?: (error: unknown) => boolean;
+    resolveOnUnsuccessful?: boolean;
     identifier?: string;
     open?: () => void;
     onOpen?: (fn: () => void) => void;
     close?: () => void;
     onClose?: (fn: (info: CloseInfo) => void) => void;
-    isOpen?: () => Promise<boolean>;
     canReconnect?: () => boolean;
     send?: (data: testSendT) => Promise<void>;
     onError?: (fn: (error: unknown) => void) => void;
@@ -31,13 +33,14 @@ export function createMockClient(
 ): ReliableConnectionClient<testSendT, testReceiveT> {
   const {
     retryOptions: inputRetryOptions,
+    isRetryable,
+    resolveOnUnsuccessful,
     identifier = "test",
     open,
     onOpen,
     onClose,
     canReconnect,
     close,
-    isOpen,
     onError,
     onMessage,
     send,
@@ -49,7 +52,7 @@ export function createMockClient(
   const connection: ConnectionManager<testSendT, testReceiveT> = {
     open:
       open ??
-      (async () => {
+      (() => {
         setTimeout(() => {
           if (!openHandler) {
             assert.fail("open handler not set");
@@ -72,7 +75,6 @@ export function createMockClient(
       (async (item) => {
         onMessageHandler?.(item);
       }),
-    isOpen: isOpen ?? (async () => true),
     onClose:
       onClose ??
       ((fn) => {
@@ -91,6 +93,17 @@ export function createMockClient(
       }),
     canReconnect: canReconnect ?? (() => false),
   };
-  const clientFactory = createReliableConnectionClient<testSendT, testReceiveT>(connection);
+  const clientFactory = createReliableConnectionClient<testSendT, testReceiveT>(connection, {
+    isRetryable,
+    resolveOnUnsuccessful,
+  });
   return clientFactory({ retryOptions, identifier });
+}
+
+export function createIdentifier(test: TestContext): string {
+  let name = test.task.name;
+  for (let parent = test.task.suite; parent; parent = parent.suite?.suite) {
+    name = `${parent.name}/${name}`;
+  }
+  return name;
 }
