@@ -133,7 +133,7 @@ export async function retry<T>(
   const { maxRetries, maxRetryDelayInMs, mode, retryDelayInMs, timeoutInMs } = retryOptions;
   const errors: unknown[] = [];
   const state = { totalNumberOfAttempts: maxRetries + 1, attemptNumber: 1 };
-  const abortErrorMsg = `The retry operation has been cancelled by the user.`;
+  const abortErrorMsg = `The operation was aborted.`;
   for (
     state.attemptNumber = 1;
     state.attemptNumber <= state.totalNumberOfAttempts;
@@ -144,6 +144,9 @@ export async function retry<T>(
     const combinedAbortSignal = !abortSignal
       ? aborter.signal
       : AbortSignal.any([abortSignal, aborter.signal]);
+    if (abortSignal?.aborted) {
+      throw createError(abortErrorMsg);
+    }
     try {
       const result = await Promise.race([
         operation({ abortSignal: combinedAbortSignal }),

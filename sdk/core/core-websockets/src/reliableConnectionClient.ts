@@ -206,6 +206,9 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
   }: ReliableConnectionOptions = {}): ReliableConnectionClient<SendDataT, ReceiveDataT> => {
     const connectionId = identifier || getRandomName();
     const retryOptions = createFullRetryOptions(inputRetryOptions);
+    /**
+     * The client tries to be reliable and reconnects by default.
+     */
     let canReconnect: boolean = true;
     function isOpenRetryable(err: unknown): boolean {
       const res = canReconnect && (isRetryable?.(err) ?? true);
@@ -256,7 +259,12 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
         ): Promise<void> {
           logger.verbose(`[${connectionId}] Opening connection`);
           client.open({ ...openOpts, ...opOptions });
-          /** installs dummy handlers to activate the logic in the wrappers */
+          /**
+           * Installs dummy handlers to start listening for events from the server.
+           * Resolves the promise when the connection is open, or rejects it when
+           * the connection is closed or an error occurs. The client must have
+           * handlers for open, close, error, and message events.
+           */
           const emptyHandler = (): void => {};
           reliableConnectionClient.onOpen(emptyHandler);
           reliableConnectionClient.onClose(emptyHandler);

@@ -109,6 +109,15 @@ describe("ReliableConnectionClient", () => {
       }
       assert.equal(client.status, "disconnected");
     });
+
+    it("is abortable", async (test) => {
+      const client = createMockClient({ identifier: createIdentifier(test) });
+      const aborter = new AbortController();
+      const openPromise = client.open({ abortSignal: aborter.signal });
+      aborter.abort();
+      await assert.isRejected(openPromise, /The operation was aborted./);
+      assert.equal(client.status, "disconnected");
+    });
   });
 
   describe("close", () => {
@@ -126,6 +135,16 @@ describe("ReliableConnectionClient", () => {
       await assert.isFulfilled(client.close());
       assert.equal(client.status, "disconnected");
     });
+
+    it("is abortable", async (test) => {
+      const client = createMockClient({ identifier: createIdentifier(test) });
+      const aborter = new AbortController();
+      await client.open();
+      const closePromise = client.close({ abortSignal: aborter.signal });
+      aborter.abort();
+      await assert.isRejected(closePromise, /The operation was aborted./);
+      assert.equal(client.status, "disconnected");
+    });
   });
 
   describe("send", () => {
@@ -135,6 +154,16 @@ describe("ReliableConnectionClient", () => {
       await assert.isFulfilled(client.send("test"));
       assert.equal(client.status, "connected");
       await assert.isFulfilled(client.close());
+    });
+
+    it("is abortable", async (test) => {
+      const client = createMockClient({ identifier: createIdentifier(test) });
+      const aborter = new AbortController();
+      await client.open();
+      aborter.abort();
+      const sendPromise = client.send("test", { abortSignal: aborter.signal });
+      await assert.isRejected(sendPromise, /The operation was aborted./);
+      assert.equal(client.status, "connected");
     });
   });
 
@@ -193,6 +222,28 @@ describe("ReliableConnectionClient", () => {
       if (!closeHandler) {
         assert.fail("no handler");
       }
+      closeHandler({ code: "1000" });
+      await delay(200);
+      assert.equal(client.status, "disconnected");
+    });
+
+    it("reconnect can be aborted", async (test) => {
+      let closeHandler: ((info: CloseInfo) => void) | undefined;
+      const client = createMockClient({
+        identifier: createIdentifier(test),
+        canReconnect: () => true,
+        onClose: (fn) => {
+          closeHandler = fn;
+        },
+        retryOptions: { maxRetries: 1 },
+      });
+      const aborter = new AbortController();
+      await client.open({ abortSignal: aborter.signal });
+      assert.equal(client.status, "connected");
+      if (!closeHandler) {
+        assert.fail("no handler");
+      }
+      aborter.abort();
       closeHandler({ code: "1000" });
       await delay(200);
       assert.equal(client.status, "disconnected");

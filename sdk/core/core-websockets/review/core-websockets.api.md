@@ -35,7 +35,6 @@ export interface CloseOptions {
 export interface ConnectionManager<SendDataT, ReceiveDataT> {
     canReconnect(info: CloseInfo): boolean;
     close(opts?: CloseOptions): void;
-    isOpen(opts?: IsOpenOptions): Promise<boolean>;
     onClose: (fn: (info: CloseInfo) => void) => void;
     onError: (fn: (error: unknown) => void) => void;
     onMessage: (fn: (data: ReceiveDataT) => void) => void;
@@ -66,7 +65,6 @@ export interface OpenOptions {
 // @public
 export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
     close(opts?: CloseOptions): Promise<void>;
-    isOpen(opts?: IsOpenOptions): Promise<boolean>;
     onClose: (fn: (info: CloseInfo) => void) => void;
     onError: (fn: (error: unknown) => void) => void;
     onMessage: (fn: (data: ReceiveDataT) => void) => void;
