@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The Delete Azure Data Catalog Service operation deletes an existing data catalog.
  * x-ms-original-file: specification/datacatalog/resource-manager/Microsoft.DataCatalog/stable/2016-03-30/examples/DeleteADCCatalog.json
  */
-async function deleteAzureDataCatalogService() {
+async function deleteAzureDataCatalogService(): Promise<void> {
   const subscriptionId = "12345678-1234-1234-12345678abc";
   const resourceGroupName = "exampleResourceGroup";
   const catalogName = "exampleCatalog";
