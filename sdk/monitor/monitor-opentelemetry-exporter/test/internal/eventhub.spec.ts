@@ -48,6 +48,7 @@ describe("#parseEventHubSpan(...)", () => {
 
     assert.strictEqual((baseData as any).source, undefined);
     assert.strictEqual(baseData.measurements, undefined);
+    assert.strictEqual("abc", "abc") // added to test https://github.com/Azure/azure-sdk-for-js/pull/32752, revert this after testing
   });
 
   it("should correctly parse SpanKind.PRODUCER", () => {
