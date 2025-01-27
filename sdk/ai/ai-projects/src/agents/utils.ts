@@ -8,6 +8,9 @@ import type {
   FileSearchToolDefinitionDetails,
   FunctionDefinition,
   FunctionToolDefinition,
+  OpenApiAnonymousAuthDetails,
+  OpenApiFunctionDefinition,
+  OpenApiToolDefinition,
   RequiredActionOutput,
   RequiredToolCallOutput,
   ToolDefinition,
@@ -152,6 +155,35 @@ export class ToolUtility {
         type: "function",
         function: functionDefinition,
       },
+    };
+  }
+
+  /**
+   * Creates an OpenApi tool
+   *
+   * @param openApiFunctionDefinition - The OpenApi function definition to use.
+   *
+   * @returns An object containing the definition for the OpenApi tool.
+   */
+  static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+    definition: OpenApiToolDefinition;
+  } {
+    return {
+      definition: {
+        type: "openapi",
+        openapi: openApiFunctionDefinition,
+      }
+    }
+  }
+
+  /**
+   * Creates an auth object for an OpenApi tool
+   *
+   * @returns An auth object for an OpenApi tool.
+   */
+  static getOpenApiAnonymousAuthDetails(): OpenApiAnonymousAuthDetails {
+    return {
+      type: "anonymous",
     };
   }
 }

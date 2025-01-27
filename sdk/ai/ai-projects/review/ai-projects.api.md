@@ -1756,6 +1756,10 @@ export class ToolUtility {
     static createFunctionTool(functionDefinition: FunctionDefinition): {
         definition: FunctionToolDefinition;
     };
+    static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+        definition: OpenApiToolDefinition;
+    };
+    static getOpenApiAnonymousAuthDetails(): OpenApiAnonymousAuthDetails;
 }
 
 // @public
