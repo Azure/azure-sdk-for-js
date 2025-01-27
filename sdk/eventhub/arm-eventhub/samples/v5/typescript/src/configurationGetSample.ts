@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all Event Hubs Cluster settings - a collection of key/value pairs which represent the quotas and settings imposed on the cluster.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all Event Hubs Cluster settings - a collection of key/value pairs which represent the quotas and settings imposed on the cluster.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/Clusters/ClusterQuotaConfigurationGet.json
  */
-async function clustersQuotasConfigurationGet() {
+async function clustersQuotasConfigurationGet(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -33,7 +31,7 @@ async function clustersQuotasConfigurationGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clustersQuotasConfigurationGet();
 }
 

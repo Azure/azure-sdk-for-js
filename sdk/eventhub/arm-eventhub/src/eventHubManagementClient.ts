@@ -28,7 +28,7 @@ import {
   OperationsImpl,
   SchemaRegistryImpl,
   ApplicationGroupOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Clusters,
   Namespaces,
@@ -43,8 +43,8 @@ import {
   Operations,
   SchemaRegistry,
   ApplicationGroupOperations,
-} from "./operationsInterfaces";
-import { EventHubManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { EventHubManagementClientOptionalParams } from "./models/index.js";
 
 export class EventHubManagementClient extends coreClient.ServiceClient {
   $host: string;

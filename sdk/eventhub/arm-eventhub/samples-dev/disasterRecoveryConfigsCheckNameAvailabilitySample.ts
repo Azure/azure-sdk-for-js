@@ -8,9 +8,7 @@
 import type { CheckNameAvailabilityParameter } from "@azure/arm-eventhub";
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check the give Namespace name availability.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Check the give Namespace name availability.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasCheckNameAvailability.json
  */
-async function namespacesCheckNameAvailability() {
+async function namespacesCheckNameAvailability(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName = process.env["EVENTHUB_RESOURCE_GROUP"] || "exampleResourceGroup";
   const namespaceName = "sdk-Namespace-9080";
@@ -35,7 +33,7 @@ async function namespacesCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await namespacesCheckNameAvailability();
 }
 

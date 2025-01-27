@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all Alias(Disaster Recovery configurations)
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all Alias(Disaster Recovery configurations)
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasList.json
  */
-async function ehAliasList() {
+async function ehAliasList(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function ehAliasList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   ehAliasList();
 }
 

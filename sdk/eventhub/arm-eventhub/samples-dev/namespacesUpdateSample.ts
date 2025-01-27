@@ -8,9 +8,7 @@
 import type { EHNamespace } from "@azure/arm-eventhub";
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceUpdate.json
  */
-async function namespacesUpdate() {
+async function namespacesUpdate(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName = process.env["EVENTHUB_RESOURCE_GROUP"] || "ResurceGroupSample";
   const namespaceName = "NamespaceSample";
@@ -38,7 +36,7 @@ async function namespacesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await namespacesUpdate();
 }
 
