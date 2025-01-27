@@ -13,10 +13,10 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { EventHubManagementClient } from "../src/eventHubManagementClient.js";
 import { StorageManagementClient, StorageAccountCreateParameters } from "@azure/arm-storage";
-import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -73,12 +73,6 @@ describe("Eventhub test", () => {
   // virtualNetworks.beginCreateOrUpdateAndWait
   // subnets.beginCreateOrUpdateAndWait
   async function createVirtualNetwork(): Promise<void> {
-    const parameter: VirtualNetwork = {
-      location: location,
-      addressSpace: {
-        addressPrefixes: ["10.0.0.0/16"],
-      },
-    };
   }
 
   //storageAccounts.beginCreateAndWait
