@@ -42,28 +42,28 @@ describe("elasticSan test", () => {
   let elasticSanName: string;
   let parameters: ElasticSan
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new ElasticSanManagement(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus2";
-      resourceGroup = "myjstest";
-      elasticSanName = "testelasticsan";
-      parameters = {
-        location,
-        properties: {
-          baseSizeTiB: 15,
-          extendedCapacitySizeTiB: 27,
-          sku: { name: "Premium_LRS" }
-        }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new ElasticSanManagement(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus2";
+    resourceGroup = "myjstest";
+    elasticSanName = "testelasticsan";
+    parameters = {
+      location,
+      properties: {
+        baseSizeTiB: 15,
+        extendedCapacitySizeTiB: 27,
+        sku: { name: "Premium_LRS" }
       }
-    });
+    }
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("operations list test", async function () {
     const resArray = new Array();
@@ -92,6 +92,10 @@ describe("elasticSan test", () => {
 
   it("elasticSan delete test", async function () {
     const resArray = new Array();
+    await client.elasticSans.beginDeleteAndWait(
+      resourceGroup,
+      elasticSanName
+    );
     for await (let item of client.elasticSans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
