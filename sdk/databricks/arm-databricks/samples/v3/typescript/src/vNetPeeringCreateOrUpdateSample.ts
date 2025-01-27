@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates vNet Peering for workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceVirtualNetworkPeeringCreateOrUpdate.json
  */
-async function createVNetPeeringForWorkspace() {
+async function createVNetPeeringForWorkspace(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -47,7 +47,7 @@ async function createVNetPeeringForWorkspace() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createVNetPeeringForWorkspace();
 }
 
