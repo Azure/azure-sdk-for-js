@@ -370,7 +370,7 @@ describe("[Mocked] ChatClient", async () => {
     },
   );
 
-   it(
+  it(
     "should throw an error to subscribe streamingChatMessageChunkReceived event in node",
     { skip: !isNodeLike },
     () => {

@@ -51,5 +51,5 @@ export {
   StreamingChatMessageStartEvent,
   StreamEndReason,
   StreamingMessageMetadata,
-  StreamingMessageType
+  StreamingMessageType,
 };
