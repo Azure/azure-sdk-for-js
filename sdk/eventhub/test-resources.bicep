@@ -32,6 +32,7 @@ resource eventHubNamespace 'Microsoft.EventHub/namespaces@2024-01-01' = {
     zoneRedundant: false
     isAutoInflateEnabled: false
     maximumThroughputUnits: 0
+    disableLocalAuth: subscription().id != '4d042dc6-fe17-4698-a23f-ec6a8d1e98f4'
   }
 }
 
@@ -106,6 +107,7 @@ resource iotHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
     capacity: 1
   }
   properties: {
+    disableLocalAuth: subscription().id != '4d042dc6-fe17-4698-a23f-ec6a8d1e98f4'
     ipFilterRules: []
     eventHubEndpoints: {
       events: {
