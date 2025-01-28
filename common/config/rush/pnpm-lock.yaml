@@ -915,7 +915,7 @@ importers:
         version: file:projects/core-xml.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/cosmos':
         specifier: file:./projects/cosmos.tgz
-        version: file:projects/cosmos.tgz
+        version: file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/create-microsoft-playwright-testing':
         specifier: file:./projects/create-microsoft-playwright-testing.tgz
         version: file:projects/create-microsoft-playwright-testing.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
@@ -3828,7 +3828,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-Oo1YC8Bl9JY/gJF6MTQWnAhSRPfZvqjaXfuU4SUsyRGmamwrkDfigyUJYEcqRwCF4JyZ+JjkgIdVER9nITATsA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-fXy1ZkEkYrFbsnOMFkBHFk1yVm5zs7VxTAM3a1uawFgiNuJXo6D+pKK1mLmKHCRK+R3YMiOlV4z3QBxfVQ0zXA==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -3876,11 +3876,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
-    resolution: {integrity: sha512-DbmOo34cAhRN4xCxJ+CnKHJaHYjYAk6vZr0wRKsBxeTIbxJkL2ESFrEw3/yixU3svDT2Gr+xi/rYnl4aNdkhGQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-4bWI8Y2wx29aieLXJSW8yuVSlKIDqMCjQxjCtQbYmwOo/vQ0Ynp4r9Ub721S4I09VoLG0psx3GhYPlz67x6LGg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-table@file:projects/eventhubs-checkpointstore-table.tgz':
-    resolution: {integrity: sha512-fM504j6XfwH9KokQ89iHSsW04WHa2z+0pVnDZ7XbqP5YWePdaTwtX3vaF4p2tVJuE3OLEO0soGrUCIStwg4Nig==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-km+Bp77eWlqjmK39ngutzVuXBafw2kzvBQKkdMIwMhlN4Q7QkDHYScGW/bA//KtZjgaVbNPTG9jxHbMSYX49tw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     version: 0.0.0
 
   '@rush-temp/functions-authentication-events@file:projects/functions-authentication-events.tgz':
@@ -4056,7 +4056,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz':
-    resolution: {integrity: sha512-XPsqbfMqeWuXqOoYOcqK/7YecXtpu4bkSlYYqa0JHsqNb7wfDe8bj5HDXguNqvabsHTcB6BxP5gVPLea/JWNsw==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-H678jAymOp3nc6EG4H308t3D5K2Nl3LuKmO8+qJlaeMchj8Ehaop94CpOn9FVNjeRRT5zjSqtmeosolCucFBjg==, tarball: file:projects/perf-event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
@@ -4148,11 +4148,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
-    resolution: {integrity: sha512-f2KsjKlSwNStRGn2cgkcJ4UfudS+WLMw3a96BOAtFRJxrpHnOZsdzQZAGXxM4KXNfcvKHxiYDGnjU2yCqhvy4Q==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-gDtFjHRTpg080DOLALhNomtt2FufRwILNg6aDM0EKL6I+cDizUpAnzZ1/H5y9mGD63hohGlDCjQezo6TIerKbw==, tarball: file:projects/schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-json@file:projects/schema-registry-json.tgz':
-    resolution: {integrity: sha512-6ndRHittj388RlbMOqSf3/a/hw0LfmBHg2LgD1DQLtkV1oi4PZgC/zZFGTHN48XGjxmwVEnNwjMolIp9yESMGw==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-ZwFbFtIFKLrC3h+7A7Ct8dPokgFmUaCKXsxIIFETiJCMcoBGxAvvAmP59/E5S8l4AgeE7RcQuw4FdN/ySLbwBg==, tarball: file:projects/schema-registry-json.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry@file:projects/schema-registry.tgz':
@@ -4164,7 +4164,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/service-bus@file:projects/service-bus.tgz':
-    resolution: {integrity: sha512-t9IaVEy/hf1+zANzqEE24d8ckaY+iFfhCSYsOWL53xBl4rINoYYeKVLjiGsi+dfCdgLUQF+lrDMc/FKk3xA3og==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-3J1MkJ54xTVhUxp6bnqZanWXMwyovz1snfXuAJeO2ieTgnWew28Rbbb//DAYO8saOFyjs15l0ZgXdd5QaKLbbg==, tarball: file:projects/service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz':
@@ -4542,9 +4542,6 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
-
-  '@types/underscore@1.13.0':
-    resolution: {integrity: sha512-L6LBgy1f0EFQZ+7uSA57+n2g/s4Qs5r06Vwrwn0/nuK1de+adz00NWaztRQ30aEqw5qOaWbPI8u2cGQ52lj6VA==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -5076,10 +5073,6 @@ packages:
     resolution: {integrity: sha512-v3PH1eI0fXyASr9PiZbq+/HuNfJWickgnPoSfQkUO1Mmq90YRrGvorZQ8ykUkexVdffXct3h9Vk/ztoLHb2EZA==}
     peerDependencies:
       chai: '>= 5'
-
-  chai@4.3.10:
-    resolution: {integrity: sha512-0UXG04VuVbruMUYbJ6JctvH0YnC/4q3/AkT18q4NaITo91CUm0liMS9VqzT9vZhVQ/1eqPanMWjBM+Juhfb/9g==}
-    engines: {node: '>=4'}
 
   chai@4.5.0:
     resolution: {integrity: sha512-RITGBfijLkBddZvnn8jdqoTypxvqbOLYQkGGxXzeFjVHvudaPw0HNFD9x928/eUwYWd2dPCugVqspGALTZZQKw==}
@@ -5742,10 +5735,6 @@ packages:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
 
-  execa@5.1.1:
-    resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
-    engines: {node: '>=10'}
-
   execa@6.1.0:
     resolution: {integrity: sha512-QVWlX2e50heYJcCPG0iWtf8r0xjEYfz/OYLGDYH+IyjWezzPNxz63qNFOu0l4YftGWuizFVZHHs8PrLU5p2IDA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -6100,10 +6089,6 @@ packages:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
     engines: {node: '>= 14'}
 
-  human-signals@2.1.0:
-    resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
-    engines: {node: '>=10.17.0'}
-
   human-signals@3.0.1:
     resolution: {integrity: sha512-rQLskxnM/5OCldHo+wNXbpVgDn5A17CUoKX+7Sokwaknlq7CdSnphy0W39GU8dw59XiCXmFXDg4fRuckQRKewQ==}
     engines: {node: '>=12.20.0'}
@@ -6377,9 +6362,6 @@ packages:
 
   js2xmlparser@4.0.2:
     resolution: {integrity: sha512-6n4D8gLlLf1n5mNLQPRfViYzu9RATblzPEtm1SthMX1Pjao0r9YI9nw7ZIfRxQMERS87mcswrg+r/OYrPRX6jA==}
-
-  jsbi@4.3.0:
-    resolution: {integrity: sha512-SnZNcinB4RIcnEyZqFPdGPVgrg2AcnykiBy0sHVJQKHYeaLUvi3Exj+iaPpLnFVkDPZIV4U0yvgC9/R4uEAZ9g==}
 
   jsbn@1.1.0:
     resolution: {integrity: sha512-4bYVV3aAMtDTTu4+xsDYa6sy9GyJ69/amsu9sYF2zqjiEoZA5xJi3BrfX3uY+/IekIu7MwdObdbDWpoZdBv3/A==}
@@ -6962,10 +6944,6 @@ packages:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
 
-  npm-run-path@4.0.1:
-    resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
-    engines: {node: '>=8'}
-
   npm-run-path@5.3.0:
     resolution: {integrity: sha512-ppwTtiJZq0O/ai0z7yfudtBpWIoxM8yE6nHi1X47eFR2EWORqfbu6CnPlNsjeN683eT0qG6H/Pyf9fCcvjnnnQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -7434,11 +7412,6 @@ packages:
   require-main-filename@2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
 
-  requirejs@2.3.7:
-    resolution: {integrity: sha512-DouTG8T1WanGok6Qjg2SXuCMzszOo0eHeH9hDZ5Y4x8Je+9JB38HdTLT4/VA8OaUhBa0JPVHJ0pyBkM1z+pDsw==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-
   requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
@@ -7790,10 +7763,6 @@ packages:
   strip-bom@4.0.0:
     resolution: {integrity: sha512-3xurFv5tEgii33Zi8Jtp55wEIILR9eh34FAW00PZf+JnSsTmV/ioewSgQl97JHvgjoRGwPShsWm+IdrxB35d0w==}
     engines: {node: '>=8'}
-
-  strip-final-newline@2.0.0:
-    resolution: {integrity: sha512-BrpvfNAE3dcvq7ll3xVumzjKjZQ5tI1sEUIKr3Uoks0XUl45St3FlatVqef9prk4jRDzhW6WZg+3bk93y6pLjA==}
-    engines: {node: '>=6'}
 
   strip-final-newline@3.0.0:
     resolution: {integrity: sha512-dOESqjYr96iWYylGObzd39EuNTa5VJxyvVAEm5Jnh7KGo75V43Hk1odPQkNDyXNmUR6k+gEiDVXnjB8HJ3crXw==}
@@ -18644,39 +18613,47 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/cosmos@file:projects/cosmos.tgz':
+  '@rush-temp/cosmos@file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@sinonjs/fake-timers': 11.3.1
-      '@types/chai': 4.3.20
       '@types/debug': 4.1.12
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.74
       '@types/priorityqueuejs': 1.0.4
       '@types/semaphore': 1.1.4
-      '@types/sinon': 17.0.3
-      '@types/sinonjs__fake-timers': 8.1.5
-      '@types/underscore': 1.13.0
-      chai: 4.3.10
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
+      buffer: 6.0.3
       dotenv: 16.4.7
       eslint: 9.19.0
-      execa: 5.1.1
       fast-json-stable-stringify: 2.1.0
-      jsbi: 4.3.0
-      mocha: 11.1.0
       nock: 14.0.0
+      playwright: 1.50.0
       priorityqueuejs: 2.0.0
-      requirejs: 2.3.7
       semaphore: 1.1.0
-      sinon: 17.0.1
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.74)(typescript@5.7.3)
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)':
     dependencies:
@@ -21209,7 +21186,6 @@ snapshots:
       '@types/debug': 4.1.12
       '@types/is-buffer': 2.0.2
       '@types/node': 18.19.74
-      '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
@@ -21230,7 +21206,6 @@ snapshots:
       rhea-promise: 3.0.3
       tslib: 2.8.1
       typescript: 5.7.3
-      uuid: 8.3.2
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
       ws: 8.18.0
     transitivePeerDependencies:
@@ -22451,8 +22426,6 @@ snapshots:
 
   '@types/trusted-types@2.0.7': {}
 
-  '@types/underscore@1.13.0': {}
-
   '@types/unist@2.0.11': {}
 
   '@types/unzipper@0.10.10':
@@ -23149,16 +23122,6 @@ snapshots:
     dependencies:
       chai: 5.1.2
       fclone: 1.0.11
-
-  chai@4.3.10:
-    dependencies:
-      assertion-error: 1.1.0
-      check-error: 1.0.3
-      deep-eql: 4.1.4
-      get-func-name: 2.0.2
-      loupe: 2.3.7
-      pathval: 1.1.1
-      type-detect: 4.1.0
 
   chai@4.5.0:
     dependencies:
@@ -23913,18 +23876,6 @@ snapshots:
 
   events@3.3.0: {}
 
-  execa@5.1.1:
-    dependencies:
-      cross-spawn: 7.0.6
-      get-stream: 6.0.1
-      human-signals: 2.1.0
-      is-stream: 2.0.1
-      merge-stream: 2.0.0
-      npm-run-path: 4.0.1
-      onetime: 5.1.2
-      signal-exit: 3.0.7
-      strip-final-newline: 2.0.0
-
   execa@6.1.0:
     dependencies:
       cross-spawn: 7.0.6
@@ -24343,8 +24294,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  human-signals@2.1.0: {}
-
   human-signals@3.0.1: {}
 
   humanize-ms@1.2.1:
@@ -24610,8 +24559,6 @@ snapshots:
   js2xmlparser@4.0.2:
     dependencies:
       xmlcreate: 2.0.4
-
-  jsbi@4.3.0: {}
 
   jsbn@1.1.0: {}
 
@@ -25325,10 +25272,6 @@ snapshots:
 
   normalize-path@3.0.0: {}
 
-  npm-run-path@4.0.1:
-    dependencies:
-      path-key: 3.1.1
-
   npm-run-path@5.3.0:
     dependencies:
       path-key: 4.0.0
@@ -25875,8 +25818,6 @@ snapshots:
 
   require-main-filename@2.0.0: {}
 
-  requirejs@2.3.7: {}
-
   requires-port@1.0.0: {}
 
   requizzle@0.2.4:
@@ -26294,8 +26235,6 @@ snapshots:
       ansi-regex: 6.1.0
 
   strip-bom@4.0.0: {}
-
-  strip-final-newline@2.0.0: {}
 
   strip-final-newline@3.0.0: {}
 
