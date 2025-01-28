@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.5 (Unreleased)
+## 1.6.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,24 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.6.0-beta.3 (2024-06-24)
+
+### Bugs Fixed
+
+- Updating with hotfix from version 1.5.1
+
+## 1.6.0-beta.2 (2024-06-06)
+
+### Features Added
+
+- New `messagingPolicy` property in `ChatThreadProperties` for `textOnlyChat`.
+- New `policyViolation` property in `ChatMessage` for data loss prevention.
+
+### Other Changes
+
+- Updated @azure/communication-signaling to 1.0.0-beta.27
+- Updated @azure-tools/test-recorder to 3.5.1
 
 ## 1.5.4 (2024-10-24)
 
@@ -36,6 +54,19 @@
 
 - Updated @azure/core-client and @azure/core-rest-pipeline version.
 
+## 1.6.0-beta.1 (2024-04-17)
+
+### Features Added
+
+- Added Upload Image feature for TeamsInterops scenario
+  - New `uploadImage(...)` to upload an image.
+  - New `deleteImage(...)` to delete an image.
+  - Updated `SendMessageOptions` and `UpdateMessageOptions` to include `attachments`.
+- Supported Data Retention feature for threads.
+  - New `RetentionPolicy` property in `ChatThreadProperties`.
+  - Updated `CreateChatThreadOptions` to include `retentionPolicy` .
+  - New `updateProperties(...)` to update `ChatThreadProperties` including `retentionPolicy`.
+
 ## 1.5.0 (2024-04-15)
 
 ### Features Added
@@ -44,12 +75,38 @@
 - Updated to @azure/communication-signaling@1.0.0-beta.26 with file sharing support
 - Updated `@azure/communication-common` with support for `MicrosoftTeamsAppIdentifierModel`
 
+## 1.5.0-beta.2 (2024-04-05)
+
+### Features Added
+
+- Updated to use gateway version 2024-03-01-preview for teams anonymous visitor ID support.
+
+## 1.5.0-beta.1 (2023-12-07)
+
+### Breaking Changes
+
+- Updated `ChatAttachment` properties
+  - `url` becomes optional
+  - `contentType` is removed  
+  - Renamed `AttachmentType` and its enums (`"teamsInlineImage" | "teamsImage" | "file"`) to `ChatAttachmentType` and `"image" | "file" | "unknown"`
+
+### Other Changes
+
+- Updated @azure/communication-signaling to 1.0.0-beta.23
+
 ## 1.4.0 (2023-12-04)
 
 ### Features Added
 
 - Added `ChatAttachment` object that contains properties for inline images incoming from Teams Chat Threads.
 - Updated to @azure/communication-signaling@1.0.0-beta.22 with inline image support
+
+## 1.4.0-beta.2 (2023-10-10)
+
+### Features Added
+
+- Updated @azure/communication-common to 2.3.0
+- Updated @azure/communication-signaling to 1.0.0-beta.21
 
 ## 1.3.2 (2023-08-24)
 
