@@ -7,8 +7,8 @@
  * @summary use the prebuilt "read" model to extract information about the text content of a document
  */
 
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  AnalyzeOperationOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";

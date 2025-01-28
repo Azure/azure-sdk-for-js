@@ -72,10 +72,10 @@
     "eslint": "^9.9.0",
     "typescript": "~5.7.2",
     "@azure/identity": "^4.2.1",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "playwright": "^1.41.2",
-    "vitest": "^2.0.5",
+    "vitest": "^3.0.3",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.0.0",
     "@azure/dev-tool": "^1.0.0",
@@ -83,7 +83,7 @@
   },
   "scripts": {
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
@@ -102,7 +102,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
-    "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
   },
@@ -112,7 +112,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview"
   },
   "exports": {
     "./package.json": "./package.json",

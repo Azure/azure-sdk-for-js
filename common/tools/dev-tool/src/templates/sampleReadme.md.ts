@@ -5,6 +5,9 @@ import path from "node:path";
 import YAML from "yaml";
 import { SampleReadmeConfiguration } from "../util/samples/info";
 import { format } from "../util/prettier";
+import { createPrinter } from "../util/printer";
+
+const log = createPrinter("readme-template");
 
 /**
  * Renders the frontmatter of the sample README.
@@ -143,7 +146,7 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
 }
 
 /**
- * Create a link to the package.
+ * Creates a link to the package.
  * @param info - the README configuration
  * @returns a link to the project
  */
@@ -155,15 +158,47 @@ function createReadmeLink(info: SampleReadmeConfiguration) {
 }
 
 /**
+ * Checks whether a url exists
+ * @param url -
+ * @returns true if the url is accessible; false otherwise
+ */
+async function urlExists(url: string): Promise<boolean> {
+  const res = await fetch(url);
+  await res.text();
+  return res.ok;
+}
+
+/**
+ * Creates link to the SDK package's Api reference page on learn.microsoft.com.
+ * @param info - the README configuration
+ * @returns a link to the api reference page.
+            This methods validates the generated api link first and will return an empty
+            string if the generated link is not valid.
+            No validation is done for customized api ref link that is passed in.
+ */
+async function createApiRef(info: SampleReadmeConfiguration): Promise<string> {
+  if (info.apiRefLink) {
+    return `[apiref]: ${info.apiRefLink}`;
+  } else if (info.scope?.startsWith("@azure")) {
+    const link = `https://learn.microsoft.com/javascript/api/${info.scope}/${info.baseName}${info.isBeta ? "?view=azure-node-preview" : ""}`;
+    if (await urlExists(link)) {
+      return `[apiref]: ${link}`;
+    }
+    log.warn(`failed to reach api reference ${link} so not adding it.`);
+  }
+  return "";
+}
+
+/**
  * Creates a README for a sample package from a SampleReadmeConfiguration.
  */
-export default (info: SampleReadmeConfiguration): Promise<string> => {
+export default async (info: SampleReadmeConfiguration): Promise<string> => {
   let stepCount = 1;
   const step = (content: string) => `${stepCount++}. ${content}`;
 
   const language = info.useTypeScript ? "TypeScript" : "JavaScript";
 
-  return format(
+  return await format(
     `${formatFrontmatter(info.frontmatter)}\
 # ${info.productName} client library samples for ${language}${info.isBeta ? " (Beta)" : ""}
 
@@ -241,7 +276,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 ${info.customSnippets?.footer ?? ""}
 
 ${fileLinks(info)}
-[apiref]: ${info.apiRefLink ?? `https://learn.microsoft.com/javascript/api/@azure/${info.baseName}`}
+${await createApiRef(info)}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
 [package]: ${createReadmeLink(info)}

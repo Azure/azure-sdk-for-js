@@ -84,7 +84,7 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
   const pipelineOptions = pipeline.options as StoragePipelineOptions;
   // Set maximum timeout for queue operations.
   // This was previously set manually in the retry policy specific to this package.
-  // https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
+  // https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
   if (pipelineOptions.retryOptions === undefined) {
     pipelineOptions.retryOptions = {
       tryTimeoutInMs: 30 * 1000,

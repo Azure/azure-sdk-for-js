@@ -31,11 +31,8 @@ export const ServiceAuth = {
  * Environment variables used by Microsoft Playwright Testing
  */
 export const ServiceEnvironmentVariable = {
-  PLAYWRIGHT_SERVICE_OS: "PLAYWRIGHT_SERVICE_OS",
-  PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: "PLAYWRIGHT_SERVICE_EXPOSE_NETWORK",
   PLAYWRIGHT_SERVICE_ACCESS_TOKEN: "PLAYWRIGHT_SERVICE_ACCESS_TOKEN",
   PLAYWRIGHT_SERVICE_URL: "PLAYWRIGHT_SERVICE_URL",
-  PLAYWRIGHT_SERVICE_REPORTING_URL: "PLAYWRIGHT_SERVICE_REPORTING_URL",
 };
 
 export const DefaultConnectOptionsConstants = {
@@ -69,6 +66,8 @@ export class Constants {
   public static readonly GIT_REV_PARSE = "git rev-parse --is-inside-work-tree";
   public static readonly GIT_COMMIT_MESSAGE_COMMAND = 'git log -1 --pretty=format:"%s"';
   public static readonly ERROR_MESSAGES_MAX_LENGTH = 100;
+  public static readonly sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+  public static readonly oneDayInMs = 24 * 60 * 60 * 1000;
   public static readonly API_VERSION = "2024-09-01-preview";
   public static readonly OS = "Os";
   public static readonly NON_RETRYABLE_STATUS_CODES = [400, 403, 404, 405, 409];
@@ -83,8 +82,12 @@ export class Constants {
   // Error messages
   public static readonly CONFLICT_409_ERROR_MESSAGE =
     "Test run with id {runId} already exists. Provide a unique run id.";
-  public static readonly FORBIDDEN_403_ERROR_MESSAGE =
-    "Reporting is not enabled for your workspace {workspaceId}. Enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general";
+  public static readonly FORBIDDEN_403_ERROR_MESSAGE = `You do not have the required permissions to upload test results. This could be because
+
+  a. Reporting is not enabled for your workspace {workspaceId}. Enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general
+  b. You do not have the required roles on the workspace. Only Owner and Contributor roles can run tests. Contact the service administrator.
+  c. The workspace you are trying to run the tests on is in a different Azure tenant than what you are signed into. Check the tenant id from Azure portal (https://aka.ms/mpt/find-tenant-id) and login using the command 'az login --tenant <TENANT_ID>
+  `;
   // API Endpoints
   public static readonly testRunsEndpoint: string = "workspaces/{workspaceId}/test-runs";
   public static readonly testRunsShardEndpoint: string =
@@ -241,6 +244,9 @@ export const InternalEnvironmentVariables = {
   MPT_SERVICE_RUN_NAME: "_MPT_SERVICE_RUN_NAME",
   MPT_SERVICE_RUN_ID: "_MPT_SERVICE_RUN_ID",
   MPT_CLOUD_HOSTED_BROWSER_USED: "_MPT_CLOUD_HOSTED_BROWSER_USED",
+  MPT_SERVICE_OS: "_MPT_SERVICE_OS",
+  MPT_SERVICE_REPORTING_URL: "_MPT_SERVICE_REPORTING_URL",
+  ONE_TIME_OPERATION_FLAG: "_ONE_TIME_OPERATION_FLAG",
 };
 
 export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";

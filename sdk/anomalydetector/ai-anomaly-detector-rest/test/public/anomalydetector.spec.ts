@@ -87,7 +87,7 @@ describe("AnomalyDetectorClient", () => {
     });
 
     if (isUnexpected(result)) {
-      throw result.body;
+      assert.fail(result.body.message);
     }
 
     assert.deepEqual(result.body.isChangePoint?.filter((p) => p).length, 2);
@@ -104,7 +104,7 @@ describe("AnomalyDetectorClient", () => {
       },
     });
     if (isUnexpected(result)) {
-      throw result;
+      assert.fail(result.body.message);
     }
 
     assert.lengthOf(
@@ -127,7 +127,7 @@ describe("AnomalyDetectorClient", () => {
       },
     });
     if (isUnexpected(result)) {
-      throw result;
+      assert.fail(result.body.message);
     }
 
     assert.isFalse(result.body.isAnomaly);
@@ -139,7 +139,7 @@ describe("AnomalyDetectorClient", () => {
       .get({ queryParameters: { skip: 0, top: 10 } });
 
     if (isUnexpected(result)) {
-      throw result.body;
+      assert.fail(result.body.message);
     }
 
     assert.isArray(result.body.models);
@@ -171,19 +171,17 @@ describe("AnomalyDetectorClient", () => {
       .post(createMultivariateModelParameters);
 
     if (isUnexpected(createModelResult)) {
-      throw createModelResult;
+      assert.fail(createModelResult.body.message);
     }
-
-    console.log(createModelResult);
 
     // get model status
     const modelId = createModelResult.body.modelId;
     let modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
     if (isUnexpected(modelResponse)) {
-      throw modelResponse;
+      assert.fail(modelResponse.body.message);
     }
     if (modelResponse.body.modelInfo === undefined) {
-      throw new Error("Empty model info");
+      assert.fail("Empty model info");
     }
     let modelStatus = modelResponse.body.modelInfo.status;
 
@@ -192,24 +190,21 @@ describe("AnomalyDetectorClient", () => {
       modelResponse = await client.path("/multivariate/models/{modelId}", modelId).get();
 
       if (isUnexpected(modelResponse)) {
-        throw modelResponse.body;
+        assert.fail(modelResponse.body.message);
       }
       if (modelResponse.body.modelInfo === undefined) {
-        throw new Error("Empty model info");
+        assert.fail("Empty model info");
       }
       modelStatus = modelResponse.body.modelInfo.status;
     }
 
     if (modelStatus === "FAILED") {
-      console.log("Training failed.\nErrors:");
+      const errorMessages = [];
       for (const error of modelResponse.body.modelInfo.errors || []) {
-        console.log("Error code: " + error.code + ". Message: " + error.message);
+        errorMessages.push("Error code: " + error.code + ". Message: " + error.message);
       }
-      return;
+      assert.fail("Training failed.\nErrors:\n" + errorMessages.join("\n"));
     }
-
-    // if model status is "READY"
-    console.log("TRAINING FINISHED.");
 
     // get result
     const batchDetectAnomalyParameters: DetectMultivariateBatchAnomalyParameters = {
@@ -226,7 +221,7 @@ describe("AnomalyDetectorClient", () => {
       .post(batchDetectAnomalyParameters);
 
     if (isUnexpected(batchDetectionResponse)) {
-      throw batchDetectionResponse.body;
+      assert.fail(batchDetectionResponse.body.message);
     }
 
     const resultId = batchDetectionResponse.body.resultId;
@@ -235,7 +230,7 @@ describe("AnomalyDetectorClient", () => {
       .get();
 
     if (isUnexpected(getDetectionResultResponse)) {
-      throw getDetectionResultResponse.body;
+      assert.fail(getDetectionResultResponse.body.message);
     }
 
     let resultStatus = getDetectionResultResponse.body.summary.status;
@@ -247,31 +242,25 @@ describe("AnomalyDetectorClient", () => {
         .get();
 
       if (isUnexpected(getDetectionResultResponse)) {
-        throw getDetectionResultResponse.body;
+        assert.fail(getDetectionResultResponse.body.message);
       }
       resultStatus = getDetectionResultResponse.body.summary.status;
     }
 
     if (resultStatus === "FAILED") {
-      console.log("Detection failed.");
-      console.log("Errors:");
+      const errorMessages = [];
       for (const error of getDetectionResultResponse.body.summary.errors || []) {
-        console.log("Error code: " + error.code + ". Message: " + error.message);
+        errorMessages.push("Error code: " + error.code + ". Message: " + error.message);
       }
-      return;
+      assert.fail("Detection failed.\nErrors:\n" + errorMessages.join("\n"));
     }
-
-    // if result status is "READY"
-    console.log("Result status: " + resultStatus);
-    console.log("Result Id: " + getDetectionResultResponse.body.resultId);
 
     assert.equal(resultStatus, "READY");
 
     // delete model
     const deleteResult = await client.path("/multivariate/models/{modelId}", modelId).delete();
     if (isUnexpected(deleteResult)) {
-      throw deleteResult;
+      assert.fail(deleteResult.body.message);
     }
-    console.log("New model has been deleted.");
   });
 });

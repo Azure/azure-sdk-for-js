@@ -44,10 +44,8 @@ matrix([[true, false]], async (useAad) => {
         }
       });
 
-      afterEach(async (ctx) => {
-        if (!ctx.task.pending) {
-          await recorder.stop();
-        }
+      afterEach(async () => {
+        await recorder.stop();
       });
 
       async function fetchParamsForGetTokenForTeamsUser(): Promise<GetTokenForTeamsUserOptions> {

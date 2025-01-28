@@ -17,7 +17,7 @@ describe("etags", () => {
   let recorder: Recorder;
   let key: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
     key = recorder.variable("etags", `etags${Math.floor(Math.random() * 1000)}`);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
@@ -27,7 +27,7 @@ describe("etags", () => {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await deleteKeyCompletely([key], client);
     await recorder.stop();
   });

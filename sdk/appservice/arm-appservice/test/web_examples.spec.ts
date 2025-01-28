@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { WebSiteManagementClient } from "../src/webSiteManagementClient.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -41,48 +37,114 @@ describe("Web test", () => {
   let appservicePlanName: string;
   let name: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new WebSiteManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new WebSiteManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     appservicePlanName = "myappserviceplanxxx";
     name = "mysitexxxx";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("operation list test", async function () {
+  it("operation list test", async () => {
     const resArray = new Array();
-    for await (let item of client.provider.listOperations()) {
+    for await (const item of client.provider.listOperations()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
 
-  it.skip("appServicePlans create test", async function () {
-    const res = await client.appServicePlans.beginCreateOrUpdateAndWait(resourceGroup, appservicePlanName, {
-      location,
-      sku: {
-        name: "S1",
-        tier: "STANDARD",
-        capacity: 1,
+  it.skip("appServicePlans create test", async () => {
+    const res = await client.appServicePlans.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      appservicePlanName,
+      {
+        location,
+        sku: {
+          name: "S1",
+          tier: "STANDARD",
+          capacity: 1,
+        },
+        perSiteScaling: false,
+        isXenon: false,
       },
-      perSiteScaling: false,
-      isXenon: false
-    }, testPollingOptions)
+      testPollingOptions,
+    );
     assert.equal(res.name, appservicePlanName);
   });
 
-  it.skip("webApps create test", async function () {
-    const res = await client.webApps.beginCreateOrUpdateAndWait(resourceGroup, name, {
-      location,
+  it.skip("webApps create test", async () => {
+    const res = await client.webApps.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      name,
+      {
+        location,
+        serverFarmId:
+          "/subscriptions/" +
+          subscriptionId +
+          "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
+        reserved: false,
+        isXenon: false,
+        hyperV: false,
+        siteConfig: {
+          netFrameworkVersion: "v4.6",
+          appSettings: [
+            {
+              name: "WEBSITE_NODE_DEFAULT_VERSION",
+              value: "10.14",
+            },
+          ],
+          localMySqlEnabled: false,
+          http20Enabled: true,
+        },
+        scmSiteAlsoStopped: false,
+        httpsOnly: false,
+      },
+      testPollingOptions,
+    );
+    assert.equal(res.name, name);
+  });
+
+  it.skip("appServicePlans get test", async () => {
+    const res = await client.appServicePlans.get(resourceGroup, appservicePlanName);
+    assert.equal(res.name, appservicePlanName);
+  });
+
+  it.skip("webApps get test", async () => {
+    const res = await client.webApps.get(resourceGroup, name);
+    assert.equal(res.name, name);
+  });
+
+  it.skip("appServicePlans list test", async () => {
+    const resArray = new Array();
+    for await (const item of client.appServicePlans.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it.skip("webApps list test", async () => {
+    const resArray = new Array();
+    for await (const item of client.webApps.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it.skip("webApps update test", async () => {
+    const res = await client.webApps.update(resourceGroup, name, {
       serverFarmId:
         "/subscriptions/" +
         subscriptionId +
@@ -92,76 +154,27 @@ describe("Web test", () => {
       hyperV: false,
       siteConfig: {
         netFrameworkVersion: "v4.6",
-        appSettings: [
-          {
-            name: "WEBSITE_NODE_DEFAULT_VERSION",
-            value: "10.14",
-          },
-        ],
         localMySqlEnabled: false,
         http20Enabled: true,
       },
       scmSiteAlsoStopped: false,
-      httpsOnly: false
-    }, testPollingOptions)
+    });
     assert.equal(res.name, name);
   });
 
-  it.skip("appServicePlans get test", async function () {
-    const res = await client.appServicePlans.get(resourceGroup, appservicePlanName);
-    assert.equal(res.name, appservicePlanName);
-  });
-
-  it.skip("webApps get test", async function () {
-    const res = await client.webApps.get(resourceGroup, name);
-    assert.equal(res.name, name);
-  });
-
-  it.skip("appServicePlans list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it.skip("webApps list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.webApps.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it.skip("webApps update test", async function () {
-    const res = await client.webApps.update(resourceGroup, name, {
-      serverFarmId: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
-      reserved: false,
-      isXenon: false,
-      hyperV: false,
-      siteConfig: {
-        netFrameworkVersion: "v4.6",
-        localMySqlEnabled: false,
-        http20Enabled: true,
-      },
-      scmSiteAlsoStopped: false
-    })
-    assert.equal(res.name, name);
-  });
-
-  it.skip("webApps delete test", async function () {
+  it.skip("webApps delete test", async () => {
     await client.webApps.delete(resourceGroup, name);
     const resArray = new Array();
-    for await (let item of client.webApps.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.webApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it.skip("appServicePlans delete test", async function () {
+  it.skip("appServicePlans delete test", async () => {
     await client.appServicePlans.delete(resourceGroup, appservicePlanName);
     const resArray = new Array();
-    for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.appServicePlans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

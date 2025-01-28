@@ -193,6 +193,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [usersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoxedge/arm-databoxedge/samples/v2/javascript/usersDeleteSample.js
 [usersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoxedge/arm-databoxedge/samples/v2/javascript/usersGetSample.js
 [userslistbydataboxedgedevicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoxedge/arm-databoxedge/samples/v2/javascript/usersListByDataBoxEdgeDeviceSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-databoxedge?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databoxedge?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databoxedge/arm-databoxedge/README.md

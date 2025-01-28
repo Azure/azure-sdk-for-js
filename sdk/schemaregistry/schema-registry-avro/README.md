@@ -9,7 +9,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro)
 - [Package (npm)](https://www.npmjs.com/package/@azure/schema-registry-avro)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry-avro)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/schema-registry-avro)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro/samples)
 
 ## Getting started
@@ -70,7 +70,7 @@ const { AvroSerializer } = require("@azure/schema-registry-avro");
 
 const client = new SchemaRegistryClient(
   "<fully qualified namespace>",
-  new DefaultAzureCredential()
+  new DefaultAzureCredential(),
 );
 const serializer = new AvroSerializer(client, {
   groupName: "<group>",
@@ -147,10 +147,10 @@ learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fschemaregistry%2Fschema-registry-avro%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[resterror]: https://docs.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
-[schema_registry]: https://docs.microsoft.com/javascript/api/overview/azure/schema-registry-readme?view=azure-node-latest
+[resterror]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
+[schema_registry]: https://learn.microsoft.com/javascript/api/overview/azure/schema-registry-readme?view=azure-node-latest

@@ -103,6 +103,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [signalrsharedprivatelinkresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/signalr/arm-signalr/samples/v5/javascript/signalRSharedPrivateLinkResourcesListSample.js
 [signalrupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/signalr/arm-signalr/samples/v5/javascript/signalRUpdateSample.js
 [usageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/signalr/arm-signalr/samples/v5/javascript/usagesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-signalr?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-signalr?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/signalr/arm-signalr/README.md

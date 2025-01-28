@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
@@ -113,6 +112,7 @@ export class SipRoutingClient {
    * Lists the SIP trunks.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listTrunks(options: ListSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "SipRoutingClient-listTrunks",
@@ -163,6 +163,7 @@ export class SipRoutingClient {
    * Lists the SIP trunk routes.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "SipRoutingClient-listRoutes",

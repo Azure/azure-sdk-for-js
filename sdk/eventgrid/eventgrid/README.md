@@ -12,8 +12,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
-- [Product documentation](https://docs.microsoft.com/azure/event-grid/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/eventgrid/)
+- [Product documentation](https://learn.microsoft.com/azure/event-grid/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
 
 ## Getting started
@@ -78,7 +78,7 @@ const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgr
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "<endpoint schema>",
-  new AzureKeyCredential("<Access Key>")
+  new AzureKeyCredential("<Access Key>"),
 );
 ```
 
@@ -92,7 +92,7 @@ const { EventGridPublisherClient, AzureSASCredential } = require("@azure/eventgr
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "<endpoint schema>",
-  new AzureSASCredential("<SAS Token>")
+  new AzureSASCredential("<SAS Token>"),
 );
 ```
 
@@ -105,7 +105,7 @@ const { generateSharedAccessSignature, AzureKeyCredential } = require("@azure/ev
 const token = generateSharedAccessSignature(
   "<endpoint>",
   new AzureKeyCredential("<API key>"),
-  new Date("2020-01-01T00:00:00")
+  new Date("2020-01-01T00:00:00"),
 );
 ```
 
@@ -126,7 +126,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "<endpoint schema>",
-  new DefaultAzureCredential()
+  new DefaultAzureCredential(),
 );
 ```
 
@@ -146,7 +146,7 @@ If your topic is configured to use the Event Grid Schema, set "EventGrid" as the
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API Key>")
+  new AzureKeyCredential("<API Key>"),
 );
 ```
 
@@ -156,7 +156,7 @@ If your topic is configured to use the Cloud Event Schema, set "CloudEvent" as t
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "CloudEvent",
-  new AzureKeyCredential("<API Key>")
+  new AzureKeyCredential("<API Key>"),
 );
 ```
 
@@ -166,7 +166,7 @@ If your topic is configured to use a Custom Event Schema, set "Custom" as the sc
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "Custom",
-  new AzureKeyCredential("<API Key>")
+  new AzureKeyCredential("<API Key>"),
 );
 ```
 
@@ -209,7 +209,7 @@ const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgr
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>"),
 );
 
 await client.send([
@@ -234,7 +234,7 @@ const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgr
 const client = new EventGridPublisherClient(
   "<endpoint>",
   "EventGrid",
-  new AzureKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>"),
 );
 
 await client.send([
@@ -316,10 +316,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventgrid%2Feventgrid%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[event_grid]: https://docs.microsoft.com/azure/event-grid
+[event_grid]: https://learn.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com
 [azure-core-tracing-github]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing
 [cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/v1.0.1/extensions/distributed-tracing.md
-[eventgrid-on-kubernetes-using-azure-arc]: https://docs.microsoft.com/azure/event-grid/kubernetes/
+[eventgrid-on-kubernetes-using-azure-arc]: https://learn.microsoft.com/azure/event-grid/kubernetes/

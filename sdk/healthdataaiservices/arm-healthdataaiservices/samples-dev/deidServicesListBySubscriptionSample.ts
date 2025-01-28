@@ -15,7 +15,7 @@ async function deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable() {
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deidServices.listBySubscription()) {
+  for await (const item of client.deidServices.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable();
+  await deidServicesListBySubscriptionGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

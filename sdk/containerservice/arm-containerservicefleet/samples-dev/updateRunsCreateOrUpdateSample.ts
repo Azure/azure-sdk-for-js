@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  UpdateRun,
-  ContainerServiceFleetClient,
-} from "@azure/arm-containerservicefleet";
+import type { UpdateRun } from "@azure/arm-containerservicefleet";
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a UpdateRun
@@ -23,12 +17,10 @@ dotenv.config();
  * @summary Create a UpdateRun
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/UpdateRuns_CreateOrUpdate.json
  */
-async function createAnUpdateRun() {
+async function createAnUpdateRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const updateRunName = "run1";
   const resource: UpdateRun = {
@@ -59,8 +51,8 @@ async function createAnUpdateRun() {
   console.log(result);
 }
 
-async function main() {
-  createAnUpdateRun();
+async function main(): Promise<void> {
+  await createAnUpdateRun();
 }
 
 main().catch(console.error);

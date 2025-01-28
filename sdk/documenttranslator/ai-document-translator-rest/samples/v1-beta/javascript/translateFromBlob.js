@@ -14,8 +14,7 @@
  */
 
 const DocumentTranslator = require("@azure-rest/ai-document-translator").default;
-
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * These are states of the Long Running Operation considered as terminal

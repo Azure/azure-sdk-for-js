@@ -8,8 +8,14 @@
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { CreateJobParameters, TrialMatcherResultOutput } from "@azure-rest/health-insights-clinicalmatching";
-import ClinicalMatchingRestClient, { getLongRunningPoller, isUnexpected } from "@azure-rest/health-insights-clinicalmatching";
+import type {
+  CreateJobParameters,
+  TrialMatcherResultOutput,
+} from "@azure-rest/health-insights-clinicalmatching";
+import ClinicalMatchingRestClient, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/health-insights-clinicalmatching";
 import "dotenv/config";
 
 // You will need to set this environment variables or edit the following values
@@ -166,7 +172,7 @@ export async function main(): Promise<void> {
     throw trialMatcherResult;
   }
   const resultBody = trialMatcherResult.body;
-  printResults(resultBody);
+  await printResults(resultBody);
 }
 
 main().catch((err) => {

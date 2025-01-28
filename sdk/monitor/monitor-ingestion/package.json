@@ -93,22 +93,22 @@
     "@azure/monitor-query": "^1.3.1",
     "@types/node": "^18.0.0",
     "@types/pako": "^2.0.0",
-    "@vitest/browser": "^2.1.4",
-    "@vitest/coverage-istanbul": "^2.1.4",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.48.2",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.4"
+    "vitest": "^3.0.3"
   },
   "//sampleConfiguration": {
     "skipFolder": false,
     "disableDocsMs": true,
     "productName": "Monitor Ingestion",
     "productSlugs": [],
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/",
     "requiredResources": {
-      "Azure Monitor": "https://docs.microsoft.com/azure/azure-monitor/"
+      "Azure Monitor": "https://learn.microsoft.com/azure/azure-monitor/"
     }
   },
   "type": "module",

@@ -19,7 +19,7 @@ import {
   ManagedClusterSnapshotsUpdateTagsOptionalParams,
   ManagedClusterSnapshotsUpdateTagsResponse,
   ManagedClusterSnapshotsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedClusterSnapshots. */

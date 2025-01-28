@@ -14,8 +14,8 @@
  * @summary use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed)
  */
 
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  AnalyzeOperationOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
@@ -44,7 +44,7 @@ async function main() {
   }
   const poller = getLongRunningPoller(client, initialResponse);
 
-  poller.onProgress((state) => console.log("Operation:", state.result, state.status));
+  await poller.onProgress((state) => console.log("Operation:", state.result, state.status));
   const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
     .analyzeResult;
 

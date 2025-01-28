@@ -75,6 +75,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/samples/v2-beta/javascript/workspacesGetSample.js
 [workspaceslistbyaccountssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/samples/v2-beta/javascript/workspacesListByAccountsSample.js
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/samples/v2-beta/javascript/workspacesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-machinelearningexperimentation?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-machinelearningexperimentation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/README.md

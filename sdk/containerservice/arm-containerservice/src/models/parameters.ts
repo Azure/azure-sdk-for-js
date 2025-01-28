@@ -27,7 +27,7 @@ import {
   ManagedClusterSnapshot as ManagedClusterSnapshotMapper,
   TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper,
   LoadBalancer as LoadBalancerMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

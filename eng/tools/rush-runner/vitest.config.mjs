@@ -10,7 +10,6 @@ export default defineConfig({
     watch: false,
     include: ["test/**/*.spec.js"],
     coverage: {
-      include: ["index.js"],
       provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src/index.js";
-import type { TokenCredential } from "@azure/core-auth";
 import { describe, it, expect } from "vitest";
 
 describe("Key Vault Admin's user agent", function () {
@@ -10,7 +9,7 @@ describe("Key Vault Admin's user agent", function () {
     let userAgent: string | undefined;
     const client = new KeyVaultAccessControlClient(
       "https://myvault.vault.azure.net",
-      {} as TokenCredential,
+      { getToken: () => Promise.resolve({ token: "my-fake-token", expiresOnTimestamp: 0 }) },
       {
         httpClient: {
           sendRequest: async (request) => {

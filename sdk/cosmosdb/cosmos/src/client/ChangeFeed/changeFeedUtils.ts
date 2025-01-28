@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions.js";
 import { ErrorResponse } from "../../request/index.js";
 import type { PartitionKeyRange } from "../Container/index.js";
@@ -9,8 +10,10 @@ import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom.js";
 import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning.js";
 import { Constants } from "../../common/index.js";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
-import type { QueryRange } from "../../routing/index.js";
+import { QueryRange } from "../../routing/index.js";
 import { FeedRangeInternal } from "./FeedRange.js";
+import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
 
 /**
  * @hidden
@@ -128,4 +131,26 @@ export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date |
  */
 export function isNullOrEmpty(text: string | null | undefined): boolean {
   return text === null || text === undefined || text.trim() === "";
+}
+
+/**
+ * @hidden
+ */
+export async function getEPKRangeForPrefixPartitionKey(
+  internalPartitionKey: PartitionKeyInternal,
+): Promise<QueryRange> {
+  const minEPK = getEffectivePartitionKeyForMultiHashPartitioning(internalPartitionKey);
+  const maxEPK =
+    minEPK + Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey;
+  return new QueryRange(minEPK, maxEPK, true, false);
+}
+
+/**
+ * @hidden
+ */
+export function getEffectivePartitionKeyForMultiHashPartitioning(
+  partitionKeyInternal: PartitionKeyInternal,
+): string {
+  const hashArray = partitionKeyInternal.map((item) => hashV2PartitionKey([item]));
+  return hashArray.join("");
 }

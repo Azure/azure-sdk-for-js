@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { Constants } from "../common/index.js";
 import type { CosmosHeaders } from "../queryExecutionContext/headerUtils.js";
-import { getRequestChargeIfAny } from "../queryExecutionContext/headerUtils.js";
-import { IndexMetricWriter, IndexUtilizationInfo } from "../indexMetrics/index.js";
+import {
+  decodeAndParseJSONString,
+  getRequestChargeIfAny,
+} from "../queryExecutionContext/headerUtils.js";
 import type { CosmosDiagnostics } from "../CosmosDiagnostics.js";
 
 export class FeedResponse<TResource> {
@@ -33,11 +36,6 @@ export class FeedResponse<TResource> {
     return this.headers[Constants.HttpHeaders.CorrelatedActivityId];
   }
   public get indexMetrics(): string {
-    const writer = new IndexMetricWriter();
-    const indexUtilizationInfo = IndexUtilizationInfo.createFromString(
-      this.headers[Constants.HttpHeaders.IndexUtilization],
-      true,
-    );
-    return writer.writeIndexMetrics(indexUtilizationInfo);
+    return decodeAndParseJSONString(this.headers[Constants.HttpHeaders.IndexUtilization]);
   }
 }

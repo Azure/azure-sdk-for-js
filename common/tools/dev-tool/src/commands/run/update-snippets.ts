@@ -116,7 +116,14 @@ async function findAllSnippetLocations(info: ProjectInfo): Promise<SnippetLocati
           openFence = undefined;
 
           // We don't care about bash, text, etc. snippets. Only JS/TS in any incarnation.
-          if (!["js", "ts", "javascript", "typescript"].includes(language)) continue;
+          if (!["js", "ts", "javascript", "typescript"].includes(language)) {
+            continue;
+          }
+
+          // Ignore if it says snippet:ignore
+          if (snippetName?.trim()?.startsWith("snippet:ignore")) {
+            continue;
+          }
 
           if (!snippetName?.trim()?.startsWith("snippet:")) {
             log.error(
@@ -229,15 +236,12 @@ async function parseSnippetDefinitions(
         sourceFile,
       );
 
-      const imports: [string, string][] = [];
+      const imports: { name: string; moduleSpecifier: string; isDefault: boolean }[] = [];
 
       // This nested visitor is just for extracting the imports of a symbol.
       const symbolImportVisitor: ts.Visitor = (node: ts.Node) => {
-        let importLocations: string[] | undefined;
-        if (
-          ts.isIdentifier(node) &&
-          (importLocations = extractImportLocations(node)) !== undefined
-        ) {
+        if (ts.isIdentifier(node)) {
+          const importLocations = extractImportLocations(node);
           if (importLocations.length > 1) {
             // We can probably handle this, but it's an obscure case and it's probably better to let it error out and
             // then observe whether or not we actually need (or even _want_) snippets with merged imports.
@@ -247,7 +251,10 @@ async function parseSnippetDefinitions(
           } else if (importLocations.length === 1) {
             // The symbol was imported, so we need to track the imports to add them to the snippet later.
             log.debug(`symbol ${node.text} was imported from ${importLocations[0]}`);
-            imports.push([node.text, importLocations[0]]);
+            imports.push({
+              name: node.text,
+              ...importLocations[0],
+            });
           }
           // else the symbol was not imported within this file, so it must be defined in the ambient context of the
           // module, so we don't need to generate any code for it.
@@ -264,23 +271,56 @@ async function parseSnippetDefinitions(
       // file using `convert`.
       log.debug(`found a snippet named ${name.text}: \n${contents}`);
 
+      interface ImportedSymbols {
+        default?: string;
+        named?: Set<string>;
+      }
+
       // We have a loose map of imports in the form { [k:symbol]: module } and we need to anneal it into a map
       // { [k: module]: symbol[] } (one import statement per module with the whole list of symbols imported from it)
-      const importMap = new Map<string, Set<string>>(
-        imports.map(([, module]) => [module, new Set()]),
-      );
+      const importMap = new Map<string, ImportedSymbols>();
 
-      for (const [symbol, name] of imports) {
-        importMap.get(name)!.add(symbol);
+      for (const { name, moduleSpecifier, isDefault } of imports) {
+        let moduleImports = importMap.get(moduleSpecifier);
+        if (!moduleImports) {
+          moduleImports = {};
+          importMap.set(moduleSpecifier, moduleImports);
+        }
+        if (isDefault) {
+          if (moduleImports.default) {
+            throw new Error(
+              `unrecoverable error: multiple default imports from the same module '${moduleSpecifier}'`,
+            );
+          }
+          moduleImports.default = name;
+        } else {
+          if (!moduleImports.named) {
+            moduleImports.named = new Set();
+          }
+          moduleImports.named.add(name);
+        }
       }
 
       // Form import declarations and prepend them to the rest of the contents.
       const fullSnippetTypeScriptText = (
         [...importMap.entries()]
-          .map(
-            ([module, symbols]) =>
-              `import { ${[...symbols.values()].join(", ")} } from "${module}";`,
-          )
+          .map(([module, imports]) => {
+            const importParts = [];
+            if (imports.default) {
+              importParts.push(imports.default);
+            }
+            if (imports.named) {
+              importParts.push(`{ ${[...imports.named].join(", ")} }`);
+            }
+
+            if (importParts.length === 0) {
+              throw new Error(
+                `unrecoverable error: no imports were generated for the snippet '${name.text}'`,
+              );
+            }
+
+            return `import ${importParts.join(", ")} from "${module}";`;
+          })
           .join(EOL) +
         EOL +
         EOL +
@@ -387,11 +427,14 @@ async function parseSnippetDefinitions(
    * @param node - the node to check for imports
    * @returns a list of module specifiers that form the definition of the node's symbol, or undefined
    */
-  function extractImportLocations(node: ts.Node): string[] | undefined {
+  function extractImportLocations(node: ts.Node): {
+    isDefault: boolean;
+    moduleSpecifier: string;
+  }[] {
     const sym = checker.getSymbolAtLocation(node);
 
     // Get all the decls that are in source files and where the decl comes from an import clause.
-    return sym?.declarations
+    const nonDefaultExports = sym?.declarations
       ?.filter(
         (decl) =>
           decl.getSourceFile() === sourceFile &&
@@ -411,12 +454,38 @@ async function parseSnippetDefinitions(
             moduleSpecifierText === path.join(relativeIndexPath, "index.js") ||
             moduleSpecifierText === path.join(relativeIndexPath, "index")
           ) {
-            return project.name;
+            return { moduleSpecifier: project.name, isDefault: false };
           } else {
-            return moduleSpecifierText;
+            return { moduleSpecifier: moduleSpecifierText, isDefault: false };
           }
         },
       );
+
+    const defaultExports = sym?.declarations
+      ?.filter(
+        (decl) =>
+          decl.getSourceFile() === sourceFile &&
+          ts.isImportClause(decl) &&
+          ts.isImportDeclaration(decl.parent) &&
+          decl.name,
+      )
+      .map((decl) => {
+        const moduleSpecifierText = (
+          (decl.parent as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral
+        ).text;
+
+        if (
+          moduleSpecifierText === relativeIndexPath ||
+          moduleSpecifierText === path.join(relativeIndexPath, "index.js") ||
+          moduleSpecifierText === path.join(relativeIndexPath, "index")
+        ) {
+          return { moduleSpecifier: project.name, isDefault: true };
+        } else {
+          return { moduleSpecifier: moduleSpecifierText, isDefault: true };
+        }
+      });
+
+    return [...(nonDefaultExports ?? []), ...(defaultExports ?? [])];
   }
 }
 

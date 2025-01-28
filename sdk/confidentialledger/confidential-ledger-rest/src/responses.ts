@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ConstitutionOutput,
+  BundleOutput,
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
   ConfidentialLedgerEnclavesOutput,
@@ -27,6 +28,17 @@ export interface GetConstitution200Response extends HttpResponse {
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitutionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Creates the user defined endpoint in the ACL instance */
+export interface CreateUserDefinedEndpoint201Response extends HttpResponse {
+  status: "201";
+}
+
+/** Creates the user defined endpoint in the ACL instance */
+export interface CreateUserDefinedEndpointDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -188,6 +200,18 @@ export interface CreateOrUpdateUser200Response extends HttpResponse {
 
 /** A JSON merge patch is applied for existing users */
 export interface CreateOrUpdateUserDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Returns the user defined endpoint in the ACL instance */
+export interface GetUserDefinedEndpoint200Response extends HttpResponse {
+  status: "200";
+  body: BundleOutput;
+}
+
+/** Returns the user defined endpoint in the ACL instance */
+export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }

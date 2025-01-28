@@ -231,7 +231,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [prefixlistlocalrulestackdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/samples/v1/typescript/src/prefixListLocalRulestackDeleteSample.ts
 [prefixlistlocalrulestackgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/samples/v1/typescript/src/prefixListLocalRulestackGetSample.ts
 [prefixlistlocalrulestacklistbylocalrulestackssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/samples/v1/typescript/src/prefixListLocalRulestackListByLocalRulestacksSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-paloaltonetworksngfw?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-paloaltonetworksngfw?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -292,7 +292,6 @@ export class TableClient {
    * await client.deleteTable();
    * ```
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public deleteTable(options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan("TableClient.deleteTable", options, async (updatedOptions) => {
       try {
@@ -332,7 +331,6 @@ export class TableClient {
    * await client.createTable();
    * ```
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createTable(options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan("TableClient.createTable", options, async (updatedOptions) => {
       try {
@@ -575,7 +573,6 @@ export class TableClient {
    */
   public createEntity<T extends object>(
     entity: TableEntity<T>,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<CreateTableEntityResponse> {
     return tracingClient.withSpan("TableClient.createEntity", options, (updatedOptions) => {
@@ -750,7 +747,6 @@ export class TableClient {
   public upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode = "Merge",
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<UpsertEntityResponse> {
     return tracingClient.withSpan(
@@ -788,7 +784,6 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
     return tracingClient.withSpan(
       "TableClient.getAccessPolicy",
@@ -807,7 +802,6 @@ export class TableClient {
    */
   public setAccessPolicy(
     tableAcl: SignedIdentifier[],
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<SetAccessPolicyResponse> {
     return tracingClient.withSpan("TableClient.setAccessPolicy", options, (updatedOptions) => {
@@ -857,7 +851,7 @@ export class TableClient {
    */
   public async submitTransaction(
     actions: TransactionAction[],
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+
     options: OperationOptions = {},
   ): Promise<TableTransactionResponse> {
     const partitionKey = actions[0][1].partitionKey;

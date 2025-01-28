@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  DedicatedHostsDeleteParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { DedicatedHostsDeleteParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Delete a dedicated host.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Delete_MaximumSet_Gen.json
  */
-async function dedicatedHostsDeleteMaximumSetGen() {
+async function dedicatedHostsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -47,7 +43,7 @@ dedicatedHostsDeleteMaximumSetGen().catch(console.error);
  * @summary Delete a dedicated host.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Delete_MinimumSet_Gen.json
  */
-async function dedicatedHostsDeleteMinimumSetGen() {
+async function dedicatedHostsDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

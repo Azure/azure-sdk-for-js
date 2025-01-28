@@ -61,7 +61,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sample_match_trials_fhir]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_fhir.ts
 [sample_match_trials_structured_coded_elements]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_structured_coded_elements.ts
 [sample_match_trials_unstructured_clinical_note]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/typescript/src/sample_match_trials_unstructured_clinical_note.ts
-[apiref]: https://docs.microsoft.com/javascript/api
+[apiref]: https://learn.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

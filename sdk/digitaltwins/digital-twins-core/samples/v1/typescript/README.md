@@ -103,8 +103,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [dt_relationships_get]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_relationships_get.ts
 [dt_relationships_list]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_relationships_list.ts
 [dt_scenario]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/typescript/src/dt_scenario.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/digital-twins-core
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/digital-twins-core
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuredigitaltwinsinstance]: https://docs.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal
+[createinstance_azuredigitaltwinsinstance]: https://learn.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

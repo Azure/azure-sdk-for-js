@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  GalleryImageVersionsGetParameters,
-} from "@azure-rest/arm-compute";
+import type { GalleryImageVersionsGetParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
  */
-async function getAGalleryImageVersionWithReplicationStatus() {
+async function getAGalleryImageVersionWithReplicationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -49,7 +46,7 @@ getAGalleryImageVersionWithReplicationStatus().catch(console.error);
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
  */
-async function getAGalleryImageVersionWithSnapshotsAsASource() {
+async function getAGalleryImageVersionWithSnapshotsAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -80,7 +77,7 @@ getAGalleryImageVersionWithSnapshotsAsASource().catch(console.error);
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
  */
-async function getAGalleryImageVersionWithVhdAsASource() {
+async function getAGalleryImageVersionWithVhdAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -111,7 +108,7 @@ getAGalleryImageVersionWithVhdAsASource().catch(console.error);
  * @summary Retrieves information about a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get.json
  */
-async function getAGalleryImageVersion() {
+async function getAGalleryImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

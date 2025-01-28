@@ -48,6 +48,7 @@ import type {
   StopMediaStreamingOptions,
   PlayToAllOptions,
   UpdateTranscriptionOptions,
+  InterruptAudioAndAnnounceOptions,
 } from "./models/options.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type {
@@ -65,6 +66,7 @@ import type {
 import type { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
+import { InterruptAudioAndAnnounceRequest } from "./generated/src/models/index.js";
 
 /**
  * CallMedia class represents call media related APIs.
@@ -750,6 +752,29 @@ export class CallMedia {
       this.callConnectionId,
       stopMediaStreamingRequest,
       options,
+    );
+  }
+
+  /**
+   * Interrupt audio and announce to specific participant.
+   *
+   * @param playSources - A PlaySource representing the sources to play.
+   * @param playTo - The targets to play to.
+   * @param options - Additional attributes for interrupt audio and announce.
+   */
+  public async interruptAudioAndAnnounce(
+    playSources: (FileSource | TextSource | SsmlSource)[],
+    playTo: CommunicationIdentifier,
+    options: InterruptAudioAndAnnounceOptions = {},
+  ): Promise<void> {
+    const interruptAudioAndAnnounceRequest: InterruptAudioAndAnnounceRequest = {
+      playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
+      playTo: serializeCommunicationIdentifier(playTo),
+      operationContext: options.operationContext,
+    };
+    return this.callMedia.interruptAudioAndAnnounce(
+      this.callConnectionId,
+      interruptAudioAndAnnounceRequest,
     );
   }
 }

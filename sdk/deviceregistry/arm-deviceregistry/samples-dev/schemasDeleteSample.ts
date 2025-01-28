@@ -18,7 +18,7 @@ async function deleteSchema() {
 }
 
 async function main() {
-  deleteSchema();
+  await deleteSchema();
 }
 
 main().catch(console.error);

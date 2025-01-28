@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
@@ -29,7 +29,6 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
 > {
   constructor(
     public state: RecoverDeletedCertificateState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -49,12 +48,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
       "RecoverDeletedCertificatePoller.getCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificate(
-          this.vaultUrl,
-          certificateName,
-          "",
-          updatedOptions,
-        );
+        const result = await this.client.getCertificate(certificateName, "", updatedOptions);
         return getCertificateWithPolicyFromCertificateBundle(result);
       },
     );
@@ -68,18 +62,15 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
-    let parsedBody: any;
     return tracingClient.withSpan(
       "RecoverDeletedCertificatePoller.recoverDeletedCertificate",
       options,
       async (updatedOptions) => {
-        await this.client.recoverDeletedCertificate(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateWithPolicyFromCertificateBundle(parsedBody);
+        const response = await this.client.recoverDeletedCertificate(
+          certificateName,
+          updatedOptions,
+        );
+        return getCertificateWithPolicyFromCertificateBundle(response);
       },
     );
   }

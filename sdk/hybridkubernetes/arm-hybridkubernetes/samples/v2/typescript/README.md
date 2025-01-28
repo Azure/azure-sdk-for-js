@@ -91,7 +91,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listconnectedclusteroperationsexample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridkubernetes/arm-hybridkubernetes/samples/v2/typescript/src/listConnectedClusterOperationsExample.ts
 [operationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridkubernetes/arm-hybridkubernetes/samples/v2/typescript/src/operationsGetSample.ts
 [updateclusterexample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridkubernetes/arm-hybridkubernetes/samples/v2/typescript/src/updateClusterExample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

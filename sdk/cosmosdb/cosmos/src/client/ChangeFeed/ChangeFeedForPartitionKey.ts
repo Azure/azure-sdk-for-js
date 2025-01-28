@@ -4,7 +4,7 @@ import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOpti
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
 import type { Container, Resource } from "../../client/index.js";
 import type { ClientContext } from "../../ClientContext.js";
-import { Constants, ResourceType, StatusCodes } from "../../common/index.js";
+import { Constants, ResourceType } from "../../common/index.js";
 import type { FeedOptions, Response } from "../../request/index.js";
 import { ErrorResponse } from "../../request/index.js";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey.js";
@@ -177,19 +177,11 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
-      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
-        const errorResponse = new ErrorResponse(err.message);
-        errorResponse.code = err.code;
-        errorResponse.headers = err.headers;
-        throw errorResponse;
-      }
-      return new ChangeFeedIteratorResponse(
-        [],
-        0,
-        err.code,
-        err.headers,
-        getEmptyCosmosDiagnostics(),
-      );
+      // If any errors are encountered, throw the error.
+      const errorResponse = new ErrorResponse(err.message);
+      errorResponse.code = err.code;
+      errorResponse.headers = err.headers;
+      throw errorResponse;
     }
   }
 }

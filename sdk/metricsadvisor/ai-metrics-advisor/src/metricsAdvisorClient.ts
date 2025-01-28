@@ -1413,7 +1413,6 @@ export class MetricsAdvisorClient {
   public async getIncidentRootCauses(
     detectionConfigId: string,
     incidentId: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<GetIncidentRootCauseResponse> {
     return tracingClient.withSpan(
@@ -1449,7 +1448,6 @@ export class MetricsAdvisorClient {
    */
   public async addFeedback(
     feedback: MetricFeedbackUnion,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<MetricFeedbackUnion> {
     return tracingClient.withSpan(
@@ -1475,7 +1473,6 @@ export class MetricsAdvisorClient {
    */
   public async getFeedback(
     id: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<MetricFeedbackUnion> {
     return tracingClient.withSpan(

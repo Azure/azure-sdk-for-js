@@ -15,7 +15,7 @@ async function listDiscoveredAssetEndpointProfilesSubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.discoveredAssetEndpointProfiles.listBySubscription()) {
+  for await (const item of client.discoveredAssetEndpointProfiles.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listDiscoveredAssetEndpointProfilesSubscription() {
 }
 
 async function main() {
-  listDiscoveredAssetEndpointProfilesSubscription();
+  await listDiscoveredAssetEndpointProfilesSubscription();
 }
 
 main().catch(console.error);

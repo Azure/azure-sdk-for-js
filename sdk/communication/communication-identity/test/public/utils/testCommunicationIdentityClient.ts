@@ -24,7 +24,6 @@ export class TestCommunicationIdentityClient {
   public async getTokenTest(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<CommunicationAccessToken> {
     // casting is a workaround to enable min-max testing
@@ -36,7 +35,6 @@ export class TestCommunicationIdentityClient {
 
   public async revokeTokensTest(
     user: CommunicationUserIdentifier,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<void> {
     // casting is a workaround to enable min-max testing
@@ -47,7 +45,6 @@ export class TestCommunicationIdentityClient {
   }
 
   public async createUserTest(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<CommunicationUserIdentifier> {
     // casting is a workaround to enable min-max testing
@@ -59,7 +56,6 @@ export class TestCommunicationIdentityClient {
 
   public async createUserAndTokenTest(
     scopes: TokenScope[],
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<CommunicationUserToken> {
     // casting is a workaround to enable min-max testing

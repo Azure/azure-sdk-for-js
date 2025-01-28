@@ -38,7 +38,7 @@
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "generate:client": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -74,14 +74,14 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.5",
-    "@vitest/coverage-istanbul": "^2.1.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "autorest": "latest",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.5"
+    "vitest": "^3.0.3"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md",
   "//metadata": {
@@ -99,7 +99,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api"
   },
   "type": "module",
   "tshy": {

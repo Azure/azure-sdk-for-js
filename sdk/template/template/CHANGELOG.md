@@ -3,12 +3,7 @@
 ## 1.0.13-beta.2 (Unreleased)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Test Release Pipeline
 
 ## 1.0.13-beta.1 (2023-11-22)
 

@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location.
@@ -20,9 +16,8 @@ dotenv.config();
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MaximumSet_Gen.json
  */
-async function virtualMachineImageListPublishersMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function virtualMachineImageListPublishersMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -36,9 +31,8 @@ async function virtualMachineImageListPublishersMaximumSetGen() {
  * @summary Gets a list of virtual machine image publishers for the specified Azure location.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListPublishers_MinimumSet_Gen.json
  */
-async function virtualMachineImageListPublishersMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function virtualMachineImageListPublishersMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -46,9 +40,9 @@ async function virtualMachineImageListPublishersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImageListPublishersMaximumSetGen();
-  virtualMachineImageListPublishersMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineImageListPublishersMaximumSetGen();
+  await virtualMachineImageListPublishersMinimumSetGen();
 }
 
 main().catch(console.error);

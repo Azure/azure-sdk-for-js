@@ -17,6 +17,7 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
       resourceId: null,
       resourceType: null,
       options: feedOptions,
+      operationType: null,
       partitionKeyRangeId: null,
       useMultipleWriteLocations: null,
       partitionKey: null,

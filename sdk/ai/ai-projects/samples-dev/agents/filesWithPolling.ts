@@ -26,8 +26,8 @@ export async function main(): Promise<void> {
   // Create file content
   const fileContent = "Hello, World!";
   const readable = new Readable();
-  readable.push(fileContent);
-  readable.push(null); // end the stream
+  await readable.push(fileContent);
+  await readable.push(null); // end the stream
 
   // Upload file and poll
   const poller = client.agents.uploadFileAndPoll(readable, "assistants", {

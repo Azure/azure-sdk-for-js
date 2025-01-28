@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  MarkDevicesShippedRequest,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
+import type { MarkDevicesShippedRequest } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,30 +17,28 @@ import "dotenv/config";
  * @summary Request to mark devices for a given job as shipped
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/MarkDevicesShipped.json
  */
-async function markDevicesShipped() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+async function markDevicesShipped(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const jobName = "TestJobName1";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const markDevicesShippedRequest: MarkDevicesShippedRequest = {
     deliverToDcPackageDetails: {
       carrierName: "testCarrier",
-      trackingId: "000000"
-    }
+      trackingId: "000000",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.jobs.markDevicesShipped(
     jobName,
     resourceGroupName,
-    markDevicesShippedRequest
+    markDevicesShippedRequest,
   );
   console.log(result);
 }
 
-async function main() {
-  markDevicesShipped();
+async function main(): Promise<void> {
+  await markDevicesShipped();
 }
 
 main().catch(console.error);

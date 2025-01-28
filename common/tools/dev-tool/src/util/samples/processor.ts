@@ -104,11 +104,11 @@ export async function processSources(
           return ts.visitEachChild(node, visitor, context);
         };
 
-        return addCommonJsExports(
-          context,
+        const importTypeProcessed = processImportType(
           ts.visitNode(sourceFile, visitor) as ts.SourceFile,
-          accumulator.exports,
+          context.factory,
         );
+        return addCommonJsExports(context, importTypeProcessed, accumulator.exports);
       };
 
     // Where the work happens. This runs the conversion step from the ts-to-js command with the visitor we've defined
@@ -395,4 +395,32 @@ function processExportDefault(
           decl.body,
         );
   });
+}
+
+/**
+ * Handles `import type {...}` statements.
+ *
+ * We want to replace import type declaration with a node whose comments will
+ * not be eliminated by the compiler during transpilation to JavaScript so that
+ * the comments can be preserved.
+ *
+ * @param sourceFile - the source file to process
+ * @param factory - a context-bound NodeFactory
+ * @returns a new list of statements for the source file
+ */
+function processImportType(sourceFile: ts.SourceFile, factory: ts.NodeFactory): ts.SourceFile {
+  return factory.updateSourceFile(
+    sourceFile,
+    sourceFile.statements.map((node) => {
+      if (ts.isImportDeclaration(node)) {
+        if (node.importClause?.isTypeOnly) {
+          const outerComments = ts.getCommentRange(node);
+          const dummyNode = factory.createEmptyStatement();
+          return ts.setCommentRange(dummyNode, outerComments);
+        }
+      }
+
+      return node;
+    }),
+  );
 }

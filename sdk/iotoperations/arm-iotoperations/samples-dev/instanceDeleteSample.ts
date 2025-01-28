@@ -18,7 +18,7 @@ async function instanceDelete() {
 }
 
 async function main() {
-  instanceDelete();
+  await instanceDelete();
 }
 
 main().catch(console.error);

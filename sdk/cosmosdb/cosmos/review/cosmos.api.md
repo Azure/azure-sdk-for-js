@@ -544,6 +544,10 @@ export const Constants: {
         ForceRefresh: string;
         PriorityLevel: string;
     };
+    ThrottledRequestMaxRetryAttemptCount: number;
+    ThrottledRequestMaxWaitTimeInSeconds: number;
+    ThrottledRequestFixedRetryIntervalInMs: number;
+    PREFER_RETURN_MINIMAL: string;
     WritableLocations: string;
     ReadableLocations: string;
     LocationUnavailableExpirationTimeInMs: number;
@@ -1235,12 +1239,12 @@ export enum IndexKind {
 
 // @public
 export class Item {
-    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
+    constructor(container: Container, clientContext: ClientContext, id?: string, partitionKey?: PartitionKey);
     // (undocumented)
     readonly container: Container;
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
-    readonly id: string;
+    readonly id?: string;
     patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
@@ -1934,9 +1938,8 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
-    consistencyLevel?: string;
+    contentResponseOnWriteEnabled?: boolean;
     disableAutomaticIdGeneration?: boolean;
-    disableRUPerMinuteUsage?: boolean;
     enableScriptLogging?: boolean;
     indexingDirective?: string;
     offerThroughput?: number;
@@ -2032,9 +2035,9 @@ export type RetryDiagnostics = {
 
 // @public
 export interface RetryOptions {
-    fixedRetryIntervalInMilliseconds: number;
-    maxRetryAttemptCount: number;
-    maxWaitTimeInSeconds: number;
+    fixedRetryIntervalInMilliseconds?: number;
+    maxRetryAttemptCount?: number;
+    maxWaitTimeInSeconds?: number;
 }
 
 // @public (undocumented)
@@ -2198,6 +2201,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 export interface SharedOptions {
     abortSignal?: AbortSignal;
     bypassIntegratedCache?: boolean;
+    consistencyLevel?: string;
+    disableRUPerMinuteUsage?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

@@ -210,6 +210,7 @@ describe("getServiceConfig", () => {
   it("should not set service global setup and teardown for mpt PAT authentication even if pat is not set", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     sandbox.stub(utils, "validateMptPAT").returns();
+    sandbox.stub(utils, "warnIfAccessTokenCloseToExpiry").returns();
     const config = getServiceConfig(samplePlaywrightConfigInput, {
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
@@ -219,6 +220,47 @@ describe("getServiceConfig", () => {
     expect(config.globalTeardown).not.to.equal(
       require.resolve("../../src/core/global/playwright-service-global-teardown"),
     );
+  });
+
+  it("should not call warnIfAccessTokenCloseToExpiry if ONE_TIME_OPERATION_FLAG is true", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
+
+    const warnIfAccessTokenCloseToExpiryStub = sandbox.stub(
+      utils,
+      "warnIfAccessTokenCloseToExpiry",
+    );
+
+    sandbox.stub(utils, "validateMptPAT").returns();
+
+    const { getServiceConfig } = require("../../src/core/playwrightService");
+    getServiceConfig(samplePlaywrightConfigInput, {
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    sinon.assert.notCalled(warnIfAccessTokenCloseToExpiryStub);
+
+    delete process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
+  });
+
+  it("should call warnIfAccessTokenCloseToExpiry if ONE_TIME_OPERATION_FLAG is not set", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+
+    const warnIfAccessTokenCloseToExpiryStub = sandbox.stub(
+      utils,
+      "warnIfAccessTokenCloseToExpiry",
+    );
+
+    sandbox.stub(utils, "validateMptPAT").returns();
+
+    const { getServiceConfig } = require("../../src/core/playwrightService");
+    getServiceConfig(samplePlaywrightConfigInput, {
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    sinon.assert.called(warnIfAccessTokenCloseToExpiryStub);
+    expect(process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG]).to.equal("true");
+    delete process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
   });
 
   it("should set service global setup and teardown for entra id authentication even if pat is set", () => {

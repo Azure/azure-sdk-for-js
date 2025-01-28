@@ -10,11 +10,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list LoadBalancer resources by parent
  * x-ms-original-file: 2024-03-01/LoadBalancers_List.json
  */
-async function loadBalancersList() {
+async function loadBalancersList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const resArray = new Array();
-  for await (let item of client.loadBalancers.list(
+  for await (const item of client.loadBalancers.list(
     "subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/example/providers/Microsoft.Kubernetes/connectedClusters/cluster1",
   )) {
     resArray.push(item);
@@ -23,8 +23,8 @@ async function loadBalancersList() {
   console.log(resArray);
 }
 
-async function main() {
-  loadBalancersList();
+async function main(): Promise<void> {
+  await loadBalancersList();
 }
 
 main().catch(console.error);

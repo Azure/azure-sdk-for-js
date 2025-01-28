@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { UsageAggregates } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { UsageAggregates } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { UsageManagementClient } from "../usageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { UsageManagementClient } from "../usageManagementClient.js";
 import {
   UsageAggregation,
   UsageAggregatesListNextOptionalParams,
   UsageAggregatesListOptionalParams,
   UsageAggregatesListResponse,
   UsageAggregatesListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing UsageAggregates operations. */

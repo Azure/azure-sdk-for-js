@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,21 +15,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a profile within a hub
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/ProfilesDelete.json
  */
-async function profilesDelete() {
+async function profilesDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";
   const profileName = "TestProfileType396";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.profiles.beginDeleteAndWait(
-    resourceGroupName,
-    hubName,
-    profileName
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
+  const result = await client.profiles.beginDeleteAndWait(resourceGroupName, hubName, profileName);
   console.log(result);
 }
 

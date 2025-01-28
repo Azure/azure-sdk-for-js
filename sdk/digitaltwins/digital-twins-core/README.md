@@ -13,7 +13,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Prerequisites
 
-- An [Azure Digital Twins instance](https://docs.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal).
+- An [Azure Digital Twins instance](https://learn.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal).
 
 ### Install the `@azure/digital-twins-core` package
 
@@ -42,7 +42,7 @@ Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/m
 
 Azure Digital Twins is an Azure IoT service that creates comprehensive models of the physical environment.
 It can create spatial intelligence graphs to model the relationships and interactions between people, spaces, and devices.
-You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Documentation](https://docs.microsoft.com/azure/digital-twins/).
+You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Documentation](https://learn.microsoft.com/azure/digital-twins/).
 
 ### `DigitalTwinsClient`
 
@@ -151,7 +151,7 @@ console.log(`DigitalTwin: ${twin}`);
 
 #### Query digital twins
 
-Query the Azure Digital Twins instance for digital twins using the [Azure Digital Twins query language](https://docs.microsoft.com/azure/digital-twins/how-to-query-graph).
+Query the Azure Digital Twins instance for digital twins using the [Azure Digital Twins query language](https://learn.microsoft.com/azure/digital-twins/how-to-query-graph).
 Here's an example of how to query for digital twins and how to iterate over the results.
 
 ```javascript
@@ -222,7 +222,7 @@ const relationship = {
 await serviceClient.upsertRelationship(
   relationship["$sourceId"],
   relationship["$relationshipId"],
-  relationship
+  relationship,
 );
 ```
 
@@ -251,7 +251,7 @@ for await (const incomingRelationship of incomingRelationships) {
 #### Create event route
 
 To create an event route, provide an ID of an event route (in this case, "myEventRouteId") and event route data containing the endpoint and optional filter like the example shown below.
-For more information on filtering events, see [this documentation](https://docs.microsoft.com/azure/digital-twins/how-to-manage-routes-apis-cli#filter-events).
+For more information on filtering events, see [this documentation](https://learn.microsoft.com/azure/digital-twins/how-to-manage-routes-apis-cli#filter-events).
 
 ```javascript
 const eventHubEndpointName = "myEventHubEndpointName";
@@ -301,7 +301,7 @@ const telemetryPayload = '{"Telemetry1": 5}';
 const response = await serviceClient.publishTelemetry(
   digitalTwinId,
   telemetryPayload,
-  "<unique message ID>"
+  "<unique message ID>",
 );
 ```
 
@@ -316,7 +316,7 @@ const response = await serviceClient.publishComponentTelemetry(
   digitalTwinId,
   componentPath,
   telemetryPayload,
-  "<unique message ID>"
+  "<unique message ID>",
 );
 ```
 
@@ -342,7 +342,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 ## Next steps
 
 - Take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core/samples) directory for detailed examples that demonstrate how to use the client libraries.
-- Explore the Azure Digital Twins [documentation](https://docs.microsoft.com/azure/digital-twins/)
+- Explore the Azure Digital Twins [documentation](https://learn.microsoft.com/azure/digital-twins/)
 
 ## Contributing
 

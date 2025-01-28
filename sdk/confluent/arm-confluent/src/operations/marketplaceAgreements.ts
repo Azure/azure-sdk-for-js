@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { MarketplaceAgreements } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { MarketplaceAgreements } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConfluentManagementClient } from "../confluentManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ConfluentManagementClient } from "../confluentManagementClient.js";
 import {
   ConfluentAgreementResource,
   MarketplaceAgreementsListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   MarketplaceAgreementsCreateOptionalParams,
   MarketplaceAgreementsCreateResponse,
   MarketplaceAgreementsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MarketplaceAgreements operations. */

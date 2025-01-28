@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  JobsGetOptionalParams,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
+import type { JobsGetOptionalParams } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,11 +17,9 @@ import "dotenv/config";
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGet.json
  */
-async function jobsGet() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+async function jobsGet(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const expand = "details";
   const options: JobsGetOptionalParams = { expand };
@@ -41,11 +35,9 @@ async function jobsGet() {
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetCmk.json
  */
-async function jobsGetCmk() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+async function jobsGetCmk(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const expand = "details";
   const options: JobsGetOptionalParams = { expand };
@@ -61,11 +53,9 @@ async function jobsGetCmk() {
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetCopyStuck.json
  */
-async function jobsGetCopyStuck() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+async function jobsGetCopyStuck(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const expand = "details";
   const options: JobsGetOptionalParams = { expand };
@@ -81,11 +71,9 @@ async function jobsGetCopyStuck() {
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetExport.json
  */
-async function jobsGetExport() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+async function jobsGetExport(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const expand = "details";
   const options: JobsGetOptionalParams = { expand };
@@ -101,11 +89,9 @@ async function jobsGetExport() {
  * @summary Gets information about the specified job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsGetWaitingForAction.json
  */
-async function jobsGetWaitingForAction() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+async function jobsGetWaitingForAction(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const expand = "details";
   const options: JobsGetOptionalParams = { expand };
@@ -115,12 +101,12 @@ async function jobsGetWaitingForAction() {
   console.log(result);
 }
 
-async function main() {
-  jobsGet();
-  jobsGetCmk();
-  jobsGetCopyStuck();
-  jobsGetExport();
-  jobsGetWaitingForAction();
+async function main(): Promise<void> {
+  await jobsGet();
+  await jobsGetCmk();
+  await jobsGetCopyStuck();
+  await jobsGetExport();
+  await jobsGetWaitingForAction();
 }
 
 main().catch(console.error);

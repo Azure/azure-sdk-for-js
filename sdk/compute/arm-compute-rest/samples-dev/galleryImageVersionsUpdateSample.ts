@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  GalleryImageVersionsUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { GalleryImageVersionsUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Update.json
  */
-async function updateASimpleGalleryImageVersionManagedImageAsSource() {
+async function updateASimpleGalleryImageVersionManagedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -68,7 +64,7 @@ updateASimpleGalleryImageVersionManagedImageAsSource().catch(console.error);
  * @summary Update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
  */
-async function updateASimpleGalleryImageVersionWithoutSourceId() {
+async function updateASimpleGalleryImageVersionWithoutSourceId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  ImagesCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { ImagesCreateOrUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +12,7 @@ import "dotenv/config";
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
  */
-async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource() {
+async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -60,7 +56,7 @@ createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource().catch(console
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromABlob.json
  */
-async function createAVirtualMachineImageFromABlob() {
+async function createAVirtualMachineImageFromABlob(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -102,7 +98,7 @@ createAVirtualMachineImageFromABlob().catch(console.error);
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
  */
-async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource() {
+async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -148,7 +144,7 @@ createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource().catch(
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAManagedDisk.json
  */
-async function createAVirtualMachineImageFromAManagedDisk() {
+async function createAVirtualMachineImageFromAManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -192,7 +188,7 @@ createAVirtualMachineImageFromAManagedDisk().catch(console.error);
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
  */
-async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource() {
+async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -238,7 +234,7 @@ createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource().catch(con
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromASnapshot.json
  */
-async function createAVirtualMachineImageFromASnapshot() {
+async function createAVirtualMachineImageFromASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -282,7 +278,7 @@ createAVirtualMachineImageFromASnapshot().catch(console.error);
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAVM.json
  */
-async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
+async function createAVirtualMachineImageFromAnExistingVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -319,7 +315,7 @@ createAVirtualMachineImageFromAnExistingVirtualMachine().catch(console.error);
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
  */
-async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
+async function createAVirtualMachineImageThatIncludesADataDiskFromABlob(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -367,7 +363,7 @@ createAVirtualMachineImageThatIncludesADataDiskFromABlob().catch(console.error);
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
  */
-async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk() {
+async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -419,7 +415,7 @@ createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk().catch(console.
  * @summary Create or update an image.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
  */
-async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
+async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  CancellationReason,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
+import type { CancellationReason } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,25 +17,19 @@ import "dotenv/config";
  * @summary CancelJob.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCancelPost.json
  */
-async function jobsCancelPost() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+async function jobsCancelPost(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const cancellationReason: CancellationReason = { reason: "CancelTest" };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.jobs.cancel(
-    resourceGroupName,
-    jobName,
-    cancellationReason
-  );
+  const result = await client.jobs.cancel(resourceGroupName, jobName, cancellationReason);
   console.log(result);
 }
 
-async function main() {
-  jobsCancelPost();
+async function main(): Promise<void> {
+  await jobsCancelPost();
 }
 
 main().catch(console.error);

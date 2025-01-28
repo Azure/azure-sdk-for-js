@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary updates an existing Cache Node
  * x-ms-original-file: 2023-05-01-preview/CacheNodesOperations_Update_MaximumSet_Gen.json
  */
-async function cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSetRule() {
+async function cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -20,8 +20,8 @@ async function cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSe
   console.log(result);
 }
 
-async function main() {
-  cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSetRule();
+async function main(): Promise<void> {
+  await cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

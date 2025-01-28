@@ -128,7 +128,7 @@
       "azure-cosmos-db"
     ],
     "requiredResources": {
-      "Azure Cosmos DB account": "https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
+      "Azure Cosmos DB account": "https://learn.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
     },
     "extraFiles": {
       "./samples-dev/Data/Families.json": [

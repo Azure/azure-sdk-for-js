@@ -87,3 +87,18 @@ export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHe
       toBeMergedHeaders[Constants.HttpHeaders.CorrelatedActivityId];
   }
 }
+
+/** @hidden */
+export function decodeAndParseJSONString(inputString: string): string {
+  try {
+    if (!inputString || inputString === "") {
+      return "{}";
+    }
+    const decodedString = decodeURIComponent(inputString);
+    const parsedString = JSON.parse(decodedString);
+    const indexMetrics = JSON.stringify(parsedString);
+    return indexMetrics;
+  } catch (e) {
+    console.error("Error parsing JSON file:", e.message);
+  }
+}

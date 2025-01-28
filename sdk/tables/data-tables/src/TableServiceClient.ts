@@ -201,7 +201,6 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     return tracingClient.withSpan("TableServiceClient.getStatistics", options, (updatedOptions) =>
       this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions)),
@@ -213,7 +212,6 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     return tracingClient.withSpan("TableServiceClient.getProperties", options, (updatedOptions) =>
       this.service.getProperties(updatedOptions),
@@ -240,7 +238,6 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createTable(name: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "TableServiceClient.createTable",
@@ -260,7 +257,6 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public deleteTable(name: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "TableServiceClient.deleteTable",
