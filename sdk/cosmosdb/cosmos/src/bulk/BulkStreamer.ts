@@ -41,7 +41,7 @@ export class BulkStreamer {
   private orderedResponse: BulkOperationResult[] = [];
   private diagnosticNode: DiagnosticNodeInternal;
   private operationPromises: Promise<BulkOperationResult>[] = [];
-  private operationIndex: number = 0;
+  private streamEnded: boolean;
 
   /**
    * @internal
@@ -64,16 +64,17 @@ export class BulkStreamer {
    *
    * @internal
    */
+  // TODO: Add a public reset() method which will utilize this to reset the state of the streamer to use it again.
   initializeBulk(options: RequestOptions): void {
     this.orderedResponse = [];
     this.options = options;
-    this.operationIndex = 0;
     this.operationPromises = [];
     this.diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
       DiagnosticNodeType.CLIENT_REQUEST_NODE,
       null,
     );
+    this.streamEnded = false;
   }
 
   /**
@@ -81,18 +82,24 @@ export class BulkStreamer {
    * @param operationInput - bulk operation or list of bulk operations
    */
   addOperations(operationInput: OperationInput | OperationInput[]): void {
+    if (this.streamEnded) {
+      throw new ErrorResponse("Cannot add operations after the stream has ended.");
+    }
     if (Array.isArray(operationInput)) {
       operationInput.forEach((operation) => {
-        const operationPromise = this.addOperation(operation);
+        const operationPromise = this.addOperation(operation, this.operationPromises.length);
         this.operationPromises.push(operationPromise);
       });
     } else {
-      const operationPromise = this.addOperation(operationInput);
+      const operationPromise = this.addOperation(operationInput, this.operationPromises.length);
       this.operationPromises.push(operationPromise);
     }
   }
 
-  private async addOperation(operation: OperationInput): Promise<BulkOperationResult> {
+  private async addOperation(
+    operation: OperationInput,
+    index: number,
+  ): Promise<BulkOperationResult> {
     if (!operation) {
       throw new ErrorResponse("Operation is required.");
     }
@@ -100,7 +107,7 @@ export class BulkStreamer {
     const streamerForPartition = this.getOrCreateStreamerForPKRange(partitionKeyRangeId);
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
-    const itemOperation = new ItemBulkOperation(this.operationIndex++, operation, context);
+    const itemOperation = new ItemBulkOperation(index, operation, context);
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
@@ -109,6 +116,10 @@ export class BulkStreamer {
    * @returns bulk response
    */
   async endStream(): Promise<BulkStreamerResponse> {
+    if (this.streamEnded) {
+      throw new ErrorResponse("Bulk streamer has already ended.");
+    }
+    this.streamEnded = true;
     let orderedOperationsResult: BulkOperationResult[];
 
     try {
@@ -121,11 +132,11 @@ export class BulkStreamer {
         }
       });
     } finally {
-      for (const [key, streamer] of this.streamersByPartitionKeyRangeId.entries()) {
+      for (const streamer of this.streamersByPartitionKeyRangeId.values()) {
         streamer.disposeTimers();
-        this.limitersByPartitionKeyRangeId.delete(key);
-        this.streamersByPartitionKeyRangeId.delete(key);
       }
+      this.streamersByPartitionKeyRangeId.clear();
+      this.limitersByPartitionKeyRangeId.clear();
     }
 
     const response: BulkStreamerResponse = Object.assign([...orderedOperationsResult], {
@@ -166,9 +177,7 @@ export class BulkStreamer {
   }
 
   private getRetryPolicy(): RetryPolicy {
-    const nextRetryPolicy = new ResourceThrottleRetryPolicy(
-      this.clientContext.getRetryOptions()
-    );
+    const nextRetryPolicy = new ResourceThrottleRetryPolicy(this.clientContext.getRetryOptions());
     return new BulkExecutionRetryPolicy(
       this.container,
       nextRetryPolicy,
@@ -241,7 +250,7 @@ export class BulkStreamer {
       limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
       // starting with degree of concurrency as 1
       for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; ++i) {
-        limiter.take(() => { });
+        limiter.take(() => {});
       }
       this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
     }

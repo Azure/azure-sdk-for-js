@@ -107,14 +107,16 @@ export class BulkBatcher {
       if (response.statusCode === 0) {
         return;
       }
+      const hasThrottles = 1;
+      const noThrottle = 0;
       const numThrottle = response.results.some(
         (result) => result.statusCode === StatusCodes.TooManyRequests,
       )
-        ? 1
-        : 0;
+        ? hasThrottles
+        : noThrottle;
       const splitOrMerge = response.results.some((result) => result.statusCode === StatusCodes.Gone)
-        ? 1
-        : 0;
+        ? true
+        : false;
       if (splitOrMerge) {
         await this.limiter.stopDispatch();
       }

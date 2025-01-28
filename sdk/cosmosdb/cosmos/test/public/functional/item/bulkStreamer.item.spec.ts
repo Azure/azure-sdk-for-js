@@ -1352,4 +1352,36 @@ describe("new streamer bulk operations", async function () {
       );
     });
   });
+  describe("test streamer", async function () {
+    it("cannot add operation or end stream after stream has already ended", async function () {
+      const container = await getTestContainer("bulk container", undefined, {
+        partitionKey: {
+          paths: ["/key"],
+          version: undefined,
+        },
+        throughput: 12000,
+      });
+      const bulkStreamer = container.items.getBulkStreamer();
+      bulkStreamer.addOperations({
+        operationType: BulkOperationType.Create,
+        resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" },
+      });
+      await bulkStreamer.endStream();
+      try {
+        bulkStreamer.addOperations({
+          operationType: BulkOperationType.Create,
+          resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" },
+        });
+        assert.fail("addOperations should fail after endStream");
+      } catch (err) {
+        assert.strictEqual(err.message, "Cannot add operations after the stream has ended.");
+      }
+      try {
+        await bulkStreamer.endStream();
+        assert.fail("endStream should throw error after stream has already ended");
+      } catch (err) {
+        assert.strictEqual(err.message, "Bulk streamer has already ended.");
+      }
+    });
+  });
 });

@@ -65,7 +65,7 @@ describe("BulkExecutionRetryPolicy", () => {
     // default maxTries is 9
     while (throttlingRetryPolicy.currentRetryAttemptCount < 9) {
       const shouldRetryResult = await throttlingRetryPolicy.shouldRetry(err, {
-        addData: () => { },
+        addData: () => {},
       } as any);
       assert.strictEqual(throttlingRetryPolicy.retryAfterInMs, 5);
       assert.strictEqual(shouldRetryResult, true);
@@ -80,13 +80,13 @@ describe("BulkExecutionRetryPolicy", () => {
     const retryOptions: RetryOptions = {
       maxRetryAttemptCount: 5,
       fixedRetryIntervalInMilliseconds: 10,
-    }
+    };
     retryPolicy.nextRetryPolicy = new ResourceThrottleRetryPolicy(retryOptions);
     const throttlingRetryPolicy = retryPolicy.nextRetryPolicy as ResourceThrottleRetryPolicy;
 
     while (throttlingRetryPolicy.currentRetryAttemptCount < 5) {
       const shouldRetryResult = await throttlingRetryPolicy.shouldRetry(err, {
-        addData: () => { },
+        addData: () => {},
       } as any);
       assert.strictEqual(throttlingRetryPolicy.retryAfterInMs, 10);
       assert.strictEqual(shouldRetryResult, true);

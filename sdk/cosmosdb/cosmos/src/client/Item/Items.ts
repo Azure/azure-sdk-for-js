@@ -450,8 +450,8 @@ export class Items {
    *   },
    *   {
    *      operationType: "Create",
-   *      resourceBody: { id: "doc2", name: "other", key: "A" 
-   *   } 
+   *      resourceBody: { id: "doc2", name: "other", key: "A"
+   *   }
    * ];
    * const readOperation: OperationInput = { operationType: "Read", id: "doc1", partitionKey: "A" };
    *
@@ -625,7 +625,7 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
-              err.message,
+                err.message,
             );
           }
         } else {
