@@ -344,7 +344,7 @@ export class ChatClient {
 
   /**
    * Subscribe function for streamingChatMessageStarted
-   * @param event - The StreamingChatMessageStartedEvent
+   * @param event - The StreamingChatMessageStartEvent
    * @param listener - The listener to handle the event
    */
   public on(
@@ -353,8 +353,8 @@ export class ChatClient {
   ): void;
 
   /**
-   * Subscribe function for streamingChatMessageStarted
-   * @param event - The StreamingChatMessageStartedEvent
+   * Subscribe function for streamingChatMessageChunkReceived
+   * @param event - The StreamingChatMessageChunkReceivedEvent
    * @param listener - The listener to handle the event
    */
   public on(
@@ -471,7 +471,7 @@ export class ChatClient {
 
   /**
    * Unsubscribe function for streamingChatMessageStarted
-   * @param event - The StreamingChatMessageStartedEvent
+   * @param event - The StreamingChatMessageStartEvent
    * @param listener - The listener to handle the event
    */
   public off(
@@ -480,8 +480,8 @@ export class ChatClient {
   ): void;
 
   /**
-   * Unsubscribe function for streamingChatMessageStarted
-   * @param event - The StreamingChatMessageStartedEvent
+   * Unsubscribe function for streamingChatMessageChunkReceived
+   * @param event - The StreamingChatMessageChunkReceivedEvent
    * @param listener - The listener to handle the event
    */
   public off(
