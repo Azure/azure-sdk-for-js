@@ -20,7 +20,6 @@ import type { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
-import { Stack } from "../common/Stack";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -45,8 +44,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private RRF_CONSTANT = 60; // Constant for RRF score calculation
   private logger: AzureLogger = createClientLogger("HybridQueryExecutionContext");
   private hybridSearchResult: HybridSearchQueryResult[] = [];
-  private componentExecutionContextStack: Stack<ExecutionContext>;
   private uniqueItems = new Map<string, HybridSearchQueryResult>();
+  private isSingleComponent: boolean = false;
 
   constructor(
     private clientContext: ClientContext,
@@ -91,7 +90,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       this.createComponentExecutionContexts();
       this.state = HybridQueryExecutionContextBaseStates.initialized;
     }
-    this.componentExecutionContextStack = new Stack<ExecutionContext>();
   }
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     const nextItemRespHeaders = getInitialHeader();
@@ -189,15 +187,15 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     diagnosticNode: DiagnosticNodeInternal,
     fetchMoreRespHeaders: CosmosHeaders,
   ): Promise<void> {
-    if (this.componentsExecutionContext.length === 1) {
+    if (this.isSingleComponent) {
       await this.drainSingleComponent(diagnosticNode, fetchMoreRespHeaders);
       return;
     }
     try {
       if (this.options.enableQueryControl) {
         // track componentExecutionContexts with remaining results and call them in LIFO order
-        if (!this.componentExecutionContextStack.isEmpty()) {
-          const componentExecutionContext = this.componentExecutionContextStack.pop();
+        if (this.componentsExecutionContext.length > 0) {
+          const componentExecutionContext = this.componentsExecutionContext.pop();
           if (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
             const response = result.result;
@@ -211,11 +209,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
               });
             }
             if (componentExecutionContext.hasMoreResults()) {
-              this.componentExecutionContextStack.push(componentExecutionContext);
+              this.componentsExecutionContext.push(componentExecutionContext);
             }
           }
         }
-        if (this.componentExecutionContextStack.isEmpty()) {
+        if (this.componentsExecutionContext.length === 0) {
           this.processUniqueItems();
         }
       } else {
@@ -449,7 +447,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         this.emitRawOrderByPayload,
       );
       this.componentsExecutionContext.push(executionContext);
-      this.componentExecutionContextStack.push(executionContext);
+      this.isSingleComponent = this.componentsExecutionContext.length === 1;
     }
   }
   private processComponentQueries(

@@ -4,10 +4,12 @@
 import assert from "assert";
 import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel";
 import { PipelinedQueryExecutionContext } from "../../../../src/queryExecutionContext/pipelinedQueryExecutionContext";
-import { QueryInfo } from "../../../../src/request/ErrorResponse";
+import type { QueryInfo } from "../../../../src/request/ErrorResponse";
 import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics";
-import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers";
-import { createTestClientContext } from "./parallelQueryExecutionContextBase.spec";
+import {
+  createDummyDiagnosticNode,
+  createTestClientContext,
+} from "../../../public/common/TestHelpers";
 
 describe("PipelineQueryExecutionContext", function () {
   describe("fetchMore", function () {
@@ -70,7 +72,7 @@ describe("PipelineQueryExecutionContext", function () {
       value: value,
     });
 
-    it("should fetch more", async function () {
+    it("should fetch more with enableQueryControl false as deafult", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -109,7 +111,7 @@ describe("PipelineQueryExecutionContext", function () {
       assert.strictEqual(result[2].id, "3");
     });
 
-    it("should fetch more when empty resutls in begining", async function () {
+    it("should fetch more when empty resutls are retuned initially by document producers", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -152,7 +154,7 @@ describe("PipelineQueryExecutionContext", function () {
       assert.strictEqual(result.length, 10);
     });
 
-    it("should return 3 response when backend returns undefined after that", async function () {
+    it("should return result when result size < maxItemCount", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -194,7 +196,7 @@ describe("PipelineQueryExecutionContext", function () {
       assert.strictEqual(result.length, 3);
     });
 
-    it("should return undefined when backend returns undefined", async function () {
+    it("should return undefined when backend has no data", async function () {
       const options = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(
@@ -269,7 +271,7 @@ describe("PipelineQueryExecutionContext", function () {
       assert.strictEqual(result2.length, 3);
     });
 
-    it("enableQueryCOntrol is true and returned data is greater than maxItemCount", async function () {
+    it("enableQueryControl is true and returned data is greater than maxItemCount", async function () {
       const options = { maxItemCount: 2, maxDegreeOfParallelism: 1, enableQueryControl: true };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       const context = new PipelinedQueryExecutionContext(

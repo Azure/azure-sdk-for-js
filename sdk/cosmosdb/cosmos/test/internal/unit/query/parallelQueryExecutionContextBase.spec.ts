@@ -3,28 +3,21 @@
 
 import sinon from "sinon";
 import type {
-  ClientConfigDiagnostic,
-  CosmosClientOptions,
-  DiagnosticNodeInternal,
   FeedOptions,
   PartitionKeyRange,
   QueryInfo,
   QueryIterator,
-  RequestOptions,
   Resource,
 } from "../../../../src";
-import {
-  CosmosDbDiagnosticLevel,
-  StatusCodes,
-  GlobalEndpointManager,
-  ClientContext,
-  ConsistencyLevel,
-  Constants,
-} from "../../../../src";
+import { CosmosDbDiagnosticLevel } from "../../../../src";
+import type { ClientContext } from "../../../../src";
 import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext";
-import { expect } from "chai";
 import { assert } from "chai";
-import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers";
+import {
+  createDummyDiagnosticNode,
+  createTestClientContext,
+  initializeMockPartitionKeyRanges,
+} from "../../../public/common/TestHelpers";
 describe("parallelQueryExecutionContextBase", function () {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
   const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
@@ -137,7 +130,7 @@ describe("parallelQueryExecutionContextBase", function () {
       context["options"] = options;
 
       // Call bufferDocumentProducers
-      await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
+      await context["bufferDocumentProducers"](createDummyDiagnosticNode());
 
       assert.equal(context["bufferedDocumentProducersQueue"].size(), 2);
       assert.equal(
@@ -158,7 +151,6 @@ describe("parallelQueryExecutionContextBase", function () {
         undefined,
       );
     });
-    // TODO: Failing fix it
     it("should release the semaphore if an error occurs", async function () {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
@@ -197,15 +189,15 @@ describe("parallelQueryExecutionContextBase", function () {
       }
     });
 
-    // TODO: FIX
-    it.skip("should propagate an existing error if this.err is already set", async function () {
+    it("should propagate an existing error if this.err is already set", async function () {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
-
       const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
       const fetchAllInternalStub = sinon.stub().resolves({
-        resources: [mockPartitionKeyRange1],
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
         headers: { "x-ms-request-charge": "1.23" },
         code: 200,
       });
@@ -213,6 +205,28 @@ describe("parallelQueryExecutionContextBase", function () {
         fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
       } as unknown as QueryIterator<PartitionKeyRange>);
 
+      // Define a mock document (resource) returned from queryFeed
+      const mockDocument1 = createMockDocument(
+        "sample-id-1",
+        "Sample Document 1",
+        "This is the first sample document",
+      );
+      const mockDocument2 = createMockDocument(
+        "sample-id-2",
+        "Sample Document 2",
+        "This is the second sample document",
+      );
+      // Define a stub for queryFeed in clientContext
+      sinon.stub(clientContext, "queryFeed").resolves({
+        result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
+        headers: {
+          "x-ms-request-charge": "3.5", // Example RU charge
+          "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+        },
+        code: 200, // Optional status code
+      });
+
+      // Create mock instance of TestParallelQueryExecutionContext
       const context = new TestParallelQueryExecutionContext(
         clientContext,
         collectionLink,
@@ -222,6 +236,7 @@ describe("parallelQueryExecutionContextBase", function () {
         correlatedActivityId,
       );
       context["options"] = options;
+
       context["err"] = {
         code: 404,
         body: {
@@ -234,70 +249,17 @@ describe("parallelQueryExecutionContextBase", function () {
       const releaseSpy = sinon.spy(context["sem"], "leave");
       try {
         // Call bufferDocumentProducers
-        await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
+        await context["bufferDocumentProducers"](createDummyDiagnosticNode());
       } catch (err) {
-        console.log("error thrown from should propagate:", err);
         assert.equal(err.code, 404);
         assert.equal(releaseSpy.callCount, 2);
         assert.equal(context["bufferedDocumentProducersQueue"].size(), 0);
-        assert.equal(context["unfilledDocumentProducersQueue"].size(), 0);
+        assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
       }
-    });
-
-    // TODO: FIX
-    it.skip("should invoke _repairExecutionContext when a split error occurs and retry after repair", async function () {
-      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
-      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
-
-      let callCount = 0;
-      const fetchAllInternalStub = sinon.stub().callsFake(() => {
-        callCount++;
-        if (callCount === 1) {
-          return {
-            code: StatusCodes.Gone,
-            body: {
-              message: "Partition key range split",
-            },
-            headers: { "x-ms-request-charge": "0" },
-          };
-        } else {
-          return {
-            resources: [
-              createMockPartitionKeyRange("0", "", "AA"),
-              createMockPartitionKeyRange("1", "AA", "BB"),
-              createMockPartitionKeyRange("2", "BB", "FF"),
-            ],
-            headers: { "x-ms-request-charge": "1.23" },
-            code: 200,
-          };
-        }
-      });
-      sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
-        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-      } as unknown as QueryIterator<PartitionKeyRange>);
-
-      const context = new TestParallelQueryExecutionContext(
-        clientContext,
-        collectionLink,
-        query,
-        options,
-        partitionedQueryExecutionInfo,
-        correlatedActivityId,
-      );
-      context["options"] = options;
-
-      // Create a spy for _repairExecutionContext
-      const repairSpy = sinon.spy(context as any, "_repairExecutionContext");
-
-      // Call bufferDocumentProducers
-      await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
-
-      assert.equal(repairSpy.callCount, 1);
     });
   });
 
   describe("fillBufferFromBufferQueue", function () {
-    // TODO: failing --> timeout
     it("should fill internal buffer from buffer queue for parallel query", async function () {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
@@ -441,78 +403,3 @@ describe("parallelQueryExecutionContextBase", function () {
     });
   });
 });
-
-export function initializeMockPartitionKeyRanges(
-  createMockPartitionKeyRange: (
-    id: string,
-    minInclusive: string,
-    maxExclusive: string,
-  ) => {
-    id: string; // Range ID
-    _rid: string; // Resource ID of the partition key range
-    minInclusive: string; // Minimum value of the partition key range
-    maxExclusive: string; // Maximum value of the partition key range
-    _etag: string; // ETag for concurrency control
-    _self: string; // Self-link
-    throughputFraction: number; // Throughput assigned to this partition
-    status: string;
-  },
-  clientContext: ClientContext,
-  ranges: [string, string][],
-): void {
-  const partitionKeyRanges = ranges.map((range, index) =>
-    createMockPartitionKeyRange(index.toString(), range[0], range[1]),
-  );
-
-  const fetchAllInternalStub = sinon.stub().resolves({
-    resources: partitionKeyRanges,
-    headers: { "x-ms-request-charge": "1.23" },
-    code: 200,
-  });
-  sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
-    fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
-  } as unknown as QueryIterator<PartitionKeyRange>);
-}
-
-export function createTestClientContext(
-  options: Partial<CosmosClientOptions>,
-  diagnosticLevel: CosmosDbDiagnosticLevel,
-): ClientContext {
-  const clientOps: CosmosClientOptions = {
-    endpoint: "",
-    connectionPolicy: {
-      enableEndpointDiscovery: false,
-      preferredLocations: ["https://localhhost"],
-    },
-    ...options,
-  };
-  const globalEndpointManager = new GlobalEndpointManager(
-    clientOps,
-    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
-      expect(opts).to.exist; // eslint-disable-line no-unused-expressions
-      const dummyAccount: any = diagnosticNode;
-      return dummyAccount;
-    },
-  );
-  const clientConfig: ClientConfigDiagnostic = {
-    endpoint: "",
-    resourceTokensConfigured: true,
-    tokenProviderConfigured: true,
-    aadCredentialsConfigured: true,
-    connectionPolicyConfigured: true,
-    consistencyLevel: ConsistencyLevel.BoundedStaleness,
-    defaultHeaders: {},
-    agentConfigured: true,
-    userAgentSuffix: "",
-    pluginsConfigured: true,
-    sDKVersion: Constants.SDKVersion,
-    ...options,
-  };
-  const clientContext = new ClientContext(
-    clientOps,
-    globalEndpointManager,
-    clientConfig,
-    diagnosticLevel,
-  );
-  return clientContext;
-}

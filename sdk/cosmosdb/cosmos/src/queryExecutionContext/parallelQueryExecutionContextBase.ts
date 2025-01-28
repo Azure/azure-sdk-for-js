@@ -38,7 +38,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private respHeaders: CosmosHeaders;
   private unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   private bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
-  // TODO: update type of buffer from any
+  // TODO: update type of buffer from any --> generic can be used here
   private buffer: any[];
   private sem: any;
   private diagnosticNodeWrapper: {
@@ -100,8 +100,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
     // Creating the documentProducers
     this.sem = semaphore(1);
-    // Creating callback for semaphore
-    // TODO: Code smell
     const createDocumentProducersAndFillUpPriorityQueueFunc = async (): Promise<void> => {
       // ensure the lock is released after finishing up
       try {
