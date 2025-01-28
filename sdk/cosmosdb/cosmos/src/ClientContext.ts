@@ -38,7 +38,6 @@ import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
-
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -54,12 +53,16 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  /** boolean flag to support operations with client-side encryption */
+  public enableEncryption: boolean = false;
+
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
+    this.enableEncryption = cosmosClientOptions.encryptionPolicy?.enableEncryption ? true : false;
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
@@ -118,6 +121,12 @@ export class ClientContext {
       });
 
       request.headers = await this.buildHeaders(request);
+      if (resourceType === ResourceType.clientencryptionkey) {
+        request.headers[HttpHeaders.AllowCachedReadsHeader] = true;
+        if (options.databaseRid) {
+          request.headers[HttpHeaders.DatabaseRidHeader] = options.databaseRid;
+        }
+      }
       this.applySessionToken(request);
 
       // read will use ReadEndpoint since it uses GET operation
