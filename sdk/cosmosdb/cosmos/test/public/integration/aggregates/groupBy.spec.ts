@@ -5,7 +5,7 @@ import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
 import type { Container, ContainerDefinition } from "../../../../src/index.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import groupBySnapshot from "./groupBy.snapshot.js";
-import { describe, it, assert, beforeEach, beforeAll } from "vitest";
+import { describe, it, assert, beforeEach, beforeAll, TestContext } from "vitest";
 
 const options = {
   maxItemCount: 100,

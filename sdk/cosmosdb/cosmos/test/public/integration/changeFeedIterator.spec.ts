@@ -211,10 +211,10 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
     });
   });
 
-  describe("test changefeed for one prefix partition key", function () {
+  describe("test changefeed for one prefix partition key", () => {
     let container: Container;
 
-    before(async function () {
+    beforeAll(async () => {
       const containerDef: ContainerDefinition = {
         partitionKey: {
           paths: ["/key1", "/key2", "/key3"],
@@ -238,7 +238,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
       }
     });
 
-    it("check if maxItemCount property is being followed", async function () {
+    it("check if maxItemCount property is being followed", async () => {
       const maxItemCount = 1;
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         maxItemCount: maxItemCount,
@@ -256,7 +256,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
       }
     });
 
-    it("startFromBeginning should fetch all results", async function () {
+    it("startFromBeginning should fetch all results", async () => {
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
       };
@@ -270,7 +270,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
       }
     });
 
-    it("Iterator should start from last continuation token and fetch remaining results", async function () {
+    it("Iterator should start from last continuation token and fetch remaining results", async () => {
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         maxItemCount: 1,
         changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
@@ -297,7 +297,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
       }
     });
 
-    it("startFromNow should fetch all results from now on", async function () {
+    it("startFromNow should fetch all results from now on", async () => {
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         maxItemCount: 10,
         changeFeedStartFrom: ChangeFeedStartFrom.Now(["0", 0]),
@@ -324,7 +324,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
       }
     });
 
-    it("should fetch correct results for undefined values of partition keys", async function () {
+    it("should fetch correct results for undefined values of partition keys", async () => {
       let changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         maxItemCount: 10,
         changeFeedStartFrom: ChangeFeedStartFrom.Now(["2", 3]),
@@ -463,7 +463,7 @@ describe("Change Feed Iterator", { timeout: 20000 }, () => {
     });
   });
 
-  describe("test changefeed for entire container", function () {
+  describe("test changefeed for entire container", () => {
     let container: Container;
     beforeAll(async () => {
       const containerDef: ContainerDefinition = {
@@ -1121,9 +1121,9 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", () =>
   });
 });
 
-describe("test changefeed allVersionsAndDeletes mode for a prefix partition key", function () {
+describe("test changefeed allVersionsAndDeletes mode for a prefix partition key", () => {
   let container: Container;
-  before(async function () {
+  beforeAll(async () => {
     await removeAllDatabases();
     const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
     const changeFeedPolicy = new ChangeFeedPolicy(newTimeStamp);
@@ -1149,7 +1149,7 @@ describe("test changefeed allVersionsAndDeletes mode for a prefix partition key"
       await container.items.create({ id: `item${i}`, key1: `1`, key2: 1, key3: 1 });
     }
   });
-  it("startFromBeginning is not supported", async function () {
+  it("startFromBeginning is not supported", async () => {
     try {
       const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
         changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 0]),
@@ -1171,7 +1171,7 @@ describe("test changefeed allVersionsAndDeletes mode for a prefix partition key"
     }
   });
 
-  it("validate changefeed results", async function () {
+  it("validate changefeed results", async () => {
     const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
       changeFeedStartFrom: ChangeFeedStartFrom.Now(["0", 0]),
@@ -1275,7 +1275,8 @@ describe("test changefeed allVersionsAndDeletes mode for a prefix partition key"
     }
     assert.strictEqual(counter, 10, "10 results should be fetched");
   });
-  after(async function () {
+
+  afterAll(async () => {
     await container.delete();
   });
 });

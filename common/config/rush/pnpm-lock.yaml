@@ -915,7 +915,7 @@ importers:
         version: file:projects/core-xml.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/cosmos':
         specifier: file:./projects/cosmos.tgz
-        version: file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))
+        version: file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/create-microsoft-playwright-testing':
         specifier: file:./projects/create-microsoft-playwright-testing.tgz
         version: file:projects/create-microsoft-playwright-testing.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
@@ -3828,7 +3828,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-IzgO/rrDUd7B2ldyw/1N7sJ0DbLe5Wsd56Fsu3wpDJbDeYcSAmjODoqvmqRpGg3C5Ikz9fk4LFeUO2r9scylpg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-fXy1ZkEkYrFbsnOMFkBHFk1yVm5zs7VxTAM3a1uawFgiNuJXo6D+pKK1mLmKHCRK+R3YMiOlV4z3QBxfVQ0zXA==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -6898,6 +6898,10 @@ packages:
   nock@13.5.6:
     resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
     engines: {node: '>= 10.13'}
+
+  nock@14.0.0:
+    resolution: {integrity: sha512-3Z2ZoZoYTR/y2I+NI16+6IzfZFKBX7MrADtoBAm7v/QKqxQUhKw+Dh+847PPS1j/FDutjfIXfrh3CJF74yITWg==}
+    engines: {node: '>= 18'}
 
   node-abi@3.73.0:
     resolution: {integrity: sha512-z8iYzQGBu35ZkTQ9mtR8RqugJZ9RCLn8fv3d7LsgDBzOijGQP3RdKTX4LA7LXw03ZhU5z0l4xfhIMgSES31+cg==}
@@ -18597,25 +18601,25 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/cosmos@file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))':
+  '@rush-temp/cosmos@file:projects/cosmos.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@types/debug': 4.1.12
       '@types/node': 18.19.74
       '@types/priorityqueuejs': 1.0.4
       '@types/semaphore': 1.1.4
-      '@vitest/browser': 2.1.8(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@2.1.8)
-      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       buffer: 6.0.3
       dotenv: 16.4.7
       eslint: 9.19.0
       fast-json-stable-stringify: 2.1.0
-      nock: 13.5.6
+      nock: 14.0.0
       playwright: 1.50.0
       priorityqueuejs: 2.0.0
       semaphore: 1.1.0
       tslib: 2.8.1
       typescript: 5.7.3
-      vitest: 2.1.8(@types/node@18.19.74)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18633,9 +18637,11 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
+      - yaml
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)':
     dependencies:
@@ -25214,6 +25220,12 @@ snapshots:
       propagate: 2.0.1
     transitivePeerDependencies:
       - supports-color
+
+  nock@14.0.0:
+    dependencies:
+      '@mswjs/interceptors': 0.37.5
+      json-stringify-safe: 5.0.1
+      propagate: 2.0.1
 
   node-abi@3.73.0:
     dependencies:
