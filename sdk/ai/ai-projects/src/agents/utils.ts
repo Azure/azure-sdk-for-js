@@ -140,16 +140,16 @@ export class ToolUtility {
   ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
     return {
       definition: { type: "azure_function", azureFunction: definitionDetails },
-    resources: {
-      azureFunction: {
-        name: name,
-        description: description,
-        parameters: parameters,
-        inputQueue: inputQueue,
-        outputQueue: outputQueue,
+      resources: {
+        azureFunction: {
+          name: name,
+          description: description,
+          parameters: parameters,
+          inputQueue: inputQueue,
+          outputQueue: outputQueue,
+        },
       },
-    },
-  };
+    };
   }
   /**
    * Creates an Azure AI search tool
@@ -277,13 +277,13 @@ export class ToolSet {
 
   /**
    * Adds an Azure Function tool to the tool set.
-   * 
+   *
    * @param name - The name of the Azure Function.
    * @param description - The description of the Azure Function.
    * @param parameters - The parameters of the Azure Function.
    * @param inputQueue - The input queue configuration.
    * @param outputQueue - The output queue configuration.
-   * 
+   *
    * @returns An object containing the definition and resources for the Azure Function tool.
    */
   addAzureFunctionTool(
@@ -292,7 +292,7 @@ export class ToolSet {
     parameters: unknown,
     inputQueue: AzureFunctionStorageQueue,
     outputQueue: AzureFunctionStorageQueue,
-    definitionDetails: AzureFunctionDefinition
+    definitionDetails: AzureFunctionDefinition,
   ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
     const tool = ToolUtility.createAzureFunctionTool(
       name,
@@ -300,7 +300,7 @@ export class ToolSet {
       parameters,
       inputQueue,
       outputQueue,
-      definitionDetails
+      definitionDetails,
     );
     this.toolDefinitions.push(tool.definition);
     this.toolResources = { ...this.toolResources, ...tool.resources };

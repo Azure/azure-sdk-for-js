@@ -211,17 +211,17 @@ function convertAzureFunctionDefinition(
     function: source.function,
     input_binding: {
       type: source.inputBinding.type,
-      storage_queue:{      
+      storage_queue: {
         queue_service_endpoint: source.inputBinding.storageQueue.queueServiceEndpoint,
-        queue_name: source.inputBinding.storageQueue.queueName
-      }
+        queue_name: source.inputBinding.storageQueue.queueName,
+      },
     },
     output_binding: {
       type: source.outputBinding.type,
-      storage_queue:{      
+      storage_queue: {
         queue_service_endpoint: source.outputBinding.storageQueue.queueServiceEndpoint,
-        queue_name: source.outputBinding.storageQueue.queueName
-      }
+        queue_name: source.outputBinding.storageQueue.queueName,
+      },
     },
   };
 }

@@ -12,24 +12,27 @@ import { logger } from "../logger.js";
 function convertAzureFunctionToolDefinitionOutput(
   input: GeneratedModels.AzureFunctionToolDefinitionOutput,
 ): PublicModels.AzureFunctionToolDefinitionOutput {
-  return { 
+  return {
     type: "azure_function",
     azureFunction: {
       ...input.azure_function,
       inputBinding: {
         ...input.azure_function.input_binding,
         storageQueue: {
-          queueServiceEndpoint: input.azure_function.input_binding.storage_queue.queue_service_endpoint,
-          queueName: input.azure_function.input_binding.storage_queue.queue_name
-        }
+          queueServiceEndpoint:
+            input.azure_function.input_binding.storage_queue.queue_service_endpoint,
+          queueName: input.azure_function.input_binding.storage_queue.queue_name,
+        },
       },
-      outputBinding: {        
+      outputBinding: {
         ...input.azure_function.output_binding,
         storageQueue: {
-          queueServiceEndpoint: input.azure_function.output_binding.storage_queue.queue_service_endpoint,
-          queueName: input.azure_function.output_binding.storage_queue.queue_name
-        }}
-    }
+          queueServiceEndpoint:
+            input.azure_function.output_binding.storage_queue.queue_service_endpoint,
+          queueName: input.azure_function.output_binding.storage_queue.queue_name,
+        },
+      },
+    },
   };
 }
 
