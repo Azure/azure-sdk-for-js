@@ -12,8 +12,8 @@ import { Constants } from "../../common/index.js";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime.js";
 import { QueryRange } from "../../routing/index.js";
 import { FeedRangeInternal } from "./FeedRange.js";
-import { hashV2PartitionKey } from "../../utils/hashing/v2";
-import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
+import { hashV2PartitionKey } from "../../utils/hashing/v2.js";
+import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
 
 /**
  * @hidden
