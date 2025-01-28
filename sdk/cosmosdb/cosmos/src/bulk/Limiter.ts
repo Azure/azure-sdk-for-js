@@ -2,12 +2,17 @@
 // Licensed under the MIT License.
 import semaphore from "semaphore";
 /**
- * Semaphores and locks for execution of Bulk
+ * Semaphores and locks for execution of Bulk.
+ * This class controls number of concurrent requests for bulk per partition
+ * and helps in blocking requests to a partition upon encountering 410 error.
  * @hidden
  */
 export class Limiter {
+  // semaphore to control number of concurrent requests for a partition.
   private limiter: semaphore.Semaphore;
+  //  flag indicating whether dispatch has been stopped due to 410 error
   private dispatchStopped: boolean = false;
+  // read write lock to safely control access to `dispatchStopped` flag
   private readWriteLock: ReadWriteLock;
 
   constructor(capacity: number) {
@@ -15,20 +20,35 @@ export class Limiter {
     this.readWriteLock = new ReadWriteLock();
   }
 
+  /**
+   * acquires a slot to execute specified callback
+   * @param callback - callback function to take the slot
+   */
   take(callback: () => void): void {
     this.limiter.take(() => {
       callback();
     });
   }
 
+  /**
+   * @returns number of currently acquired slots
+   */
   current(): number {
     return this.limiter.current;
   }
 
+  /**
+   * releases the specified number of slots
+   * @param number - number of slots to release
+   */
   leave(number?: number): void {
     this.limiter.leave(number);
   }
 
+  /**
+   * checks if we have encountered 410 error during bulk and stopped dispatch
+   * @returns true if dispatch is stopped
+   */
   async isStopped(): Promise<boolean> {
     await this.readWriteLock.acquireRead();
     const stopDispatch = this.dispatchStopped;
@@ -36,6 +56,9 @@ export class Limiter {
     return stopDispatch;
   }
 
+  /**
+   * stops dispatching by setting the `dispatchStopped` flag to `true`.
+   */
   async stopDispatch(): Promise<void> {
     await this.readWriteLock.acquireWrite();
     this.dispatchStopped = true;
@@ -43,6 +66,9 @@ export class Limiter {
   }
 }
 
+/**
+ * ReadWriteLock class to manage read and write locks
+ */
 export class ReadWriteLock {
   private readers = 0; // Count of active readers
   private writer = false; // Indicates if a writer is active

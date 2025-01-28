@@ -24,7 +24,7 @@ export class ItemBulkOperationContext {
     return this.taskCompletionSource.task;
   }
 
-  reRouteOperation(pkRangeId: string): void {
+  updatePKRangeId(pkRangeId: string): void {
     this.pkRangeId = pkRangeId;
   }
 

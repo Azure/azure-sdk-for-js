@@ -104,7 +104,7 @@ export class BulkStreamer {
       throw new ErrorResponse("Operation is required.");
     }
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation);
-    const streamerForPartition = this.getOrCreateStreamerForPKRange(partitionKeyRangeId);
+    const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
     const itemOperation = new ItemBulkOperation(index, operation, context);
@@ -192,7 +192,7 @@ export class BulkStreamer {
   ): Promise<BulkResponse> {
     if (!operations.length) return;
     const pkRangeId = operations[0].operationContext.pkRangeId;
-    const limiter = this.getOrCreateLimiterForPKRange(pkRangeId);
+    const limiter = this.getLimiterForPKRange(pkRangeId);
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const requestBody: Operation[] = [];
     const partitionDefinition = await readPartitionKeyDefinition(diagnosticNode, this.container);
@@ -239,12 +239,12 @@ export class BulkStreamer {
 
   private async reBatchOperation(operation: ItemBulkOperation): Promise<void> {
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation.operationInput);
-    operation.operationContext.reRouteOperation(partitionKeyRangeId);
-    const streamer = this.getOrCreateStreamerForPKRange(partitionKeyRangeId);
+    operation.operationContext.updatePKRangeId(partitionKeyRangeId);
+    const streamer = this.getStreamerForPKRange(partitionKeyRangeId);
     streamer.add(operation);
   }
 
-  private getOrCreateLimiterForPKRange(pkRangeId: string): Limiter {
+  private getLimiterForPKRange(pkRangeId: string): Limiter {
     let limiter = this.limitersByPartitionKeyRangeId.get(pkRangeId);
     if (!limiter) {
       limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
@@ -257,11 +257,11 @@ export class BulkStreamer {
     return limiter;
   }
 
-  private getOrCreateStreamerForPKRange(pkRangeId: string): BulkStreamerPerPartition {
+  private getStreamerForPKRange(pkRangeId: string): BulkStreamerPerPartition {
     if (this.streamersByPartitionKeyRangeId.has(pkRangeId)) {
       return this.streamersByPartitionKeyRangeId.get(pkRangeId);
     }
-    const limiter = this.getOrCreateLimiterForPKRange(pkRangeId);
+    const limiter = this.getLimiterForPKRange(pkRangeId);
     const newStreamer = new BulkStreamerPerPartition(
       this.executeRequest,
       this.reBatchOperation,
