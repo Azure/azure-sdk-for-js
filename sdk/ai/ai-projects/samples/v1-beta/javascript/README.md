@@ -37,7 +37,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agents/vectorStoreWithFilesAndPolling.js][agents_vectorstorewithfilesandpolling]           | demonstrates how to create the vector store with the list of files using polling operation.                                                                                                            |
 | [agents/vectorStores.js][agents_vectorstores]                                               | demonstrates how to create the vector store.                                                                                                                                                           |
 | [agents/vectorStoresWithPolling.js][agents_vectorstoreswithpolling]                         | demonstrates how to create the vector store using polling operation.                                                                                                                                   |
-| [connections\connectionsBasics.js][connections_connectionsbasics]                           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
+| [connections/connectionsBasics.js][connections_connectionsbasics]                           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
 
 ## Prerequisites
 
@@ -101,7 +101,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStoreWithFilesAndPolling.js
 [agents_vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStores.js
 [agents_vectorstoreswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStoresWithPolling.js
-[connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/connections\connectionsBasics.js
+[connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/connections/connectionsBasics.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md
