@@ -195,6 +195,7 @@ sdk/**/sshKey.pub
 
 # vitest results
 .vite/vitest/results.json
+tsconfig.vitest-temp.json
 
 # typescript
 *.tsbuildinfo

@@ -269,7 +269,7 @@ describe(
       assert.equal(
         successDocuments.length,
         returnedDocuments.length,
-        "Expected " + returnedDocuments.length + " documents to be successfully read",
+        "Expected " + returnedDocuments.length + " documents to be succesfully read",
       );
       successDocuments.sort(function (doc1, doc2) {
         return doc1.id.localeCompare(doc2.id);
@@ -280,7 +280,7 @@ describe(
         "Unexpected documents are returned",
       );
       returnedDocuments.forEach(function (document) {
-        document.prop ? ++document.prop : null;
+        document.prop ? ++document.prop : null; // eslint-disable-line no-unused-expressions
       });
       const newReturnedDocuments = await bulkReplaceItems(
         container,
@@ -519,61 +519,55 @@ describe(
       await multiplePartitionCRUDTest(multiCrudDatasetWithHierarchicalPartition);
     });
 
-  it("Should auto generate an id for a collection partitioned on id", async function () {
-    // https://github.com/Azure/azure-sdk-for-js/issues/9734
-    const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
-    const { resource } = await container.items.create({});
-    assert.ok(resource.id);
-  });
-
-  it("should not return payload in write operations response when contentResponseOnWriteEnable is false", async function () {
-    const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
-    const options = { contentResponseOnWriteEnabled: false };
-    const createResponse = await container.items.create({ id: "1", key: "A" }, options);
-    assert.equal(createResponse.resource, null);
-    assert.equal(createResponse.statusCode, StatusCodes.Created);
-
-    const upsertResponse = await container.items.upsert({ id: "1", key: "B" }, options);
-    assert.equal(upsertResponse.resource, null);
-    assert.equal(upsertResponse.statusCode, StatusCodes.Ok);
-
-    const replaceResponse = await container.item("1", "1").replace({ id: "1", key: "C" }, options);
-    assert.equal(replaceResponse.resource, null);
-    assert.equal(replaceResponse.statusCode, StatusCodes.Ok);
-
-    const batchOperations: OperationInput[] = [
-      {
-        operationType: "Create",
-        resourceBody: { id: "2", key: "D" },
-      },
-    ];
-    const batchResponse = await container.items.batch(batchOperations, "2", options);
-    assert.equal(batchResponse.result[0].resourceBody, undefined);
-    assert.equal(batchResponse.code, StatusCodes.Ok);
-
-    const operations: PatchOperation[] = [
-      {
-        op: "replace",
-        path: "/key",
-        value: "b",
-      },
-    ];
-    const patchResponse = await container.item("1", "1").patch(operations, options);
-    assert.equal(patchResponse.resource, null);
-    assert.equal(patchResponse.statusCode, StatusCodes.Ok);
-
-    const deleteResponse = await container.item("2", "2").delete(options);
-    assert.equal(deleteResponse.resource, null);
-    assert.equal(deleteResponse.statusCode, StatusCodes.NoContent);
-    await container.delete();
-  });
-
-  describe("Upsert when collection partitioned on id", async () => {
-    // https://github.com/Azure/azure-sdk-for-js/issues/21383
-    it("should create a new resource if /id is not passed", async function () {
+    it("Should auto generate an id for a collection partitioned on id", async () => {
+      // https://github.com/Azure/azure-sdk-for-js/issues/9734
       const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
       const { resource } = await container.items.create({});
       assert.ok(resource.id);
+    });
+
+    it("should not return payload in write operations response when contentResponseOnWriteEnable is false", async () => {
+      const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+      const options = { contentResponseOnWriteEnabled: false };
+      const createResponse = await container.items.create({ id: "1", key: "A" }, options);
+      assert.equal(createResponse.resource, null);
+      assert.equal(createResponse.statusCode, StatusCodes.Created);
+
+      const upsertResponse = await container.items.upsert({ id: "1", key: "B" }, options);
+      assert.equal(upsertResponse.resource, null);
+      assert.equal(upsertResponse.statusCode, StatusCodes.Ok);
+
+      const replaceResponse = await container
+        .item("1", "1")
+        .replace({ id: "1", key: "C" }, options);
+      assert.equal(replaceResponse.resource, null);
+      assert.equal(replaceResponse.statusCode, StatusCodes.Ok);
+
+      const batchOperations: OperationInput[] = [
+        {
+          operationType: "Create",
+          resourceBody: { id: "2", key: "D" },
+        },
+      ];
+      const batchResponse = await container.items.batch(batchOperations, "2", options);
+      assert.equal(batchResponse.result[0].resourceBody, undefined);
+      assert.equal(batchResponse.code, StatusCodes.Ok);
+
+      const operations: PatchOperation[] = [
+        {
+          op: "replace",
+          path: "/key",
+          value: "b",
+        },
+      ];
+      const patchResponse = await container.item("1", "1").patch(operations, options);
+      assert.equal(patchResponse.resource, null);
+      assert.equal(patchResponse.statusCode, StatusCodes.Ok);
+
+      const deleteResponse = await container.item("2", "2").delete(options);
+      assert.equal(deleteResponse.resource, null);
+      assert.equal(deleteResponse.statusCode, StatusCodes.NoContent);
+      await container.delete();
     });
 
     describe("Upsert when collection partitioned on id", async () => {
@@ -837,12 +831,14 @@ describe("patch operations", () => {
       assert.strictEqual(conditionItem.newImproved, "it works");
     });
   });
+
   describe("various mixed operations - hierarchical partitions", () => {
     let container: Container;
     let addItemId: string;
     let addItemWithOnePartitionKeyId: string;
     let addItemWithNoPartitionKeyId: string;
     let conditionItemId: string;
+
     beforeAll(async () => {
       addItemId = addEntropy("addItemId");
       addItemWithOnePartitionKeyId = addEntropy("addItemWithOnePartitionKeyId");
@@ -911,6 +907,7 @@ describe("patch operations", () => {
         num: 0,
       });
     });
+
     it("handles add, remove, replace, set, incr - hierarchical partitions", async () => {
       const operations: PatchOperation[] = [
         {
@@ -965,6 +962,7 @@ describe("patch operations", () => {
       assert.strictEqual(addItemWithNoPartitionKey.last, "b");
       assert.strictEqual(addItemWithNoPartitionKey.removable, undefined);
     });
+
     it("conditionally patches", async () => {
       const operations: PatchOperation[] = [
         {
@@ -986,6 +984,7 @@ describe("Item CRUD with priority", { timeout: 10000 }, () => {
   beforeEach(async () => {
     await removeAllDatabases();
   });
+
   const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");
