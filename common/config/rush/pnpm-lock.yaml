@@ -270,7 +270,7 @@ importers:
         version: file:projects/arm-datadog.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-datafactory':
         specifier: file:./projects/arm-datafactory.tgz
-        version: file:projects/arm-datafactory.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+        version: file:projects/arm-datafactory.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-datalake-analytics':
         specifier: file:./projects/arm-datalake-analytics.tgz
         version: file:projects/arm-datalake-analytics.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -1381,6 +1381,10 @@ packages:
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.27':
+    resolution: {integrity: sha512-21iXu9ubtPB7iO3ghnzMMdB0KwHpz7Zl1a9xSBR3Gl8IDUlXOBjMn6OT9+ycj9VZrTyEKiV59T9VTf0IlokPYQ==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/msal-browser@4.0.2':
     resolution: {integrity: sha512-bq6PasUpJgBSOSMeSlh8gXh4LZGgAaPoJFNcu5u0zxwueh+I8NpMb9oxlCfS/8CJHyXUhTUAMLSnvThemNdyQw==}
     engines: {node: '>=0.8.0'}
@@ -2186,6 +2190,12 @@ packages:
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
+  '@opentelemetry/core@1.26.0':
+    resolution: {integrity: sha512-1iKxXXE8415Cdv0yjG3G6hQnB5eVEsJce3QaawX8SjDn0mAS0ZM8fAbZZJD4ajvhC15cePvosSCut404KrIIvQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.10.0'
+
   '@opentelemetry/core@1.30.1':
     resolution: {integrity: sha512-OOCM2C/QIURhJMuKaekP3TRBxBKxG/TWWA0TL2J6nXUtDnuCtccy49LUJF8xPFXMX+0LMcxFpCo8M9cGY1W6rQ==}
     engines: {node: '>=14'}
@@ -2364,11 +2374,23 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
 
+  '@opentelemetry/resources@1.26.0':
+    resolution: {integrity: sha512-CPNYchBE7MBecCSVy0HKpUISEeJOniWqcHaAHpmasZ3j9o6V3AyBzhRc90jdmemq0HOxDr6ylhUbDhBqqPpeNw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.10.0'
+
   '@opentelemetry/resources@1.30.1':
     resolution: {integrity: sha512-5UxZqiAgLYGFjS4s9qm5mBVo433u+dSPUFWVWXmLAD4wB65oMCoXaJP1KJa9DIYYMeHu3z4BZcStG3LC593cWA==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
+
+  '@opentelemetry/sdk-logs@0.53.0':
+    resolution: {integrity: sha512-dhSisnEgIj/vJZXZV6f6KcTnyLDx/VuQ6l3ejuZpMpPlh9S1qMHiZU9NMmOkVkwwHkMy3G6mEBwdP23vUZVr4g==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.4.0 <1.10.0'
 
   '@opentelemetry/sdk-logs@0.57.1':
     resolution: {integrity: sha512-jGdObb/BGWu6Peo3cL3skx/Rl1Ak/wDDO3vpPrrThGbqE7isvkCsX6uE+OAt8Ayjm9YC8UGkohWbLR09JmM0FA==}
@@ -2652,7 +2674,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
-    resolution: {integrity: sha512-DLcvtjTNr2ho+YwJBGGWETWHNG0yBNiUU/BinmvA3d2jUnMYQyrEYJe1+8Sype0GXvR9Pv+XtlUJJsRVjyXj8g==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-pRLZ+VKFlpK0r48LLuyuySS3P5ag+KRbSJj1B38FYvqIztoqY9CrGyHB470JVvbciVypbw8MdMA35Z/upmrRdQ==, tarball: file:projects/ai-inference.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
@@ -2956,27 +2978,27 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databricks@file:projects/arm-databricks.tgz':
-    resolution: {integrity: sha512-LPK6f/zzzWXFa4aGnazgTkydNr4Z42iTafRXFkYJFcVkLibTmQO6JOQ+W1V8o2DfKiejs8XpjcydhOhulYovRA==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-OMcAEeindyff/GOy+0Q6J25kcrQpA+plMMmH+vy9g1qMaCZywRK8ptpW+NuPQv6bQd6pi8BBvAmEB78Sw/qBqw==, tarball: file:projects/arm-databricks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datacatalog@file:projects/arm-datacatalog.tgz':
-    resolution: {integrity: sha512-qeBZm+84NtQT6qoznDAv4HCDW5Q4qbtFgbkXw5IYSKjBvPmC+wR3d/ZZxRCvC/q3SzNqNRg52KBWaK1uxx7SMQ==, tarball: file:projects/arm-datacatalog.tgz}
+    resolution: {integrity: sha512-xFRskrr3fopT3Za7yU48UY5LvjX6aZRkaOS1MNQpskZneJ0Z1rguHgBDcDcG724cEh5uMmr3mK4Lf1YHE6IuNw==, tarball: file:projects/arm-datacatalog.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datadog@file:projects/arm-datadog.tgz':
-    resolution: {integrity: sha512-vBrWWCH6p61/q1E6/qOtV8nwM3U0KuFGyQZaMksIJ8KeJDEwNSXbiFiV1iHTTLyASTARkq0s3OPnqgrLbBLMvQ==, tarball: file:projects/arm-datadog.tgz}
+    resolution: {integrity: sha512-ZlBxlaxdJ32SGa7hd0YNlrkW5oO7/tXX25sQOaSHGXOQIMo+SGCUfDP+7NpEka4xKXxoPEPm8LEl5Sn0RRF+Yg==, tarball: file:projects/arm-datadog.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-yKCDZJWfsdt2CAyDWYtOQ1p+LpbpsLdNvJunAeuTMn1yDg7sZ0tasVRaxGegryPnm+O7l4HS2nqGRCaQb7Vixg==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-0IvtVFcd8vTPoTodXqPJMNwh7r9QS55QS3UkFyaVgw6av4aMxNp4jqZtuF2cTkVhy4Qrkf1O527DBQa9ulhc3Q==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
-    resolution: {integrity: sha512-0ECYmItkXiSvEb+fXGh5Dwx1ukk4eapr7Zn1/54oUTaRufxha69JJqjRRDlRJBrZM6tzeq9mU/KO/wX6gEVi0g==, tarball: file:projects/arm-datalake-analytics.tgz}
+    resolution: {integrity: sha512-wu6GpPZWx8XBbZ++cXyu56J8RK9XZVfy3Kf04dJ1iEDBV8BKZnl1Cxz2EUyA5znuwG6jghjuuwGlJDzJAetJ5Q==, tarball: file:projects/arm-datalake-analytics.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datamigration@file:projects/arm-datamigration.tgz':
-    resolution: {integrity: sha512-SdXQX33RIxeNeiaDTgoBv7oZsJMZ8m9QYiGkcOS22Ok9Xvzo7dsGj77MgXCOmlLFk8J8riFQew3OnCGwRMaH3g==, tarball: file:projects/arm-datamigration.tgz}
+    resolution: {integrity: sha512-ioAhAORJLg4aff/8kp+Mq6cOzcoC7OGH2TimL/UDm0Qfm2r+X5ivlXO09XIJJqQdfHbJ0Htn1obCZxeED7Bppw==, tarball: file:projects/arm-datamigration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz':
@@ -4004,11 +4026,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-yj3eLTGUSFU2lGpjjYQ0n2u4DLTjaJNEZgRZpp64Be6vr0oaoFdMmLVxpe9tHG+z5qhktqW4H17mD46QZmLHrw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-z5UtXbsaWkLnIHmEMZoEtUXx1JlX0h8qgs+NUDTrIhb4eeKvLQQq7MdBn5ebvQ5+IK9X7Eo48plVd7uc0klcuQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-jeOWD62O9d4VqeqJi2tDLWdFYLr4WdyFZLptBvddKPcNM7ioc3J6cT9l+u8MyLw8mhR+jmUXnE5USLYKequWnA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-cOOWwNg4PVHrU2kHAj7iQseDZfLpiQqxZjt1w1DrUsJscBRnIOi0+Gj0VJjdH8nKKLKd24Bq79teSp11dluVcg==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -4084,7 +4106,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-byBSym/OfxQ58bVHVolF00z4GRg96yCYO7SwgMGbODClLim6M9/GJ7K4VVe4bifJ8DxljLMjdZh+9dDHL8+Q1g==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-dwzpNIZPU6i3RcqjhLVipjyiz3ZZMtjs7dOuCSH4TtaOyj5vgqVvQC61FbEsnQrI5coVWW0NEOmbNYbzkih1Yw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
@@ -4164,7 +4186,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/service-bus@file:projects/service-bus.tgz':
-    resolution: {integrity: sha512-t9IaVEy/hf1+zANzqEE24d8ckaY+iFfhCSYsOWL53xBl4rINoYYeKVLjiGsi+dfCdgLUQF+lrDMc/FKk3xA3og==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-3J1MkJ54xTVhUxp6bnqZanWXMwyovz1snfXuAJeO2ieTgnWew28Rbbb//DAYO8saOFyjs15l0ZgXdd5QaKLbbg==, tarball: file:projects/service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz':
@@ -8850,6 +8872,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.27':
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.18.2
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.53.0
+      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.53.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.28.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/msal-browser@4.0.2':
     dependencies:
       '@azure/msal-common': 15.0.2
@@ -9591,6 +9630,11 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
 
+  '@opentelemetry/core@1.26.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/semantic-conventions': 1.27.0
+
   '@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -9854,11 +9898,24 @@ snapshots:
       '@opentelemetry/resources': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.28.0
 
+  '@opentelemetry/resources@1.26.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 1.26.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.27.0
+
   '@opentelemetry/resources@1.30.1(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.28.0
+
+  '@opentelemetry/sdk-logs@0.53.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.53.0
+      '@opentelemetry/core': 1.26.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 1.26.0(@opentelemetry/api@1.9.0)
 
   '@opentelemetry/sdk-logs@0.57.1(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -10346,6 +10403,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.27
       '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.7
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.57.1(@opentelemetry/api@1.9.0)
@@ -12985,7 +13043,6 @@ snapshots:
 
   '@rush-temp/arm-databricks@file:projects/arm-databricks.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13021,7 +13078,6 @@ snapshots:
 
   '@rush-temp/arm-datacatalog@file:projects/arm-datacatalog.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13056,7 +13112,6 @@ snapshots:
 
   '@rush-temp/arm-datadog@file:projects/arm-datadog.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13090,7 +13145,7 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
@@ -13099,7 +13154,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.50.0
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
@@ -13120,6 +13174,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
@@ -13127,7 +13182,6 @@ snapshots:
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13162,7 +13216,6 @@ snapshots:
 
   '@rush-temp/arm-datamigration@file:projects/arm-datamigration.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -20338,6 +20391,7 @@ snapshots:
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.27
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
@@ -21198,7 +21252,6 @@ snapshots:
       '@types/debug': 4.1.12
       '@types/is-buffer': 2.0.2
       '@types/node': 18.19.74
-      '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
@@ -21219,7 +21272,6 @@ snapshots:
       rhea-promise: 3.0.3
       tslib: 2.8.1
       typescript: 5.7.3
-      uuid: 8.3.2
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
       ws: 8.18.0
     transitivePeerDependencies:
