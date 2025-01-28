@@ -65,3 +65,8 @@ jobs:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestProxy: ${{ parameters.TestProxy }}
           OSName: ${{ parameters.OSName }}
+
+      - ${{ if eq(parameters.TestProxy, true) }}:
+        - pwsh: |
+            cat $(Build.ArtifactStagingDirectory)/test-proxy.log
+          displayName: Dump Proxy Logs

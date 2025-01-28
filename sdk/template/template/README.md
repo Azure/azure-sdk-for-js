@@ -6,8 +6,6 @@ This project is used as a template package for the Azure SDK for JavaScript. It 
 
 ## Getting started
 
-
-
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
