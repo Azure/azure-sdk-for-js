@@ -206,6 +206,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   private async _enqueueReplacementDocumentProducers(
+    error: any,
     diagnosticNode: DiagnosticNodeInternal,
     documentProducer: DocumentProducer,
   ): Promise<void> {
@@ -216,7 +217,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
 
     if (replacementPartitionKeyRanges.length === 0) {
-      throw new Error("PartitionKeyRangeGone error but no replacement partition key ranges");
+      throw error;
     } else if (replacementPartitionKeyRanges.length === 1) {
       // Partition is gone due to Merge
       // Create the replacement documentProducer with populateEpkRangeHeaders Flag set to true to set startEpk and endEpk headers
@@ -424,8 +425,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 // We want the document producer enqueued
                 // So that later parts of the code can repair the execution context
                 // refresh the partition key ranges and ctreate new document producers and add it to the queue
-
-                await this._enqueueReplacementDocumentProducers(diagnosticNode, documentProducer);
+                await this._enqueueReplacementDocumentProducers(
+                  err,
+                  diagnosticNode,
+                  documentProducer,
+                );
                 resolve();
               } else {
                 this.err = err;
