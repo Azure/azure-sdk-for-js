@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { TrafficManagerManagementClient } from "../src/trafficManagerManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -44,56 +40,56 @@ describe("TrafficManager test", () => {
   let profileName: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new TrafficManagerManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "global";
-      resourceGroup = "myjstest";
-      profileName = "azsmnet6386";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new TrafficManagerManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "global";
+    resourceGroup = "myjstest";
+    profileName = "azsmnet6386";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("profiles create test", async function () {
-    const res = await client.profiles.createOrUpdate(
-      resourceGroup,
-      profileName,
-      {
-        dnsConfig: { relativeName: "azsmnet6386", ttl: 35 },
-        location,
-        maxReturn: 2,
-        monitorConfig: { path: "/testpath.aspx", port: 80, protocol: "HTTP" },
-        profileStatus: "Enabled",
-        trafficRoutingMethod: "MultiValue",
-        trafficViewEnrollmentStatus: "Disabled"
-      },
-    );
+  it("profiles create test", async () => {
+    const res = await client.profiles.createOrUpdate(resourceGroup, profileName, {
+      dnsConfig: { relativeName: "azsmnet6386", ttl: 35 },
+      location,
+      maxReturn: 2,
+      monitorConfig: { path: "/testpath.aspx", port: 80, protocol: "HTTP" },
+      profileStatus: "Enabled",
+      trafficRoutingMethod: "MultiValue",
+      trafficViewEnrollmentStatus: "Disabled",
+    });
     assert.equal(res.name, profileName);
   });
 
-  it("profiles get test", async function () {
+  it("profiles get test", async () => {
     const res = await client.profiles.get(resourceGroup, profileName);
     assert.equal(res.name, profileName);
   });
 
-  it("profiles list test", async function () {
+  it("profiles list test", async () => {
     const resArray = new Array();
-    for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("profiles delete test", async function () {
+  it("profiles delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});
