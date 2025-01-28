@@ -53,8 +53,7 @@ import type {
   UploadImageOptions,
   UploadImageStreamOptions,
 } from "./models/options.js";
-import {
-  ChatApiClient,
+import type {
   ChatThreadGetChatThreadPropertiesOptionalParams,
   ChatThreadUpdateChatThreadPropertiesOptionalParams,
   ChatThreadSendChatMessageOptionalParams,
@@ -67,6 +66,7 @@ import {
   ChatThreadUploadChatImageOptionalParams,
   ChatThreadDeleteChatImageOptionalParams,
 } from "./generated/src/index.js";
+import { ChatApiClient } from "./generated/src/index.js";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { createXhrHttpClient, isReadableStream, isBlob } from "./xhrHttpClient.js";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
@@ -167,6 +167,7 @@ export class ChatThreadClient {
    * Updates a thread's properties.
    * @param options - Operation options.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public updateProperties(options: UpdateChatThreadPropertiesOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "ChatThreadClient-UpdateProperties",
@@ -629,6 +630,7 @@ export class ChatThreadClient {
     image: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream,
     imageFilename: string,
     imageBytesLengthOrOptions?: number | UploadImageOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UploadImageStreamOptions = {},
   ): Promise<UploadChatImageResult> {
     let uploadImageOptions = {};
