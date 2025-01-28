@@ -97,7 +97,7 @@ export default leafCommand(commandInfo, async (options) => {
       if (process.env["BUILD_BUILDNUMBER"] && fs.existsSync("assets.json")) {
         log.info(`restoring recordings before testing`);
         // This line runs the 'restore' command with retries. 
-        // Without retries, `Error: spawn EBUSY` is observed since the common resource being locked by another process since the pipeline often runs multiple simultaneous processes.
+        // Without retries, `Error: spawn EBUSY` is observed since the common resource being locked by another process since the CI pipeline often runs multiple simultaneous processes.
         // The pipeline fails flakily for any of the packages in the run.
         // Best solution would be to getting rid of this code in favour of downloading the assets as part of a dedicated pipeline step that would be common for all languages.
         await runTestProxyCommandWithRetry(["restore", "-a", "assets.json"], 1000, 10000);
