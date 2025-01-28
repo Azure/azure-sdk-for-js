@@ -172,8 +172,8 @@ export class ToolUtility {
       definition: {
         type: "openapi",
         openapi: openApiFunctionDefinition,
-      }
-    }
+      },
+    };
   }
 
   /**
