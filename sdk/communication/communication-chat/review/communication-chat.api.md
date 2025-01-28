@@ -20,6 +20,11 @@ import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
+import { StreamEndReason } from '@azure/communication-signaling';
+import { StreamingChatMessageChunkReceivedEvent } from '@azure/communication-signaling';
+import { StreamingChatMessageStartEvent } from '@azure/communication-signaling';
+import { StreamingMessageMetadata } from '@azure/communication-signaling';
+import { StreamingMessageType } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
@@ -64,6 +69,8 @@ export class ChatClient {
     off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
     off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
     off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    off(event: "streamingChatMessageStarted", listener: (e: StreamingChatMessageStartEvent) => void): void;
+    off(event: "streamingChatMessageChunkReceived", listener: (e: StreamingChatMessageChunkReceivedEvent) => void): void;
     on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
     on(event: "chatMessageEdited", listener: (e: ChatMessageEditedEvent) => void): void;
     on(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
@@ -74,6 +81,8 @@ export class ChatClient {
     on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
     on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
     on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    on(event: "streamingChatMessageStarted", listener: (e: StreamingChatMessageStartEvent) => void): void;
+    on(event: "streamingChatMessageChunkReceived", listener: (e: StreamingChatMessageChunkReceivedEvent) => void): void;
     on(event: "realTimeNotificationConnected", listener: () => void): void;
     on(event: "realTimeNotificationDisconnected", listener: () => void): void;
     startRealtimeNotifications(): Promise<void>;
@@ -94,7 +103,7 @@ export interface ChatError {
 }
 
 // @public (undocumented)
-export type ChatEventId = "chatMessageReceived" | "chatMessageEdited" | "chatMessageDeleted" | "typingIndicatorReceived" | "readReceiptReceived" | "chatThreadCreated" | "chatThreadDeleted" | "chatThreadPropertiesUpdated" | "participantsAdded" | "participantsRemoved" | "realTimeNotificationConnected" | "realTimeNotificationDisconnected";
+export type ChatEventId = "chatMessageReceived" | "chatMessageEdited" | "chatMessageDeleted" | "typingIndicatorReceived" | "readReceiptReceived" | "chatThreadCreated" | "chatThreadDeleted" | "chatThreadPropertiesUpdated" | "participantsAdded" | "participantsRemoved" | "streamingChatMessageStarted" | "streamingChatMessageChunkReceived" | "realTimeNotificationConnected" | "realTimeNotificationDisconnected";
 
 // @public
 export interface ChatMessage {
@@ -333,6 +342,16 @@ export interface SendReadReceiptRequest {
 export interface SendTypingNotificationOptions extends OperationOptions {
     senderDisplayName?: string;
 }
+
+export { StreamEndReason }
+
+export { StreamingChatMessageChunkReceivedEvent }
+
+export { StreamingChatMessageStartEvent }
+
+export { StreamingMessageMetadata }
+
+export { StreamingMessageType }
 
 // @public
 export interface ThreadCreationDateRetentionPolicy {

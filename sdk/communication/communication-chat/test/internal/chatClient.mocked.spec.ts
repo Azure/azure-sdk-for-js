@@ -394,4 +394,36 @@ describe("[Mocked] ChatClient", async () => {
       }
     },
   );
+
+  it(
+    "should throw an error to subscribe streamingChatMessageStarted event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("streamingChatMessageStarted", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
+
+  it(
+    "should throw an error to subscribe streamingChatMessageChunkReceived event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("streamingChatMessageChunkReceived", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 });

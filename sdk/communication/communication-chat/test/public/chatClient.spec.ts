@@ -4,7 +4,11 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
-import type { ChatClient, ChatThreadClient, ThreadCreationDateRetentionPolicy } from "../../src/index.js";
+import type {
+  ChatClient,
+  ChatThreadClient,
+  ThreadCreationDateRetentionPolicy,
+} from "../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";

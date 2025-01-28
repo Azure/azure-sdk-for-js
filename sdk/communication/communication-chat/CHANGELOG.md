@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Beta support for StreamingChatMessageStartEvent and StreamingChatMessageChunkReceivedEvent events
+
 ### Breaking Changes
 
 ### Bugs Fixed
