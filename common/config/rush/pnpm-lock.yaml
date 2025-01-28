@@ -2704,7 +2704,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
-    resolution: {integrity: sha512-vjq2Gao56nWls4WanTBCTwwjx58Tjne7vWsJzG6pjaM3KnNVuC91v97x+MT2OKq4EmRYJ3yTNFs6T+Vg7rVJmQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-TVqurxZGAWBtJuzZTr+rUdJM9eHGgTu7h638ukTCZG/7CrBHM+MrpfE4mEkiArgpjGYfSS7p+abAvGZJ5PYFBg==, tarball: file:projects/app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
@@ -3828,7 +3828,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-v9YVLjFKbVmx5EWiE7LsPWU04QvgDtvIkB2cGhQhm+sbNsCmXtdvkuRLCU7KqB/fWUMjAmnE14leCv/9cKYr8Q==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-Oo1YC8Bl9JY/gJF6MTQWnAhSRPfZvqjaXfuU4SUsyRGmamwrkDfigyUJYEcqRwCF4JyZ+JjkgIdVER9nITATsA==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -4000,11 +4000,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-hEnlLvehlh3ejDkAZMH2pTtAPU+i6O550upJ4DPMW89QmlerdmJT9CJt3u8yCb6af/ei6C871wpRH/JEXKk4ig==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-zkjFwSF6XaWqqgTseIApfabjxBusvCV2GCPAH0784331hWHMlVMm2mnpVoLpR4EUD3/m2sK9/UTvRzAuToJhTQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-yj3eLTGUSFU2lGpjjYQ0n2u4DLTjaJNEZgRZpp64Be6vr0oaoFdMmLVxpe9tHG+z5qhktqW4H17mD46QZmLHrw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-5+1YPPlqtKMgVsteZDwGzHenNo7xTz7Kfnf5T6hCPQBYoc3h+8UDXPLX5eY4H94BpK6DPqIRRzo5/ssTOlIZvw==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
@@ -6913,9 +6913,9 @@ packages:
   nise@6.1.1:
     resolution: {integrity: sha512-aMSAzLVY7LyeM60gvBS423nBmIPP+Wy7St7hsb+8/fc1HmeoHJfLO8CKse4u3BtOZvQLJghYPI2i/1WZrEj5/g==}
 
-  nock@13.5.6:
-    resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
-    engines: {node: '>= 10.13'}
+  nock@14.0.0:
+    resolution: {integrity: sha512-3Z2ZoZoYTR/y2I+NI16+6IzfZFKBX7MrADtoBAm7v/QKqxQUhKw+Dh+847PPS1j/FDutjfIXfrh3CJF74yITWg==}
+    engines: {node: '>= 18'}
 
   node-abi@3.73.0:
     resolution: {integrity: sha512-z8iYzQGBu35ZkTQ9mtR8RqugJZ9RCLn8fv3d7LsgDBzOijGQP3RdKTX4LA7LXw03ZhU5z0l4xfhIMgSES31+cg==}
@@ -10841,7 +10841,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      nock: 13.5.6
+      nock: 14.0.0
       playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -18652,7 +18652,7 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       jsbi: 4.3.0
       mocha: 11.1.0
-      nock: 13.5.6
+      nock: 14.0.0
       priorityqueuejs: 2.0.0
       requirejs: 2.3.7
       semaphore: 1.1.0
@@ -20265,7 +20265,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      nock: 13.5.6
+      nock: 14.0.0
       playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -20326,7 +20326,7 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.19.0
       mocha: 11.1.0
-      nock: 13.5.6
+      nock: 14.0.0
       nyc: 17.1.0
       sinon: 17.0.1
       tslib: 2.8.1
@@ -25267,13 +25267,11 @@ snapshots:
       just-extend: 6.2.0
       path-to-regexp: 8.2.0
 
-  nock@13.5.6:
+  nock@14.0.0:
     dependencies:
-      debug: 4.4.0(supports-color@8.1.1)
+      '@mswjs/interceptors': 0.37.5
       json-stringify-safe: 5.0.1
       propagate: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
 
   node-abi@3.73.0:
     dependencies:
