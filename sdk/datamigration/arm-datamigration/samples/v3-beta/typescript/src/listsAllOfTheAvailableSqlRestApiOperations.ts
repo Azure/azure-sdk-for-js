@@ -14,7 +14,7 @@
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function listsAllOfTheAvailableSqlRestApiOperations() {
+async function listsAllOfTheAvailableSqlRestApiOperations(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);

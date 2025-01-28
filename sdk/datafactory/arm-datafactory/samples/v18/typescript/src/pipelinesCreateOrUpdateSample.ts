@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates a pipeline.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Create.json
  */
-async function pipelinesCreate() {
+async function pipelinesCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -94,7 +94,7 @@ async function pipelinesCreate() {
  * @summary Creates or updates a pipeline.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Update.json
  */
-async function pipelinesUpdate() {
+async function pipelinesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -158,7 +158,7 @@ async function pipelinesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   pipelinesCreate();
   pipelinesUpdate();
 }

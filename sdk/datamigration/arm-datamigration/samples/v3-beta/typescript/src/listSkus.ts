@@ -14,7 +14,7 @@
 import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function listSkus() {
+async function listSkus(): Promise<void> {
   const subscriptionId = "subid";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
