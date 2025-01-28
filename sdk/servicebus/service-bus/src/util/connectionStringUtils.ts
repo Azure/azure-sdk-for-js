@@ -104,11 +104,7 @@ export function parseServiceBusConnectionString(
     output.sharedAccessKey = parsedResult.SharedAccessKey;
     output.sharedAccessKeyName = parsedResult.SharedAccessKeyName;
   }
-  if (parsedResult.UseDevelopmentEmulator) {
-    output.useDevelopmentEmulator = Boolean(parsedResult.UseDevelopmentEmulator);
-  } else {
-    output.useDevelopmentEmulator = false;
-  }
+  output.useDevelopmentEmulator = Boolean(parsedResult.UseDevelopmentEmulator);
 
   return output;
 }

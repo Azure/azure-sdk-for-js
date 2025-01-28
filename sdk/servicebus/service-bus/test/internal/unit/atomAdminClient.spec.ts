@@ -8,12 +8,12 @@ describe("ServiceBusAtomAdminClient", () => {
   it("use HTTPS by default", () => {
     const connectionString = "Endpoint=sb://mynamespace.servicebus.windows.net;";
     const adminClient = new ServiceBusAdministrationClient(connectionString);
-    assert.equal((adminClient)["useTls"], true);
+    assert.equal(adminClient["useTls"], true);
   });
 
   it("use HTTP when connect to emulator", () => {
     const connectionString = "Endpoint=sb://192.168.y.z;UseDevelopmentEmulator=true;";
     const adminClient = new ServiceBusAdministrationClient(connectionString);
-    assert.equal((adminClient)["useTls"], false);
+    assert.equal(adminClient["useTls"], false);
   });
 });
