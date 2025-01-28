@@ -447,8 +447,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         this.emitRawOrderByPayload,
       );
       this.componentsExecutionContext.push(executionContext);
-      this.isSingleComponent = this.componentsExecutionContext.length === 1;
     }
+    this.isSingleComponent = this.componentsExecutionContext.length === 1;
   }
   private processComponentQueries(
     componentQueryInfos: QueryInfo[],
