@@ -91,6 +91,9 @@ export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHe
 /** @hidden */
 export function decodeAndParseJSONString(inputString: string): string {
   try {
+    if (!inputString || inputString === "") {
+      return "{}";
+    }
     const decodedString = decodeURIComponent(inputString);
     const parsedString = JSON.parse(decodedString);
     const indexMetrics = JSON.stringify(parsedString);
