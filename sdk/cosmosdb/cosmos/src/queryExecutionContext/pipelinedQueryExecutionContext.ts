@@ -165,7 +165,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     this.fetchBuffer = [];
   }
 
-  // Removed callback here beacuse it wouldn't have ever worked...
   public hasMoreResults(): boolean {
     return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }

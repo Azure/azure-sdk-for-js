@@ -6,7 +6,7 @@ import { MockedClientContext } from "../../public/common/MockClientContext";
 import { ClientContext, PartitionKeyRange } from "../../../src";
 import assert from "assert";
 
-describe("11Test DocumentProducer", function () {
+describe("Test DocumentProducer", function () {
   const mockedClientContext: ClientContext = new MockedClientContext({}) as any;
   const sqlQuerySpec: SqlQuerySpec = { query: "SELECT c.id from c" };
   const pkRange: PartitionKeyRange = {
@@ -19,7 +19,7 @@ describe("11Test DocumentProducer", function () {
     parents: [],
   };
 
-  it("fetchBufferedItems should return first item", async function () {
+  it("fetchBufferedItems should return all items in buffer", async function () {
     const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
