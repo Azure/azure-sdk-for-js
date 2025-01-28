@@ -30,6 +30,13 @@ pipelines:
           lastModifiedDate: 2025-01-28
         spotbugs:
           lastModifiedDate: 2025-01-28
+      source:
+        credscan:
+          lastModifiedDate: 2025-01-28
+        psscriptanalyzer:
+          lastModifiedDate: 2025-01-28
+        armory:
+          lastModifiedDate: 2025-01-28
   850:
     usedNonDefaultBranch: true
     retail:
