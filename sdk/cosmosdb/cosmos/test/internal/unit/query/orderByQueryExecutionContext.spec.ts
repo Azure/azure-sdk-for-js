@@ -4,7 +4,7 @@
 import sinon from "sinon";
 import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel";
 import type { QueryInfo } from "../../../../src/request/ErrorResponse";
-import { createTestClientContext } from "./parallelQueryExecutionContextBase.spec";
+import { createTestClientContext } from "../../../public/common/TestHelpers";
 import type { QueryIterator } from "../../../../src/queryIterator";
 import type { PartitionKeyRange } from "../../../../src/client/Container/PartitionKeyRange";
 import type { Resource } from "../../../../src/client/Resource";
