@@ -47,7 +47,7 @@ describe("EventPosition", function () {
     // });
 
     it("should create from an offset from start", async function () {
-      const result = "amqp.annotation.x-opt-offset > '-1'";
+      const result = "amqp.annotation.x-opt-offset > '-1:-1'";
       const pos = earliestEventPosition;
       result.should.equal(getEventPositionFilter(pos));
     });
