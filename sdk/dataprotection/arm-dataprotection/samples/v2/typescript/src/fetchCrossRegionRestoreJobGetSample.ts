@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Fetches the Cross Region Restore Job
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CrossRegionRestore/FetchCrossRegionRestoreJob.json
  */
-async function getCrossRegionRestoreJob() {
+async function getCrossRegionRestoreJob(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "62b829ee-7936-40c9-a1c9-47a93f9f3965";
@@ -41,7 +41,7 @@ async function getCrossRegionRestoreJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCrossRegionRestoreJob();
 }
 

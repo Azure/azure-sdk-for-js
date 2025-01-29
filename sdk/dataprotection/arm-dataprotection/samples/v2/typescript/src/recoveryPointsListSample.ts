@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns a list of Recovery Points for a DataSource in a vault.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ListRecoveryPoints.json
  */
-async function listRecoveryPointsInAVault() {
+async function listRecoveryPointsInAVault(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -36,7 +36,7 @@ async function listRecoveryPointsInAVault() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRecoveryPointsInAVault();
 }
 
