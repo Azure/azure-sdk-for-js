@@ -6,7 +6,7 @@ import assert from "assert";
 import type { ContainerDefinition, Container } from "../../../src";
 import { getTestContainer, removeAllDatabases, readAndParseJSONFile } from "../common/TestHelpers";
 
-describe.skip("Validate full text search queries", function (this: Suite) {
+describe("Validate full text search queries", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   const partitionKey = "id";
