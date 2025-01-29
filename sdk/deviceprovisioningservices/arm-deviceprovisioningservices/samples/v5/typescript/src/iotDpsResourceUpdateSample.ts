@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSPatch.json
  */
-async function dpsPatch() {
+async function dpsPatch(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -37,7 +37,7 @@ async function dpsPatch() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsPatch();
 }
 

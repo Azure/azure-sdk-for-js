@@ -43,22 +43,22 @@ describe("deviceprovisioningservices test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new IotDpsClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2euap";
-    resourceGroup = "myjstest";
-    resourcename = "testresource";
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new IotDpsClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus2euap";
+      resourceGroup = "myjstest";
+      resourcename = "testresource";
 
-  });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("iotDpsResource create test", async function () {
     const res = await client.iotDpsResource.beginCreateOrUpdateAndWait(
