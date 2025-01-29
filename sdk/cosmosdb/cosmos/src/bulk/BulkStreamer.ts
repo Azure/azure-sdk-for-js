@@ -101,14 +101,13 @@ export class BulkStreamer {
     }
   }
 
-  private async addOperation(
-    operation: OperationInput,
-  ): Promise<BulkOperationResult> {
+  private async addOperation(operation: OperationInput): Promise<BulkOperationResult> {
     if (!operation) {
       throw new ErrorResponse("Operation is required.");
     }
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation);
     const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
+    // TODO: change implementation to add just retry context instead of retry policy in operation context
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
     let itemOperation: ItemBulkOperation;
@@ -123,7 +122,7 @@ export class BulkStreamer {
       } finally {
         this.operationIndexLock.leave();
       }
-    })
+    });
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
@@ -266,7 +265,7 @@ export class BulkStreamer {
       limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
       // starting with degree of concurrency as 1
       for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; ++i) {
-        limiter.take(() => { });
+        limiter.take(() => {});
       }
       this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
     }

@@ -63,6 +63,7 @@ export class BulkExecutionRetryPolicy implements RetryPolicy {
 
     // API can return 413 which means the response is bigger than 4Mb.
     // Operations that exceed the 4Mb limit are returned as 413/3402, while the operations within the 4Mb limit will be 200
+    // TODO: better way to handle this error
     if (
       err.code === StatusCodes.RequestEntityTooLarge &&
       err.substatus === this.SubstatusCodeBatchResponseSizeExceeded
