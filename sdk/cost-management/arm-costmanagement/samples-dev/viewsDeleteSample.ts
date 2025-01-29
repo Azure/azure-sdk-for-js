@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -27,7 +25,7 @@ async function deletePrivateView(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deletePrivateView();
+  await deletePrivateView();
 }
 
 main().catch(console.error);

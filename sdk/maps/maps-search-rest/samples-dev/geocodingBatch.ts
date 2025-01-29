@@ -47,7 +47,7 @@ async function main(): Promise<void> {
     throw response.body.error;
   }
 
-  logResponseBody(response.body);
+  await logResponseBody(response.body);
 }
 
 function logResponseBody(resBody: GeocodingBatchResponseOutput): void {

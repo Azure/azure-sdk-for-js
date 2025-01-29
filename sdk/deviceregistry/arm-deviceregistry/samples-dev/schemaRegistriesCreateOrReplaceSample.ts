@@ -33,7 +33,7 @@ async function createSchemaRegistry() {
 }
 
 async function main() {
-  createSchemaRegistry();
+  await createSchemaRegistry();
 }
 
 main().catch(console.error);

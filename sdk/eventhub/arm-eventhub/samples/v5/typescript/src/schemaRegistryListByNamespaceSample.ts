@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the Schema Groups in a Namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all the Schema Groups in a Namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/SchemaRegistry/SchemaRegistryListByNamespace.json
  */
-async function schemaRegistryListAll() {
+async function schemaRegistryListAll(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "e8baea74-64ce-459b-bee3-5aa4c47b3ae3";
@@ -38,7 +36,7 @@ async function schemaRegistryListAll() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   schemaRegistryListAll();
 }
 

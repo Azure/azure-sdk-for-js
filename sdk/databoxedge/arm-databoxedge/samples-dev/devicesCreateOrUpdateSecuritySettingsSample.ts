@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  SecuritySettings,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { SecuritySettings } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -28,15 +24,15 @@ async function createOrUpdateSecuritySettings(): Promise<void> {
     deviceAdminPassword: {
       encryptionAlgorithm: "AES256",
       encryptionCertThumbprint: "<encryptionThumprint>",
-      value: "<deviceAdminPassword>"
-    }
+      value: "<deviceAdminPassword>",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.devices.beginCreateOrUpdateSecuritySettingsAndWait(
     deviceName,
     resourceGroupName,
-    securitySettings
+    securitySettings,
   );
   console.log(result);
 }

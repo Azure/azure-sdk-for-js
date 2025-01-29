@@ -19,7 +19,7 @@ async function schemasGet() {
 }
 
 async function main() {
-  schemasGet();
+  await schemasGet();
 }
 
 main().catch(console.error);

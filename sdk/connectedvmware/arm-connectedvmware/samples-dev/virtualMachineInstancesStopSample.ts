@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   StopVirtualMachineOptions,
   VirtualMachineInstancesStopOptionalParams,
-  AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -29,15 +27,12 @@ async function stopVirtualMachine(): Promise<void> {
   const options: VirtualMachineInstancesStopOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential);
-  const result = await client.virtualMachineInstances.beginStopAndWait(
-    resourceUri,
-    options
-  );
+  const result = await client.virtualMachineInstances.beginStopAndWait(resourceUri, options);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  stopVirtualMachine();
+  await stopVirtualMachine();
 }
 
 main().catch(console.error);

@@ -29,7 +29,7 @@ async function listAllSnapshotsInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listAllSnapshotsInAResourceGroup()
+  await listAllSnapshotsInAResourceGroup();
 }
 
 main().catch(console.error);

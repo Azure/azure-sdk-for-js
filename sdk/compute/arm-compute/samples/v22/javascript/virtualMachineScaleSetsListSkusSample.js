@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.

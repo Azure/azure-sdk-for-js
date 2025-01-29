@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  JobResourceUpdateParameter,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
+import type { JobResourceUpdateParameter } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,10 +18,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatch.json
  */
 async function jobsPatch(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResourceUpdateParameter: JobResourceUpdateParameter = {
     details: {
@@ -33,7 +27,7 @@ async function jobsPatch(): Promise<void> {
         contactName: "XXXX XXXX",
         emailList: ["xxxx@xxxx.xxx"],
         phone: "0000000000",
-        phoneExtension: ""
+        phoneExtension: "",
       },
       shippingAddress: {
         addressType: "Commercial",
@@ -43,16 +37,16 @@ async function jobsPatch(): Promise<void> {
         postalCode: "00000",
         stateOrProvince: "XX",
         streetAddress1: "XXXX XXXX",
-        streetAddress2: "XXXX XXXX"
-      }
-    }
+        streetAddress2: "XXXX XXXX",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
@@ -64,10 +58,8 @@ async function jobsPatch(): Promise<void> {
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchCmk.json
  */
 async function jobsPatchCmk(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResourceUpdateParameter: JobResourceUpdateParameter = {
     details: {
@@ -75,16 +67,16 @@ async function jobsPatchCmk(): Promise<void> {
         kekType: "CustomerManaged",
         kekUrl: "https://xxx.xxx.xx",
         kekVaultResourceID:
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName"
-      }
-    }
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
@@ -96,17 +88,16 @@ async function jobsPatchCmk(): Promise<void> {
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsPatchSystemAssignedToUserAssigned.json
  */
 async function jobsPatchSystemAssignedToUserAssigned(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const jobName = "TestJobName1";
   const jobResourceUpdateParameter: JobResourceUpdateParameter = {
     identity: {
       type: "SystemAssigned,UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity": {}
-      }
+        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/testIdentity":
+          {},
+      },
     },
     details: {
       keyEncryptionKey: {
@@ -114,30 +105,30 @@ async function jobsPatchSystemAssignedToUserAssigned(): Promise<void> {
           type: "UserAssigned",
           userAssigned: {
             resourceId:
-              "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testIdentity"
-          }
+              "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testIdentity",
+          },
         },
         kekType: "CustomerManaged",
         kekUrl: "https://xxx.xxx.xx",
         kekVaultResourceID:
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName"
-      }
-    }
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.KeyVault/vaults/YourKeyVaultName",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobResourceUpdateParameter
+    jobResourceUpdateParameter,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  jobsPatch();
-  jobsPatchCmk();
-  jobsPatchSystemAssignedToUserAssigned();
+  await jobsPatch();
+  await jobsPatchCmk();
+  await jobsPatchSystemAssignedToUserAssigned();
 }
 
 main().catch(console.error);

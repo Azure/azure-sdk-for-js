@@ -24,7 +24,7 @@ async function dataflowGet() {
 }
 
 async function main() {
-  dataflowGet();
+  await dataflowGet();
 }
 
 main().catch(console.error);

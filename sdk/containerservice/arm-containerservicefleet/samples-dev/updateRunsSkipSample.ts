@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  SkipProperties,
-  ContainerServiceFleetClient,
-} from "@azure/arm-containerservicefleet";
+import type { SkipProperties } from "@azure/arm-containerservicefleet";
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +19,8 @@ import "dotenv/config";
  */
 async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const updateRunName = "run1";
   const body: SkipProperties = {
@@ -47,7 +41,7 @@ async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(
 }
 
 async function main(): Promise<void> {
-  skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun();
+  await skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun();
 }
 
 main().catch(console.error);

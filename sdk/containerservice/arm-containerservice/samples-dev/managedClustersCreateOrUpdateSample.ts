@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ManagedCluster,
-  ContainerServiceClient,
-} from "@azure/arm-containerservice";
+import type { ManagedCluster } from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +19,8 @@ import "dotenv/config";
  */
 async function associateManagedClusterWithCapacityReservationGroup(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -86,10 +80,8 @@ async function associateManagedClusterWithCapacityReservationGroup(): Promise<vo
  */
 async function createManagedClusterUsingAManagedClusterSnapshot(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     agentPoolProfiles: [
@@ -137,10 +129,8 @@ async function createManagedClusterUsingAManagedClusterSnapshot(): Promise<void>
  */
 async function createManagedClusterUsingAnAgentPoolSnapshot(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -203,10 +193,8 @@ async function createManagedClusterUsingAnAgentPoolSnapshot(): Promise<void> {
  */
 async function createManagedClusterWithAiToolchainOperatorEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -260,10 +248,8 @@ async function createManagedClusterWithAiToolchainOperatorEnabled(): Promise<voi
  */
 async function createManagedClusterWithAksManagedNatGatewayAsOutboundType(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -321,10 +307,8 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType(): Pro
  */
 async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {
@@ -387,10 +371,8 @@ async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon(): Prom
  */
 async function createManagedClusterWithCustomCaTrustCertificatesPopulatedAndCustomCatrustEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -425,9 +407,7 @@ async function createManagedClusterWithCustomCaTrustCertificatesPopulatedAndCust
     },
     securityProfile: {
       customCATrustCertificates: [
-        Buffer.from(
-          "ZHVtbXlFeGFtcGxlVGVzdFZhbHVlRm9yQ2VydGlmaWNhdGVUb0JlQWRkZWQ=",
-        ),
+        Buffer.from("ZHVtbXlFeGFtcGxlVGVzdFZhbHVlRm9yQ2VydGlmaWNhdGVUb0JlQWRkZWQ="),
       ],
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
@@ -456,10 +436,8 @@ async function createManagedClusterWithCustomCaTrustCertificatesPopulatedAndCust
  */
 async function createManagedClusterWithDedicatedHostGroup(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -518,10 +496,8 @@ async function createManagedClusterWithDedicatedHostGroup(): Promise<void> {
  */
 async function createManagedClusterWithEncryptionAtHostEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -580,10 +556,8 @@ async function createManagedClusterWithEncryptionAtHostEnabled(): Promise<void> 
  */
 async function createManagedClusterWithFipsEnabledOS(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -642,10 +616,8 @@ async function createManagedClusterWithFipsEnabledOS(): Promise<void> {
  */
 async function createManagedClusterWithGpumig(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -710,10 +682,8 @@ async function createManagedClusterWithGpumig(): Promise<void> {
  */
 async function createManagedClusterWithHttpProxyConfigured(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -777,10 +747,8 @@ async function createManagedClusterWithHttpProxyConfigured(): Promise<void> {
  */
 async function createManagedClusterWithLongTermSupport(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -839,10 +807,8 @@ async function createManagedClusterWithLongTermSupport(): Promise<void> {
  */
 async function createManagedClusterWithNodeAutoProvisioning(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -896,10 +862,8 @@ async function createManagedClusterWithNodeAutoProvisioning(): Promise<void> {
  */
 async function createManagedClusterWithNodePublicIPPrefix(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -959,10 +923,8 @@ async function createManagedClusterWithNodePublicIPPrefix(): Promise<void> {
  */
 async function createManagedClusterWithOssku(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1027,10 +989,8 @@ async function createManagedClusterWithOssku(): Promise<void> {
  */
 async function createManagedClusterWithPpg(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1090,10 +1050,8 @@ async function createManagedClusterWithPpg(): Promise<void> {
  */
 async function createManagedClusterWithPodIdentityEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1152,10 +1110,8 @@ async function createManagedClusterWithPodIdentityEnabled(): Promise<void> {
  */
 async function createManagedClusterWithRunCommandDisabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1213,10 +1169,8 @@ async function createManagedClusterWithRunCommandDisabled(): Promise<void> {
  */
 async function createManagedClusterWithSecurityProfileConfigured(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     agentPoolProfiles: [
@@ -1270,10 +1224,8 @@ async function createManagedClusterWithSecurityProfileConfigured(): Promise<void
  */
 async function createManagedClusterWithUltraSsdEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1332,10 +1284,8 @@ async function createManagedClusterWithUltraSsdEnabled(): Promise<void> {
  */
 async function createManagedClusterWithVirtualMachinesPoolType(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1388,10 +1338,8 @@ async function createManagedClusterWithVirtualMachinesPoolType(): Promise<void> 
  */
 async function createManagedClusterWithWebAppRoutingIngressProfileConfigured(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     agentPoolProfiles: [
@@ -1446,10 +1394,8 @@ async function createManagedClusterWithWebAppRoutingIngressProfileConfigured(): 
  */
 async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1506,10 +1452,8 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType(): P
  */
 async function createManagedPrivateClusterWithPublicFqdnSpecified(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1570,10 +1514,8 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified(): Promise<voi
  */
 async function createManagedPrivateClusterWithFqdnSubdomainSpecified(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1635,10 +1577,8 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified(): Promise<
  */
 async function createOrUpdateAadManagedClusterWithEnableAzureRbac(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     aadProfile: { enableAzureRbac: true, managed: true },
@@ -1698,10 +1638,8 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac(): Promise<voi
  */
 async function createOrUpdateManagedCluster(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1782,10 +1720,8 @@ async function createOrUpdateManagedCluster(): Promise<void> {
  */
 async function createOrUpdateManagedClusterWithAzureServiceMesh(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {
@@ -1867,10 +1803,8 @@ async function createOrUpdateManagedClusterWithAzureServiceMesh(): Promise<void>
  */
 async function createOrUpdateManagedClusterWithEnableAhub(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -1937,10 +1871,8 @@ async function createOrUpdateManagedClusterWithEnableAhub(): Promise<void> {
  */
 async function createOrUpdateManagedClusterWithEnableNamespaceResources(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -2000,10 +1932,8 @@ async function createOrUpdateManagedClusterWithEnableNamespaceResources(): Promi
  */
 async function createOrUpdateManagedClusterWithWindowsGMsaEnabled(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -2070,10 +2000,8 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled(): Promise<voi
  */
 async function createOrUpdateManagedClusterWithDualStackNetworking(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedCluster = {
     addonProfiles: {},
@@ -2142,39 +2070,39 @@ async function createOrUpdateManagedClusterWithDualStackNetworking(): Promise<vo
 }
 
 async function main(): Promise<void> {
-  associateManagedClusterWithCapacityReservationGroup();
-  createManagedClusterUsingAManagedClusterSnapshot();
-  createManagedClusterUsingAnAgentPoolSnapshot();
-  createManagedClusterWithAiToolchainOperatorEnabled();
-  createManagedClusterWithAksManagedNatGatewayAsOutboundType();
-  createManagedClusterWithAzureKeyVaultSecretsProviderAddon();
-  createManagedClusterWithCustomCaTrustCertificatesPopulatedAndCustomCatrustEnabled();
-  createManagedClusterWithDedicatedHostGroup();
-  createManagedClusterWithEncryptionAtHostEnabled();
-  createManagedClusterWithFipsEnabledOS();
-  createManagedClusterWithGpumig();
-  createManagedClusterWithHttpProxyConfigured();
-  createManagedClusterWithLongTermSupport();
-  createManagedClusterWithNodeAutoProvisioning();
-  createManagedClusterWithNodePublicIPPrefix();
-  createManagedClusterWithOssku();
-  createManagedClusterWithPpg();
-  createManagedClusterWithPodIdentityEnabled();
-  createManagedClusterWithRunCommandDisabled();
-  createManagedClusterWithSecurityProfileConfigured();
-  createManagedClusterWithUltraSsdEnabled();
-  createManagedClusterWithVirtualMachinesPoolType();
-  createManagedClusterWithWebAppRoutingIngressProfileConfigured();
-  createManagedClusterWithUserAssignedNatGatewayAsOutboundType();
-  createManagedPrivateClusterWithPublicFqdnSpecified();
-  createManagedPrivateClusterWithFqdnSubdomainSpecified();
-  createOrUpdateAadManagedClusterWithEnableAzureRbac();
-  createOrUpdateManagedCluster();
-  createOrUpdateManagedClusterWithAzureServiceMesh();
-  createOrUpdateManagedClusterWithEnableAhub();
-  createOrUpdateManagedClusterWithEnableNamespaceResources();
-  createOrUpdateManagedClusterWithWindowsGMsaEnabled();
-  createOrUpdateManagedClusterWithDualStackNetworking();
+  await associateManagedClusterWithCapacityReservationGroup();
+  await createManagedClusterUsingAManagedClusterSnapshot();
+  await createManagedClusterUsingAnAgentPoolSnapshot();
+  await createManagedClusterWithAiToolchainOperatorEnabled();
+  await createManagedClusterWithAksManagedNatGatewayAsOutboundType();
+  await createManagedClusterWithAzureKeyVaultSecretsProviderAddon();
+  await createManagedClusterWithCustomCaTrustCertificatesPopulatedAndCustomCatrustEnabled();
+  await createManagedClusterWithDedicatedHostGroup();
+  await createManagedClusterWithEncryptionAtHostEnabled();
+  await createManagedClusterWithFipsEnabledOS();
+  await createManagedClusterWithGpumig();
+  await createManagedClusterWithHttpProxyConfigured();
+  await createManagedClusterWithLongTermSupport();
+  await createManagedClusterWithNodeAutoProvisioning();
+  await createManagedClusterWithNodePublicIPPrefix();
+  await createManagedClusterWithOssku();
+  await createManagedClusterWithPpg();
+  await createManagedClusterWithPodIdentityEnabled();
+  await createManagedClusterWithRunCommandDisabled();
+  await createManagedClusterWithSecurityProfileConfigured();
+  await createManagedClusterWithUltraSsdEnabled();
+  await createManagedClusterWithVirtualMachinesPoolType();
+  await createManagedClusterWithWebAppRoutingIngressProfileConfigured();
+  await createManagedClusterWithUserAssignedNatGatewayAsOutboundType();
+  await createManagedPrivateClusterWithPublicFqdnSpecified();
+  await createManagedPrivateClusterWithFqdnSubdomainSpecified();
+  await createOrUpdateAadManagedClusterWithEnableAzureRbac();
+  await createOrUpdateManagedCluster();
+  await createOrUpdateManagedClusterWithAzureServiceMesh();
+  await createOrUpdateManagedClusterWithEnableAhub();
+  await createOrUpdateManagedClusterWithEnableNamespaceResources();
+  await createOrUpdateManagedClusterWithWindowsGMsaEnabled();
+  await createOrUpdateManagedClusterWithDualStackNetworking();
 }
 
 main().catch(console.error);

@@ -7,7 +7,8 @@
  * @summary Get chat completions with function call.
  */
 
-import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
+import type { ChatRequestMessage } from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 

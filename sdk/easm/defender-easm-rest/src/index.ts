@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import Easm from "./easm.js";
+import EasmClient from "./easmClient.js";
 
-export * from "./easm.js";
+export * from "./easmClient.js";
 export * from "./parameters.js";
 export * from "./responses.js";
 export * from "./clientDefinitions.js";
@@ -12,5 +12,4 @@ export * from "./models.js";
 export * from "./outputModels.js";
 export * from "./paginateHelper.js";
 
-// eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
-export default Easm;
+export default EasmClient;

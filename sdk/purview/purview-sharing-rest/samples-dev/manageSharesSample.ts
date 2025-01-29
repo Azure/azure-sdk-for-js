@@ -301,7 +301,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  getSentShare(client, sentShareId);
+  await getSentShare(client, sentShareId);
 
   const allInvitations = await getAllSentShareInvitations(client, sentShareId);
   const sentShareInvitationId = allInvitations[0]?.id;
@@ -310,8 +310,8 @@ async function main(): Promise<void> {
     return;
   }
 
-  getSentShareInvitation(client, sentShareId, sentShareInvitationId);
-  notifyUserSentShareInvitation(client, sentShareId, sentShareInvitationId);
+  await getSentShareInvitation(client, sentShareId, sentShareInvitationId);
+  await notifyUserSentShareInvitation(client, sentShareId, sentShareInvitationId);
 
   const allReceivedShares = await getAllAttachedReceivedShares(
     client,
@@ -323,12 +323,12 @@ async function main(): Promise<void> {
     return;
   }
 
-  getAllShareResources(client);
-  getReceivedShare(client, receivedShareId);
+  await getAllShareResources(client);
+  await getReceivedShare(client, receivedShareId);
 
-  deleteReceivedShare(client, receivedShareId);
-  deleteSentShareInvitation(client, sentShareId, sentShareInvitationId);
-  deleteSentShare(client, sentShareId);
+  await deleteReceivedShare(client, receivedShareId);
+  await deleteSentShareInvitation(client, sentShareId, sentShareInvitationId);
+  await deleteSentShare(client, sentShareId);
 }
 
 main().catch(console.error);

@@ -15,7 +15,7 @@ async function enterpriseMccCustomersListByResourceGroup(): Promise<void> {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.enterpriseMccCustomers.listByResourceGroup("rgConnectedCache")) {
+  for await (const item of client.enterpriseMccCustomers.listByResourceGroup("rgConnectedCache")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function enterpriseMccCustomersListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCustomersListByResourceGroup();
+  await enterpriseMccCustomersListByResourceGroup();
 }
 
 main().catch(console.error);

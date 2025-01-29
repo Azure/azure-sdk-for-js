@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  AzureFirewallsUpdateTagsParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { AzureFirewallsUpdateTagsParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

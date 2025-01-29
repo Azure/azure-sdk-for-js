@@ -19,7 +19,7 @@ async function enterpriseCustomerOperationsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseCustomerOperationsGet();
+  await enterpriseCustomerOperationsGet();
 }
 
 main().catch(console.error);

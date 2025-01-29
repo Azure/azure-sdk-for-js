@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPPrefixesGetParameters,
 } from "@azure-rest/arm-network";

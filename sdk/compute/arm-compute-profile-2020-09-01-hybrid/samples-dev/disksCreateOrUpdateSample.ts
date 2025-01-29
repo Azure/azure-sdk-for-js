@@ -175,13 +175,13 @@ async function createAnEmptyManagedDisk(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createAManagedDiskByCopyingASnapshot()
-  await createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription()
-  await createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription()
-  await createAManagedDiskFromAPlatformImage()
-  await createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription()
-  await createAManagedUploadDisk()
-  await createAnEmptyManagedDisk()
+  await createAManagedDiskByCopyingASnapshot();
+  await createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription();
+  await createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription();
+  await createAManagedDiskFromAPlatformImage();
+  await createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription();
+  await createAManagedUploadDisk();
+  await createAnEmptyManagedDisk();
 }
 
 main().catch(console.error);

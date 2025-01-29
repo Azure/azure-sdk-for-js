@@ -387,7 +387,7 @@ describe("Service Utils", () => {
     testRubrics.forEach(({ serviceUrl, reportingUrl }) => {
       process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = serviceUrl;
       emitReportingUrl();
-      expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL]).to.equal(
+      expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]).to.equal(
         reportingUrl,
       );
       delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];

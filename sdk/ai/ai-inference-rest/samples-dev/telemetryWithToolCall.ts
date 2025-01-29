@@ -113,7 +113,8 @@ const handleToolCalls = (functionArray: Array<any>) => {
 };
 
 // any import such as ai-inference has core-tracing as dependency must be imported after the instrumentation is registered
-import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
+import type { ChatRequestMessage } from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 export async function main() {

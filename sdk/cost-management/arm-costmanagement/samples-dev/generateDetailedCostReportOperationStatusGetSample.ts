@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,15 +21,12 @@ async function getDetailsOfTheOperationStatus(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.generateDetailedCostReportOperationStatus.get(
-    operationId,
-    scope
-  );
+  const result = await client.generateDetailedCostReportOperationStatus.get(operationId, scope);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  getDetailsOfTheOperationStatus();
+  await getDetailsOfTheOperationStatus();
 }
 
 main().catch(console.error);

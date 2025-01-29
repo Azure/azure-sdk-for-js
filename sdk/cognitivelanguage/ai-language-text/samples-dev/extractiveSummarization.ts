@@ -45,7 +45,7 @@ export async function main(): Promise<void> {
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
 
-  poller.onProgress(() => {
+  await poller.onProgress(() => {
     console.log(
       `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
     );

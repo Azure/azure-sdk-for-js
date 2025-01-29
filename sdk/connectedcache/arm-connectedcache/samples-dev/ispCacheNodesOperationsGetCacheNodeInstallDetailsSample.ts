@@ -23,7 +23,7 @@ async function ispCacheNodeResourceGetInstallDetailsGeneratedByMaximumSetRule():
 }
 
 async function main(): Promise<void> {
-  ispCacheNodeResourceGetInstallDetailsGeneratedByMaximumSetRule();
+  await ispCacheNodeResourceGetInstallDetailsGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

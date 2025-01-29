@@ -24,10 +24,8 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async (ctx) => {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   const _createTestProgramBrief = async (uspb: USProgramBrief): Promise<void> => {

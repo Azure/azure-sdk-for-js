@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary this api updates an existing enterprise mcc customer resource
  * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCustomers_Update_MaximumSet_Gen.json
  */
-async function enterpriseMccCustomersUpdate() {
+async function enterpriseMccCustomersUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function enterpriseMccCustomersUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   enterpriseMccCustomersUpdate();
 }
 

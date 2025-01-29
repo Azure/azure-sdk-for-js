@@ -29,7 +29,7 @@ describe("AppConfigurationClient snapshot", () => {
   let filter2: ConfigurationSettingsFilter;
   let newSnapshot: CreateSnapshotResponse;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     key1 = recorder.variable("key1", `key1-${new Date().getTime()}`);
@@ -71,7 +71,7 @@ describe("AppConfigurationClient snapshot", () => {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await client.deleteConfigurationSetting({ ...configSetting1 });
     await client.deleteConfigurationSetting({ ...configSetting2 });
     await recorder.stop();
@@ -110,8 +110,7 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function (ctx) {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
       await assertThrowsAbortError(async () => {
         await client.beginCreateSnapshotAndWait(snapshot1, {
           requestOptions: {
@@ -176,8 +175,7 @@ describe("AppConfigurationClient snapshot", () => {
       );
     });
 
-    it.skip("accepts operation options", async function (ctx) {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts operation options", { skip: isPlaybackMode() }, async () => {
       await assertThrowsAbortError(async () => {
         await client.archiveSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -203,8 +201,7 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    it.skip("accepts operation options", async function (ctx) {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts operation options", { skip: isPlaybackMode() }, async () => {
       await assertThrowsAbortError(async () => {
         await client.recoverSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -226,8 +223,7 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     // Check issue https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts operation options", async function (ctx) {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts operation options", { skip: isPlaybackMode() }, async () => {
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       await assertThrowsAbortError(async () => {
         await client.getSnapshot(newSnapshot.name, {
@@ -242,7 +238,7 @@ describe("AppConfigurationClient snapshot", () => {
   });
 
   describe("listSnapshots", () => {
-    it("list all snapshots with ready filter", async function () {
+    it("list all snapshots with ready filter", async () => {
       const list = client.listSnapshots();
       for await (const snapshot of list) {
         await client.archiveSnapshot(snapshot.name);

@@ -19,7 +19,7 @@ async function deidServicesGetGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  deidServicesGetGeneratedByMaximumSetRuleStable();
+  await deidServicesGetGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

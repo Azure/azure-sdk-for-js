@@ -38,7 +38,7 @@ async function createDiscoveredAssetEndpointProfile() {
 }
 
 async function main() {
-  createDiscoveredAssetEndpointProfile();
+  await createDiscoveredAssetEndpointProfile();
 }
 
 main().catch(console.error);

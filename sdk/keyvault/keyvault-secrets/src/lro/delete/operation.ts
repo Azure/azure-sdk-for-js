@@ -11,7 +11,7 @@ import type { KeyVaultSecretPollOperationState } from "../keyVaultSecretPoller.j
 import { KeyVaultSecretPollOperation } from "../keyVaultSecretPoller.js";
 import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import { getSecretFromSecretBundle } from "../../transformations.js";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../../tracing.js";
 
 /**
@@ -29,7 +29,6 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
 > {
   constructor(
     public state: DeleteSecretPollOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -45,7 +44,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
       "DeleteSecretPoller.deleteSecret",
       options,
       async (updatedOptions) => {
-        const response = await this.client.deleteSecret(this.vaultUrl, name, updatedOptions);
+        const response = await this.client.deleteSecret(name, updatedOptions);
         return getSecretFromSecretBundle(response);
       },
     );
@@ -63,7 +62,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
       "DeleteSecretPoller.getDeletedSecret",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getDeletedSecret(this.vaultUrl, name, updatedOptions);
+        const response = await this.client.getDeletedSecret(name, updatedOptions);
         return getSecretFromSecretBundle(response);
       },
     );

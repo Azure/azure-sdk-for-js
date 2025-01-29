@@ -77,7 +77,7 @@ export interface ContainerRepository {
   getArtifact(tagOrDigest: string): RegistryArtifact;
   /**
    * Retrieves the properties of this repository.
-   * @param options -
+   * @param options - The options for the operation.
    */
   getProperties(options?: GetRepositoryPropertiesOptions): Promise<ContainerRepositoryProperties>;
   /**
@@ -85,17 +85,23 @@ export interface ContainerRepository {
    *
    * Example usage:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credential);
-   * const repository = client.getRepository(repositoryName)
+   * ```ts snippet:ContainerRepositoryUpdateProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   * const repository = client.getRepository(repositoryName);
+   *
    * const updated = await repository.updateProperties({
    *   canDelete: false,
    *   canList: false,
    *   canRead: false,
-   *   canWrite: false
+   *   canWrite: false,
    * });
    * ```
-   * @param options -
+   * @param options - The options for the operation.
    */
   updateProperties(
     options: UpdateRepositoryPropertiesOptions,
@@ -107,42 +113,21 @@ export interface ContainerRepository {
    *
    * Example using `for-await-of` syntax:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credential);
-   * const repository = client.getRepository(repositoryName)
+   * ```ts snippet:ContainerRepositoryListManifestProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   * const repository = client.getRepository(repositoryName);
+   *
    * for await (const manifest of repository.listManifestProperties()) {
    *   console.log("manifest: ", manifest);
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```javascript
-   * const iter = repository.listManifestProperties();
-   * let item = await iter.next();
-   * while (!item.done) {
-   *   console.log("manifest properties: ", item.value);
-   *   item = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```javascript
-   * const pages = repository.listManifestProperties().byPage({ maxPageSize: 2 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const manifestProperties of page.value) {
-   *      console.log(`  manifest properties: ${manifestProperties}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
-   * @param options -
+   * @param options - The options for the operation.
    */
   listManifestProperties(
     options?: ListManifestPropertiesOptions,
@@ -205,7 +190,7 @@ export class ContainerRepositoryImpl {
 
   /**
    * Retrieves the properties of this repository.
-   * @param options -
+   * @param options - The options for the operation.
    */
   public async getProperties(
     options: GetRepositoryPropertiesOptions = {},
@@ -224,17 +209,23 @@ export class ContainerRepositoryImpl {
    *
    * Example usage:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credential);
-   * const repository = client.getRepository(repositoryName)
+   * ```ts snippet:ContainerRepositoryUpdateProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   * const repository = client.getRepository(repositoryName);
+   *
    * const updated = await repository.updateProperties({
    *   canDelete: false,
    *   canList: false,
    *   canRead: false,
-   *   canWrite: false
+   *   canWrite: false,
    * });
    * ```
-   * @param options -
+   * @param options - The options for the operation.
    */
   public async updateProperties(
     options: UpdateRepositoryPropertiesOptions,
@@ -262,42 +253,21 @@ export class ContainerRepositoryImpl {
    *
    * Example using `for-await-of` syntax:
    *
-   * ```javascript
-   * const client = new ContainerRegistryClient(url, credential);
-   * const repository = client.getRepository(repositoryName)
+   * ```ts snippet:ContainerRepositoryListManifestProperties
+   * import { ContainerRegistryClient } from "@azure/container-registry";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * const endpoint = "https://myregistryname.azurecr.io";
+   * const repositoryName = "library/hello-world";
+   * const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+   * const repository = client.getRepository(repositoryName);
+   *
    * for await (const manifest of repository.listManifestProperties()) {
    *   console.log("manifest: ", manifest);
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```javascript
-   * const iter = repository.listManifestProperties();
-   * let item = await iter.next();
-   * while (!item.done) {
-   *   console.log("manifest properties: ", item.value);
-   *   item = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```javascript
-   * const pages = repository.listManifestProperties().byPage({ maxPageSize: 2 });
-   * let page = await pages.next();
-   * let i = 1;
-   * while (!page.done) {
-   *  if (page.value) {
-   *    console.log(`-- page ${i++}`);
-   *    for (const manifestProperties of page.value) {
-   *      console.log(`  manifest properties: ${manifestProperties}`);
-   *    }
-   *  }
-   *  page = await pages.next();
-   * }
-   * ```
-   * @param options -
+   * @param options - The options for the operation.
    */
   public listManifestProperties(
     options: ListManifestPropertiesOptions = {},

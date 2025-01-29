@@ -39,8 +39,8 @@ async function getAssetEndpointProfileWithSyncStatus() {
 }
 
 async function main() {
-  getAssetEndpointProfile();
-  getAssetEndpointProfileWithSyncStatus();
+  await getAssetEndpointProfile();
+  await getAssetEndpointProfileWithSyncStatus();
 }
 
 main().catch(console.error);
