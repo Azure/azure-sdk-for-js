@@ -30,6 +30,4 @@ export const o1ModelsToSkip = [
   { name: "o1-preview", version: "2024-09-12" },
 ];
 
-export const incompatibleAudioModels = [
-  { name: "gpt-4o-audio-preview", version: "2024-12-17" },
-];
+export const incompatibleAudioModels = [{ name: "gpt-4o-audio-preview", version: "2024-12-17" }];
