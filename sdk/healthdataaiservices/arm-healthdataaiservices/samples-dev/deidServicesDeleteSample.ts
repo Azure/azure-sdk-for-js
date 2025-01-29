@@ -18,7 +18,7 @@ async function deidServicesDeleteGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  deidServicesDeleteGeneratedByMaximumSetRuleStable();
+  await deidServicesDeleteGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

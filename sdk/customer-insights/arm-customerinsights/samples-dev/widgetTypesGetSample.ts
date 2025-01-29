@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,15 +21,8 @@ async function widgetTypesGet(): Promise<void> {
   const hubName = "sdkTestHub";
   const widgetTypeName = "ActivityGauge";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.widgetTypes.get(
-    resourceGroupName,
-    hubName,
-    widgetTypeName
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
+  const result = await client.widgetTypes.get(resourceGroupName, hubName, widgetTypeName);
   console.log(result);
 }
 

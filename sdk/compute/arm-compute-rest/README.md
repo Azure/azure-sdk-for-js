@@ -46,9 +46,10 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
-import ComputeManagementClient from "@azure-rest/arm-compute";
+```ts snippet:ReadmeSampleCreateClient
 import { DefaultAzureCredential } from "@azure/identity";
+import ComputeManagementClient from "@azure-rest/arm-compute";
+
 const credential = new DefaultAzureCredential();
 const client = ComputeManagementClient(credential);
 ```
@@ -59,39 +60,33 @@ The following section shows you how to initialize and authenticate your client, 
 
 ### List all virtual machines within a resource group
 
-```typescript
-import createComputeManagementClient, {
-  VirtualMachinesListParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
+```ts snippet:ReadmeSampleVirtualMachinesList
 import { DefaultAzureCredential } from "@azure/identity";
-async function virtualMachinesListMaximumSetGen() {
-  const credential = new DefaultAzureCredential();
-  const client = createComputeManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rgcompute";
-  const options: VirtualMachinesListParameters = {
-    queryParameters: {
-      $filter: "aaaaaaaaaaaaaaaaaaaaaaa",
-      "api-version": "2022-08-01",
-    },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines",
-      subscriptionId,
-      resourceGroupName,
-    )
-    .get(options);
-  const pageData = paginate(client, initialResponse);
-  const result = [];
-  for await (const item of pageData) {
-    result.push(item);
-  }
-  console.log(result);
-}
+import ComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 
-virtualMachinesListMaximumSetGen().catch(console.error);
+const credential = new DefaultAzureCredential();
+const client = ComputeManagementClient(credential);
+
+const subscriptionId = "";
+const resourceGroupName = "rgcompute";
+const options = {
+  queryParameters: {
+    $filter: "aaaaaaaaaaaaaaaaaaaaaaa",
+    "api-version": "2022-08-01",
+  },
+};
+const initialResponse = await client
+  .path(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines",
+    subscriptionId,
+    resourceGroupName,
+  )
+  .get(options);
+
+const pageData = paginate(client, initialResponse);
+for await (const item of pageData) {
+  console.log(item);
+}
 ```
 
 ## Troubleshooting
@@ -100,7 +95,7 @@ virtualMachinesListMaximumSetGen().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

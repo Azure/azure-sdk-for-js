@@ -18,7 +18,7 @@ async function deleteACertificateProfile() {
 }
 
 async function main() {
-  deleteACertificateProfile();
+  await deleteACertificateProfile();
 }
 
 main().catch(console.error);

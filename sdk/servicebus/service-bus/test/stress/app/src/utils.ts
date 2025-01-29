@@ -1,4 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { randomUUID } from "@azure/core-util";
 
 export interface OperationInfo {
   numberOfSuccesses: number;
@@ -61,7 +64,7 @@ export function generateMessage(useSessions: boolean, numberOfSessions: number) 
   return {
     body: `message ${Math.random()}`,
     sessionId: useSessions ? `session-${Math.ceil(Math.random() * numberOfSessions)}` : undefined,
-    messageId: uuidv4(),
+    messageId: randomUUID(),
   };
 }
 

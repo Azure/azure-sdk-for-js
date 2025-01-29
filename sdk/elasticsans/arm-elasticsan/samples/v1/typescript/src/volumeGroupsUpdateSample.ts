@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VolumeGroupUpdate, ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update an VolumeGroup.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Update an VolumeGroup.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_Update_MaximumSet_Gen.json
  */
-async function volumeGroupsUpdateMaximumSetGen() {
+async function volumeGroupsUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -70,7 +68,7 @@ async function volumeGroupsUpdateMaximumSetGen() {
  * @summary Update an VolumeGroup.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_Update_MinimumSet_Gen.json
  */
-async function volumeGroupsUpdateMinimumSetGen() {
+async function volumeGroupsUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -89,7 +87,7 @@ async function volumeGroupsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   volumeGroupsUpdateMaximumSetGen();
   volumeGroupsUpdateMinimumSetGen();
 }

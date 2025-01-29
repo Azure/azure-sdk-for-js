@@ -38,13 +38,13 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const response = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = response.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
-  //get Documents Status
+  // get Documents Status
   const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
   if (isUnexpected(documentResponse)) {
     throw documentResponse.body;
@@ -52,7 +52,7 @@ export async function main() {
 
   const responseBody = documentResponse.body;
   for (const document of responseBody.value) {
-    //get document status
+    // get document status
     const documentStatus = await client
       .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
       .get();
@@ -68,8 +68,8 @@ export async function main() {
     console.log("Document created dateTime = " + documentStatusOutput.createdDateTimeUtc);
     console.log("Document last action date time = " + documentStatusOutput.lastActionDateTimeUtc);
   }
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

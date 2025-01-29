@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns a list of language extensions that can run within KQL queries.
  *
  * @summary Returns a list of language extensions that can run within KQL queries.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterListLanguageExtensions.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterListLanguageExtensions.json
  */
 async function kustoClusterListLanguageExtensions() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function kustoClusterListLanguageExtensions() {
 }
 
 async function main() {
-  kustoClusterListLanguageExtensions();
+  await kustoClusterListLanguageExtensions();
 }
 
 main().catch(console.error);

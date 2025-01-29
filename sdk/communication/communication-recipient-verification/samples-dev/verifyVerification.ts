@@ -8,9 +8,9 @@
 import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("\n== Request Verification Sample ==\n");
 
   // You will need to set this environment variable or edit the following values

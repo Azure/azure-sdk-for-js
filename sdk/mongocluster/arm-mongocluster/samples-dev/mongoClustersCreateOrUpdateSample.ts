@@ -81,9 +81,9 @@ async function createsAMongoClusterResourceFromAPointInTimeRestore() {
 }
 
 async function main() {
-  createsANewMongoClusterResource();
-  createsAReplicaMongoClusterResourceFromASourceResource();
-  createsAMongoClusterResourceFromAPointInTimeRestore();
+  await createsANewMongoClusterResource();
+  await createsAReplicaMongoClusterResourceFromASourceResource();
+  await createsAMongoClusterResourceFromAPointInTimeRestore();
 }
 
 main().catch(console.error);

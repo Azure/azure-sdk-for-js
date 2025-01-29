@@ -21,7 +21,7 @@ async function bgpPeersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bgpPeersGet();
+  await bgpPeersGet();
 }
 
 main().catch(console.error);

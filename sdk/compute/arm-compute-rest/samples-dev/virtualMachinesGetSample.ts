@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachinesGetParameters,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachinesGetParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get.json
  */
-async function getAVirtualMachine() {
+async function getAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -42,7 +39,7 @@ getAVirtualMachine().catch(console.error);
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
  */
-async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -69,7 +66,7 @@ getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(c
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
  */
-async function getAVirtualMachineWithDiskControllerTypeProperties() {
+async function getAVirtualMachineWithDiskControllerTypeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -96,7 +93,7 @@ getAVirtualMachineWithDiskControllerTypeProperties().catch(console.error);
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
  */
-async function getAVirtualMachineWithVMSizeProperties() {
+async function getAVirtualMachineWithVMSizeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

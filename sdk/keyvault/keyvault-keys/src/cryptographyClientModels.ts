@@ -7,18 +7,48 @@ import type { JsonWebKey } from "./generated/models/index.js";
 import {
   JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
   JsonWebKeyCurveName as KeyCurveName,
-  KnownJsonWebKeyCurveName as KnownKeyCurveNames,
-  KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms,
   JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
 } from "./generated/models/index.js";
 
-export {
-  KeyCurveName,
-  KnownKeyCurveNames,
-  EncryptionAlgorithm,
-  SignatureAlgorithm,
-  KnownSignatureAlgorithms,
-};
+export { KeyCurveName, EncryptionAlgorithm, SignatureAlgorithm };
+
+/** Known values of {@link KeyCurveName} that the service accepts. */
+export enum KnownKeyCurveNames {
+  /** The NIST P-256 elliptic curve, AKA SECG curve SECP256R1. */
+  P256 = "P-256",
+  /** The NIST P-384 elliptic curve, AKA SECG curve SECP384R1. */
+  P384 = "P-384",
+  /** The NIST P-521 elliptic curve, AKA SECG curve SECP521R1. */
+  P521 = "P-521",
+  /** The SECG SECP256K1 elliptic curve. */
+  P256K = "P-256K",
+}
+
+/** Known values of {@link SignatureAlgorithm} that the service accepts. */
+export enum KnownSignatureAlgorithms {
+  /** RSASSA-PSS using SHA-256 and MGF1 with SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
+  PS256 = "PS256",
+  /** RSASSA-PSS using SHA-384 and MGF1 with SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
+  PS384 = "PS384",
+  /** RSASSA-PSS using SHA-512 and MGF1 with SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
+  PS512 = "PS512",
+  /** RSASSA-PKCS1-v1_5 using SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
+  RS256 = "RS256",
+  /** RSASSA-PKCS1-v1_5 using SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
+  RS384 = "RS384",
+  /** RSASSA-PKCS1-v1_5 using SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
+  RS512 = "RS512",
+  /** Reserved */
+  Rsnull = "RSNULL",
+  /** ECDSA using P-256 and SHA-256, as described in https://tools.ietf.org/html/rfc7518. */
+  ES256 = "ES256",
+  /** ECDSA using P-384 and SHA-384, as described in https://tools.ietf.org/html/rfc7518 */
+  ES384 = "ES384",
+  /** ECDSA using P-521 and SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
+  ES512 = "ES512",
+  /** ECDSA using P-256K and SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
+  ES256K = "ES256K",
+}
 
 /** Known values of {@link EncryptionAlgorithm} that the service accepts. */
 export enum KnownEncryptionAlgorithms {

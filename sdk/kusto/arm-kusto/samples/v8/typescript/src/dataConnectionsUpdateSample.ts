@@ -12,20 +12,18 @@ import {
   CosmosDbDataConnection,
   EventGridDataConnection,
   EventHubDataConnection,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsCosmosDbUpdate.json
  */
-async function kustoDataConnectionsCosmosDbUpdate() {
+async function kustoDataConnectionsCosmosDbUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -45,7 +43,7 @@ async function kustoDataConnectionsCosmosDbUpdate() {
       "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
     mappingRuleName: "TestMapping",
     retrievalStartDate: new Date("2022-07-29T12:00:00.6554616Z"),
-    tableName: "TestTable"
+    tableName: "TestTable",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -54,7 +52,7 @@ async function kustoDataConnectionsCosmosDbUpdate() {
     clusterName,
     databaseName,
     dataConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -63,9 +61,9 @@ async function kustoDataConnectionsCosmosDbUpdate() {
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsEventGridUpdate.json
  */
-async function kustoDataConnectionsEventGridUpdate() {
+async function kustoDataConnectionsEventGridUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -77,7 +75,7 @@ async function kustoDataConnectionsEventGridUpdate() {
   const parameters: EventGridDataConnection = {
     blobStorageEventType: "Microsoft.Storage.BlobCreated",
     consumerGroup: "$Default",
-    dataFormat: "JSON",
+    dataFormat: "MULTIJSON",
     databaseRouting: "Single",
     eventGridResourceId:
       "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
@@ -91,7 +89,7 @@ async function kustoDataConnectionsEventGridUpdate() {
     mappingRuleName: "TestMapping",
     storageAccountResourceId:
       "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
-    tableName: "TestTable"
+    tableName: "TestTable",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -100,7 +98,7 @@ async function kustoDataConnectionsEventGridUpdate() {
     clusterName,
     databaseName,
     dataConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -109,9 +107,9 @@ async function kustoDataConnectionsEventGridUpdate() {
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsUpdate.json
  */
-async function kustoDataConnectionsUpdate() {
+async function kustoDataConnectionsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -127,7 +125,7 @@ async function kustoDataConnectionsUpdate() {
     kind: "EventHub",
     location: "westus",
     managedIdentityResourceId:
-      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1"
+      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
@@ -136,15 +134,15 @@ async function kustoDataConnectionsUpdate() {
     clusterName,
     databaseName,
     dataConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoDataConnectionsCosmosDbUpdate();
-  kustoDataConnectionsEventGridUpdate();
-  kustoDataConnectionsUpdate();
+async function main(): Promise<void> {
+  await kustoDataConnectionsCosmosDbUpdate();
+  await kustoDataConnectionsEventGridUpdate();
+  await kustoDataConnectionsUpdate();
 }
 
 main().catch(console.error);

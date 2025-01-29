@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets list of OS upgrades on a VM scale set instance.
@@ -20,16 +16,14 @@ dotenv.config();
  * @summary Gets list of OS upgrades on a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetOSUpgradeHistory_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listOSUpgradeHistory(
+  for await (const item of client.virtualMachineScaleSets.listOSUpgradeHistory(
     resourceGroupName,
     vmScaleSetName,
   )) {
@@ -44,16 +38,14 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen() {
  * @summary Gets list of OS upgrades on a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetOSUpgradeHistory_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachineScaleSets.listOSUpgradeHistory(
+  for await (const item of client.virtualMachineScaleSets.listOSUpgradeHistory(
     resourceGroupName,
     vmScaleSetName,
   )) {
@@ -62,9 +54,9 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
-  virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen();
-  virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen();
+  await virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -14,6 +14,7 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_AAD_COMPLETIONS_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/gpt-4o/",
   AZURE_EMBEDDINGS_ENDPOINT:
     "https://endpoint.openai.azure.com/openai/deployments/text-embedding-3-small/",
+  AZURE_IMAGE_EMBEDDINGS_ENDPOINT: "https://endpoint.eastus2.models.ai.azure.com",
   SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
@@ -34,6 +35,8 @@ export async function createRecorder(context: VitestTestContext): Promise<Record
 
 function getEndpointFromResourceType(resourceType: DeploymentType): string {
   switch (resourceType) {
+    case "imageEmbeddings":
+      return assertEnvironmentVariable("AZURE_IMAGE_EMBEDDINGS_ENDPOINT");
     case "embeddings":
       return assertEnvironmentVariable("AZURE_EMBEDDINGS_ENDPOINT");
     case "completions":

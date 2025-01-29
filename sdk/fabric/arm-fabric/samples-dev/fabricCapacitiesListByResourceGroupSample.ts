@@ -15,9 +15,7 @@ async function listCapacitiesByResourceGroup() {
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fabricCapacities.listByResourceGroup(
-    "TestRG",
-  )) {
+  for await (const item of client.fabricCapacities.listByResourceGroup("TestRG")) {
     resArray.push(item);
   }
 
@@ -25,7 +23,7 @@ async function listCapacitiesByResourceGroup() {
 }
 
 async function main() {
-  listCapacitiesByResourceGroup();
+  await listCapacitiesByResourceGroup();
 }
 
 main().catch(console.error);

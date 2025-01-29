@@ -6,4 +6,3 @@ extends:
       PackageName: "@azure/search-documents"
       ServiceDirectory: search
       TimeoutInMinutes: 90
-      SupportedClouds: "Public,UsGov,China"

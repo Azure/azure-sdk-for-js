@@ -5,7 +5,7 @@ import {
   ServiceAuth,
   AuthenticationType,
   OsType,
-  MPTReporterConfig,
+  ReporterConfiguration,
 } from "@azure/microsoft-playwright-testing";
 import { defineConfig } from "@playwright/test";
 import config from "./playwright.config";
@@ -28,7 +28,7 @@ const playwrightServiceAdditionalOptions: PlaywrightServiceAdditionalOptions = {
   runName: "Typescript V1 - Sample Run", // Run name for the test run
 };
 
-const reporterConfiguration: MPTReporterConfig = {
+const reporterConfiguration: ReporterConfiguration = {
   enableGitHubSummary: true, // Enable GitHub Actions annotations to diagnose test failures and deep link to MPT Portal
   enableResultPublish: true, // Enable result publishing for the test run. This will upload the test result and artifacts to the MPT Portal
 };

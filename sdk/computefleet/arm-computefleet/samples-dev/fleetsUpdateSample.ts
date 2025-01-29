@@ -347,7 +347,7 @@ async function fleetsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsUpdate();
+  await fleetsUpdate();
 }
 
 main().catch(console.error);

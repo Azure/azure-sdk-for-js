@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DismissAlertPayload,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { DismissAlertPayload } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -49,8 +45,8 @@ async function patchSubscriptionAlerts(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  patchResourceGroupAlerts();
-  patchSubscriptionAlerts();
+  await patchResourceGroupAlerts();
+  await patchSubscriptionAlerts();
 }
 
 main().catch(console.error);

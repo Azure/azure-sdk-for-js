@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery inVMAccessControlProfile version.
@@ -20,11 +16,9 @@ dotenv.config();
  * @summary Retrieves information about a gallery inVMAccessControlProfile version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Get.json
  */
-async function getAGalleryInVMAccessControlProfileVersion() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function getAGalleryInVMAccessControlProfileVersion(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const inVMAccessControlProfileName = "myInVMAccessControlProfileName";
   const inVMAccessControlProfileVersionName = "1.0.0";
@@ -39,8 +33,8 @@ async function getAGalleryInVMAccessControlProfileVersion() {
   console.log(result);
 }
 
-async function main() {
-  getAGalleryInVMAccessControlProfileVersion();
+async function main(): Promise<void> {
+  await getAGalleryInVMAccessControlProfileVersion();
 }
 
 main().catch(console.error);

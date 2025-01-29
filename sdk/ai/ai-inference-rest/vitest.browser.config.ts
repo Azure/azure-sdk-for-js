@@ -12,14 +12,19 @@ export default defineConfig({
   },
   test: {
     testTimeout: 50000,
-    reporters: ["basic", "junit"],
+    hookTimeout: 50000,
+    reporters: ["verbose", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },
     browser: {
+      instances: [
+        {
+          browser: "chromium",
+        },
+      ],
       enabled: true,
       headless: true,
-      name: "chromium",
       provider: "playwright",
     },
     fakeTimers: {

@@ -404,7 +404,7 @@ class ReporterUtils {
 
   private getTestRunConfig(): TestRunConfig {
     const testRunConfig: TestRunConfig = {
-      workers: this.config.workers,
+      workers: this.getWorkers(),
       pwVersion: this.config.version,
       timeout: this.config.globalTimeout,
       repeatEach: this.config.projects[0].repeatEach,
@@ -642,6 +642,17 @@ class ReporterUtils {
 
   private getReadableLineLocation(location: Location): string {
     return `at ${location.file}:${location.line}:${location.column}`;
+  }
+
+  private getWorkers(): number {
+    if (
+      this.config.metadata &&
+      "actualWorkers" in this.config.metadata &&
+      typeof this.config.metadata.actualWorkers === "number"
+    ) {
+      return this.config.metadata.actualWorkers;
+    }
+    return this.config.workers;
   }
 }
 

@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  PredictionResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { PredictionResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -36,25 +32,22 @@ async function predictionsCreateOrUpdate(): Promise<void> {
     mappings: {
       grade: "sdktest_Grade",
       reason: "sdktest_Reason",
-      score: "sdktest_Score"
+      score: "sdktest_Score",
     },
     negativeOutcomeExpression: "Customers.FirstName = 'Mike'",
     positiveOutcomeExpression: "Customers.FirstName = 'David'",
     predictionName: "sdktest",
     primaryProfileType: "Customers",
     scopeExpression: "*",
-    scoreLabel: "score label"
+    scoreLabel: "score label",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.predictions.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hubName,
     predictionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

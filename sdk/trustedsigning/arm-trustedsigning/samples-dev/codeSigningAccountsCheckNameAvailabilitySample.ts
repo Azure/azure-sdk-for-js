@@ -21,7 +21,7 @@ async function checksThatTheTrustedSigningAccountNameIsAvailable() {
 }
 
 async function main() {
-  checksThatTheTrustedSigningAccountNameIsAvailable();
+  await checksThatTheTrustedSigningAccountNameIsAvailable();
 }
 
 main().catch(console.error);

@@ -24,7 +24,7 @@ async function getSchemaVersion() {
 }
 
 async function main() {
-  getSchemaVersion();
+  await getSchemaVersion();
 }
 
 main().catch(console.error);

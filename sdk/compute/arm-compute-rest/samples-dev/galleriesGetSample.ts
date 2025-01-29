@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, { GalleriesGetParameters } from "@azure-rest/arm-compute";
+import type { GalleriesGetParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -13,7 +12,7 @@ import "dotenv/config";
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/CommunityGallery_Get.json
  */
-async function getACommunityGallery() {
+async function getACommunityGallery(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -40,7 +39,7 @@ getACommunityGallery().catch(console.error);
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
  */
-async function getAGalleryWithExpandSharingProfileGroups() {
+async function getAGalleryWithExpandSharingProfileGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -70,7 +69,7 @@ getAGalleryWithExpandSharingProfileGroups().catch(console.error);
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get_WithSelectPermissions.json
  */
-async function getAGalleryWithSelectPermissions() {
+async function getAGalleryWithSelectPermissions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -97,7 +96,7 @@ getAGalleryWithSelectPermissions().catch(console.error);
  * @summary Retrieves information about a Shared Image Gallery.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get.json
  */
-async function getAGallery() {
+async function getAGallery(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

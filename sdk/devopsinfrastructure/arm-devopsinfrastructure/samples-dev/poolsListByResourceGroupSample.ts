@@ -15,7 +15,7 @@ async function poolsListByResourceGroup() {
   const subscriptionId = "a2e95d27-c161-4b61-bda4-11512c14c2c2";
   const client = new DevOpsInfrastructureClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.pools.listByResourceGroup("rg")) {
+  for await (const item of client.pools.listByResourceGroup("rg")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function poolsListByResourceGroup() {
 }
 
 async function main() {
-  poolsListByResourceGroup();
+  await poolsListByResourceGroup();
 }
 
 main().catch(console.error);

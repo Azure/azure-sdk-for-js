@@ -42,7 +42,7 @@ function byteArrayToHex(value: Uint8Array): string {
 }
 
 async function modifyPolicyManagementCertificates(): Promise<void> {
-  writeBanner("Get Current Attestation Policy Management Certificates.");
+  await writeBanner("Get Current Attestation Policy Management Certificates.");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
@@ -65,7 +65,7 @@ async function modifyPolicyManagementCertificates(): Promise<void> {
 
   // Decode the PEM encoded certificate for validation later.
   const cert = new X509();
-  cert.readCertPEM(rsaCertificate);
+  await cert.readCertPEM(rsaCertificate);
 
   const expectedThumbprint = byteArrayToHex(generateSha1Hash(cert.hex)).toUpperCase();
 

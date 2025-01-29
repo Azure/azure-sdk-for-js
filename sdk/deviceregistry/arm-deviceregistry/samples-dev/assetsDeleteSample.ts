@@ -18,7 +18,7 @@ async function deleteAsset() {
 }
 
 async function main() {
-  deleteAsset();
+  await deleteAsset();
 }
 
 main().catch(console.error);

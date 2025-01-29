@@ -129,7 +129,7 @@ async function createDataFeed(
   };
   const result = await client.createDataFeed(feed);
 
-  console.dir(result);
+  await console.dir(result);
   return result;
 }
 

@@ -15,7 +15,7 @@ async function fleetsListBySubscription(): Promise<void> {
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fleets.listBySubscription()) {
+  for await (const item of client.fleets.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function fleetsListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsListBySubscription();
+  await fleetsListBySubscription();
 }
 
 main().catch(console.error);

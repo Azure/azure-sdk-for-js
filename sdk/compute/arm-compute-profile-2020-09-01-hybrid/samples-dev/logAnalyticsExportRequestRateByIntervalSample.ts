@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  RequestRateByIntervalInput,
-  ComputeManagementClient
-} from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import type { RequestRateByIntervalInput } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,27 +18,26 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/LogAnalyticsRequestRateByInterval.json
  */
 async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals(): Promise<void> {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "westus";
   const parameters: RequestRateByIntervalInput = {
     blobContainerSasUri: "https://somesasuri",
     fromTime: new Date("2018-01-21T01:54:06.862601Z"),
     groupByResourceName: true,
     intervalLength: "FiveMins",
-    toTime: new Date("2018-01-23T01:54:06.862601Z")
+    toTime: new Date("2018-01-23T01:54:06.862601Z"),
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.logAnalytics.beginExportRequestRateByIntervalAndWait(
     location,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals();
+  await exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals();
 }
 
 main().catch(console.error);

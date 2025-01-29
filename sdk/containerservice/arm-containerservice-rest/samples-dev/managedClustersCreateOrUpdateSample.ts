@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import ContainerServiceManagementClient, {
+import type {
   ContainerServiceClient,
   ManagedClustersCreateOrUpdateParameters,
+} from "@azure-rest/arm-containerservice";
+import ContainerServiceManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersAssociate_CRG.json
  */
-async function associateManagedClusterWithCapacityReservationGroup() {
+async function associateManagedClusterWithCapacityReservationGroup(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -92,7 +92,7 @@ associateManagedClusterWithCapacityReservationGroup().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_MCSnapshot.json
  */
-async function createManagedClusterUsingAManagedClusterSnapshot() {
+async function createManagedClusterUsingAManagedClusterSnapshot(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -151,7 +151,7 @@ createManagedClusterUsingAManagedClusterSnapshot().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_Snapshot.json
  */
-async function createManagedClusterUsingAnAgentPoolSnapshot() {
+async function createManagedClusterUsingAnAgentPoolSnapshot(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -226,7 +226,7 @@ createManagedClusterUsingAnAgentPoolSnapshot().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_ManagedNATGateway.json
  */
-async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
+async function createManagedClusterWithAksManagedNatGatewayAsOutboundType(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -295,7 +295,7 @@ createManagedClusterWithAksManagedNatGatewayAsOutboundType().catch(console.error
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_EnableCustomCATrust.json
  */
-async function createManagedClusterWithCustomCaTrustEnabled() {
+async function createManagedClusterWithCustomCaTrustEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -365,7 +365,7 @@ createManagedClusterWithCustomCaTrustEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_DedicatedHostGroup.json
  */
-async function createManagedClusterWithDedicatedHostGroup() {
+async function createManagedClusterWithDedicatedHostGroup(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -436,7 +436,7 @@ createManagedClusterWithDedicatedHostGroup().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_EnableEncryptionAtHost.json
  */
-async function createManagedClusterWithEncryptionAtHostEnabled() {
+async function createManagedClusterWithEncryptionAtHostEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -506,7 +506,7 @@ createManagedClusterWithEncryptionAtHostEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_EnabledFIPS.json
  */
-async function createManagedClusterWithFipsEnabledOS() {
+async function createManagedClusterWithFipsEnabledOS(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -577,7 +577,7 @@ createManagedClusterWithFipsEnabledOS().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_GPUMIG.json
  */
-async function createManagedClusterWithGpumig() {
+async function createManagedClusterWithGpumig(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -653,7 +653,7 @@ createManagedClusterWithGpumig().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_HTTPProxy.json
  */
-async function createManagedClusterWithHttpProxyConfigured() {
+async function createManagedClusterWithHttpProxyConfigured(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -729,7 +729,7 @@ createManagedClusterWithHttpProxyConfigured().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_NodePublicIPPrefix.json
  */
-async function createManagedClusterWithNodePublicIPPrefix() {
+async function createManagedClusterWithNodePublicIPPrefix(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -801,7 +801,7 @@ createManagedClusterWithNodePublicIPPrefix().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_OSSKU.json
  */
-async function createManagedClusterWithOssku() {
+async function createManagedClusterWithOssku(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -878,7 +878,7 @@ createManagedClusterWithOssku().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_PPG.json
  */
-async function createManagedClusterWithPpg() {
+async function createManagedClusterWithPpg(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -949,7 +949,7 @@ createManagedClusterWithPpg().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_PodIdentity.json
  */
-async function createManagedClusterWithPodIdentityEnabled() {
+async function createManagedClusterWithPodIdentityEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1020,7 +1020,7 @@ createManagedClusterWithPodIdentityEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_DisableRunCommand.json
  */
-async function createManagedClusterWithRunCommandDisabled() {
+async function createManagedClusterWithRunCommandDisabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1090,7 +1090,7 @@ createManagedClusterWithRunCommandDisabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_SecurityProfile.json
  */
-async function createManagedClusterWithSecurityProfileConfigured() {
+async function createManagedClusterWithSecurityProfileConfigured(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1155,7 +1155,7 @@ createManagedClusterWithSecurityProfileConfigured().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_EnableUltraSSD.json
  */
-async function createManagedClusterWithUltraSsdEnabled() {
+async function createManagedClusterWithUltraSsdEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1226,7 +1226,7 @@ createManagedClusterWithUltraSsdEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_IngressProfile_WebAppRouting.json
  */
-async function createManagedClusterWithWebAppRoutingIngressProfileConfigured() {
+async function createManagedClusterWithWebAppRoutingIngressProfileConfigured(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1293,7 +1293,7 @@ createManagedClusterWithWebAppRoutingIngressProfileConfigured().catch(console.er
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UserAssignedNATGateway.json
  */
-async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
+async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1362,7 +1362,7 @@ createManagedClusterWithUserAssignedNatGatewayAsOutboundType().catch(console.err
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_PrivateClusterPublicFQDN.json
  */
-async function createManagedPrivateClusterWithPublicFqdnSpecified() {
+async function createManagedPrivateClusterWithPublicFqdnSpecified(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1435,7 +1435,7 @@ createManagedPrivateClusterWithPublicFqdnSpecified().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
  */
-async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
+async function createManagedPrivateClusterWithFqdnSubdomainSpecified(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1509,7 +1509,7 @@ createManagedPrivateClusterWithFqdnSubdomainSpecified().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
  */
-async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
+async function createOrUpdateAadManagedClusterWithEnableAzureRbac(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1580,7 +1580,7 @@ createOrUpdateAadManagedClusterWithEnableAzureRbac().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_Update.json
  */
-async function createOrUpdateManagedCluster() {
+async function createOrUpdateManagedCluster(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1666,7 +1666,7 @@ createOrUpdateManagedCluster().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UpdateWithAHUB.json
  */
-async function createOrUpdateManagedClusterWithEnableAhub() {
+async function createOrUpdateManagedClusterWithEnableAhub(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1746,7 +1746,7 @@ createOrUpdateManagedClusterWithEnableAhub().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UpdateWithEnableNamespaceResources.json
  */
-async function createOrUpdateManagedClusterWithEnableNamespaceResources() {
+async function createOrUpdateManagedClusterWithEnableNamespaceResources(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1818,7 +1818,7 @@ createOrUpdateManagedClusterWithEnableNamespaceResources().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UpdateWindowsGmsa.json
  */
-async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
+async function createOrUpdateManagedClusterWithWindowsGMsaEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1896,7 +1896,7 @@ createOrUpdateManagedClusterWithWindowsGMsaEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_DualStackNetworking.json
  */
-async function createOrUpdateManagedClusterWithDualStackNetworking() {
+async function createOrUpdateManagedClusterWithDualStackNetworking(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";

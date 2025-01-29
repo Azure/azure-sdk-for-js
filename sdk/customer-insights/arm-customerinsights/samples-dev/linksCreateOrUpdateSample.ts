@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  LinkResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { LinkResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -33,30 +29,27 @@ async function linksCreateOrUpdate(): Promise<void> {
       {
         linkType: "UpdateAlways",
         sourcePropertyName: "testInteraction1949",
-        targetPropertyName: "testProfile1446"
-      }
+        targetPropertyName: "testProfile1446",
+      },
     ],
     participantPropertyReferences: [
       {
         sourcePropertyName: "testInteraction1949",
-        targetPropertyName: "ProfileId"
-      }
+        targetPropertyName: "ProfileId",
+      },
     ],
     sourceEntityType: "Interaction",
     sourceEntityTypeName: "testInteraction1949",
     targetEntityType: "Profile",
-    targetEntityTypeName: "testProfile1446"
+    targetEntityTypeName: "testProfile1446",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.links.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hubName,
     linkName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

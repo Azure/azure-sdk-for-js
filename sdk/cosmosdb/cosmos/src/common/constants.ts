@@ -107,7 +107,7 @@ export const Constants = {
 
     // IndexMetrics
     // Request header to tell backend to give you index metrics.
-    PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics",
+    PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics-V2",
     // Response header that holds the serialized version of index metrics.
     IndexUtilization: "x-ms-cosmos-index-utilization",
     // Version headers and values
@@ -183,6 +183,13 @@ export const Constants = {
     // Priority Based throttling header
     PriorityLevel: "x-ms-cosmos-priority-level",
   },
+  // ThrottledRequests Retry policy default values
+  ThrottledRequestMaxRetryAttemptCount: 9,
+  ThrottledRequestMaxWaitTimeInSeconds: 30,
+  ThrottledRequestFixedRetryIntervalInMs: 0,
+
+  // HttpHeaders Values
+  PREFER_RETURN_MINIMAL: "return=minimal",
 
   // GlobalDB related constants
   WritableLocations: "writableLocations",

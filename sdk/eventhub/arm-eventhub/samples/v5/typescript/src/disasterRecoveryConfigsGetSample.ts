@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves Alias(Disaster Recovery configuration) for primary or secondary namespace
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasGet.json
  */
-async function ehAliasGet() {
+async function ehAliasGet(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function ehAliasGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   ehAliasGet();
 }
 

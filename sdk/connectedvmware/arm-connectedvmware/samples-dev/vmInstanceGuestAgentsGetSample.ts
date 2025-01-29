@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -28,7 +26,7 @@ async function getGuestAgent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getGuestAgent();
+  await getGuestAgent();
 }
 
 main().catch(console.error);

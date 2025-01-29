@@ -19,7 +19,7 @@ async function organizationsGet() {
 }
 
 async function main() {
-  organizationsGet();
+  await organizationsGet();
 }
 
 main().catch(console.error);

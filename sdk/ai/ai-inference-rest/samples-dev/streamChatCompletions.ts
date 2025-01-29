@@ -13,7 +13,7 @@ import { createSseStream } from "@azure/core-sse";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { IncomingMessage } from "http";
+import type { IncomingMessage } from "http";
 import { AzureKeyCredential } from "@azure/core-auth";
 dotenv.config();
 

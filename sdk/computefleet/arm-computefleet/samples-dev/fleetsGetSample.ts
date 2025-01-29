@@ -19,7 +19,7 @@ async function fleetsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  fleetsGet();
+  await fleetsGet();
 }
 
 main().catch(console.error);
