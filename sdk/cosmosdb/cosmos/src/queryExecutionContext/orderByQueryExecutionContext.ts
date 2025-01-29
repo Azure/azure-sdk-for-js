@@ -5,9 +5,10 @@ import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js"
 import type { FeedOptions } from "../request/FeedOptions.js";
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
-import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
 export class OrderByQueryExecutionContext
@@ -57,5 +58,22 @@ export class OrderByQueryExecutionContext
    */
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer): any {
     return this.orderByComparator.compare(docProd1, docProd2);
+  }
+
+  /**
+   * Fetches more results from the query execution context.
+   * @param diagnosticNode - Optional diagnostic node for tracing.
+   * @returns A promise that resolves to the fetched results.
+   * @hidden
+   */
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<any> {
+    try {
+      await this.bufferDocumentProducers(diagnosticNode);
+      await this.fillBufferFromBufferQueue(true);
+      return this.drainBufferedItems();
+    } catch (error) {
+      console.error("Error fetching more results:", error);
+      throw error;
+    }
   }
 }

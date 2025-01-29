@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext, FeedOptions, QueryInfo } from "../../../src/index.js";
 import {
   CosmosDbDiagnosticLevel,
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../../../src/index.js";
+import type { ClientContext, FeedOptions, QueryInfo } from "../../../src/index.js";
 import {
   HybridQueryExecutionContext,
   HybridQueryExecutionContextBaseStates,
@@ -84,7 +84,7 @@ describe("hybridQueryExecutionContext", () => {
       vi.spyOn(context["globalStatisticsExecutionContext"], "hasMoreResults")
         .mockReturnValueOnce(true)
         .mockReturnValueOnce(false);
-      vi.spyOn(context["globalStatisticsExecutionContext"], "nextItem").mockResolvedValueOnce({
+      vi.spyOn(context["globalStatisticsExecutionContext"], "fetchMore").mockResolvedValueOnce({
         result: {
           documentCount: 2,
           fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],

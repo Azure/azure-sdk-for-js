@@ -303,4 +303,20 @@ describe.skip("Validate full text search queries", { timeout: 20000 }, () => {
       assert.ok(isMatch, `The indexes array did not match expected values for query:\n${query}`);
     }
   });
+
+  it("FetchAll: should return correct expected values for all the queries", async function () {
+    for (const [query, { expected1, expected2 }] of queriesMap) {
+      const queryOptions = { allowUnboundedNonStreamingQueries: true, enableQueryControl: true };
+      const queryIterator = container.items.query(query, queryOptions);
+
+      const { resources: results } = await queryIterator.fetchAll();
+
+      const indexes = results.map((result) => result.Index);
+      const isMatch =
+        JSON.stringify(indexes) === JSON.stringify(expected1) ||
+        JSON.stringify(indexes) === JSON.stringify(expected2);
+
+      assert.ok(isMatch, `The indexes array did not match expected values for query:\n${query}`);
+    }
+  });
 });

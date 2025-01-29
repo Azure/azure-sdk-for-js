@@ -135,7 +135,6 @@ describe("Cross Partition", { timeout: 30000 }, () => {
         expectedCount ||
         (expectedOrderIds && expectedOrderIds.length) ||
         documentDefinitions.length;
-
       while (queryIterator.hasMoreResults()) {
         const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
         totalIteratorCalls++;
@@ -168,7 +167,6 @@ describe("Cross Partition", { timeout: 30000 }, () => {
       if (expectedIteratorCalls) {
         assert.equal(totalIteratorCalls, expectedIteratorCalls);
       }
-
       // no more results
       validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
       assert.equal(
@@ -187,6 +185,52 @@ describe("Cross Partition", { timeout: 30000 }, () => {
         }. \n fetchAllResponse.requestCharge: ${
           fetchAllResponse.requestCharge
         }, totalExecuteNextRequestCharge: ${totalExecuteNextRequestCharge}`,
+      );
+    };
+
+    const validateFetchNextAndHasMoreResultsWithEnableQueryControl = async function (
+      queryIterator: QueryIterator<any>,
+      expectedOrderIds: string[],
+      expectedCount: number,
+    ): Promise<void> {
+      let totalExecuteNextRequestCharge = 0;
+      let totalIteratorCalls = 0;
+      let totalFetchedResults: any[] = [];
+      const expectedLength =
+        expectedCount ||
+        (expectedOrderIds && expectedOrderIds.length) ||
+        documentDefinitions.length;
+      while (queryIterator.hasMoreResults()) {
+        const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
+        totalIteratorCalls++;
+        assert(queryMetrics, "expected response have query metrics");
+
+        if (totalFetchedResults.length > expectedLength) {
+          break;
+        }
+        if (results) {
+          totalFetchedResults = totalFetchedResults.concat(results);
+        }
+        totalExecuteNextRequestCharge += requestCharge;
+        assert(requestCharge >= 0);
+
+        if (totalFetchedResults.length < expectedLength) {
+          assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
+        } else {
+          // no more results
+          assert.equal(
+            expectedLength,
+            totalFetchedResults.length,
+            "executeNext: didn't fetch all the results",
+          );
+        }
+      }
+      // no more results
+      validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
+      assert.equal(
+        queryIterator.hasMoreResults(),
+        false,
+        "hasMoreResults: no more results is left",
       );
     };
 
@@ -256,6 +300,22 @@ describe("Cross Partition", { timeout: 30000 }, () => {
       );
       queryIterator.reset();
       await validateAsyncIterator(queryIterator, expectedOrderIds, expectedCount);
+
+      // Adding these to test the new flag enableQueryControl in FeedOptions
+      options.enableQueryControl = true;
+      const queryIteratorWithEnableQueryControl = container.items.query(query, options);
+      await validateFetchAll(
+        queryIteratorWithEnableQueryControl,
+        options,
+        expectedOrderIds,
+        expectedCount,
+      );
+      queryIteratorWithEnableQueryControl.reset();
+      await validateFetchNextAndHasMoreResultsWithEnableQueryControl(
+        queryIteratorWithEnableQueryControl,
+        expectedOrderIds,
+        expectedCount,
+      );
     };
 
     it("Validate Parallel Query As String With maxDegreeOfParallelism = 0", async () => {

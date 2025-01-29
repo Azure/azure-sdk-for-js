@@ -2,33 +2,39 @@
 // Licensed under the MIT License.
 
 import type {
+  ClientConfigDiagnostic,
   Container,
+  ContainerRequest,
+  CosmosClient,
+  CosmosClientOptions,
+  CosmosDbDiagnosticLevel,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
+  DatabaseRequest,
   FailedRequestAttemptDiagnostic,
   GatewayStatistics,
-  MetadataLookUpDiagnostic,
-  PartitionKey,
-  PartitionKeyDefinition,
-  PermissionDefinition,
-  RequestOptions,
-  Response,
-  UserDefinition,
-} from "../../../src/index.js";
-import { CosmosClient, CosmosDbDiagnosticLevel, MetadataLookUpType } from "../../../src/index.js";
-import type {
+  GlobalEndpointManager,
   ItemDefinition,
   ItemResponse,
+  MetadataLookUpDiagnostic,
+  MetadataLookUpType,
+  PartitionKey,
+  PartitionKeyDefinition,
+  PartitionKeyRange,
+  PermissionDefinition,
   PermissionResponse,
+  QueryIterator,
+  RequestOptions,
   Resource,
+  Response,
   User,
+  UserDefinition,
+  UserResponse,
 } from "../../../src/index.js";
-import type { UserResponse } from "../../../src/index.js";
+import { ClientContext, ConnectionMode, ConsistencyLevel, Constants } from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import type { DatabaseRequest } from "../../../src/index.js";
-import type { ContainerRequest } from "../../../src/index.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
@@ -714,4 +720,89 @@ export function readAndParseJSONFile(fileName: string): any {
     console.error("Error parsing JSON file:", error);
   }
   return parsedData;
+}
+
+export function initializeMockPartitionKeyRanges(
+  createMockPartitionKeyRange: (
+    id: string,
+    minInclusive: string,
+    maxExclusive: string,
+  ) => {
+    id: string; // Range ID
+    _rid: string; // Resource ID of the partition key range
+    minInclusive: string; // Minimum value of the partition key range
+    maxExclusive: string; // Maximum value of the partition key range
+    _etag: string; // ETag for concurrency control
+    _self: string; // Self-link
+    throughputFraction: number; // Throughput assigned to this partition
+    status: string;
+  },
+  clientContext: ClientContext,
+  ranges: [string, string][],
+): void {
+  const partitionKeyRanges = ranges.map((range, index) =>
+    createMockPartitionKeyRange(index.toString(), range[0], range[1]),
+  );
+
+  const fetchAllInternalStub = sinon.stub().resolves({
+    resources: partitionKeyRanges,
+    headers: { "x-ms-request-charge": "1.23" },
+    code: 200,
+  });
+  sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+    fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+  } as unknown as QueryIterator<PartitionKeyRange>);
+}
+
+export function createTestClientContext(
+  options: Partial<CosmosClientOptions>,
+  diagnosticLevel: CosmosDbDiagnosticLevel,
+): ClientContext {
+  const clientOps: CosmosClientOptions = {
+    endpoint: "",
+    connectionPolicy: {
+      connectionMode: ConnectionMode.Gateway,
+      requestTimeout: 60000,
+      enableEndpointDiscovery: true,
+      preferredLocations: [],
+      retryOptions: {
+        maxRetryAttemptCount: 9,
+        fixedRetryIntervalInMilliseconds: 0,
+        maxWaitTimeInSeconds: 30,
+      },
+      useMultipleWriteLocations: true,
+      endpointRefreshRateInMs: 300000,
+      enableBackgroundEndpointRefreshing: true,
+    },
+    ...options,
+  };
+  const globalEndpointManager = new GlobalEndpointManager(
+    clientOps,
+    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
+      expect(opts).to.exist;
+      const dummyAccount: any = diagnosticNode;
+      return dummyAccount;
+    },
+  );
+  const clientConfig: ClientConfigDiagnostic = {
+    endpoint: "",
+    resourceTokensConfigured: true,
+    tokenProviderConfigured: true,
+    aadCredentialsConfigured: true,
+    connectionPolicyConfigured: true,
+    consistencyLevel: ConsistencyLevel.BoundedStaleness,
+    defaultHeaders: {},
+    agentConfigured: true,
+    userAgentSuffix: "",
+    pluginsConfigured: true,
+    sDKVersion: Constants.SDKVersion,
+    ...options,
+  };
+  const clientContext = new ClientContext(
+    clientOps,
+    globalEndpointManager,
+    clientConfig,
+    diagnosticLevel,
+  );
+  return clientContext;
 }

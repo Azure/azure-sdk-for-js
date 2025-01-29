@@ -50,7 +50,6 @@ export class QueryIterator<T> {
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
   private correlatedActivityId: string;
-  private nonStreamingOrderBy: boolean = false;
   private partitionKeyRangeCache: PartitionKeyRangeCache;
 
   /**
@@ -205,6 +204,7 @@ export class QueryIterator<T> {
           throw error;
         }
       }
+
       return new FeedResponse<T>(
         response.result,
         response.headers,
@@ -247,11 +247,11 @@ export class QueryIterator<T> {
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.nextItem(diagnosticNode);
+        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createExecutionContext(diagnosticNode);
-          response = await this.queryExecutionContext.nextItem(diagnosticNode);
+          response = await this.queryExecutionContext.fetchMore(diagnosticNode);
         } else {
           throw error;
         }
@@ -259,16 +259,8 @@ export class QueryIterator<T> {
       const { result, headers } = response;
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
-      if (result !== undefined) {
-        if (
-          this.nonStreamingOrderBy &&
-          typeof result === "object" &&
-          Object.keys(result).length === 0
-        ) {
-          // ignore empty results from NonStreamingOrderBy Endpoint components.
-        } else {
-          this.fetchAllTempResources.push(result);
-        }
+      if (result) {
+        this.fetchAllTempResources.push(...result);
       }
     }
     return new FeedResponse(
@@ -327,7 +319,6 @@ export class QueryIterator<T> {
     queryPlan: PartitionedQueryExecutionInfo,
   ): Promise<void> {
     const queryInfo = queryPlan.queryInfo;
-    this.nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy ? true : false;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
       throw new Error("Aggregate queries must use the VALUE keyword");
     }
