@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns the list of available operations.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/Operations/List.json
  */
-async function returnsTheListOfSupportedRestOperations() {
+async function returnsTheListOfSupportedRestOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential);
   const resArray = new Array();
@@ -25,7 +25,7 @@ async function returnsTheListOfSupportedRestOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   returnsTheListOfSupportedRestOperations();
 }
 

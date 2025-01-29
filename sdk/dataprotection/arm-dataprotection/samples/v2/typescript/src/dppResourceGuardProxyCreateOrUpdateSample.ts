@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or Updates a ResourceGuardProxy
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardProxyCRUD/PutResourceGuardProxy.json
  */
-async function createResourceGuardProxy() {
+async function createResourceGuardProxy(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "5e13b949-1218-4d18-8b99-7e12155ec4f7";
@@ -43,7 +43,7 @@ async function createResourceGuardProxy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createResourceGuardProxy();
 }
 

@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary This operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/SuspendBackups.json
  */
-async function suspendBackups() {
+async function suspendBackups(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -43,7 +43,7 @@ async function suspendBackups() {
  * @summary This operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/SuspendBackup_ResourceGuardEnabled.json
  */
-async function suspendBackupsWithMua() {
+async function suspendBackupsWithMua(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -68,7 +68,7 @@ async function suspendBackupsWithMua() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   suspendBackups();
   suspendBackupsWithMua();
 }
