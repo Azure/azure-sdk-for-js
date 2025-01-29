@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets subscription-level properties and limits for Data Lake Analytics specified by resource location.
  * x-ms-original-file: specification/datalake-analytics/resource-manager/Microsoft.DataLakeAnalytics/preview/2019-11-01-preview/examples/Locations_GetCapability.json
  */
-async function getsSubscriptionLevelPropertiesAndLimitsForDataLakeAnalyticsSpecifiedByResourceLocation() {
+async function getsSubscriptionLevelPropertiesAndLimitsForDataLakeAnalyticsSpecifiedByResourceLocation(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const location = "EastUS2";
   const credential = new DefaultAzureCredential();

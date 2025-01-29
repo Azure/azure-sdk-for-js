@@ -22,6 +22,7 @@ export const Constants = {
     ContentEncoding: "Content-Encoding",
     CharacterSet: "CharacterSet",
     UserAgent: "User-Agent",
+    CustomUserAgent: "x-ms-useragent",
     IfModifiedSince: "If-Modified-Since",
     IfMatch: "If-Match",
     IfNoneMatch: "If-None-Match",
@@ -98,6 +99,7 @@ export const Constants = {
     EnableCrossPartitionQuery: "x-ms-documentdb-query-enablecrosspartition",
     ParallelizeCrossPartitionQuery: "x-ms-documentdb-query-parallelizecrosspartitionquery",
     ResponseContinuationTokenLimitInKB: "x-ms-documentdb-responsecontinuationtokenlimitinkb",
+    SDKSupportedCapabilities: "x-ms-cosmos-sdk-supportedcapabilities",
 
     // QueryMetrics
     // Request header to tell backend to give you query metrics.
@@ -107,7 +109,7 @@ export const Constants = {
 
     // IndexMetrics
     // Request header to tell backend to give you index metrics.
-    PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics",
+    PopulateIndexMetrics: "x-ms-cosmos-populateindexmetrics-V2",
     // Response header that holds the serialized version of index metrics.
     IndexUtilization: "x-ms-cosmos-index-utilization",
     // Version headers and values
@@ -500,4 +502,8 @@ export enum QueryFeature {
   ListAndSetAggregate = "ListAndSetAggregate",
   CountIf = "CountIf",
   HybridSearch = "HybridSearch",
+}
+
+export enum SDKSupportedCapabilities {
+  PartitionMerge = 1,
 }

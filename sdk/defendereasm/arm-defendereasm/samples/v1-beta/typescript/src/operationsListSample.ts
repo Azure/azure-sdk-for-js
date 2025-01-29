@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns list of operations.
  * x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2023-04-01-preview/examples/Operations_List.json
  */
-async function operations() {
+async function operations(): Promise<void> {
   const subscriptionId =
     process.env["DEFENDEREASM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,7 +28,7 @@ async function operations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operations();
 }
 

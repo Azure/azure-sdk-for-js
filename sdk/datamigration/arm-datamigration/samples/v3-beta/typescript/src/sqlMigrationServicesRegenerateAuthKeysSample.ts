@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Regenerate a new set of Authentication Keys for Self Hosted Integration Runtime.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/RegenAuthKeysMigrationService.json
  */
-async function regenerateTheOfAuthenticationKeys() {
+async function regenerateTheOfAuthenticationKeys(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "testrg";
   const sqlMigrationServiceName = "service1";

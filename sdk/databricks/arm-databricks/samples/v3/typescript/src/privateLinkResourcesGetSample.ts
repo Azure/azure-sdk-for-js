@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get the specified private link resource for the given group id (sub-resource)
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/PrivateLinkResourcesGet.json
  */
-async function getAPrivateLinkResource() {
+async function getAPrivateLinkResource(): Promise<void> {
   const subscriptionId =
     process.env["DATABRICKS_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -36,7 +36,7 @@ async function getAPrivateLinkResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAPrivateLinkResource();
 }
 
