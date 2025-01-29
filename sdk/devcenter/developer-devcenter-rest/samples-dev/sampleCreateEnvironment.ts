@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { DefaultAzureCredential } from "@azure/identity";
 import type {
   ProjectOutput,
@@ -117,4 +120,4 @@ async function createEnvironment(): Promise<void> {
   console.log("Cleaned up environment successfully.");
 }
 
-createEnvironment();
+createEnvironment().catch(console.error);

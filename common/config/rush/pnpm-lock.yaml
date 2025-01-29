@@ -279,7 +279,7 @@ importers:
         version: file:projects/arm-datamigration.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-dataprotection':
         specifier: file:./projects/arm-dataprotection.tgz
-        version: file:projects/arm-dataprotection.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+        version: file:projects/arm-dataprotection.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-defendereasm':
         specifier: file:./projects/arm-defendereasm.tgz
         version: file:projects/arm-defendereasm.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -2980,11 +2980,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz':
-    resolution: {integrity: sha512-yXzppi1977tvKoQQ/gxAttGXVIetYNk5fP1iHt9ecSTtBsq/RecEq82RvwxkWV+qXvTLY9r3MpZmRN0HF3MB2A==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-wRv8JETOioIRRzfjiZBCYMGNzUYHvR9yUZbE/mYFQzIWFPeaSsP5WhgWW9PRTjB1M1QMVD4wgo0eRzRrppi0wQ==, tarball: file:projects/arm-dataprotection.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-defendereasm@file:projects/arm-defendereasm.tgz':
-    resolution: {integrity: sha512-wC1PBT/Rs35ve9C7hdduYzUtv+0H4RcgPZc9pFXnsurfrKg95LVvLOIyUB7SJPzpGGkIs1mr9fVYFx6pwoj1wA==, tarball: file:projects/arm-defendereasm.tgz}
+    resolution: {integrity: sha512-9l0LN386TsLTzjND5kWmy45AAa0scC4h3MejlDxZDEjMxOHWzXA3QZMZdgr1PB6seTY67AwBgABTk9L0550ALg==, tarball: file:projects/arm-defendereasm.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deploymentmanager@file:projects/arm-deploymentmanager.tgz':
@@ -2996,7 +2996,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-devcenter@file:projects/arm-devcenter.tgz':
-    resolution: {integrity: sha512-PlqntzLMjsrjoS1HRURwupwNGrwz/7/x2eT/NyNMJJzHIbtGXmOoyeAY3QVhMMU0j+haYD8ghlGWT9pJl7Vzgg==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-hfK7mHE0TYnQkCH9MboQjp3k1WlzdSpgWMQhyhCeFUa/UrnqasTupRzyvdCvq6QZVdePSILLmsDOowz3MVvndg==, tarball: file:projects/arm-devcenter.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devhub@file:projects/arm-devhub.tgz':
@@ -3848,7 +3848,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
-    resolution: {integrity: sha512-X8/WksRyyNBB6F/D9OEZKjKHr8lKHMbWnZ5pD4n9AmTUAb6ZMeXpLWrfLwsHBjpghE4U2S1gXOLBJHdRhea89g==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-H/2qWVV/IaJff6JJkXBjCS43ovJEir0YDPoTI+wNs5z7SrA7+A695G2DtE5bdqUiD3whugrwIztDZMhM8NzAyQ==, tarball: file:projects/developer-devcenter.tgz}
     version: 0.0.0
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz':
@@ -3876,11 +3876,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
-    resolution: {integrity: sha512-DbmOo34cAhRN4xCxJ+CnKHJaHYjYAk6vZr0wRKsBxeTIbxJkL2ESFrEw3/yixU3svDT2Gr+xi/rYnl4aNdkhGQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-4bWI8Y2wx29aieLXJSW8yuVSlKIDqMCjQxjCtQbYmwOo/vQ0Ynp4r9Ub721S4I09VoLG0psx3GhYPlz67x6LGg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-table@file:projects/eventhubs-checkpointstore-table.tgz':
-    resolution: {integrity: sha512-fM504j6XfwH9KokQ89iHSsW04WHa2z+0pVnDZ7XbqP5YWePdaTwtX3vaF4p2tVJuE3OLEO0soGrUCIStwg4Nig==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-km+Bp77eWlqjmK39ngutzVuXBafw2kzvBQKkdMIwMhlN4Q7QkDHYScGW/bA//KtZjgaVbNPTG9jxHbMSYX49tw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     version: 0.0.0
 
   '@rush-temp/functions-authentication-events@file:projects/functions-authentication-events.tgz':
@@ -4056,7 +4056,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz':
-    resolution: {integrity: sha512-XPsqbfMqeWuXqOoYOcqK/7YecXtpu4bkSlYYqa0JHsqNb7wfDe8bj5HDXguNqvabsHTcB6BxP5gVPLea/JWNsw==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-H678jAymOp3nc6EG4H308t3D5K2Nl3LuKmO8+qJlaeMchj8Ehaop94CpOn9FVNjeRRT5zjSqtmeosolCucFBjg==, tarball: file:projects/perf-event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
@@ -4148,11 +4148,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
-    resolution: {integrity: sha512-f2KsjKlSwNStRGn2cgkcJ4UfudS+WLMw3a96BOAtFRJxrpHnOZsdzQZAGXxM4KXNfcvKHxiYDGnjU2yCqhvy4Q==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-gDtFjHRTpg080DOLALhNomtt2FufRwILNg6aDM0EKL6I+cDizUpAnzZ1/H5y9mGD63hohGlDCjQezo6TIerKbw==, tarball: file:projects/schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-json@file:projects/schema-registry-json.tgz':
-    resolution: {integrity: sha512-6ndRHittj388RlbMOqSf3/a/hw0LfmBHg2LgD1DQLtkV1oi4PZgC/zZFGTHN48XGjxmwVEnNwjMolIp9yESMGw==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-ZwFbFtIFKLrC3h+7A7Ct8dPokgFmUaCKXsxIIFETiJCMcoBGxAvvAmP59/E5S8l4AgeE7RcQuw4FdN/ySLbwBg==, tarball: file:projects/schema-registry-json.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry@file:projects/schema-registry.tgz':
@@ -4164,7 +4164,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/service-bus@file:projects/service-bus.tgz':
-    resolution: {integrity: sha512-t9IaVEy/hf1+zANzqEE24d8ckaY+iFfhCSYsOWL53xBl4rINoYYeKVLjiGsi+dfCdgLUQF+lrDMc/FKk3xA3og==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-3J1MkJ54xTVhUxp6bnqZanWXMwyovz1snfXuAJeO2ieTgnWew28Rbbb//DAYO8saOFyjs15l0ZgXdd5QaKLbbg==, tarball: file:projects/service-bus.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz':
@@ -13190,9 +13190,8 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13200,7 +13199,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.50.0
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
@@ -13221,6 +13219,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
@@ -13228,7 +13227,6 @@ snapshots:
 
   '@rush-temp/arm-defendereasm@file:projects/arm-defendereasm.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13333,7 +13331,6 @@ snapshots:
 
   '@rush-temp/arm-devcenter@file:projects/arm-devcenter.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -18861,9 +18858,8 @@ snapshots:
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
-      eslint: 8.57.1
+      eslint: 9.19.0
       playwright: 1.50.0
-      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
@@ -21209,7 +21205,6 @@ snapshots:
       '@types/debug': 4.1.12
       '@types/is-buffer': 2.0.2
       '@types/node': 18.19.74
-      '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
@@ -21230,7 +21225,6 @@ snapshots:
       rhea-promise: 3.0.3
       tslib: 2.8.1
       typescript: 5.7.3
-      uuid: 8.3.2
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
       ws: 8.18.0
     transitivePeerDependencies:

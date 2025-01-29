@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { DefaultAzureCredential } from "@azure/identity";
 import type {
   ProjectOutput,
@@ -100,4 +103,4 @@ async function createDevBox(): Promise<void> {
   console.log(`Cleaned up dev box successfully.`);
 }
 
-createDevBox();
+createDevBox().catch(console.error);
