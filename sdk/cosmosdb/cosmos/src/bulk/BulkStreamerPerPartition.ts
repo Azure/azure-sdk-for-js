@@ -69,7 +69,7 @@ export class BulkStreamerPerPartition {
    * @param operation - operation to add
    */
   add(operation: ItemBulkOperation): void {
-    let toDispatch: BulkBatcher | null = null;
+    let toDispatch: BulkBatcher;
     this.lock.take(() => {
       try {
         // attempt to add operation until it fits in the current batch for the streamer

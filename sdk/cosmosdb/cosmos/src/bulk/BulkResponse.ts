@@ -93,16 +93,16 @@ export class BulkResponse {
     if (responseMessage.result) {
       for (let i = 0; i < operations.length; i++) {
         const itemResponse = responseMessage.result[i];
-        const result = new BulkOperationResult(
-          itemResponse?.statusCode,
-          itemResponse?.subStatusCode ?? SubStatusCodes.Unknown,
-          itemResponse?.eTag,
-          itemResponse.retryAfterMilliseconds ?? 0,
-          responseMessage.headers?.[Constants.HttpHeaders.ActivityId],
-          responseMessage.headers?.[Constants.HttpHeaders.SessionToken],
-          itemResponse?.requestCharge,
-          itemResponse?.resourceBody,
-        );
+        const result: BulkOperationResult = {
+          statusCode: itemResponse?.statusCode,
+          subStatusCode: itemResponse?.subStatusCode ?? SubStatusCodes.Unknown,
+          etag: itemResponse?.eTag,
+          retryAfter: itemResponse.retryAfterMilliseconds ?? 0,
+          activityId: responseMessage.headers?.[Constants.HttpHeaders.ActivityId],
+          sessionToken: responseMessage.headers?.[Constants.HttpHeaders.SessionToken],
+          requestCharge: itemResponse?.requestCharge,
+          resourceBody: itemResponse?.resourceBody,
+        };
         results.push(result);
       }
     }
@@ -133,16 +133,17 @@ export class BulkResponse {
   }
 
   private createAndPopulateResults(operations: ItemBulkOperation[], retryAfterInMs: number): void {
-    this.results = operations.map(() => {
-      return new BulkOperationResult(
-        this.statusCode,
-        this.subStatusCode,
-        this.headers?.[Constants.HttpHeaders.ETag],
-        retryAfterInMs,
-        this.headers?.[Constants.HttpHeaders.ActivityId],
-        this.headers?.[Constants.HttpHeaders.SessionToken],
-        this.headers?.[Constants.HttpHeaders.RequestCharge],
-      );
-    });
+    this.results = operations.map(
+      (): BulkOperationResult => ({
+        statusCode: this.statusCode,
+        subStatusCode: this.subStatusCode,
+        etag: this.headers?.[Constants.HttpHeaders.ETag],
+        retryAfter: retryAfterInMs,
+        activityId: this.headers?.[Constants.HttpHeaders.ActivityId],
+        sessionToken: this.headers?.[Constants.HttpHeaders.SessionToken],
+        requestCharge: this.headers?.[Constants.HttpHeaders.RequestCharge],
+        resourceBody: undefined,
+      }),
+    );
   }
 }

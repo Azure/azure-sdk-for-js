@@ -7,7 +7,7 @@ import type { StatusCode, SubStatusCode } from "../request";
 /**
  * Represents a result for a specific operation that was part of a batch request
  */
-export class BulkOperationResult {
+export interface BulkOperationResult {
   /** completion status for the operation */
   statusCode: StatusCode;
   /** detailed completion status for the operation */
@@ -24,24 +24,4 @@ export class BulkOperationResult {
   sessionToken: string;
   /** request charge for the operation */
   requestCharge: number;
-
-  constructor(
-    statusCode?: StatusCode,
-    subStatusCode?: SubStatusCode,
-    etag?: string,
-    retryAfter?: number,
-    activityId?: string,
-    sessionToken?: string,
-    requestCharge?: number,
-    resource?: JSONObject,
-  ) {
-    this.statusCode = statusCode;
-    this.subStatusCode = subStatusCode;
-    this.etag = etag;
-    this.retryAfter = retryAfter;
-    this.activityId = activityId;
-    this.sessionToken = sessionToken;
-    this.requestCharge = requestCharge;
-    this.resourceBody = resource;
-  }
 }

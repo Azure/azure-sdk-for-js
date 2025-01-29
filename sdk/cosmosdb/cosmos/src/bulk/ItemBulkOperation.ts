@@ -9,18 +9,8 @@ import type { ItemBulkOperationContext } from "./ItemBulkOperationContext";
  * @hidden
  */
 
-export class ItemBulkOperation {
+export interface ItemBulkOperation {
   operationIndex: number;
   operationInput: OperationInput;
   operationContext: ItemBulkOperationContext;
-
-  constructor(
-    operationIndex: number,
-    operationInput: OperationInput,
-    context: ItemBulkOperationContext,
-  ) {
-    this.operationIndex = operationIndex;
-    this.operationInput = operationInput;
-    this.operationContext = context;
-  }
 }

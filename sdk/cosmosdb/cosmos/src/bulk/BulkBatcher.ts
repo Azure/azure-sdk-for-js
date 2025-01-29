@@ -104,6 +104,8 @@ export class BulkBatcher {
         this.options,
         this.diagnosticNode,
       );
+      // status code of 0 represents an empty response,
+      // we are sending this back from executor in case of 410 error
       if (response.statusCode === 0) {
         return;
       }

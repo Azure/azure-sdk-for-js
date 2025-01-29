@@ -35,8 +35,7 @@ export type BulkOperationResponse = OperationResponse[] & {
 };
 
 // @public
-export class BulkOperationResult {
-    constructor(statusCode?: StatusCode, subStatusCode?: SubStatusCode, etag?: string, retryAfter?: number, activityId?: string, sessionToken?: string, requestCharge?: number, resource?: JSONObject);
+export interface BulkOperationResult {
     activityId: string;
     etag: string;
     requestCharge: number;

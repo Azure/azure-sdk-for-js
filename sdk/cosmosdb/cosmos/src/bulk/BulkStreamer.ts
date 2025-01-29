@@ -107,7 +107,11 @@ export class BulkStreamer {
     const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
-    const itemOperation = new ItemBulkOperation(index, operation, context);
+    const itemOperation: ItemBulkOperation = {
+      operationIndex: index,
+      operationInput: operation,
+      operationContext: context,
+    };
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
