@@ -1338,7 +1338,7 @@ index 1ac007a..66abe50 100644
    HttpClient,
    HttpHeaders,
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 6783f9e..5f67f7d 100644
+index 5947165..5f67f7d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
 @@ -2,21 +2,18 @@
@@ -1366,7 +1366,7 @@ index 6783f9e..5f67f7d 100644
  
  /**
   * Settings to initialize a request.
-@@ -76,14 +73,6 @@ export interface PipelineRequestOptions {
+@@ -76,16 +73,6 @@ export interface PipelineRequestOptions {
     */
    streamResponseStatusCodes?: Set<number>;
  
@@ -1374,6 +1374,8 @@ index 6783f9e..5f67f7d 100644
 -   * NODEJS ONLY
 -   *
 -   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+-   * NOTE: usually this should be one instance shared by multiple requests so that the underlying
+-   *       connection to the service can be reused.
 -   * Does nothing when running in the browser.
 -   */
 -  agent?: Agent;
@@ -1381,7 +1383,7 @@ index 6783f9e..5f67f7d 100644
    /**
     * BROWSER ONLY
     *
-@@ -95,9 +84,6 @@ export interface PipelineRequestOptions {
+@@ -97,9 +84,6 @@ export interface PipelineRequestOptions {
     */
    enableBrowserStreams?: boolean;
  
@@ -1391,7 +1393,7 @@ index 6783f9e..5f67f7d 100644
    /**
     * Proxy configuration.
     */
-@@ -113,11 +99,6 @@ export interface PipelineRequestOptions {
+@@ -115,11 +99,6 @@ export interface PipelineRequestOptions {
     */
    abortSignal?: AbortSignalLike;
  
@@ -1403,7 +1405,7 @@ index 6783f9e..5f67f7d 100644
    /**
     * Callback which fires upon upload progress.
     */
-@@ -141,16 +122,14 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -143,16 +122,14 @@ class PipelineRequestImpl implements PipelineRequest {
    public formData?: FormDataMap;
    public streamResponseStatusCodes?: Set<number>;
    public enableBrowserStreams: boolean;
@@ -1421,7 +1423,7 @@ index 6783f9e..5f67f7d 100644
  
    constructor(options: PipelineRequestOptions) {
      this.url = options.url;
-@@ -165,14 +144,11 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -167,14 +144,11 @@ class PipelineRequestImpl implements PipelineRequest {
      this.streamResponseStatusCodes = options.streamResponseStatusCodes;
      this.withCredentials = options.withCredentials ?? false;
      this.abortSignal = options.abortSignal;
