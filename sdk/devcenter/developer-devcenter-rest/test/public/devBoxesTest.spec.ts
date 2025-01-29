@@ -31,23 +31,23 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   let poolName: string;
   let devboxName: string;
 
-  beforeEach(async function (context) {
-    recorder = await createRecorder(context);
+  beforeEach(async (context) => {
+      recorder = await createRecorder(context);
 
-    endpoint = env["ENDPOINT"] || "";
-    projectName = env["DEFAULT_PROJECT_NAME"] || "";
-    userId = env["DEFAULT_USER_NAME"] || "";
-    poolName = env["DEFAULT_POOL_NAME"] || "";
-    devboxName = env["DEFAULT_DEVBOX_NAME"] || "";
+      endpoint = env["ENDPOINT"] || "";
+      projectName = env["DEFAULT_PROJECT_NAME"] || "";
+      userId = env["DEFAULT_USER_NAME"] || "";
+      poolName = env["DEFAULT_POOL_NAME"] || "";
+      devboxName = env["DEFAULT_DEVBOX_NAME"] || "";
 
-    client = createRecordedClient(recorder, endpoint, {
-      allowInsecureConnection: false,
+      client = createRecordedClient(recorder, endpoint, {
+        allowInsecureConnection: false,
+      });
     });
-  });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("GetPool", async function () {
     const poolOutput = await client
@@ -394,7 +394,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     await deleteDevBox();
   });
 
-  async function setupDevBox() {
+  async function setupDevBox(): Promise<void> {
     const devboxesListResponse = await client
       .path("/projects/{projectName}/users/{userId}/devboxes", projectName, userId)
       .get();
@@ -459,7 +459,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     console.log(`Provisioned dev box with state ${devBoxCreateResult.body.provisioningState}.`);
   }
 
-  async function deleteDevBox() {
+  async function deleteDevBox(): Promise<void> {
     const devBoxDeleteResponse = await client
       .path(
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",

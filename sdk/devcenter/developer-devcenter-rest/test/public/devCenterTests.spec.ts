@@ -13,18 +13,18 @@ describe("DevCenter Project Operations Tests", function () {
   let client: AzureDeveloperDevCenterClient;
   let endpoint: string;
 
-  beforeEach(async function (context) {
-    recorder = await createRecorder(context);
-    endpoint = env["ENDPOINT"] || "";
+  beforeEach(async (context) => {
+      recorder = await createRecorder(context);
+      endpoint = env["ENDPOINT"] || "";
 
-    client = createRecordedClient(recorder, endpoint, {
-      allowInsecureConnection: false,
+      client = createRecordedClient(recorder, endpoint, {
+        allowInsecureConnection: false,
+      });
     });
-  });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("Get project in a DevCenter", async function () {
     const projectName = env["DEFAULT_PROJECT_NAME"] || "";
