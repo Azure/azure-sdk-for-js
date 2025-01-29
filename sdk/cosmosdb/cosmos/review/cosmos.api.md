@@ -433,6 +433,7 @@ export const Constants: {
         ContentEncoding: string;
         CharacterSet: string;
         UserAgent: string;
+        CustomUserAgent: string;
         IfModifiedSince: string;
         IfMatch: string;
         IfNoneMatch: string;
@@ -711,6 +712,7 @@ export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
+    connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
     // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
@@ -718,7 +720,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    endpoint: string;
+    endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
