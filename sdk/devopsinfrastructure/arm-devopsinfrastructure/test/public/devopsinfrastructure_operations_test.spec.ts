@@ -34,9 +34,9 @@ describe("DevOpsInfrastructure test", () => {
     );
   });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
   it("operations list test", async function () {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
