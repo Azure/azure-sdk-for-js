@@ -26,7 +26,6 @@ export const jsonResponseModelsToSkip = [{ name: "gpt-4", version: "0125-Preview
 // TODO: Remove this when the default API version is updated to "2024-12-01-preview"
 export const o1ModelsToSkip = [
   { name: "o1", version: "2024-12-17" },
-  { name: "gpt-4o-audio-preview", version: "2024-12-17" },
   { name: "o1-preview", version: "2024-09-12" },
 ];
 
