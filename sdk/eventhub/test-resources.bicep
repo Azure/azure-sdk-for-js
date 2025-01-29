@@ -1,6 +1,7 @@
 param baseName string = resourceGroup().name
 param location string = resourceGroup().location
 param testApplicationOid string
+param isTMETenant bool = false
 
 var eventHubApiVersion = '2024-01-01'
 var storageApiVersion = '2023-05-01'
@@ -20,12 +21,6 @@ var blobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var tablesDataContributorRoleId = '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
 var iotHubDataContributorRoleId = '4fc6c259-987e-4a07-842e-c321cc9d413f'
 
-module globals '../../eng/global.bicep' = {
-  name: 'globals'
-}
-
-var TMESubId = globals.outputs.TMESubId
-
 resource eventHubNamespace 'Microsoft.EventHub/namespaces@2024-01-01' = {
   name: baseName
   location: location
@@ -38,7 +33,7 @@ resource eventHubNamespace 'Microsoft.EventHub/namespaces@2024-01-01' = {
     zoneRedundant: false
     isAutoInflateEnabled: false
     maximumThroughputUnits: 0
-    disableLocalAuth: subscription().id != TMESubId
+    disableLocalAuth: !isTMETenant
   }
 }
 
@@ -113,7 +108,7 @@ resource iotHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
     capacity: 1
   }
   properties: {
-    disableLocalAuth: subscription().id != TMESubId
+    disableLocalAuth: !isTMETenant
     ipFilterRules: []
     eventHubEndpoints: {
       events: {

@@ -508,11 +508,15 @@ try {
         }
     }
 
+    $isTMETenant = $SubscriptionId -eq '4d042dc6-fe17-4698-a23f-ec6a8d1e98f4'
+
+
     # Populate the template parameters and merge any additional specified.
     $templateParameters = @{
         baseName = $BaseName
         testApplicationId = $TestApplicationId
         testApplicationOid = "$TestApplicationOid"
+        isTMETenant = $isTMETenant
     }
     if ($ProvisionerApplicationOid) {
         $templateParameters["provisionerApplicationOid"] = "$ProvisionerApplicationOid"
