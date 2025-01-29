@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type * as PublicModels from "./models.js";
 import type * as GeneratedModels from "../generated/src/models.js";
+import type * as PublicModels from "./models.js";
 
 // Conversion functions
 export function convertCreateAgentOptions(
@@ -307,6 +307,7 @@ export function convertCreateRunOptions(
     }),
     ...(source.toolChoice && { tool_choice: source.toolChoice }),
     ...(source.responseFormat && { response_format: source.responseFormat }),
+    ...(source.parallelToolCalls && {parallel_tool_calls: source.parallelToolCalls}),
     ...(source.metadata && { metadata: source.metadata }),
   };
 }
@@ -383,6 +384,7 @@ export function convertCreateAndRunThreadOptions(
     }),
     ...(source.toolChoice && { tool_choice: source.toolChoice }),
     ...(source.responseFormat && { response_format: source.responseFormat }),
+    ...(source.parallelToolCalls && {parallel_tool_calls: source.parallelToolCalls}),
     ...(source.metadata && { metadata: source.metadata }),
   };
 }
