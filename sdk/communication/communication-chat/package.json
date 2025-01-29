@@ -59,7 +59,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
-    "@azure/communication-common": "^2.3.1",
+    "@azure/communication-common": "2.3.2-alpha.20250122.7",
     "@azure/communication-signaling": "1.0.0-beta.29",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
