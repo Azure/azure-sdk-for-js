@@ -55,7 +55,7 @@ describe("DefenderEasm test", () => {
     await recorder.stop();
   });
 
-  it("workspaces create test", async function () {
+  it("workspaces create test", async () => {
     const res = await client.workspaces.beginCreateAndUpdateAndWait(resourceGroup, resourceName, {
       workspaceResource: { location },
       updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -63,12 +63,12 @@ describe("DefenderEasm test", () => {
     assert.equal(res.name, resourceName);
   });
 
-  it("workspaces get test", async function () {
+  it("workspaces get test", async () => {
     const res = await client.workspaces.get(resourceGroup, resourceName);
     assert.equal(res.name, resourceName);
   });
 
-  it("workspaces list test", async function () {
+  it("workspaces list test", async () => {
     const resArray = new Array();
     for await (const item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -76,7 +76,7 @@ describe("DefenderEasm test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("workspaces delete test", async function () {
+  it("workspaces delete test", async () => {
     const resArray = new Array();
     await client.workspaces.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions);
     for await (const item of client.workspaces.listByResourceGroup(resourceGroup)) {
