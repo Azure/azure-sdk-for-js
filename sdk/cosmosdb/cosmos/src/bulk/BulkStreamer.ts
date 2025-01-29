@@ -21,6 +21,7 @@ import type { BulkOperationResult } from "./BulkOperationResult";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import { Limiter } from "./Limiter";
+import semaphore from "semaphore";
 
 /**
  * BulkStreamer for bulk operations in a container.
@@ -42,6 +43,8 @@ export class BulkStreamer {
   private diagnosticNode: DiagnosticNodeInternal;
   private operationPromises: Promise<BulkOperationResult>[] = [];
   private streamEnded: boolean;
+  private operationIndex: number;
+  private operationIndexLock: semaphore.Semaphore;
 
   /**
    * @internal
@@ -75,6 +78,8 @@ export class BulkStreamer {
       null,
     );
     this.streamEnded = false;
+    this.operationIndex = 0;
+    this.operationIndexLock = semaphore(1);
   }
 
   /**
@@ -87,18 +92,17 @@ export class BulkStreamer {
     }
     if (Array.isArray(operationInput)) {
       operationInput.forEach((operation) => {
-        const operationPromise = this.addOperation(operation, this.operationPromises.length);
+        const operationPromise = this.addOperation(operation);
         this.operationPromises.push(operationPromise);
       });
     } else {
-      const operationPromise = this.addOperation(operationInput, this.operationPromises.length);
+      const operationPromise = this.addOperation(operationInput);
       this.operationPromises.push(operationPromise);
     }
   }
 
   private async addOperation(
     operation: OperationInput,
-    index: number,
   ): Promise<BulkOperationResult> {
     if (!operation) {
       throw new ErrorResponse("Operation is required.");
@@ -107,11 +111,19 @@ export class BulkStreamer {
     const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
-    const itemOperation: ItemBulkOperation = {
-      operationIndex: index,
-      operationInput: operation,
-      operationContext: context,
-    };
+    let itemOperation: ItemBulkOperation;
+    this.operationIndexLock.take(() => {
+      try {
+        itemOperation = {
+          operationIndex: this.operationIndex,
+          operationInput: operation,
+          operationContext: context,
+        };
+        this.operationIndex++;
+      } finally {
+        this.operationIndexLock.leave();
+      }
+    })
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
   }
@@ -254,7 +266,7 @@ export class BulkStreamer {
       limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
       // starting with degree of concurrency as 1
       for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; ++i) {
-        limiter.take(() => {});
+        limiter.take(() => { });
       }
       this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
     }
