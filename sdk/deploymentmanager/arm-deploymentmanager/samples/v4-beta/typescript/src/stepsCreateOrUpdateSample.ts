@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Synchronously creates a new step or updates an existing step.
  * x-ms-original-file: specification/deploymentmanager/resource-manager/Microsoft.DeploymentManager/preview/2019-11-01-preview/examples/step_health_check_createorupdate.json
  */
-async function createHealthCheckStep() {
+async function createHealthCheckStep(): Promise<void> {
   const subscriptionId = "caac1590-e859-444f-a9e0-62091c0f5929";
   const resourceGroupName = "myResourceGroup";
   const stepName = "healthCheckStep";
@@ -105,7 +105,7 @@ createHealthCheckStep().catch(console.error);
  * @summary Synchronously creates a new step or updates an existing step.
  * x-ms-original-file: specification/deploymentmanager/resource-manager/Microsoft.DeploymentManager/preview/2019-11-01-preview/examples/step_wait_createorupdate.json
  */
-async function createWaitStep() {
+async function createWaitStep(): Promise<void> {
   const subscriptionId = "caac1590-e859-444f-a9e0-62091c0f5929";
   const resourceGroupName = "myResourceGroup";
   const stepName = "waitStep";
