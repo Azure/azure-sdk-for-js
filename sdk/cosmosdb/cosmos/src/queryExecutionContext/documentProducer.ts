@@ -262,7 +262,7 @@ export class DocumentProducer {
       return { result: undefined, headers: this._getAndResetActiveResponseHeaders() };
     }
     try {
-      const { result, headers } = await this.current();
+      const { result, headers } = this.current();
       this._updateStates(undefined, result === undefined);
       if (result === undefined || result.length === 0) {
         return { result: undefined, headers };
@@ -288,7 +288,7 @@ export class DocumentProducer {
     const resHeaders: CosmosHeaders = getInitialHeader();
     try {
       while (this.fetchResults.length > 0) {
-        const { result, headers } = await this.current();
+        const { result, headers } = this.current();
         this._updateStates(undefined, result === undefined);
         mergeHeaders(resHeaders, headers);
         if (result === undefined) {
@@ -307,7 +307,7 @@ export class DocumentProducer {
   /**
    * Retrieve the current element on the DocumentProducer.
    */
-  private async current(): Promise<Response<any>> {
+  private current(): Response<any> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {
       const fetchResult = this.fetchResults.shift();
