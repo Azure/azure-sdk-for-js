@@ -120,7 +120,7 @@ const correlatedActivityId = "sample-activity-id"; // Example correlated activit
 
 const diagnosticLevel = CosmosDbDiagnosticLevel.info;
 
-describe("PartitionMerge", function () {
+describe("Partition-Merge", function () {
   const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
   const mockPartitionKeyRange1 = createMockPartitionKeyRange(
     "parent1",
