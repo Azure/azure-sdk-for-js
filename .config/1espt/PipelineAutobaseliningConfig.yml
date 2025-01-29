@@ -250,6 +250,12 @@ pipelines:
           lastModifiedDate: 2025-01-29
         binskim:
           lastModifiedDate: 2025-01-29
+      source:
+        credscan:
+          lastModifiedDate: 2025-01-29
+        armory:
+          lastModifiedDate: 2025-01-29
+    usedNonDefaultBranch: true
   1983:
     retail:
       binary:
