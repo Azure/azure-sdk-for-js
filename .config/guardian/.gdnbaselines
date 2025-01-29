@@ -1,0 +1,29 @@
+{
+  "properties": {
+    "helpUri": "https://eng.ms/docs/microsoft-security/security/azure-security/cloudai-security-fundamentals-engineering/security-integration/guardian-wiki/microsoft-guardian/general/baselines"
+  },
+  "version": "1.0.0",
+  "baselines": {
+    "default": {
+      "name": "default",
+      "createdDate": "2025-01-29 22:53:02Z",
+      "lastUpdatedDate": "2025-01-29 22:53:02Z"
+    }
+  },
+  "results": {
+    "4483e114c168da1209de31a138c69aa7d20c4efb78f961aa4f983900da2c81af": {
+      "signature": "4483e114c168da1209de31a138c69aa7d20c4efb78f961aa4f983900da2c81af",
+      "alternativeSignatures": [],
+      "target": "sdk/batch/batch/test/fakeTestSecrets.ts",
+      "line": 9,
+      "memberOf": [
+        "default"
+      ],
+      "tool": "credscan",
+      "ruleId": "CSCAN-GENERAL0060",
+      "createdDate": "2025-01-29 22:53:02Z",
+      "expirationDate": "2025-07-18 23:08:00Z",
+      "justification": "This error is baselined with an expiration date of 180 days from 2025-01-29 23:08:00Z"
+    }
+  }
+}
