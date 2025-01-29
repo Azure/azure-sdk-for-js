@@ -42,7 +42,7 @@ import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js";
 import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import { randomUUID } from "@azure/core-util";
-import { getUserAgent } from "./common/platform";
+import { getUserAgent } from "./common/platform.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
