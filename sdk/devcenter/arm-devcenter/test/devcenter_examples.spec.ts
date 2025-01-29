@@ -42,25 +42,25 @@ describe("devcenter test", () => {
   let body: DevCenter;
   let devCenterName: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new DevCenterClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    devCenterName = "Contoso1";
-    body = {
-      location,
-      tags: { costCode: "12345" }
-    };
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new DevCenterClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      devCenterName = "Contoso1";
+      body = {
+        location,
+        tags: { costCode: "12345" }
+      };
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("devcenters create test", async function () {
     const res = await client.devCenters.beginCreateOrUpdateAndWait(
