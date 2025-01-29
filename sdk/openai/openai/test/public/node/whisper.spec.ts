@@ -16,7 +16,7 @@ import {
 } from "../utils/utils.js";
 import { assertAudioResult } from "../utils/asserts.js";
 import type { AudioResultFormat } from "../utils/audioTypes.js";
-import { o1ModelToSkip } from "../utils/models.js";
+import { incompatibleModelsToSkip } from "../utils/models.js";
 
 describe("OpenAI", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
@@ -39,7 +39,7 @@ describe("OpenAI", function () {
               return client.audio.transcriptions.create({ model: "", file }, maxRetriesOption);
             },
             (audio) => assertAudioResult("json", audio),
-            o1ModelToSkip,
+            incompatibleModelsToSkip,
           );
         });
       });
@@ -54,7 +54,7 @@ describe("OpenAI", function () {
               return client.audio.translations.create({ model: "", file }, maxRetriesOption);
             },
             (audio) => assertAudioResult("json", audio),
-            o1ModelToSkip,
+            incompatibleModelsToSkip,
           );
         });
       });
@@ -82,7 +82,7 @@ describe("OpenAI", function () {
                   );
                 },
                 (audio) => assertAudioResult(format, audio),
-                o1ModelToSkip,
+                incompatibleModelsToSkip,
               );
             });
           });
@@ -104,7 +104,7 @@ describe("OpenAI", function () {
                   );
                 },
                 (audio) => assertAudioResult(format, audio),
-                o1ModelToSkip,
+                incompatibleModelsToSkip,
               );
             });
           });

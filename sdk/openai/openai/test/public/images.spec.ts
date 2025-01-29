@@ -15,7 +15,7 @@ import {
 import { assertImagesWithJSON, assertImagesWithURLs } from "./utils/asserts.js";
 import type { OpenAI, AzureOpenAI } from "openai";
 import { describe, it, beforeAll } from "vitest";
-import { o1ModelToSkip } from "./utils/models.js";
+import { incompatibleModelsToSkip } from "./utils/models.js";
 
 describe("Images", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
@@ -48,7 +48,7 @@ describe("Images", function () {
                   size,
                 }),
               (item) => assertImagesWithURLs(item, height, width),
-              o1ModelToSkip,
+              incompatibleModelsToSkip,
             ),
             imageGenerationDeployments,
           );
@@ -67,7 +67,7 @@ describe("Images", function () {
                   response_format: "b64_json",
                 }),
               (item) => assertImagesWithJSON(item, height, width),
-              o1ModelToSkip,
+              incompatibleModelsToSkip,
             ),
             imageGenerationDeployments,
           );
