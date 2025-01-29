@@ -5,7 +5,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { Recorder} from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
@@ -35,8 +35,8 @@ describe("DevOpsInfrastructure test", () => {
   });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
   it("operations list test", async function () {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
