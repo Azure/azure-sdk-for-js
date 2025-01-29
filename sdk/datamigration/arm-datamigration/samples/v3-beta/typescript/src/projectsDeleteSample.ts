@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The project resource is a nested resource representing a stored migration project. The DELETE method deletes a project.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Projects_Delete.json
  */
-async function projectsDelete() {
+async function projectsDelete(): Promise<void> {
   const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const groupName = "DmsSdkRg";
   const serviceName = "DmsSdkService";

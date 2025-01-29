@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Create or update a Workspace.
  * x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2023-04-01-preview/examples/Workspaces_CreateAndUpdate.json
  */
-async function workspaces() {
+async function workspaces(): Promise<void> {
   const subscriptionId =
     process.env["DEFENDEREASM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +40,7 @@ async function workspaces() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workspaces();
 }
 

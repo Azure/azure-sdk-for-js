@@ -8,9 +8,7 @@
 import type { Endpoint } from "@azure/arm-trafficmanager";
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Traffic Manager endpoint.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a Traffic Manager endpoint.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-PUT-External-WithAlwaysServe.json
  */
-async function endpointPutExternalWithAlwaysServe() {
+async function endpointPutExternalWithAlwaysServe(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1421";
@@ -51,7 +49,7 @@ async function endpointPutExternalWithAlwaysServe() {
  * @summary Create or update a Traffic Manager endpoint.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-PUT-External-WithCustomHeaders.json
  */
-async function endpointPutExternalWithCustomHeaders() {
+async function endpointPutExternalWithCustomHeaders(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1421";
@@ -87,7 +85,7 @@ async function endpointPutExternalWithCustomHeaders() {
  * @summary Create or update a Traffic Manager endpoint.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-PUT-External-WithGeoMapping.json
  */
-async function endpointPutExternalWithGeoMapping() {
+async function endpointPutExternalWithGeoMapping(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager2191";
@@ -119,7 +117,7 @@ async function endpointPutExternalWithGeoMapping() {
  * @summary Create or update a Traffic Manager endpoint.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-PUT-External-WithLocation.json
  */
-async function endpointPutExternalWithLocation() {
+async function endpointPutExternalWithLocation(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1421";
@@ -151,7 +149,7 @@ async function endpointPutExternalWithLocation() {
  * @summary Create or update a Traffic Manager endpoint.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-PUT-External-WithSubnetMapping.json
  */
-async function endpointPutExternalWithSubnetMapping() {
+async function endpointPutExternalWithSubnetMapping(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager2191";
@@ -180,7 +178,7 @@ async function endpointPutExternalWithSubnetMapping() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await endpointPutExternalWithAlwaysServe();
   await endpointPutExternalWithCustomHeaders();
   await endpointPutExternalWithGeoMapping();

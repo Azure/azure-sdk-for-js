@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The files resource is a nested, proxy-only resource representing a file stored under the project resource. This method retrieves information about a file.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Files_Get.json
  */
-async function filesList() {
+async function filesList(): Promise<void> {
   const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const groupName = "DmsSdkRg";
   const serviceName = "DmsSdkService";

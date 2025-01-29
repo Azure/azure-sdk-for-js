@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The skus action returns the list of SKUs that DMS supports.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/ResourceSkus_ListSkus.json
  */
-async function listSkus() {
+async function listSkus(): Promise<void> {
   const subscriptionId = "subid";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);

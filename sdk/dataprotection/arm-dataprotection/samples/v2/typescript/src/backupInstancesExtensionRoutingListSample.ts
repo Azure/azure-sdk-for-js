@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets a list of backup instances associated with a tracked resource
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ListBackupInstancesExtensionRouting.json
  */
-async function listBackupInstancesAssociatedWithAnAzureResource() {
+async function listBackupInstancesAssociatedWithAnAzureResource(): Promise<void> {
   const resourceId =
     "subscriptions/36d32b25-3dc7-41b0-bde1-397500644591/resourceGroups/testRG/providers/Microsoft.Compute/disks/testDisk";
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function listBackupInstancesAssociatedWithAnAzureResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listBackupInstancesAssociatedWithAnAzureResource();
 }
 

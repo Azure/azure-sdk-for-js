@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the operation result of operation triggered by Export Jobs API. If the operation is successful, then it also contains URL of a Blob and a SAS key to access the same. The blob contains exported jobs in JSON serialized format.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/JobCRUD/GetExportJobsOperationResult.json
  */
-async function getExportJobsOperationResult() {
+async function getExportJobsOperationResult(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +33,7 @@ async function getExportJobsOperationResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getExportJobsOperationResult();
 }
 
