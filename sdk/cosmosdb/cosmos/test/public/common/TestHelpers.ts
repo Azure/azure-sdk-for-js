@@ -23,6 +23,7 @@ import type {
 } from "../../../src";
 import {
   ClientContext,
+  ConnectionMode,
   ConsistencyLevel,
   Constants,
   CosmosClient,
@@ -770,15 +771,25 @@ export function createTestClientContext(
   const clientOps: CosmosClientOptions = {
     endpoint: "",
     connectionPolicy: {
-      enableEndpointDiscovery: false,
-      preferredLocations: ["https://localhhost"],
+      connectionMode: ConnectionMode.Gateway,
+      requestTimeout: 60000,
+      enableEndpointDiscovery: true,
+      preferredLocations: [],
+      retryOptions: {
+        maxRetryAttemptCount: 9,
+        fixedRetryIntervalInMilliseconds: 0,
+        maxWaitTimeInSeconds: 30,
+      },
+      useMultipleWriteLocations: true,
+      endpointRefreshRateInMs: 300000,
+      enableBackgroundEndpointRefreshing: true,
     },
     ...options,
   };
   const globalEndpointManager = new GlobalEndpointManager(
     clientOps,
     async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
-      expect(opts).to.exist; // eslint-disable-line no-unused-expressions
+      expect(opts).to.exist;
       const dummyAccount: any = diagnosticNode;
       return dummyAccount;
     },
