@@ -16,7 +16,7 @@ import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");
 
-function assertError(err: unknown, check: RegExp): asserts err is AggregateError {
+function assertAggregateError(err: unknown, check: RegExp): asserts err is AggregateError {
   assert.instanceOf(err, AggregateError);
   const errors = (err as AggregateError).errors;
   assert.match(errors[errors.length - 1].message, check);
@@ -175,7 +175,7 @@ function assertError(err: unknown, check: RegExp): asserts err is AggregateError
         };
         await retry(config);
       } catch (err) {
-        assertError(err, /I would like to fail./);
+        assertAggregateError(err, /I would like to fail./);
         assert.equal(counter, 3);
       }
     });
@@ -197,7 +197,7 @@ function assertError(err: unknown, check: RegExp): asserts err is AggregateError
         };
         await retry(config);
       } catch (err) {
-        assertError(err, /I would always like to fail, keep retrying./);
+        assertAggregateError(err, /I would always like to fail, keep retrying./);
         assert.equal(counter, 5);
       }
     });
@@ -265,7 +265,7 @@ function assertError(err: unknown, check: RegExp): asserts err is AggregateError
         // If we get here, `delay` won :-(
         throw new Error("TestFailure: 'retry' took longer than expected to return.");
       } catch (err) {
-        assertError(err, /I would always like to fail, keep retrying./);
+        assertAggregateError(err, /I would always like to fail, keep retrying./);
         assert.equal(counter, 2);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
@@ -454,7 +454,7 @@ function assertError(err: unknown, check: RegExp): asserts err is AggregateError
           };
           await retry(config);
         } catch (err) {
-          assertError(err, /I would like to fail./);
+          assertAggregateError(err, /I would like to fail./);
           assert.equal(counter, 3);
         }
       });
