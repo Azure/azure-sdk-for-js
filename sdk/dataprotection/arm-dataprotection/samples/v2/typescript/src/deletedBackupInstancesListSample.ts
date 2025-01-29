@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets deleted backup instances belonging to a backup vault
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/DeletedBackupInstanceOperations/ListDeletedBackupInstances.json
  */
-async function listDeletedBackupInstancesInAVault() {
+async function listDeletedBackupInstancesInAVault(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -34,7 +34,7 @@ async function listDeletedBackupInstancesInAVault() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDeletedBackupInstancesInAVault();
 }
 
