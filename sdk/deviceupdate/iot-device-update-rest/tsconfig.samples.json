@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/iot-device-update": [
-        "./dist/esm"
-      ]
+      "@azure-rest/iot-device-update": ["./dist/esm"]
     }
   }
 }
