@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists network connections in a resource group
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_ListByResourceGroup.json
  */
-async function networkConnectionsListByResourceGroup() {
+async function networkConnectionsListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -31,7 +31,7 @@ async function networkConnectionsListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkConnectionsListByResourceGroup();
 }
 
