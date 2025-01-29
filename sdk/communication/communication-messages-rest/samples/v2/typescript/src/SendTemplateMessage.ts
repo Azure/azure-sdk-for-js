@@ -5,14 +5,14 @@
  * @summary Send a template message
  */
 
-
 import { AzureKeyCredential } from "@azure/core-auth";
-import NotificationClient, { 
+import type { 
     MessagesServiceClient,
     Send202Response,
     MessageTemplate,
     MessageTemplateValue,
-    MessageTemplateBindings,
+    MessageTemplateBindings} from "@azure-rest/communication-messages";
+import NotificationClient, {
     isUnexpected,
 } from "@azure-rest/communication-messages";
 

@@ -6,7 +6,8 @@
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import NotificationClient, { isUnexpected, Send202Response } from "@azure-rest/communication-messages";
+import type { Send202Response } from "@azure-rest/communication-messages";
+import NotificationClient, { isUnexpected } from "@azure-rest/communication-messages";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();

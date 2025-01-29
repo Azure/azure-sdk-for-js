@@ -213,6 +213,169 @@ if (!isUnexpected(result)) {
 }
 ```
 
+## Send a Button Action Interactive Message with WhatsApp Channel
+
+`Note: Business can't start a conversation with a media message. It needs to be user initiated.`
+
+```typescript
+const interactiveMessage: InteractiveMessage = {
+    body: {
+        kind: "text",
+        text: "Do you want to proceed?",
+    },
+    action: {
+        kind: "whatsAppButtonAction",
+        content: {
+            kind: "buttonSet",
+            buttons: [
+                {
+                    id: "yes",
+                    title: "Yes",
+                },
+                {
+                    id: "no",
+                    title: "No",
+                },
+            ]
+        }
+    }
+};
+
+const result = await client.path("/messages/notifications:send").post({
+  contentType: "application/json",
+  body: {
+    channelRegistrationId: "<Channel_Registration_Id>",
+    to: ["<to-phone-number-1>"],
+    kind: "interactive",
+    interactiveMessage: interactiveMessage,
+  },
+});
+
+if (result.status === "202") {
+  const response: Send202Response = result as Send202Response;
+  response.body.receipts.forEach((receipt) => {
+    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+  });
+} else {
+  throw new Error("Failed to send message");
+}
+```
+
+## Send a List Action Interactive Message with WhatsApp Channel
+
+`Note: Business can't start a conversation with a media message. It needs to be user initiated.`
+
+```typescript
+const interactiveMessage: InteractiveMessage = {
+    body: {
+        kind: "text",
+        text: "Which shipping option do you want?",
+    },
+    action: {
+        kind: "whatsAppListAction",
+        content: {
+            kind: "group",
+            title: "Shipping Options",
+            groups:[
+                {
+                    title: "Express Delivery",
+                    items: [
+                        {
+                            id: "priority_mail_express",
+                            title: "Priority Mail Express",
+                            description: "Delivered on same day!",
+                        },
+                        {
+                            id: "priority_mail",
+                            title: "Priority Mail",
+                            description: "Delivered in 1-2 days",
+                        }
+                    ]
+                },
+                {
+                    title: "Normal Delivery",
+                    items: [
+                        {
+                            id: "usps_ground_advantage",
+                            title: "USPS Ground Advantage",
+                            description: "Delivered in 2-5 days",
+                        },
+                        {
+                            id: "usps_mail",
+                            title: "Normal Mail",
+                            description: "Delivered in 5-8 days",
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+};
+
+const result = await client.path("/messages/notifications:send").post({
+  contentType: "application/json",
+  body: {
+    channelRegistrationId: "<Channel_Registration_Id>",
+    to: ["<to-phone-number-1>"],
+    kind: "interactive",
+    interactiveMessage: interactiveMessage,
+  },
+});
+
+if (result.status === "202") {
+  const response: Send202Response = result as Send202Response;
+  response.body.receipts.forEach((receipt) => {
+    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+  });
+} else {
+  throw new Error("Failed to send message");
+}
+```
+
+## Send a Url Action Interactive Message with WhatsApp Channel
+
+`Note: Business can't start a conversation with a media message. It needs to be user initiated.`
+
+```typescript
+const interactiveMessage: InteractiveMessage = {
+    body: {
+        kind: "text",
+        text: "Find more detail in the link.",
+    },
+    action: {
+        kind: "whatsAppUrlAction",
+        content: {
+            kind: "url",
+            title: "link",
+            url: "https://<your-url-link>",
+        }
+    },
+    footer: {
+        kind: "text",
+        text: "This is a footer message",
+    }
+};
+
+const result = await client.path("/messages/notifications:send").post({
+  contentType: "application/json",
+  body: {
+    channelRegistrationId: "<Channel_Registration_Id>",
+    to: ["<to-phone-number-1>"],
+    kind: "interactive",
+    interactiveMessage: interactiveMessage,
+  },
+});
+
+if (result.status === "202") {
+  const response: Send202Response = result as Send202Response;
+  response.body.receipts.forEach((receipt) => {
+    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+  });
+} else {
+  throw new Error("Failed to send message");
+}
+```
+
 ## Troubleshooting
 
 ### Logging

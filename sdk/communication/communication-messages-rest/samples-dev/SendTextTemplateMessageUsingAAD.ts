@@ -11,7 +11,7 @@ import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity"
 import type {
   MessageTemplate,
   MessageTemplateValue,
-  MessageTemplateBindings,
+  MessageTemplateBindings
 } from "@azure-rest/communication-messages";
 import NotificationClient, { isUnexpected } from "@azure-rest/communication-messages";
 
