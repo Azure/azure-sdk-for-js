@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { PartitionKeyRange, Resource } from "../client/index.js";
 import type { ClientContext } from "../ClientContext.js";
 import {
@@ -9,7 +10,7 @@ import {
   ResourceType,
   StatusCodes,
   SubStatusCodes,
-} from "../common";
+} from "../common/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { FeedOptions } from "../request/index.js";
 import type { Response } from "../request/index.js";

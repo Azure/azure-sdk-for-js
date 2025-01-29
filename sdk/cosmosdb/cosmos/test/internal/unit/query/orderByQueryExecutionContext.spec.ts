@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import sinon from "sinon";
-import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel";
-import type { QueryInfo } from "../../../../src/request/ErrorResponse";
-import { createTestClientContext } from "../../../public/common/TestHelpers";
-import type { QueryIterator } from "../../../../src/queryIterator";
-import type { PartitionKeyRange } from "../../../../src/client/Container/PartitionKeyRange";
-import type { Resource } from "../../../../src/client/Resource";
+import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
+import type { QueryInfo } from "../../../../src/request/ErrorResponse.js";
+import { createTestClientContext } from "../../../public/common/TestHelpers.js";
+import type { QueryIterator } from "../../../../src/queryIterator.js";
+import type { PartitionKeyRange } from "../../../../src/client/Container/PartitionKeyRange.js";
+import type { Resource } from "../../../../src/client/Resource.js";
 import { OrderByQueryExecutionContext } from "../../../../src/queryExecutionContext/orderByQueryExecutionContext";
-import type { FeedOptions } from "../../../../src/request/FeedOptions";
-import assert from "assert";
-import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers";
+import type { FeedOptions } from "../../../../src/request/FeedOptions.js";
+import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
+import { describe, it, assert, vi } from "vitest";
 
 describe("OrderByQueryExecutionContext", function () {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
@@ -63,7 +62,24 @@ describe("OrderByQueryExecutionContext", function () {
   };
 
   const diagnosticLevel = CosmosDbDiagnosticLevel.info;
-  const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
+  const createMockPartitionKeyRange = (
+    id: string,
+    minInclusive: string,
+    maxExclusive: string,
+  ): {
+    orderByItems: {
+      item: string;
+    }[];
+    payload: {
+      id: string;
+      name: string;
+      otherProperty: number;
+      value: string;
+    };
+    rid: string;
+    ts: number;
+    _etag: string;
+  } => ({
     id, // Range ID
     _rid: "range-rid", // Resource ID of the partition key range
     minInclusive, // Minimum value of the partition key range
@@ -74,7 +90,24 @@ describe("OrderByQueryExecutionContext", function () {
     status: "Online", // Status of the partition
   });
 
-  const createMockDocument = (id: string, name: string, value: string) => ({
+  const createMockDocument = (
+    id: string,
+    name: string,
+    value: string,
+  ): {
+    orderByItems: {
+      item: string;
+    }[];
+    payload: {
+      id: string;
+      name: string;
+      otherProperty: number;
+      value: string;
+    };
+    rid: string;
+    ts: number;
+    _etag: string;
+  } => ({
     orderByItems: [
       {
         item: id, // Value of the property used in ORDER BY (e.g., timestamp or other sortable field)
@@ -99,13 +132,13 @@ describe("OrderByQueryExecutionContext", function () {
     const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
     const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-    const fetchAllInternalStub = sinon.stub().resolves({
+    const fetchAllInternalStub = vi.fn().mockResolvedValue({
       resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
       headers: { "x-ms-request-charge": "1.23" },
       code: 200,
     });
 
-    sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+    vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
       fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
     } as unknown as QueryIterator<PartitionKeyRange>);
 
@@ -129,7 +162,7 @@ describe("OrderByQueryExecutionContext", function () {
     const mockDocumentList = [mockDocument1, mockDocument2, mockDocument3];
     let i = 0;
     // Define a stub for queryFeed in clientContext
-    sinon.stub(clientContext, "queryFeed").callsFake(async () => {
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async () => {
       return {
         result: [mockDocumentList[i++]] as unknown as Resource, // Add result to mimic expected structure
         headers: {
@@ -173,13 +206,13 @@ describe("OrderByQueryExecutionContext", function () {
     const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
     const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-    const fetchAllInternalStub = sinon.stub().resolves({
+    const fetchAllInternalStub = vi.fn().mockResolvedValue({
       resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
       headers: { "x-ms-request-charge": "1.23" },
       code: 200,
     });
 
-    sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+    vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
       fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
     } as unknown as QueryIterator<PartitionKeyRange>);
 
@@ -207,7 +240,7 @@ describe("OrderByQueryExecutionContext", function () {
 
     let i = -1;
     // Define a stub for queryFeed in clientContext
-    sinon.stub(clientContext, "queryFeed").callsFake(async () => {
+    vi.spyOn(clientContext, "queryFeed").mockImplementation(async () => {
       i++;
       if (i === 0) {
         return {

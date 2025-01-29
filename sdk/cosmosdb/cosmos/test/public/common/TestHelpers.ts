@@ -7,14 +7,12 @@ import type {
   ContainerRequest,
   CosmosClient,
   CosmosClientOptions,
-  CosmosDbDiagnosticLevel,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
   DatabaseRequest,
   FailedRequestAttemptDiagnostic,
   GatewayStatistics,
-  GlobalEndpointManager,
   ItemDefinition,
   ItemResponse,
   MetadataLookUpDiagnostic,
@@ -32,7 +30,14 @@ import type {
   UserDefinition,
   UserResponse,
 } from "../../../src/index.js";
-import { ClientContext, ConnectionMode, ConsistencyLevel, Constants } from "../../../src/index.js";
+import {
+  ClientContext,
+  ConnectionMode,
+  ConsistencyLevel,
+  Constants,
+  CosmosDbDiagnosticLevel,
+  GlobalEndpointManager,
+} from "../../../src/index.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
@@ -42,7 +47,7 @@ import {
 import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
-import { assert, expect, chai } from "vitest";
+import { assert, expect, chai, vi } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -744,12 +749,12 @@ export function initializeMockPartitionKeyRanges(
     createMockPartitionKeyRange(index.toString(), range[0], range[1]),
   );
 
-  const fetchAllInternalStub = sinon.stub().resolves({
+  const fetchAllInternalStub = vi.fn().mockResolvedValue({
     resources: partitionKeyRanges,
     headers: { "x-ms-request-charge": "1.23" },
     code: 200,
   });
-  sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+  vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
     fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
   } as unknown as QueryIterator<PartitionKeyRange>);
 }
