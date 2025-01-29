@@ -11,6 +11,11 @@ import {
   ParticipantsAddedEvent,
   ParticipantsRemovedEvent,
   ReadReceiptReceivedEvent,
+  StreamingChatMessageChunkReceivedEvent,
+  StreamingChatMessageStartEvent,
+  StreamEndReason,
+  StreamingMessageMetadata,
+  StreamingMessageType,
   TypingIndicatorReceivedEvent,
 } from "@azure/communication-signaling";
 
@@ -25,6 +30,8 @@ type ChatEventId =
   | "chatThreadPropertiesUpdated"
   | "participantsAdded"
   | "participantsRemoved"
+  | "streamingChatMessageStarted"
+  | "streamingChatMessageChunkReceived"
   | "realTimeNotificationConnected"
   | "realTimeNotificationDisconnected";
 
@@ -40,4 +47,9 @@ export {
   ChatThreadPropertiesUpdatedEvent,
   ParticipantsAddedEvent,
   ParticipantsRemovedEvent,
+  StreamingChatMessageChunkReceivedEvent,
+  StreamingChatMessageStartEvent,
+  StreamEndReason,
+  StreamingMessageMetadata,
+  StreamingMessageType,
 };
