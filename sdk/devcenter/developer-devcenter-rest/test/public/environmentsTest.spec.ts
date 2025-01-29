@@ -31,24 +31,24 @@ describe("DevCenter Environments Operations Test", () => {
   let userId: string;
 
   beforeEach(async (context) => {
-      recorder = await createRecorder(context);
+    recorder = await createRecorder(context);
 
-      endpoint = env["ENDPOINT"] || "";
-      projectName = env["DEFAULT_PROJECT_NAME"] || "";
-      catalogName = env["DEFAULT_CATALOG_NAME"] || "";
-      envDefinitionName = env["DEFAULT_ENVIRONMENT_DEFINITION_NAME"] || "";
-      environmentTypeName = env["DEFAULT_ENVIRONMENT_TYPE_NAME"] || "";
-      environmentName = env["DEFAULT_ENVIRONMENT_NAME"] || "";
-      userId = env["DEFAULT_USER_NAME"] || "";
+    endpoint = env["ENDPOINT"] || "";
+    projectName = env["DEFAULT_PROJECT_NAME"] || "";
+    catalogName = env["DEFAULT_CATALOG_NAME"] || "";
+    envDefinitionName = env["DEFAULT_ENVIRONMENT_DEFINITION_NAME"] || "";
+    environmentTypeName = env["DEFAULT_ENVIRONMENT_TYPE_NAME"] || "";
+    environmentName = env["DEFAULT_ENVIRONMENT_NAME"] || "";
+    userId = env["DEFAULT_USER_NAME"] || "";
 
-      client = createRecordedClient(recorder, endpoint, {
-        allowInsecureConnection: false,
-      });
+    client = createRecordedClient(recorder, endpoint, {
+      allowInsecureConnection: false,
     });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("Get catalog by project and name", async function () {
     const catalog = await client

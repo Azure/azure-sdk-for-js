@@ -32,22 +32,22 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   let devboxName: string;
 
   beforeEach(async (context) => {
-      recorder = await createRecorder(context);
+    recorder = await createRecorder(context);
 
-      endpoint = env["ENDPOINT"] || "";
-      projectName = env["DEFAULT_PROJECT_NAME"] || "";
-      userId = env["DEFAULT_USER_NAME"] || "";
-      poolName = env["DEFAULT_POOL_NAME"] || "";
-      devboxName = env["DEFAULT_DEVBOX_NAME"] || "";
+    endpoint = env["ENDPOINT"] || "";
+    projectName = env["DEFAULT_PROJECT_NAME"] || "";
+    userId = env["DEFAULT_USER_NAME"] || "";
+    poolName = env["DEFAULT_POOL_NAME"] || "";
+    devboxName = env["DEFAULT_DEVBOX_NAME"] || "";
 
-      client = createRecordedClient(recorder, endpoint, {
-        allowInsecureConnection: false,
-      });
+    client = createRecordedClient(recorder, endpoint, {
+      allowInsecureConnection: false,
     });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("GetPool", async function () {
     const poolOutput = await client
