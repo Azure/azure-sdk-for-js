@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary returns the current status of an async operation.
  * x-ms-original-file: 2024-09-01-preview/Get_OperationStatus.json
  */
-async function getOperationStatus() {
+async function getOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function getOperationStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getOperationStatus();
 }
 
