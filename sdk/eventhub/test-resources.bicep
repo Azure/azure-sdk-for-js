@@ -20,7 +20,7 @@ var blobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var tablesDataContributorRoleId = '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
 var iotHubDataContributorRoleId = '4fc6c259-987e-4a07-842e-c321cc9d413f'
 
-module globals '../../global.bicep' = {
+module globals '../../eng/global.bicep' = {
   name: 'globals'
 }
 
