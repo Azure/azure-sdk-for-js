@@ -43,21 +43,21 @@ describe("DefenderEasm test", () => {
   let resourceGroup: string;
   let resourceName: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new EasmMgmtClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourceName = "testresource1"
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new EasmMgmtClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      resourceName = "testresource1"
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("workspaces create test", async function () {
     const res = await client.workspaces.beginCreateAndUpdateAndWait(
