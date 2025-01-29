@@ -126,7 +126,6 @@ describe("Library/TraceHandler", () => {
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
-              console.log(`BIG TEST FOR THIS TEST WOW TEST: ${JSON.stringify(spans[0].attributes)}`);
               assert.deepStrictEqual(spans.length, 2);
               // Incoming request
               assert.deepStrictEqual(spans[0].name, "GET");
