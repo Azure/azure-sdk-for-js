@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get a list of all provisioning services in the given resource group.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSListByResourceGroup.json
  */
-async function dpsListByResourceGroup() {
+async function dpsListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -33,7 +33,7 @@ async function dpsListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsListByResourceGroup();
 }
 

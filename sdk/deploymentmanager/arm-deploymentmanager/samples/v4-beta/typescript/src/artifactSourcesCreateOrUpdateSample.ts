@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Synchronously creates a new artifact source or updates an existing artifact source.
  * x-ms-original-file: specification/deploymentmanager/resource-manager/Microsoft.DeploymentManager/preview/2019-11-01-preview/examples/artifactsource_createorupdate.json
  */
-async function createArtifactSource() {
+async function createArtifactSource(): Promise<void> {
   const subscriptionId = "caac1590-e859-444f-a9e0-62091c0f5929";
   const resourceGroupName = "myResourceGroup";
   const artifactSourceName = "myArtifactSource";
@@ -53,7 +53,7 @@ createArtifactSource().catch(console.error);
  * @summary Synchronously creates a new artifact source or updates an existing artifact source.
  * x-ms-original-file: specification/deploymentmanager/resource-manager/Microsoft.DeploymentManager/preview/2019-11-01-preview/examples/artifactsource_createorupdate_artifactroot.json
  */
-async function createArtifactSourceWithArtifactRootAnOffsetIntoTheStorageContainer() {
+async function createArtifactSourceWithArtifactRootAnOffsetIntoTheStorageContainer(): Promise<void> {
   const subscriptionId = "caac1590-e859-444f-a9e0-62091c0f5929";
   const resourceGroupName = "myResourceGroup";
   const artifactSourceName = "myArtifactSource";

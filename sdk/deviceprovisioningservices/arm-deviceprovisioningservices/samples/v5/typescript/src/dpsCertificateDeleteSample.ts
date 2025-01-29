@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes the specified certificate associated with the Provisioning Service
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSDeleteCertificate.json
  */
-async function dpsDeleteCertificate() {
+async function dpsDeleteCertificate(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -36,7 +36,7 @@ async function dpsDeleteCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsDeleteCertificate();
 }
 

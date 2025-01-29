@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the service unit.
  * x-ms-original-file: specification/deploymentmanager/resource-manager/Microsoft.DeploymentManager/preview/2019-11-01-preview/examples/serviceunit_get.json
  */
-async function getServiceUnit() {
+async function getServiceUnit(): Promise<void> {
   const subscriptionId = "caac1590-e859-444f-a9e0-62091c0f5929";
   const resourceGroupName = "myResourceGroup";
   const serviceTopologyName = "myTopology";

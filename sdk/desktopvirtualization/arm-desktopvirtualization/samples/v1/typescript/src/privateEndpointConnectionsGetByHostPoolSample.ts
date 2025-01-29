@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get a private endpoint connection.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateEndpointConnection_GetByHostPool.json
  */
-async function privateEndpointConnectionGetByHostPool() {
+async function privateEndpointConnectionGetByHostPool(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] ||
     "daefabc0-95b4-48b3-b645-8a753a63c4fa";
@@ -34,7 +34,7 @@ async function privateEndpointConnectionGetByHostPool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionGetByHostPool();
 }
 
