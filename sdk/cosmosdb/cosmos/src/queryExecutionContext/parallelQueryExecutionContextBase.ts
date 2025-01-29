@@ -217,7 +217,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
 
     if (replacementPartitionKeyRanges.length === 0) {
-      throw error;
+      throw new Error("Received empty partition key ranges for a split or merge");
     } else if (replacementPartitionKeyRanges.length === 1) {
       // Partition is gone due to Merge
       // Create the replacement documentProducer with populateEpkRangeHeaders Flag set to true to set startEpk and endEpk headers

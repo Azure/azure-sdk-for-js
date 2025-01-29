@@ -120,7 +120,7 @@ const correlatedActivityId = "sample-activity-id"; // Example correlated activit
 
 const diagnosticLevel = CosmosDbDiagnosticLevel.info;
 
-describe("Partition-Merge", function () {
+describe("PartitionMerge", function () {
   const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
   const mockPartitionKeyRange1 = createMockPartitionKeyRange(
     "parent1",
@@ -200,25 +200,40 @@ describe("Partition-Merge", function () {
     const parentDocumentProducer1StartEpk = parentDocProd1.startEpk;
     const parentDocumentProducer1EndEpk = parentDocProd1.endEpk;
 
-    // Mocking the _getReplacementPartitionKeyRanges function to return a single partition key range
+    // Mocking the _getReplacementPartitionKeyRanges function to return a empty partition key range
     const getReplacementPartitionKeyRangesStub = sinon
       .stub(context as any, "_getReplacementPartitionKeyRanges")
-      .resolves([createMockPartitionKeyRange("child1", "", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")]);
+      .resolves([]);
 
     // Creating a spy on the _enqueueReplacementDocumentProducers function
     const enqueueSpy = sinon.spy(context as any, "_enqueueReplacementDocumentProducers");
 
     try {
-      // The query fails because the fetchMore method of the first document producer throws a Gone error
+      // The query fails because the _getReplacementPartitionKeyRanges method returns an empty partition key range array
       await context.fetchMore(context["diagnosticNodeWrapper"]["diagnosticNode"]);
-      assert.fail("Expected query to fail");
     } catch (err) {
       assert(err);
+      assert.equal(err.message, "Received empty partition key ranges for a split or merge");
     }
 
     // Assert that the _enqueueReplacementDocumentProducers function was called once
     assert(enqueueSpy.calledOnce);
     enqueueSpy.restore();
+
+    // Enqueue the parent document producer back into the priority queue
+    context["unfilledDocumentProducersQueue"].enq(parentDocProd1);
+
+    // Restoring and mocking again the _getReplacementPartitionKeyRanges function
+    getReplacementPartitionKeyRangesStub.restore();
+    sinon
+      .stub(context as any, "_getReplacementPartitionKeyRanges")
+      .resolves([createMockPartitionKeyRange("child1", "", "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")]);
+
+    try {
+      await context.fetchMore(context["diagnosticNodeWrapper"]["diagnosticNode"]);
+    } catch (err) {
+      assert(err);
+    }
 
     // Assert that the priority queue has 2 document producers. One parent and one newly created child
     assert.equal(context["unfilledDocumentProducersQueue"].size(), 2);
