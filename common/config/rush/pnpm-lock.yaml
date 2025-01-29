@@ -1313,6 +1313,10 @@ packages:
     resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/communication-common@2.3.2-alpha.20250122.7':
+    resolution: {integrity: sha512-P7JlsXNxzLuXQt5l/rSa+GNcuhIrx1ETobi2UKBKHyuo3XAuMnOSocvq/+X6zfBnejV93ceG5IZZsx5HCbZIxw==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/communication-phone-numbers@1.2.0':
     resolution: {integrity: sha512-fuCtFFSJb8fZohEJmy3rdD6yohCCirlVzSiebJ8JIX2wrzw44/JEP0jd9V+vtGZUCyDk5Xj2ackb4FI/kH7wUQ==}
     engines: {node: '>=14.0.0'}
@@ -3581,7 +3585,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
-    resolution: {integrity: sha512-+fUUji1s8tIhmMZ/2tat7Ul2qvrgxlRW+gHhtOO666uSLIEUgkS6lbvUwzQ451r2TNjqCOcV9TwmTJ4qHlV48Q==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-Oi8KtlLdZJWFTc+jLI8ABKoKcBiZTsRREVk5dEduk+NOdPw4OrhK4QQDki4BK7b6Q+RzvblChp99RtiC/ZDtXg==, tarball: file:projects/communication-chat.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
@@ -8425,6 +8429,20 @@ snapshots:
   '@azure/communication-common@2.3.1':
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-rest-pipeline': 1.18.2
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      events: 3.3.0
+      jwt-decode: 4.0.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/communication-common@2.3.2-alpha.20250122.7':
+    dependencies:
+      '@azure-rest/core-client': 2.3.2
+      '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
       '@azure/core-rest-pipeline': 1.18.2
       '@azure/core-tracing': 1.2.0
@@ -16682,6 +16700,7 @@ snapshots:
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
+      '@azure/communication-common': 2.3.2-alpha.20250122.7
       '@azure/communication-signaling': 1.0.0-beta.29
       '@types/node': 18.19.71
       '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
