@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Checks ADU resource name availability.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/CheckNameAvailability_AlreadyExists.json
  */
-async function checkNameAvailabilityAlreadyExists() {
+async function checkNameAvailabilityAlreadyExists(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +38,7 @@ async function checkNameAvailabilityAlreadyExists() {
  * @summary Checks ADU resource name availability.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/CheckNameAvailability_Available.json
  */
-async function checkNameAvailabilityAvailable() {
+async function checkNameAvailabilityAvailable(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,7 +52,7 @@ async function checkNameAvailabilityAvailable() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkNameAvailabilityAlreadyExists();
   checkNameAvailabilityAvailable();
 }

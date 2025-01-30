@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DnsResourceReferenceRequest,
-  DnsManagementClient,
-} from "@azure/arm-dns";
+import type { DnsResourceReferenceRequest } from "@azure/arm-dns";
+import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -32,10 +28,7 @@ async function getDnsResourceReference(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
-  const result =
-    await client.dnsResourceReferenceOperations.getByTargetResources(
-      parameters,
-    );
+  const result = await client.dnsResourceReferenceOperations.getByTargetResources(parameters);
   console.log(result);
 }
 

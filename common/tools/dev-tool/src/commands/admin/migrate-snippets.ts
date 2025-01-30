@@ -86,7 +86,7 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
   await updateReadme(resolve(projectFolder, "README.md"));
   await addSnippetFiles(projectFolder);
   await cleanupCode(projectFolder);
-  if (!(await runCleanup())) {
+  if (!(await runCleanup(projectFolder))) {
     return false;
   }
 
@@ -127,8 +127,11 @@ function fixLegacyStatements(sourceFile: SourceFile): void {
   }
 }
 
-async function runCleanup(): Promise<boolean> {
-  const lintCommand = await vendored(
+async function runCleanup(projectFolder: string): Promise<boolean> {
+  const samplesDevPath = resolve(projectFolder, "samples-dev");
+  const hasSamplesDev = existsSync(samplesDevPath);
+
+  const lintCommandArgs = [
     "eslint",
     "--no-inline-config",
     "--rule",
@@ -137,28 +140,47 @@ async function runCleanup(): Promise<boolean> {
     "@typescript-eslint/explicit-function-return-type: error",
     "--rule",
     "@azure/azure-sdk/github-source-headers: off",
+    "--rule",
+    "@azure/azure-sdk/ts-package-json-name: off",
     "*.json",
-    "samples-dev",
     "test",
     "--fix",
-  );
+  ];
+
+  if (hasSamplesDev) {
+    const testIndex = lintCommandArgs.indexOf("test");
+    if (testIndex !== -1) {
+      lintCommandArgs.splice(testIndex + 1, 0, "samples-dev");
+    }
+  }
+
+  const lintCommand = await vendored(...lintCommandArgs);
 
   if (!lintCommand) {
     return false;
   }
 
-  const prettierCommand = await vendored(
+  const prettierCommandArgs = [
     "prettier",
     "--write",
     "--config",
     "../../../.prettierrc.json",
     "--ignore-path",
     "../../../.prettierignore",
-    "samples-dev/**/*.ts",
     "test/**/*.ts",
     "*.json",
     "*.ts",
-  );
+  ];
+
+  if (hasSamplesDev) {
+    const testIndex = prettierCommandArgs.indexOf("test/**/*.ts");
+    if (testIndex !== -1) {
+      prettierCommandArgs.splice(testIndex + 1, 0, "samples-dev/**/*.ts");
+    }
+  }
+
+  const prettierCommand = await vendored(...prettierCommandArgs);
+
   if (!prettierCommand) {
     return false;
   }

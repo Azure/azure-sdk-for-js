@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,10 +22,7 @@ async function deleteDnssecConfig(): Promise<void> {
   const zoneName = "zone1";
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.dnssecConfigs.beginDeleteAndWait(
-    resourceGroupName,
-    zoneName,
-  );
+  const result = await client.dnssecConfigs.beginDeleteAndWait(resourceGroupName, zoneName);
   console.log(result);
 }
 
