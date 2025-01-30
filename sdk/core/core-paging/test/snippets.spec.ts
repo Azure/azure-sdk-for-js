@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "../src/index.js";
 
 interface ListSecretsOptions {}
 interface SecretAttributes {}
@@ -17,7 +17,7 @@ function listSecretsPage(
 }
 
 describe("snippets", () => {
-  it("paging_example", async () => {
+  it("ReadmePagingSample", async () => {
     function listSecrets(
       options: ListSecretsOptions = {},
     ): PagedAsyncIterableIterator<SecretAttributes> {
@@ -32,7 +32,7 @@ describe("snippets", () => {
         byPage: (settings: PageSettings = {}) => listSecretsPage(settings, options),
       };
     }
-
+    // @ts-preserve-whitespace
     for await (const page of listSecrets().byPage({ maxPageSize: 2 })) {
       for (const secret of page) {
         console.log("secret: ", secret);
