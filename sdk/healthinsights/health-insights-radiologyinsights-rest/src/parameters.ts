@@ -4,10 +4,19 @@
 import type { RequestParameters } from "@azure-rest/core-client";
 import type { RadiologyInsightsJob } from "./models.js";
 
-/** Get the job query parameter properties */
+/** This is the wrapper object for the parameter `expand` with explode set to true and style set to form. */
+export interface GetJobExpandQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: true;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface GetJobQueryParamProperties {
-  /** Expand the indicated resources into the response. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
-  expand?: string;
+  /** Expand the indicated resources into the response. */
+  expand?: GetJobExpandQueryParam;
 }
 
 /** Get the job query parameters */
@@ -21,14 +30,23 @@ export type GetJobParameters = GetJobQueryParam & RequestParameters;
 
 /** The create job body parameters. */
 export interface CreateJobBodyParam {
-  /** The body of the resource instance. */
+  /** The resource instance. */
   body: RadiologyInsightsJob;
 }
 
-/** The create job query parameter properties. */
+/** This is the wrapper object for the parameter `expand` with explode set to true and style set to form. */
+export interface CreateJobExpandQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: true;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface CreateJobQueryParamProperties {
-  /** Expand the indicated resources into the response. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
-  expand?: string;
+  /** Expand the indicated resources into the response. */
+  expand?: CreateJobExpandQueryParam;
 }
 
 /** The create job query parameter. */

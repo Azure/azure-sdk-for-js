@@ -1,14 +1,10 @@
 {
-  "references": [
-    {
-      "path": "./tsconfig.src.json"
-    },
-    {
-      "path": "./tsconfig.samples.json"
-    },
-    {
-      "path": "./tsconfig.test.json"
-    }
-  ],
-  "files": []
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "test/**/*.ts", "test/**/*.ts"]
 }
