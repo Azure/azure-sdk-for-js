@@ -113,7 +113,9 @@ describe("Agents - vector stores", () => {
 
   it("should create vector store and poll (through creation method)", async function () {
     // Create vector store
-    const vectorStore = await agents.createVectorStore({pollingOptions: {sleepIntervalInMs: 2000}}).poller;
+    const vectorStore = await agents.createVectorStore({
+      pollingOptions: { sleepIntervalInMs: 2000 },
+    }).poller;
     assert.isNotNull(vectorStore);
     assert.notEqual(vectorStore.status, "in_progress");
     console.log(

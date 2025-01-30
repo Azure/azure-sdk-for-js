@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { delay } from "@azure/core-util";
-import type { PollerLike, OperationState, OperationStatus, } from "@azure/core-lro";
+import type { PollerLike, OperationState, OperationStatus } from "@azure/core-lro";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
 const DEFAULT_POLL_INTERVAL_IN_MS = 1000;
@@ -21,7 +21,7 @@ export function createPoller<T>({
   getOperationError?: (result: T) => Error | undefined;
   intervalInMs?: number;
   onResponse?: (response: any) => void;
-}): PollerLike<OperationState<T>, T>{
+}): PollerLike<OperationState<T>, T> {
   let state: OperationState<T>;
   const statePromise = initOperation().then((result) => {
     state = {
@@ -124,14 +124,14 @@ export function createPoller<T>({
 
       // Poll
       if (pollOptions?.abortSignal?.aborted) {
-        throw new Error("Operation aborted")
+        throw new Error("Operation aborted");
       }
       const result = await pollOperation(state.result);
       state = {
         result,
         status: getOperationStatus(result),
         error: getOperationError ? getOperationError(result) : undefined,
-      }
+      };
       if (onResponse) {
         onResponse(result);
       }

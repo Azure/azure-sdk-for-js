@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions, RequestParameters } from "@azure-rest/core-client";
-import type { OpenAIFileOutput, ThreadRunOutput, VectorStoreFileBatchOutput, VectorStoreFileOutput, VectorStoreOutput } from "../customization/outputModels.js";
+import type {
+  OpenAIFileOutput,
+  ThreadRunOutput,
+  VectorStoreFileBatchOutput,
+  VectorStoreFileOutput,
+  VectorStoreOutput,
+} from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
   AgentThreadCreationOptions,
@@ -195,13 +201,16 @@ export type CreateVectorStoreResponse = PromiseLike<VectorStoreOutput> & {
   /**
    * Poller to poll the vector store creation operation.
    */
-  poller: PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>
+  poller: PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
 };
 
 /**
  * Optional parameters creating vector store.
  */
-export interface CreateVectorStoreOptionalParams extends VectorStoreOptions, OperationOptions, PollingOptionsParams {}
+export interface CreateVectorStoreOptionalParams
+  extends VectorStoreOptions,
+    OperationOptions,
+    PollingOptionsParams {}
 
 /**
  * Optional parameters for listing vector stores.
@@ -245,7 +254,8 @@ export type CreateVectorStoreFileResponse = PromiseLike<VectorStoreFileOutput> &
  */
 export interface CreateVectorStoreFileOptionalParams
   extends CreateVectorStoreFileOptions,
-    OperationOptions, PollingOptionsParams {}
+    OperationOptions,
+    PollingOptionsParams {}
 
 /**
  * Optional parameters for getting a vector store file.

@@ -70,7 +70,9 @@ export function uploadFile(
     },
     getOperationStatus: getLroOperationStatus,
     getOperationError: (result: OpenAIFileOutput) => {
-      return result.status === "failed" && result.statusDetails ? new Error(`Operation failed: ${result.statusDetails}`) : undefined;
+      return result.status === "failed" && result.statusDetails
+        ? new Error(`Operation failed: ${result.statusDetails}`)
+        : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
@@ -79,7 +81,7 @@ export function uploadFile(
     then: function (onFulfilled, onrejected) {
       return initialResult.then(onFulfilled, onrejected).catch(onrejected);
     },
-    poller: poller
+    poller: poller,
   };
 }
 
@@ -89,7 +91,7 @@ export function uploadFileAndPoll(
   purpose: CustomizedFilePurpose,
   options: UploadFileOptionalParams = {},
 ): PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput> {
-   return createPoller<OpenAIFileOutput>({
+  return createPoller<OpenAIFileOutput>({
     initOperation: async () => {
       return uploadFileInternal(context, content, purpose, options);
     },
@@ -98,7 +100,9 @@ export function uploadFileAndPoll(
     },
     getOperationStatus: getLroOperationStatus,
     getOperationError: (result: OpenAIFileOutput) => {
-      return result.status === "failed" && result.statusDetails ? new Error(`Operation failed: ${result.statusDetails}`) : undefined;
+      return result.status === "failed" && result.statusDetails
+        ? new Error(`Operation failed: ${result.statusDetails}`)
+        : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });

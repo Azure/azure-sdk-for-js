@@ -38,7 +38,9 @@ export async function main(): Promise<void> {
   // (Optionally) an AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
   const vectorStorePoller = client.agents.createVectorStore(vectorStoreOptions).poller;
-  const _vectorStore = await vectorStorePoller.pollUntilDone({ abortSignal: abortController.signal });
+  const _vectorStore = await vectorStorePoller.pollUntilDone({
+    abortSignal: abortController.signal,
+  });
   console.log(
     `Created vector store with status ${_vectorStore.status}, vector store ID: ${_vectorStore.id}`,
   );

@@ -54,7 +54,7 @@ export function createVectorStoreFileBatch(
     then: function (onFulfilled, onrejected) {
       return initialResult.then(onFulfilled, onrejected).catch(onrejected);
     },
-    poller: poller
+    poller: poller,
   };
 }
 

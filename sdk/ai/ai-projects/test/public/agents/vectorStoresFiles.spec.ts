@@ -5,6 +5,7 @@ import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import { isNodeLike } from "@azure/core-util";
 
 describe("Agents - vector stores files", () => {
   let recorder: Recorder;
@@ -32,12 +33,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
+    const fileContent = await generateFileStream();
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -62,12 +58,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
+    const fileContent = await generateFileStream();
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -96,12 +87,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
+    const fileContent = await generateFileStream();
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -124,12 +110,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
+    const fileContent = await generateFileStream();
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -153,12 +134,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
+    const fileContent = await generateFileStream();
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -188,12 +164,7 @@ describe("Agents - vector stores files", () => {
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Upload file
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      },
-    });
+    const fileContent = await generateFileStream();
     const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     console.log(`Uploaded file, file ID: ${file.id}`);
 
@@ -217,3 +188,17 @@ describe("Agents - vector stores files", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 });
+
+async function generateFileStream(): Promise<ReadableStream | NodeJS.ReadableStream> {
+  if (isNodeLike) {
+    const stream = await import("stream");
+    return stream.Readable.from("fileContent");
+  } else {
+    return new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      },
+    });
+  }
+}

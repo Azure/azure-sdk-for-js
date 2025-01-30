@@ -48,10 +48,9 @@ export async function main(): Promise<void> {
   console.log(`Uploaded file2, file ID: ${file2.id}`);
 
   // Create vector store file batch and poll
-  const vectorStoreFileBatch = await client.agents.createVectorStoreFileBatch(
-    vectorStore.id,
-    {fileIds: [file1.id, file2.id]},
-  ).poller;
+  const vectorStoreFileBatch = await client.agents.createVectorStoreFileBatch(vectorStore.id, {
+    fileIds: [file1.id, file2.id],
+  }).poller;
   console.log(
     `Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`,
   );
@@ -60,11 +59,12 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optionally) an AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStoreFileBatchPoller = client.agents.createVectorStoreFileBatch(
-    vectorStore.id,
-    {fileIds: [file1.id, file2.id]},
-  ).poller;
-  const _vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone({ abortSignal: abortController.signal });
+  const vectorStoreFileBatchPoller = client.agents.createVectorStoreFileBatch(vectorStore.id, {
+    fileIds: [file1.id, file2.id],
+  }).poller;
+  const _vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone({
+    abortSignal: abortController.signal,
+  });
   console.log(
     `Created vector store file batch with status ${_vectorStoreFileBatch.status}, vector store file batch ID: ${_vectorStoreFileBatch.id}`,
   );

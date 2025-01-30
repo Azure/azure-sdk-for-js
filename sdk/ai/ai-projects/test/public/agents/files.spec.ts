@@ -49,23 +49,25 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFileAndPoll(fileContent, "assistants", { fileName: "filename.txt" });
+    const file = await agents.uploadFileAndPoll(fileContent, "assistants", {
+      fileName: "filename.txt",
+    });
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });
 
   it("should upload file and poll (through creation method)", async function () {
-   const fileContent = new ReadableStream({
+    const fileContent = new ReadableStream({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" }).poller;
+    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" })
+      .poller;
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });
-
 
   it("should delete file", async function () {
     const fileContent = new ReadableStream({

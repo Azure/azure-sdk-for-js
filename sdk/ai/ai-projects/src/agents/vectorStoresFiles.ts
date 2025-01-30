@@ -75,7 +75,11 @@ export function createVectorStoreFile(
     },
     getOperationStatus: getLroOperationStatus,
     getOperationError: (result: VectorStoreFileOutput) => {
-      return result.status === "failed" && result.lastError ? new Error(`Operation failed with code ${result.lastError.code}: ${result.lastError.message}`) : undefined;
+      return result.status === "failed" && result.lastError
+        ? new Error(
+            `Operation failed with code ${result.lastError.code}: ${result.lastError.message}`,
+          )
+        : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
@@ -84,7 +88,7 @@ export function createVectorStoreFile(
     then: function (onFulfilled, onrejected) {
       return initialResult.then(onFulfilled, onrejected).catch(onrejected);
     },
-    poller: poller
+    poller: poller,
   };
 }
 
@@ -149,7 +153,11 @@ export function createVectorStoreFileAndPoll(
     },
     getOperationStatus: getLroOperationStatus,
     getOperationError: (result: VectorStoreFileOutput) => {
-      return result.status === "failed" && result.lastError ? new Error(`Operation failed with code ${result.lastError.code}: ${result.lastError.message}`) : undefined;
+      return result.status === "failed" && result.lastError
+        ? new Error(
+            `Operation failed with code ${result.lastError.code}: ${result.lastError.message}`,
+          )
+        : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });

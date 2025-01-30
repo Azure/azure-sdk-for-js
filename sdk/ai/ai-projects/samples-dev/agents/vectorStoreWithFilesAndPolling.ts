@@ -42,7 +42,10 @@ export async function main(): Promise<void> {
     fileId: file.id,
     pollingOptions: { sleepIntervalInMs: 2000 },
   };
-  const vectorStoreFile = await client.agents.createVectorStoreFile(vectorStore.id, vectorStoreFileOptions).poller;
+  const vectorStoreFile = await client.agents.createVectorStoreFile(
+    vectorStore.id,
+    vectorStoreFileOptions,
+  ).poller;
   console.log(
     `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
   );
@@ -51,8 +54,13 @@ export async function main(): Promise<void> {
   // This approach allows for more control over the polling process.
   // (Optionally) an AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStoreFilePoller = client.agents.createVectorStoreFile(vectorStore.id, vectorStoreFileOptions).poller;
-  const _vectorStoreFile = await vectorStoreFilePoller.pollUntilDone({ abortSignal: abortController.signal });
+  const vectorStoreFilePoller = client.agents.createVectorStoreFile(
+    vectorStore.id,
+    vectorStoreFileOptions,
+  ).poller;
+  const _vectorStoreFile = await vectorStoreFilePoller.pollUntilDone({
+    abortSignal: abortController.signal,
+  });
   console.log(
     `Created vector store file with status ${_vectorStoreFile.status}, vector store file ID: ${_vectorStoreFile.id}`,
   );
