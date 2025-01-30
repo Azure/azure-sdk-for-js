@@ -46,6 +46,7 @@ describe("Non Partitioned Container", function () {
   });
 
   after(async () => {
+    await container.database.delete();
     client.dispose();
     legacyClient.dispose();
   });
@@ -141,6 +142,63 @@ describe("Non Partitioned Container", function () {
     assert.equal(response[3].statusCode, StatusCodes.NoContent);
     assert.equal(response[4].statusCode, StatusCodes.Ok);
     assert.equal(response[5].statusCode, StatusCodes.Ok);
+  });
+
+  it("should handle streamed bulk operations", async () => {
+    const streamedBulkContainer = await getTestContainer("streamBulkDB", legacyClient);
+    const bulkContainer = client
+      .database(streamedBulkContainer.database.id)
+      .container(streamedBulkContainer.id);
+    const replaceItemId = "replaceId";
+    const deleteItemId = "deleteId";
+    const patchItemId = "patchId";
+    const readItemId = "readId";
+
+    await bulkContainer.items.create({ id: replaceItemId, key: "A" });
+    await bulkContainer.items.create({ id: deleteItemId, key: "A" });
+    await bulkContainer.items.create({ id: patchItemId, key: 5 });
+    await bulkContainer.items.create({ id: readItemId, key: 5 });
+
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "1", key: 1 },
+      },
+      {
+        operationType: "Upsert",
+        resourceBody: { id: "2", key: 2 },
+      },
+      {
+        operationType: "Replace",
+        id: replaceItemId,
+        resourceBody: { id: replaceItemId, key: 2 },
+      },
+      {
+        operationType: "Delete",
+        id: deleteItemId,
+      },
+      {
+        operationType: "Read",
+        id: readItemId,
+      },
+      {
+        operationType: "Patch",
+        id: patchItemId,
+        resourceBody: { operations: [{ op: PatchOperationType.incr, value: 1, path: "/key" }] },
+      },
+    ];
+    const streamer = bulkContainer.items.getBulkStreamer();
+    streamer.addOperations(operations);
+    const response = await streamer.endStream();
+    assert.equal(response.length, 6);
+    assert.equal(response[0].statusCode, StatusCodes.Created);
+    assert.equal(response[1].statusCode, StatusCodes.Created);
+    assert.equal(response[2].statusCode, StatusCodes.Ok);
+    assert.equal(response[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response[4].statusCode, StatusCodes.Ok);
+    assert.equal(response[5].statusCode, StatusCodes.Ok);
+
+    await bulkContainer.database.delete();
   });
 
   it("should handle batch operations", async function () {
