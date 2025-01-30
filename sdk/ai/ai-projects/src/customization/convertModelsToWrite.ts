@@ -146,7 +146,47 @@ function convertOpenApiToolDefinition(
 ): GeneratedModels.OpenApiToolDefinition {
   return {
     type: source.type,
-    openapi: source.openapi,
+    openapi: {
+      name: source.openapi.name,
+      description: source.openapi.description,
+      spec: source.openapi.spec,
+      auth: convertOpenApiAuthDetails(source.openapi.auth),
+    }
+  }
+};
+
+function convertOpenApiAuthDetails(
+  auth: PublicModels.OpenApiAuthDetails,
+): GeneratedModels.OpenApiAuthDetails {
+  switch (auth.type) {
+    case "anonymous":
+      return auth;
+    case "connection":
+      return convertOpenApiConnectionAuthDetails(auth as PublicModels.OpenApiConnectionAuthDetails);
+    case "managed_identity":
+      return convertOpenApiManagedAuthDetails(auth as PublicModels.OpenApiManagedAuthDetails);
+    default:
+      throw new Error(`Unknown auth type: ${auth}`);
+  }
+};
+
+function convertOpenApiConnectionAuthDetails(
+  source: PublicModels.OpenApiConnectionAuthDetails,
+): GeneratedModels.OpenApiConnectionAuthDetails {
+  return {
+    type: source.type,
+    security_scheme: {
+      connection_id: source.securityScheme.connectionId,
+    }
+  };
+}
+
+function convertOpenApiManagedAuthDetails(
+  source: PublicModels.OpenApiManagedAuthDetails,
+): GeneratedModels.OpenApiManagedAuthDetails {
+  return {
+    type: source.type,
+    security_scheme: source.securityScheme
   };
 }
 

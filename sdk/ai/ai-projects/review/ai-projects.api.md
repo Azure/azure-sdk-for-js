@@ -1732,6 +1732,9 @@ export class ToolSet {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
     };
+    addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+        definition: OpenApiToolDefinition;
+    };
     toolDefinitions: ToolDefinition[];
     toolResources: ToolResources;
 }
@@ -1760,6 +1763,8 @@ export class ToolUtility {
         definition: OpenApiToolDefinition;
     };
     static getOpenApiAnonymousAuthDetails(): OpenApiAnonymousAuthDetails;
+    static OpenApiConnectionAuthDetails(connectionId: string): OpenApiConnectionAuthDetails;
+    static OpenApiManagedAuthDetails(audience: string): OpenApiManagedAuthDetails;
 }
 
 // @public

@@ -9,7 +9,9 @@ import type {
   FunctionDefinition,
   FunctionToolDefinition,
   OpenApiAnonymousAuthDetails,
+  OpenApiConnectionAuthDetails,
   OpenApiFunctionDefinition,
+  OpenApiManagedAuthDetails,
   OpenApiToolDefinition,
   RequiredActionOutput,
   RequiredToolCallOutput,
@@ -177,13 +179,43 @@ export class ToolUtility {
   }
 
   /**
-   * Creates an auth object for an OpenApi tool
+   * Security details for OpenApi anonymous authentication
    *
    * @returns An auth object for an OpenApi tool.
    */
   static getOpenApiAnonymousAuthDetails(): OpenApiAnonymousAuthDetails {
     return {
       type: "anonymous",
+    };
+  }
+
+  /**
+   * Security details for OpenApi connection authentication
+   *
+   * @param connectionId - Connection id for connection auth type
+   * @returns An auth object for an OpenApi tool.
+   */
+  static OpenApiConnectionAuthDetails(connectionId: string): OpenApiConnectionAuthDetails {
+    return {
+      type: "connection",
+      securityScheme: {
+        connectionId: connectionId
+      }
+    };
+  }
+
+  /**
+   * Security details for OpenApi managed identity authentication.
+   *
+   * @param audience - Authentication scope for managed_identity auth type
+   * @returns An auth object for an OpenApi tool.
+   */
+  static OpenApiManagedAuthDetails(audience: string): OpenApiManagedAuthDetails {
+    return {
+      type: "managed_identity",
+      securityScheme: {
+        audience: audience
+      }
     };
   }
 }
@@ -268,6 +300,21 @@ export class ToolSet {
     const tool = ToolUtility.createAzureAISearchTool(indexConnectionId, indexName);
     this.toolDefinitions.push(tool.definition);
     this.toolResources = { ...this.toolResources, ...tool.resources };
+    return tool;
+  }
+
+  /**
+   * Adds an Azure AI search tool to the tool set.
+   * 
+   * @param openApiFunctionDefinition - The OpenApi function definition to use.
+   * 
+   * @returns An object containing the definition for the OpenApi tool
+   */
+  addOpenApiTool(
+    openApiFunctionDefinition: OpenApiFunctionDefinition
+  ): { definition: OpenApiToolDefinition } {
+    const tool = ToolUtility.createOpenApiTool(openApiFunctionDefinition);
+    this.toolDefinitions.push(tool.definition);
     return tool;
   }
 }
