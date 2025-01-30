@@ -170,7 +170,7 @@ export async function main() {
   );
 
   // Wait for a bit before cleaning up the sample
-  setTimeout(async () => {
+  await setTimeout(async () => {
     await subscription.close();
     await consumerClient.close();
     console.log(`Exiting iothubConnectionString sample`);

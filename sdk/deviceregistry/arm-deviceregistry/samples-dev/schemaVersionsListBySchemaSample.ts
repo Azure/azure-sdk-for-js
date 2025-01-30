@@ -15,7 +15,7 @@ async function listSchemaVersionsSchema() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.schemaVersions.listBySchema(
+  for await (const item of client.schemaVersions.listBySchema(
     "myResourceGroup",
     "my-schema-registry",
     "my-schema",
@@ -27,7 +27,7 @@ async function listSchemaVersionsSchema() {
 }
 
 async function main() {
-  listSchemaVersionsSchema();
+  await listSchemaVersionsSchema();
 }
 
 main().catch(console.error);

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import type { SystemEventsContext } from "../rest/index.js";
+import { ClientOptions } from "@azure-rest/core-client";
+import { SystemEventsContext } from "../rest/index.js";
 import getClient from "../rest/index.js";
 
 /** Optional parameters for the client. */

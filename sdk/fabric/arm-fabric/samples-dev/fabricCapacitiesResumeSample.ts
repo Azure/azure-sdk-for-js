@@ -18,7 +18,7 @@ async function resumeCapacity() {
 }
 
 async function main() {
-  resumeCapacity();
+  await resumeCapacity();
 }
 
 main().catch(console.error);

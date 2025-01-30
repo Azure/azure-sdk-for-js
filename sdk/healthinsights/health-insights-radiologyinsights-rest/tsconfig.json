@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
@@ -7,4 +8,11 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "test/**/*.ts", "test/**/*.ts"]
+=======
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
+>>>>>>> upstream/main
 }

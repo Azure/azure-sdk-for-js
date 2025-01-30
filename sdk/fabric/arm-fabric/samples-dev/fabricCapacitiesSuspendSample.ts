@@ -18,7 +18,7 @@ async function suspendCapacity() {
 }
 
 async function main() {
-  suspendCapacity();
+  await suspendCapacity();
 }
 
 main().catch(console.error);

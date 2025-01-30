@@ -18,7 +18,7 @@ async function deleteAssetEndpointProfile() {
 }
 
 async function main() {
-  deleteAssetEndpointProfile();
+  await deleteAssetEndpointProfile();
 }
 
 main().catch(console.error);

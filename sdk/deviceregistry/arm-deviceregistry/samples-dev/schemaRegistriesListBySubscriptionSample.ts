@@ -15,7 +15,7 @@ async function listSchemaRegistriesSubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.schemaRegistries.listBySubscription()) {
+  for await (const item of client.schemaRegistries.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listSchemaRegistriesSubscription() {
 }
 
 async function main() {
-  listSchemaRegistriesSubscription();
+  await listSchemaRegistriesSubscription();
 }
 
 main().catch(console.error);

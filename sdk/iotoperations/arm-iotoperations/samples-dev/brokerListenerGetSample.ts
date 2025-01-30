@@ -24,7 +24,7 @@ async function brokerListenerGet() {
 }
 
 async function main() {
-  brokerListenerGet();
+  await brokerListenerGet();
 }
 
 main().catch(console.error);

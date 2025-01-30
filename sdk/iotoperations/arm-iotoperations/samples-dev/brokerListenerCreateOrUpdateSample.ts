@@ -144,9 +144,9 @@ async function brokerListenerCreateOrUpdateSimple() {
 }
 
 async function main() {
-  brokerListenerCreateOrUpdateComplex();
-  brokerListenerCreateOrUpdate();
-  brokerListenerCreateOrUpdateSimple();
+  await brokerListenerCreateOrUpdateComplex();
+  await brokerListenerCreateOrUpdate();
+  await brokerListenerCreateOrUpdateSimple();
 }
 
 main().catch(console.error);

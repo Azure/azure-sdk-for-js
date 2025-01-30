@@ -20,7 +20,7 @@ async function loadBalancersDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  loadBalancersDelete();
+  await loadBalancersDelete();
 }
 
 main().catch(console.error);

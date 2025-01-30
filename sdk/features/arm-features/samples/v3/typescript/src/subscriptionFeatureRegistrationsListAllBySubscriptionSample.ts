@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns subscription feature registrations for given subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/FeatureRegistration/SubscriptionFeatureRegistrationLISTALL.json
  */
-async function getsAListOfFeatureRegistrations() {
+async function getsAListOfFeatureRegistrations(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
   const client = new FeatureClient(credential, subscriptionId);

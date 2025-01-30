@@ -19,7 +19,7 @@ async function getSchemaRegistry() {
 }
 
 async function main() {
-  getSchemaRegistry();
+  await getSchemaRegistry();
 }
 
 main().catch(console.error);
