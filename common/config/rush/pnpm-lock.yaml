@@ -279,7 +279,7 @@ importers:
         version: file:projects/arm-datamigration.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-dataprotection':
         specifier: file:./projects/arm-dataprotection.tgz
-        version: file:projects/arm-dataprotection.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+        version: file:projects/arm-dataprotection.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-defendereasm':
         specifier: file:./projects/arm-defendereasm.tgz
         version: file:projects/arm-defendereasm.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -2704,7 +2704,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
-    resolution: {integrity: sha512-TVqurxZGAWBtJuzZTr+rUdJM9eHGgTu7h638ukTCZG/7CrBHM+MrpfE4mEkiArgpjGYfSS7p+abAvGZJ5PYFBg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-vjq2Gao56nWls4WanTBCTwwjx58Tjne7vWsJzG6pjaM3KnNVuC91v97x+MT2OKq4EmRYJ3yTNFs6T+Vg7rVJmQ==, tarball: file:projects/app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
@@ -2980,11 +2980,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz':
-    resolution: {integrity: sha512-yXzppi1977tvKoQQ/gxAttGXVIetYNk5fP1iHt9ecSTtBsq/RecEq82RvwxkWV+qXvTLY9r3MpZmRN0HF3MB2A==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-wRv8JETOioIRRzfjiZBCYMGNzUYHvR9yUZbE/mYFQzIWFPeaSsP5WhgWW9PRTjB1M1QMVD4wgo0eRzRrppi0wQ==, tarball: file:projects/arm-dataprotection.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-defendereasm@file:projects/arm-defendereasm.tgz':
-    resolution: {integrity: sha512-wC1PBT/Rs35ve9C7hdduYzUtv+0H4RcgPZc9pFXnsurfrKg95LVvLOIyUB7SJPzpGGkIs1mr9fVYFx6pwoj1wA==, tarball: file:projects/arm-defendereasm.tgz}
+    resolution: {integrity: sha512-9l0LN386TsLTzjND5kWmy45AAa0scC4h3MejlDxZDEjMxOHWzXA3QZMZdgr1PB6seTY67AwBgABTk9L0550ALg==, tarball: file:projects/arm-defendereasm.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deploymentmanager@file:projects/arm-deploymentmanager.tgz':
@@ -3828,7 +3828,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-Oo1YC8Bl9JY/gJF6MTQWnAhSRPfZvqjaXfuU4SUsyRGmamwrkDfigyUJYEcqRwCF4JyZ+JjkgIdVER9nITATsA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-v9YVLjFKbVmx5EWiE7LsPWU04QvgDtvIkB2cGhQhm+sbNsCmXtdvkuRLCU7KqB/fWUMjAmnE14leCv/9cKYr8Q==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -4000,11 +4000,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-zkjFwSF6XaWqqgTseIApfabjxBusvCV2GCPAH0784331hWHMlVMm2mnpVoLpR4EUD3/m2sK9/UTvRzAuToJhTQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-hEnlLvehlh3ejDkAZMH2pTtAPU+i6O550upJ4DPMW89QmlerdmJT9CJt3u8yCb6af/ei6C871wpRH/JEXKk4ig==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-XCp3e1E1Qj+LdCmuDtuI4lpUYOWxXSi605U4I+lcTCBV32Qdtz4bRMu0+TDWh2TemD63u/QacXshllWPVjPVyQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-z5UtXbsaWkLnIHmEMZoEtUXx1JlX0h8qgs+NUDTrIhb4eeKvLQQq7MdBn5ebvQ5+IK9X7Eo48plVd7uc0klcuQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
@@ -6913,9 +6913,9 @@ packages:
   nise@6.1.1:
     resolution: {integrity: sha512-aMSAzLVY7LyeM60gvBS423nBmIPP+Wy7St7hsb+8/fc1HmeoHJfLO8CKse4u3BtOZvQLJghYPI2i/1WZrEj5/g==}
 
-  nock@14.0.0:
-    resolution: {integrity: sha512-3Z2ZoZoYTR/y2I+NI16+6IzfZFKBX7MrADtoBAm7v/QKqxQUhKw+Dh+847PPS1j/FDutjfIXfrh3CJF74yITWg==}
-    engines: {node: '>= 18'}
+  nock@13.5.6:
+    resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
+    engines: {node: '>= 10.13'}
 
   node-abi@3.73.0:
     resolution: {integrity: sha512-z8iYzQGBu35ZkTQ9mtR8RqugJZ9RCLn8fv3d7LsgDBzOijGQP3RdKTX4LA7LXw03ZhU5z0l4xfhIMgSES31+cg==}
@@ -10841,7 +10841,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      nock: 14.0.0
+      nock: 13.5.6
       playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -13190,9 +13190,8 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13200,7 +13199,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.50.0
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
@@ -13221,6 +13219,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
@@ -13228,7 +13227,6 @@ snapshots:
 
   '@rush-temp/arm-defendereasm@file:projects/arm-defendereasm.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -18663,7 +18661,7 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       jsbi: 4.3.0
       mocha: 11.1.0
-      nock: 14.0.0
+      nock: 13.5.6
       priorityqueuejs: 2.0.0
       requirejs: 2.3.7
       semaphore: 1.1.0
@@ -20276,7 +20274,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      nock: 14.0.0
+      nock: 13.5.6
       playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -20337,7 +20335,7 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.19.0
       mocha: 11.1.0
-      nock: 14.0.0
+      nock: 13.5.6
       nyc: 17.1.0
       sinon: 17.0.1
       tslib: 2.8.1
@@ -25276,11 +25274,13 @@ snapshots:
       just-extend: 6.2.0
       path-to-regexp: 8.2.0
 
-  nock@14.0.0:
+  nock@13.5.6:
     dependencies:
-      '@mswjs/interceptors': 0.37.5
+      debug: 4.4.0(supports-color@8.1.1)
       json-stringify-safe: 5.0.1
       propagate: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
 
   node-abi@3.73.0:
     dependencies:
