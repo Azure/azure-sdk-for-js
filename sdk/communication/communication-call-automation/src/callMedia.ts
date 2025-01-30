@@ -155,10 +155,10 @@ export class CallMedia {
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
         loop: false,
-        interruptHoldAudio: false
+        interruptHoldAudio: false,
       },
       operationContext: options.operationContext ? options.operationContext : randomUUID(),
-      operationCallbackUri: options.operationCallbackUrl
+      operationCallbackUri: options.operationCallbackUrl,
     };
 
     if (options.loop !== undefined) {
@@ -166,7 +166,10 @@ export class CallMedia {
       playRequest.playOptions.loop = options.loop;
     }
     if (options.interruptHoldAudio !== undefined) {
-      playRequest.playOptions = playRequest.playOptions || { loop: false, interruptHoldAudio: false }; // Ensure playOptions is defined
+      playRequest.playOptions = playRequest.playOptions || {
+        loop: false,
+        interruptHoldAudio: false,
+      }; // Ensure playOptions is defined
       playRequest.playOptions.interruptHoldAudio = options.interruptHoldAudio;
     }
     await this.callMedia.play(this.callConnectionId, playRequest, options);
