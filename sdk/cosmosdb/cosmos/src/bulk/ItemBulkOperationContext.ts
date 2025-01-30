@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RetryPolicy } from "../retry/RetryPolicy";
-import { TaskCompletionSource } from "../utils/batch";
-import type { BulkOperationResult } from "./BulkOperationResult";
+import { BulkOperationResult, TaskCompletionSource } from "../utils/batch";
 
 /**
  * Context for a particular @see {@link ItemBulkOperation}.

@@ -7,7 +7,12 @@ import type { ClientContext } from "../ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
-import type { BulkStreamerResponse, Operation, OperationInput } from "../utils/batch";
+import type {
+  BulkOperationResult,
+  BulkStreamerResponse,
+  Operation,
+  OperationInput,
+} from "../utils/batch";
 import { isKeyInRange, prepareOperations } from "../utils/batch";
 import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
@@ -17,7 +22,6 @@ import { Constants, getPathFromLink, ResourceType } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import { ItemBulkOperation } from "./ItemBulkOperation";
 import { addDignosticChild } from "../utils/diagnostics";
-import type { BulkOperationResult } from "./BulkOperationResult";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import { Limiter } from "./Limiter";

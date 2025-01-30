@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 
 import { Constants } from "../common";
-import type { ExecuteCallback, RetryCallback } from "../utils/batch";
+import type { BulkOperationResult, ExecuteCallback, RetryCallback } from "../utils/batch";
 import { BulkBatcher } from "./BulkBatcher";
 import semaphore from "semaphore";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import type { RequestOptions } from "../request/RequestOptions";
-import type { BulkOperationResult } from "./BulkOperationResult";
 import { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
 import type { Limiter } from "./Limiter";
@@ -36,6 +35,7 @@ export class BulkStreamerPerPartition {
   private readonly partitionMetric: BulkPartitionMetric;
   private congestionDegreeOfConcurrency = 1;
   private congestionControlAlgorithm: BulkCongestionAlgorithm;
+  private concurrencySemaphore: semaphore.Semaphore;
 
   constructor(
     executor: ExecuteCallback,
@@ -61,6 +61,7 @@ export class BulkStreamerPerPartition {
     this.currentBatcher = this.createBulkBatcher();
 
     this.lock = semaphore(1);
+    this.concurrencySemaphore = semaphore(1);
     this.runDispatchTimer();
   }
 
@@ -105,14 +106,35 @@ export class BulkStreamerPerPartition {
       this.options,
       this.diagnosticNode,
       this.orderedResponse,
-      // getDegreeOfConcurrency
-      () => this.congestionDegreeOfConcurrency,
-      // setDegreeOfConcurrency
-      (updatedConcurrency: number) => {
-        this.congestionDegreeOfConcurrency = updatedConcurrency;
-      },
+      this.getDegreeOfConcurrency.bind(this),
+      this.setDegreeOfConcurrency.bind(this),
       this.congestionControlAlgorithm.run.bind(this.congestionControlAlgorithm),
     );
+  }
+
+  private async getDegreeOfConcurrency(): Promise<number> {
+    return new Promise((resolve) => {
+      this.concurrencySemaphore.take(() => {
+        try {
+          resolve(this.congestionDegreeOfConcurrency);
+        } finally {
+          this.concurrencySemaphore.leave();
+        }
+      });
+    });
+  }
+
+  private async setDegreeOfConcurrency(updatedConcurrency: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.concurrencySemaphore.take(() => {
+        try {
+          this.congestionDegreeOfConcurrency = updatedConcurrency;
+          resolve();
+        } finally {
+          this.concurrencySemaphore.leave();
+        }
+      });
+    });
   }
 
   /**

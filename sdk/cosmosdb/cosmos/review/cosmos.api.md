@@ -34,18 +34,6 @@ export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
-// @public
-export interface BulkOperationResult {
-    activityId: string;
-    etag: string;
-    requestCharge: number;
-    resourceBody: JSONObject;
-    retryAfter: number;
-    sessionToken: string;
-    statusCode: StatusCode;
-    subStatusCode: SubStatusCode;
-}
-
 // @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
@@ -74,6 +62,8 @@ export class BulkStreamer {
     endStream(): Promise<BulkStreamerResponse>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "BulkOperationResult" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type BulkStreamerResponse = BulkOperationResult[] & {
     diagnostics: CosmosDiagnostics;

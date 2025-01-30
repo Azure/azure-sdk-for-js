@@ -16,7 +16,6 @@ import { bodyFromData } from "../request/request";
 import { Constants } from "../common/constants";
 import { randomUUID } from "@azure/core-util";
 import type { BulkResponse, ItemBulkOperation } from "../bulk";
-import type { BulkOperationResult } from "../bulk/BulkOperationResult";
 
 export type Operation =
   | CreateOperation
@@ -39,6 +38,17 @@ export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosD
  * response for streamed bulk operation
  */
 export type BulkStreamerResponse = BulkOperationResult[] & { diagnostics: CosmosDiagnostics };
+
+/**
+ * response for a specific batch in streamed bulk operation
+ * @hidden
+ */
+export interface BulkOperationResult extends OperationResponse {
+  subStatusCode?: number;
+  activityId?: string;
+  sessionToken?: string;
+  retryAfter?: number;
+}
 
 export interface OperationResponse {
   statusCode: number;

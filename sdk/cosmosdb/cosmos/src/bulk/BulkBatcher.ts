@@ -5,11 +5,10 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import type { RequestOptions } from "../request";
 import { ErrorResponse } from "../request";
 import { Constants, StatusCodes } from "../common";
-import type { ExecuteCallback, RetryCallback } from "../utils/batch";
+import type { BulkOperationResult, ExecuteCallback, RetryCallback } from "../utils/batch";
 import { calculateObjectSizeInBytes, isSuccessStatusCode } from "../utils/batch";
 import type { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
-import type { BulkOperationResult } from "./BulkOperationResult";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { getCurrentTimestampInMs } from "../utils/time";
 import type { Limiter } from "./Limiter";
@@ -30,8 +29,8 @@ export class BulkBatcher {
   private readonly diagnosticNode: DiagnosticNodeInternal;
   private readonly orderedResponse: BulkOperationResult[];
   private runCongestionAlgo: (currentDegreeOfConcurrency: number) => number;
-  private getDegreeOfConcurrency: () => number;
-  private setDegreeOfConcurrency: (degreeOfConcurrency: number) => void;
+  private getDegreeOfConcurrency: () => Promise<number>;
+  private setDegreeOfConcurrency: (degreeOfConcurrency: number) => Promise<void>;
 
   constructor(
     private limiter: Limiter,
@@ -40,8 +39,8 @@ export class BulkBatcher {
     options: RequestOptions,
     diagnosticNode: DiagnosticNodeInternal,
     orderedResponse: BulkOperationResult[],
-    getDegreeOfConcurrency: () => number,
-    setDegreeOfConcurrency: (degreeOfConcurrency: number) => void,
+    getDegreeOfConcurrency: () => Promise<number>,
+    setDegreeOfConcurrency: (degreeOfConcurrency: number) => Promise<void>,
     runCongestionAlgo: (currentDegreeOfConcurrency: number) => number,
   ) {
     this.batchOperationsList = [];
@@ -127,8 +126,8 @@ export class BulkBatcher {
         getCurrentTimestampInMs() - startTime,
         numThrottle,
       );
-      const currentDegreeOfConcurrency = this.getDegreeOfConcurrency();
-      this.setDegreeOfConcurrency(this.runCongestionAlgo(currentDegreeOfConcurrency));
+      const currentDegreeOfConcurrency = await this.getDegreeOfConcurrency();
+      await this.setDegreeOfConcurrency(this.runCongestionAlgo(currentDegreeOfConcurrency));
 
       for (let i = 0; i < response.operations.length; i++) {
         const operation = response.operations[i];

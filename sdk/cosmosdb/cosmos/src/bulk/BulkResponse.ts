@@ -5,8 +5,7 @@ import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import type { CosmosDiagnostics } from "../CosmosDiagnostics";
 import type { CosmosHeaders } from "../queryExecutionContext";
 import type { StatusCode, SubStatusCode, Response } from "../request";
-import { isSuccessStatusCode } from "../utils/batch";
-import { BulkOperationResult } from "./BulkOperationResult";
+import { BulkOperationResult, isSuccessStatusCode } from "../utils/batch";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 
 /**
@@ -96,7 +95,7 @@ export class BulkResponse {
         const result: BulkOperationResult = {
           statusCode: itemResponse?.statusCode,
           subStatusCode: itemResponse?.subStatusCode ?? SubStatusCodes.Unknown,
-          etag: itemResponse?.eTag,
+          eTag: itemResponse?.eTag,
           retryAfter: itemResponse.retryAfterMilliseconds ?? 0,
           activityId: responseMessage.headers?.[Constants.HttpHeaders.ActivityId],
           sessionToken: responseMessage.headers?.[Constants.HttpHeaders.SessionToken],
@@ -137,7 +136,7 @@ export class BulkResponse {
       (): BulkOperationResult => ({
         statusCode: this.statusCode,
         subStatusCode: this.subStatusCode,
-        etag: this.headers?.[Constants.HttpHeaders.ETag],
+        eTag: this.headers?.[Constants.HttpHeaders.ETag],
         retryAfter: retryAfterInMs,
         activityId: this.headers?.[Constants.HttpHeaders.ActivityId],
         sessionToken: this.headers?.[Constants.HttpHeaders.SessionToken],
