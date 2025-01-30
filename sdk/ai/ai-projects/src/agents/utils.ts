@@ -199,8 +199,8 @@ export class ToolUtility {
     return {
       type: "connection",
       securityScheme: {
-        connectionId: connectionId
-      }
+        connectionId: connectionId,
+      },
     };
   }
 
@@ -214,8 +214,8 @@ export class ToolUtility {
     return {
       type: "managed_identity",
       securityScheme: {
-        audience: audience
-      }
+        audience: audience,
+      },
     };
   }
 }
@@ -305,14 +305,14 @@ export class ToolSet {
 
   /**
    * Adds an Azure AI search tool to the tool set.
-   * 
+   *
    * @param openApiFunctionDefinition - The OpenApi function definition to use.
-   * 
+   *
    * @returns An object containing the definition for the OpenApi tool
    */
-  addOpenApiTool(
-    openApiFunctionDefinition: OpenApiFunctionDefinition
-  ): { definition: OpenApiToolDefinition } {
+  addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+    definition: OpenApiToolDefinition;
+  } {
     const tool = ToolUtility.createOpenApiTool(openApiFunctionDefinition);
     this.toolDefinitions.push(tool.definition);
     return tool;

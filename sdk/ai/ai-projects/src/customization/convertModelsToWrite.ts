@@ -151,9 +151,9 @@ function convertOpenApiToolDefinition(
       description: source.openapi.description,
       spec: source.openapi.spec,
       auth: convertOpenApiAuthDetails(source.openapi.auth),
-    }
-  }
-};
+    },
+  };
+}
 
 function convertOpenApiAuthDetails(
   auth: PublicModels.OpenApiAuthDetails,
@@ -168,7 +168,7 @@ function convertOpenApiAuthDetails(
     default:
       throw new Error(`Unknown auth type: ${auth}`);
   }
-};
+}
 
 function convertOpenApiConnectionAuthDetails(
   source: PublicModels.OpenApiConnectionAuthDetails,
@@ -177,7 +177,7 @@ function convertOpenApiConnectionAuthDetails(
     type: source.type,
     security_scheme: {
       connection_id: source.securityScheme.connectionId,
-    }
+    },
   };
 }
 
@@ -186,7 +186,7 @@ function convertOpenApiManagedAuthDetails(
 ): GeneratedModels.OpenApiManagedAuthDetails {
   return {
     type: source.type,
-    security_scheme: source.securityScheme
+    security_scheme: source.securityScheme,
   };
 }
 
