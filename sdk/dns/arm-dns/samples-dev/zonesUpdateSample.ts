@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { ZoneUpdate, DnsManagementClient } from "@azure/arm-dns";
+import type { ZoneUpdate } from "@azure/arm-dns";
+import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -25,11 +24,7 @@ async function patchZone(): Promise<void> {
   const parameters: ZoneUpdate = { tags: { key2: "value2" } };
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
-  const result = await client.zones.update(
-    resourceGroupName,
-    zoneName,
-    parameters,
-  );
+  const result = await client.zones.update(resourceGroupName, zoneName, parameters);
   console.log(result);
 }
 
