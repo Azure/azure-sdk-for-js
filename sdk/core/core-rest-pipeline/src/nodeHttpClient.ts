@@ -102,6 +102,7 @@ class NodeHttpClient implements HttpClient {
     let timer: ReturnType<typeof setTimeout> | undefined;
     if (request.timeout > 0) {
       timer = setTimeout(() => {
+        console.warn(`timeout, aborting request: ${request.url}`);
         abortController.abort();
       }, request.timeout);
     }
