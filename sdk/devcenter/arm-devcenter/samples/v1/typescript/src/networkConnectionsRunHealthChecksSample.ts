@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Triggers a new health check run. The execution and health check result can be tracked via the network Connection health check details
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_RunHealthChecks.json
  */
-async function networkConnectionsRunHealthChecks() {
+async function networkConnectionsRunHealthChecks(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -30,7 +30,7 @@ async function networkConnectionsRunHealthChecks() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkConnectionsRunHealthChecks();
 }
 

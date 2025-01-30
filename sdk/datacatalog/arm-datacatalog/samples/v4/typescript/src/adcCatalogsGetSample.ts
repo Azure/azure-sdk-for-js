@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The Get Azure Data Catalog Service operation retrieves a json representation of the data catalog.
  * x-ms-original-file: specification/datacatalog/resource-manager/Microsoft.DataCatalog/stable/2016-03-30/examples/GetADCCatalog.json
  */
-async function getAzureDataCatalogService() {
+async function getAzureDataCatalogService(): Promise<void> {
   const subscriptionId = "12345678-1234-1234-12345678abc";
   const resourceGroupName = "exampleResourceGroup";
   const catalogName = "exampleCatalog";

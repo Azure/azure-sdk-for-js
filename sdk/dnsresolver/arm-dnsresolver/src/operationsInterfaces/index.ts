@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./dnsResolvers";
-export * from "./inboundEndpoints";
-export * from "./outboundEndpoints";
-export * from "./dnsForwardingRulesets";
-export * from "./forwardingRules";
-export * from "./virtualNetworkLinks";
-export * from "./dnsResolverPolicies";
-export * from "./dnsSecurityRules";
-export * from "./dnsResolverPolicyVirtualNetworkLinks";
-export * from "./dnsResolverDomainLists";
+export * from "./dnsResolvers.js";
+export * from "./inboundEndpoints.js";
+export * from "./outboundEndpoints.js";
+export * from "./dnsForwardingRulesets.js";
+export * from "./forwardingRules.js";
+export * from "./virtualNetworkLinks.js";
+export * from "./dnsResolverPolicies.js";
+export * from "./dnsSecurityRules.js";
+export * from "./dnsResolverPolicyVirtualNetworkLinks.js";
+export * from "./dnsResolverDomainLists.js";

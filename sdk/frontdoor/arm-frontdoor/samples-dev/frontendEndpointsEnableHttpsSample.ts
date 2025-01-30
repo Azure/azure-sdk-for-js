@@ -8,9 +8,7 @@
 import type { CustomHttpsConfiguration } from "@azure/arm-frontdoor";
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Enables a frontendEndpoint for HTTPS traffic
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Enables a frontendEndpoint for HTTPS traffic
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorEnableHttps.json
  */
-async function frontendEndpointsEnableHttps() {
+async function frontendEndpointsEnableHttps(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
@@ -44,7 +42,7 @@ async function frontendEndpointsEnableHttps() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await frontendEndpointsEnableHttps();
 }
 

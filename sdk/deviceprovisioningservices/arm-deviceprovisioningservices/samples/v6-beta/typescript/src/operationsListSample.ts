@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists all of the available Microsoft.Devices REST API operations.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSOperations.json
  */
-async function dpsOperations() {
+async function dpsOperations(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,7 +28,7 @@ async function dpsOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsOperations();
 }
 

@@ -7,9 +7,7 @@
  */
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Volumes in a VolumeGroup.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List Volumes in a VolumeGroup.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
  */
-async function volumesListByVolumeGroupMaximumSetGen() {
+async function volumesListByVolumeGroupMaximumSetGen(): Promise<void> {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
@@ -41,7 +39,7 @@ async function volumesListByVolumeGroupMaximumSetGen() {
  * @summary List Volumes in a VolumeGroup.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/Volumes_ListByVolumeGroup_MinimumSet_Gen.json
  */
-async function volumesListByVolumeGroupMinimumSetGen() {
+async function volumesListByVolumeGroupMinimumSetGen(): Promise<void> {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
@@ -59,7 +57,7 @@ async function volumesListByVolumeGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await volumesListByVolumeGroupMaximumSetGen();
   await volumesListByVolumeGroupMinimumSetGen();
 }

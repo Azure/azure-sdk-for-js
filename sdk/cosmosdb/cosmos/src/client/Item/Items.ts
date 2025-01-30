@@ -149,7 +149,7 @@ export class Items {
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    *
    * @example Read from the beginning of the change feed.
    * ```javascript
@@ -165,13 +165,13 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    *
    */
   public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public readChangeFeed<T>(
     partitionKey: PartitionKey,
@@ -179,7 +179,7 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
@@ -195,7 +195,7 @@ export class Items {
 
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   *
+   * @deprecated Use `getChangeFeedIterator` instead.
    * @example Read from the beginning of the change feed.
    * ```javascript
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
@@ -210,10 +210,12 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed<T>(
     partitionKey: PartitionKey,
@@ -221,6 +223,7 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(

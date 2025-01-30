@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates a BackupVault resource belonging to a resource group.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/PutBackupVault.json
  */
-async function createBackupVault() {
+async function createBackupVault(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -58,7 +58,7 @@ async function createBackupVault() {
  * @summary Creates or updates a BackupVault resource belonging to a resource group.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/PutBackupVaultWithCMK.json
  */
-async function createBackupVaultWithCmk() {
+async function createBackupVaultWithCmk(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -111,7 +111,7 @@ async function createBackupVaultWithCmk() {
  * @summary Creates or updates a BackupVault resource belonging to a resource group.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/PutBackupVaultWithMSI.json
  */
-async function createBackupVaultWithMsi() {
+async function createBackupVaultWithMsi(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -145,7 +145,7 @@ async function createBackupVaultWithMsi() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createBackupVault();
   createBackupVaultWithCmk();
   createBackupVaultWithMsi();

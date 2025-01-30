@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceGet.json
  */
-async function getAWorkspace() {
+async function getAWorkspace(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -34,7 +34,7 @@ async function getAWorkspace() {
  * @summary Gets the workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceManagedDiskEncryptionGet.json
  */
-async function getAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks() {
+async function getAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -53,7 +53,7 @@ async function getAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks()
  * @summary Gets the workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceGetParameters.json
  */
-async function getAWorkspaceWithCustomParameters() {
+async function getAWorkspaceWithCustomParameters(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const workspaceName = "myWorkspace";
@@ -66,7 +66,7 @@ async function getAWorkspaceWithCustomParameters() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAWorkspace();
   getAWorkspaceWithCustomerManagedKeyCmkEncryptionForManagedDisks();
   getAWorkspaceWithCustomParameters();

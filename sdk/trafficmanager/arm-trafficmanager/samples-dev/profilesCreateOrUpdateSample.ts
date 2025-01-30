@@ -8,9 +8,7 @@
 import type { Profile } from "@azure/arm-trafficmanager";
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Traffic Manager profile.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-PUT-MultiValue.json
  */
-async function profilePutMultiValue() {
+async function profilePutMultiValue(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1421";
@@ -44,7 +42,7 @@ async function profilePutMultiValue() {
  * @summary Create or update a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-PUT-NoEndpoints.json
  */
-async function profilePutNoEndpoints() {
+async function profilePutNoEndpoints(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1421";
@@ -68,7 +66,7 @@ async function profilePutNoEndpoints() {
  * @summary Create or update a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-PUT-WithAliasing.json
  */
-async function profilePutWithAliasing() {
+async function profilePutWithAliasing(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager2583";
@@ -112,7 +110,7 @@ async function profilePutWithAliasing() {
  * @summary Create or update a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-PUT-WithCustomHeaders.json
  */
-async function profilePutWithCustomHeaders() {
+async function profilePutWithCustomHeaders(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager2583";
@@ -165,7 +163,7 @@ async function profilePutWithCustomHeaders() {
  * @summary Create or update a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-PUT-WithEndpoints.json
  */
-async function profilePutWithEndpoints() {
+async function profilePutWithEndpoints(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager2583";
@@ -208,7 +206,7 @@ async function profilePutWithEndpoints() {
  * @summary Create or update a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-PUT-WithNestedEndpoints.json
  */
-async function profilePutWithNestedEndpoints() {
+async function profilePutWithNestedEndpoints(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "myresourcegroup";
   const profileName = "parentprofile";
@@ -256,7 +254,7 @@ async function profilePutWithNestedEndpoints() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await profilePutMultiValue();
   await profilePutNoEndpoints();
   await profilePutWithAliasing();

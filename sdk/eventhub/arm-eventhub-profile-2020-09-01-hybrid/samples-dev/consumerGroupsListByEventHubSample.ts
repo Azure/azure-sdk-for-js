@@ -7,9 +7,7 @@
  */
 import { EventHubManagementClient } from "@azure/arm-eventhub-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2017-04-01/examples/ConsumerGroup/EHConsumerGroupListByEventHub.json
  */
-async function consumerGroupsListAll() {
+async function consumerGroupsListAll(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
   const resourceGroupName = process.env["EVENTHUB_RESOURCE_GROUP"] || "ArunMonocle";
@@ -36,7 +34,7 @@ async function consumerGroupsListAll() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await consumerGroupsListAll();
 }
 

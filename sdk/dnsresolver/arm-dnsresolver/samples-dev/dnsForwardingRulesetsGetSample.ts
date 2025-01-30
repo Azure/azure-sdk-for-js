@@ -7,9 +7,7 @@
  */
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a DNS forwarding ruleset properties.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a DNS forwarding ruleset properties.
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/DnsForwardingRuleset_Get.json
  */
-async function retrieveDnsForwardingRuleset() {
+async function retrieveDnsForwardingRuleset(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] || "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const resourceGroupName = process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
@@ -31,7 +29,7 @@ async function retrieveDnsForwardingRuleset() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await retrieveDnsForwardingRuleset();
 }
 

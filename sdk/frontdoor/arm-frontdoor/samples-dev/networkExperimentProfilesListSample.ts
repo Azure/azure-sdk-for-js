@@ -7,9 +7,7 @@
  */
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of Network Experiment Profiles under a subscription
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of Network Experiment Profiles under a subscription
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentListProfiles.json
  */
-async function listNetworkExperimentProfilesInAResourceGroup() {
+async function listNetworkExperimentProfilesInAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
@@ -28,7 +26,7 @@ async function listNetworkExperimentProfilesInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listNetworkExperimentProfilesInAResourceGroup();
 }
 

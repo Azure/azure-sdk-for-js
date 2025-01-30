@@ -7,9 +7,7 @@
  */
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of ElasticSan in a resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of ElasticSan in a resource group.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function elasticSansListByResourceGroupMaximumSetGen() {
+async function elasticSansListByResourceGroupMaximumSetGen(): Promise<void> {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function elasticSansListByResourceGroupMaximumSetGen() {
  * @summary Gets a list of ElasticSan in a resource group.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/ElasticSans_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function elasticSansListByResourceGroupMinimumSetGen() {
+async function elasticSansListByResourceGroupMinimumSetGen(): Promise<void> {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const credential = new DefaultAzureCredential();
@@ -47,7 +45,7 @@ async function elasticSansListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await elasticSansListByResourceGroupMaximumSetGen();
   await elasticSansListByResourceGroupMinimumSetGen();
 }

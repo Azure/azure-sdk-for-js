@@ -7,9 +7,7 @@
  */
 import { CustomLocationsManagementClient } from "@azure/arm-extendedlocation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the details of the resourceSyncRule with a specified resource group, subscription id Custom Location resource name and Resource Sync Rule name.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the details of the resourceSyncRule with a specified resource group, subscription id Custom Location resource name and Resource Sync Rule name.
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesGet.json
  */
-async function getCustomLocation() {
+async function getCustomLocation(): Promise<void> {
   const subscriptionId =
     process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
   const resourceGroupName = process.env["EXTENDEDLOCATION_RESOURCE_GROUP"] || "testresourcegroup";
@@ -33,7 +31,7 @@ async function getCustomLocation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getCustomLocation();
 }
 

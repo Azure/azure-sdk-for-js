@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { DefaultAzureCredential } from "@azure/identity";
 import type {
   ProjectOutput,
@@ -7,13 +10,12 @@ import type {
 } from "@azure-rest/developer-devcenter";
 import { isUnexpected, getLongRunningPoller } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 /**
  * @summary Demonstrates creating, fetching outputs from, and deleting an Environment
  */
-async function createEnvironment() {
+async function createEnvironment(): Promise<void> {
   // Build client and fetch required parameters
   const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
   const client = createClient(endpoint, new DefaultAzureCredential());
@@ -118,4 +120,4 @@ async function createEnvironment() {
   console.log("Cleaned up environment successfully.");
 }
 
-createEnvironment();
+createEnvironment().catch(console.error);
