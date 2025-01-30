@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -25,10 +23,7 @@ async function listDnssecConfigs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.dnssecConfigs.listByDnsZone(
-    resourceGroupName,
-    zoneName,
-  )) {
+  for await (const item of client.dnssecConfigs.listByDnsZone(resourceGroupName, zoneName)) {
     resArray.push(item);
   }
   console.log(resArray);
