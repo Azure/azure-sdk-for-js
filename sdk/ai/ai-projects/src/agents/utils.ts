@@ -260,7 +260,7 @@ export class ToolSet {
   }
 
   /**
-   * Adds an Azure AI search tool to the tool set.
+   * Adds an OpenApi tool to the tool set.
    *
    * @param openApiFunctionDefinition - The OpenApi function definition to use.
    *
