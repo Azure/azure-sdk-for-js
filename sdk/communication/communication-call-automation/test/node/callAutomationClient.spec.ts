@@ -197,9 +197,13 @@ describe("Call Automation Client Unit Tests", () => {
     vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
     const answerCallOptions: AnswerCallOptions = {
       operationContext: "operationContextAnswerCall",
-      customCallingContext : [{ kind: "voip", key: "foo", value: "bar" }]
+      customCallingContext: [{ kind: "voip", key: "foo", value: "bar" }],
     };
-    const promiseResult = client.answerCall(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL, answerCallOptions);
+    const promiseResult = client.answerCall(
+      CALL_INCOMING_CALL_CONTEXT,
+      CALL_CALLBACK_URL,
+      answerCallOptions,
+    );
 
     // asserts
     const result = await promiseResult;
