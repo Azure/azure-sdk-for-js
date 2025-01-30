@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a machine pool
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_Delete.json
  */
-async function poolsDelete() {
+async function poolsDelete(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -32,7 +32,7 @@ async function poolsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   poolsDelete();
 }
 
