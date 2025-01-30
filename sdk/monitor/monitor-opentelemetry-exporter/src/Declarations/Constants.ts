@@ -77,6 +77,11 @@ export const ENV_OTEL_METRICS_EXPORTER = "OTEL_METRICS_EXPORTER";
  * @internal
  */
 export const ENV_AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
+/**
+ * Determines if custom metrics should be sent to Breeze.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED = "APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED";
 
 /**
  * REST error types for failed requests that can be retried.

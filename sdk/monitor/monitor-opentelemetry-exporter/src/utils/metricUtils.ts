@@ -15,6 +15,7 @@ import {
   ENV_OTEL_METRICS_EXPORTER,
   ENV_OTLP_METRICS_ENDPOINT,
   ENV_AZURE_MONITOR_AUTO_ATTACH,
+  ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED,
 } from "../Declarations/Constants.js";
 
 const breezePerformanceCountersMap = new Map<string, string>([
@@ -68,6 +69,17 @@ export function resourceMetricsToEnvelope(
           properties: {},
         };
         baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
+
+        // If we're not exporting statsbeat, the metric is *not* a standard metric and the env var is set to false, we should not send the metric.
+        if (
+          shouldSendToOtlp() &&
+          isAksAttach() &&
+          !isStandardMetric(dataPoint) &&
+          process.env[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] === "false" &&
+          !isStatsbeat
+        ) {
+          return;
+        }
 
         if (shouldSendToOtlp() && isAksAttach() && !isStatsbeat) {
           baseData.properties["_MS.SentToAMW"] = "True";
@@ -123,11 +135,15 @@ export function isAksAttach(): boolean {
     process.env[ENV_AZURE_MONITOR_AUTO_ATTACH] === "true" &&
     process.env.AKS_ARM_NAMESPACE_ID
   );
-}
+};
 
 export function shouldSendToOtlp(): boolean {
   return !!(
     process.env[ENV_OTLP_METRICS_ENDPOINT] &&
     process.env[ENV_OTEL_METRICS_EXPORTER]?.includes("otlp")
   );
-}
+};
+
+export function isStandardMetric(dataPoint: any): boolean {
+  return dataPoint.attributes?.["_MS.IsAutocollected"] === "True";
+};
