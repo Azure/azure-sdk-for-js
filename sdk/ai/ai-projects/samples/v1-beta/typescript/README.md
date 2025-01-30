@@ -112,7 +112,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agents_vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/vectorStores.ts
 [agents_vectorstoreswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/agents/vectorStoresWithPolling.ts
 [connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/typescript/src/connections/connectionsBasics.ts
-<!-- [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects -->
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
