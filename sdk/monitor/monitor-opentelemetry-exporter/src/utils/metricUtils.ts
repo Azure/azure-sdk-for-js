@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import type { Attributes } from "@opentelemetry/api";
-import type { DataPoint, ExponentialHistogram, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
+import type {
+  DataPoint,
+  ExponentialHistogram,
+  Histogram,
+  ResourceMetrics,
+} from "@opentelemetry/sdk-metrics";
 import { DataPointType } from "@opentelemetry/sdk-metrics";
 import type {
   TelemetryItem as Envelope,
@@ -143,6 +148,8 @@ export function shouldSendToOtlp(): boolean {
   );
 }
 
-export function isStandardMetric(dataPoint: DataPoint<number> | DataPoint<Histogram> | DataPoint<ExponentialHistogram>): boolean {
+export function isStandardMetric(
+  dataPoint: DataPoint<number> | DataPoint<Histogram> | DataPoint<ExponentialHistogram>,
+): boolean {
   return dataPoint.attributes?.["_MS.IsAutocollected"] === "True";
 }
