@@ -8,7 +8,7 @@
  * - get digital twin
  * - update digital twin using JSON patch
  * - delete digital twin
- * 
+ *
  * @summary demonstrates the lifecycle (create, get, update, delete) of a digital twin
  */
 
@@ -16,8 +16,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { inspect } from "node:util";
 import { v4 } from "uuid";
-import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json.js";
-import building from "./dtdl/models/building.json.js";
+import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
+import building from "./dtdl/models/building.json";
 
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these Ids are unique within the DT instance so we use generated UUIDs.
@@ -59,7 +59,7 @@ async function main(): Promise<void> {
   const twinPatch = {
     op: "replace",
     path: "/AverageTemperature",
-    value: 42
+    value: 42,
   };
   const updatedTwin = await serviceClient.updateDigitalTwin(digitalTwinId, [twinPatch]);
   console.log(`Updated Digital Twin:`);

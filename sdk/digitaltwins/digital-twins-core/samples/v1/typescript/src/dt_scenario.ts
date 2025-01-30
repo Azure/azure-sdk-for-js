@@ -22,7 +22,7 @@
  * +------------+                 +-----------------+
  * |   Room     |-with component->| WifiAccessPoint |
  * +------------+                 +-----------------+
- * 
+ *
  * Scenario example of how to:
  * - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
  * - create models from file
@@ -33,7 +33,7 @@
  * - delete the created digital twins
  * - decommission the created models
  * - delete the created models
- * 
+ *
  * @summary Demonstrates a scenario with models, digital twins, event routes, and relationships using the DTDL examples found in the DTDL folder.
  */
 
@@ -42,18 +42,18 @@ import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { v4 } from "uuid";
 import { inspect } from "node:util";
 
-import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json.js";
-import floorTwin from "./dtdl/digitalTwins/floorTwin.json.js";
-import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json.js";
-import roomTwin from "./dtdl/digitalTwins/roomTwin.json.js";
+import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
+import floorTwin from "./dtdl/digitalTwins/floorTwin.json";
+import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json";
+import roomTwin from "./dtdl/digitalTwins/roomTwin.json";
 
-import building from "./dtdl/models/building.json.js";
-import floor from "./dtdl/models/floor.json.js";
-import room from "./dtdl/models/room.json.js";
-import wifi from "./dtdl/models/wifi.json.js";
-import hvac from "./dtdl/models/hvac.json.js";
+import building from "./dtdl/models/building.json";
+import floor from "./dtdl/models/floor.json";
+import room from "./dtdl/models/room.json";
+import wifi from "./dtdl/models/wifi.json";
+import hvac from "./dtdl/models/hvac.json";
 
-import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json.js";
+import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json";
 
 async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
@@ -98,28 +98,28 @@ async function main(): Promise<void> {
 
   const createdBuildingTwin = await serviceClient.upsertDigitalTwin(
     buildingTwinId,
-    JSON.stringify(buildingTwin)
+    JSON.stringify(buildingTwin),
   );
   console.log(`BuildingTwin:`);
   console.log(inspect(createdBuildingTwin));
 
   const createdFloorTwin = await serviceClient.upsertDigitalTwin(
     floorTwinId,
-    JSON.stringify(floorTwin)
+    JSON.stringify(floorTwin),
   );
   console.log(`FloorTwin:`);
   console.log(inspect(createdFloorTwin));
 
   const createdHVACTwin = await serviceClient.upsertDigitalTwin(
     hvacTwinId,
-    JSON.stringify(hvacTwin)
+    JSON.stringify(hvacTwin),
   );
   console.log(`HVACTwin:`);
   console.log(inspect(createdHVACTwin));
 
   const createdRoomTwin = await serviceClient.upsertDigitalTwin(
     roomTwinId,
-    JSON.stringify(roomTwin)
+    JSON.stringify(roomTwin),
   );
   console.log(`RoomTwin:`);
   console.log(inspect(createdRoomTwin));
@@ -129,7 +129,7 @@ async function main(): Promise<void> {
     await serviceClient.upsertRelationship(
       relationship["$sourceId"],
       relationship["$relationshipId"],
-      relationship
+      relationship,
     );
   }
 
@@ -140,7 +140,7 @@ async function main(): Promise<void> {
   const response = await serviceClient.upsertEventRoute(
     eventRouteId,
     eventHubEndpointName,
-    eventFilter
+    eventFilter,
   );
   console.log(`Upsert Event Route response:`);
   console.log(inspect(response));
@@ -156,7 +156,7 @@ async function main(): Promise<void> {
   for (const relationship of hospitalRelationships) {
     await serviceClient.deleteRelationship(
       relationship["$sourceId"],
-      relationship["$relationshipId"]
+      relationship["$relationshipId"],
     );
   }
 
