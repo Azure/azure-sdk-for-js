@@ -304,7 +304,8 @@ export async function isProxyToolActive(): Promise<boolean> {
     }
 
     log.info(
-      `Proxy tool seems to be active at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000
+      `Proxy tool seems to be active at http://localhost:${
+        process.env.TEST_PROXY_HTTP_PORT ?? 5000
       }\n`,
     );
     return true;
