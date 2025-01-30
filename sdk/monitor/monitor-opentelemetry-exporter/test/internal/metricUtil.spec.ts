@@ -122,7 +122,7 @@ describe("metricUtil.ts", () => {
     assert.strictEqual(envelope.length, 0);
     process.env = originalEnv;
   });
-  
+
   const prefix = process.env["AZURE_MONITOR_PREFIX"] ? process.env["AZURE_MONITOR_PREFIX"] : "";
   const version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
     ? `ext${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
@@ -167,7 +167,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        {}
+        {},
       );
     });
     it("should add de-duping flag to resource metric envelopes", async () => {
@@ -220,7 +220,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        expectedProperties
+        expectedProperties,
       );
       process.env = originalEnv;
     });
@@ -266,7 +266,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        {}
+        {},
       );
     });
     it("should create available bytes envelopes with the correct name", async () => {
@@ -308,7 +308,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        {}
+        {},
       );
     });
     it("should create processor time envelopes with the correct name", async () => {
@@ -350,7 +350,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        {}
+        {},
       );
     });
     it("should create process time envelopes with the correct name", async () => {
@@ -392,7 +392,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        {}
+        {},
       );
     });
     it("should create request rate envelopes with the correct name", async () => {
@@ -434,7 +434,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        {}
+        {},
       );
     });
     it("should create request duration envelopes with the correct name", async () => {
@@ -476,7 +476,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        {}
+        {},
       );
     });
     it("should add de-duping flag to performance metric envelopes", async () => {
@@ -500,7 +500,7 @@ describe("metricUtil.ts", () => {
       };
       const expectedProperties = {
         "_MS.SentToAMW": "True",
-      }
+      };
       const provider = new MeterProvider({
         resource: new Resource({
           [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
@@ -529,7 +529,7 @@ describe("metricUtil.ts", () => {
         expectedTags,
         expectedBaseData,
         undefined,
-        expectedProperties
+        expectedProperties,
       );
       process.env = originalEnv;
     });

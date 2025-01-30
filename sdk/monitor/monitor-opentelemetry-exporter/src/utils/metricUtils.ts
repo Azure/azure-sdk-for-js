@@ -132,18 +132,17 @@ export function resourceMetricsToEnvelope(
 
 export function isAksAttach(): boolean {
   return !!(
-    process.env[ENV_AZURE_MONITOR_AUTO_ATTACH] === "true" &&
-    process.env.AKS_ARM_NAMESPACE_ID
+    process.env[ENV_AZURE_MONITOR_AUTO_ATTACH] === "true" && process.env.AKS_ARM_NAMESPACE_ID
   );
-};
+}
 
 export function shouldSendToOtlp(): boolean {
   return !!(
     process.env[ENV_OTLP_METRICS_ENDPOINT] &&
     process.env[ENV_OTEL_METRICS_EXPORTER]?.includes("otlp")
   );
-};
+}
 
 export function isStandardMetric(dataPoint: any): boolean {
   return dataPoint.attributes?.["_MS.IsAutocollected"] === "True";
-};
+}
