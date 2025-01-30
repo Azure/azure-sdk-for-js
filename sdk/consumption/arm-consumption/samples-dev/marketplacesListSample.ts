@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,13 +18,12 @@ import "dotenv/config";
  */
 async function billingAccountMarketplacesList(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -40,13 +37,12 @@ async function billingAccountMarketplacesList(): Promise<void> {
  */
 async function billingAccountMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -60,13 +56,12 @@ async function billingAccountMarketplacesListForBillingPeriod(): Promise<void> {
  */
 async function departmentMarketplacesList(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/departments/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -80,13 +75,12 @@ async function departmentMarketplacesList(): Promise<void> {
  */
 async function departmentMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/departments/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -100,13 +94,12 @@ async function departmentMarketplacesListForBillingPeriod(): Promise<void> {
  */
 async function enrollmentAccountMarketplacesList(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/enrollmentAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -120,13 +113,12 @@ async function enrollmentAccountMarketplacesList(): Promise<void> {
  */
 async function enrollmentAccountMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/enrollmentAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -140,13 +132,12 @@ async function enrollmentAccountMarketplacesListForBillingPeriod(): Promise<void
  */
 async function managementGroupMarketplacesList(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -160,13 +151,12 @@ async function managementGroupMarketplacesList(): Promise<void> {
  */
 async function managementGroupMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -180,13 +170,12 @@ async function managementGroupMarketplacesListForBillingPeriod(): Promise<void> 
  */
 async function subscriptionMarketplacesList(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -200,29 +189,28 @@ async function subscriptionMarketplacesList(): Promise<void> {
  */
 async function subscriptionMarketplacesListForBillingPeriod(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.marketplaces.list(scope)) {
+  for await (const item of client.marketplaces.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  billingAccountMarketplacesList();
-  billingAccountMarketplacesListForBillingPeriod();
-  departmentMarketplacesList();
-  departmentMarketplacesListForBillingPeriod();
-  enrollmentAccountMarketplacesList();
-  enrollmentAccountMarketplacesListForBillingPeriod();
-  managementGroupMarketplacesList();
-  managementGroupMarketplacesListForBillingPeriod();
-  subscriptionMarketplacesList();
-  subscriptionMarketplacesListForBillingPeriod();
+  await billingAccountMarketplacesList();
+  await billingAccountMarketplacesListForBillingPeriod();
+  await departmentMarketplacesList();
+  await departmentMarketplacesListForBillingPeriod();
+  await enrollmentAccountMarketplacesList();
+  await enrollmentAccountMarketplacesListForBillingPeriod();
+  await managementGroupMarketplacesList();
+  await managementGroupMarketplacesListForBillingPeriod();
+  await subscriptionMarketplacesList();
+  await subscriptionMarketplacesListForBillingPeriod();
 }
 
 main().catch(console.error);

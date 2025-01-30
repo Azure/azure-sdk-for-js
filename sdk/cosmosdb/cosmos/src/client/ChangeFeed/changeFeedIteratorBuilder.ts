@@ -1,130 +1,76 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
+import type { Container, Resource } from "../../client";
 import type { ClientContext } from "../../ClientContext";
-import type { PartitionKey } from "../../documents";
-import type { PartitionKeyRangeCache } from "../../routing";
-import { QueryRange } from "../../routing";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
-import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
-import { ChangeFeedStartFromContinuation } from "./ChangeFeedStartFromContinuation";
-import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow";
-import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
-import { ChangeFeedResourceType } from "./ChangeFeedEnums";
-import { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey";
+import { buildChangeFeedIterator } from "./buildChangeFeedIterator";
+import type { PartitionKeyRangeCache } from "../../routing";
 import { ErrorResponse } from "../../request";
-import { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange";
-import { getIdFromLink, getPathFromLink, ResourceType, Constants } from "../../common";
-import { buildInternalChangeFeedOptions, fetchStartTime, isEpkRange } from "./changeFeedUtils";
-import { isPartitionKey } from "../../utils/typeChecks";
-import type { Container } from "../Container";
-import type { FeedRangeInternal } from "./FeedRange";
 
-export function changeFeedIteratorBuilder(
-  cfOptions: ChangeFeedIteratorOptions,
-  clientContext: ClientContext,
-  container: Container,
-  partitionKeyRangeCache: PartitionKeyRangeCache,
-): any {
-  const url = container.url;
-  const path = getPathFromLink(url, ResourceType.item);
-  const id = getIdFromLink(url);
+/**
+ * @hidden
+ * Provides iterator for change feed.
+ *
+ * Use `Items.getChangeFeedIterator()` to get an instance of the iterator.
+ */
 
-  let changeFeedStartFrom = cfOptions.changeFeedStartFrom;
-
-  if (changeFeedStartFrom === undefined) {
-    changeFeedStartFrom = ChangeFeedStartFrom.Now();
+export class ChangeFeedIteratorBuilder<T> implements ChangeFeedPullModelIterator<T> {
+  private iterator: ChangeFeedPullModelIterator<T>;
+  private isInitialized: boolean;
+  /**
+   * @internal
+   */
+  constructor(
+    private cfOptions: ChangeFeedIteratorOptions,
+    private clientContext: ClientContext,
+    private container: Container,
+    private partitionKeyRangeCache: PartitionKeyRangeCache,
+  ) {
+    this.isInitialized = false;
   }
 
-  if (changeFeedStartFrom instanceof ChangeFeedStartFromContinuation) {
-    const continuationToken = changeFeedStartFrom.getCfResourceJson();
-    const resourceType = changeFeedStartFrom.getResourceType();
-    const internalCfOptions = buildInternalChangeFeedOptions(
-      cfOptions,
-      changeFeedStartFrom.getCfResource(),
-    );
+  /**
+   * Change feed is an infinite feed. hasMoreResults is always true.
+   */
+  get hasMoreResults(): boolean {
+    return true;
+  }
 
-    if (
-      resourceType === ChangeFeedResourceType.PartitionKey &&
-      isPartitionKey(continuationToken.partitionKey)
-    ) {
-      return new ChangeFeedForPartitionKey(
-        clientContext,
-        container,
-        id,
-        path,
-        continuationToken.partitionKey,
-        internalCfOptions,
-      );
-    } else if (resourceType === ChangeFeedResourceType.FeedRange) {
-      return new ChangeFeedForEpkRange(
-        clientContext,
-        container,
-        partitionKeyRangeCache,
-        id,
-        path,
-        url,
-        internalCfOptions,
-        undefined,
-      );
-    } else {
-      throw new ErrorResponse("Invalid continuation token.");
-    }
-  } else if (
-    changeFeedStartFrom instanceof ChangeFeedStartFromNow ||
-    changeFeedStartFrom instanceof ChangeFeedStartFromTime ||
-    changeFeedStartFrom instanceof ChangeFeedStartFromBeginning
-  ) {
-    const startFromNow = changeFeedStartFrom instanceof ChangeFeedStartFromNow ? true : false;
-    const startTime = startFromNow ? undefined : fetchStartTime(changeFeedStartFrom);
+  /**
+   * Gets an async iterator which will yield change feed results.
+   */
+  public async *getAsyncIterator(): AsyncIterable<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+    await this.initializeIterator();
+    do {
+      const result = await this.iterator.readNext();
+      yield result;
+    } while (this.hasMoreResults);
+  }
 
-    const internalCfOptions = buildInternalChangeFeedOptions(
-      cfOptions,
-      undefined,
-      startTime,
-      startFromNow,
-    );
-    const cfResource = changeFeedStartFrom.getCfResource();
-    if (isPartitionKey(cfResource)) {
-      return new ChangeFeedForPartitionKey(
-        clientContext,
-        container,
-        id,
-        path,
-        cfResource as PartitionKey,
-        internalCfOptions,
-      );
-    } else {
-      let internalCfResource: QueryRange;
-      if (cfResource === undefined) {
-        internalCfResource = new QueryRange(
-          Constants.EffectivePartitionKeyConstants.MinimumInclusiveEffectivePartitionKey,
-          Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey,
-          true,
-          false,
+  /**
+   * Returns the result of change feed from Azure Cosmos DB.
+   */
+  public async readNext(): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
+    await this.initializeIterator();
+    return this.iterator.readNext();
+  }
+
+  private async initializeIterator(): Promise<void> {
+    if (!this.isInitialized) {
+      try {
+        const iterator = await buildChangeFeedIterator(
+          this.cfOptions,
+          this.clientContext,
+          this.container,
+          this.partitionKeyRangeCache,
         );
-      } else if (isEpkRange(cfResource)) {
-        internalCfResource = new QueryRange(
-          (cfResource as FeedRangeInternal).minInclusive,
-          (cfResource as FeedRangeInternal).maxExclusive,
-          true,
-          false,
-        );
-      } else {
-        throw new ErrorResponse("Invalid feed range.");
+        this.isInitialized = true;
+        this.iterator = iterator;
+      } catch (err) {
+        throw new ErrorResponse(err.message);
       }
-      return new ChangeFeedForEpkRange(
-        clientContext,
-        container,
-        partitionKeyRangeCache,
-        id,
-        path,
-        url,
-        internalCfOptions,
-        internalCfResource,
-      );
     }
-  } else {
-    throw new ErrorResponse("Invalid change feed start location.");
   }
 }

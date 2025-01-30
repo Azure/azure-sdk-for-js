@@ -22,7 +22,7 @@ async function enterpriseMccCustomersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCustomersGet();
+  await enterpriseMccCustomersGet();
 }
 
 main().catch(console.error);

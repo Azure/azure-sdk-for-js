@@ -67,7 +67,7 @@ async function ispCacheNodesOperationsCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ispCacheNodesOperationsCreateOrUpdate();
+  await ispCacheNodesOperationsCreateOrUpdate();
 }
 
 main().catch(console.error);

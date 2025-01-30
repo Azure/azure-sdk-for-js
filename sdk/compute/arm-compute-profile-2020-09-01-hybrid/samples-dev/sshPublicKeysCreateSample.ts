@@ -32,7 +32,7 @@ async function createANewSshPublicKeyResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createANewSshPublicKeyResource()
+  await createANewSshPublicKeyResource();
 }
 
 main().catch(console.error);

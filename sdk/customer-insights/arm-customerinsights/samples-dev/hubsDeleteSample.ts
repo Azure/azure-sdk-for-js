@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -22,14 +20,8 @@ async function hubsDelete(): Promise<void> {
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.hubs.beginDeleteAndWait(
-    resourceGroupName,
-    hubName
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
+  const result = await client.hubs.beginDeleteAndWait(resourceGroupName, hubName);
   console.log(result);
 }
 

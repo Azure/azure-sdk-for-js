@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { Export, CostManagementClient } from "@azure/arm-costmanagement";
+import type { Export } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -27,42 +26,32 @@ async function exportCreateOrUpdateByBillingAccount(): Promise<void> {
       type: "ActualCost",
       dataSet: {
         configuration: {
-          columns: [
-            "Date",
-            "MeterId",
-            "ResourceId",
-            "ResourceLocation",
-            "Quantity"
-          ]
+          columns: ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"],
         },
-        granularity: "Daily"
+        granularity: "Daily",
       },
-      timeframe: "MonthToDate"
+      timeframe: "MonthToDate",
     },
     deliveryInfo: {
       destination: {
         container: "exports",
         resourceId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
-        rootFolderPath: "ad-hoc"
-      }
+        rootFolderPath: "ad-hoc",
+      },
     },
     schedule: {
       recurrence: "Weekly",
       recurrencePeriod: {
         from: new Date("2020-06-01T00:00:00Z"),
-        to: new Date("2020-10-31T00:00:00Z")
+        to: new Date("2020-10-31T00:00:00Z"),
       },
-      status: "Active"
-    }
+      status: "Active",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.createOrUpdate(
-    scope,
-    exportName,
-    parameters
-  );
+  const result = await client.exports.createOrUpdate(scope, exportName, parameters);
   console.log(result);
 }
 
@@ -73,8 +62,7 @@ async function exportCreateOrUpdateByBillingAccount(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByDepartment.json
  */
 async function exportCreateOrUpdateByDepartment(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
+  const scope = "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
   const exportName = "TestExport";
   const parameters: Export = {
     format: "Csv",
@@ -82,42 +70,32 @@ async function exportCreateOrUpdateByDepartment(): Promise<void> {
       type: "ActualCost",
       dataSet: {
         configuration: {
-          columns: [
-            "Date",
-            "MeterId",
-            "ResourceId",
-            "ResourceLocation",
-            "Quantity"
-          ]
+          columns: ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"],
         },
-        granularity: "Daily"
+        granularity: "Daily",
       },
-      timeframe: "MonthToDate"
+      timeframe: "MonthToDate",
     },
     deliveryInfo: {
       destination: {
         container: "exports",
         resourceId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
-        rootFolderPath: "ad-hoc"
-      }
+        rootFolderPath: "ad-hoc",
+      },
     },
     schedule: {
       recurrence: "Weekly",
       recurrencePeriod: {
         from: new Date("2020-06-01T00:00:00Z"),
-        to: new Date("2020-10-31T00:00:00Z")
+        to: new Date("2020-10-31T00:00:00Z"),
       },
-      status: "Active"
-    }
+      status: "Active",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.createOrUpdate(
-    scope,
-    exportName,
-    parameters
-  );
+  const result = await client.exports.createOrUpdate(scope, exportName, parameters);
   console.log(result);
 }
 
@@ -128,8 +106,7 @@ async function exportCreateOrUpdateByDepartment(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByEnrollmentAccount.json
  */
 async function exportCreateOrUpdateByEnrollmentAccount(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const exportName = "TestExport";
   const parameters: Export = {
     format: "Csv",
@@ -137,42 +114,32 @@ async function exportCreateOrUpdateByEnrollmentAccount(): Promise<void> {
       type: "ActualCost",
       dataSet: {
         configuration: {
-          columns: [
-            "Date",
-            "MeterId",
-            "ResourceId",
-            "ResourceLocation",
-            "Quantity"
-          ]
+          columns: ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"],
         },
-        granularity: "Daily"
+        granularity: "Daily",
       },
-      timeframe: "MonthToDate"
+      timeframe: "MonthToDate",
     },
     deliveryInfo: {
       destination: {
         container: "exports",
         resourceId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
-        rootFolderPath: "ad-hoc"
-      }
+        rootFolderPath: "ad-hoc",
+      },
     },
     schedule: {
       recurrence: "Weekly",
       recurrencePeriod: {
         from: new Date("2020-06-01T00:00:00Z"),
-        to: new Date("2020-10-31T00:00:00Z")
+        to: new Date("2020-10-31T00:00:00Z"),
       },
-      status: "Active"
-    }
+      status: "Active",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.createOrUpdate(
-    scope,
-    exportName,
-    parameters
-  );
+  const result = await client.exports.createOrUpdate(scope, exportName, parameters);
   console.log(result);
 }
 
@@ -191,42 +158,32 @@ async function exportCreateOrUpdateByManagementGroup(): Promise<void> {
       type: "ActualCost",
       dataSet: {
         configuration: {
-          columns: [
-            "Date",
-            "MeterId",
-            "ResourceId",
-            "ResourceLocation",
-            "Quantity"
-          ]
+          columns: ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"],
         },
-        granularity: "Daily"
+        granularity: "Daily",
       },
-      timeframe: "MonthToDate"
+      timeframe: "MonthToDate",
     },
     deliveryInfo: {
       destination: {
         container: "exports",
         resourceId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
-        rootFolderPath: "ad-hoc"
-      }
+        rootFolderPath: "ad-hoc",
+      },
     },
     schedule: {
       recurrence: "Weekly",
       recurrencePeriod: {
         from: new Date("2020-06-01T00:00:00Z"),
-        to: new Date("2020-10-31T00:00:00Z")
+        to: new Date("2020-10-31T00:00:00Z"),
       },
-      status: "Active"
-    }
+      status: "Active",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.createOrUpdate(
-    scope,
-    exportName,
-    parameters
-  );
+  const result = await client.exports.createOrUpdate(scope, exportName, parameters);
   console.log(result);
 }
 
@@ -237,8 +194,7 @@ async function exportCreateOrUpdateByManagementGroup(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByResourceGroup.json
  */
 async function exportCreateOrUpdateByResourceGroup(): Promise<void> {
-  const scope =
-    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
+  const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
   const exportName = "TestExport";
   const parameters: Export = {
     format: "Csv",
@@ -246,42 +202,32 @@ async function exportCreateOrUpdateByResourceGroup(): Promise<void> {
       type: "ActualCost",
       dataSet: {
         configuration: {
-          columns: [
-            "Date",
-            "MeterId",
-            "ResourceId",
-            "ResourceLocation",
-            "Quantity"
-          ]
+          columns: ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"],
         },
-        granularity: "Daily"
+        granularity: "Daily",
       },
-      timeframe: "MonthToDate"
+      timeframe: "MonthToDate",
     },
     deliveryInfo: {
       destination: {
         container: "exports",
         resourceId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
-        rootFolderPath: "ad-hoc"
-      }
+        rootFolderPath: "ad-hoc",
+      },
     },
     schedule: {
       recurrence: "Weekly",
       recurrencePeriod: {
         from: new Date("2020-06-01T00:00:00Z"),
-        to: new Date("2020-10-31T00:00:00Z")
+        to: new Date("2020-10-31T00:00:00Z"),
       },
-      status: "Active"
-    }
+      status: "Active",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.createOrUpdate(
-    scope,
-    exportName,
-    parameters
-  );
+  const result = await client.exports.createOrUpdate(scope, exportName, parameters);
   console.log(result);
 }
 
@@ -300,52 +246,42 @@ async function exportCreateOrUpdateBySubscription(): Promise<void> {
       type: "ActualCost",
       dataSet: {
         configuration: {
-          columns: [
-            "Date",
-            "MeterId",
-            "ResourceId",
-            "ResourceLocation",
-            "Quantity"
-          ]
+          columns: ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"],
         },
-        granularity: "Daily"
+        granularity: "Daily",
       },
-      timeframe: "MonthToDate"
+      timeframe: "MonthToDate",
     },
     deliveryInfo: {
       destination: {
         container: "exports",
         resourceId:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
-        rootFolderPath: "ad-hoc"
-      }
+        rootFolderPath: "ad-hoc",
+      },
     },
     schedule: {
       recurrence: "Weekly",
       recurrencePeriod: {
         from: new Date("2020-06-01T00:00:00Z"),
-        to: new Date("2020-10-31T00:00:00Z")
+        to: new Date("2020-10-31T00:00:00Z"),
       },
-      status: "Active"
-    }
+      status: "Active",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.createOrUpdate(
-    scope,
-    exportName,
-    parameters
-  );
+  const result = await client.exports.createOrUpdate(scope, exportName, parameters);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  exportCreateOrUpdateByBillingAccount();
-  exportCreateOrUpdateByDepartment();
-  exportCreateOrUpdateByEnrollmentAccount();
-  exportCreateOrUpdateByManagementGroup();
-  exportCreateOrUpdateByResourceGroup();
-  exportCreateOrUpdateBySubscription();
+  await exportCreateOrUpdateByBillingAccount();
+  await exportCreateOrUpdateByDepartment();
+  await exportCreateOrUpdateByEnrollmentAccount();
+  await exportCreateOrUpdateByManagementGroup();
+  await exportCreateOrUpdateByResourceGroup();
+  await exportCreateOrUpdateBySubscription();
 }
 
 main().catch(console.error);

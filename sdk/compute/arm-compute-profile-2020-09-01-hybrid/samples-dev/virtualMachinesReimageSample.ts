@@ -37,7 +37,7 @@ async function reimageAVirtualMachine(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await reimageAVirtualMachine()
+  await reimageAVirtualMachine();
 }
 
 main().catch(console.error);
