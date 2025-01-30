@@ -13,7 +13,7 @@ import {
   CallDialogStopDialogOptionalParams,
   UpdateDialogRequest,
   CallDialogUpdateDialogOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CallDialog. */
 export interface CallDialog {
