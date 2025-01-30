@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { User, DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
+import type { User } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -26,9 +25,9 @@ async function userPut(): Promise<void> {
     encryptedPassword: {
       encryptionAlgorithm: "None",
       encryptionCertThumbprint: "blah",
-      value: "<value>"
+      value: "<value>",
     },
-    userType: "Share"
+    userType: "Share",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
@@ -36,7 +35,7 @@ async function userPut(): Promise<void> {
     deviceName,
     name,
     resourceGroupName,
-    user
+    user,
   );
   console.log(result);
 }

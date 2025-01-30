@@ -32,7 +32,7 @@ async function updateDiscoveredAssetEndpointProfile() {
 }
 
 async function main() {
-  updateDiscoveredAssetEndpointProfile();
+  await updateDiscoveredAssetEndpointProfile();
 }
 
 main().catch(console.error);

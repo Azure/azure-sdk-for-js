@@ -15,7 +15,7 @@ async function enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResou
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.enterpriseMccCacheNodesOperations.listByEnterpriseMccCustomerResource(
+  for await (const item of client.enterpriseMccCacheNodesOperations.listByEnterpriseMccCustomerResource(
     "rgConnectedCache",
     "syjjjzk",
   )) {
@@ -26,7 +26,7 @@ async function enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResou
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResource();
+  await enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResource();
 }
 
 main().catch(console.error);

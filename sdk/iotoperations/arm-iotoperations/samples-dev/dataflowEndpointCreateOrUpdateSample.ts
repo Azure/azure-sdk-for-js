@@ -481,16 +481,16 @@ async function dataflowEndpointCreateOrUpdateMqtt() {
 }
 
 async function main() {
-  dataflowEndpointCreateOrUpdateADLSv2();
-  dataflowEndpointCreateOrUpdateAdx();
-  dataflowEndpointCreateOrUpdateAio();
-  dataflowEndpointCreateOrUpdateEventGrid();
-  dataflowEndpointCreateOrUpdateEventHub();
-  dataflowEndpointCreateOrUpdateFabric();
-  dataflowEndpointCreateOrUpdateKafka();
-  dataflowEndpointCreateOrUpdateLocalStorage();
-  dataflowEndpointCreateOrUpdate();
-  dataflowEndpointCreateOrUpdateMqtt();
+  await dataflowEndpointCreateOrUpdateADLSv2();
+  await dataflowEndpointCreateOrUpdateAdx();
+  await dataflowEndpointCreateOrUpdateAio();
+  await dataflowEndpointCreateOrUpdateEventGrid();
+  await dataflowEndpointCreateOrUpdateEventHub();
+  await dataflowEndpointCreateOrUpdateFabric();
+  await dataflowEndpointCreateOrUpdateKafka();
+  await dataflowEndpointCreateOrUpdateLocalStorage();
+  await dataflowEndpointCreateOrUpdate();
+  await dataflowEndpointCreateOrUpdateMqtt();
 }
 
 main().catch(console.error);

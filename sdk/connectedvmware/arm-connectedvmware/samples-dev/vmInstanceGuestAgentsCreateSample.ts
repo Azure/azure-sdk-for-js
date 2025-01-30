@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   GuestAgent,
   VMInstanceGuestAgentsCreateOptionalParams,
-  AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -30,20 +28,17 @@ async function createGuestAgent(): Promise<void> {
     httpProxyConfig: { httpsProxy: "http://192.1.2.3:8080" },
     privateLinkScopeResourceId:
       "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/privateLinkScopeName",
-    provisioningAction: "install"
+    provisioningAction: "install",
   };
   const options: VMInstanceGuestAgentsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential);
-  const result = await client.vMInstanceGuestAgents.beginCreateAndWait(
-    resourceUri,
-    options
-  );
+  const result = await client.vMInstanceGuestAgents.beginCreateAndWait(resourceUri, options);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createGuestAgent();
+  await createGuestAgent();
 }
 
 main().catch(console.error);

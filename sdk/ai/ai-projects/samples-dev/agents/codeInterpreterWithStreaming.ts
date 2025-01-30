@@ -153,16 +153,16 @@ export async function main(): Promise<void> {
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
   await messages.data.forEach((m) => {
-        console.log(`File Paths:`);
-        console.log(`Type: ${m.content[0].type}`);
-        if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {
-          const textContent = m.content[0] as MessageTextContentOutput;
-          console.log(`Text: ${textContent.text.value}`);
-        }
-        console.log(`File ID: ${m.id}`);
-        console.log(`Start Index: ${messages.firstId}`);
-        console.log(`End Index: ${messages.lastId}`);
-      });
+    console.log(`File Paths:`);
+    console.log(`Type: ${m.content[0].type}`);
+    if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {
+      const textContent = m.content[0] as MessageTextContentOutput;
+      console.log(`Text: ${textContent.text.value}`);
+    }
+    console.log(`File ID: ${m.id}`);
+    console.log(`Start Index: ${messages.firstId}`);
+    console.log(`End Index: ${messages.lastId}`);
+  });
 
   // Delete the agent once done
   await client.agents.deleteAgent(agent.id);

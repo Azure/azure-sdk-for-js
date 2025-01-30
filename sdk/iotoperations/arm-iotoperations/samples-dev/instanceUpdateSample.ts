@@ -22,7 +22,7 @@ async function instanceUpdate() {
 }
 
 async function main() {
-  instanceUpdate();
+  await instanceUpdate();
 }
 
 main().catch(console.error);

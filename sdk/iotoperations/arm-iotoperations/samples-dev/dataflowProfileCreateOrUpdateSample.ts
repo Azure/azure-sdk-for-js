@@ -86,9 +86,9 @@ async function dataflowProfileCreateOrUpdateMulti() {
 }
 
 async function main() {
-  dataflowProfileCreateOrUpdate();
-  dataflowProfileCreateOrUpdateMinimal();
-  dataflowProfileCreateOrUpdateMulti();
+  await dataflowProfileCreateOrUpdate();
+  await dataflowProfileCreateOrUpdateMinimal();
+  await dataflowProfileCreateOrUpdateMulti();
 }
 
 main().catch(console.error);

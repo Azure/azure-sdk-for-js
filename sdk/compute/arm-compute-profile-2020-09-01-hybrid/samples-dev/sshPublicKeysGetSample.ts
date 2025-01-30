@@ -27,7 +27,7 @@ async function getAnSshPublicKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getAnSshPublicKey()
+  await getAnSshPublicKey();
 }
 
 main().catch(console.error);

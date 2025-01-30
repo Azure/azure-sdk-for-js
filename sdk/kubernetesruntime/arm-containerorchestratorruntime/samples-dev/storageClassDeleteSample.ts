@@ -20,7 +20,7 @@ async function storageClassDelete0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageClassDelete0();
+  await storageClassDelete0();
 }
 
 main().catch(console.error);

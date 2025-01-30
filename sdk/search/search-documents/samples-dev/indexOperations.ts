@@ -59,7 +59,7 @@ async function createIndex(indexName: string, client: SearchIndexClient): Promis
 async function getAndUpdateIndex(indexName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Get And Update Index Operation`);
   const index: SearchIndex = await client.getIndex(indexName);
-  index.fields.push({
+  await index.fields.push({
     type: "Edm.DateTimeOffset",
     name: "lastUpdatedOn",
     filterable: true,

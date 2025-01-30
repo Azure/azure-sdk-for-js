@@ -12,6 +12,7 @@ import envPaths from "env-paths";
 import { promisify } from "node:util";
 import { PassThrough } from "node:stream";
 import { pipeline } from "node:stream/promises";
+import { checkWithTimeout, delay } from "./checkWithTimeout";
 
 const log = createPrinter("test-proxy");
 const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
@@ -183,15 +184,39 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 }
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
-  const result = runCommand(await getTestProxyExecutable(), argv, {
+  const executable = await getTestProxyExecutable();
+  await delay(1000);
+  await runCommand(executable, argv, {
     stdio: "inherit",
     env: { ...process.env },
   }).result;
   if (await fs.pathExists("assets.json")) {
     await linkRecordingsDirectory();
   }
+}
 
-  return result;
+export async function runTestProxyCommandWithRetry(
+  argv: string[],
+  delayBetweenRetriesInMilliseconds = 1000,
+  maxWaitTimeInMilliseconds = 10000,
+) {
+  const success = await checkWithTimeout(
+    async () => {
+      try {
+        await runTestProxyCommand(argv);
+        return true;
+      } catch (error) {
+        console.error("runTestProxyCommand failed, retrying...", error);
+        return false;
+      }
+    },
+    delayBetweenRetriesInMilliseconds,
+    maxWaitTimeInMilliseconds,
+  );
+
+  if (!success) {
+    console.error("runTestProxyCommand failed after multiple retries");
+  }
 }
 
 export function createAssetsJson(project: ProjectInfo): Promise<void> {

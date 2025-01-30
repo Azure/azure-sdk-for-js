@@ -13,8 +13,8 @@
  * @summary build a classifier from a training data set
  */
 
+import type { DocumentClassifierBuildOperationDetailsOutput } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
-  DocumentClassifierBuildOperationDetailsOutput,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";

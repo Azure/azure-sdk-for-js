@@ -6,11 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ConfluentManagementClient } from "../src/confluentManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -19,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -38,7 +35,7 @@ describe("Confluent test", () => {
   let recorder: Recorder;
   let client: ConfluentManagementClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     // This is an example of how the environment variables are used
@@ -46,15 +43,15 @@ describe("Confluent test", () => {
     client = new ConfluentManagementClient(credential, recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("operation list test", async function () {
+  it("operation list test", async () => {
     const resArray = new Array();
-    for await (let item of client.organizationOperations.list()) {
+    for await (const item of client.organizationOperations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
-})
+});

@@ -19,7 +19,7 @@ async function getBillingContainer() {
 }
 
 async function main() {
-  getBillingContainer();
+  await getBillingContainer();
 }
 
 main().catch(console.error);

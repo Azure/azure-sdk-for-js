@@ -63,9 +63,9 @@ export async function main(): Promise<void> {
 
   // Purge the key - the key is permanently deleted
   // This operation could take some time to complete
-  console.time("purge a single key");
+  await console.time("purge a single key");
   await client.purgeDeletedKey(keyName);
-  console.timeEnd("purge a single key");
+  await console.timeEnd("purge a single key");
 }
 
 main().catch((error) => {

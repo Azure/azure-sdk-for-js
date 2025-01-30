@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the resources currently being monitored by the Dynatrace monitor resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List the resources currently being monitored by the Dynatrace monitor resource.
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListMonitoredResources_MaximumSet_Gen.json
  */
-async function monitorsListMonitoredResourcesMaximumSetGen() {
+async function monitorsListMonitoredResourcesMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +43,7 @@ async function monitorsListMonitoredResourcesMaximumSetGen() {
  * @summary List the resources currently being monitored by the Dynatrace monitor resource.
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListMonitoredResources_MinimumSet_Gen.json
  */
-async function monitorsListMonitoredResourcesMinimumSetGen() {
+async function monitorsListMonitoredResourcesMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,7 +62,7 @@ async function monitorsListMonitoredResourcesMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsListMonitoredResourcesMaximumSetGen();
   monitorsListMonitoredResourcesMinimumSetGen();
 }

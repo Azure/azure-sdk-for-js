@@ -8,8 +8,14 @@
  * @summary detects change points.
  */
 
-import type { CreateJobParameters, TrialMatcherResultOutput } from "@azure-rest/health-insights-clinicalmatching";
-import ClinicalMatchingRestClient, { getLongRunningPoller, isUnexpected } from "@azure-rest/health-insights-clinicalmatching";
+import type {
+  CreateJobParameters,
+  TrialMatcherResultOutput,
+} from "@azure-rest/health-insights-clinicalmatching";
+import ClinicalMatchingRestClient, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/health-insights-clinicalmatching";
 import { AzureKeyCredential } from "@azure/core-auth";
 import "dotenv/config";
 
@@ -245,7 +251,7 @@ export async function main(): Promise<void> {
     throw trialMatcherResult;
   }
   const resultBody = trialMatcherResult.body;
-  printResults(resultBody);
+  await printResults(resultBody);
 }
 
 main().catch((err) => {

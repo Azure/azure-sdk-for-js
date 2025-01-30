@@ -21,7 +21,7 @@ async function cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSe
 }
 
 async function main(): Promise<void> {
-  cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSetRule();
+  await cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

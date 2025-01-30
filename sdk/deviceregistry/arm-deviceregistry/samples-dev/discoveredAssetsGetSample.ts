@@ -19,7 +19,7 @@ async function getDiscoveredAsset() {
 }
 
 async function main() {
-  getDiscoveredAsset();
+  await getDiscoveredAsset();
 }
 
 main().catch(console.error);

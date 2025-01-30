@@ -15,7 +15,7 @@ async function listTheFirewallRulesOnAMongoClusterResource() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.firewallRules.listByMongoCluster("TestGroup", "myMongoCluster")) {
+  for await (const item of client.firewallRules.listByMongoCluster("TestGroup", "myMongoCluster")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listTheFirewallRulesOnAMongoClusterResource() {
 }
 
 async function main() {
-  listTheFirewallRulesOnAMongoClusterResource();
+  await listTheFirewallRulesOnAMongoClusterResource();
 }
 
 main().catch(console.error);

@@ -63,7 +63,7 @@ describe("JobRouterClient", () => {
         });
     });
 
-    afterEach(async (ctx) => {
+    afterEach(async () => {
       await routerClient
         .path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId)
         .delete();
@@ -75,9 +75,7 @@ describe("JobRouterClient", () => {
         .delete();
       await routerClient.path("/routing/queues/{queueId}", queueId).delete();
 
-      if (!ctx.task.pending && recorder) {
-        await recorder.stop();
-      }
+      await recorder.stop();
     });
 
     it("should create a job", { timeout: timeoutMs }, async () => {

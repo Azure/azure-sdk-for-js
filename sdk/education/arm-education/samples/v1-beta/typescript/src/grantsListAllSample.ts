@@ -13,9 +13,7 @@ import {
   EducationManagementClient
 } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of grants that Microsoft has provided.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get a list of grants that Microsoft has provided.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GrantList.json
  */
-async function grantList() {
+async function grantList(): Promise<void> {
   const includeAllocatedBudget = false;
   const options: GrantsListAllOptionalParams = { includeAllocatedBudget };
   const credential = new DefaultAzureCredential();
@@ -41,7 +39,7 @@ async function grantList() {
  * @summary Get a list of grants that Microsoft has provided.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GrantListIncludeAllocatedBudget.json
  */
-async function grantListIncludeAllocatedBudget() {
+async function grantListIncludeAllocatedBudget(): Promise<void> {
   const includeAllocatedBudget = true;
   const options: GrantsListAllOptionalParams = { includeAllocatedBudget };
   const credential = new DefaultAzureCredential();
@@ -53,7 +51,7 @@ async function grantListIncludeAllocatedBudget() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   grantList();
   grantListIncludeAllocatedBudget();
 }

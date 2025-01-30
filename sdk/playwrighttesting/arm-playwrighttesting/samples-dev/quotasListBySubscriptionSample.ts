@@ -15,7 +15,7 @@ async function quotasListBySubscription() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.quotas.listBySubscription("eastus")) {
+  for await (const item of client.quotas.listBySubscription("eastus")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function quotasListBySubscription() {
 }
 
 async function main() {
-  quotasListBySubscription();
+  await quotasListBySubscription();
 }
 
 main().catch(console.error);

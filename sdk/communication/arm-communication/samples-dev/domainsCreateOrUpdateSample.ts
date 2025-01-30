@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DomainResource,
-  CommunicationServiceManagementClient,
-} from "@azure/arm-communication";
+import type { DomainResource } from "@azure/arm-communication";
+import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +19,8 @@ import "dotenv/config";
  */
 async function createOrUpdateDomainsResource(): Promise<void> {
   const subscriptionId =
-    process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
-    "11112222-3333-4444-5555-666677778888";
-  const resourceGroupName =
-    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const domainName = "mydomain.com";
   const parameters: DomainResource = {
@@ -34,10 +28,7 @@ async function createOrUpdateDomainsResource(): Promise<void> {
     location: "Global",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CommunicationServiceManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.domains.beginCreateOrUpdateAndWait(
     resourceGroupName,
     emailServiceName,
@@ -48,7 +39,7 @@ async function createOrUpdateDomainsResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateDomainsResource();
+  await createOrUpdateDomainsResource();
 }
 
 main().catch(console.error);

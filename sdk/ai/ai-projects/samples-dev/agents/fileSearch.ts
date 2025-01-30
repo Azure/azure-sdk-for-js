@@ -80,19 +80,19 @@ export async function main(): Promise<void> {
   console.log(`Current Run status - ${run.status}, run ID: ${run.id}`);
   const messages = await client.agents.listMessages(thread.id);
   await messages.data.forEach((threadMessage) => {
-        console.log(
-          `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
-        );
-        threadMessage.content.forEach((content: MessageContentOutput) => {
-          if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
-            const textContent = content as MessageTextContentOutput;
-            console.log(`Text Message Content - ${textContent.text.value}`);
-          } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-            const imageContent = content as MessageImageFileContentOutput;
-            console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
-          }
-        });
-      });
+    console.log(
+      `Thread Message Created at  - ${threadMessage.createdAt} - Role - ${threadMessage.role}`,
+    );
+    threadMessage.content.forEach((content: MessageContentOutput) => {
+      if (isOutputOfType<MessageTextContentOutput>(content, "text")) {
+        const textContent = content as MessageTextContentOutput;
+        console.log(`Text Message Content - ${textContent.text.value}`);
+      } else if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
+        const imageContent = content as MessageImageFileContentOutput;
+        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
+      }
+    });
+  });
 
   // Delete agent
   await client.agents.deleteAgent(agent.id);

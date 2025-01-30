@@ -24,7 +24,7 @@ import {
   FluidRelayServersRegenerateKeyResponse,
   FluidRelayServersListKeysOptionalParams,
   FluidRelayServersListKeysResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FluidRelayServers. */

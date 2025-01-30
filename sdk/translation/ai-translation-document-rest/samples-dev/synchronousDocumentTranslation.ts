@@ -6,7 +6,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { DocumentTranslateParameters, isUnexpected } from "../src";
+import type { DocumentTranslateParameters } from "../src";
+import { isUnexpected } from "../src";
 import createClient from "../src/documentTranslationClient";
 dotenv.config();
 

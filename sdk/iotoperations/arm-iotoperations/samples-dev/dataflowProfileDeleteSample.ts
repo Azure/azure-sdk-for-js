@@ -18,7 +18,7 @@ async function dataflowProfileDelete() {
 }
 
 async function main() {
-  dataflowProfileDelete();
+  await dataflowProfileDelete();
 }
 
 main().catch(console.error);
