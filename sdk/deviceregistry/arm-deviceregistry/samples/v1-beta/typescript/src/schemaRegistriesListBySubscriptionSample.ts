@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list SchemaRegistry resources by subscription ID
  * x-ms-original-file: 2024-09-01-preview/List_SchemaRegistries_Subscription.json
  */
-async function listSchemaRegistriesSubscription() {
+async function listSchemaRegistriesSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listSchemaRegistriesSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSchemaRegistriesSubscription();
 }
 
