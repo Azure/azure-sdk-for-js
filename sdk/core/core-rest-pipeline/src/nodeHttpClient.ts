@@ -99,8 +99,9 @@ class NodeHttpClient implements HttpClient {
       request.abortSignal.addEventListener("abort", abortListener);
     }
 
+    let timer: ReturnType<typeof setTimeout> | undefined;
     if (request.timeout > 0) {
-      setTimeout(() => {
+      timer = setTimeout(() => {
         abortController.abort();
       }, request.timeout);
     }
@@ -135,6 +136,10 @@ class NodeHttpClient implements HttpClient {
       }
 
       const res = await this.makeRequest(request, abortController, body);
+
+      if (timer) {
+        clearTimeout(timer);
+      }
 
       const headers = getResponseHeaders(res);
 
