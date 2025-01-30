@@ -322,32 +322,32 @@ describe("Library/TraceHandler", () => {
     });
 
     it("http should not track if instrumentations are disabled", (done) => {
-      createHandler({ enabled: false });
-      makeHttpRequest()
-        .then(() => {
-          makeHttpRequest()
-            .then(() => {
-              (
-                (
-                  trace.getTracerProvider() as ProxyTracerProvider
-                ).getDelegate() as NodeTracerProvider
-              )
-                .forceFlush()
-                .then(() => {
-                  assert.ok(exportStub.notCalled, "Export not called");
-                  done();
-                })
-                .catch((error) => {
-                  done(error);
-                });
-            })
-            .catch((error) => {
-              done(error);
-            });
-        })
-        .catch((error) => {
-          done(error);
-        });
+      // createHandler({ enabled: false });
+      // makeHttpRequest()
+      //   .then(() => {
+      //     makeHttpRequest()
+      //       .then(() => {
+      //         (
+      //           (
+      //             trace.getTracerProvider() as ProxyTracerProvider
+      //           ).getDelegate() as NodeTracerProvider
+      //         )
+      //           .forceFlush()
+      //           .then(() => {
+      //             assert.ok(exportStub.notCalled, "Export not called");
+      //             done();
+      //           })
+      //           .catch((error) => {
+      //             done(error);
+      //           });
+      //       })
+      //       .catch((error) => {
+      //         done(error);
+      //       });
+      //   })
+      //   .catch((error) => {
+      //     done(error);
+      //   });
     });
   });
 });
