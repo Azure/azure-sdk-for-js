@@ -40,22 +40,22 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { v4 } from "uuid";
-import { inspect } from "util";
+import { inspect } from "node:util";
 
-import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
-import floorTwin from "./dtdl/digitalTwins/floorTwin.json";
-import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json";
-import roomTwin from "./dtdl/digitalTwins/roomTwin.json";
+import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json.js";
+import floorTwin from "./dtdl/digitalTwins/floorTwin.json.js";
+import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json.js";
+import roomTwin from "./dtdl/digitalTwins/roomTwin.json.js";
 
-import building from "./dtdl/models/building.json";
-import floor from "./dtdl/models/floor.json";
-import room from "./dtdl/models/room.json";
-import wifi from "./dtdl/models/wifi.json";
-import hvac from "./dtdl/models/hvac.json";
+import building from "./dtdl/models/building.json.js";
+import floor from "./dtdl/models/floor.json.js";
+import room from "./dtdl/models/room.json.js";
+import wifi from "./dtdl/models/wifi.json.js";
+import hvac from "./dtdl/models/hvac.json.js";
 
-import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json";
+import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json.js";
 
-async function main() {
+async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   const url = process.env.AZURE_DIGITALTWINS_URL;
   if (url === undefined) {

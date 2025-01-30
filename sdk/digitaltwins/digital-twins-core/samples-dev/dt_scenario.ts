@@ -42,18 +42,18 @@ import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { randomUUID } from "node:crypto";
 import { inspect } from "node:util";
 
-import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json" with { type: "json" };
-import floorTwin from "./dtdl/digitalTwins/floorTwin.json" with { type: "json" };
-import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json" with { type: "json" };
-import roomTwin from "./dtdl/digitalTwins/roomTwin.json" with { type: "json" };
+import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json.js" with { type: "json" };
+import floorTwin from "./dtdl/digitalTwins/floorTwin.json.js" with { type: "json" };
+import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json.js" with { type: "json" };
+import roomTwin from "./dtdl/digitalTwins/roomTwin.json.js" with { type: "json" };
 
-import building from "./dtdl/models/building.json" with { type: "json" };
-import floor from "./dtdl/models/floor.json" with { type: "json" };
-import room from "./dtdl/models/room.json" with { type: "json" };
-import wifi from "./dtdl/models/wifi.json" with { type: "json" };
-import hvac from "./dtdl/models/hvac.json" with { type: "json" };
+import building from "./dtdl/models/building.json.js" with { type: "json" };
+import floor from "./dtdl/models/floor.json.js" with { type: "json" };
+import room from "./dtdl/models/room.json.js" with { type: "json" };
+import wifi from "./dtdl/models/wifi.json.js" with { type: "json" };
+import hvac from "./dtdl/models/hvac.json.js" with { type: "json" };
 
-import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json" with { type: "json" };
+import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json.js" with { type: "json" };
 
 async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
