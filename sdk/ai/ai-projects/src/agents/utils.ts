@@ -8,6 +8,8 @@ import type {
   FileSearchToolDefinitionDetails,
   FunctionDefinition,
   FunctionToolDefinition,
+  OpenApiFunctionDefinition,
+  OpenApiToolDefinition,
   RequiredActionOutput,
   RequiredToolCallOutput,
   ToolDefinition,
@@ -154,6 +156,24 @@ export class ToolUtility {
       },
     };
   }
+
+  /**
+   * Creates an OpenApi tool
+   *
+   * @param openApiFunctionDefinition - The OpenApi function definition to use.
+   *
+   * @returns An object containing the definition for the OpenApi tool.
+   */
+  static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+    definition: OpenApiToolDefinition;
+  } {
+    return {
+      definition: {
+        type: "openapi",
+        openapi: openApiFunctionDefinition,
+      },
+    };
+  }
 }
 
 /**
@@ -236,6 +256,21 @@ export class ToolSet {
     const tool = ToolUtility.createAzureAISearchTool(indexConnectionId, indexName);
     this.toolDefinitions.push(tool.definition);
     this.toolResources = { ...this.toolResources, ...tool.resources };
+    return tool;
+  }
+
+  /**
+   * Adds an OpenApi tool to the tool set.
+   *
+   * @param openApiFunctionDefinition - The OpenApi function definition to use.
+   *
+   * @returns An object containing the definition for the OpenApi tool
+   */
+  addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+    definition: OpenApiToolDefinition;
+  } {
+    const tool = ToolUtility.createOpenApiTool(openApiFunctionDefinition);
+    this.toolDefinitions.push(tool.definition);
     return tool;
   }
 }

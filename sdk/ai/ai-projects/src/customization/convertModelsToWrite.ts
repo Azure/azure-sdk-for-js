@@ -71,6 +71,8 @@ function convertToolDefinition(
       return convertSharepointToolDefinition(source as PublicModels.SharepointToolDefinition);
     case "azure_ai_search":
       return convertAzureAISearchToolDefinition(source as PublicModels.AzureAISearchToolDefinition);
+    case "openapi":
+      return convertOpenApiToolDefinition(source as PublicModels.OpenApiToolDefinition);
     default:
       throw new Error(`Unknown tool type: ${source.type}`);
   }
@@ -136,6 +138,15 @@ function convertAzureAISearchToolDefinition(
 ): GeneratedModels.AzureAISearchToolDefinition {
   return {
     type: source.type,
+  };
+}
+
+function convertOpenApiToolDefinition(
+  source: PublicModels.OpenApiToolDefinition,
+): GeneratedModels.OpenApiToolDefinition {
+  return {
+    type: source.type,
+    openapi: source.openapi,
   };
 }
 
