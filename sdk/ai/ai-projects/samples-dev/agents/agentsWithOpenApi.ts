@@ -29,14 +29,14 @@ export async function main(): Promise<void> {
   const filePath = "./data/weatherOpenApi.json";
   const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
-  // Create Auth object for the OpenApiTool (note that connection or managed identity auth setup requires additional setup in Azure)
-  const auth = ToolUtility.getOpenApiAnonymousAuthDetails();
-
+  // Define OpenApi function
   const openApiFunction = {
     name: "getWeather",
     spec: openApiSpec,
     description: "Retrieve weather information for a location",
-    auth: auth,
+    auth: {
+      type: "anonymous",
+    },
   };
 
   // Create OpenApi tool

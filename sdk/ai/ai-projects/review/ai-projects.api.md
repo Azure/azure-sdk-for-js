@@ -1762,9 +1762,6 @@ export class ToolUtility {
     static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
     };
-    static getOpenApiAnonymousAuthDetails(): OpenApiAnonymousAuthDetails;
-    static OpenApiConnectionAuthDetails(connectionId: string): OpenApiConnectionAuthDetails;
-    static OpenApiManagedAuthDetails(audience: string): OpenApiManagedAuthDetails;
 }
 
 // @public

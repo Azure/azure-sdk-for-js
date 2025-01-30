@@ -8,10 +8,7 @@ import type {
   FileSearchToolDefinitionDetails,
   FunctionDefinition,
   FunctionToolDefinition,
-  OpenApiAnonymousAuthDetails,
-  OpenApiConnectionAuthDetails,
   OpenApiFunctionDefinition,
-  OpenApiManagedAuthDetails,
   OpenApiToolDefinition,
   RequiredActionOutput,
   RequiredToolCallOutput,
@@ -174,47 +171,6 @@ export class ToolUtility {
       definition: {
         type: "openapi",
         openapi: openApiFunctionDefinition,
-      },
-    };
-  }
-
-  /**
-   * Security details for OpenApi anonymous authentication
-   *
-   * @returns An auth object for an OpenApi tool.
-   */
-  static getOpenApiAnonymousAuthDetails(): OpenApiAnonymousAuthDetails {
-    return {
-      type: "anonymous",
-    };
-  }
-
-  /**
-   * Security details for OpenApi connection authentication
-   *
-   * @param connectionId - Connection id for connection auth type
-   * @returns An auth object for an OpenApi tool.
-   */
-  static OpenApiConnectionAuthDetails(connectionId: string): OpenApiConnectionAuthDetails {
-    return {
-      type: "connection",
-      securityScheme: {
-        connectionId: connectionId,
-      },
-    };
-  }
-
-  /**
-   * Security details for OpenApi managed identity authentication.
-   *
-   * @param audience - Authentication scope for managed_identity auth type
-   * @returns An auth object for an OpenApi tool.
-   */
-  static OpenApiManagedAuthDetails(audience: string): OpenApiManagedAuthDetails {
-    return {
-      type: "managed_identity",
-      securityScheme: {
-        audience: audience,
       },
     };
   }
