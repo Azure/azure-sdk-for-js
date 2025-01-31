@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-dnsresolver": [
-        "./dist/esm"
-      ]
+      "@azure/arm-dnsresolver": ["./dist/esm"]
     }
   }
 }
