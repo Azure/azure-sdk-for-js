@@ -38,11 +38,11 @@ export async function main() {
     exporter: exporter,
   };
   const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-  provider.addMetricReader(metricReader);
+  await provider.addMetricReader(metricReader);
   const meter = provider.getMeter("example-meter-node");
   // Create Counter instrument with the meter
   let counter = meter.createCounter("counter");
-  counter.add(1);
+  await counter.add(1);
 }
 
 main().catch((error) => {

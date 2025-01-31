@@ -23,7 +23,7 @@ async function getAPrivateEndpointConnectionOnAMongoClusterResource() {
 }
 
 async function main() {
-  getAPrivateEndpointConnectionOnAMongoClusterResource();
+  await getAPrivateEndpointConnectionOnAMongoClusterResource();
 }
 
 main().catch(console.error);
