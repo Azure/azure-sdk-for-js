@@ -5,7 +5,6 @@ languages:
 products:
   - azure
   - azure-remote-rendering
-  - azure-spatial-anchors
 urlFragment: mixed-reality-authentication-javascript
 ---
 
@@ -25,7 +24,6 @@ You need [an Azure subscription][freesub] and the following Azure resources to r
 
 - [Azure Object Anchors account][createinstance_azureobjectanchorsaccount]
 - [Azure Remote Rendering account][createinstance_azureremoterenderingaccount]
-- [Azure Spatial Anchors account][createinstance_azurespatialanchorsaccount]
 
 Any one of the above Azure resources can be used with the samples. Set the `MIXEDREALITY_ACCOUNT_DOMAIN`,
 `MIXEDREALITY_ACCOUNT_ID`, and `MIXEDREALITY_ACCOUNT_KEY` environment variables to the corresponding value
@@ -68,5 +66,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureobjectanchorsaccount]: https://learn.microsoft.com/azure/object-anchors/quickstarts/get-started-model-conversion#create-an-object-anchors-account
 [createinstance_azureremoterenderingaccount]: https://learn.microsoft.com/azure/remote-rendering/quickstarts/convert-model#azure-setup
-[createinstance_azurespatialanchorsaccount]: https://learn.microsoft.com/azure/spatial-anchors/quickstarts/get-started-hololens?tabs=azure-portal#create-a-spatial-anchors-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/mixed-reality-authentication/README.md
