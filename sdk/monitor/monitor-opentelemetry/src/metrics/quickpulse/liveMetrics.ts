@@ -27,7 +27,10 @@ import type {
   DerivedMetricInfo,
   FilterConjunctionGroupInfo,
 } from "../../generated/index.js";
-import { KnownCollectionConfigurationErrorType, KnownTelemetryType } from "../../generated/index.js";
+import {
+  KnownCollectionConfigurationErrorType,
+  KnownTelemetryType,
+} from "../../generated/index.js";
 import {
   getLogDocument,
   getSdkVersion,

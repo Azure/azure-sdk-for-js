@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DerivedMetricInfo, FilterInfo, FilterConjunctionGroupInfo } from "../../../generated/index.js";
+import type {
+  DerivedMetricInfo,
+  FilterInfo,
+  FilterConjunctionGroupInfo,
+} from "../../../generated/index.js";
 import { KnownPredicateType } from "../../../generated/index.js";
 import type {
   RequestData,

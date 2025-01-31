@@ -54,7 +54,13 @@ import {
   AZURE_MONITOR_PREFIX,
   AttachTypePrefix,
 } from "../../types.js";
-import type { RequestData, DependencyData, ExceptionData, TraceData, TelemetryData } from "./types.js";
+import type {
+  RequestData,
+  DependencyData,
+  ExceptionData,
+  TraceData,
+  TelemetryData,
+} from "./types.js";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
