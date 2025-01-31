@@ -3,7 +3,6 @@
 
 import * as assert from "node:assert";
 import * as path from "node:path";
-import * as sinon from "sinon";
 import nock from "nock";
 
 import { InternalConfig } from "../../../../src/shared/index.js";

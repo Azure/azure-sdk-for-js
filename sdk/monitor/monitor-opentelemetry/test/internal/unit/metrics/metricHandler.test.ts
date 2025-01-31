@@ -4,7 +4,6 @@
 /* eslint-disable no-underscore-dangle*/
 
 import * as assert from "node:assert";
-import * as sinon from "sinon";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { ExportResultCode } from "@opentelemetry/core";

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as assert from "node:assert";
-import * as sinon from "sinon";
 import * as path from "node:path";
 
 import * as fileHelper from "../../../../../src/utils/fileSystem.js";

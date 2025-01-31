@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import * as assert from "node:assert";
-import * as sinon from "sinon";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
