@@ -3,25 +3,34 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as assert from "assert";
-import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
 import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
 import { SeverityNumber, logs } from "@opentelemetry/api-logs";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider } from "@opentelemetry/sdk-logs";
-import { LogHandler } from "../../../../src/logs";
-import { MetricHandler } from "../../../../src/metrics";
-import { InternalConfig } from "../../../../src/shared";
+import { LogHandler } from "../../../../src/logs/index.js";
+import { MetricHandler } from "../../../../src/metrics/index.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import type { BunyanInstrumentationConfig } from "@opentelemetry/instrumentation-bunyan";
 import type { WinstonInstrumentationConfig } from "@opentelemetry/instrumentation-winston";
+import type { MockInstance } from "vitest";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  assert,
+} from "vitest";
 
 describe("LogHandler", () => {
-  let sandbox: sinon.SinonSandbox;
   let handler: LogHandler;
-  let exportStub: sinon.SinonStub;
+  let exportStub: MockInstance<(typeof handler)["_azureExporter"]["export"]>;
   let metricHandler: MetricHandler;
   let originalEnv: NodeJS.ProcessEnv;
   const _config = new InternalConfig();
@@ -30,17 +39,16 @@ describe("LogHandler", () => {
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
 
-  before(() => {
-    sandbox = sinon.createSandbox();
+  beforeAll(() => {
     metricHandler = new MetricHandler(_config);
     handler = new LogHandler(_config, metricHandler);
-    exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
-      (lgs: any, resultCallback: any) =>
+    exportStub = vi.spyOn(handler["_azureExporter"], "export").mockImplementation(
+      (_, resultCallback) =>
         new Promise((resolve) => {
           resultCallback({
             code: ExportResultCode.SUCCESS,
           });
-          resolve(lgs);
+          resolve();
         }),
     );
     const loggerProvider: LoggerProvider = new LoggerProvider();
@@ -58,65 +66,47 @@ describe("LogHandler", () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    sandbox.restore();
-    exportStub.resetHistory();
+    exportStub.mockReset();
   });
 
-  after(() => {
+  afterAll(() => {
     logs.disable();
     trace.disable();
   });
 
   describe("#logger", () => {
-    it("export", (done) => {
+    it("export", async () => {
       // Generate exception Log record
       const logRecord: APILogRecord = {
         body: "testLog",
       };
       logs.getLogger("testLogger").emit(logRecord);
-      (logs.getLoggerProvider() as LoggerProvider)
-        .forceFlush()
-        .then(() => {
-          const result = exportStub.args;
-          assert.strictEqual(result.length, 1);
-          assert.strictEqual(result[0][0][0].body, "testLog");
-          done();
-          return;
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await (logs.getLoggerProvider() as LoggerProvider).forceFlush();
+      expect(exportStub).toHaveBeenCalledOnce();
+      const args = exportStub.mock.calls[0];
+      assert.strictEqual(args[0][0].body, "testLog");
     });
 
-    it("tracing", (done) => {
-      trace.getTracer("testTracer").startActiveSpan("test", () => {
+    it("tracing", async () => {
+      await trace.getTracer("testTracer").startActiveSpan("test", async () => {
         // Generate Log record
         const logRecord: APILogRecord = {
           attributes: {},
           body: "testRecord",
         };
         logs.getLogger("testLogger").emit(logRecord);
-        (logs.getLoggerProvider() as LoggerProvider)
-          .forceFlush()
-          .then(() => {
-            assert.ok(exportStub.calledOnce, "Export called");
-            const lgs = exportStub.args[0][0];
-            assert.deepStrictEqual(lgs.length, 1);
-            const spanContext = trace.getSpanContext(context.active());
-            assert.ok(isValidTraceId(lgs[0].spanContext.traceId), "Valid trace Id");
-            assert.ok(isValidSpanId(lgs[0].spanContext.spanId), "Valid span Id");
-            assert.deepStrictEqual(lgs[0].spanContext.traceId, spanContext?.traceId);
-            assert.deepStrictEqual(lgs[0].spanContext.spanId, spanContext?.spanId);
-            done();
-            return;
-          })
-          .catch((error: Error) => {
-            done(error);
-          });
+        await (logs.getLoggerProvider() as LoggerProvider).forceFlush();
+        expect(exportStub).toHaveBeenCalledOnce();
+        const lgs = exportStub.mock.calls[0][0][0];
+        const spanContext = trace.getSpanContext(context.active());
+        assert.ok(isValidTraceId(lgs.spanContext!.traceId), "Valid trace Id");
+        assert.ok(isValidSpanId(lgs.spanContext!.spanId), "Valid span Id");
+        assert.deepStrictEqual(lgs.spanContext!.traceId, spanContext?.traceId);
+        assert.deepStrictEqual(lgs.spanContext!.spanId, spanContext?.spanId);
       });
     });
 
-    it("Exception standard metrics processed", (done) => {
+    it("Exception standard metrics processed", async () => {
       // Generate exception Log record
       const logRecord: APILogRecord = {
         attributes: {
@@ -125,48 +115,32 @@ describe("LogHandler", () => {
         body: "testErrorRecord",
       };
       logs.getLogger("testLogger").emit(logRecord);
-      (logs.getLoggerProvider() as LoggerProvider)
-        .forceFlush()
-        .then(() => {
-          const result = exportStub.args;
-          assert.strictEqual(result.length, 1);
-          assert.strictEqual(
-            result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-            "(Name:'Exceptions', Ver:'1.1')",
-          );
-          done();
-          return;
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await (logs.getLoggerProvider() as LoggerProvider).forceFlush();
+      expect(exportStub).toHaveBeenCalledOnce();
+      const result = exportStub.mock.calls[0];
+      assert.strictEqual(
+        result[0][0].attributes["_MS.ProcessedByMetricExtractors"],
+        "(Name:'Exceptions', Ver:'1.1')",
+      );
     });
 
-    it("Trace standard metrics processed", (done) => {
+    it("Trace standard metrics processed", async () => {
       // Generate Log record
       const logRecord: APILogRecord = {
         attributes: {},
         body: "testRecord",
       };
       logs.getLogger("testLogger").emit(logRecord);
-      (logs.getLoggerProvider() as LoggerProvider)
-        .forceFlush()
-        .then(() => {
-          const result = exportStub.args;
-          assert.strictEqual(result.length, 1);
-          assert.strictEqual(
-            result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-            "(Name:'Traces', Ver:'1.1')",
-          );
-          done();
-          return;
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await (logs.getLoggerProvider() as LoggerProvider).forceFlush();
+      expect(exportStub).toHaveBeenCalledOnce();
+      const result = exportStub.mock.calls[0];
+      assert.strictEqual(
+        result[0][0].attributes["_MS.ProcessedByMetricExtractors"],
+        "(Name:'Traces', Ver:'1.1')",
+      );
     });
 
-    it("Trace standard metrics synthetic processed", (done) => {
+    it("Trace standard metrics synthetic processed", async () => {
       // Generate Log record
       const logRecord: APILogRecord = {
         attributes: {
@@ -176,22 +150,14 @@ describe("LogHandler", () => {
         body: "testRecord",
       };
       logs.getLogger("testLogger").emit(logRecord);
-      (logs.getLoggerProvider() as LoggerProvider)
-        .forceFlush()
-        .then(() => {
-          const result = exportStub.args;
-          assert.strictEqual(result.length, 1);
-          assert.strictEqual(
-            result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-            "(Name:'Traces', Ver:'1.1')",
-          );
-          assert.strictEqual(result[0][0][0].attributes["operation/synthetic"], "True");
-          done();
-          return;
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await (logs.getLoggerProvider() as LoggerProvider).forceFlush();
+      expect(exportStub).toHaveBeenCalledOnce();
+      const result = exportStub.mock.calls[0];
+      assert.strictEqual(
+        result[0][0].attributes["_MS.ProcessedByMetricExtractors"],
+        "(Name:'Traces', Ver:'1.1')",
+      );
+      assert.strictEqual(result[0][0].attributes["operation/synthetic"], "True");
     });
 
     it("should add bunyan instrumentation", () => {

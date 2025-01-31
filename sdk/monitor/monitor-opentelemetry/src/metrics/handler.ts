@@ -4,12 +4,12 @@
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader, View } from "@opentelemetry/sdk-metrics";
-import type { InternalConfig } from "../shared/config";
-import { StandardMetrics } from "./standardMetrics";
+import type { InternalConfig } from "../shared/config.js";
+import { StandardMetrics } from "./standardMetrics.js";
 import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
-import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types";
-import { LiveMetrics } from "./quickpulse/liveMetrics";
+import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types.js";
+import { LiveMetrics } from "./quickpulse/liveMetrics.js";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler

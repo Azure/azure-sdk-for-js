@@ -1,12 +1,13 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "paths": {
-      "@azure/monitor-opentelemetry": ["./src/index"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
     },
-    "lib": ["es6", "dom"]
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ]
 }

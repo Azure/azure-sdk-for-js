@@ -33,17 +33,18 @@ import type {
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
-} from "./types";
-import { StandardMetricIds, StandardMetricPropertyNames } from "./types";
+  StandardMetricIds,
+  StandardMetricPropertyNames,
+} from "./types.js";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type { Resource } from "@opentelemetry/resources";
-import * as os from "os";
 import {
   getHttpStatusCode,
   getNetHostPort,
   getNetPeerName,
   getUserAgent,
-} from "./quickpulse/utils";
+} from "./quickpulse/utils.js";
+import * as os from "node:os";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);

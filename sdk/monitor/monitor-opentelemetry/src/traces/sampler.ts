@@ -8,7 +8,7 @@ import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
 import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
-import { AzureMonitorSampleRate } from "../types";
+import { AzureMonitorSampleRate } from "../types.js";
 
 /**
  * ApplicationInsightsSampler is responsible for the following:
