@@ -324,7 +324,7 @@ importers:
         version: file:projects/arm-dns-profile-2020-09-01-hybrid.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-dnsresolver':
         specifier: file:./projects/arm-dnsresolver.tgz
-        version: file:projects/arm-dnsresolver.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))
+        version: file:projects/arm-dnsresolver.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-domainservices':
         specifier: file:./projects/arm-domainservices.tgz
         version: file:projects/arm-domainservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -3040,7 +3040,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dnsresolver@file:projects/arm-dnsresolver.tgz':
-    resolution: {integrity: sha512-mVjGvLrZ+CVQv6LxUFKAMz9TKJM0sBmpGxIlmI2lyCE7NjyCMGbl+sJF1rw9NGwaulq3roKsSxZ+MYAuk4iYdQ==, tarball: file:projects/arm-dnsresolver.tgz}
+    resolution: {integrity: sha512-RrWL/uMCuRQsjpEXVNeXYr6kNnCMrBxSllYMgN95gsoe3pJ9YZD0OnxPtfXpgVanLJARPiKhwQlRtfQHhukNkA==, tarball: file:projects/arm-dnsresolver.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-domainservices@file:projects/arm-domainservices.tgz':
@@ -13711,23 +13711,24 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-dnsresolver@file:projects/arm-dnsresolver.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))':
+  '@rush-temp/arm-dnsresolver@file:projects/arm-dnsresolver.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
-      '@vitest/browser': 2.1.8(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@2.1.8)
-      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       playwright: 1.50.0
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.3
-      vitest: 2.1.8(@types/node@18.19.74)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
+      - '@types/debug'
       - '@vitest/ui'
       - bufferutil
       - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss
@@ -13739,9 +13740,11 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
+      - yaml
 
   '@rush-temp/arm-domainservices@file:projects/arm-domainservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
@@ -22592,27 +22595,6 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/browser@2.1.8(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@2.1.8)':
-    dependencies:
-      '@testing-library/dom': 10.4.0
-      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
-      '@vitest/mocker': 2.1.8(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))
-      '@vitest/utils': 2.1.8
-      magic-string: 0.30.17
-      msw: 2.7.0(@types/node@18.19.74)(typescript@5.7.3)
-      sirv: 3.0.0
-      tinyrainbow: 1.2.0
-      vitest: 2.1.8(@types/node@18.19.74)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
-      ws: 8.18.0
-    optionalDependencies:
-      playwright: 1.50.0
-    transitivePeerDependencies:
-      - '@types/node'
-      - bufferutil
-      - typescript
-      - utf-8-validate
-      - vite
-
   '@vitest/browser@3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -26836,7 +26818,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 18.19.74
-      '@vitest/browser': 2.1.8(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@2.1.8)
     transitivePeerDependencies:
       - less
       - lightningcss
