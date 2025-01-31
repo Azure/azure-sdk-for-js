@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable no-underscore-dangle*/
-
-import * as assert from "assert";
-import * as sinon from "sinon";
-import { MetricHandler } from "../../../../src/metrics";
-import { InternalConfig } from "../../../../src/shared";
+import { MetricHandler } from "../../../../src/metrics/index.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
 import { ExportResultCode } from "@opentelemetry/core";
 import { metrics as MetricsApi } from "@opentelemetry/api";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
+import { assert, afterEach, beforeEach, describe, expect, it, MockInstance, vi } from "vitest";
 
 describe("MetricHandler", () => {
   let originalEnv: NodeJS.ProcessEnv;
-  let sandbox: sinon.SinonSandbox;
   let handler: MetricHandler;
-  let exportStub: sinon.SinonStub;
-  const _config = new InternalConfig();
-  if (_config.azureMonitorExporterOptions) {
-    _config.azureMonitorExporterOptions.connectionString =
+  let exportStub: MockInstance<(typeof handler)["_azureExporter"]["export"]>;
+  const config = new InternalConfig();
+  if (config.azureMonitorExporterOptions) {
+    config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
 
@@ -26,22 +22,18 @@ describe("MetricHandler", () => {
     originalEnv = process.env;
   });
 
-  before(() => {
-    sandbox = sinon.createSandbox();
-  });
-
   afterEach(() => {
     process.env = originalEnv;
     handler.shutdown();
     MetricsApi.disable();
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   function createHandler(): void {
-    handler = new MetricHandler(_config, {
+    handler = new MetricHandler(config, {
       collectionInterval: 100,
     });
-    exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
+    exportStub = vi.spyOn(handler["_azureExporter"], "export").mockImplementation(
       (result: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
@@ -64,8 +56,8 @@ describe("MetricHandler", () => {
     });
     counter.add(2);
     await new Promise((resolve) => setTimeout(resolve, 220));
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -75,7 +67,7 @@ describe("MetricHandler", () => {
   });
 
   it("should add views", () => {
-    _config.instrumentationOptions = {
+    config.instrumentationOptions = {
       azureSdk: { enabled: true },
       http: { enabled: true },
       mySql: { enabled: true },

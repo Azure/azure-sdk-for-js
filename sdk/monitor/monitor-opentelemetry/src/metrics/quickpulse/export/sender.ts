@@ -11,8 +11,8 @@ import type {
   PublishOptionalParams,
   PublishResponse,
   QuickpulseClientOptionalParams,
-} from "../../../generated";
-import { QuickpulseClient } from "../../../generated";
+} from "../../../generated/index.js";
+import { QuickpulseClient } from "../../../generated/index.js";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 

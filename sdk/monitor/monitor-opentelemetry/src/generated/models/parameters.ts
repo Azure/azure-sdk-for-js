@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
-import { MonitoringDataPoint as MonitoringDataPointMapper } from "../models/mappers";
+import { MonitoringDataPoint as MonitoringDataPointMapper } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
