@@ -15,8 +15,8 @@ import {
   isValidPNG,
   isValidPDF,
 } from "../utils/utils.js";
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import type {
   AnalyzeOperationOutput,
   DocumentBarcodeOutput,
@@ -35,19 +35,19 @@ import {
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (context) {
-    recorder = await createRecorder(context);
-    await recorder.setMatcher("BodilessMatcher");
-    client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-      recorder.configureClientOptions({}),
-    );
-  });
+  beforeEach(async (context) => {
+      recorder = await createRecorder(context);
+      await recorder.setMatcher("BodilessMatcher");
+      client = DocumentIntelligence(
+        assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
+        { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+        recorder.configureClientOptions({}),
+      );
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   describe("content analysis", () => {
     it("pdf file stream", async () => {

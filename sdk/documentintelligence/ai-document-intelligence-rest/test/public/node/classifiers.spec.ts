@@ -5,7 +5,6 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
 import DocumentIntelligence from "../../../src/index.js";
-import type { Context } from "vitest";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { ASSET_PATH, getRandomNumber, makeTestUrl } from "../utils/utils.js";
 import type {
@@ -15,8 +14,8 @@ import type {
   DocumentIntelligenceClient,
 } from "../../../src/index.js";
 import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 
 const containerSasUrl = (): string =>
   assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL");
@@ -24,19 +23,19 @@ const containerSasUrl = (): string =>
 describe.skip("classifiers", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (context) {
-    recorder = await createRecorder(context);
-    await recorder.setMatcher("BodilessMatcher");
-    client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-      recorder.configureClientOptions({}),
-    );
-  });
+  beforeEach(async (context) => {
+      recorder = await createRecorder(context);
+      await recorder.setMatcher("BodilessMatcher");
+      client = DocumentIntelligence(
+        assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
+        { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+        recorder.configureClientOptions({}),
+      );
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   let _classifier: DocumentClassifierDetailsOutput;
   let _classifierId: string;
@@ -92,7 +91,7 @@ describe.skip("classifiers", () => {
     return _classifier;
   }
 
-  it("build classifier", async function (this: Context) {
+  it("build classifier", async function () {
     const classifier = await requireClassifier();
 
     assert.containsAllKeys(classifier.docTypes, ["foo", "bar"]);
@@ -100,7 +99,7 @@ describe.skip("classifiers", () => {
     assert.equal(classifier.description, customClassifierDescription);
   });
 
-  it("analyze from PNG file stream", async function (this: Context) {
+  it("analyze from PNG file stream", async function () {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
     const { classifierId } = await requireClassifier();
     const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
@@ -134,7 +133,7 @@ describe.skip("classifiers", () => {
     assert.ok(analyzeResult?.pages![0].unit);
   });
 
-  it("analyze from PNG file URL", async function (this: Context) {
+  it("analyze from PNG file URL", async function () {
     const url = makeTestUrl("/Invoice_1.pdf");
     const { classifierId } = await requireClassifier();
 
