@@ -13,6 +13,7 @@ import {
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types.js";
+import { vi } from "vitest";
 
 const vmTestResponse = {
   additionalCapabilities: {

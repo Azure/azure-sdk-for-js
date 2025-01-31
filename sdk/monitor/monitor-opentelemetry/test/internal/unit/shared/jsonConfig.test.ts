@@ -4,6 +4,7 @@
 import * as assert from "node:assert";
 import * as path from "node:path";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
+import { vi } from "vitest";
 
 describe("Json Config", () => {
   let sandbox: sinon.SinonSandbox;

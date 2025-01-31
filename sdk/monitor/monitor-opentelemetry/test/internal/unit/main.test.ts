@@ -20,6 +20,7 @@ import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace
 import type { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
 import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
+import { vi } from "vitest";
 
 const testInstrumentation: Instrumentation = {
   instrumentationName: "@opentelemetry/instrumentation-fs",

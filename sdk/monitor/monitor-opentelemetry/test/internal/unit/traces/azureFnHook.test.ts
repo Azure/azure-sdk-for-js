@@ -13,6 +13,7 @@ import { Logger } from "../../../../src/shared/logging/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { metrics, trace } from "@opentelemetry/api";
+import { vi } from "vitest";
 
 describe("Library/AzureFunctionsHook", () => {
   let sandbox: sinon.SinonSandbox;

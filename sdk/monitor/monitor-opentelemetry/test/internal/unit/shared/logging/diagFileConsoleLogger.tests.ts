@@ -6,6 +6,7 @@ import * as path from "node:path";
 
 import * as fileHelper from "../../../../../src/utils/fileSystem.js";
 import { DiagFileConsoleLogger } from "../../../../../src/shared/logging/diagFileConsoleLogger.js";
+import { vi } from "vitest";
 
 describe("Library/DiagFileConsoleLogger", () => {
   let sandbox: sinon.SinonSandbox;

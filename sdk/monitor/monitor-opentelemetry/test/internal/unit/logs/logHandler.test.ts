@@ -16,6 +16,7 @@ import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import type { BunyanInstrumentationConfig } from "@opentelemetry/instrumentation-bunyan";
 import type { WinstonInstrumentationConfig } from "@opentelemetry/instrumentation-winston";
+import { vi } from "vitest";
 
 describe("LogHandler", () => {
   let sandbox: sinon.SinonSandbox;
