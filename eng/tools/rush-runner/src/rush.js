@@ -78,7 +78,7 @@ export async function rushRunAllWithDirection(action, packagesWithDirection, rus
     const packages = parsePackageNames(output);
 
     // Run test-proxy restore for the parsed packages
-    await runTestProxyRestoreForPackages(packages);
+    await runTestProxyRestore(packages);
   }
 
   return spawnNode(
@@ -135,7 +135,7 @@ function parsePackageNames(rushListOutput) {
  *
  * @param {string[]} packages - An array of package names to restore.
  */
-async function runTestProxyRestoreForPackages(packages) {
+async function runTestProxyRestore(packages) {
   console.log('Starting test-proxy restore for packages:', packages);
   const completedPackages = [];
   for (const packageName of packages) {
