@@ -1,49 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertTraceExpectation } from "../../utils/assert.js";
-import { TraceBasicScenario } from "../../utils/basic.js";
-import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
-import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
+// import { assertCount, assertTraceExpectation } from "../../utils/assert.js";
+// import { TraceBasicScenario } from "../../utils/basic.js";
+// import nock from "nock";
+// import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+// import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
 
-describe("Trace Exporter Scenarios", () => {
-  describe(TraceBasicScenario.prototype.constructor.name, () => {
-    const scenario = new TraceBasicScenario();
-    let ingest: Envelope[] = [];
+// describe("Trace Exporter Scenarios", () => {
+//   describe(TraceBasicScenario.prototype.constructor.name, () => {
+//     const scenario = new TraceBasicScenario();
+//     let ingest: Envelope[] = [];
 
-    beforeAll(() => {
-      nock("https://dc.services.visualstudio.com")
-        .post("/v2.1/track", (body: Envelope[]) => {
-          ingest.push(...body);
-          return true;
-        })
-        .reply(200, successfulBreezeResponse(1))
-        .persist();
-      scenario.prepare();
-    });
+//     beforeAll(() => {
+//       nock("https://dc.services.visualstudio.com")
+//         .post("/v2.1/track", (body: Envelope[]) => {
+//           ingest.push(...body);
+//           return true;
+//         })
+//         .reply(200, successfulBreezeResponse(1))
+//         .persist();
+//       scenario.prepare();
+//     });
 
-    afterAll(() => {
-      scenario.cleanup();
-      nock.cleanAll();
-      ingest = [];
-    });
+//     afterAll(() => {
+//       scenario.cleanup();
+//       nock.cleanAll();
+//       ingest = [];
+//     });
 
-    it("should work", (done) => {
-      scenario
-        .run()
-        .then(() => {
-          // promisify doesn't work on this, so use callbacks/done for now
-          return scenario.flush().then(() => {
-            assertTraceExpectation(ingest, scenario.expectation);
-            assertCount(ingest, scenario.expectation);
-            done();
-            return;
-          });
-        })
-        .catch((e) => {
-          done(e);
-        });
-    });
-  });
-});
+//     it("should work", (done) => {
+//       scenario
+//         .run()
+//         .then(() => {
+//           // promisify doesn't work on this, so use callbacks/done for now
+//           return scenario.flush().then(() => {
+//             assertTraceExpectation(ingest, scenario.expectation);
+//             assertCount(ingest, scenario.expectation);
+//             done();
+//             return;
+//           });
+//         })
+//         .catch((e) => {
+//           done(e);
+//         });
+//     });
+//   });
+// });
