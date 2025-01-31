@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get the specified private endpoint connection associated with the device update account.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnections/PrivateEndpointConnection_Get.json
  */
-async function privateEndpointConnectionGet() {
+async function privateEndpointConnectionGet(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +33,7 @@ async function privateEndpointConnectionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionGet();
 }
 
