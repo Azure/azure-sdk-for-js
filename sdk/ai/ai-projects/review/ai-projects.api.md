@@ -114,14 +114,11 @@ export interface AgentsOperations {
     createRun: (threadId: string, assistantId: string, options?: CreateRunOptionalParams) => AgentRunResponse;
     createThread: (options?: CreateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: CreateAndRunThreadOptionalParams) => AgentRunResponse;
-    // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreResponse" needs to be exported by the entry point index.d.ts
-    createVectorStore: (options?: CreateVectorStoreOptionalParams) => CreateVectorStoreResponse;
+    createVectorStore: (options?: CreateVectorStoreOptionalParams) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
     createVectorStoreAndPoll: (options?: CreateVectorStoreOptionalParams) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
-    // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreFileResponse" needs to be exported by the entry point index.d.ts
-    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => CreateVectorStoreFileResponse;
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
     createVectorStoreFileAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileOptionalParams) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
-    // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreFileBatchResponse" needs to be exported by the entry point index.d.ts
-    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => CreateVectorStoreFileBatchResponse;
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
     createVectorStoreFileBatchAndPoll: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptionalParams) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, options?: DeleteAgentOptionalParams) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, options?: DeleteFileOptionalParams) => Promise<FileDeletionStatusOutput>;
@@ -151,8 +148,7 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptionalParams) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptionalParams) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptionalParams) => Promise<AgentThreadOutput>;
-    // Warning: (ae-forgotten-export) The symbol "UploadFileResponse" needs to be exported by the entry point index.d.ts
-    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => UploadFileResponse;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
     uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, options?: UploadFileOptionalParams) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
 }
 

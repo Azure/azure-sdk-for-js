@@ -11,7 +11,6 @@ import { createPoller } from "./poller.js";
 import type {
   CancelVectorStoreFileBatchOptionalParams,
   CreateVectorStoreFileBatchOptionalParams,
-  CreateVectorStoreFileBatchResponse,
   GetVectorStoreFileBatchOptionalParams,
   ListVectorStoreFileBatchFilesOptionalParams,
 } from "./customModels.js";
@@ -37,11 +36,10 @@ export function createVectorStoreFileBatch(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileBatchOptionalParams = {},
-): CreateVectorStoreFileBatchResponse {
-  const initialResult = createVectorStoreFileBatchInternal(context, vectorStoreId, options);
-  const poller = createPoller<VectorStoreFileBatchOutput>({
+): PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput> {
+  return createPoller<VectorStoreFileBatchOutput>({
     initOperation: async () => {
-      return initialResult;
+      return createVectorStoreFileBatchInternal(context, vectorStoreId, options);
     },
     pollOperation: async (currentResult: VectorStoreFileBatchOutput) => {
       return getVectorStoreFileBatch(context, vectorStoreId, currentResult.id, options);
@@ -49,13 +47,6 @@ export function createVectorStoreFileBatch(
     getOperationStatus: getLroOperationStatus,
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
-
-  return {
-    then: function (onFulfilled, onrejected) {
-      return initialResult.then(onFulfilled, onrejected).catch(onrejected);
-    },
-    poller: poller,
-  };
 }
 
 /** Retrieve a vector store file batch. */
@@ -140,6 +131,7 @@ export async function createVectorStoreFileBatchInternal(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileBatchOptionalParams = {},
+  onResponse?: (response: VectorStoreFileBatchOutput) => void,
 ): Promise<VectorStoreFileBatchOutput> {
   const createOptions: CreateVectorStoreFileBatchParameters = {
     ...operationOptionsToRequestParameters(options),
@@ -154,7 +146,9 @@ export async function createVectorStoreFileBatchInternal(
   if (!expectedStatuses.includes(result.status)) {
     throw createOpenAIError(result);
   }
-  return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
+  const body = ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
+  onResponse?.(body);
+  return body;
 }
 
 function getLroOperationStatus(result: VectorStoreFileBatchOutput): OperationStatus {

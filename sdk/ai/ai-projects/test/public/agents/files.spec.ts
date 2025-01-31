@@ -49,9 +49,12 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFileAndPoll(fileContent, "assistants", {
+    const filePoller = agents.uploadFileAndPoll(fileContent, "assistants", {
       fileName: "filename.txt",
     });
+    const initialState = filePoller.poll();
+    assert.isNotNull(initialState);
+    const file = await filePoller.pollUntilDone();
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });
@@ -63,8 +66,10 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const file = await agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" })
-      .poller;
+    const filePoller = agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" })
+    const initialState = filePoller.poll();
+    assert.isNotNull(initialState);
+    const file = await filePoller.pollUntilDone();
     assert.notInclude(["uploaded", "pending", "running"], file.status);
     assert.isNotEmpty(file);
   });

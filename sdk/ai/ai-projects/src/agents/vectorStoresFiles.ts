@@ -15,7 +15,6 @@ import type {
 import { createPoller } from "./poller.js";
 import type {
   CreateVectorStoreFileOptionalParams,
-  CreateVectorStoreFileResponse,
   DeleteVectorStoreFileOptionalParams,
   GetVectorStoreFileOptionalParams,
   ListVectorStoreFilesOptionalParams,
@@ -64,11 +63,10 @@ export function createVectorStoreFile(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileOptionalParams = {},
-): CreateVectorStoreFileResponse {
-  const initialResult = createVectorStoreFileInternal(context, vectorStoreId, options);
-  const poller = createPoller<VectorStoreFileOutput>({
+): PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput> {
+  return createPoller<VectorStoreFileOutput>({
     initOperation: async () => {
-      return initialResult;
+      return createVectorStoreFileInternal(context, vectorStoreId, options);
     },
     pollOperation: async (currentResult: VectorStoreFileOutput) => {
       return getVectorStoreFile(context, vectorStoreId, currentResult.id, options);
@@ -83,13 +81,6 @@ export function createVectorStoreFile(
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
-
-  return {
-    then: function (onFulfilled, onrejected) {
-      return initialResult.then(onFulfilled, onrejected).catch(onrejected);
-    },
-    poller: poller,
-  };
 }
 
 /** Retrieves a vector store file. */
@@ -181,7 +172,9 @@ async function createVectorStoreFileInternal(
   if (!expectedStatuses.includes(result.status)) {
     throw createOpenAIError(result);
   }
-  return ConvertFromWire.convertVectorStoreFileOutput(result.body);
+  const body = ConvertFromWire.convertVectorStoreFileOutput(result.body);
+  options.pollingOptions?.onResponse?.(body);
+  return body;
 }
 
 function getLroOperationStatus(result: VectorStoreFileOutput): OperationStatus {

@@ -15,7 +15,6 @@ import type {
   GetFileOptionalParams,
   ListFilesOptionalParams,
   UploadFileOptionalParams,
-  UploadFileResponse,
 } from "./customModels.js";
 import { createPoller } from "./poller.js";
 import type * as GeneratedParameters from "../generated/src/parameters.js";
@@ -59,11 +58,10 @@ export function uploadFile(
   content: ReadableStream | NodeJS.ReadableStream,
   purpose: CustomizedFilePurpose,
   options: UploadFileOptionalParams = {},
-): UploadFileResponse {
-  const initialResult = uploadFileInternal(context, content, purpose, options);
-  const poller = createPoller<OpenAIFileOutput>({
+): PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput> {
+  return createPoller<OpenAIFileOutput>({
     initOperation: async () => {
-      return initialResult;
+      return uploadFileInternal(context, content, purpose, options);
     },
     pollOperation: async (currentResult: OpenAIFileOutput) => {
       return getFile(context, currentResult.id, options);
@@ -76,13 +74,6 @@ export function uploadFile(
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
-
-  return {
-    then: function (onFulfilled, onrejected) {
-      return initialResult.then(onFulfilled, onrejected).catch(onrejected);
-    },
-    poller: poller,
-  };
 }
 
 export function uploadFileAndPoll(
@@ -173,7 +164,9 @@ export async function uploadFileInternal(
   if (!expectedStatuses.includes(result.status)) {
     throw createOpenAIError(result);
   }
-  return ConvertFromWire.convertOpenAIFileOutput(result.body);
+  const body = ConvertFromWire.convertOpenAIFileOutput(result.body);
+  options.pollingOptions?.onResponse?.(body);
+  return body;
 }
 
 function getLroOperationStatus(result: OpenAIFileOutput): OperationStatus {

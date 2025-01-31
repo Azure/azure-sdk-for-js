@@ -35,10 +35,8 @@ describe("Agents - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
-      .poller;
     const fileContent2 = await generateFileStream();
     const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
-      .poller;
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -68,10 +66,8 @@ describe("Agents - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
-      .poller;
     const fileContent2 = await generateFileStream();
     const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
-      .poller;
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -109,10 +105,8 @@ describe("Agents - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
-      .poller;
     const fileContent2 = await generateFileStream();
     const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
-      .poller;
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -150,10 +144,8 @@ describe("Agents - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
-      .poller;
     const fileContent2 = await generateFileStream();
     const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
-      .poller;
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -187,15 +179,17 @@ describe("Agents - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
-      .poller;
     const fileContent2 = await generateFileStream();
     const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
-      .poller;
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await agents.createVectorStoreFileBatchAndPoll(vectorStore.id, {
+    const vectorStoreFileBatchPoller = agents.createVectorStoreFileBatchAndPoll(vectorStore.id, {
       fileIds: [file1.id, file2.id],
     });
+    assert.isNotNull(vectorStoreFileBatchPoller);
+    const initialState = vectorStoreFileBatchPoller.poll();
+    assert.isNotNull(initialState);
+    const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
     assert.isNotNull(vectorStoreFileBatch);
     assert.isNotEmpty(vectorStoreFileBatch.id);
     assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
@@ -221,16 +215,17 @@ describe("Agents - vector stores file batches", () => {
     // Upload files
     const fileContent1 = await generateFileStream();
     const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
-      .poller;
     const fileContent2 = await generateFileStream();
     const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
-      .poller;
 
     // Create vector store file batch
-    const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
+    const vectorStoreFileBatchPoller = agents.createVectorStoreFileBatch(vectorStore.id, {
       fileIds: [file1.id, file2.id],
-    }).poller;
-    assert.isNotNull(vectorStoreFileBatch);
+    });
+    assert.isNotNull(vectorStoreFileBatchPoller);
+    const initialState = vectorStoreFileBatchPoller.poll();
+    assert.isNotNull(initialState);
+    const vectorStoreFileBatch = await vectorStoreFileBatchPoller.pollUntilDone();
     assert.isNotEmpty(vectorStoreFileBatch.id);
     assert.equal(vectorStoreFileBatch.vectorStoreId, vectorStore.id);
     assert.notEqual(vectorStoreFileBatch.status, "in_progress");

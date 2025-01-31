@@ -112,10 +112,6 @@ import type {
   UploadFileOptionalParams,
   CancelVectorStoreFileBatchOptionalParams,
   DeleteAgentOptionalParams,
-  UploadFileResponse,
-  CreateVectorStoreResponse,
-  CreateVectorStoreFileResponse,
-  CreateVectorStoreFileBatchResponse,
 } from "./customModels.js";
 import type { ThreadMessageOptions, ToolOutput } from "../customization/models.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -226,7 +222,7 @@ export interface AgentsOperations {
     data: ReadableStream | NodeJS.ReadableStream,
     purpose: FilePurpose,
     options?: UploadFileOptionalParams,
-  ) => UploadFileResponse;
+  ) => PollerLike<OperationState<OpenAIFileOutput>, OpenAIFileOutput>;
 
   /** Uploads a file for use by other operations. */
   uploadFileAndPoll: (
@@ -252,7 +248,9 @@ export interface AgentsOperations {
     options?: DeleteVectorStoreOptionalParams,
   ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
   /** Creates a vector store. */
-  createVectorStore: (options?: CreateVectorStoreOptionalParams) => CreateVectorStoreResponse;
+  createVectorStore: (
+    options?: CreateVectorStoreOptionalParams,
+  ) => PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput>;
   /** Returns the vector store object object matching the specific ID. */
   getVectorStore: (
     vectorStoreId: string,
@@ -278,7 +276,7 @@ export interface AgentsOperations {
   createVectorStoreFile: (
     vectorStoreId: string,
     options?: CreateVectorStoreFileOptionalParams,
-  ) => CreateVectorStoreFileResponse;
+  ) => PollerLike<OperationState<VectorStoreFileOutput>, VectorStoreFileOutput>;
   /** Retrieves a vector store file. */
   getVectorStoreFile: (
     vectorStoreId: string,
@@ -309,7 +307,7 @@ export interface AgentsOperations {
   createVectorStoreFileBatch: (
     vectorStoreId: string,
     options?: CreateVectorStoreFileBatchOptionalParams,
-  ) => CreateVectorStoreFileBatchResponse;
+  ) => PollerLike<OperationState<VectorStoreFileBatchOutput>, VectorStoreFileBatchOutput>;
   /** Retrieve a vector store file batch. */
   getVectorStoreFileBatch: (
     vectorStoreId: string,

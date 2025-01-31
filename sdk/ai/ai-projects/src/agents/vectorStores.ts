@@ -14,7 +14,6 @@ import type {
   VectorStoreOutput,
 } from "../customization/outputModels.js";
 import { createPoller } from "./poller.js";
-import type { CreateVectorStoreResponse } from "./customModels.js";
 import {
   type CreateVectorStoreOptionalParams,
   type DeleteVectorStoreOptionalParams,
@@ -60,11 +59,10 @@ export async function listVectorStores(
 export function createVectorStore(
   context: Client,
   options: CreateVectorStoreOptionalParams = {},
-): CreateVectorStoreResponse {
-  const initialResult = createVectorStoreInternal(context, options);
-  const poller = createPoller<VectorStoreOutput>({
+): PollerLike<OperationState<VectorStoreOutput>, VectorStoreOutput> {
+  return createPoller<VectorStoreOutput>({
     initOperation: async () => {
-      return initialResult;
+      return createVectorStoreInternal(context, options);
     },
     pollOperation: async (currentResult: VectorStoreOutput) => {
       return getVectorStore(context, currentResult.id, options);
@@ -72,13 +70,6 @@ export function createVectorStore(
     getOperationStatus: getLroOperationStatus,
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
   });
-
-  return {
-    then: function (onFulfilled, onrejected) {
-      return initialResult.then(onFulfilled, onrejected).catch(onrejected);
-    },
-    poller: poller,
-  };
 }
 
 /** Returns the vector store object matching the specified ID. */
@@ -180,7 +171,9 @@ async function createVectorStoreInternal(
   if (!expectedStatuses.includes(result.status)) {
     throw createOpenAIError(result);
   }
-  return ConvertFromWire.convertVectorStoreOutput(result.body);
+  const body = ConvertFromWire.convertVectorStoreOutput(result.body);
+  options.pollingOptions?.onResponse?.(body);
+  return body;
 }
 
 function getLroOperationStatus(result: VectorStoreOutput): OperationStatus {
