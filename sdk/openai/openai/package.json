@@ -105,7 +105,6 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/arm-cognitiveservices": "^7.5.0",
     "@azure/core-rest-pipeline": "^1.16.2",
