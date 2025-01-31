@@ -8,6 +8,7 @@
  *
  */
 
+import type { VectorStoreOutput } from "@azure/ai-projects";
 import { AIProjectsClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,32 +24,45 @@ export async function main(): Promise<void> {
     new DefaultAzureCredential(),
   );
 
-  // Create a vector store and poll
-  const vectorStoreOptions = {
+  // (Optional) Define an onResponse callback to monitor the progress of polling
+  function onResponse(response: VectorStoreOutput): void {
+    console.log(`Received response with status: ${response.status}`);
+  }
+
+  // Create a vector, which will automatically poll until the operation is complete
+  const vectorStore1 = await client.agents.createVectorStore({
     name: "myVectorStore",
-    pollingOptions: { sleepIntervalInMs: 2000 },
-  };
-  const vectorStore = await client.agents.createVectorStore(vectorStoreOptions).poller;
+    pollingOptions: {
+      sleepIntervalInMs: 2000,
+      onResponse,
+    },
+  });
   console.log(
-    `Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`,
+    `Created vector store with status ${vectorStore1.status}, vector store ID: ${vectorStore1.id}`,
   );
 
   // Alternatively, polling can be done using .poll() and .pollUntilDone() methods.
   // This approach allows for more control over the polling process.
-  // (Optionally) an AbortController can be used to stop polling if needed.
+  // (Optional) AbortController can be used to stop polling if needed.
   const abortController = new AbortController();
-  const vectorStorePoller = client.agents.createVectorStore(vectorStoreOptions).poller;
-  const _vectorStore = await vectorStorePoller.pollUntilDone({
+  const vectorStorePoller = client.agents.createVectorStore({
+    name: "myVectorStore",
+    pollingOptions: {
+      sleepIntervalInMs: 2000,
+      onResponse,
+    },
+  });
+  const vectorStore2 = await vectorStorePoller.pollUntilDone({
     abortSignal: abortController.signal,
   });
   console.log(
-    `Created vector store with status ${_vectorStore.status}, vector store ID: ${_vectorStore.id}`,
+    `Created vector store with status ${vectorStore2.status}, vector store ID: ${vectorStore2.id}`,
   );
 
   // Delete the vector store
-  await client.agents.deleteVectorStore(vectorStore.id);
-  await client.agents.deleteVectorStore(_vectorStore.id);
-  console.log(`Deleted vector stores, vector store IDs: ${vectorStore.id} & ${_vectorStore.id}`);
+  await client.agents.deleteVectorStore(vectorStore1.id);
+  await client.agents.deleteVectorStore(vectorStore2.id);
+  console.log(`Deleted vector stores, vector store IDs: ${vectorStore1.id} & ${vectorStore2.id}`);
 }
 
 main().catch((err) => {

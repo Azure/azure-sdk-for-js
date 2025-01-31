@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions, RequestParameters } from "@azure-rest/core-client";
-import type {
-  ThreadRunOutput,
-} from "../customization/outputModels.js";
+import type { ThreadRunOutput } from "../customization/outputModels.js";
 import type { AgentEventMessageStream } from "./streamingModels.js";
 import type {
   AgentThreadCreationOptions,

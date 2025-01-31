@@ -66,7 +66,7 @@ describe("Agents - files", () => {
         controller.close();
       },
     });
-    const filePoller = agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" })
+    const filePoller = agents.uploadFile(fileContent, "assistants", { fileName: "filename.txt" });
     const initialState = filePoller.poll();
     assert.isNotNull(initialState);
     const file = await filePoller.pollUntilDone();

@@ -73,6 +73,7 @@ export function uploadFile(
         : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -96,6 +97,7 @@ export function uploadFileAndPoll(
         : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -164,9 +166,7 @@ export async function uploadFileInternal(
   if (!expectedStatuses.includes(result.status)) {
     throw createOpenAIError(result);
   }
-  const body = ConvertFromWire.convertOpenAIFileOutput(result.body);
-  options.pollingOptions?.onResponse?.(body);
-  return body;
+  return ConvertFromWire.convertOpenAIFileOutput(result.body);
 }
 
 function getLroOperationStatus(result: OpenAIFileOutput): OperationStatus {

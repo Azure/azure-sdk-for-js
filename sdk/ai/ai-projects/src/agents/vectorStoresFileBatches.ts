@@ -46,6 +46,7 @@ export function createVectorStoreFileBatch(
     },
     getOperationStatus: getLroOperationStatus,
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -124,6 +125,7 @@ export function createVectorStoreFileBatchAndPoll(
     },
     getOperationStatus: getLroOperationStatus,
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -131,7 +133,6 @@ export async function createVectorStoreFileBatchInternal(
   context: Client,
   vectorStoreId: string,
   options: CreateVectorStoreFileBatchOptionalParams = {},
-  onResponse?: (response: VectorStoreFileBatchOutput) => void,
 ): Promise<VectorStoreFileBatchOutput> {
   const createOptions: CreateVectorStoreFileBatchParameters = {
     ...operationOptionsToRequestParameters(options),
@@ -146,9 +147,7 @@ export async function createVectorStoreFileBatchInternal(
   if (!expectedStatuses.includes(result.status)) {
     throw createOpenAIError(result);
   }
-  const body = ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
-  onResponse?.(body);
-  return body;
+  return ConvertFromWire.convertVectorStoreFileBatchOutput(result.body);
 }
 
 function getLroOperationStatus(result: VectorStoreFileBatchOutput): OperationStatus {

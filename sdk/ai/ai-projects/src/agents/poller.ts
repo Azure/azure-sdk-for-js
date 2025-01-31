@@ -28,6 +28,9 @@ export function createPoller<T>({
       result,
       status: getOperationStatus(result),
     };
+    if (onResponse) {
+      onResponse(result);
+    }
     return state;
   });
 

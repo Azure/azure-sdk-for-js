@@ -80,6 +80,7 @@ export function createVectorStoreFile(
         : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -151,6 +152,7 @@ export function createVectorStoreFileAndPoll(
         : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
+    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -172,9 +174,7 @@ async function createVectorStoreFileInternal(
   if (!expectedStatuses.includes(result.status)) {
     throw createOpenAIError(result);
   }
-  const body = ConvertFromWire.convertVectorStoreFileOutput(result.body);
-  options.pollingOptions?.onResponse?.(body);
-  return body;
+  return ConvertFromWire.convertVectorStoreFileOutput(result.body);
 }
 
 function getLroOperationStatus(result: VectorStoreFileOutput): OperationStatus {

@@ -34,9 +34,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
     const fileContent2 = await generateFileStream();
-    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -65,9 +65,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
     const fileContent2 = await generateFileStream();
-    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -104,9 +104,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
     const fileContent2 = await generateFileStream();
-    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -143,9 +143,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
     const fileContent2 = await generateFileStream();
-    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatch = await agents.createVectorStoreFileBatch(vectorStore.id, {
@@ -178,9 +178,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
     const fileContent2 = await generateFileStream();
-    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatchPoller = agents.createVectorStoreFileBatchAndPoll(vectorStore.id, {
@@ -214,9 +214,9 @@ describe("Agents - vector stores file batches", () => {
 
     // Upload files
     const fileContent1 = await generateFileStream();
-    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" })
+    const file1 = await agents.uploadFile(fileContent1, "assistants", { fileName: "filename.txt" });
     const fileContent2 = await generateFileStream();
-    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" })
+    const file2 = await agents.uploadFile(fileContent2, "assistants", { fileName: "filename.txt" });
 
     // Create vector store file batch
     const vectorStoreFileBatchPoller = agents.createVectorStoreFileBatch(vectorStore.id, {
