@@ -22,17 +22,17 @@ describe("model management", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
   beforeEach(async (context) => {
-      recorder = await createRecorder(context);
-      client = DocumentIntelligence(
-        assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-        { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-        recorder.configureClientOptions({}),
-      );
-    });
+    recorder = await createRecorder(context);
+    client = DocumentIntelligence(
+      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
+      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      recorder.configureClientOptions({}),
+    );
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   // #region Model Training
 

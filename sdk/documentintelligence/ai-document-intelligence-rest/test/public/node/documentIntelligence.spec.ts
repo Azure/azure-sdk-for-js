@@ -18,18 +18,18 @@ describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
   beforeEach(async (context) => {
-      recorder = await createRecorder(context);
-      await recorder.setMatcher("BodilessMatcher");
-      client = DocumentIntelligence(
-        assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-        { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-        recorder.configureClientOptions({}),
-      );
-    });
+    recorder = await createRecorder(context);
+    await recorder.setMatcher("BodilessMatcher");
+    client = DocumentIntelligence(
+      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
+      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      recorder.configureClientOptions({}),
+    );
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("API Key works - getInfo", async function () {
     const response = await client.path("/info").get();
