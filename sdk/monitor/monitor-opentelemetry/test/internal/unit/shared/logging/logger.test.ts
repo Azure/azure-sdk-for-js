@@ -1,120 +1,104 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// import * as assert from "node:assert";
-// import { DiagLogLevel } from "@opentelemetry/api";
-// import { Logger } from "../../../../../src/shared/logging/logger.js";
-// describe("#Logger", () => {
-//   describe("#SetLogLevel", () => {
-//     let sinonSandbox: sinon.SinonSandbox;
-//     const originalEnv: NodeJS.ProcessEnv = process.env;
-//     beforeEach(() => {
-//       sinonSandbox = sinon.createSandbox();
-//       // @ts-expect-error Need to set the static Looger instance to undefined to reset the singleton
-//       Logger["instance"] = undefined;
-//     });
+import { DiagLogLevel } from "@opentelemetry/api";
+import { Logger } from "../../../../../src/shared/logging/logger.js";
+import { describe, assert, beforeEach, afterEach, it, vi, expect } from "vitest";
 
-//     afterEach(() => {
-//       process.env = originalEnv;
-//     });
+describe("#Logger", () => {
+  describe("#SetLogLevel", () => {
+    beforeEach(() => {
+      // @ts-expect-error Need to set the static Looger instance to undefined to reset the singleton
+      Logger["instance"] = undefined;
+    });
 
-//     it("should set ALL logLevel", () => {
-//       const env = <{ [id: string]: string }>{};
-//       env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "ALL";
-//       process.env = env;
-//       assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.ALL);
-//     });
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
 
-//     it("should set DEBUG logLevel", () => {
-//       const env = <{ [id: string]: string }>{};
-//       env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "DEBUG";
-//       process.env = env;
-//       assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.DEBUG);
-//       const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "verbose");
-//       const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "debug");
-//       Logger.getInstance().debug("test");
-//       assert.ok(azureStub.notCalled);
-//       assert.ok(otelStub.calledOnce);
-//       Logger.getInstance().setLogToAzureLogger(true);
-//       Logger.getInstance().setLogToOpenTelemetry(false);
-//       Logger.getInstance().debug("test");
-//       assert.ok(azureStub.calledOnce);
-//       assert.ok(otelStub.calledOnce);
-//     });
+    it("should set ALL logLevel", () => {
+      vi.stubEnv("APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL", "ALL");
+      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.ALL);
+    });
 
-//     it("should set ERROR logLevel", () => {
-//       const env = <{ [id: string]: string }>{};
-//       env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "ERROR";
-//       process.env = env;
-//       assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.ERROR);
-//       const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "error");
-//       const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "error");
-//       Logger.getInstance().error("test");
-//       assert.ok(azureStub.notCalled);
-//       assert.ok(otelStub.calledOnce);
-//       Logger.getInstance().setLogToAzureLogger(true);
-//       Logger.getInstance().setLogToOpenTelemetry(false);
-//       Logger.getInstance().error("test");
-//       assert.ok(azureStub.calledOnce);
-//       assert.ok(otelStub.calledOnce);
-//     });
+    it("should set DEBUG logLevel", () => {
+      vi.stubEnv("APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL", "DEBUG");
+      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.DEBUG);
+      const azureStub = vi.spyOn(Logger.getInstance()["azureLogger"], "verbose");
+      const otelStub = vi.spyOn(Logger.getInstance()["openTelemetryLogger"], "debug");
+      Logger.getInstance().debug("test");
+      expect(azureStub).not.toHaveBeenCalled();
+      expect(otelStub).toHaveBeenCalledTimes(1);
+      Logger.getInstance().setLogToAzureLogger(true);
+      Logger.getInstance().setLogToOpenTelemetry(false);
+      Logger.getInstance().debug("test");
+      expect(azureStub).toHaveBeenCalledTimes(1);
+      expect(otelStub).toHaveBeenCalledTimes(1);
+    });
 
-//     it("should set INFO logLevel", () => {
-//       const env = <{ [id: string]: string }>{};
-//       env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "INFO";
-//       process.env = env;
-//       assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.INFO);
-//       const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "info");
-//       const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "info");
-//       Logger.getInstance().info("test");
-//       assert.ok(azureStub.notCalled);
-//       assert.ok(otelStub.calledOnce);
-//       Logger.getInstance().setLogToAzureLogger(true);
-//       Logger.getInstance().setLogToOpenTelemetry(false);
-//       Logger.getInstance().info("test");
-//       assert.ok(azureStub.calledOnce);
-//       assert.ok(otelStub.calledOnce);
-//     });
+    it("should set ERROR logLevel", () => {
+      vi.stubEnv("APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL", "ERROR");
+      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.ERROR);
+      const azureStub = vi.spyOn(Logger.getInstance()["azureLogger"], "error");
+      const otelStub = vi.spyOn(Logger.getInstance()["openTelemetryLogger"], "error");
+      Logger.getInstance().error("test");
+      expect(azureStub).not.toHaveBeenCalled();
+      expect(otelStub).toHaveBeenCalledTimes(1);
+      Logger.getInstance().setLogToAzureLogger(true);
+      Logger.getInstance().setLogToOpenTelemetry(false);
+      Logger.getInstance().error("test");
+      expect(azureStub).toHaveBeenCalledTimes(1);
+      expect(otelStub).toHaveBeenCalledTimes(1);
+    });
 
-//     it("should set NONE logLevel", () => {
-//       const env = <{ [id: string]: string }>{};
-//       env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "NONE";
-//       process.env = env;
-//       assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.NONE);
-//     });
+    it("should set INFO logLevel", () => {
+      vi.stubEnv("APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL", "INFO");
+      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.INFO);
+      const azureStub = vi.spyOn(Logger.getInstance()["azureLogger"], "info");
+      const otelStub = vi.spyOn(Logger.getInstance()["openTelemetryLogger"], "info");
+      Logger.getInstance().info("test");
+      expect(azureStub).not.toHaveBeenCalled();
+      expect(otelStub).toHaveBeenCalledTimes(1);
+      Logger.getInstance().setLogToAzureLogger(true);
+      Logger.getInstance().setLogToOpenTelemetry(false);
+      Logger.getInstance().info("test");
+      expect(azureStub).toHaveBeenCalledTimes(1);
+      expect(otelStub).toHaveBeenCalledTimes(1);
+    });
 
-//     it("should set VERBOSE logLevel", () => {
-//       const env = <{ [id: string]: string }>{};
-//       env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "VERBOSE";
-//       process.env = env;
-//       assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.VERBOSE);
-//       const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "verbose");
-//       const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "verbose");
-//       Logger.getInstance().verbose("test");
-//       assert.ok(azureStub.notCalled);
-//       assert.ok(otelStub.calledOnce);
-//       Logger.getInstance().setLogToAzureLogger(true);
-//       Logger.getInstance().setLogToOpenTelemetry(false);
-//       Logger.getInstance().verbose("test");
-//       assert.ok(azureStub.calledOnce);
-//       assert.ok(otelStub.calledOnce);
-//     });
+    it("should set NONE logLevel", () => {
+      vi.stubEnv("APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL", "NONE");
+      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.NONE);
+    });
 
-//     it("should set WARN logLevel", () => {
-//       const env = <{ [id: string]: string }>{};
-//       env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "WARN";
-//       process.env = env;
-//       assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.WARN);
-//       const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "warning");
-//       const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "warn");
-//       Logger.getInstance().warn("test");
-//       assert.ok(azureStub.notCalled);
-//       assert.ok(otelStub.calledOnce);
-//       Logger.getInstance().setLogToAzureLogger(true);
-//       Logger.getInstance().setLogToOpenTelemetry(false);
-//       Logger.getInstance().warn("test");
-//       assert.ok(azureStub.calledOnce);
-//       assert.ok(otelStub.calledOnce);
-//     });
-//   });
-// });
+    it("should set VERBOSE logLevel", () => {
+      vi.stubEnv("APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL", "VERBOSE");
+      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.VERBOSE);
+      const azureStub = vi.spyOn(Logger.getInstance()["azureLogger"], "verbose");
+      const otelStub = vi.spyOn(Logger.getInstance()["openTelemetryLogger"], "verbose");
+      Logger.getInstance().verbose("test");
+      expect(azureStub).not.toHaveBeenCalled();
+      expect(otelStub).toHaveBeenCalledTimes(1);
+      Logger.getInstance().setLogToAzureLogger(true);
+      Logger.getInstance().setLogToOpenTelemetry(false);
+      Logger.getInstance().verbose("test");
+      expect(azureStub).toHaveBeenCalledTimes(1);
+      expect(otelStub).toHaveBeenCalledTimes(1);
+    });
+
+    it("should set WARN logLevel", () => {
+      vi.stubEnv("APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL", "WARN");
+      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.WARN);
+      const azureStub = vi.spyOn(Logger.getInstance()["azureLogger"], "warning");
+      const otelStub = vi.spyOn(Logger.getInstance()["openTelemetryLogger"], "warn");
+      Logger.getInstance().warn("test");
+      expect(azureStub).not.toHaveBeenCalled();
+      expect(otelStub).toHaveBeenCalledTimes(1);
+      Logger.getInstance().setLogToAzureLogger(true);
+      Logger.getInstance().setLogToOpenTelemetry(false);
+      Logger.getInstance().warn("test");
+      expect(azureStub).toHaveBeenCalledTimes(1);
+      expect(otelStub).toHaveBeenCalledTimes(1);
+    });
+  });
+});
