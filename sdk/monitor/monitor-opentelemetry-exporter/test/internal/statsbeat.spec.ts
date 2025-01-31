@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { ExportResultCode } from "@opentelemetry/core";
-import {
-  failedBreezeResponse,
-  successfulBreezeResponse,
-} from "../utils/breezeTestUtils.js";
+import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils.js";
 import {
   DEFAULT_BREEZE_ENDPOINT,
   ENV_DISABLE_STATSBEAT,
