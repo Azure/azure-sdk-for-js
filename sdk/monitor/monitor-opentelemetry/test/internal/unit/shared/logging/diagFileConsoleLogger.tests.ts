@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import * as sinon from "sinon";
-import * as path from "path";
+import * as path from "node:path";
 
-import * as fileHelper from "../../../../../src/utils/fileSystem";
-import { DiagFileConsoleLogger } from "../../../../../src/shared/logging/diagFileConsoleLogger";
+import * as fileHelper from "../../../../../src/utils/fileSystem.js";
+import { DiagFileConsoleLogger } from "../../../../../src/shared/logging/diagFileConsoleLogger.js";
 
 describe("Library/DiagFileConsoleLogger", () => {
   let sandbox: sinon.SinonSandbox;

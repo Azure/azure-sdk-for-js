@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import * as sinon from "sinon";
 import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
-import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index";
-import { useAzureMonitor, shutdownAzureMonitor } from "../../../src/index";
+import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
+import { useAzureMonitor, shutdownAzureMonitor } from "../../../src/index.js";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
-import type { StatsbeatEnvironmentConfig } from "../../../src/types";
+import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
-} from "../../../src/types";
-import { getOsPrefix } from "../../../src/utils/common";
+} from "../../../src/types.js";
+import { getOsPrefix } from "../../../src/utils/common.js";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
-import { getInstance } from "../../../src/utils/statsbeat";
+import { getInstance } from "../../../src/utils/statsbeat.js";
 import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
 
 const testInstrumentation: Instrumentation = {

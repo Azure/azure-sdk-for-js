@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as assert from "assert";
+import * as assert from "node:assert";
 import * as sinon from "sinon";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
-import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics";
-import { InternalConfig } from "../../../../src/shared";
+import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
-} from "../../../../src/metrics/quickpulse/types";
+} from "../../../../src/metrics/quickpulse/types.js";
 /* eslint-disable-next-line @typescript-eslint/no-redeclare */
-import type { Exception, RemoteDependency, Request } from "../../../../src/generated";
+import type { Exception, RemoteDependency, Request } from "../../../../src/generated/index.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { resourceMetricsToQuickpulseDataPoint } from "../../../../src/metrics/quickpulse/utils";
+import { resourceMetricsToQuickpulseDataPoint } from "../../../../src/metrics/quickpulse/utils.js";
 
 describe("#LiveMetrics", () => {
   let exportStub: sinon.SinonStub;

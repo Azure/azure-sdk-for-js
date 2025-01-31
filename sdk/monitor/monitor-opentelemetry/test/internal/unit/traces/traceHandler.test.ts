@@ -3,13 +3,13 @@
 
 /* eslint-disable promise/always-return */
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import * as sinon from "sinon";
 import { ExportResultCode } from "@opentelemetry/core";
 
-import { TraceHandler } from "../../../../src/traces";
-import { MetricHandler } from "../../../../src/metrics";
-import { InternalConfig } from "../../../../src/shared";
+import { TraceHandler } from "../../../../src/traces/index.js";
+import { MetricHandler } from "../../../../src/metrics/index.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
 import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
 import type {
   BasicTracerProvider,

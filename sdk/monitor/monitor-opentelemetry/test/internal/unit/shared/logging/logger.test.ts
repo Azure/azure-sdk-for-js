@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { DiagLogLevel } from "@opentelemetry/api";
-import { Logger } from "../../../../../src/shared/logging/logger";
+import { Logger } from "../../../../../src/shared/logging/logger.js";
 import sinon from "sinon";
 
 describe("#Logger", () => {

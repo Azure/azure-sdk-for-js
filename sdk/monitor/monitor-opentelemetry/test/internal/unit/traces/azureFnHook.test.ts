@@ -3,16 +3,16 @@
 
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import * as sinon from "sinon";
 import type { Context as AzureFnV3Context } from "@azure/functions-old";
 import type { InvocationContext as AzureFnV4Context } from "@azure/functions";
-import type { PreInvocationContext } from "../../../../src/traces/azureFnHook";
-import { AzureFunctionsHook } from "../../../../src/traces/azureFnHook";
-import { TraceHandler } from "../../../../src/traces";
-import { Logger } from "../../../../src/shared/logging";
-import { InternalConfig } from "../../../../src/shared";
-import { MetricHandler } from "../../../../src/metrics";
+import type { PreInvocationContext } from "../../../../src/traces/azureFnHook.js";
+import { AzureFunctionsHook } from "../../../../src/traces/azureFnHook.js";
+import { TraceHandler } from "../../../../src/traces/index.js";
+import { Logger } from "../../../../src/shared/logging/index.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
+import { MetricHandler } from "../../../../src/metrics/index.js";
 import { metrics, trace } from "@opentelemetry/api";
 
 describe("Library/AzureFunctionsHook", () => {

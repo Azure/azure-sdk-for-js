@@ -5,16 +5,16 @@ import type { PushMetricExporter, ResourceMetrics } from "@opentelemetry/sdk-met
 import { AggregationTemporality, InstrumentType } from "@opentelemetry/sdk-metrics";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
-import type { QuickpulseExporterOptions } from "../types";
-import { QuickpulseSender } from "./sender";
+import type { QuickpulseExporterOptions } from "../types.js";
+import { QuickpulseSender } from "./sender.js";
 import type {
   DocumentIngress,
   MonitoringDataPoint,
   PublishOptionalParams,
   PublishResponse,
   CollectionConfigurationError,
-} from "../../../generated";
-import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils";
+} from "../../../generated/index.js";
+import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils.js";
 
 /**
  * Quickpulse Metric Exporter.

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
-import * as path from "path";
+import * as assert from "node:assert";
+import * as path from "node:path";
 import * as sinon from "sinon";
 import nock from "nock";
 
-import { InternalConfig } from "../../../../src/shared";
-import { JsonConfig } from "../../../../src/shared/jsonConfig";
+import { InternalConfig } from "../../../../src/shared/index.js";
+import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
 import { Resource } from "@opentelemetry/resources";
 import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
+import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types.js";
 
 const vmTestResponse = {
   additionalCapabilities: {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertLogExpectation } from "../../utils/assert";
-import { LogBasicScenario } from "../../utils/basic";
+import { assertCount, assertLogExpectation } from "../../utils/assert.js";
+import { LogBasicScenario } from "../../utils/basic.js";
 import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import type { TelemetryItem as Envelope } from "../../utils/models/index";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
 
 /** TODO: Add winston-transport check functional test */
 describe("Log Exporter Scenarios", () => {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertMetricExpectation } from "../../utils/assert";
-import { MetricBasicScenario } from "../../utils/basic";
+import { assertCount, assertMetricExpectation } from "../../utils/assert.js";
+import { MetricBasicScenario } from "../../utils/basic.js";
 import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import type { TelemetryItem as Envelope } from "../../utils/models/index";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
 
 describe("Metric Exporter Scenarios", () => {
   describe(MetricBasicScenario.prototype.constructor.name, () => {

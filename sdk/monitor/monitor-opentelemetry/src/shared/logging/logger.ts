@@ -5,7 +5,7 @@ import type { AzureLogLevel } from "@azure/logger";
 import { AzureLogger, createClientLogger, setLogLevel } from "@azure/logger";
 import type { DiagLogger } from "@opentelemetry/api";
 import { diag, DiagLogLevel } from "@opentelemetry/api";
-import { DiagFileConsoleLogger } from "./diagFileConsoleLogger";
+import { DiagFileConsoleLogger } from "./diagFileConsoleLogger.js";
 
 export class Logger {
   private static instance: Logger;

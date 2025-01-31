@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TelemetryTypeError, UnexpectedFilterCreateError } from "./quickpulseErrors";
-import { KnownRequestColumns, KnownDependencyColumns } from "../types";
+import { TelemetryTypeError, UnexpectedFilterCreateError } from "./quickpulseErrors.js";
+import { KnownRequestColumns, KnownDependencyColumns } from "../types.js";
 import type {
   DerivedMetricInfo,
   FilterInfo,
   DocumentFilterConjunctionGroupInfo,
   FilterConjunctionGroupInfo,
-} from "../../../generated";
-import { KnownTelemetryType, KnownPredicateType } from "../../../generated";
-import { getMsFromFilterTimestampString } from "../utils";
+} from "../../../generated/index.js";
+import { KnownTelemetryType, KnownPredicateType } from "../../../generated/index.js";
+import { getMsFromFilterTimestampString } from "../utils.js";
 
 const knownStringColumns = new Set<string>([
   KnownRequestColumns.Url,

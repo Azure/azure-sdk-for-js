@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import * as sinon from "sinon";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
@@ -21,9 +21,9 @@ import {
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { Resource } from "@opentelemetry/resources";
-import { StandardMetrics } from "../../../../src/metrics/standardMetrics";
-import { InternalConfig } from "../../../../src/shared";
-import { getDependencyTarget } from "../../../../src/metrics/utils";
+import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
+import { getDependencyTarget } from "../../../../src/metrics/utils.js";
 
 describe("#StandardMetricsHandler", () => {
   let exportStub: sinon.SinonStub;

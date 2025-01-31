@@ -16,8 +16,8 @@ import type {
   Request,
   Trace,
   CollectionConfigurationError,
-} from "../../generated";
-import { KnownDocumentType } from "../../generated";
+} from "../../generated/index.js";
+import { KnownDocumentType } from "../../generated/index.js";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
@@ -53,18 +53,18 @@ import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AZURE_MONITOR_PREFIX,
   AttachTypePrefix,
-} from "../../types";
-import type { RequestData, DependencyData, ExceptionData, TraceData, TelemetryData } from "./types";
+} from "../../types.js";
+import type { RequestData, DependencyData, ExceptionData, TraceData, TelemetryData } from "./types.js";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
   DependencyTypes,
-} from "./types";
-import { getOsPrefix } from "../../utils/common";
-import { getResourceProvider } from "../../utils/common";
+} from "./types.js";
+import { getOsPrefix } from "../../utils/common.js";
+import { getResourceProvider } from "../../utils/common.js";
 import type { LogAttributes } from "@opentelemetry/api-logs";
-import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
-import { Logger } from "../../shared/logging";
+import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils.js";
+import { Logger } from "../../shared/logging/index.js";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {

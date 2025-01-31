@@ -37,11 +37,11 @@ import type {
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
-} from "./types";
-import { StandardMetricIds, StandardMetricPropertyNames } from "./types";
+} from "./types.js";
+import { StandardMetricIds, StandardMetricPropertyNames } from "./types.js";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type { Resource } from "@opentelemetry/resources";
-import * as os from "os";
+import * as os from "node:os";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);

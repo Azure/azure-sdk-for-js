@@ -3,16 +3,16 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
 import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
 import { SeverityNumber, logs } from "@opentelemetry/api-logs";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider } from "@opentelemetry/sdk-logs";
-import { LogHandler } from "../../../../src/logs";
-import { MetricHandler } from "../../../../src/metrics";
-import { InternalConfig } from "../../../../src/shared";
+import { LogHandler } from "../../../../src/logs/index.js";
+import { MetricHandler } from "../../../../src/metrics/index.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import type { BunyanInstrumentationConfig } from "@opentelemetry/instrumentation-bunyan";
