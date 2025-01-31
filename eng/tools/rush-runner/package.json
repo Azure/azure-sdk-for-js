@@ -17,8 +17,5 @@
     "prettier": "3.3.3",
     "vitest": "^3.0.3",
     "typescript": "~5.7.2"
-  },
-  "dependencies": {
-    "@azure-tools/eng-package-utils": "file:../eng-package-utils"
   }
 }

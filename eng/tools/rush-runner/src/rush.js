@@ -6,7 +6,6 @@
 import { spawnNode, spawnNodeWithOutput } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 import { join as pathJoin } from "node:path";
-import { getRushSpec } from "@azure-tools/eng-package-utils";
 import { execSync } from "node:child_process";
 import { existsSync } from "node:fs";
 
@@ -111,26 +110,6 @@ export function runRushInPackageDirs(action, packageDirs, onError) {
 }
 
 /**
- * Parses the output of the rush list command to extract package names.
- *
- * @param {string} rushListOutput - The output string from the rush list command.
- * @returns {string[]} - An array of package names that start with '@azure'.
- */
-function parsePackageNames(rushListOutput) {
-  const packageNames = [];
-  const lines = rushListOutput.split('\n'); // Split the output into lines
-
-  for (const line of lines) {
-    const trimmedLine = line.trim(); // Trim whitespace
-    if (trimmedLine.startsWith('@azure')) { // Assuming package names start with '@azure'
-      packageNames.push(trimmedLine);
-    }
-  }
-
-  return packageNames;
-}
-
-/**
  * Runs test-proxy restore for the given packages.
  *
  * @param {string[]} packages - An array of package names to restore.
@@ -139,7 +118,7 @@ async function runTestProxyRestore(packages) {
   console.log('Starting test-proxy restore for packages:', packages);
   const completedPackages = [];
   for (const packageName of packages) {
-    const rushSpec = await getRushSpec(getBaseDir());
+    const rushSpec = await readFileJson(path.resolve(path.join(getBaseDir(), "rush.json")));
 
     // Find the target package
     const targetPackage = rushSpec.projects.find(
@@ -170,4 +149,35 @@ async function runTestProxyRestore(packages) {
     }
   }
   console.log('Completed test-proxy restore for the packages:', completedPackages);
+}
+
+
+async function readFileJson(filename) {
+  try {
+    const fileContents = await readFile(filename);
+    const jsonResult = parse(fileContents);
+    return jsonResult;
+  } catch (ex) {
+    console.error(ex);
+  }
+}
+
+/**
+ * Parses the output of the `rush list ...` command to extract package names.
+ *
+ * @param {string} rushListOutput - The output string from the rush list command.
+ * @returns {string[]} - An array of package names that start with '@azure'.
+ */
+function parsePackageNames(rushListOutput) {
+  const packageNames = [];
+  const lines = rushListOutput.split('\n'); // Split the output into lines
+
+  for (const line of lines) {
+    const trimmedLine = line.trim(); // Trim whitespace
+    if (trimmedLine.startsWith('@azure')) { // Assuming package names start with '@azure'
+      packageNames.push(trimmedLine);
+    }
+  }
+
+  return packageNames;
 }
