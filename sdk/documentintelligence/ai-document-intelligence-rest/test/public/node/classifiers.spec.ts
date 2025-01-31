@@ -91,7 +91,7 @@ describe.skip("classifiers", () => {
     return _classifier;
   }
 
-  it("build classifier", async function () {
+  it("build classifier", async () => {
     const classifier = await requireClassifier();
 
     assert.containsAllKeys(classifier.docTypes, ["foo", "bar"]);
@@ -99,7 +99,7 @@ describe.skip("classifiers", () => {
     assert.equal(classifier.description, customClassifierDescription);
   });
 
-  it("analyze from PNG file stream", async function () {
+  it("analyze from PNG file stream", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
     const { classifierId } = await requireClassifier();
     const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
@@ -133,7 +133,7 @@ describe.skip("classifiers", () => {
     assert.ok(analyzeResult?.pages![0].unit);
   });
 
-  it("analyze from PNG file URL", async function () {
+  it("analyze from PNG file URL", async () => {
     const url = makeTestUrl("/Invoice_1.pdf");
     const { classifierId } = await requireClassifier();
 
@@ -158,7 +158,7 @@ describe.skip("classifiers", () => {
     assert.oneOf(analyzeResult?.documents![0].docType, ["foo", "bar"]);
   });
 
-  it("get & delete classifiers from the account", async function () {
+  it("get & delete classifiers from the account", async () => {
     await client.path("/documentClassifiers/{classifierId}", _classifierId).get();
 
     // Delete the custom classifier we created

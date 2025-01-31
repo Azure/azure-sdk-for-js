@@ -31,7 +31,7 @@ describe("DocumentIntelligenceClient", () => {
     await recorder.stop();
   });
 
-  it("API Key works - getInfo", async function () {
+  it("API Key works - getInfo", async () => {
     const response = await client.path("/info").get();
     if (isUnexpected(response)) {
       throw response.body.error;
