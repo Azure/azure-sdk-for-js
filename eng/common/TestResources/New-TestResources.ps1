@@ -218,8 +218,6 @@ try {
         Write-Verbose "Location was not set. Using default location for environment: '$Location'"
     }
 
-    $TMETenant = '4d042dc6-fe17-4698-a23f-ec6a8d1e98f4'
-
     if (!$CI -and $PSCmdlet.ParameterSetName -ne "Provisioner") {
         # Make sure the user is logged in to create a service principal.
         $context = Get-AzContext;
@@ -247,9 +245,9 @@ try {
             }
         } else {
             if ($context.Tenant.Name -like '*TME*') {
-                if ($currentSubscriptionId -ne $TMETenant) {
-                    Log "Attempting to select subscription 'Azure SDK Test Resources - TME ($TMETenant)'"
-                    $null = Select-AzSubscription -Subscription $TMETenant -ErrorAction Ignore
+                if ($currentSubscriptionId -ne '4d042dc6-fe17-4698-a23f-ec6a8d1e98f4') {
+                    Log "Attempting to select subscription 'Azure SDK Test Resources - TME (4d042dc6-fe17-4698-a23f-ec6a8d1e98f4)'"
+                    $null = Select-AzSubscription -Subscription '4d042dc6-fe17-4698-a23f-ec6a8d1e98f4' -ErrorAction Ignore
                     # Update the context.
                     $context = Get-AzContext
                 }
@@ -269,7 +267,7 @@ try {
             'faa080af-c1d8-40ad-9cce-e1a450ca5b57' = 'Azure SDK Developer Playground'
             'a18897a6-7e44-457d-9260-f2854c0aca42' = 'Azure SDK Engineering System'
             '2cd617ea-1866-46b1-90e3-fffb087ebf9b' = 'Azure SDK Test Resources'
-            $TMETenant = 'Azure SDK Test Resources - TME '
+            '4d042dc6-fe17-4698-a23f-ec6a8d1e98f4' = 'Azure SDK Test Resources - TME '
         }
 
         # Print which subscription is currently selected.
@@ -510,14 +508,11 @@ try {
         }
     }
 
-    $isTMETenant = $SubscriptionId -eq $TMETenant
-
     # Populate the template parameters and merge any additional specified.
     $templateParameters = @{
         baseName = $BaseName
         testApplicationId = $TestApplicationId
         testApplicationOid = "$TestApplicationOid"
-        isTMETenant = $isTMETenant
     }
     if ($ProvisionerApplicationOid) {
         $templateParameters["provisionerApplicationOid"] = "$ProvisionerApplicationOid"
@@ -532,6 +527,8 @@ try {
     if ($CI -and $Environment -eq 'AzureCloud' -and $env:PoolSubnet) {
         $templateParameters.Add('azsdkPipelineSubnetList', @($env:PoolSubnet))
     }
+    # Some arm/bicep templates may want to change deployment settings (e.g. local auth) in sandboxed TME tenants
+    $templateParameters.Add('tenantIsTME', ($context.Tenant.Name -like '*TME*'))
 
     $defaultCloudParameters = LoadCloudConfig $Environment
     MergeHashes $defaultCloudParameters $(Get-Variable templateParameters)
