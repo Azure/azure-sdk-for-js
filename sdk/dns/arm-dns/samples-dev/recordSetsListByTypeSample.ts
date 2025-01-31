@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,11 +24,7 @@ async function listARecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -50,11 +44,7 @@ async function listAaaaRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -74,11 +64,7 @@ async function listCaaRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -98,11 +84,7 @@ async function listCnameRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -122,11 +104,7 @@ async function listDsRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -146,11 +124,7 @@ async function listMxRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -170,11 +144,7 @@ async function listNaptrRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -194,11 +164,7 @@ async function listNsRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -218,11 +184,7 @@ async function listPtrRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -242,11 +204,7 @@ async function listSoaRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -266,11 +224,7 @@ async function listSrvRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -290,11 +244,7 @@ async function listTlsaRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -314,11 +264,7 @@ async function listTxtRecordsets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);

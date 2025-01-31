@@ -48,13 +48,12 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import DeviceUpdate from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
-const client = DeviceUpdate(
-  "https://<my-instance-id>.api.adu.microsoft.com",
-  new DefaultAzureCredential(),
-);
+
+const endpoint = "https://<my-instance-id>.api.adu.microsoft.com";
+const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -69,22 +68,17 @@ The following section shows you how to initialize and authenticate your client, 
 
 - [Get All Devices](#get-all-devices "Get All Devices")
 
-```typescript
+```ts snippet:ReadmeSampleGetAllDevices
 import DeviceUpdate from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  console.log("== List devices ==");
-  const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
+const endpoint = "https://<my-instance-id>.api.adu.microsoft.com";
+const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
 
-  const result = await client
-    .path("/deviceupdate/{instanceId}/management/devices", instanceId)
-    .get();
+const instanceId = "<my-instance-id>";
+const result = await client.path("/deviceupdate/{instanceId}/management/devices", instanceId).get();
 
-  console.log(result);
-}
-
-main().catch(console.error);
+console.log(result);
 ```
 
 ## Troubleshooting
@@ -93,7 +87,7 @@ main().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
