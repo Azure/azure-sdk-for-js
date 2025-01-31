@@ -256,6 +256,12 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
 
+# PRLLabel: %AI Projects
+sdk/ai/ai-projects @ganeshyb @GraceBrigham
+
+# ServiceLabel: %AI Projects
+# ServiceOwners: @ganeshyb @GraceBrigham
+
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco

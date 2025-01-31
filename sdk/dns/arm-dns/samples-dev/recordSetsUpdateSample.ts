@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { RecordSet, DnsManagementClient } from "@azure/arm-dns";
+import type { RecordSet } from "@azure/arm-dns";
+import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

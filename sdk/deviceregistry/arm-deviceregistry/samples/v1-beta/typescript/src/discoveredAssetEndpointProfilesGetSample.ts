@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a DiscoveredAssetEndpointProfile
  * x-ms-original-file: 2024-09-01-preview/Get_DiscoveredAssetEndpointProfile.json
  */
-async function getDiscoveredAssetEndpointProfile() {
+async function getDiscoveredAssetEndpointProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function getDiscoveredAssetEndpointProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDiscoveredAssetEndpointProfile();
 }
 
