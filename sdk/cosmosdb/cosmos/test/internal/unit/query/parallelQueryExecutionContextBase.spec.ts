@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import sinon from "sinon";
 import type {
+  ClientContext,
   FeedOptions,
   PartitionKeyRange,
   QueryInfo,
   QueryIterator,
   Resource,
-} from "../../../../src";
-import { CosmosDbDiagnosticLevel } from "../../../../src";
-import type { ClientContext } from "../../../../src";
-import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext";
-import { assert } from "chai";
+} from "../../../../src/index.js";
+import { CosmosDbDiagnosticLevel } from "../../../../src/index.js";
+import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext.js";
 import {
   createDummyDiagnosticNode,
   createTestClientContext,
   initializeMockPartitionKeyRanges,
-} from "../../../public/common/TestHelpers";
-describe("parallelQueryExecutionContextBase", function () {
+} from "../../../public/common/TestHelpers.js";
+import { describe, it, assert, expect, beforeEach, vi } from "vitest";
+
+describe("parallelQueryExecutionContextBase", () => {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
   const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
   const queryInfo: QueryInfo = {
@@ -78,22 +78,20 @@ describe("parallelQueryExecutionContextBase", function () {
     name: name,
     value: value,
   });
-  describe("bufferDocumentProducers", function () {
-    beforeEach(function () {});
-
-    it("should add 2 document producers to bufferedDocumentProducersQueue from unfilledDocumentProducersQueue when maxDegreeOfParallism = 2", async function () {
+  describe("bufferDocumentProducers", () => {
+    it("should add 2 document producers to bufferedDocumentProducersQueue from unfilledDocumentProducersQueue when maxDegreeOfParallism = 2", async () => {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
       const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
       const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
       const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-      const fetchAllInternalStub = sinon.stub().resolves({
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
         resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
         headers: { "x-ms-request-charge": "1.23" },
         code: 200,
       });
-      sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
         fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
       } as unknown as QueryIterator<PartitionKeyRange>);
 
@@ -109,7 +107,7 @@ describe("parallelQueryExecutionContextBase", function () {
         "This is the second sample document",
       );
       // Define a stub for queryFeed in clientContext
-      sinon.stub(clientContext, "queryFeed").resolves({
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
         result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
         headers: {
           "x-ms-request-charge": "3.5", // Example RU charge
@@ -151,18 +149,19 @@ describe("parallelQueryExecutionContextBase", function () {
         undefined,
       );
     });
-    it("should release the semaphore if an error occurs", async function () {
+
+    it("should release the semaphore if an error occurs", async () => {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
 
-      const fetchAllInternalStub = sinon.stub().rejects({
+      const fetchAllInternalStub = vi.fn().mockRejectedValue({
         code: 404,
         body: {
           message: "Partition key range not found",
         },
         headers: { "x-ms-request-charge": "0" },
       });
-      sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
         fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
       } as unknown as QueryIterator<PartitionKeyRange>);
 
@@ -177,31 +176,31 @@ describe("parallelQueryExecutionContextBase", function () {
       context["options"] = options;
 
       // Create a spy for semaphore.release
-      const releaseSpy = sinon.spy(context["sem"], "leave");
+      const releaseSpy = vi.spyOn(context["sem"], "leave");
       try {
         // Call bufferDocumentProducers
         await (context as any).bufferDocumentProducers(createDummyDiagnosticNode());
       } catch (err) {
         assert.equal(context["err"].code, 404);
-        assert.equal(releaseSpy.callCount, 2);
+        expect(releaseSpy).toHaveBeenCalledTimes(2);
         assert.equal(context["bufferedDocumentProducersQueue"].size(), 0);
         assert.equal(context["unfilledDocumentProducersQueue"].size(), 0);
       }
     });
 
-    it("should propagate an existing error if this.err is already set", async function () {
+    it("should propagate an existing error if this.err is already set", async () => {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
       const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
       const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
       const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-      const fetchAllInternalStub = sinon.stub().resolves({
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
         resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
         headers: { "x-ms-request-charge": "1.23" },
         code: 200,
       });
-      sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
         fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
       } as unknown as QueryIterator<PartitionKeyRange>);
 
@@ -217,7 +216,7 @@ describe("parallelQueryExecutionContextBase", function () {
         "This is the second sample document",
       );
       // Define a stub for queryFeed in clientContext
-      sinon.stub(clientContext, "queryFeed").resolves({
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
         result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
         headers: {
           "x-ms-request-charge": "3.5", // Example RU charge
@@ -246,21 +245,21 @@ describe("parallelQueryExecutionContextBase", function () {
       };
 
       // Create a spy for semaphore.release
-      const releaseSpy = sinon.spy(context["sem"], "leave");
+      const releaseSpy = vi.spyOn(context["sem"], "leave");
       try {
         // Call bufferDocumentProducers
         await context["bufferDocumentProducers"](createDummyDiagnosticNode());
       } catch (err) {
         assert.equal(err.code, 404);
-        assert.equal(releaseSpy.callCount, 2);
+        expect(releaseSpy).toHaveBeenCalledTimes(2);
         assert.equal(context["bufferedDocumentProducersQueue"].size(), 0);
         assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
       }
     });
   });
 
-  describe("fillBufferFromBufferQueue", function () {
-    it("should fill internal buffer from buffer queue for parallel query", async function () {
+  describe("fillBufferFromBufferQueue", () => {
+    it("should fill internal buffer from buffer queue for parallel query", async () => {
       const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 1 };
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
 
@@ -268,12 +267,12 @@ describe("parallelQueryExecutionContextBase", function () {
       const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
       const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
 
-      const fetchAllInternalStub = sinon.stub().resolves({
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
         resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
         headers: { "x-ms-request-charge": "1.23" },
         code: 200,
       });
-      sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
         fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
       } as unknown as QueryIterator<PartitionKeyRange>);
 
@@ -289,7 +288,7 @@ describe("parallelQueryExecutionContextBase", function () {
         "This is the second sample document",
       );
       // Define a stub for queryFeed in clientContext
-      sinon.stub(clientContext, "queryFeed").resolves({
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
         result: [mockDocument1, mockDocument2] as unknown as Resource, // Add result to mimic expected structure
         headers: {
           "x-ms-request-charge": "3.5", // Example RU charge
@@ -315,12 +314,12 @@ describe("parallelQueryExecutionContextBase", function () {
     });
   });
 
-  describe("drainBufferedItems", function () {
+  describe("drainBufferedItems", () => {
     let options: FeedOptions;
     let clientContext: ClientContext;
     let context: TestParallelQueryExecutionContext;
 
-    beforeEach(function () {
+    beforeEach(() => {
       options = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
       clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
       initializeMockPartitionKeyRanges(createMockPartitionKeyRange, clientContext, [
@@ -339,13 +338,13 @@ describe("parallelQueryExecutionContextBase", function () {
       context["options"] = options;
     });
 
-    it("should return an empty array if buffer is empty", async function () {
+    it("should return an empty array if buffer is empty", async () => {
       const result = await (context as any).drainBufferedItems();
       assert.deepEqual(result.result, []);
       assert.exists(result.headers);
     });
 
-    it("should return buffered items and clear the buffer", async function () {
+    it("should return buffered items and clear the buffer", async () => {
       const mockDocument1 = createMockDocument(
         "sample-id-1",
         "Sample Document 1",
@@ -365,7 +364,7 @@ describe("parallelQueryExecutionContextBase", function () {
       assert.equal(context["buffer"].length, 0);
     });
 
-    it("should propagate an existing error if this.err is already set", async function () {
+    it("should propagate an existing error if this.err is already set", async () => {
       context["err"] = {
         code: 404,
         body: {
@@ -382,7 +381,7 @@ describe("parallelQueryExecutionContextBase", function () {
       }
     });
 
-    it("should release the semaphore if an error occurs", async function () {
+    it("should release the semaphore if an error occurs", async () => {
       context["err"] = {
         code: 404,
         body: {
@@ -391,13 +390,13 @@ describe("parallelQueryExecutionContextBase", function () {
         headers: { "x-ms-request-charge": "0" },
       };
 
-      const releaseSpy = sinon.spy(context["sem"], "leave");
+      const releaseSpy = vi.spyOn(context["sem"], "leave");
 
       try {
         await (context as any).drainBufferedItems();
       } catch (err) {
         assert.equal(context["err"].code, 404);
-        assert.equal(releaseSpy.callCount, 2);
+        expect(releaseSpy).toHaveBeenCalledTimes(2);
         assert.equal(context["buffer"].length, 0);
       }
     });

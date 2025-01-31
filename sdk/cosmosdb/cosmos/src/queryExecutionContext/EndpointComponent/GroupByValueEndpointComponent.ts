@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Response } from "../../request";
-import type { ExecutionContext } from "../ExecutionContext";
-import type { CosmosHeaders } from "../CosmosHeaders";
-import type { AggregateType, QueryInfo } from "../../request/ErrorResponse";
-import { hashObject } from "../../utils/hashObject";
-import type { Aggregator } from "../Aggregators";
-import { createAggregator } from "../Aggregators";
-import { getInitialHeader, mergeHeaders } from "../headerUtils";
-import { emptyGroup, extractAggregateResult } from "./emptyGroup";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { Response } from "../../request/index.js";
+import type { ExecutionContext } from "../ExecutionContext.js";
+import type { CosmosHeaders } from "../CosmosHeaders.js";
+import type { AggregateType, QueryInfo } from "../../request/ErrorResponse.js";
+import { hashObject } from "../../utils/hashObject.js";
+import type { Aggregator } from "../Aggregators/index.js";
+import { createAggregator } from "../Aggregators/index.js";
+import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
+import { emptyGroup, extractAggregateResult } from "./emptyGroup.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 
 interface GroupByResult {
   groupByItems: any[];

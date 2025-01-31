@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { setAuthorizationHeader } from "../auth";
+
+import { setAuthorizationHeader } from "../auth.js";
 import {
   Constants,
   HTTPMethod,
   jsonStringifyAndEscapeNonASCII,
   ResourceType,
   SDKSupportedCapabilities,
-} from "../common";
-import type { CosmosClientOptions } from "../CosmosClientOptions";
-import type { PartitionKeyInternal } from "../documents";
-import type { CosmosHeaders } from "../queryExecutionContext";
-import type { FeedOptions, RequestOptions } from "./index";
-import { defaultLogger } from "../common/logger";
-import { ChangeFeedMode } from "../client/ChangeFeed";
-import { OperationType } from "../common/constants";
+} from "../common/index.js";
+import type { CosmosClientOptions } from "../CosmosClientOptions.js";
+import type { PartitionKeyInternal } from "../documents/index.js";
+import type { CosmosHeaders } from "../queryExecutionContext/index.js";
+import type { FeedOptions, RequestOptions } from "./index.js";
+import { defaultLogger } from "../common/logger.js";
+import { ChangeFeedMode } from "../client/ChangeFeed/index.js";
+import { OperationType } from "../common/constants.js";
 // ----------------------------------------------------------------------------
 // Utility methods
 //

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import sinon from "sinon";
-import { ChangeFeedForEpkRange, ChangeFeedMode } from "../../../../src/client/ChangeFeed";
-import type { ClientContext } from "../../../../src";
-import { Container, ErrorResponse, TimeoutError } from "../../../../src";
-import { PartitionKeyRangeCache, QueryRange } from "../../../../src/routing";
-import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange";
-import { MockedClientContext } from "../../../public/common/MockClientContext";
+
+import { ChangeFeedForEpkRange, ChangeFeedMode } from "../../../../src/client/ChangeFeed/index.js";
+import type { ClientContext } from "../../../../src/index.js";
+import { Container, ErrorResponse, TimeoutError } from "../../../../src/index.js";
+import { PartitionKeyRangeCache, QueryRange } from "../../../../src/routing/index.js";
+import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
+import { MockedClientContext } from "../../../public/common/MockClientContext.js";
+import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
 
 interface Resource {
   id: string;
@@ -19,13 +19,13 @@ class MockClientContext extends MockedClientContext {
   constructor(partitionKeyRanges: unknown) {
     super(partitionKeyRanges);
   }
-  public queryFeed() {
+  public queryFeed(): any {
     throw new TimeoutError();
   }
-  public getClientConfig() {
+  public getClientConfig(): any {
     return {};
   }
-  public recordDiagnostics() {
+  public recordDiagnostics(): void {
     return;
   }
 }
@@ -35,11 +35,21 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
 
   const clientContext: ClientContext = new MockClientContext(partitionKeyRanges) as any;
   const partitionKeyRangeCache = new PartitionKeyRangeCache(clientContext);
-  let container: sinon.SinonStubbedInstance<Container>;
+  let container: Container;
   let changeFeedForEpkRange: ChangeFeedForEpkRange<Resource>;
 
   beforeEach(() => {
-    container = sinon.createStubInstance(Container);
+    vi.mock("../../../../src/index.js", async (importOriginal) => {
+      const MockContainer = vi.fn();
+
+      return {
+        // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+        ...(await importOriginal<typeof import("../../../../src/index.js")>()),
+        Container: MockContainer,
+      };
+    });
+
+    container = new Container(expect.anything(), expect.anything(), expect.anything());
 
     // Initialize ChangeFeedForEpkRange instance with mocked dependencies
     changeFeedForEpkRange = new ChangeFeedForEpkRange<Resource>(
@@ -60,8 +70,8 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
       new QueryRange("", "FF", true, false),
     );
 
-    sinon.stub(changeFeedForEpkRange as any, "setIteratorRid").resolves();
-    sinon.stub(changeFeedForEpkRange as any, "fillChangeFeedQueue").resolves();
+    vi.spyOn(changeFeedForEpkRange as any, "setIteratorRid").mockResolvedValueOnce({});
+    vi.spyOn(changeFeedForEpkRange as any, "fillChangeFeedQueue").mockResolvedValueOnce({});
     (changeFeedForEpkRange as any).isInstantiated = true;
 
     const mockFeedRange = new ChangeFeedRange("", "FF", "abc");
@@ -69,7 +79,7 @@ describe("ChangeFeedForEpkRange Unit Tests", () => {
   });
 
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("should throw TimeOutError instead of handling it internally", async () => {

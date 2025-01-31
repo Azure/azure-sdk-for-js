@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Container, ContainerDefinition, FeedOptions } from "../../../../src";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import assert from "assert";
-import groupBySnapshot from "./groupBy.snapshot";
-import type { Context } from "mocha";
+
+import { getTaskFullTitle } from "@azure-tools/test-utils-vitest";
+import type { Container, ContainerDefinition, FeedOptions } from "../../../../src/index.js";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
+import groupBySnapshot from "./groupBy.snapshot.js";
+import { describe, it, assert, beforeEach, beforeAll, TestContext } from "vitest";
 
 const items = [
   {
@@ -531,7 +532,7 @@ describe("Cross partition GROUP BY", () => {
   };
   const containerOptions = { offerThroughput: 25100 };
 
-  before(async () => {
+  beforeAll(async () => {
     await removeAllDatabases();
     container = await getTestContainer(
       "GROUP BY Query",
