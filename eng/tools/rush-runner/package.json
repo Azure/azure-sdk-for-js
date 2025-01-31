@@ -16,6 +16,7 @@
     "eslint": "^9.9.0",
     "prettier": "3.3.3",
     "vitest": "^3.0.3",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "@azure-tools/eng-package-utils": "file:../eng-package-utils"
   }
 }

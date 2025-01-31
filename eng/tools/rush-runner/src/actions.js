@@ -23,7 +23,7 @@ import {
  * @param {string} artifactNames - package names to filter to
  * @returns
  */
-export function executeActions(action, serviceDirs, rushParams, artifactNames) {
+export async function executeActions(action, serviceDirs, rushParams, artifactNames) {
   const actionComponents = action.toLowerCase().split(":");
 
   console.log(`Packages to build: ${artifactNames}`);
@@ -39,7 +39,7 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames) {
       case "test":
       case "unit-test":
       case "integration-test":
-        exitCode = rushRunAllWithDirection(
+        exitCode = await rushRunAllWithDirection(
           action,
           getDirectionMappedPackages(packageNames, action, serviceDirs),
           rushParams,
