@@ -700,10 +700,6 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
   A192Cbcpad = "A192CBCPAD",
   /** 256-bit AES-CBC with PKCS padding. */
   A256Cbcpad = "A256CBCPAD",
-  /** CKM AES key wrap. */
-  CKM_AES_KEY_WRAP = "CKM_AES_KEY_WRAP",
-  /** CKM AES key wrap with padding. */
-  CKM_AES_KEY_WRAP_PAD = "CKM_AES_KEY_WRAP_PAD",
 }
 
 /**
@@ -726,8 +722,6 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
  * **A128CBCPAD**: 128-bit AES-CBC with PKCS padding. \
  * **A192CBCPAD**: 192-bit AES-CBC with PKCS padding. \
  * **A256CBCPAD**: 256-bit AES-CBC with PKCS padding. \
- * **CKM_AES_KEY_WRAP**: CKM AES key wrap. \
- * **CKM_AES_KEY_WRAP_PAD**: CKM AES key wrap with padding.
  */
 export type JsonWebKeyEncryptionAlgorithm = string;
 
