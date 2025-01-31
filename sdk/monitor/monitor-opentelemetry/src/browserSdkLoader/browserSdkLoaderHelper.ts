@@ -4,8 +4,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import * as zlib from "zlib";
-import { promisify } from "util";
-import type * as http from "http";
+import { promisify } from "node:util";
+import type * as http from "node:http";
 
 // currently support the following encoding types
 export enum contentEncodingMethod {
