@@ -3,7 +3,7 @@
 
 import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
 import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
-import type { PipelineRetryOptions, TlsSettings, ProxySettings, Agent } from "./interfaces.js";
+import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
 import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
 import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
 import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
