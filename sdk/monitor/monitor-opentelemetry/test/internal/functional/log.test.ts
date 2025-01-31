@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertLogExpectation } from "../../utils/assert";
-import { LogBasicScenario } from "../../utils/basic";
-import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import type { TelemetryItem as Envelope } from "../../utils/models/index";
+import { assertCount, assertLogExpectation } from "../../utils/assert.js";
+import { LogBasicScenario } from "../../utils/basic.js";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
+import { describe, it, afterEach, vi } from "vitest";
+import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 
 /** TODO: Add winston-transport check functional test */
 describe("Log Exporter Scenarios", () => {
@@ -13,41 +14,33 @@ describe("Log Exporter Scenarios", () => {
     const scenario = new LogBasicScenario();
     let ingest: Envelope[] = [];
 
-    before(() => {
-      nock("https://dc.services.visualstudio.com")
-        .post("/v2.1/track", (body: Envelope[]) => {
-          // todo: gzip is not supported by generated applicationInsightsClient
-          // const buffer = gunzipSync(Buffer.from(body, "hex"));
-          // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
-          ingest.push(...body);
-          return true;
-        })
-        .reply(200, successfulBreezeResponse(1))
-        .persist();
-      scenario.prepare();
-    });
-
-    after(() => {
+    afterEach(() => {
       scenario.cleanup();
-      nock.cleanAll();
       ingest = [];
     });
 
-    it("should work", (done) => {
-      scenario
-        .run()
-        .then(() => {
-          // promisify doesn't work on this, so use callbacks/done for now
-          return scenario.flush().then(() => {
-            assertLogExpectation(ingest, scenario.expectation);
-            assertCount(ingest, scenario.expectation);
-            done();
-            return;
+    it("should work", async () => {
+      const azMonHttpClient: HttpClient = {
+        sendRequest: vi.fn().mockImplementation((request: PipelineRequest) => {
+          if (request.url !== "https://dc.services.visualstudio.com/v2.1/track") {
+            throw new Error(`unexpected request to url ${request.url}`);
+          }
+          const envelope = JSON.parse(request.body as string) as Envelope[];
+          ingest.push(...envelope);
+          return Promise.resolve({
+            headers: request.headers,
+            request,
+            status: 200,
+            bodyAsText: JSON.stringify(successfulBreezeResponse(1)),
           });
-        })
-        .catch((e) => {
-          done(e);
-        });
+        }),
+      };
+
+      scenario.prepare(azMonHttpClient);
+      await scenario.run();
+      await scenario.flush();
+      assertLogExpectation(ingest, scenario.expectation);
+      assertCount(ingest, scenario.expectation);
     });
   });
 });
