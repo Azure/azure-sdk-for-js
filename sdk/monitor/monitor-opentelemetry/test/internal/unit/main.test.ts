@@ -49,7 +49,7 @@ describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
   let sandbox: sinon.SinonSandbox;
 
-  before(() => {
+  beforeAll(() => {
     sandbox = sinon.createSandbox();
   });
 
@@ -62,7 +62,7 @@ describe("Main functions", () => {
     vi.restoreAllMocks();
   });
 
-  after(() => {
+  afterAll(() => {
     trace.disable();
     metrics.disable();
     logs.disable();

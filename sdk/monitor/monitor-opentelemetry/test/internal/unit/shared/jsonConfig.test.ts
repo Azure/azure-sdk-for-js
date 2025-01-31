@@ -21,7 +21,7 @@ describe("Json Config", () => {
     vi.restoreAllMocks();
   });
 
-  after(() => {
+  afterAll(() => {
     (JsonConfig["_instance"] as any) = undefined;
   });
 

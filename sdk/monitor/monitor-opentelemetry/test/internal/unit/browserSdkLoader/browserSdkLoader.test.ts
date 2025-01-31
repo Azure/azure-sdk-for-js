@@ -29,7 +29,7 @@ describe("#BrowserSdkLoader", () => {
     sandbox = sinon.createSandbox();
   });
 
-  after(() => {
+  afterAll(() => {
     metrics.disable();
     trace.disable();
     logs.disable();

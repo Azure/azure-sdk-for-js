@@ -69,7 +69,7 @@ describe("Library/TraceHandler", () => {
     });
   }
 
-  before(() => {
+  beforeAll(() => {
     _config = new InternalConfig();
     if (_config.azureMonitorExporterOptions) {
       _config.azureMonitorExporterOptions.connectionString =
@@ -88,7 +88,7 @@ describe("Library/TraceHandler", () => {
     exportStub.resetHistory();
   });
 
-  after(() => {
+  afterAll(() => {
     exportStub.restore();
   });
 

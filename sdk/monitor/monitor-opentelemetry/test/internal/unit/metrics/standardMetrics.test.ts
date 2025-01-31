@@ -28,7 +28,7 @@ describe("#StandardMetricsHandler", () => {
   let exportStub: sinon.SinonStub;
   let autoCollect: StandardMetrics;
 
-  before(() => {
+  beforeAll(() => {
     const config = new InternalConfig();
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
@@ -48,7 +48,7 @@ describe("#StandardMetricsHandler", () => {
     exportStub.resetHistory();
   });
 
-  after(() => {
+  afterAll(() => {
     exportStub.restore();
     autoCollect.shutdown();
   });

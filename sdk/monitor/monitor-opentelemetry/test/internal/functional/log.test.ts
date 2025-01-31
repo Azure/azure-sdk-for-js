@@ -13,7 +13,7 @@ describe("Log Exporter Scenarios", () => {
     const scenario = new LogBasicScenario();
     let ingest: Envelope[] = [];
 
-    before(() => {
+    beforeAll(() => {
       nock("https://dc.services.visualstudio.com")
         .post("/v2.1/track", (body: Envelope[]) => {
           // todo: gzip is not supported by generated applicationInsightsClient
@@ -27,7 +27,7 @@ describe("Log Exporter Scenarios", () => {
       scenario.prepare();
     });
 
-    after(() => {
+    afterAll(() => {
       scenario.cleanup();
       nock.cleanAll();
       ingest = [];

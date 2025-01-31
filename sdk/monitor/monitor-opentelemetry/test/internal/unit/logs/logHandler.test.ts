@@ -30,7 +30,7 @@ describe("LogHandler", () => {
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
 
-  before(() => {
+  beforeAll(() => {
     sandbox = sinon.createSandbox();
     metricHandler = new MetricHandler(_config);
     handler = new LogHandler(_config, metricHandler);
@@ -62,7 +62,7 @@ describe("LogHandler", () => {
     exportStub.resetHistory();
   });
 
-  after(() => {
+  afterAll(() => {
     logs.disable();
     trace.disable();
   });

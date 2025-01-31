@@ -20,7 +20,7 @@ describe("Library/AzureFunctionsHook", () => {
   let metricHandler: MetricHandler;
   let handler: TraceHandler;
 
-  before(() => {
+  beforeAll(() => {
     sandbox = sinon.createSandbox();
   });
 
@@ -68,7 +68,7 @@ describe("Library/AzureFunctionsHook", () => {
       },
     };
 
-    before(() => {
+    beforeAll(() => {
       const Module = require("module");
       originalRequire = Module.prototype.require;
     });

@@ -13,7 +13,7 @@ describe("Library/DiagFileConsoleLogger", () => {
   let originalEnv: NodeJS.ProcessEnv;
   let logger: DiagFileConsoleLogger;
 
-  before(() => {
+  beforeAll(() => {
     sandbox = sinon.createSandbox();
   });
 

@@ -26,7 +26,7 @@ describe("MetricHandler", () => {
     originalEnv = process.env;
   });
 
-  before(() => {
+  beforeAll(() => {
     sandbox = sinon.createSandbox();
   });
 

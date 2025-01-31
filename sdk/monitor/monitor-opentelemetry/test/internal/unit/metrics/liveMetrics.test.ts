@@ -19,7 +19,7 @@ describe("#LiveMetrics", () => {
   let exportStub: sinon.SinonStub;
   let autoCollect: LiveMetrics;
 
-  before(() => {
+  beforeAll(() => {
     const config = new InternalConfig();
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
@@ -39,7 +39,7 @@ describe("#LiveMetrics", () => {
     exportStub.resetHistory();
   });
 
-  after(() => {
+  afterAll(() => {
     exportStub.restore();
     autoCollect.shutdown();
   });

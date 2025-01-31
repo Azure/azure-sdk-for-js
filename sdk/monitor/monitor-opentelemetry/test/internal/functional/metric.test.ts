@@ -12,7 +12,7 @@ describe("Metric Exporter Scenarios", () => {
     const scenario = new MetricBasicScenario();
 
     let ingest: Envelope[] = [];
-    before(() => {
+    beforeAll(() => {
       nock("https://dc.services.visualstudio.com")
         .post("/v2.1/track", (body: Envelope[]) => {
           ingest.push(...body);
@@ -23,7 +23,7 @@ describe("Metric Exporter Scenarios", () => {
       scenario.prepare();
     });
 
-    after(() => {
+    afterAll(() => {
       scenario.cleanup();
       nock.cleanAll();
       ingest = [];
