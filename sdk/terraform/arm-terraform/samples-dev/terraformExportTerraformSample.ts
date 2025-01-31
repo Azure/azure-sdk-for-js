@@ -22,7 +22,7 @@ async function exportTerraform() {
 }
 
 async function main() {
-  exportTerraform();
+  await exportTerraform();
 }
 
 main().catch(console.error);

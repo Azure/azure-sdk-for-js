@@ -15,7 +15,7 @@ async function listCertificateProfilesUnderATrustedSigningAccount() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateProfiles.listByCodeSigningAccount(
+  for await (const item of client.certificateProfiles.listByCodeSigningAccount(
     "MyResourceGroup",
     "MyAccount",
   )) {
@@ -26,7 +26,7 @@ async function listCertificateProfilesUnderATrustedSigningAccount() {
 }
 
 async function main() {
-  listCertificateProfilesUnderATrustedSigningAccount();
+  await listCertificateProfilesUnderATrustedSigningAccount();
 }
 
 main().catch(console.error);

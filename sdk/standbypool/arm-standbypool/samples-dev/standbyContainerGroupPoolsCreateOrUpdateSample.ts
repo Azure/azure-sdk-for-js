@@ -36,7 +36,7 @@ async function standbyContainerGroupPoolsCreateOrUpdate() {
 }
 
 async function main() {
-  standbyContainerGroupPoolsCreateOrUpdate();
+  await standbyContainerGroupPoolsCreateOrUpdate();
 }
 
 main().catch(console.error);
