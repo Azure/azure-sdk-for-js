@@ -2652,7 +2652,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
-    resolution: {integrity: sha512-DLcvtjTNr2ho+YwJBGGWETWHNG0yBNiUU/BinmvA3d2jUnMYQyrEYJe1+8Sype0GXvR9Pv+XtlUJJsRVjyXj8g==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-aYCTDI+1ku2ekPsq3SIi9EzHHJL7T6HmMse4xfBigI7/mYlpkytV5MM5CqPK/0ZAHjRc8yqxUBP6EMOh0my5dQ==, tarball: file:projects/ai-inference.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
@@ -2672,7 +2672,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-BXHStxw/ilX6aO+nU/v9ZTijLJGqGUNPTOgcKOMezRJ3oHy1W3YaPwnd2mgfb375r4oCzxI9tgqAGCudmDGR9Q==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-olWaOR+lScYd4KfOBFDagJ6zLA728vt+08hSgNDsM182EdAAAYN2c5dqJ7BsN/1rv7I6rb6lywdCSQ5gK9pABQ==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2704,7 +2704,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
-    resolution: {integrity: sha512-TVqurxZGAWBtJuzZTr+rUdJM9eHGgTu7h638ukTCZG/7CrBHM+MrpfE4mEkiArgpjGYfSS7p+abAvGZJ5PYFBg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-vjq2Gao56nWls4WanTBCTwwjx58Tjne7vWsJzG6pjaM3KnNVuC91v97x+MT2OKq4EmRYJ3yTNFs6T+Vg7rVJmQ==, tarball: file:projects/app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
@@ -3008,27 +3008,27 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-deviceregistry@file:projects/arm-deviceregistry.tgz':
-    resolution: {integrity: sha512-qUOI02wFlgcRFu0/2QJXJ68w8p+st700Vjk5Xv/ywOcd3AShAQtGHduNSlByg2M2/BZZrCX4iezy+8vthJS3VA==, tarball: file:projects/arm-deviceregistry.tgz}
+    resolution: {integrity: sha512-6MciE8WhOTd75MHBzJJ+eSumcMuecnGFco8XkvsDZwOHQNHuR1luCf/y1ZEuDPSdKHkEs2nGh1gp0EcI1QRPpw==, tarball: file:projects/arm-deviceregistry.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deviceupdate@file:projects/arm-deviceupdate.tgz':
-    resolution: {integrity: sha512-fcIPtB8SRvn94bktwFQ68TjpanmbrSGl21les6Ku9vjuPD9wCtEEqmmbX40bxF0yKbJpxsfz6AmuH2fzpdqTbg==, tarball: file:projects/arm-deviceupdate.tgz}
+    resolution: {integrity: sha512-v5/ThyhcfIKZ/wcvz24IP33PcIHKedIndbC/Ma93TBAMacoSSug2hhDd40ifvBmOomCGg8M12cPaD3StuQ1JcA==, tarball: file:projects/arm-deviceupdate.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devopsinfrastructure@file:projects/arm-devopsinfrastructure.tgz':
-    resolution: {integrity: sha512-qThLI1jWnRhRS5M9YC9pSCyfS2IUCr+C55ZLZdZ/ewWknYeKlik7d34C3ixzY5fWJqlgj2m8FIxDG4dNv22GHw==, tarball: file:projects/arm-devopsinfrastructure.tgz}
+    resolution: {integrity: sha512-J9bklMCmzlQNf6YrAq6YltaIvj2pE20kKVzjobP+jXApozhfxzSgiS+kgv3yunIzJPopuCSCzqalQ9DqJftVig==, tarball: file:projects/arm-devopsinfrastructure.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devspaces@file:projects/arm-devspaces.tgz':
-    resolution: {integrity: sha512-MlWmvDRdzCnx5V+k/XswOhPfGn3bZsTqB9U6rLU7uhcCpQtnC0URq2h6mAL2TohrdxkZAMrkn+MQHZkP7ZWNZQ==, tarball: file:projects/arm-devspaces.tgz}
+    resolution: {integrity: sha512-i/6AV99dDnXeO+NzwT8AaOjVwX1FFEVQudH7KPxAAfQdUqXlxIS0O4f26MXLsqAiuOcg6i4JEQYTNTdAEbtmCQ==, tarball: file:projects/arm-devspaces.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devtestlabs@file:projects/arm-devtestlabs.tgz':
-    resolution: {integrity: sha512-Z/UZJKTEtsgEs/m9FM+8F2bTbbOLAL0cvdd3pmKDfimhxf98tO84fk0etI6PE1S/ClYJWt6WZRvHf3V4t6b7OQ==, tarball: file:projects/arm-devtestlabs.tgz}
+    resolution: {integrity: sha512-rlS/q9Etn8UN6TlwTXJeY2wou7J/f6LfewbPM02J1nLzk5DgnJ+Z49cZ/k4FdGlUw68hevGU1FIY6hQ7jocNzw==, tarball: file:projects/arm-devtestlabs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-digitaltwins@file:projects/arm-digitaltwins.tgz':
-    resolution: {integrity: sha512-RHVauug3UIfbpdZ7obViFVVMLWP5IjqjI78IdjV0zxX5gI4Z6Uanw/kllBu10kxAw5F/4hh0bieUDJNeY1r6SA==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-Vgmp1Bv/MZGldkRVcgc5cTmhNfukT9o6Qq2Q1IXb+tCbsQWe2CDKQZbKBqkf8Xj8d1mE8t3UCzVwi9jiTbytdw==, tarball: file:projects/arm-digitaltwins.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dns-profile-2020-09-01-hybrid@file:projects/arm-dns-profile-2020-09-01-hybrid.tgz':
@@ -3828,7 +3828,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-Oo1YC8Bl9JY/gJF6MTQWnAhSRPfZvqjaXfuU4SUsyRGmamwrkDfigyUJYEcqRwCF4JyZ+JjkgIdVER9nITATsA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-v9YVLjFKbVmx5EWiE7LsPWU04QvgDtvIkB2cGhQhm+sbNsCmXtdvkuRLCU7KqB/fWUMjAmnE14leCv/9cKYr8Q==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -3852,7 +3852,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz':
-    resolution: {integrity: sha512-HyLhG4SuWFEMQ3KUJtApNev3ntmWO0p9hynqujg2fdHGlSPedlHdTpgtJxJ24sml1/zprYaE6Bj7IvHcb8x4Xg==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-3U1LBke38h90I7bcDdvEPrSiN1eYPRhbAglwRw+pVoqT48YySHQmNueFk1Kgs5ew6wF1x9H8oBtnkdXp1wluAA==, tarball: file:projects/digital-twins-core.tgz}
     version: 0.0.0
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz':
@@ -3920,7 +3920,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/iot-device-update@file:projects/iot-device-update.tgz':
-    resolution: {integrity: sha512-YxiAuEHQrn5tMzXrU+xAqAOpz3BEPRZReT3VT7N3pPM5iT+d73NwbRFanU+cU0mJE4231iW8686RxCevp0YjHw==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-l0iPIJEaLQIYyBR/1Q1uhsN4jZgJ7S+sEw4ZkV4VaPdYMEfmc5yqoBFGTb8xLcTS3YOrkID5QKKmPMSb/Qym4w==, tarball: file:projects/iot-device-update.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-modelsrepository@file:projects/iot-modelsrepository.tgz':
@@ -4000,15 +4000,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-zkjFwSF6XaWqqgTseIApfabjxBusvCV2GCPAH0784331hWHMlVMm2mnpVoLpR4EUD3/m2sK9/UTvRzAuToJhTQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-hEnlLvehlh3ejDkAZMH2pTtAPU+i6O550upJ4DPMW89QmlerdmJT9CJt3u8yCb6af/ei6C871wpRH/JEXKk4ig==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-5+1YPPlqtKMgVsteZDwGzHenNo7xTz7Kfnf5T6hCPQBYoc3h+8UDXPLX5eY4H94BpK6DPqIRRzo5/ssTOlIZvw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-z5UtXbsaWkLnIHmEMZoEtUXx1JlX0h8qgs+NUDTrIhb4eeKvLQQq7MdBn5ebvQ5+IK9X7Eo48plVd7uc0klcuQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-jeOWD62O9d4VqeqJi2tDLWdFYLr4WdyFZLptBvddKPcNM7ioc3J6cT9l+u8MyLw8mhR+jmUXnE5USLYKequWnA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-QySGA7L+mDLcyYqOmT0uB3vusB6f8FBSVbJPPkU0lpSji3nBLw590UHS8m8UOdKSdDKKZOGhgYyCbAFWML42sA==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -4084,7 +4084,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-byBSym/OfxQ58bVHVolF00z4GRg96yCYO7SwgMGbODClLim6M9/GJ7K4VVe4bifJ8DxljLMjdZh+9dDHL8+Q1g==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-dwzpNIZPU6i3RcqjhLVipjyiz3ZZMtjs7dOuCSH4TtaOyj5vgqVvQC61FbEsnQrI5coVWW0NEOmbNYbzkih1Yw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
@@ -6913,9 +6913,9 @@ packages:
   nise@6.1.1:
     resolution: {integrity: sha512-aMSAzLVY7LyeM60gvBS423nBmIPP+Wy7St7hsb+8/fc1HmeoHJfLO8CKse4u3BtOZvQLJghYPI2i/1WZrEj5/g==}
 
-  nock@14.0.0:
-    resolution: {integrity: sha512-3Z2ZoZoYTR/y2I+NI16+6IzfZFKBX7MrADtoBAm7v/QKqxQUhKw+Dh+847PPS1j/FDutjfIXfrh3CJF74yITWg==}
-    engines: {node: '>= 18'}
+  nock@13.5.6:
+    resolution: {integrity: sha512-o2zOYiCpzRqSzPj0Zt/dQ/DqZeYoaQ7TUonc/xUPjCGl9WeHpNbxgVvOquXYAaJzI0M9BXV3HTzG0p8IUAbBTQ==}
+    engines: {node: '>= 10.13'}
 
   node-abi@3.73.0:
     resolution: {integrity: sha512-z8iYzQGBu35ZkTQ9mtR8RqugJZ9RCLn8fv3d7LsgDBzOijGQP3RdKTX4LA7LXw03ZhU5z0l4xfhIMgSES31+cg==}
@@ -10841,7 +10841,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      nock: 14.0.0
+      nock: 13.5.6
       playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -13469,7 +13469,6 @@ snapshots:
 
   '@rush-temp/arm-deviceupdate@file:projects/arm-deviceupdate.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13541,7 +13540,6 @@ snapshots:
 
   '@rush-temp/arm-devspaces@file:projects/arm-devspaces.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13576,7 +13574,6 @@ snapshots:
 
   '@rush-temp/arm-devtestlabs@file:projects/arm-devtestlabs.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13611,7 +13608,6 @@ snapshots:
 
   '@rush-temp/arm-digitaltwins@file:projects/arm-digitaltwins.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -18664,7 +18660,7 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       jsbi: 4.3.0
       mocha: 11.1.0
-      nock: 14.0.0
+      nock: 13.5.6
       priorityqueuejs: 2.0.0
       requirejs: 2.3.7
       semaphore: 1.1.0
@@ -20276,7 +20272,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      nock: 14.0.0
+      nock: 13.5.6
       playwright: 1.50.0
       tslib: 2.8.1
       typescript: 5.7.3
@@ -20337,7 +20333,7 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.19.0
       mocha: 11.1.0
-      nock: 14.0.0
+      nock: 13.5.6
       nyc: 17.1.0
       sinon: 17.0.1
       tslib: 2.8.1
@@ -25276,11 +25272,13 @@ snapshots:
       just-extend: 6.2.0
       path-to-regexp: 8.2.0
 
-  nock@14.0.0:
+  nock@13.5.6:
     dependencies:
-      '@mswjs/interceptors': 0.37.5
+      debug: 4.4.0(supports-color@8.1.1)
       json-stringify-safe: 5.0.1
       propagate: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
 
   node-abi@3.73.0:
     dependencies:
