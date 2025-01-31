@@ -1719,6 +1719,9 @@ export class ToolSet {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
     };
+    addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+        definition: OpenApiToolDefinition;
+    };
     toolDefinitions: ToolDefinition[];
     toolResources: ToolResources;
 }
@@ -1742,6 +1745,9 @@ export class ToolUtility {
     };
     static createFunctionTool(functionDefinition: FunctionDefinition): {
         definition: FunctionToolDefinition;
+    };
+    static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
+        definition: OpenApiToolDefinition;
     };
 }
 
