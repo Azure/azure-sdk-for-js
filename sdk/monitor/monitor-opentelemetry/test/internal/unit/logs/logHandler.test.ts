@@ -15,6 +15,7 @@ import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import type { BunyanInstrumentationConfig } from "@opentelemetry/instrumentation-bunyan";
 import type { WinstonInstrumentationConfig } from "@opentelemetry/instrumentation-winston";
+import type { MockInstance } from "vitest";
 import {
   afterAll,
   afterEach,
@@ -23,7 +24,6 @@ import {
   describe,
   expect,
   it,
-  MockInstance,
   vi,
   assert,
 } from "vitest";
@@ -43,12 +43,12 @@ describe("LogHandler", () => {
     metricHandler = new MetricHandler(_config);
     handler = new LogHandler(_config, metricHandler);
     exportStub = vi.spyOn(handler["_azureExporter"], "export").mockImplementation(
-      (lgs: any, resultCallback: any) =>
+      (_, resultCallback) =>
         new Promise((resolve) => {
           resultCallback({
             code: ExportResultCode.SUCCESS,
           });
-          resolve(lgs);
+          resolve();
         }),
     );
     const loggerProvider: LoggerProvider = new LoggerProvider();
