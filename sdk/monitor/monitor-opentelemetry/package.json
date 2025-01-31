@@ -4,9 +4,9 @@
   "sdk-type": "client",
   "version": "1.8.1",
   "description": "Azure Monitor OpenTelemetry (Node.js)",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "types/monitor-opentelemetry.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:browser": "echo skipped",
@@ -125,5 +125,18 @@
       "commonjs"
     ],
     "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

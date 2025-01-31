@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Instrumentation } from "@opentelemetry/instrumentation/build/src/types";
+import type { Instrumentation } from "@opentelemetry/instrumentation";
 import type { StatsbeatEnvironmentConfig } from "../types.js";
 import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatInstrumentationMap } from "../types.js";
 import { Logger } from "../shared/logging/index.js";
