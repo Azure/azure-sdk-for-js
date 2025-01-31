@@ -55,7 +55,7 @@ export function rushRunAllWithDirection(action, packagesWithDirection, rushParam
 
   // Restore assets for packages that are being 'unit-test'-ed in the CI pipeline
   if (
-    // 1. Check if running in Public CI (process.env["BUILD_BUILDNUMBER"] is set)
+    // 1. Check if running in Azure dev ops pipelines (process.env["BUILD_BUILDNUMBER"] is set)
     process.env["BUILD_BUILDNUMBER"]
     // 2. Ensure not in "live" or "record" mode (run only in playback mode)
     && (!["live", "record"].includes(process.env.TEST_MODE))
@@ -65,18 +65,25 @@ export function rushRunAllWithDirection(action, packagesWithDirection, rushParam
     console.log(`Running rush list with ${invocation.join(" ")}`);
 
     // Get the list of packages to run the action on
-    const output = spawnNodeWithOutput(
-      getBaseDir(),
-      "common/scripts/install-run-rush.js",
-      "list",
-      ...invocation,
-    );
+    let listCommandOutput = "";
+    try {
+      listCommandOutput = spawnNodeWithOutput(
+        getBaseDir(),
+        "common/scripts/install-run-rush.js",
+        "list",
+        ...invocation,
+      );
+    } catch (error) {
+      console.error("Error running rush list command:", error);
+    }
 
-    // Parse the output to get package names
-    const packages = parsePackageNames(output);
+    if (listCommandOutput) {
+      // Parse the output to get package names
+      const packages = parsePackageNames(listCommandOutput);
 
-    // Run test-proxy restore for the parsed packages
-    runTestProxyRestore(packages);
+      // Run test-proxy restore for the parsed packages
+      runTestProxyRestore(packages);
+    }
   }
 
   return spawnNode(

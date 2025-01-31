@@ -14,6 +14,13 @@ import { parse } from "../../../../common/lib/jju/parse.js";
  * @param {string[]} packages - An array of package names to restore.
  */
 export function runTestProxyRestore(packages) {
+  // Get the path to the proxy executable from the environment variable
+  const proxyExe = process.env.PROXY_EXE; // Set in the pipeline before this script is run
+  if (!proxyExe) {
+    console.error('PROXY_EXE environment variable is not set');
+    return;
+  }
+
   console.log('Starting test-proxy restore for packages:', packages);
   const completedPackages = [];
   for (const packageName of packages) {
@@ -33,12 +40,6 @@ export function runTestProxyRestore(packages) {
     // Check if the assets.json file exists
     if (existsSync(assetsJsonPath)) {
       try {
-        // Get the path to the proxy executable from the environment variable
-        const proxyExe = process.env.PROXY_EXE; // Set in the pipeline before this script is run
-        if (!proxyExe) {
-          console.error('PROXY_EXE environment variable is not set');
-          return;
-        }
         console.log(`Executing test-proxy restore for ${packageName}`);
         execSync(`${proxyExe} restore -a "assets.json"`, { cwd: targetPackageDir, stdio: 'inherit' });
         completedPackages.push(packageName);
