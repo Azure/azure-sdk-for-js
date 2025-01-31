@@ -239,6 +239,7 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
+    agent?: Agent;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
