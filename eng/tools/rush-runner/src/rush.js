@@ -7,7 +7,8 @@ import { spawnNode, spawnNodeWithOutput } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 import { join as pathJoin } from "node:path";
 import { execSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { parse } from "../../../../common/lib/jju/parse.js";
 
 /**
  * Helper to run a global rush command
@@ -43,7 +44,7 @@ export function rushRunAll(action, direction, packages, rushParams) {
  * @param {string[][]} packagesWithDirection - Any array of strings containing ["direction packageName"...]
  * @param {string[]} rushParams - what parameters to pass to rush
  */
-export async function rushRunAllWithDirection(action, packagesWithDirection, rushParams) {
+export function rushRunAllWithDirection(action, packagesWithDirection, rushParams) {
   const invocation = packagesWithDirection.flatMap(([direction, packageName]) => [
     direction,
     packageName,
@@ -77,7 +78,7 @@ export async function rushRunAllWithDirection(action, packagesWithDirection, rus
     const packages = parsePackageNames(output);
 
     // Run test-proxy restore for the parsed packages
-    await runTestProxyRestore(packages);
+    runTestProxyRestore(packages);
   }
 
   return spawnNode(
@@ -114,11 +115,11 @@ export function runRushInPackageDirs(action, packageDirs, onError) {
  *
  * @param {string[]} packages - An array of package names to restore.
  */
-async function runTestProxyRestore(packages) {
+function runTestProxyRestore(packages) {
   console.log('Starting test-proxy restore for packages:', packages);
   const completedPackages = [];
   for (const packageName of packages) {
-    const rushSpec = await readFileJson(path.resolve(path.join(getBaseDir(), "rush.json")));
+    const rushSpec = readFileJson(pathJoin(getBaseDir(), "rush.json"));
 
     // Find the target package
     const targetPackage = rushSpec.projects.find(
@@ -152,9 +153,9 @@ async function runTestProxyRestore(packages) {
 }
 
 
-async function readFileJson(filename) {
+function readFileJson(filename) {
   try {
-    const fileContents = await readFile(filename);
+    const fileContents = readFileSync(filename);
     const jsonResult = parse(fileContents);
     return jsonResult;
   } catch (ex) {

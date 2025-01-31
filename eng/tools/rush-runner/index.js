@@ -7,13 +7,9 @@ import { exit } from "node:process";
 import { executeActions } from "./src/actions.js";
 import { parseArgs } from "./src/args.js";
 
-async function main() {
+function main() {
   const { action, serviceDirs, rushParams, artifactNames } = parseArgs();
-  const exitCode = await executeActions(action, serviceDirs, rushParams, artifactNames);
-  exit(exitCode);
+  exit(executeActions(action, serviceDirs, rushParams, artifactNames));
 }
 
-main().catch(err => {
-  console.error(err);
-  exit(1);
-});
+main();
