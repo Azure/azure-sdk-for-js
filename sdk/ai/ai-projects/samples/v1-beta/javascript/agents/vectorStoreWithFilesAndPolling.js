@@ -36,19 +36,39 @@ async function main() {
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
-  // Set up abort controller (optional)
-  // Polling can then be stopped using abortController.abort()
-  const abortController = new AbortController();
+  // (Optional) Define an onResponse callback to monitor the progress of polling
+  function onResponse(response) {
+    console.log(`Received response with status: ${response.status}`);
+  }
 
-  // Create vector store file
-  const vectorStoreFileOptions = {
+  // Create vector store file, which will automatically poll until the operation is complete
+  const vectorStoreFile1 = await client.agents.createVectorStoreFile(vectorStore.id, {
     fileId: file.id,
-    pollingOptions: { sleepIntervalInMs: 2000, abortSignal: abortController.signal },
-  };
-  const poller = client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions);
-  const vectorStoreFile = await poller.pollUntilDone();
+    pollingOptions: {
+      sleepIntervalInMs: 2000,
+      onResponse,
+    },
+  });
   console.log(
-    `Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`,
+    `Created vector store file with status ${vectorStoreFile1.status}, vector store file ID: ${vectorStoreFile1.id}`,
+  );
+
+  // Alternatively, polling can be done using .poll() and .pollUntilDone() methods.
+  // This approach allows for more control over the polling process.
+  // (Optional) AbortController can be used to stop polling if needed.
+  const abortController = new AbortController();
+  const vectorStoreFilePoller = client.agents.createVectorStoreFile(vectorStore.id, {
+    fileId: file.id,
+    pollingOptions: {
+      sleepIntervalInMs: 2000,
+      onResponse,
+    },
+  });
+  const vectorStoreFile2 = await vectorStoreFilePoller.pollUntilDone({
+    abortSignal: abortController.signal,
+  });
+  console.log(
+    `Created vector store file with status ${vectorStoreFile2.status}, vector store file ID: ${vectorStoreFile2.id}`,
   );
 
   // Delete file
