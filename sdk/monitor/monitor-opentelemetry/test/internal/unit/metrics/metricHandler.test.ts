@@ -33,7 +33,7 @@ describe("MetricHandler", () => {
     process.env = originalEnv;
     handler.shutdown();
     MetricsApi.disable();
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   function createHandler(): void {

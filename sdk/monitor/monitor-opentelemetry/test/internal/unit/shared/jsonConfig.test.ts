@@ -17,7 +17,7 @@ describe("Json Config", () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   after(() => {

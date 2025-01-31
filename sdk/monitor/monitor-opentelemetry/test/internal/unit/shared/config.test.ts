@@ -203,7 +203,7 @@ describe("Library/Config", () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    sandbox.restore();
+    vi.restoreAllMocks();
     (JsonConfig["_instance"] as any) = undefined;
   });
 
@@ -440,7 +440,7 @@ describe("Library/Config", () => {
     });
 
     it("instrumentation key validation-valid key passed", () => {
-      const warnStub = sandbox.stub(console, "warn");
+      const warnStub = vi.spyOn(console, "warn");
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
@@ -448,7 +448,7 @@ describe("Library/Config", () => {
     });
 
     it("instrumentation key validation-invalid key passed", () => {
-      const warnStub = sandbox.stub(console, "warn");
+      const warnStub = vi.spyOn(console, "warn");
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111bbbb1ccc8dddeeeeffff3333";
@@ -456,7 +456,7 @@ describe("Library/Config", () => {
     });
 
     it("instrumentation key validation-invalid key passed", () => {
-      const warnStub = sandbox.stub(console, "warn");
+      const warnStub = vi.spyOn(console, "warn");
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString = "abc";
       assert.ok(warnStub.calledOn, "warning was raised");

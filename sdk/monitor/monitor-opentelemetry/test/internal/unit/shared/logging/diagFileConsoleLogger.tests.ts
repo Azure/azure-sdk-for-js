@@ -22,7 +22,7 @@ describe("Library/DiagFileConsoleLogger", () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    sandbox.restore();
+    vi.restoreAllMocks();
     (logger as any) = null;
   });
 
@@ -62,7 +62,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       const confirmDirStub = sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {
         // Fake directory creation
       });
-      const appendFileAsyncStub = sandbox.stub(fileHelper, "appendFileAsync");
+      const appendFileAsyncStub = vi.spyOn(fileHelper, "appendFileAsync");
       logger["_logToFile"] = true;
 
       logger["logMessage"]("testMessage")
@@ -92,9 +92,9 @@ describe("Library/DiagFileConsoleLogger", () => {
       );
       logger["_maxSizeBytes"] = 122;
 
-      const writeStub = sandbox.stub(fileHelper, "writeFileAsync");
-      const appendStub = sandbox.stub(fileHelper, "appendFileAsync");
-      const readStub = sandbox.stub(fileHelper, "readFileAsync");
+      const writeStub = vi.spyOn(fileHelper, "writeFileAsync");
+      const appendStub = vi.spyOn(fileHelper, "appendFileAsync");
+      const readStub = vi.spyOn(fileHelper, "readFileAsync");
       logger["_logToFile"] = true;
 
       logger["logMessage"]("backupTestMessage")
@@ -126,8 +126,8 @@ describe("Library/DiagFileConsoleLogger", () => {
           // Fake file size check
           123,
       );
-      const writeStub = sandbox.stub(fileHelper, "writeFileAsync");
-      const readStub = sandbox.stub(fileHelper, "readFileAsync");
+      const writeStub = vi.spyOn(fileHelper, "writeFileAsync");
+      const readStub = vi.spyOn(fileHelper, "readFileAsync");
       logger["_maxSizeBytes"] = 122;
       logger["_logToFile"] = true;
       logger["logMessage"]("backupTestMessage")
@@ -173,7 +173,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           ] as any,
       );
       logger["_maxHistory"] = 0;
-      const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
+      const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync");
       logger["_fileCleanupTask"]()
         .then(() => {
           assert.ok(unlinkStub.calledTwice, "unlinkStub calledTwice");
@@ -197,7 +197,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           ] as any,
       );
       logger["_maxHistory"] = 1;
-      const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
+      const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync");
       logger["_fileCleanupTask"]()
         .then(() => {
           assert.ok(unlinkStub.calledOnce, "unlinkStub calledOnce");

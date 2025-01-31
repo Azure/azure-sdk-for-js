@@ -57,7 +57,7 @@ describe("LogHandler", () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    sandbox.restore();
+    vi.restoreAllMocks();
     exportStub.resetHistory();
   });
 

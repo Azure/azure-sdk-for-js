@@ -32,7 +32,7 @@ describe("Library/AzureFunctionsHook", () => {
     }
     metrics.disable();
     trace.disable();
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   it("Hook not added if not running in Azure Functions", () => {
