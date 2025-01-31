@@ -47,17 +47,32 @@ describe("MessageSender unit tests", () => {
           abortSignal: undefined,
           retryOptions,
         }),
-      {
-        name: "ServiceBusError",
-        code: "GeneralError",
-        message: `Error 0: ServiceBusError: Link failed to initialize, cannot get max message size.
-
-Error 1: ServiceBusError: Link failed to initialize, cannot get max message size.
-
-Error 2: ServiceBusError: Link failed to initialize, cannot get max message size.
-
-Error 3: ServiceBusError: Link failed to initialize, cannot get max message size.`,
-      },
+      [
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message: "Link failed to initialize, cannot get max message size.",
+          retryable: true,
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message: "Link failed to initialize, cannot get max message size.",
+          retryable: true,
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message: "Link failed to initialize, cannot get max message size.",
+          retryable: true,
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message: "Link failed to initialize, cannot get max message size.",
+          retryable: true,
+        },
+      ],
     );
 
     assert.equal(openCalled, retryOptions.maxRetries + 1);
@@ -136,17 +151,35 @@ Error 3: ServiceBusError: Link failed to initialize, cannot get max message size
       } as any;
     };
 
-    await assertThrows(() => messageSender.send({ body: "message" }), {
-      name: "ServiceBusError",
-      code: "GeneralError",
-      message: `Error 0: ServiceBusError: SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.
-
-Error 1: ServiceBusError: SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.
-
-Error 2: ServiceBusError: SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.
-
-Error 3: ServiceBusError: SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.`,
-    });
+    await assertThrows(
+      () => messageSender.send({ body: "message" }),
+      [
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message:
+            "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message:
+            "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message:
+            "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
+        },
+        {
+          name: "ServiceBusError",
+          code: "GeneralError",
+          message:
+            "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
+        },
+      ],
+    );
 
     assert.equal(openCalled, retryOptions.maxRetries + 1);
   });
