@@ -7,6 +7,23 @@ param (
   [Parameter(ValueFromRemainingArguments = $true)]
   $RemainingArguments,
 
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $SubscriptionId,
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $TenantId,
+
+  [Parameter()]
+  [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
+  [string] $TestApplicationId,
+
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $Environment,
+
+
   [Parameter()]
   [hashtable] $DeploymentOutputs,
 
@@ -39,8 +56,9 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  az login --service-principal -u $env:ARM_CLIENT_ID --tenant $env:ARM_TENANT_ID --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
-  az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
+  az cloud set --name $Environment
+  az login --service-principal -u $env:TestApplicationId --tenant $env:TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
+  az account set --subscription $SubscriptionId
 }
 
 # Azure Functions app deployment
