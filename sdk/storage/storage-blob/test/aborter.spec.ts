@@ -12,17 +12,17 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-      const blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    const blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("Should abort after aborter timeout", async function () {
     try {

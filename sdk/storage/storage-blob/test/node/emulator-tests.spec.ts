@@ -23,26 +23,26 @@ describe("Emulator Tests", () => {
   const content = "Hello World";
 
   beforeEach(async (ctx) => {
-      if (!env.STORAGE_CONNECTION_STRING?.startsWith("UseDevelopmentStorage=true")) {
-        ctx.skip();
-      }
-      blobServiceClient = BlobServiceClient.fromConnectionString(
-        getConnectionStringFromEnvironment(),
-      );
-      containerName = getUniqueName("container");
-      blobName = getUniqueName("blob");
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobClient = containerClient.getBlobClient(blobName);
-      blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload(content, content.length);
-    });
+    if (!env.STORAGE_CONNECTION_STRING?.startsWith("UseDevelopmentStorage=true")) {
+      ctx.skip();
+    }
+    blobServiceClient = BlobServiceClient.fromConnectionString(
+      getConnectionStringFromEnvironment(),
+    );
+    containerName = getUniqueName("container");
+    blobName = getUniqueName("blob");
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+  });
 
   it("BlobClient can be created with a connection string", async function () {
     const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);

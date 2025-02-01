@@ -35,36 +35,36 @@ describe("BlobBatch", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
 
-      blobServiceClient = getGenericBSU(recorder, "");
-      blobBatchClient = blobServiceClient.getBlobBatchClient();
-      credential = getGenericCredential("");
+    blobServiceClient = getGenericBSU(recorder, "");
+    blobBatchClient = blobServiceClient.getBlobBatchClient();
+    credential = getGenericCredential("");
 
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      containerScopedBatchClient = containerClient.getBlobBatchClient();
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    containerScopedBatchClient = containerClient.getBlobBatchClient();
 
-      for (let i = 0; i < blockBlobCount - 1; i++) {
-        const tmpBlobName = `blob${i}`;
-        const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
-        blockBlobClients[i] = tmpBlockBlobClient;
-      }
+    for (let i = 0; i < blockBlobCount - 1; i++) {
+      const tmpBlobName = `blob${i}`;
+      const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
+      blockBlobClients[i] = tmpBlockBlobClient;
+    }
 
-      const specialBlobName = `å ä ö`;
-      const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
-      blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
-    });
+    const specialBlobName = `å ä ö`;
+    const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
+    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      await recorder.stop();
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
 
   it("submitBatch should work for batch delete", async function () {
     if (!isLiveMode()) {
@@ -726,44 +726,44 @@ describe("BlobBatch Token auth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      if (!isLiveMode()) {
-        ctx.skip();
-      }
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
 
-      // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
-      try {
-        blobServiceClient = getTokenBSU(recorder);
-      } catch (err: any) {
-        console.log(err);
-        ctx.skip();
-      }
+    // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
+    try {
+      blobServiceClient = getTokenBSU(recorder);
+    } catch (err: any) {
+      console.log(err);
+      ctx.skip();
+    }
 
-      blobBatchClient = blobServiceClient.getBlobBatchClient();
+    blobBatchClient = blobServiceClient.getBlobBatchClient();
 
-      const containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
 
-      for (let i = 0; i < blockBlobCount - 1; i++) {
-        const tmpBlobName = `blob${i}`;
-        const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
-        blockBlobClients[i] = tmpBlockBlobClient;
-      }
-      const specialBlobName = `å ä ö`;
-      const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
-      blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
-    });
+    for (let i = 0; i < blockBlobCount - 1; i++) {
+      const tmpBlobName = `blob${i}`;
+      const tmpBlockBlobClient = containerClient.getBlockBlobClient(tmpBlobName);
+      blockBlobClients[i] = tmpBlockBlobClient;
+    }
+    const specialBlobName = `å ä ö`;
+    const tmpBlockBlobClient = containerClient.getBlockBlobClient(specialBlobName);
+    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        await containerClient.delete();
-      }
-      if (recorder) {
-        await recorder.stop();
-      }
-    });
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    if (recorder) {
+      await recorder.stop();
+    }
+  });
 
   it("Should work when passing in BlobClient", async function () {
     if (!isLiveMode()) {

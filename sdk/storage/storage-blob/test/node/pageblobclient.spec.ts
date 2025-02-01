@@ -43,33 +43,33 @@ describe("PageBlobClient Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: [
-              "x-ms-copy-source",
-              "x-ms-copy-source-authorization",
-              "x-ms-encryption-key",
-            ],
-          },
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: [
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+            "x-ms-encryption-key",
+          ],
         },
-        ["playback", "record"],
-      );
-      blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-      pageBlobClient = blobClient.getPageBlobClient();
-    });
+      },
+      ["playback", "record"],
+    );
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    pageBlobClient = blobClient.getPageBlobClient();
+  });
 
   afterEach(async () => {
-      await containerClient.delete();
-      await recorder.stop();
-    });
+    await containerClient.delete();
+    await recorder.stop();
+  });
 
   it("Default audience should work", async () => {
     await pageBlobClient.create(1024);
@@ -582,8 +582,8 @@ describe("PageBlobClient Node.js only", () => {
     const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
 
     beforeEach(async () => {
-          await pageBlobClient.create(1024, { tags });
-        });
+      await pageBlobClient.create(1024, { tags });
+    });
 
     async function throwExpectedError(promise: Promise<any>, errorCode: string): Promise<boolean> {
       let expectedExceptionCaught = false;

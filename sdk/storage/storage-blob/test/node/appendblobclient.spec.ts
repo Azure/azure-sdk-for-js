@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { StorageSharedKeyCredential, ContainerClient, BlobServiceClient } from "../../src/index.js";
+import type {
+  StorageSharedKeyCredential,
+  ContainerClient,
+  BlobServiceClient,
+} from "../../src/index.js";
 import {
   AppendBlobClient,
   newPipeline,
@@ -38,32 +42,32 @@ describe("AppendBlobClient Node.js only", () => {
   const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: [
-              "x-ms-copy-source",
-              "x-ms-copy-source-authorization",
-              "x-ms-encryption-key",
-            ],
-          },
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: [
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+            "x-ms-encryption-key",
+          ],
         },
-        ["playback", "record"],
-      );
-      blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      appendBlobClient = containerClient.getAppendBlobClient(blobName);
-    });
+      },
+      ["playback", "record"],
+    );
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    appendBlobClient = containerClient.getAppendBlobClient(blobName);
+  });
 
   afterEach(async () => {
-      await containerClient.delete();
-      await recorder.stop();
-    });
+    await containerClient.delete();
+    await recorder.stop();
+  });
 
   it("can be created with a url and a credential", async function () {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;

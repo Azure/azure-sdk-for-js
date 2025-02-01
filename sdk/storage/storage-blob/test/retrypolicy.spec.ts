@@ -17,21 +17,21 @@ describe("RetryPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-      blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+  });
 
   afterEach(async () => {
-      const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
-      pipeline.removePolicy({ name: injectorPolicyName });
-      await containerClient.delete();
-      await recorder.stop();
-    });
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    pipeline.removePolicy({ name: injectorPolicyName });
+    await containerClient.delete();
+    await recorder.stop();
+  });
 
   it("Retry Policy should work when first request fails with 500", async function () {
     let injectCounter = 0;

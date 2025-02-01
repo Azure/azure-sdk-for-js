@@ -23,19 +23,19 @@ describe("Special Naming Tests", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-      blobServiceClient = getBSU(recorder);
-      containerName = getRecorderUniqueVariable(recorder, "1container-with-dash");
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    blobServiceClient = getBSU(recorder);
+    containerName = getRecorderUniqueVariable(recorder, "1container-with-dash");
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+  });
 
   afterEach(async () => {
-      await containerClient.delete();
-      await recorder.stop();
-    });
+    await containerClient.delete();
+    await recorder.stop();
+  });
 
   it("Should work with special container and blob names with spaces", async function () {
     const blobName: string = getRecorderUniqueVariable(recorder, "blob empty");

@@ -24,25 +24,25 @@ describe("AppendBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      // make sure we add the sanitizers on playback for SAS strings
-      await recorder.addSanitizers(
-        { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
-        ["record", "playback"],
-      );
-      const blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      appendBlobClient = containerClient.getAppendBlobClient(blobName);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers(
+      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["record", "playback"],
+    );
+    const blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    appendBlobClient = containerClient.getAppendBlobClient(blobName);
+  });
 
   afterEach(async () => {
-      await containerClient.delete();
-      await recorder.stop();
-    });
+    await containerClient.delete();
+    await recorder.stop();
+  });
 
   it("create with default parameters", async function () {
     await appendBlobClient.create();

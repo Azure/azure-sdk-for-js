@@ -17,13 +17,13 @@ describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("Default audience should work", async () => {
     const serviceClient = getBSU(recorder);

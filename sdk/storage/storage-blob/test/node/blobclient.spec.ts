@@ -52,34 +52,34 @@ describe("BlobClient Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          removeHeaderSanitizer: {
-            headersForRemoval: [
-              "x-ms-copy-source",
-              "x-ms-copy-source-authorization",
-              "x-ms-encryption-key",
-            ],
-          },
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: [
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+            "x-ms-encryption-key",
+          ],
         },
-        ["playback", "record"],
-      );
-      blobServiceClient = getBSU(recorder);
-      containerName = recorder.variable("container", getUniqueName("container"));
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      await containerClient.create();
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-      blockBlobClient = blobClient.getBlockBlobClient();
-      await blockBlobClient.upload(content, content.length);
-    });
+      },
+      ["playback", "record"],
+    );
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
 
   afterEach(async () => {
-      await containerClient.delete();
-      await recorder.stop();
-    });
+    await containerClient.delete();
+    await recorder.stop();
+  });
 
   before(async function () {
     if (!existsSync(tempFolderPath)) {
@@ -985,47 +985,47 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      try {
-        containerName = getImmutableContainerName();
-      } catch {
-        ctx.skip();
-      }
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        { removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
-        ["playback"],
-      );
-      blobServiceClient = getBSU(recorder);
-      containerClient = blobServiceClient.getContainerClient(containerName);
-      blobName = recorder.variable("blob", getUniqueName("blob"));
-      blobClient = containerClient.getBlobClient(blobName);
-    });
+    try {
+      containerName = getImmutableContainerName();
+    } catch {
+      ctx.skip();
+    }
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      { removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["playback"],
+    );
+    blobServiceClient = getBSU(recorder);
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+  });
 
   afterEach(async () => {
-      if (containerClient) {
-        const listResult = (
-          await containerClient
-            .listBlobsFlat({
-              includeImmutabilityPolicy: true,
-            })
-            .byPage()
-            .next()
-        ).value;
+    if (containerClient) {
+      const listResult = (
+        await containerClient
+          .listBlobsFlat({
+            includeImmutabilityPolicy: true,
+          })
+          .byPage()
+          .next()
+      ).value;
 
-        for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
-          const deleteBlobClient = containerClient.getBlobClient(
-            listResult.segment.blobItems[i].name,
-          );
-          await deleteBlobClient.setLegalHold(false);
-          await deleteBlobClient.deleteImmutabilityPolicy();
-          await deleteBlobClient.delete();
-        }
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name,
+        );
+        await deleteBlobClient.setLegalHold(false);
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete();
       }
-      if (recorder) {
-        await recorder.stop();
-      }
-    });
+    }
+    if (recorder) {
+      await recorder.stop();
+    }
+  });
 
   it("Blob syncCopyFromURL with immutability policy", async function () {
     const sourceName = recorder.variable("blobsource", getUniqueName("blobsource"));
