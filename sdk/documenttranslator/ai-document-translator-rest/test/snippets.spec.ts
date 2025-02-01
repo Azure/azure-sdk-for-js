@@ -9,7 +9,7 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_APIKey", async () => {
     const client = DocumentTranslator("<endpoint>", { key: "<API key>" });
-  }); 
+  });
 
   it("ReadmeSampleBatchSubmissionRequest", async () => {
     const batchSubmissionRequest: StartTranslationDetails = {
