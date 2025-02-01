@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { BlobSASPermissions } from "./BlobSASPermissions.js";
 import type { UserDelegationKey } from "../BlobServiceClient.js";
 import { ContainerSASPermissions } from "./ContainerSASPermissions.js";

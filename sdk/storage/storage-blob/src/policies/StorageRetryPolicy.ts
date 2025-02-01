@@ -13,7 +13,6 @@ import type {
 } from "@azure/core-http-compat";
 import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-
 import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
 import { URLConstants } from "../utils/constants.js";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";

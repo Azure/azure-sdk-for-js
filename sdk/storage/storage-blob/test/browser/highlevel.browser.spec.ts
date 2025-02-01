@@ -61,7 +61,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -77,7 +77,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -95,7 +95,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -118,7 +118,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -140,7 +140,7 @@ describe("Highlevel", () => {
     assert.isTrue(eventTriggered);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -156,7 +156,7 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async function () {
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -172,7 +172,7 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should work with tags", async function () {
+  it("uploadBrowserDataToBlockBlob should work with tags", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -192,7 +192,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
+  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -208,7 +208,7 @@ describe("Highlevel", () => {
     assert.ok(arrayBufferEqual(buf1, buf2));
   });
 
-  it("set tier while upload", async function () {
+  it("set tier while upload", async () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -226,7 +226,7 @@ describe("Highlevel", () => {
     assert.equal((await blockBlobClient.getProperties()).accessTier, "Cool");
   });
 
-  it("uploadData should work with Blob, ArrayBuffer and ArrayBufferView", async function () {
+  it("uploadData should work with Blob, ArrayBuffer and ArrayBufferView", async () => {
     async function assertSameBlob(actualBlob: Blob | undefined, expectedBlob: Blob): Promise<void> {
       if (!actualBlob) {
         throw new Error("actualBlob is undefined");

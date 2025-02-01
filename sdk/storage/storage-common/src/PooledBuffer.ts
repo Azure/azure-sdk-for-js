@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BuffersStream } from "./BuffersStream";
-import { Readable } from "stream";
+import { BuffersStream } from "./BuffersStream.js";
+import { Readable } from "node:stream";
 
 /**
  * maxBufferLength is max size of each buffer in the pooled buffers.
  */
-import buffer from "buffer";
+import buffer from "node:buffer";
 const maxBufferLength = buffer.constants.MAX_LENGTH;
 
 /**

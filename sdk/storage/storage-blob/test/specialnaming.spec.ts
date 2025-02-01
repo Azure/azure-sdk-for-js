@@ -37,7 +37,7 @@ describe("Special Naming Tests", () => {
     await recorder.stop();
   });
 
-  it("Should work with special container and blob names with spaces", async function () {
+  it("Should work with special container and blob names with spaces", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "blob empty");
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
@@ -54,7 +54,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special container and blob names with spaces in URL string", async function () {
+  it("Should work with special container and blob names with spaces in URL string", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "blob empty");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
@@ -113,7 +113,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special container and blob names uppercase", async function () {
+  it("Should work with special container and blob names uppercase", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "////Upper/blob/empty /another");
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
@@ -157,7 +157,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special container and blob names uppercase in URL string", async function () {
+  it("Should work with special container and blob names uppercase in URL string", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "////Upper/blob/empty /another");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
@@ -178,7 +178,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob names Chinese characters", async function () {
+  it("Should work with special blob names Chinese characters", async () => {
     const blobName: string = getRecorderUniqueVariable(
       recorder,
       "////Upper/blob/empty /another 汉字",
@@ -199,7 +199,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob names Chinese characters in URL string", async function () {
+  it("Should work with special blob names Chinese characters in URL string", async () => {
     const blobName: string = getRecorderUniqueVariable(
       recorder,
       "////Upper/blob/empty /another 汉字",
@@ -223,7 +223,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name characters", async function () {
+  it("Should work with special blob name characters", async () => {
     const blobName = getRecorderUniqueVariable(
       recorder,
       "汉字. special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'",
@@ -245,7 +245,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name characters in URL string", async function () {
+  it("Should work with special blob name characters in URL string", async () => {
     const blobName = getRecorderUniqueVariable(
       recorder,
       "汉字. special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'",
@@ -270,7 +270,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Russian URI encoded", async function () {
+  it("Should work with special blob name Russian URI encoded", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "ру́сский язы́к");
     const blobNameEncoded: string = encodeURIComponent(blobName);
     const blockBlobClient = containerClient.getBlockBlobClient(blobNameEncoded);
@@ -289,7 +289,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Russian", async function () {
+  it("Should work with special blob name Russian", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "ру́сский язы́к");
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
@@ -307,7 +307,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Russian in URL string", async function () {
+  it("Should work with special blob name Russian in URL string", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "ру́сский язы́к");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
@@ -328,7 +328,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Arabic URI encoded", async function () {
+  it("Should work with special blob name Arabic URI encoded", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "عربي/عربى");
     const blobNameEncoded: string = encodeURIComponent(blobName);
     const blockBlobClient = containerClient.getBlockBlobClient(blobNameEncoded);
@@ -347,7 +347,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Arabic", async function () {
+  it("Should work with special blob name Arabic", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "عربي/عربى");
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
@@ -365,7 +365,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Arabic in URL string", async function () {
+  it("Should work with special blob name Arabic in URL string", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "عربي/عربى");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),
@@ -386,7 +386,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Japanese URI encoded", async function () {
+  it("Should work with special blob name Japanese URI encoded", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "にっぽんご/にほんご");
     const blobNameEncoded: string = encodeURIComponent(blobName);
     const blockBlobClient = containerClient.getBlockBlobClient(blobNameEncoded);
@@ -405,7 +405,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Japanese", async function () {
+  it("Should work with special blob name Japanese", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "にっぽんご/にほんご");
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
@@ -423,7 +423,7 @@ describe("Special Naming Tests", () => {
     assert.notDeepEqual(response.segment.blobItems.length, 0);
   });
 
-  it("Should work with special blob name Japanese in URL string", async function () {
+  it("Should work with special blob name Japanese in URL string", async () => {
     const blobName: string = getRecorderUniqueVariable(recorder, "にっぽんご/にほんご");
     const blockBlobClient = new BlockBlobClient(
       appendToURLPath(containerClient.url, blobName),

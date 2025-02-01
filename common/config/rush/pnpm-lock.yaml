@@ -1170,10 +1170,13 @@ importers:
         version: file:projects/service-bus.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.32.0)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/storage-blob':
         specifier: file:./projects/storage-blob.tgz
-        version: file:projects/storage-blob.tgz
+        version: file:projects/storage-blob.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/storage-blob-changefeed':
         specifier: file:./projects/storage-blob-changefeed.tgz
         version: file:projects/storage-blob-changefeed.tgz
+      '@rush-temp/storage-common':
+        specifier: file:./projects/storage-common.tgz
+        version: file:projects/storage-common.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/storage-file-datalake':
         specifier: file:./projects/storage-file-datalake.tgz
         version: file:projects/storage-file-datalake.tgz
@@ -1182,7 +1185,7 @@ importers:
         version: file:projects/storage-file-share.tgz
       '@rush-temp/storage-internal-avro':
         specifier: file:./projects/storage-internal-avro.tgz
-        version: file:projects/storage-internal-avro.tgz
+        version: file:projects/storage-internal-avro.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/storage-queue':
         specifier: file:./projects/storage-queue.tgz
         version: file:projects/storage-queue.tgz
@@ -1242,7 +1245,7 @@ importers:
         version: file:projects/web-pubsub-client-protobuf.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
       '@rush-temp/web-pubsub-express':
         specifier: file:./projects/web-pubsub-express.tgz
-        version: file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.50.0)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+        version: file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.50.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
 
 packages:
 
@@ -4172,7 +4175,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
-    resolution: {integrity: sha512-ORe30xx38GMcaLB+QV/Yg3cd1lbYF7Jl3tg0a6BoeVmnyg+YMJMNO26zBgDoEZ7Tzd0lEI8UK0Yz0FsQOsV7dg==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-z68qB617Tm8ac0RyBvBi5Q1y1wcuUzg5PYAR2R4hdKcmCpMFrpkQffvQ/frTR4KKj89FSu0pJCgkhDQykepdHw==, tarball: file:projects/storage-blob.tgz}
+    version: 0.0.0
+
+  '@rush-temp/storage-common@file:projects/storage-common.tgz':
+    resolution: {integrity: sha512-a2QjyPHUxyFky5ofxvupLW1c0MQyDYyy9nbRZdEuIgGbyvSjCwDErMRqRYlD839rK2/W7tPCrKh3VH8aY7xDWw==, tarball: file:projects/storage-common.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
@@ -4184,7 +4191,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
-    resolution: {integrity: sha512-lfC0j7CsuCViDdSKW4+ZAl5SQ3rLvlA8Mdg5rVS0N37vAggkHuq3563M7zQyq3FMLxipCawUuTna4bmCPGhIcg==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-C3xfcz2Vrque0t26iEz7b27vqqk/VpAi1cM+/cFeXV2GZekzSBOylotg8m8V6HDKA6vmYh7NXl8ySGIXtAqUlA==, tarball: file:projects/storage-internal-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
@@ -7218,8 +7225,18 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  playwright-core@1.50.1:
+    resolution: {integrity: sha512-ra9fsNWayuYumt+NiM069M6OkcRb1FZSK8bgi66AtpFoWkg2+y0bJSNmkFrWhMbEBbVKC/EruAHH3g0zmtwGmQ==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright@1.50.0:
     resolution: {integrity: sha512-+GinGfGTrd2IfX1TA4N2gNmeIksSb+IAe589ZH+FlmpV3MYTx6+buChGIuDLQwrGNCw2lWibqV50fU510N7S+w==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.50.1:
+    resolution: {integrity: sha512-G8rwsOQJ63XG6BbKj2w5rHeavFjy5zynBA9zsJMMtBoe/Uf757oG12NXz6e6OirF7RCrTVAKFXbLmn1RbL7Qaw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -21298,46 +21315,80 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
+  '@rush-temp/storage-blob@file:projects/storage-blob.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.74
-      chai: 4.5.0
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       es6-promise: 4.2.8
       eslint: 9.19.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 11.1.0
-      nyc: 17.1.0
-      puppeteer: 24.1.1(typescript@5.7.3)
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.74)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
       util: 0.12.5
+      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bare-buffer
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
       - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/storage-common@file:projects/storage-common.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+    dependencies:
+      '@types/node': 18.19.74
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
+      dotenv: 16.4.7
+      eslint: 9.19.0
+      playwright: 1.50.1
+      tslib: 2.8.1
+      typescript: 5.7.3
+      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
     dependencies:
@@ -21425,42 +21476,43 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
+  '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.74
-      chai: 4.5.0
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       es6-promise: 4.2.8
       eslint: 9.19.0
       inherits: 2.0.4
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 11.1.0
-      nyc: 17.1.0
-      puppeteer: 24.1.1(typescript@5.7.3)
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.74)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
       util: 0.12.5
+      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bare-buffer
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
       - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
     dependencies:
@@ -22051,13 +22103,13 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/web-pubsub-express@file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.50.0)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/web-pubsub-express@file:projects/web-pubsub-express.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(playwright@1.50.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@types/express': 4.17.21
       '@types/express-serve-static-core': 4.19.6
       '@types/jsonwebtoken': 9.0.8
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
@@ -22251,13 +22303,13 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/cookie@0.6.0': {}
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -22304,7 +22356,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -22474,7 +22526,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.19.0)(typescript@5.7.3))(eslint@9.19.0)(typescript@5.7.3)':
@@ -22637,6 +22689,27 @@ snapshots:
       - utf-8-validate
       - vite
 
+  '@vitest/browser@3.0.4(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.4(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))
+      '@vitest/utils': 3.0.4
+      magic-string: 0.30.17
+      msw: 2.7.0(@types/node@18.19.74)(typescript@5.7.3)
+      sirv: 3.0.0
+      tinyrainbow: 2.0.0
+      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+      ws: 8.18.0
+    optionalDependencies:
+      playwright: 1.50.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+
   '@vitest/browser@3.0.4(@types/node@22.7.9)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -22657,6 +22730,28 @@ snapshots:
       - typescript
       - utf-8-validate
       - vite
+
+  '@vitest/browser@3.0.4(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)':
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 3.0.4(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))
+      '@vitest/utils': 3.0.4
+      magic-string: 0.30.17
+      msw: 2.7.0(@types/node@22.7.9)(typescript@5.7.3)
+      sirv: 3.0.0
+      tinyrainbow: 2.0.0
+      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@22.7.9)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+      ws: 8.18.0
+    optionalDependencies:
+      playwright: 1.50.1
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    optional: true
 
   '@vitest/coverage-istanbul@2.1.8(vitest@2.1.8)':
     dependencies:
@@ -23545,7 +23640,7 @@ snapshots:
   engine.io@6.6.3:
     dependencies:
       '@types/cors': 2.8.17
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 1.0.2
@@ -25587,9 +25682,17 @@ snapshots:
 
   playwright-core@1.50.0: {}
 
+  playwright-core@1.50.1: {}
+
   playwright@1.50.0:
     dependencies:
       playwright-core: 1.50.0
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  playwright@1.50.1:
+    dependencies:
+      playwright-core: 1.50.1
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -26855,7 +26958,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@22.7.9)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
     transitivePeerDependencies:
       - jiti
       - less
@@ -26895,7 +26998,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 20.17.16
-      '@vitest/browser': 3.0.4(@types/node@22.7.9)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
     transitivePeerDependencies:
       - jiti
       - less
@@ -26935,7 +27038,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 22.7.9
-      '@vitest/browser': 3.0.4(@types/node@22.7.9)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@22.7.9)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
     transitivePeerDependencies:
       - jiti
       - less

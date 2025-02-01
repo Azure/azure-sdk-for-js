@@ -37,7 +37,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -112,6 +112,8 @@
     "@azure/core-util": "^1.11.0",
     "@azure/core-xml": "^1.4.3",
     "@azure/logger": "^1.1.4",
+    "@azure/storage-common": "^1.0.0",
+    "@azure/storage-internal-avro": "^1.0.0",
     "events": "^3.0.0",
     "tslib": "^2.8.1"
   },
