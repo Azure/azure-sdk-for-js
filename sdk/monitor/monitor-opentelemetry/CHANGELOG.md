@@ -1,5 +1,15 @@
 # Release History
 
+## 1.8.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.8.1 (2025-01-28)
 
 ### Bugs Fixed
