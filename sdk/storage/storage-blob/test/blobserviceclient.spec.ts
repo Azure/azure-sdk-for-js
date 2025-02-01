@@ -13,7 +13,7 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type { Tags } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
