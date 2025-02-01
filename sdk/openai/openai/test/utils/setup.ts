@@ -20,7 +20,7 @@ function assertEnvironmentVariable(key: string): string {
   return value;
 }
 
-export default async function ({ provide }: TestProject) {
+export default function ({ provide }: TestProject): void {
   for (const key of Object.values(EnvironmentVariableNames)) {
     provide(key, assertEnvironmentVariable(key));
   }
