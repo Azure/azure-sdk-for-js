@@ -11,13 +11,13 @@ import type {
   WebResourceLike as WebResource,
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
-import { BaseRequestPolicy } from "./RequestPolicy";
+import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 
-import type { StorageRetryOptions } from "../StorageRetryPolicyFactory";
-import { URLConstants } from "../utils/constants";
-import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
-import { logger } from "../log";
+import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { URLConstants } from "../utils/constants.js";
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
+import { logger } from "../log.js";
 
 /**
  * A factory method used to generated a RetryPolicy factory.

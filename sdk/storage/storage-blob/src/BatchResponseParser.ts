@@ -4,17 +4,17 @@
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";
 
-import type { ServiceSubmitBatchResponseModel } from "./generatedModels";
+import type { ServiceSubmitBatchResponseModel } from "./generatedModels.js";
 import {
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
   HeaderConstants,
   HTTPURLConnection,
-} from "./utils/constants";
-import { getBodyAsText } from "./BatchUtils";
-import type { BatchSubRequest } from "./BlobBatch";
-import type { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
-import { logger } from "./log";
+} from "./utils/constants.js";
+import { getBodyAsText } from "./BatchUtils.js";
+import type { BatchSubRequest } from "./BlobBatch.js";
+import type { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse.js";
+import { logger } from "./log.js";
 
 const HTTP_HEADER_DELIMITER = ": ";
 const SPACE_DELIMITER = " ";

@@ -44,7 +44,7 @@ import {
   ContainerListBlobHierarchySegmentResponse,
   ContainerGetAccountInfoOptionalParams,
   ContainerGetAccountInfoResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Container. */
 export interface Container {

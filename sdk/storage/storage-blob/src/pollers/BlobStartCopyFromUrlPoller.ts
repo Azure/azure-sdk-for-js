@@ -8,7 +8,7 @@ import type {
   BlobClient,
   BlobStartCopyFromURLOptions,
   BlobBeginCopyFromURLResponse,
-} from "../Clients";
+} from "../Clients.js";
 
 /**
  * Defines the operations from a {@link BlobClient} that are needed for the poller

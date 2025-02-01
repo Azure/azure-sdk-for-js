@@ -10,10 +10,10 @@ import type {
   LeaseStatusType,
   BlobQueryResponseModel,
   BlobQueryHeaders,
-} from "./generatedModels";
-import type { Metadata } from "./models";
-import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
-import type { ResponseWithHeaders } from "./utils/utils.common";
+} from "./generatedModels.js";
+import type { Metadata } from "./models.js";
+import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream.js";
+import type { ResponseWithHeaders } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN BROWSER RUNTIME.

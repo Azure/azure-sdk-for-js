@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceSubmitBatchResponseModel } from "./generatedModels";
-import { blobToString } from "./utils/utils.browser";
+import type { ServiceSubmitBatchResponseModel } from "./generatedModels.js";
+import { blobToString } from "./utils/utils.browser.js";
 
 export async function getBodyAsText(
   batchResponse: ServiceSubmitBatchResponseModel,

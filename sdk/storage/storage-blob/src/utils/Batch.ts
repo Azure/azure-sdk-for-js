@@ -3,7 +3,7 @@
 
 // In browser, during webpack or browserify bundling, this module will be replaced by 'events'
 // https://github.com/Gozala/events
-import { EventEmitter } from "events";
+import { EventEmitter } from "node:events";
 
 /**
  * Operation is an async function to be executed and managed by Batch.

@@ -23,13 +23,12 @@
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
-import { streamToBuffer } from "./utils/stream";
+import { streamToBuffer } from "./utils/stream.js";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "<account name>";
   const accountKey = process.env.ACCOUNT_KEY || "<account key>";

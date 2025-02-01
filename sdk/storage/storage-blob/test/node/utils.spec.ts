@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { randomBytes } from "crypto";
-import * as fs from "fs";
-import * as path from "path";
-import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
-import type { ReadableOptions } from "stream";
-import { Readable, PassThrough } from "stream";
+import { randomBytes } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { delay, extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import type { ReadableOptions } from "node:stream";
+import { Readable, PassThrough } from "node:stream";
 import {
   readStreamToLocalFile,
   streamToBuffer2,
   streamToBuffer3,
-} from "../../src/utils/utils.node";
-import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream";
-import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream";
+} from "../../src/utils/utils.node.js";
+import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream.js";
+import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream.js";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";

@@ -4,12 +4,11 @@
 import { assert } from "chai";
 import type { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
 
-import type { ContainerClient, BlobServiceClient } from "../src";
-import { RestError } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
-import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
+import type { ContainerClient, BlobServiceClient } from "../src/index.js";
+import { RestError } from "../src/index.js";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 
 describe("RetryPolicy", () => {
   let blobServiceClient: BlobServiceClient;
@@ -18,22 +17,22 @@ describe("RetryPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
-    blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+      blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+    });
 
-  afterEach(async function () {
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
-    pipeline.removePolicy({ name: injectorPolicyName });
-    await containerClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+      pipeline.removePolicy({ name: injectorPolicyName });
+      await containerClient.delete();
+      await recorder.stop();
+    });
 
   it("Retry Policy should work when first request fails with 500", async function () {
     let injectCounter = 0;

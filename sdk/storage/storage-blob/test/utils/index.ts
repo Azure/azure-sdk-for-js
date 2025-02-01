@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomBytes } from "crypto";
-import * as fs from "fs";
-import * as path from "path";
+import { randomBytes } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { config } from "dotenv";
 
-import { SimpleTokenCredential } from "./testutils.common";
+import { SimpleTokenCredential } from "./testutils.common.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { StoragePipelineOptions } from "../../src";
-import { StorageSharedKeyCredential } from "../../src";
-import { BlobServiceClient } from "../../src";
-import { getUniqueName, configureBlobStorageClient } from "./testutils.common";
-import { newPipeline } from "../../src";
+import type { StoragePipelineOptions } from "../../src/index.js";
+import { StorageSharedKeyCredential } from "../../src/index.js";
+import { BlobServiceClient } from "../../src/index.js";
+import { getUniqueName, configureBlobStorageClient } from "./testutils.common.js";
+import { newPipeline } from "../../src/index.js";
 import {
   generateAccountSASQueryParameters,
   AccountSASPermissions,
   SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-} from "../../src";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+} from "../../src/index.js";
+import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-export * from "./testutils.common";
+export * from "./testutils.common.js";
 config();
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {

@@ -6,11 +6,11 @@ import type {
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
 } from "@azure/core-http-compat";
-import type { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
-import { HeaderConstants } from "../utils/constants";
-import { getURLPath, getURLQueries } from "../utils/utils.common";
-import { CredentialPolicy } from "./CredentialPolicy";
-import { compareHeader } from "../utils/SharedKeyComparator";
+import type { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
+import { HeaderConstants } from "../utils/constants.js";
+import { getURLPath, getURLQueries } from "../utils/utils.common.js";
+import { CredentialPolicy } from "./CredentialPolicy.js";
+import { compareHeader } from "../utils/SharedKeyComparator.js";
 
 /**
  * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.

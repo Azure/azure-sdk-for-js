@@ -10,15 +10,14 @@ import {
   getConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils";
-import type { PublicAccessType } from "../../src";
-import { getBlobServiceAccountAudience } from "../../src";
-import type { StorageSharedKeyCredential, BlobServiceClient } from "../../src";
-import { ContainerClient, newPipeline, ContainerSASPermissions } from "../../src";
+} from "../utils/index.js";
+import type { PublicAccessType } from "../../src/index.js";
+import { getBlobServiceAccountAudience } from "../../src/index.js";
+import type { StorageSharedKeyCredential, BlobServiceClient } from "../../src/index.js";
+import { ContainerClient, newPipeline, ContainerSASPermissions } from "../../src/index.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { assertClientUsesTokenCredential } from "../utils/assert";
+import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("ContainerClient Node.js only", () => {
@@ -27,19 +26,19 @@ describe("ContainerClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+    });
 
-  afterEach(async function () {
-    await containerClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await containerClient.delete();
+      await recorder.stop();
+    });
 
   it("Default audience should work", async () => {
     const containerClientWithOAuthToken = new ContainerClient(

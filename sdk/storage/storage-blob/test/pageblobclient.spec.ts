@@ -11,11 +11,10 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "./utils";
-import type { ContainerClient, BlobClient, BlobServiceClient } from "../src";
-import { PageBlobClient, PremiumPageBlobTier } from "../src";
+} from "./utils/index.js";
+import type { ContainerClient, BlobClient, BlobServiceClient } from "../src/index.js";
+import { PageBlobClient, PremiumPageBlobTier } from "../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { getYieldedValue } from "@azure-tools/test-utils";
 
 describe("PageBlobClient", () => {
@@ -28,23 +27,23 @@ describe("PageBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
-    blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.create();
-    blobName = recorder.variable("blob", getUniqueName("blob"));
-    blobClient = containerClient.getBlobClient(blobName);
-    pageBlobClient = blobClient.getPageBlobClient();
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+      blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      await containerClient.create();
+      blobName = recorder.variable("blob", getUniqueName("blob"));
+      blobClient = containerClient.getBlobClient(blobName);
+      pageBlobClient = blobClient.getPageBlobClient();
+    });
 
-  afterEach(async function () {
-    await containerClient.delete();
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await containerClient.delete();
+      await recorder.stop();
+    });
 
   it("create with default parameters", async function () {
     await pageBlobClient.create(512);
@@ -199,13 +198,13 @@ describe("PageBlobClient", () => {
     assert.equal(rangesDiff.clearRange![0].count, 511);
   });
 
-  it("getPageRangesDiffForManagedDisks", async function (this: Context): Promise<void> {
+  it("getPageRangesDiffForManagedDisks", async function (ctx): Promise<void> {
     let mdBlobServiceClient: BlobServiceClient;
     try {
       mdBlobServiceClient = getGenericBSU(recorder, "MD_", "");
     } catch (err: any) {
       // managed disk account is not properly configured
-      return this.skip();
+      return ctx.skip();
     }
     const mdContainerName = recorder.variable("md-container", getUniqueName("md-container"));
     const mdContainerClient = mdBlobServiceClient.getContainerClient(mdContainerName);

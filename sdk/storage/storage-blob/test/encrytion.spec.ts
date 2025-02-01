@@ -8,11 +8,10 @@ import {
   getEncryptionScope_1,
   getEncryptionScope_2,
   getUniqueName,
-} from "./utils";
+} from "./utils/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import type { Context } from "mocha";
+import type { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src/index.js";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 
 describe("Encryption Scope", function () {
   let blobServiceClient: BlobServiceClient;
@@ -28,30 +27,30 @@ describe("Encryption Scope", function () {
   let encryptionScopeName2: string | undefined;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createAndStartRecorder(this.currentTest);
+  beforeEach(async (ctx) => {
+      recorder = await createAndStartRecorder(ctx);
 
-    try {
-      encryptionScopeName1 = getEncryptionScope_1();
-      encryptionScopeName2 = getEncryptionScope_2();
-    } catch {
-      this.skip();
-    }
+      try {
+        encryptionScopeName1 = getEncryptionScope_1();
+        encryptionScopeName2 = getEncryptionScope_2();
+      } catch {
+        ctx.skip();
+      }
 
-    blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", getUniqueName("container"));
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    blobName = recorder.variable("blob", getUniqueName("blob"));
-    blobClient = containerClient.getBlobClient(blobName);
-    blockBlobClient = blobClient.getBlockBlobClient();
-  });
+      blobServiceClient = getBSU(recorder);
+      containerName = recorder.variable("container", getUniqueName("container"));
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      blobName = recorder.variable("blob", getUniqueName("blob"));
+      blobClient = containerClient.getBlobClient(blobName);
+      blockBlobClient = blobClient.getBlockBlobClient();
+    });
 
-  afterEach(async function () {
-    if (containerClient) {
-      await containerClient.delete();
-    }
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      if (containerClient) {
+        await containerClient.delete();
+      }
+      await recorder.stop();
+    });
 
   it("create container", async function () {
     await containerClient.create();
