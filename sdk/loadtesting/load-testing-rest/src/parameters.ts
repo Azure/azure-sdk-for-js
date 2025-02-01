@@ -16,6 +16,7 @@ import {
   TestProfileRun,
   Trigger,
   TriggerState,
+  NotificationRule,
 } from "./models.js";
 
 /** The resource instance. */
@@ -165,6 +166,26 @@ export type TestProfileAdministrationDeleteTestProfileParameters =
 export type TestProfileAdministrationGetTestProfileParameters =
   RequestParameters;
 
+/** This is the wrapper object for the parameter `testProfileIds` with explode set to false and style set to form. */
+export interface TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `testIds` with explode set to false and style set to form. */
+export interface TestProfileAdministrationListTestProfilesTestIdsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
   /** Maximum number of results to include in a single response. */
   maxpagesize?: number;
@@ -173,9 +194,13 @@ export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
   /** End DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
   lastModifiedEndTime?: Date | string;
   /** Comma separated list of IDs of the test profiles to filter. */
-  testProfileIds?: string;
+  testProfileIds?:
+    | string[]
+    | TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam;
   /** Comma separated list IDs of the tests which should be associated with the test profiles to fetch. */
-  testIds?: string;
+  testIds?:
+    | string[]
+    | TestProfileAdministrationListTestProfilesTestIdsQueryParam;
 }
 
 export interface TestProfileAdministrationListTestProfilesQueryParam {
@@ -378,6 +403,36 @@ export type TestProfileRunAdministrationDeleteTestProfileRunParameters =
   RequestParameters;
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
 
+/** This is the wrapper object for the parameter `testProfileRunIds` with explode set to false and style set to form. */
+export interface TestProfileRunAdministrationListTestProfileRunsTestProfileRunIdsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `testProfileIds` with explode set to false and style set to form. */
+export interface TestProfileRunAdministrationListTestProfileRunsTestProfileIdsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `statuses` with explode set to false and style set to form. */
+export interface TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProperties {
   /** Maximum number of results to include in a single response. */
   maxpagesize?: number;
@@ -394,11 +449,17 @@ export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProper
   /** End DateTime(RFC 3339 literal format) of the created time range to filter test profile runs. */
   createdDateEndTime?: Date | string;
   /** Comma separated list of IDs of the test profile runs to filter. */
-  testProfileRunIds?: string;
+  testProfileRunIds?:
+    | string[]
+    | TestProfileRunAdministrationListTestProfileRunsTestProfileRunIdsQueryParam;
   /** Comma separated IDs of the test profiles which should be associated with the test profile runs to fetch. */
-  testProfileIds?: string;
+  testProfileIds?:
+    | string[]
+    | TestProfileRunAdministrationListTestProfileRunsTestProfileIdsQueryParam;
   /** Comma separated list of Statuses of the test profile runs to filter. */
-  statuses?: string;
+  statuses?:
+    | string[]
+    | TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam;
 }
 
 export interface TestProfileRunAdministrationListTestProfileRunsQueryParam {
@@ -450,3 +511,45 @@ export interface TriggerAdministrationListTriggerQueryParam {
 
 export type TriggerAdministrationListTriggerParameters =
   TriggerAdministrationListTriggerQueryParam & RequestParameters;
+export type NotificationRuleAdministrationGetNotificationRuleParameters =
+  RequestParameters;
+/** The resource instance. */
+export type NotificationRuleResourceMergeAndPatch = Partial<NotificationRule>;
+
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam {
+  /** The resource instance. */
+  body: NotificationRuleResourceMergeAndPatch;
+}
+
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam {
+  /** This request has a JSON Merge Patch body. */
+  contentType: "application/merge-patch+json";
+}
+
+export type NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters =
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam &
+    NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam &
+    RequestParameters;
+export type NotificationRuleAdministrationDeleteNotificationRuleParameters =
+  RequestParameters;
+
+export interface NotificationRuleAdministrationListNotificationRuleQueryParamProperties {
+  /** Search based on notification rules associated with the provided test ids. */
+  testIds?: string;
+  /** Search based on notification rules for the provided scopes. */
+  scopes?: string;
+  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter notification rules. */
+  lastModifiedStartTime?: Date | string;
+  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter notification rules. */
+  lastModifiedEndTime?: Date | string;
+  /** Number of results in response. Default page size is 50. */
+  maxpagesize?: number;
+}
+
+export interface NotificationRuleAdministrationListNotificationRuleQueryParam {
+  queryParameters?: NotificationRuleAdministrationListNotificationRuleQueryParamProperties;
+}
+
+export type NotificationRuleAdministrationListNotificationRuleParameters =
+  NotificationRuleAdministrationListNotificationRuleQueryParam &
+    RequestParameters;

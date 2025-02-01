@@ -8,9 +8,11 @@ import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -153,6 +155,9 @@ export type FileType = string;
 
 // @public
 export type FileTypeOutput = string;
+
+// @public
+export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<LoadTestAdministrationGetTestFile200Response>, LoadTestAdministrationGetTestFile200Response>;
 
 // @public
 export type Frequency = string;
@@ -321,6 +326,18 @@ export function isUnexpected(response: TriggerAdministrationDeleteTrigger204Resp
 
 // @public (undocumented)
 export function isUnexpected(response: TriggerAdministrationListTrigger200Response | TriggerAdministrationListTriggerDefaultResponse): response is TriggerAdministrationListTriggerDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: NotificationRuleAdministrationGetNotificationRule200Response | NotificationRuleAdministrationGetNotificationRuleDefaultResponse): response is NotificationRuleAdministrationGetNotificationRuleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse): response is NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: NotificationRuleAdministrationDeleteNotificationRule204Response | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse): response is NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: NotificationRuleAdministrationListNotificationRule200Response | NotificationRuleAdministrationListNotificationRuleDefaultResponse): response is NotificationRuleAdministrationListNotificationRuleDefaultResponse;
 
 // @public (undocumented)
 export interface LoadTestAdministrationCreateOrUpdateAppComponents {
@@ -1413,6 +1430,195 @@ export interface NameAndDescOutput {
 }
 
 // @public
+export type NotificationEventType = string;
+
+// @public
+export type NotificationEventTypeOutput = string;
+
+// @public
+export type NotificationRule = NotificationRuleParent | TestsNotificationRule;
+
+// @public
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response extends HttpResponse {
+    // (undocumented)
+    body: NotificationRuleOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response extends HttpResponse {
+    // (undocumented)
+    body: NotificationRuleOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam {
+    body: NotificationRuleResourceMergeAndPatch;
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam {
+    contentType: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters = NotificationRuleAdministrationCreateOrUpdateNotificationRuleMediaTypesParam & NotificationRuleAdministrationCreateOrUpdateNotificationRuleBodyParam & RequestParameters;
+
+// @public
+export interface NotificationRuleAdministrationDeleteNotificationRule204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationDeleteNotificationRuleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & NotificationRuleAdministrationDeleteNotificationRuleDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type NotificationRuleAdministrationDeleteNotificationRuleParameters = RequestParameters;
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationGetNotificationRule {
+    delete(options?: NotificationRuleAdministrationDeleteNotificationRuleParameters): StreamableMethod<NotificationRuleAdministrationDeleteNotificationRule204Response | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse>;
+    get(options?: NotificationRuleAdministrationGetNotificationRuleParameters): StreamableMethod<NotificationRuleAdministrationGetNotificationRule200Response | NotificationRuleAdministrationGetNotificationRuleDefaultResponse>;
+    patch(options: NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters): StreamableMethod<NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse>;
+}
+
+// @public
+export interface NotificationRuleAdministrationGetNotificationRule200Response extends HttpResponse {
+    // (undocumented)
+    body: NotificationRuleOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationGetNotificationRuleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationGetNotificationRuleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & NotificationRuleAdministrationGetNotificationRuleDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type NotificationRuleAdministrationGetNotificationRuleParameters = RequestParameters;
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationListNotificationRule {
+    get(options?: NotificationRuleAdministrationListNotificationRuleParameters): StreamableMethod<NotificationRuleAdministrationListNotificationRule200Response | NotificationRuleAdministrationListNotificationRuleDefaultResponse>;
+}
+
+// @public
+export interface NotificationRuleAdministrationListNotificationRule200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedNotificationRuleOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationListNotificationRuleDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationListNotificationRuleDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & NotificationRuleAdministrationListNotificationRuleDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type NotificationRuleAdministrationListNotificationRuleParameters = NotificationRuleAdministrationListNotificationRuleQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationListNotificationRuleQueryParam {
+    // (undocumented)
+    queryParameters?: NotificationRuleAdministrationListNotificationRuleQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface NotificationRuleAdministrationListNotificationRuleQueryParamProperties {
+    lastModifiedEndTime?: Date | string;
+    lastModifiedStartTime?: Date | string;
+    maxpagesize?: number;
+    scopes?: string;
+    testIds?: string;
+}
+
+// @public
+export type NotificationRuleOutput = NotificationRuleOutputParent | TestsNotificationRuleOutput;
+
+// @public
+export interface NotificationRuleOutputParent {
+    actionGroupIds: string[];
+    readonly createdBy?: string;
+    readonly createdDateTime?: string;
+    displayName: string;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedDateTime?: string;
+    readonly notificationRuleId: string;
+    // (undocumented)
+    scope: NotificationScopeTypeOutput;
+}
+
+// @public
+export interface NotificationRuleParent {
+    actionGroupIds: string[];
+    displayName: string;
+    // (undocumented)
+    scope: NotificationScopeType;
+}
+
+// @public
+export type NotificationRuleResourceMergeAndPatch = Partial<NotificationRule>;
+
+// @public
+export type NotificationScopeType = string;
+
+// @public
+export type NotificationScopeTypeOutput = string;
+
+// @public
 export interface OptionalLoadTestConfig {
     duration?: number;
     endpointUrl?: string;
@@ -1437,6 +1643,12 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
     next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PagedNotificationRuleOutput {
+    nextLink?: string;
+    value: Array<NotificationRuleOutput>;
 }
 
 // @public
@@ -1583,6 +1795,11 @@ export type PFTestResult = string;
 // @public
 export type PFTestResultOutput = string;
 
+// @public (undocumented)
+export interface PolledOperationOptions {
+    updateIntervalInMs?: number;
+}
+
 // @public
 export type RecommendationCategory = string;
 
@@ -1717,6 +1934,8 @@ export interface Routes {
     (path: "/test-profile-runs"): TestProfileRunAdministrationListTestProfileRuns;
     (path: "/triggers/{triggerId}", triggerId: string): TriggerAdministrationGetTrigger;
     (path: "/triggers"): TriggerAdministrationListTrigger;
+    (path: "/notification-rules/{notificationRuleId}", notificationRuleId: string): NotificationRuleAdministrationGetNotificationRule;
+    (path: "/notification-rules"): NotificationRuleAdministrationListNotificationRule;
 }
 
 // @public
@@ -2049,8 +2268,22 @@ export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
     lastModifiedEndTime?: Date | string;
     lastModifiedStartTime?: Date | string;
     maxpagesize?: number;
-    testIds?: string;
-    testProfileIds?: string;
+    testIds?: string[] | TestProfileAdministrationListTestProfilesTestIdsQueryParam;
+    testProfileIds?: string[] | TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam;
+}
+
+// @public
+export interface TestProfileAdministrationListTestProfilesTestIdsQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public
@@ -2224,9 +2457,30 @@ export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProper
     maxStartDateTime?: Date | string;
     minEndDateTime?: Date | string;
     minStartDateTime?: Date | string;
-    statuses?: string;
-    testProfileIds?: string;
-    testProfileRunIds?: string;
+    statuses?: string[] | TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam;
+    testProfileIds?: string[] | TestProfileRunAdministrationListTestProfileRunsTestProfileIdsQueryParam;
+    testProfileRunIds?: string[] | TestProfileRunAdministrationListTestProfileRunsTestProfileRunIdsQueryParam;
+}
+
+// @public
+export interface TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface TestProfileRunAdministrationListTestProfileRunsTestProfileIdsQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface TestProfileRunAdministrationListTestProfileRunsTestProfileRunIdsQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -2259,6 +2513,12 @@ export interface TestProfileRunAdministrationStopDefaultResponse extends HttpRes
 
 // @public (undocumented)
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
+
+// @public
+export type TestProfileRunCompletionPoller = SimplePollerLike<OperationState<TestProfileRunAdministrationGetTestProfileRun200Response>, TestProfileRunAdministrationGetTestProfileRun200Response>;
+
+// @public (undocumented)
+export type TestProfileRunCreateOrUpdateSuccessResponse = TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
 
 // @public
 export interface TestProfileRunOutput {
@@ -2351,6 +2611,12 @@ export interface TestRunArtifactsOutput {
 }
 
 // @public
+export type TestRunCompletionPoller = SimplePollerLike<OperationState<LoadTestRunGetTestRun200Response>, LoadTestRunGetTestRun200Response>;
+
+// @public (undocumented)
+export type TestRunCreateOrUpdateSuccessResponse = LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response;
+
+// @public
 export interface TestRunDetail {
     configurationId: string;
     properties: Record<string, string>;
@@ -2362,6 +2628,30 @@ export interface TestRunDetailOutput {
     configurationId: string;
     properties: Record<string, string>;
     status: StatusOutput;
+}
+
+// @public
+export interface TestRunEndedEventCondition {
+    testRunResults?: PFTestResult[];
+    testRunStatuses?: Status[];
+}
+
+// @public
+export interface TestRunEndedEventConditionOutput {
+    testRunResults?: PFTestResultOutput[];
+    testRunStatuses?: StatusOutput[];
+}
+
+// @public
+export interface TestRunEndedNotificationEventFilter extends TestsNotificationEventFilterParent {
+    condition?: TestRunEndedEventCondition;
+    kind: "TestRunEnded";
+}
+
+// @public
+export interface TestRunEndedNotificationEventFilterOutput extends TestsNotificationEventFilterOutputParent {
+    condition?: TestRunEndedEventConditionOutput;
+    kind: "TestRunEnded";
 }
 
 // @public
@@ -2473,6 +2763,16 @@ export interface TestRunServerMetricConfigOutput {
 export type TestRunServerMetricConfigResourceMergeAndPatch = Partial<TestRunServerMetricConfig>;
 
 // @public
+export interface TestRunStartedNotificationEventFilter extends TestsNotificationEventFilterParent {
+    kind: "TestRunStarted";
+}
+
+// @public
+export interface TestRunStartedNotificationEventFilterOutput extends TestsNotificationEventFilterOutputParent {
+    kind: "TestRunStarted";
+}
+
+// @public
 export interface TestRunStatistics {
 }
 
@@ -2517,6 +2817,41 @@ export interface TestServerMetricConfigOutput {
 
 // @public
 export type TestServerMetricConfigResourceMergeAndPatch = Partial<TestServerMetricConfig>;
+
+// @public
+export type TestsNotificationEventFilter = TestsNotificationEventFilterParent | TestRunEndedNotificationEventFilter | TestRunStartedNotificationEventFilter | TriggerCompletedNotificationEventFilter | TriggerDisabledNotificationEventFilter;
+
+// @public
+export type TestsNotificationEventFilterOutput = TestsNotificationEventFilterOutputParent | TestRunEndedNotificationEventFilterOutput | TestRunStartedNotificationEventFilterOutput | TriggerCompletedNotificationEventFilterOutput | TriggerDisabledNotificationEventFilterOutput;
+
+// @public
+export interface TestsNotificationEventFilterOutputParent {
+    // (undocumented)
+    kind: NotificationEventTypeOutput;
+}
+
+// @public
+export interface TestsNotificationEventFilterParent {
+    // (undocumented)
+    kind: NotificationEventType;
+}
+
+// @public
+export interface TestsNotificationRule extends NotificationRuleParent {
+    eventFilters: Record<string, TestsNotificationEventFilter>;
+    scope: "Tests";
+    testIds?: string[];
+}
+
+// @public
+export interface TestsNotificationRuleOutput extends NotificationRuleOutputParent {
+    eventFilters: Record<string, TestsNotificationEventFilterOutput>;
+    scope: "Tests";
+    testIds?: string[];
+}
+
+// @public (undocumented)
+export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
 
 // @public
 export type TimeGrain = string;
@@ -2678,6 +3013,26 @@ export interface TriggerAdministrationListTriggerQueryParamProperties {
     maxpagesize?: number;
     states?: TriggerState;
     testIds?: string;
+}
+
+// @public
+export interface TriggerCompletedNotificationEventFilter extends TestsNotificationEventFilterParent {
+    kind: "TriggerCompleted";
+}
+
+// @public
+export interface TriggerCompletedNotificationEventFilterOutput extends TestsNotificationEventFilterOutputParent {
+    kind: "TriggerCompleted";
+}
+
+// @public
+export interface TriggerDisabledNotificationEventFilter extends TestsNotificationEventFilterParent {
+    kind: "TriggerDisabled";
+}
+
+// @public
+export interface TriggerDisabledNotificationEventFilterOutput extends TestsNotificationEventFilterOutputParent {
+    kind: "TriggerDisabled";
 }
 
 // @public

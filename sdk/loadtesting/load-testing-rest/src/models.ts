@@ -615,6 +615,71 @@ export interface WeeklyRecurrence extends RecurrenceParent {
   interval?: number;
 }
 
+/** Notification rule model. */
+export interface NotificationRuleParent {
+  /** The name of the notification rule. */
+  displayName: string;
+  /** The action groups to notify. */
+  actionGroupIds: string[];
+  scope: NotificationScopeType;
+}
+
+/** Tests Notification rule model. */
+export interface TestsNotificationRule extends NotificationRuleParent {
+  /** Scope of type Tests. */
+  scope: "Tests";
+  /** The test ids to include. If not provided, notification will be sent for all testIds. */
+  testIds?: string[];
+  /**
+   * The event to receive notifications for along with filtering conditions.
+   * Key is a user-assigned identifier for the event filter.
+   */
+  eventFilters: Record<string, TestsNotificationEventFilter>;
+}
+
+/** The notification event filter for Tests scope. */
+export interface TestsNotificationEventFilterParent {
+  kind: NotificationEventType;
+}
+
+/** The notification event filter when the event type is TestRunEnded and scope is Tests. */
+export interface TestRunEndedNotificationEventFilter
+  extends TestsNotificationEventFilterParent {
+  /** Event type for test run ended event. */
+  kind: "TestRunEnded";
+  /** Event filtering condition. */
+  condition?: TestRunEndedEventCondition;
+}
+
+/** TestRunEnded Event condition. */
+export interface TestRunEndedEventCondition {
+  /** The test run statuses to send notification for. */
+  testRunStatuses?: Status[];
+  /** The test run results to send notification for. */
+  testRunResults?: PFTestResult[];
+}
+
+/** The notification event filter when the event type is TestRunStarted and scope is Tests. */
+export interface TestRunStartedNotificationEventFilter
+  extends TestsNotificationEventFilterParent {
+  /** Event type for test run started event. */
+  kind: "TestRunStarted";
+}
+
+/** The notification event filter when the event type is TriggerCompleted. */
+export interface TriggerCompletedNotificationEventFilter
+  extends TestsNotificationEventFilterParent {
+  /** Event type for trigger ended event. */
+  kind: "TriggerCompleted";
+}
+
+/** The notification event filter when the event type is TriggerDisabled. */
+export interface TriggerDisabledNotificationEventFilter
+  extends TestsNotificationEventFilterParent {
+  /** Event type for trigger disabled event. */
+  kind: "TriggerDisabled";
+}
+
 /** Configurations of a target resource. This varies with the kind of resource. */
 export type TargetResourceConfigurations =
   | TargetResourceConfigurationsParent
@@ -630,6 +695,15 @@ export type Recurrence =
   | MonthlyRecurrenceByDates
   | RecurrenceWithCron
   | WeeklyRecurrence;
+/** Notification rule model. */
+export type NotificationRule = NotificationRuleParent | TestsNotificationRule;
+/** The notification event filter for Tests scope. */
+export type TestsNotificationEventFilter =
+  | TestsNotificationEventFilterParent
+  | TestRunEndedNotificationEventFilter
+  | TestRunStartedNotificationEventFilter
+  | TriggerCompletedNotificationEventFilter
+  | TriggerDisabledNotificationEventFilter;
 /** Alias for PFMetrics */
 export type PFMetrics = string;
 /** Alias for PFAgFunc */
@@ -674,6 +748,10 @@ export type TriggerState = string;
 export type Frequency = string;
 /** Alias for WeekDays */
 export type WeekDays = string;
+/** Alias for NotificationScopeType */
+export type NotificationScopeType = string;
+/** Alias for NotificationEventType */
+export type NotificationEventType = string;
 
 /** Added Poller Types **/
 

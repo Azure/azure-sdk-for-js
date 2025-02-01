@@ -41,6 +41,10 @@ import {
   TriggerAdministrationCreateOrUpdateTriggerParameters,
   TriggerAdministrationDeleteTriggerParameters,
   TriggerAdministrationListTriggerParameters,
+  NotificationRuleAdministrationGetNotificationRuleParameters,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters,
+  NotificationRuleAdministrationDeleteNotificationRuleParameters,
+  NotificationRuleAdministrationListNotificationRuleParameters,
 } from "./parameters.js";
 import {
   LoadTestAdministrationCreateOrUpdateTest200Response,
@@ -130,6 +134,15 @@ import {
   TriggerAdministrationDeleteTriggerDefaultResponse,
   TriggerAdministrationListTrigger200Response,
   TriggerAdministrationListTriggerDefaultResponse,
+  NotificationRuleAdministrationGetNotificationRule200Response,
+  NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationDeleteNotificationRule204Response,
+  NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationListNotificationRule200Response,
+  NotificationRuleAdministrationListNotificationRuleDefaultResponse,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -490,6 +503,41 @@ export interface TriggerAdministrationListTrigger {
   >;
 }
 
+export interface NotificationRuleAdministrationGetNotificationRule {
+  /** Resource read operation template. */
+  get(
+    options?: NotificationRuleAdministrationGetNotificationRuleParameters,
+  ): StreamableMethod<
+    | NotificationRuleAdministrationGetNotificationRule200Response
+    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+  >;
+  /** Create or update operation template. */
+  patch(
+    options: NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters,
+  ): StreamableMethod<
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+  >;
+  /** Resource delete operation template. */
+  delete(
+    options?: NotificationRuleAdministrationDeleteNotificationRuleParameters,
+  ): StreamableMethod<
+    | NotificationRuleAdministrationDeleteNotificationRule204Response
+    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+  >;
+}
+
+export interface NotificationRuleAdministrationListNotificationRule {
+  /** Resource list operation template. */
+  get(
+    options?: NotificationRuleAdministrationListNotificationRuleParameters,
+  ): StreamableMethod<
+    | NotificationRuleAdministrationListNotificationRule200Response
+    | NotificationRuleAdministrationListNotificationRuleDefaultResponse
+  >;
+}
+
 export interface Routes {
   /** Resource for '/tests/\{testId\}' has methods for the following verbs: patch, delete, get */
   (
@@ -588,6 +636,15 @@ export interface Routes {
   ): TriggerAdministrationGetTrigger;
   /** Resource for '/triggers' has methods for the following verbs: get */
   (path: "/triggers"): TriggerAdministrationListTrigger;
+  /** Resource for '/notification-rules/\{notificationRuleId\}' has methods for the following verbs: get, patch, delete */
+  (
+    path: "/notification-rules/{notificationRuleId}",
+    notificationRuleId: string,
+  ): NotificationRuleAdministrationGetNotificationRule;
+  /** Resource for '/notification-rules' has methods for the following verbs: get */
+  (
+    path: "/notification-rules",
+  ): NotificationRuleAdministrationListNotificationRule;
 }
 
 export type AzureLoadTestingClient = Client & {

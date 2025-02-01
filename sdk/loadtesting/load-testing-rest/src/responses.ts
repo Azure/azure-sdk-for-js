@@ -25,6 +25,8 @@ import {
   PagedTestProfileRunOutput,
   TriggerOutput,
   PagedTriggerOutput,
+  NotificationRuleOutput,
+  PagedNotificationRuleOutput,
 } from "./outputModels.js";
 
 /** The request has succeeded. */
@@ -825,4 +827,90 @@ export interface TriggerAdministrationListTriggerDefaultResponse
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & TriggerAdministrationListTriggerDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface NotificationRuleAdministrationGetNotificationRule200Response
+  extends HttpResponse {
+  status: "200";
+  body: NotificationRuleOutput;
+}
+
+export interface NotificationRuleAdministrationGetNotificationRuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    NotificationRuleAdministrationGetNotificationRuleDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
+  extends HttpResponse {
+  status: "200";
+  body: NotificationRuleOutput;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
+  extends HttpResponse {
+  status: "201";
+  body: NotificationRuleOutput;
+}
+
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultHeaders;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface NotificationRuleAdministrationDeleteNotificationRule204Response
+  extends HttpResponse {
+  status: "204";
+}
+
+export interface NotificationRuleAdministrationDeleteNotificationRuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    NotificationRuleAdministrationDeleteNotificationRuleDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface NotificationRuleAdministrationListNotificationRule200Response
+  extends HttpResponse {
+  status: "200";
+  body: PagedNotificationRuleOutput;
+}
+
+export interface NotificationRuleAdministrationListNotificationRuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface NotificationRuleAdministrationListNotificationRuleDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    NotificationRuleAdministrationListNotificationRuleDefaultHeaders;
 }

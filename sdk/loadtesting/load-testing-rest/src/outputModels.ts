@@ -1030,6 +1030,90 @@ export interface PagedTriggerOutput {
   nextLink?: string;
 }
 
+/** Notification rule model. */
+export interface NotificationRuleOutputParent {
+  /** The unique identifier of the notification rule. */
+  readonly notificationRuleId: string;
+  /** The name of the notification rule. */
+  displayName: string;
+  /** The action groups to notify. */
+  actionGroupIds: string[];
+  /** The creation datetime(RFC 3339 literal format). */
+  readonly createdDateTime?: string;
+  /** The user that created. */
+  readonly createdBy?: string;
+  /** The last Modified datetime(RFC 3339 literal format). */
+  readonly lastModifiedDateTime?: string;
+  /** The user that last modified. */
+  readonly lastModifiedBy?: string;
+  scope: NotificationScopeTypeOutput;
+}
+
+/** Tests Notification rule model. */
+export interface TestsNotificationRuleOutput
+  extends NotificationRuleOutputParent {
+  /** Scope of type Tests. */
+  scope: "Tests";
+  /** The test ids to include. If not provided, notification will be sent for all testIds. */
+  testIds?: string[];
+  /**
+   * The event to receive notifications for along with filtering conditions.
+   * Key is a user-assigned identifier for the event filter.
+   */
+  eventFilters: Record<string, TestsNotificationEventFilterOutput>;
+}
+
+/** The notification event filter for Tests scope. */
+export interface TestsNotificationEventFilterOutputParent {
+  kind: NotificationEventTypeOutput;
+}
+
+/** The notification event filter when the event type is TestRunEnded and scope is Tests. */
+export interface TestRunEndedNotificationEventFilterOutput
+  extends TestsNotificationEventFilterOutputParent {
+  /** Event type for test run ended event. */
+  kind: "TestRunEnded";
+  /** Event filtering condition. */
+  condition?: TestRunEndedEventConditionOutput;
+}
+
+/** TestRunEnded Event condition. */
+export interface TestRunEndedEventConditionOutput {
+  /** The test run statuses to send notification for. */
+  testRunStatuses?: StatusOutput[];
+  /** The test run results to send notification for. */
+  testRunResults?: PFTestResultOutput[];
+}
+
+/** The notification event filter when the event type is TestRunStarted and scope is Tests. */
+export interface TestRunStartedNotificationEventFilterOutput
+  extends TestsNotificationEventFilterOutputParent {
+  /** Event type for test run started event. */
+  kind: "TestRunStarted";
+}
+
+/** The notification event filter when the event type is TriggerCompleted. */
+export interface TriggerCompletedNotificationEventFilterOutput
+  extends TestsNotificationEventFilterOutputParent {
+  /** Event type for trigger ended event. */
+  kind: "TriggerCompleted";
+}
+
+/** The notification event filter when the event type is TriggerDisabled. */
+export interface TriggerDisabledNotificationEventFilterOutput
+  extends TestsNotificationEventFilterOutputParent {
+  /** Event type for trigger disabled event. */
+  kind: "TriggerDisabled";
+}
+
+/** Paged collection of NotificationRule items */
+export interface PagedNotificationRuleOutput {
+  /** The NotificationRule items on this page */
+  value: Array<NotificationRuleOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** Configurations of a target resource. This varies with the kind of resource. */
 export type TargetResourceConfigurationsOutput =
   | TargetResourceConfigurationsOutputParent
@@ -1045,6 +1129,17 @@ export type RecurrenceOutput =
   | MonthlyRecurrenceByDatesOutput
   | RecurrenceWithCronOutput
   | WeeklyRecurrenceOutput;
+/** Notification rule model. */
+export type NotificationRuleOutput =
+  | NotificationRuleOutputParent
+  | TestsNotificationRuleOutput;
+/** The notification event filter for Tests scope. */
+export type TestsNotificationEventFilterOutput =
+  | TestsNotificationEventFilterOutputParent
+  | TestRunEndedNotificationEventFilterOutput
+  | TestRunStartedNotificationEventFilterOutput
+  | TriggerCompletedNotificationEventFilterOutput
+  | TriggerDisabledNotificationEventFilterOutput;
 /** Alias for PFMetricsOutput */
 export type PFMetricsOutput = string;
 /** Alias for PFAgFuncOutput */
@@ -1093,3 +1188,7 @@ export type TriggerStateOutput = string;
 export type FrequencyOutput = string;
 /** Alias for WeekDaysOutput */
 export type WeekDaysOutput = string;
+/** Alias for NotificationScopeTypeOutput */
+export type NotificationScopeTypeOutput = string;
+/** Alias for NotificationEventTypeOutput */
+export type NotificationEventTypeOutput = string;

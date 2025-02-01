@@ -89,6 +89,15 @@ import {
   TriggerAdministrationDeleteTriggerDefaultResponse,
   TriggerAdministrationListTrigger200Response,
   TriggerAdministrationListTriggerDefaultResponse,
+  NotificationRuleAdministrationGetNotificationRule200Response,
+  NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response,
+  NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationDeleteNotificationRule204Response,
+  NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
+  NotificationRuleAdministrationListNotificationRule200Response,
+  NotificationRuleAdministrationListNotificationRuleDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -131,6 +140,10 @@ const responseMap: Record<string, string[]> = {
   "PATCH /triggers/{triggerId}": ["200", "201"],
   "DELETE /triggers/{triggerId}": ["204"],
   "GET /triggers": ["200"],
+  "GET /notification-rules/{notificationRuleId}": ["200"],
+  "PATCH /notification-rules/{notificationRuleId}": ["200", "201"],
+  "DELETE /notification-rules/{notificationRuleId}": ["204"],
+  "GET /notification-rules": ["200"],
 };
 
 export function isUnexpected(
@@ -337,6 +350,27 @@ export function isUnexpected(
 ): response is TriggerAdministrationListTriggerDefaultResponse;
 export function isUnexpected(
   response:
+    | NotificationRuleAdministrationGetNotificationRule200Response
+    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse,
+): response is NotificationRuleAdministrationGetNotificationRuleDefaultResponse;
+export function isUnexpected(
+  response:
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse,
+): response is NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse;
+export function isUnexpected(
+  response:
+    | NotificationRuleAdministrationDeleteNotificationRule204Response
+    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse,
+): response is NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse;
+export function isUnexpected(
+  response:
+    | NotificationRuleAdministrationListNotificationRule200Response
+    | NotificationRuleAdministrationListNotificationRuleDefaultResponse,
+): response is NotificationRuleAdministrationListNotificationRuleDefaultResponse;
+export function isUnexpected(
+  response:
     | LoadTestAdministrationCreateOrUpdateTest200Response
     | LoadTestAdministrationCreateOrUpdateTest201Response
     | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
@@ -423,7 +457,16 @@ export function isUnexpected(
     | TriggerAdministrationDeleteTrigger204Response
     | TriggerAdministrationDeleteTriggerDefaultResponse
     | TriggerAdministrationListTrigger200Response
-    | TriggerAdministrationListTriggerDefaultResponse,
+    | TriggerAdministrationListTriggerDefaultResponse
+    | NotificationRuleAdministrationGetNotificationRule200Response
+    | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule200Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
+    | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationDeleteNotificationRule204Response
+    | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+    | NotificationRuleAdministrationListNotificationRule200Response
+    | NotificationRuleAdministrationListNotificationRuleDefaultResponse,
 ): response is
   | LoadTestAdministrationCreateOrUpdateTestDefaultResponse
   | LoadTestAdministrationDeleteTestDefaultResponse
@@ -463,7 +506,11 @@ export function isUnexpected(
   | TriggerAdministrationGetTriggerDefaultResponse
   | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
   | TriggerAdministrationDeleteTriggerDefaultResponse
-  | TriggerAdministrationListTriggerDefaultResponse {
+  | TriggerAdministrationListTriggerDefaultResponse
+  | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationDeleteNotificationRuleDefaultResponse
+  | NotificationRuleAdministrationListNotificationRuleDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
