@@ -23,7 +23,7 @@ export function createDeviceRegistryManagement(
 ): DeviceRegistryManagementContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-deviceregistry/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-arm-deviceregistry/1.0.0-beta.3`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
