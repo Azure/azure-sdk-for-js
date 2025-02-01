@@ -2644,7 +2644,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
-    resolution: {integrity: sha512-1U3jcGllnkhOoCoriUgDUaZFCaIV3B9eX5XaVmQRkWGKDezQtydp4Zmqe4Nef4VsReUu1GTjs92ZyQavbQrmSw==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-muVvozfs5WYW9Sq5We2j3qNXiqje3h30LVyXSskzbSELZOht2klaQnjklwRkrFrITKyKdm8BWD++v/NwmfEvQA==, tarball: file:projects/ai-document-translator.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
@@ -10280,11 +10280,11 @@ snapshots:
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      playwright: 1.50.0
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)

@@ -15,9 +15,7 @@
 
 import DocumentTranslator, { StartTranslationDetails } from "@azure-rest/ai-document-translator";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 /**
  * These are states of the Long Running Operation considered as terminal
  * that means that the operation has finished
@@ -48,7 +46,7 @@ const batchSubmissionRequest: StartTranslationDetails = {
   ],
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Translate documents in a container sample ==");
 
   // Create a new client
