@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-computefleet",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Azure Fleet Service",
   "engines": {
     "node": ">=18.0.0"
