@@ -3048,7 +3048,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
-    resolution: {integrity: sha512-hlq/6uFA5Ta/xzn563NcNOkhpjdqHnrgsEZOzN7Oe6lkYUUwPGiBHb0wCPMECp6Zh3dLdPWywF94aJVgnAkCsw==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-vsFjiZPiUzVtJspD9FO1oB+6jDwdvI4YHcjiYeXITtwWEgmDeH8m5taa1xHhHGfT/KeS/NJK7HUaGclWqmYerA==, tarball: file:projects/arm-dynatrace.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-edgezones@file:projects/arm-edgezones.tgz':
@@ -13794,10 +13794,10 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
-      playwright: 1.50.0
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
