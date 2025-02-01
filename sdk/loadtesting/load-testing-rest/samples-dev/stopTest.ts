@@ -47,7 +47,6 @@ async function main(): Promise<void> {
     body: {
       testId: testId,
       displayName: displayName,
-      virtualUsers: 10,
     },
   });
 

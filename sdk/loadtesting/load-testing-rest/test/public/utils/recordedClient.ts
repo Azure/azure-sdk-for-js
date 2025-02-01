@@ -5,7 +5,6 @@ import type { AzureLoadTestingClient } from "../../../src/index.js";
 import AzureLoadTesting from "../../../src/index.js";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import "./env.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 

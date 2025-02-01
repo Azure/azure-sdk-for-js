@@ -2,7 +2,7 @@
   "name": "@azure-rest/load-testing",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "This package contains Microsoft Azure LoadTestingClient client library.",
   "keywords": [
     "node",
@@ -71,7 +71,6 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-lro": "^2.7.2",
-    "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.18.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.3",

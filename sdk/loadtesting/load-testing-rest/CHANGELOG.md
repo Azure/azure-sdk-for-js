@@ -1,6 +1,9 @@
 # Release History
 
-## 1.0.1 (2025-01-20)
+## 2.0.0 (2025-01-20)
+
+### Features Added
+- refresh @azure-rest/load-testing sdk
 
 ### Other Changes
 
