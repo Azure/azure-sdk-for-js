@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import * as buffer from "node:buffer";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -22,6 +20,7 @@ import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { streamToBuffer2 } from "../../src/utils/utils.node.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Highlevel", () => {
   let containerName: string;

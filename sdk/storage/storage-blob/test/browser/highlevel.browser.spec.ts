@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -16,6 +13,7 @@ import {
 } from "../utils/index.browser.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Highlevel", () => {
   let containerName: string;
