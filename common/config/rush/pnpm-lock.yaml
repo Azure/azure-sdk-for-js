@@ -3840,7 +3840,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
-    resolution: {integrity: sha512-undVy7cGgk/vzx5acgN0ryzAxRbyCQcj0PtoJ7mY8NWjuGkQcICmkSpGh4sSz8WaG8nfNuIr1hUHxhG6vsKX3g==, tarball: file:projects/defender-easm.tgz}
+    resolution: {integrity: sha512-12oujwcJZYF2mealed/mFD41GgSez6UE1ICuPTnzoDyW2yaasQKrp5z8RowLVQFmIZz6Y6xcPKPhRUSQ3Optug==, tarball: file:projects/defender-easm.tgz}
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
@@ -18757,11 +18757,11 @@ snapshots:
     dependencies:
       '@microsoft/api-extractor': 7.49.1(@types/node@18.19.74)
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.19.0
-      playwright: 1.50.0
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
