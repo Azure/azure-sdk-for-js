@@ -57,6 +57,19 @@ export type BulkPatchOperation = OperationBase & {
 };
 
 // @public
+export class BulkStreamer {
+    addOperations(operationInput: OperationInput | OperationInput[]): void;
+    endStream(): Promise<BulkStreamerResponse>;
+}
+
+// Warning: (ae-forgotten-export) The symbol "BulkOperationResult" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type BulkStreamerResponse = BulkOperationResult[] & {
+    diagnostics: CosmosDiagnostics;
+};
+
+// @public
 export class ChangeFeedIterator<T> {
     fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
     getAsyncIterator(): AsyncIterable<ChangeFeedResponse<Array<T & Resource>>>;
@@ -564,6 +577,9 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    MaxBulkOperationsCount: number;
+    BulkTimeoutInMs: number;
+    BulkMaxDegreeOfConcurrency: number;
     Quota: {
         CollectionSize: string;
     };
@@ -997,6 +1013,7 @@ export interface ErrorBody {
 
 // @public (undocumented)
 export class ErrorResponse extends Error {
+    constructor(message?: string, code?: number, substatus?: number);
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -1286,6 +1303,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    getBulkStreamer(options?: RequestOptions): BulkStreamer;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -2271,6 +2289,8 @@ export interface StatusCodesType {
     // (undocumented)
     ENOTFOUND: "ENOTFOUND";
     // (undocumented)
+    FailedDependency: 424;
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;
@@ -2278,6 +2298,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultiStatus: 207;
     // (undocumented)
     NoContent: 204;
     // (undocumented)

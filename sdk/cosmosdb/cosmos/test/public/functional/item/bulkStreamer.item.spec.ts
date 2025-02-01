@@ -3,10 +3,9 @@
 
 import assert from "assert";
 import type {
-  BulkOptions,
   Container,
   ContainerRequest,
-  OperationResponse,
+  CreateOperationInput,
   PluginConfig,
 } from "../../../../src";
 import {
@@ -17,6 +16,7 @@ import {
   PluginOn,
   StatusCodes,
   ErrorResponse,
+  ResourceType,
 } from "../../../../src";
 import {
   addEntropy,
@@ -32,73 +32,56 @@ import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
-import { SubStatusCodes } from "../../../../src/common";
+import type { Response } from "../../../../src/request/Response";
 
-describe("test bulk operations", async function () {
-  describe("Check size based splitting of batches", function () {
-    let container: Container;
-    before(async function () {
-      await removeAllDatabases();
-      container = await getTestContainer("bulk container", undefined, {
-        partitionKey: {
-          paths: ["/key"],
-          version: undefined,
-        },
-        throughput: 5000,
-      });
-    });
-    after(async () => {
-      if (container) {
-        await container.database.delete();
-      }
-    });
-    it("Check case when cumulative size of all operations is less than threshold", async function () {
-      const operations: OperationInput[] = [...Array(10).keys()].map(
-        () =>
-          ({
-            ...generateOperationOfSize(100, { partitionKey: "key_value" }, { key: "key_value" }),
-          }) as any,
-      );
-      const response = await container.items.bulk(operations);
-      // Create
-      response.forEach((res, index) =>
-        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
-      );
-    });
-    it("Check case when cumulative size of all operations is greater than threshold - payload size is 5x threshold", async function () {
-      const operations: OperationInput[] = [...Array(10).keys()].map(
-        () =>
-          ({
-            ...generateOperationOfSize(
-              Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
-            ),
-            partitionKey: {},
-          }) as any,
-      );
-      const response = await container.items.bulk(operations);
-      // Create
-      response.forEach((res, index) =>
-        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
-      );
-    });
-    it("Check case when cumulative size of all operations is greater than threshold - payload size is 25x threshold", async function () {
-      const operations: OperationInput[] = [...Array(50).keys()].map(
-        () =>
-          ({
-            ...generateOperationOfSize(
-              Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
-              {},
-              { key: "key_value" },
-            ),
-          }) as any,
-      );
-      const response = await container.items.bulk(operations);
-      // Create
-      response.forEach((res, index) =>
-        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
-      );
-    });
+async function getSplitContainer(): Promise<Container> {
+  let numpkRangeRequests = 0;
+  const plugins: PluginConfig[] = [
+    {
+      on: PluginOn.request,
+      plugin: async (context, _diagNode, next) => {
+        if (context.resourceType === ResourceType.pkranges) {
+          let response: Response<any>;
+          if (numpkRangeRequests === 0) {
+            response = {
+              headers: {},
+              result: {
+                PartitionKeyRanges: [
+                  {
+                    _rid: "RRsbAKHytdECAAAAAAAAUA==",
+                    id: "1",
+                    _etag: '"00000000-0000-0000-683c-819a242201db"',
+                    minInclusive: "",
+                    maxExclusive: "FF",
+                  },
+                ],
+              },
+            };
+            response.code = 200;
+            numpkRangeRequests++;
+            return response;
+          }
+          numpkRangeRequests++;
+        }
+        const res = await next(context);
+        return res;
+      },
+    },
+  ];
+
+  const client = new CosmosClient({
+    key: masterKey,
+    endpoint,
+    diagnosticLevel: CosmosDbDiagnosticLevel.debug,
+    plugins,
   });
+  const splitContainer = await getTestContainer("split container", client, {
+    partitionKey: { paths: ["/key"] },
+  });
+  return splitContainer;
+}
+
+describe("new streamer bulk operations", async function () {
   describe("v1 container", async function () {
     describe("multi partition container", async function () {
       let container: Container;
@@ -138,7 +121,7 @@ describe("test bulk operations", async function () {
           await container.database.delete();
         }
       });
-      it("multi partition container handles create, upsert, replace, delete", async function () {
+      it("multi partition container handles create, upsert, replace, delete with bulk", async function () {
         const operations = [
           {
             operationType: BulkOperationType.Create,
@@ -166,7 +149,10 @@ describe("test bulk operations", async function () {
             resourceBody: { id: replaceItemId, name: "nice", key: 5 },
           },
         ];
-        const response = await container.items.bulk(operations);
+        const bulkStreamer = container.items.getBulkStreamer();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
+        assert.equal(response.length, 5);
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
         assert.equal(response[0].statusCode, 201);
@@ -182,51 +168,48 @@ describe("test bulk operations", async function () {
         assert.equal(response[4].resourceBody.name, "nice");
         assert.equal(response[4].statusCode, 200);
       });
-      it("Check case when cumulative size of all operations is less than threshold", async function () {
-        const operations: OperationInput[] = [...Array(10).keys()].map(
-          () =>
-            ({
-              ...generateOperationOfSize(100, { partitionKey: "key_value" }, { key: "key_value" }),
-            }) as any,
-        );
-        const response = await container.items.bulk(operations);
-        // Create
-        response.forEach((res, index) =>
-          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
-        );
-      });
-      it("Check case when cumulative size of all operations is greater than threshold", async function () {
-        const operations: OperationInput[] = [...Array(10).keys()].map(
-          () =>
-            ({
-              ...generateOperationOfSize(
-                Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
-              ),
-              partitionKey: {},
-            }) as any,
-        );
-        const response = await container.items.bulk(operations);
-        // Create
-        response.forEach((res, index) =>
-          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
-        );
-      });
-      it("Check case when cumulative size of all operations is greater than threshold", async function () {
-        const operations: OperationInput[] = [...Array(50).keys()].map(
-          () =>
-            ({
-              ...generateOperationOfSize(
-                Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
-                {},
-                { key: "key_value" },
-              ),
-            }) as any,
-        );
-        const response = await container.items.bulk(operations);
-        // Create
-        response.forEach((res, index) =>
-          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
-        );
+      it("handles each batch size", async function () {
+        container = await getTestContainer("bulk container", undefined, {
+          partitionKey: { paths: ["/key"], version: 2 },
+          throughput: 25100,
+        });
+        const cases = [
+          // cumulative size of all operations is less than threshold
+          { count: 10, size: 100 },
+          // cumulative size is 5x greater than threshold
+          { count: 10, size: Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2) },
+          // cumulative size is 50x greater than  threshold
+          { count: 100, size: Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2) },
+        ];
+
+        for (const testCase of cases) {
+          const operations: OperationInput[] = Array.from(
+            { length: testCase.count },
+            () =>
+              ({
+                ...generateOperationOfSize(
+                  testCase.size,
+                  { partitionKey: "key_value" },
+                  { key: "key_value" },
+                ),
+              }) as any,
+          );
+          let bulkStreamer = container.items.getBulkStreamer();
+          bulkStreamer.addOperations(operations);
+          let response = await bulkStreamer.endStream();
+          assert.equal(response.length, testCase.count);
+          response.forEach((res) => assert.strictEqual(res.statusCode, 201));
+
+          // surfaces 413 error if individual operation is greater than threshold
+          const operation: OperationInput = generateOperationOfSize(
+            Constants.DefaultMaxBulkRequestBodySizeInBytes * 10,
+          ) as any;
+          bulkStreamer = container.items.getBulkStreamer();
+          bulkStreamer.addOperations(operation);
+          response = await bulkStreamer.endStream();
+          assert.equal(response.length, 1);
+          assert.strictEqual(response[0].statusCode, StatusCodes.RequestEntityTooLarge);
+        }
       });
     });
     describe("single partition container", async function () {
@@ -251,82 +234,14 @@ describe("test bulk operations", async function () {
           class: "2010",
         });
       });
+
       after(async () => {
         if (container) {
           await container.database.delete();
         }
       });
-      it("deletes operation with default partition", async function () {
-        const operation: OperationInput = {
-          operationType: BulkOperationType.Delete,
-          id: deleteItemId,
-        };
 
-        const deleteResponse = await container.items.bulk([operation]);
-        assert.equal(deleteResponse[0].statusCode, 204);
-      });
-      it("read operation with default partition", async function () {
-        const operation: OperationInput = {
-          operationType: BulkOperationType.Read,
-          id: readItemId,
-        };
-
-        const readResponse: OperationResponse[] = await container.items.bulk([operation]);
-        assert.strictEqual(readResponse[0].statusCode, 200);
-        assert.strictEqual(
-          readResponse[0].resourceBody.id,
-          readItemId,
-          "Read Items id should match",
-        );
-      });
-      it("create operation with default partition", async function () {
-        const id = "testId";
-        const createOp: OperationInput = {
-          operationType: BulkOperationType.Create,
-          resourceBody: {
-            id: id,
-            key: "B",
-            class: "2010",
-          },
-        };
-        const readOp: OperationInput = {
-          operationType: BulkOperationType.Read,
-          id: id,
-        };
-
-        const readResponse: OperationResponse[] = await container.items.bulk([createOp, readOp]);
-        assert.strictEqual(readResponse[0].statusCode, 201);
-        assert.strictEqual(readResponse[0].resourceBody.id, id, "Created item's id should match");
-        assert.strictEqual(readResponse[1].statusCode, 200);
-        assert.strictEqual(readResponse[1].resourceBody.id, id, "Read item's id should match");
-      });
-      it("read operation with partition split", async function () {
-        // using plugins generate split response from backend
-        const splitContainer = await getSplitContainer();
-        await splitContainer.items.create({
-          id: readItemId,
-          key: "B",
-          class: "2010",
-        });
-        const operation: OperationInput = {
-          operationType: BulkOperationType.Read,
-          id: readItemId,
-          partitionKey: "B",
-        };
-
-        const readResponse: OperationResponse[] = await splitContainer.items.bulk([operation]);
-
-        assert.strictEqual(readResponse[0].statusCode, 200);
-        assert.strictEqual(
-          readResponse[0].resourceBody.id,
-          readItemId,
-          "Read Items id should match",
-        );
-        // cleanup
-        await splitContainer.database.delete();
-      });
-
-      it("container handles Create, Read, Upsert, Delete operation with partition split", async function () {
+      it("container handles Create, Read, Upsert, Delete opertion with partition split", async function () {
         const operations = [
           {
             operationType: BulkOperationType.Create,
@@ -366,7 +281,10 @@ describe("test bulk operations", async function () {
           class: "2010",
         });
 
-        const response = await splitContainer.items.bulk(operations);
+        const bulkStreamer = splitContainer.items.getBulkStreamer();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
+        assert.equal(response.length, 4);
 
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
@@ -385,37 +303,6 @@ describe("test bulk operations", async function () {
           await splitContainer.database.delete();
         }
       });
-
-      async function getSplitContainer(): Promise<Container> {
-        let responseIndex = 0;
-        const plugins: PluginConfig[] = [
-          {
-            on: PluginOn.request,
-            plugin: async (context, _diagNode, next) => {
-              if (context.operationType === "batch" && responseIndex < 1) {
-                const error = new ErrorResponse();
-                error.code = StatusCodes.Gone;
-                error.substatus = SubStatusCodes.PartitionKeyRangeGone;
-                responseIndex++;
-                throw error;
-              }
-              const res = await next(context);
-              return res;
-            },
-          },
-        ];
-
-        const client = new CosmosClient({
-          key: masterKey,
-          endpoint,
-          diagnosticLevel: CosmosDbDiagnosticLevel.debug,
-          plugins,
-        });
-        const splitContainer = await getTestContainer("split container", client, {
-          partitionKey: { paths: ["/key"] },
-        });
-        return splitContainer;
-      }
     });
   });
   describe("v2 container", function () {
@@ -435,7 +322,6 @@ describe("test bulk operations", async function () {
         dbName: string;
         containerRequest: ContainerRequest;
         documentToCreate: BulkTestItem[];
-        bulkOperationOptions: BulkOptions;
         operations: {
           description?: string;
           operation: OperationInput;
@@ -451,9 +337,8 @@ describe("test bulk operations", async function () {
       };
       const defaultBulkTestDataSet: BulkTestDataSet = {
         dbName: "bulkTestDB",
-        bulkOperationOptions: {},
         containerRequest: {
-          id: "patchContainer",
+          id: "bulkContainer",
           partitionKey: {
             paths: ["/key"],
             version: 2,
@@ -476,10 +361,11 @@ describe("test bulk operations", async function () {
           for (const doc of dataset.documentToCreate) {
             await container.items.create(doc);
           }
-          const response = await container.items.bulk(
-            dataset.operations.map((value) => value.operation),
-            dataset.bulkOperationOptions,
+          const bulkStreamer = container.items.getBulkStreamer({});
+          dataset.operations.forEach((operation) =>
+            bulkStreamer.addOperations(operation.operation),
           );
+          const response = await bulkStreamer.endStream();
           dataset.operations.forEach(({ description, expectedOutput }, index) => {
             if (expectedOutput) {
               assert.strictEqual(
@@ -515,7 +401,7 @@ describe("test bulk operations", async function () {
         if (id !== undefined) op = { ...op, id } as any;
         return op;
       }
-      function creatreBulkOperationExpectedOutput(
+      function createBulkOperationExpectedOutput(
         statusCode: number,
         propertysToMatch: { name: string; value: any }[],
       ): {
@@ -559,9 +445,6 @@ describe("test bulk operations", async function () {
               },
               throughput: 25100,
             },
-            bulkOperationOptions: {
-              continueOnError: true,
-            },
             documentToCreate: [
               { id: readItemId, key: true, key2: true, class: "2010" },
               { id: createItemWithBooleanPartitionKeyId, key: true, key2: false, class: "2010" },
@@ -586,7 +469,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   createItemWithBooleanPartitionKeyId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
                 ]),
               },
@@ -598,7 +481,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   createItemWithUnknownPartitionKeyId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
                 ]),
               },
@@ -610,7 +493,7 @@ describe("test bulk operations", async function () {
                   { partitionKey: undefined },
                   { id: addEntropy("doc10"), name: "sample", key: "A", key2: "B" },
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(400, []),
+                expectedOutput: createBulkOperationExpectedOutput(400, []),
               },
               {
                 description: "Read document with partitionKey containing Number values.",
@@ -620,7 +503,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   createItemWithNumberPartitionKeyId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
                 ]),
               },
@@ -631,7 +514,7 @@ describe("test bulk operations", async function () {
                   { partitionKey: ["A", "B"] },
                   { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B" },
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(201, [
+                expectedOutput: createBulkOperationExpectedOutput(201, [
                   { name: "name", value: "sample" },
                 ]),
               },
@@ -642,7 +525,7 @@ describe("test bulk operations", async function () {
                   { partitionKey: ["A", "V"] },
                   { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B" },
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(400, []),
+                expectedOutput: createBulkOperationExpectedOutput(400, []),
               },
               {
                 description: "Upsert document with partitionKey containing 2 strings.",
@@ -651,7 +534,7 @@ describe("test bulk operations", async function () {
                   { partitionKey: ["U", "V"] },
                   { name: "other", key: "U", key2: "V" },
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(201, [
+                expectedOutput: createBulkOperationExpectedOutput(201, [
                   { name: "name", value: "other" },
                 ]),
               },
@@ -663,7 +546,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   readItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
                 ]),
               },
@@ -676,7 +559,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   deleteItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(204, []),
+                expectedOutput: createBulkOperationExpectedOutput(204, []),
               },
               {
                 description: "Replace document without specifying partition key.",
@@ -686,7 +569,7 @@ describe("test bulk operations", async function () {
                   { id: replaceItemId, name: "nice", key: 5, key2: 5 },
                   replaceItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "name", value: "nice" },
                 ]),
               },
@@ -702,7 +585,7 @@ describe("test bulk operations", async function () {
                   },
                   patchItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "great", value: "goodValue" },
                 ]),
               },
@@ -719,7 +602,7 @@ describe("test bulk operations", async function () {
                   },
                   patchItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, []),
+                expectedOutput: createBulkOperationExpectedOutput(200, []),
               },
             ],
           };
@@ -781,9 +664,6 @@ describe("test bulk operations", async function () {
               { id: replaceItemId, key: 5, key2: 5, key3: "T", class: "2012" },
               { id: patchItemId, key: 5, key2: 5, key3: true, class: "2019" },
             ],
-            bulkOperationOptions: {
-              continueOnError: true,
-            },
             operations: [
               {
                 description: "Read document with partitionKey containing booleans values.",
@@ -793,7 +673,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   createItemWithBooleanPartitionKeyId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
                 ]),
               },
@@ -805,7 +685,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   createItemWithUnknownPartitionKeyId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
                 ]),
               },
@@ -817,7 +697,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   createItemWithNumberPartitionKeyId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
                 ]),
               },
@@ -828,7 +708,7 @@ describe("test bulk operations", async function () {
                   { partitionKey: ["A", "B", "C"] },
                   { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B", key3: "C" },
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(201, [
+                expectedOutput: createBulkOperationExpectedOutput(201, [
                   { name: "name", value: "sample" },
                 ]),
               },
@@ -839,7 +719,7 @@ describe("test bulk operations", async function () {
                   { partitionKey: ["A", "V", true] },
                   { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B", key3: true },
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(400, []),
+                expectedOutput: createBulkOperationExpectedOutput(400, []),
               },
               {
                 description: "Upsert document with partitionKey containing 2 strings.",
@@ -848,7 +728,7 @@ describe("test bulk operations", async function () {
                   { partitionKey: ["U", "V", 5] },
                   { name: "other", key: "U", key2: "V", key3: 5 },
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(201, [
+                expectedOutput: createBulkOperationExpectedOutput(201, [
                   { name: "name", value: "other" },
                 ]),
               },
@@ -860,7 +740,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   readItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
                 ]),
               },
@@ -873,7 +753,7 @@ describe("test bulk operations", async function () {
                   undefined,
                   deleteItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(204, []),
+                expectedOutput: createBulkOperationExpectedOutput(204, []),
               },
               {
                 description: "Replace document without specifying partition key.",
@@ -883,7 +763,7 @@ describe("test bulk operations", async function () {
                   { id: replaceItemId, name: "nice", key: 5, key2: 5, key3: "T" },
                   replaceItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "name", value: "nice" },
                 ]),
               },
@@ -899,7 +779,7 @@ describe("test bulk operations", async function () {
                   },
                   patchItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, [
+                expectedOutput: createBulkOperationExpectedOutput(200, [
                   { name: "great", value: "goodValue" },
                 ]),
               },
@@ -916,70 +796,12 @@ describe("test bulk operations", async function () {
                   },
                   patchItemId,
                 ),
-                expectedOutput: creatreBulkOperationExpectedOutput(200, []),
+                expectedOutput: createBulkOperationExpectedOutput(200, []),
               },
             ],
           };
           await runBulkTestDataSet(dataset);
         });
-      });
-      it("respects order", async function () {
-        readItemId = addEntropy("item1");
-        const dataset: BulkTestDataSet = {
-          ...defaultBulkTestDataSet,
-          dbName: addEntropy("respects order"),
-          documentToCreate: [{ id: readItemId, key: "A", class: "2010" }],
-          operations: [
-            {
-              description: "Delete for an existing item should suceed.",
-              operation: createBulkOperation(
-                BulkOperationType.Delete,
-                { partitionKey: "A" },
-                undefined,
-                readItemId,
-              ),
-              expectedOutput: creatreBulkOperationExpectedOutput(204, []),
-            },
-            {
-              description: "Delete occurs first, so the read returns a 404.",
-              operation: createBulkOperation(
-                BulkOperationType.Read,
-                { partitionKey: "A" },
-                undefined,
-                readItemId,
-              ),
-              expectedOutput: creatreBulkOperationExpectedOutput(404, []),
-            },
-          ],
-        };
-        await runBulkTestDataSet(dataset);
-      });
-      it("424 errors for operations after an error when continueOnError is set to false", async function () {
-        const dataset: BulkTestDataSet = {
-          ...defaultBulkTestDataSet,
-          dbName: addEntropy("424 errors"),
-          documentToCreate: [],
-          bulkOperationOptions: {
-            continueOnError: false,
-          },
-          operations: [
-            {
-              description: "Operation should fail with invalid ttl.",
-              operation: createBulkOperation(BulkOperationType.Create, {}, { ttl: -10, key: "A" }),
-              expectedOutput: creatreBulkOperationExpectedOutput(400, []),
-            },
-            {
-              description: "",
-              operation: createBulkOperation(
-                BulkOperationType.Create,
-                { partitionKey: "A" },
-                { key: "A", licenseType: "B", id: "o239uroihndsf" },
-              ),
-              expectedOutput: creatreBulkOperationExpectedOutput(424, []),
-            },
-          ],
-        };
-        await runBulkTestDataSet(dataset);
       });
       it("Continues after errors with default value of continueOnError true", async function () {
         const dataset: BulkTestDataSet = {
@@ -990,7 +812,7 @@ describe("test bulk operations", async function () {
             {
               description: "Operation should fail with invalid ttl.",
               operation: createBulkOperation(BulkOperationType.Create, {}, { ttl: -10, key: "A" }),
-              expectedOutput: creatreBulkOperationExpectedOutput(400, []),
+              expectedOutput: createBulkOperationExpectedOutput(400, []),
             },
             {
               description:
@@ -1000,7 +822,7 @@ describe("test bulk operations", async function () {
                 {},
                 { key: "A", licenseType: "B", id: addEntropy("sifjsiof") },
               ),
-              expectedOutput: creatreBulkOperationExpectedOutput(201, []),
+              expectedOutput: createBulkOperationExpectedOutput(201, []),
             },
           ],
         };
@@ -1018,7 +840,7 @@ describe("test bulk operations", async function () {
                 {},
                 { key: "A", licenseType: "C" },
               ),
-              expectedOutput: creatreBulkOperationExpectedOutput(201, []),
+              expectedOutput: createBulkOperationExpectedOutput(201, []),
             },
           ],
         };
@@ -1045,7 +867,7 @@ describe("test bulk operations", async function () {
                 {},
                 item1Id,
               ),
-              expectedOutput: creatreBulkOperationExpectedOutput(200, []),
+              expectedOutput: createBulkOperationExpectedOutput(200, []),
             },
             {
               description: "Read document with 0 partition key should suceed.",
@@ -1055,7 +877,7 @@ describe("test bulk operations", async function () {
                 {},
                 item2Id,
               ),
-              expectedOutput: creatreBulkOperationExpectedOutput(200, []),
+              expectedOutput: createBulkOperationExpectedOutput(200, []),
             },
             {
               description: "Read document with undefined partition key should suceed.",
@@ -1065,11 +887,88 @@ describe("test bulk operations", async function () {
                 {},
                 item3Id,
               ),
-              expectedOutput: creatreBulkOperationExpectedOutput(200, []),
+              expectedOutput: createBulkOperationExpectedOutput(200, []),
             },
           ],
         };
         await runBulkTestDataSet(dataset);
+      });
+      it("handles throttling", async function () {
+        let responseIndex = 0;
+        const plugins: PluginConfig[] = [
+          {
+            on: PluginOn.request,
+            plugin: async (context, _diagNode, next) => {
+              if (context.operationType === "batch" && responseIndex < 1) {
+                const error = new ErrorResponse();
+                error.code = StatusCodes.TooManyRequests;
+                error.headers = {
+                  "x-ms-retry-after-ms": 100,
+                };
+                responseIndex++;
+                throw error;
+              }
+              const res = await next(context);
+              return res;
+            },
+          },
+        ];
+        const client = new CosmosClient({
+          key: masterKey,
+          endpoint,
+          plugins,
+        });
+        const testcontainer = await getTestContainer("throttling container", client, {
+          partitionKey: {
+            paths: ["/key"],
+            version: 2,
+          },
+          throughput: 400,
+        });
+        const operations: CreateOperationInput[] = Array.from({ length: 10 }, (_, i) => {
+          return {
+            operationType: BulkOperationType.Create,
+            resourceBody: {
+              id: addEntropy("doc" + i),
+              key: i,
+              class: "2010",
+            },
+          };
+        });
+        const bulkStreamer = testcontainer.items.getBulkStreamer();
+        bulkStreamer.addOperations(operations);
+        const response = await bulkStreamer.endStream();
+        assert.strictEqual(response.length, 10);
+        response.forEach((res, index) => {
+          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`);
+        });
+        await testcontainer.database.delete();
+      });
+      it("returns final response in order", async function () {
+        const testcontainer = await getTestContainer("final response order container", undefined, {
+          partitionKey: {
+            paths: ["/key"],
+            version: 2,
+          },
+          throughput: 25100,
+        });
+        const operations: CreateOperationInput[] = Array.from({ length: 10 }, (_, i) => {
+          return {
+            operationType: BulkOperationType.Create,
+            resourceBody: {
+              id: addEntropy("doc" + i),
+              key: i,
+              class: "2010",
+            },
+          };
+        });
+        const bulkStreamer = testcontainer.items.getBulkStreamer();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
+        const expectedOrder = operations.map((op) => op.resourceBody.id);
+        const actualOrder = response.map((res) => res.resourceBody.id);
+        assert.deepStrictEqual(actualOrder, expectedOrder);
+        await testcontainer.database.delete();
       });
     });
     describe("multi partition container - nested partition key", async function () {
@@ -1077,6 +976,7 @@ describe("test bulk operations", async function () {
       let createItemId: string;
       let upsertItemId: string;
       before(async function () {
+        await removeAllDatabases();
         container = await getTestContainer("bulk container", undefined, {
           partitionKey: {
             paths: ["/nested/key"],
@@ -1086,6 +986,11 @@ describe("test bulk operations", async function () {
         });
         createItemId = addEntropy("createItem");
         upsertItemId = addEntropy("upsertItem");
+      });
+      after(async () => {
+        if (container) {
+          await container.database.delete();
+        }
       });
       it("creates an item with nested object partition key", async function () {
         const operations: OperationInput[] = [
@@ -1108,29 +1013,44 @@ describe("test bulk operations", async function () {
             },
           },
         ];
-
-        const createResponse = await container.items.bulk(operations);
+        const bulkStreamer = container.items.getBulkStreamer();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const createResponse = await bulkStreamer.endStream();
         assert.equal(createResponse[0].statusCode, 201);
       });
     });
     describe("multi partitioned container with many items handle partition split", async function () {
       let container: Container;
       before(async function () {
-        let responseIndex = 0;
-        // On every 50th request, return a 410 error
+        let numpkRangeRequests = 0;
         const plugins: PluginConfig[] = [
           {
             on: PluginOn.request,
             plugin: async (context, _diagNode, next) => {
-              if (context.operationType === "batch" && responseIndex % 50 === 0) {
-                const error = new ErrorResponse();
-                error.code = StatusCodes.Gone;
-                error.substatus = SubStatusCodes.PartitionKeyRangeGone;
-                responseIndex++;
-                throw error;
+              if (context.resourceType === ResourceType.pkranges) {
+                let response: Response<any>;
+                if (numpkRangeRequests === 0) {
+                  response = {
+                    headers: {},
+                    result: {
+                      PartitionKeyRanges: [
+                        {
+                          _rid: "RRsbAKHytdECAAAAAAAAUA==",
+                          id: "7",
+                          _etag: '"00000000-0000-0000-683c-819a242201db"',
+                          minInclusive: "",
+                          maxExclusive: "FF",
+                        },
+                      ],
+                    },
+                  };
+                  response.code = 200;
+                  numpkRangeRequests++;
+                  return response;
+                }
+                numpkRangeRequests++;
               }
               const res = await next(context);
-              responseIndex++;
               return res;
             },
           },
@@ -1141,6 +1061,7 @@ describe("test bulk operations", async function () {
           diagnosticLevel: CosmosDbDiagnosticLevel.debug,
           plugins,
         });
+        await removeAllDatabases();
         container = await getTestContainer("bulk split container", client, {
           partitionKey: {
             paths: ["/key"],
@@ -1156,8 +1077,7 @@ describe("test bulk operations", async function () {
           });
         }
       });
-
-      it("check multiple partition splits during bulk", async function () {
+      it("check partition splits during bulk", async function () {
         const operations: OperationInput[] = [];
         for (let i = 0; i < 300; i++) {
           operations.push({
@@ -1167,7 +1087,9 @@ describe("test bulk operations", async function () {
           });
         }
 
-        const response = await container.items.bulk(operations);
+        const bulkStreamer = container.items.getBulkStreamer();
+        operations.forEach((operation) => bulkStreamer.addOperations(operation));
+        const response = await bulkStreamer.endStream();
 
         response.forEach((res, index) => {
           assert.strictEqual(res.statusCode, 200, `Status should be 200 for operation ${index}`);
@@ -1186,6 +1108,7 @@ describe("test bulk operations", async function () {
     let replaceItemId: string;
     let deleteItemId: string;
     before(async function () {
+      await removeAllDatabases();
       container = await getTestContainer("bulk container for diagnostics", undefined, {
         partitionKey: {
           paths: ["/key"],
@@ -1248,7 +1171,9 @@ describe("test bulk operations", async function () {
       const startTimestamp = getCurrentTimestampInMs();
       await testForDiagnostics(
         async () => {
-          return container.items.bulk(operations);
+          const bulkStreamer = container.items.getBulkStreamer();
+          operations.forEach((operation) => bulkStreamer.addOperations(operation));
+          return bulkStreamer.endStream();
         },
         {
           requestStartTimeUTCInMsLowerLimit: startTimestamp,
@@ -1260,6 +1185,38 @@ describe("test bulk operations", async function () {
         },
         true, // bulk operations happen in parallel.
       );
+    });
+  });
+  describe("test streamer", async function () {
+    it("cannot add operation or end stream after stream has already ended", async function () {
+      const container = await getTestContainer("bulk container", undefined, {
+        partitionKey: {
+          paths: ["/key"],
+          version: undefined,
+        },
+        throughput: 12000,
+      });
+      const bulkStreamer = container.items.getBulkStreamer();
+      bulkStreamer.addOperations({
+        operationType: BulkOperationType.Create,
+        resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" },
+      });
+      await bulkStreamer.endStream();
+      try {
+        bulkStreamer.addOperations({
+          operationType: BulkOperationType.Create,
+          resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" },
+        });
+        assert.fail("addOperations should fail after endStream");
+      } catch (err) {
+        assert.strictEqual(err.message, "Cannot add operations after the stream has ended.");
+      }
+      try {
+        await bulkStreamer.endStream();
+        assert.fail("endStream should throw error after stream has already ended");
+      } catch (err) {
+        assert.strictEqual(err.message, "Bulk streamer has already ended.");
+      }
     });
   });
 });
