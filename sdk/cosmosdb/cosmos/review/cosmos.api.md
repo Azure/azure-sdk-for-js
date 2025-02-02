@@ -433,6 +433,7 @@ export const Constants: {
         ContentEncoding: string;
         CharacterSet: string;
         UserAgent: string;
+        CustomUserAgent: string;
         IfModifiedSince: string;
         IfMatch: string;
         IfNoneMatch: string;
@@ -502,6 +503,7 @@ export const Constants: {
         EnableCrossPartitionQuery: string;
         ParallelizeCrossPartitionQuery: string;
         ResponseContinuationTokenLimitInKB: string;
+        SDKSupportedCapabilities: string;
         PopulateQueryMetrics: string;
         QueryMetrics: string;
         PopulateIndexMetrics: string;
@@ -710,6 +712,7 @@ export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
+    connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
     // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
@@ -717,7 +720,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    endpoint: string;
+    endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
@@ -1058,6 +1061,7 @@ export interface FeedOptions extends SharedOptions {
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
     disableNonStreamingOrderByQuery?: boolean;
+    enableQueryControl?: boolean;
     enableScanInQuery?: boolean;
     forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
@@ -1271,9 +1275,13 @@ export class Items {
     constructor(container: Container, clientContext: ClientContext);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
+    // @deprecated
     changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     changeFeed<T>(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+    // @deprecated
     changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Partially updates a Scheduled.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Schedules_Patch.json
  */
-async function schedulesUpdate() {
+async function schedulesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -36,7 +36,7 @@ async function schedulesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   schedulesUpdate();
 }
 

@@ -7,9 +7,7 @@
  */
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get metric status
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get metric status
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetMetricStatus_MaximumSet_Gen.json
  */
-async function monitorsGetMetricStatusMaximumSetGen() {
+async function monitorsGetMetricStatusMaximumSetGen(): Promise<void> {
   const subscriptionId = process.env["DYNATRACE_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "rgDynatrace";
   const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
@@ -33,7 +31,7 @@ async function monitorsGetMetricStatusMaximumSetGen() {
  * @summary Get metric status
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetMetricStatus_MinimumSet_Gen.json
  */
-async function monitorsGetMetricStatusMinimumSetGen() {
+async function monitorsGetMetricStatusMinimumSetGen(): Promise<void> {
   const subscriptionId = process.env["DYNATRACE_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "rgDynatrace";
   const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
@@ -43,7 +41,7 @@ async function monitorsGetMetricStatusMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await monitorsGetMetricStatusMaximumSetGen();
   await monitorsGetMetricStatusMinimumSetGen();
 }

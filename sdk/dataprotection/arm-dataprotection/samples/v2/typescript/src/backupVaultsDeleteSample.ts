@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a BackupVault resource from the resource group.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/DeleteBackupVault.json
  */
-async function deleteBackupVault() {
+async function deleteBackupVault(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -31,7 +31,7 @@ async function deleteBackupVault() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteBackupVault();
 }
 

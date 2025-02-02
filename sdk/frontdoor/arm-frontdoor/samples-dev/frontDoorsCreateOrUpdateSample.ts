@@ -8,9 +8,7 @@
 import type { FrontDoor } from "@azure/arm-frontdoor";
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new Front Door with a Front Door name under the specified subscription and resource group.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a new Front Door with a Front Door name under the specified subscription and resource group.
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorCreate.json
  */
-async function createOrUpdateSpecificFrontDoor() {
+async function createOrUpdateSpecificFrontDoor(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
@@ -141,7 +139,7 @@ async function createOrUpdateSpecificFrontDoor() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateSpecificFrontDoor();
 }
 

@@ -23,7 +23,7 @@ You can find an explanation of how this repository's code works by going to our 
 
 Example of building with the types:
 
-```typescript snippet:paging_example
+```typescript snippet:ReadmePagingSample
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 function listSecrets(
@@ -40,6 +40,7 @@ function listSecrets(
     byPage: (settings: PageSettings = {}) => listSecretsPage(settings, options),
   };
 }
+
 for await (const page of listSecrets().byPage({ maxPageSize: 2 })) {
   for (const secret of page) {
     console.log("secret: ", secret);

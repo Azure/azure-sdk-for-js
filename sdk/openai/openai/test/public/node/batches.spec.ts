@@ -70,7 +70,7 @@ describe("Batches", () => {
 
         it("list operation for batch", async function () {
           const listedBatches = await client.batches.list({ limit: 5 });
-          for await (const listedBatch of listedBatches) {
+          for (const listedBatch of listedBatches.data) {
             assertBatch(listedBatch);
           }
         });

@@ -7,9 +7,7 @@
  */
 import { EventHubManagementClient } from "@azure/arm-eventhub-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the available Regions for a given sku
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the available Regions for a given sku
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2017-04-01/examples/EHRegionsListBySkuBasic.json
  */
-async function regionsListBySkuBasic() {
+async function regionsListBySkuBasic(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subscriptionid";
   const sku = "Basic";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function regionsListBySkuBasic() {
  * @summary Gets the available Regions for a given sku
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2017-04-01/examples/EHRegionsListBySkuStandard.json
  */
-async function regionsListBySkuStandard() {
+async function regionsListBySkuStandard(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subscriptionid";
   const sku = "Standard";
   const credential = new DefaultAzureCredential();
@@ -47,7 +45,7 @@ async function regionsListBySkuStandard() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await regionsListBySkuBasic();
   await regionsListBySkuStandard();
 }

@@ -8,9 +8,7 @@
 import type { MonitorResourceUpdate } from "@azure/arm-dynatrace";
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a MonitorResource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update a MonitorResource
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_Update_MaximumSet_Gen.json
  */
-async function monitorsUpdateMaximumSetGen() {
+async function monitorsUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -36,7 +34,7 @@ async function monitorsUpdateMaximumSetGen() {
  * @summary Update a MonitorResource
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_Update_MinimumSet_Gen.json
  */
-async function monitorsUpdateMinimumSetGen() {
+async function monitorsUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -48,7 +46,7 @@ async function monitorsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await monitorsUpdateMaximumSetGen();
   await monitorsUpdateMinimumSetGen();
 }

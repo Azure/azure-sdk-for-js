@@ -37,7 +37,7 @@ export interface CAEChallenge {
  *
  * Call the `bearerTokenAuthenticationPolicy` with the following options:
  *
- * ```ts snippet:authorize_request_on_claim_challenge
+ * ```ts snippet:AuthorizeRequestOnClaimChallenge
  * import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  * import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
  *

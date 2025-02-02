@@ -7,9 +7,7 @@
  */
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the VM/VMSS resources currently being monitored by the Dynatrace resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List the VM/VMSS resources currently being monitored by the Dynatrace resource.
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListHosts_MaximumSet_Gen.json
  */
-async function monitorsListHostsMaximumSetGen() {
+async function monitorsListHostsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -37,7 +35,7 @@ async function monitorsListHostsMaximumSetGen() {
  * @summary List the VM/VMSS resources currently being monitored by the Dynatrace resource.
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListHosts_MinimumSet_Gen.json
  */
-async function monitorsListHostsMinimumSetGen() {
+async function monitorsListHostsMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
@@ -51,7 +49,7 @@ async function monitorsListHostsMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await monitorsListHostsMaximumSetGen();
   await monitorsListHostsMinimumSetGen();
 }

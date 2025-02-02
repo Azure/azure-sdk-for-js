@@ -19,7 +19,7 @@ import {
   InviteCodeGenerateRequest,
   LabsGenerateInviteCodeOptionalParams,
   LabsGenerateInviteCodeResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Labs. */

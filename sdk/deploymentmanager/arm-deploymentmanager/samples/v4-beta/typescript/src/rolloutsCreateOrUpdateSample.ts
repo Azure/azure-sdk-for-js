@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary This is an asynchronous operation and can be polled to completion using the location header returned by this operation.
  * x-ms-original-file: specification/deploymentmanager/resource-manager/Microsoft.DeploymentManager/preview/2019-11-01-preview/examples/rollout_createorupdate.json
  */
-async function createOrUpdateRollout() {
+async function createOrUpdateRollout(): Promise<void> {
   const subscriptionId = "caac1590-e859-444f-a9e0-62091c0f5929";
   const resourceGroupName = "myResourceGroup";
   const rolloutName = "myRollout";

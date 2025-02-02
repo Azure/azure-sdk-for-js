@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List Dev Box definitions for a devcenter.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevBoxDefinitions_ListByDevCenter.json
  */
-async function devBoxDefinitionsListByDevCenter() {
+async function devBoxDefinitionsListByDevCenter(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -33,7 +33,7 @@ async function devBoxDefinitionsListByDevCenter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   devBoxDefinitionsListByDevCenter();
 }
 

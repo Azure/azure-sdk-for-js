@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List workspaces.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Workspace_ListByResourceGroup.json
  */
-async function workspaceListByResourceGroup() {
+async function workspaceListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] ||
     "daefabc0-95b4-48b3-b645-8a753a63c4fa";
@@ -44,7 +44,7 @@ async function workspaceListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workspaceListByResourceGroup();
 }
 

@@ -7,9 +7,7 @@
  */
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets NetworkRuleSet for a Namespace.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets NetworkRuleSet for a Namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/VirtualNetworkRule/EHNetworkRuleSetList.json
  */
-async function nameSpaceNetworkRuleSetList() {
+async function nameSpaceNetworkRuleSetList(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "Subscription";
   const resourceGroupName = process.env["EVENTHUB_RESOURCE_GROUP"] || "ResourceGroup";
   const namespaceName = "sdk-Namespace-6019";
@@ -27,7 +25,7 @@ async function nameSpaceNetworkRuleSetList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await nameSpaceNetworkRuleSetList();
 }
 

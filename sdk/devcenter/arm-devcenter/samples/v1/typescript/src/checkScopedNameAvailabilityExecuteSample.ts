@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Check the availability of name for resource
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/CheckScopedNameAvailability_DevCenterCatalog.json
  */
-async function devcenterCatalogNameAvailability() {
+async function devcenterCatalogNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -42,7 +42,7 @@ async function devcenterCatalogNameAvailability() {
  * @summary Check the availability of name for resource
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/CheckScopedNameAvailability_ProjectCatalog.json
  */
-async function projectCatalogNameAvailability() {
+async function projectCatalogNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -60,7 +60,7 @@ async function projectCatalogNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   devcenterCatalogNameAvailability();
   projectCatalogNameAvailability();
 }
