@@ -99,7 +99,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2025-01-05",
+    defaultValue: "2025-05-05",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -712,10 +712,9 @@ export const filePermissionKey1: OperationParameter = {
 };
 
 export const fileAttributes: OperationParameter = {
-  parameterPath: "fileAttributes",
+  parameterPath: ["options", "fileAttributes"],
   mapper: {
     serializedName: "x-ms-file-attributes",
-    required: true,
     xmlName: "x-ms-file-attributes",
     type: {
       name: "String"
@@ -750,6 +749,39 @@ export const fileChangeOn: OperationParameter = {
   mapper: {
     serializedName: "x-ms-file-change-time",
     xmlName: "x-ms-file-change-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const owner: OperationParameter = {
+  parameterPath: ["options", "owner"],
+  mapper: {
+    serializedName: "x-ms-owner",
+    xmlName: "x-ms-owner",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const group: OperationParameter = {
+  parameterPath: ["options", "group"],
+  mapper: {
+    serializedName: "x-ms-group",
+    xmlName: "x-ms-group",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileMode: OperationParameter = {
+  parameterPath: ["options", "fileMode"],
+  mapper: {
+    serializedName: "x-ms-mode",
+    xmlName: "x-ms-mode",
     type: {
       name: "String"
     }
@@ -1044,6 +1076,17 @@ export const fileContentDisposition: OperationParameter = {
   mapper: {
     serializedName: "x-ms-content-disposition",
     xmlName: "x-ms-content-disposition",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const nfsFileType: OperationParameter = {
+  parameterPath: ["options", "nfsFileType"],
+  mapper: {
+    serializedName: "x-ms-file-file-type",
+    xmlName: "x-ms-file-file-type",
     type: {
       name: "String"
     }
@@ -1346,6 +1389,30 @@ export const setArchiveAttribute: OperationParameter = {
   }
 };
 
+export const fileModeCopyMode: OperationParameter = {
+  parameterPath: ["options", "fileModeCopyMode"],
+  mapper: {
+    serializedName: "x-ms-file-mode-copy-mode",
+    xmlName: "x-ms-file-mode-copy-mode",
+    type: {
+      name: "Enum",
+      allowedValues: ["source", "override"]
+    }
+  }
+};
+
+export const fileOwnerCopyMode: OperationParameter = {
+  parameterPath: ["options", "fileOwnerCopyMode"],
+  mapper: {
+    serializedName: "x-ms-file-owner-copy-mode",
+    xmlName: "x-ms-file-owner-copy-mode",
+    type: {
+      name: "Enum",
+      allowedValues: ["source", "override"]
+    }
+  }
+};
+
 export const comp14: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
@@ -1376,6 +1443,54 @@ export const copyActionAbortConstant: OperationParameter = {
     defaultValue: "abort",
     isConstant: true,
     serializedName: "x-ms-copy-action",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const restype3: OperationQueryParameter = {
+  parameterPath: "restype",
+  mapper: {
+    defaultValue: "symboliclink",
+    isConstant: true,
+    serializedName: "restype",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const linkText: OperationParameter = {
+  parameterPath: "linkText",
+  mapper: {
+    serializedName: "x-ms-link-text",
+    required: true,
+    xmlName: "x-ms-link-text",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const restype4: OperationQueryParameter = {
+  parameterPath: "restype",
+  mapper: {
+    defaultValue: "hardlink",
+    isConstant: true,
+    serializedName: "restype",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const targetFile: OperationParameter = {
+  parameterPath: "targetFile",
+  mapper: {
+    serializedName: "x-ms-file-target-file",
+    required: true,
+    xmlName: "x-ms-file-target-file",
     type: {
       name: "String"
     }

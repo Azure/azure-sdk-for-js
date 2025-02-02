@@ -3,11 +3,82 @@
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { logger } from "./log";
-import type { FilePermissionFormat, ShareTokenIntent } from "./generatedModels";
+import type { FilePermissionFormat, NfsFileType, ShareTokenIntent } from "./generatedModels";
 import type { StoragePipelineOptions } from "./Pipeline";
 
 export interface Metadata {
   [propertyName: string]: string;
+}
+
+/**
+ * Represents file permissions for a specific role.
+ */
+export interface PosixRolePermissions {
+  /**
+   * The execute permission.
+   */
+  execute: boolean;
+  /**
+   * The write permission.
+   */
+  write: boolean;
+  /**
+   * The read permission.
+   */
+  read: boolean;
+}
+
+/**
+ * The mode permissions of the file or directory.
+ */
+export interface NfsFileMode {
+  /**
+   * Permissions the owner has over the file or directory.
+   */
+  owner: PosixRolePermissions;
+
+  /**
+   * Permissions the group has over the file or directory.
+   */
+  group: PosixRolePermissions;
+
+  /**
+   * Permissions other have over the file or directory.
+   */
+  other: PosixRolePermissions;
+
+  /**
+   * Set effective user ID (setuid) on the file or directory.
+   */
+  effectiveUserIdentity: boolean;
+
+  /**
+   * Set effective group ID (setgid) on the file or directory.
+   */
+  effectiveGroupIdentity: boolean;
+
+  /**
+   * The sticky bit may be set on directories.  The files in that
+   * directory may only be renamed or deleted by the file's owner, the directory's owner, or the root user.
+   */
+  stickyBit: boolean;
+}
+
+/**
+ * 
+   NFS properties.
+   Note that these properties only apply to files or directories in
+   premium NFS file accounts.
+  */
+export interface FilePosixProperties {
+  /** Optional, NFS only. The owner of the file or directory. */
+  owner?: string;
+  /** Optional, NFS only. The owning group of the file or directory. */
+  group?: string;
+  /** Optional, NFS only. The file mode of the file or directory */
+  fileMode?: NfsFileMode;
+  /** Optional, NFS only. Type of the file or directory. */
+  fileType?: NfsFileType;
 }
 
 export interface FileHttpHeaders {
@@ -125,6 +196,11 @@ export interface FileAndDirectoryCreateCommonOptions {
    * By default, the value will be set to the time of the request.
    */
   changeTime?: Date | TimeNowType;
+  /**
+   * Optional properties to set on NFS files.
+     Note that this property is only applicable to files created in NFS shares.
+   */
+  posixProperties?: FilePosixProperties;
 }
 
 export interface FileAndDirectorySetPropertiesCommonOptions {
@@ -181,6 +257,12 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
    * By default, the value will be set to the time of the request.
    */
   changeTime?: Date | TimeNowType;
+
+  /**
+   * Optional properties to set on NFS files.
+     Note that this property is only applicable to files created in NFS shares.
+   */
+  posixProperties?: FilePosixProperties;
 }
 
 /**
@@ -290,18 +372,6 @@ export function validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(
 
   validateFilePermissionOptions(options.filePermission, options.filePermissionKey);
 
-  if (!options.creationTime) {
-    options.creationTime = "now";
-  }
-
-  if (!options.lastWriteTime) {
-    options.lastWriteTime = "now";
-  }
-
-  if (!options.filePermission && !options.filePermissionKey) {
-    options.filePermission = "inherit";
-  }
-
   return options;
 }
 
@@ -315,22 +385,6 @@ export function validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOpti
   }
 
   validateFilePermissionOptions(options.filePermission, options.filePermissionKey);
-
-  if (!options.creationTime) {
-    options.creationTime = "preserve";
-  }
-
-  if (!options.lastWriteTime) {
-    options.lastWriteTime = "preserve";
-  }
-
-  if (!options.fileAttributes) {
-    options.fileAttributes = "preserve";
-  }
-
-  if (!options.filePermission && !options.filePermissionKey) {
-    options.filePermission = "preserve";
-  }
 
   return options;
 }
