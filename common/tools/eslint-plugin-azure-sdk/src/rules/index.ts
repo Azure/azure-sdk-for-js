@@ -6,7 +6,6 @@
  */
 
 import githubSourceHeaders from "./github-source-headers.js";
-import tsApiExtractorPublicTypes from "./ts-apiextractor-json-types.js";
 import tsApisurfaceStandardizedVerbs from "./ts-apisurface-standardized-verbs.js";
 import tsApisurfaceSupportcancellation from "./ts-apisurface-supportcancellation.js";
 import tsDocInternal from "./ts-doc-internal.js";
@@ -26,7 +25,6 @@ import tsPackageJsonHomepage from "./ts-package-json-homepage.js";
 import tsPackageJsonKeywords from "./ts-package-json-keywords.js";
 import tsPackageJsonLicense from "./ts-package-json-license.js";
 import tsPackageJsonMainIsCjs from "./ts-package-json-main-is-cjs.js";
-import tsPackageJsonModule from "./ts-package-json-module.js";
 import tsPackageJsonName from "./ts-package-json-name.js";
 import tsPackageJsonRepo from "./ts-package-json-repo.js";
 import tsPackageJsonRequiredScripts from "./ts-package-json-required-scripts.js";
@@ -43,7 +41,6 @@ import tsVersioningSemver from "./ts-versioning-semver.js";
  */
 export default {
   "github-source-headers": githubSourceHeaders,
-  "ts-apiextractor-json-types": tsApiExtractorPublicTypes,
   "ts-apisurface-standardized-verbs": tsApisurfaceStandardizedVerbs,
   "ts-apisurface-supportcancellation": tsApisurfaceSupportcancellation,
   "ts-doc-internal": tsDocInternal,
@@ -63,7 +60,6 @@ export default {
   "ts-package-json-keywords": tsPackageJsonKeywords,
   "ts-package-json-license": tsPackageJsonLicense,
   "ts-package-json-main-is-cjs": tsPackageJsonMainIsCjs,
-  "ts-package-json-module": tsPackageJsonModule,
   "ts-package-json-name": tsPackageJsonName,
   "ts-package-json-repo": tsPackageJsonRepo,
   "ts-package-json-required-scripts": tsPackageJsonRequiredScripts,
