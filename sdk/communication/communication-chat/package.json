@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.5.5",
+  "version": "1.6.0-beta.4",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -60,7 +60,7 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/communication-common": "^2.3.1",
-    "@azure/communication-signaling": "1.0.0-beta.29",
+    "@azure/communication-signaling": "1.0.0-beta.31",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.1.1",

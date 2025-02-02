@@ -4,6 +4,7 @@ import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import type {
   AddParticipantsRequest,
+  ChatRetentionPolicy,
   SendMessageOptions,
   SendMessageRequest,
   UpdateMessageOptions,
@@ -17,11 +18,15 @@ import {
   generateHttpClient,
   mockChatMessageReadReceipt,
   mockMessage,
-  mockMessageWithFileAttachment,
-  mockMessageWithImageAttachment,
+  mockMessageWithAttachment,
+  mockMessageWithDLPContentBlocked,
+  mockMessageWithDLPWarning,
+  mockImageAttachment,
   mockParticipant,
+  mockParticipantWithMetadata,
   mockSdkModelParticipant,
   mockThread,
+  mockThreadWithTextOnlyChat,
 } from "./utils/mockClient.js";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
@@ -66,6 +71,43 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "GET");
   });
 
+  it("makes successful get properties request with text only chat", async function () {
+    const mockHttpClient = generateHttpClient(200, mockThreadWithTextOnlyChat);
+    chatThreadClient = createChatThreadClient(mockThread.id, mockHttpClient);
+
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    const {
+      createdBy: responseUser,
+      messagingPolicy: responseMessagingPolicy,
+      ...response
+    } = await chatThreadClient.getProperties();
+    const {
+      createdByCommunicationIdentifier: expectedIdentifier,
+      messagingPolicy: expectedMessagingPolicy,
+      ...expected
+    } = mockThreadWithTextOnlyChat;
+
+    expect(spy).toHaveBeenCalledOnce();
+
+    assert.deepEqual(response, expected);
+    assert.equal(responseUser?.kind, "communicationUser");
+    assert.equal(
+      (responseUser as CommunicationUserIdentifier)?.communicationUserId,
+      expectedIdentifier.communicationUser?.id,
+    );
+    assert.deepEqual(responseMessagingPolicy, expectedMessagingPolicy);
+    assert.isTrue(responseMessagingPolicy?.textOnlyChat);
+
+    const request = spy.mock.calls[0][0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`,
+    );
+    assert.equal(request.method, "GET");
+  });
+
   it("makes successful update thread topic", async () => {
     const mockHttpClient = generateHttpClient(204);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
@@ -83,6 +125,72 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.deepEqual(JSON.parse(request.body as string), { topic: topic });
   });
 
+  it("makes successful update thread metadata", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    const metadata = { threadType: "primary", secondaryThread: "test-id" };
+
+    await chatThreadClient.updateProperties({ metadata: metadata });
+
+    expect(spy).toHaveBeenCalledOnce();
+    const request = spy.mock.calls[0][0];
+    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
+    assert.equal(request.method, "PATCH");
+    assert.deepEqual(JSON.parse(request.body as string), { metadata: metadata });
+  });
+
+  it("makes successful update thread retention policy request", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    const retentionPolicy: ChatRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 90,
+    };
+    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
+
+    expect(spy).toHaveBeenCalledOnce();
+    const request = spy.mock.calls[0][0];
+    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
+    assert.equal(request.method, "PATCH");
+    assert.deepEqual(JSON.parse(request.body as string), { retentionPolicy: retentionPolicy });
+  });
+
+  it("makes successful update thread retention policy to null", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    await chatThreadClient.updateProperties({ retentionPolicy: null as any });
+
+    expect(spy).toHaveBeenCalledOnce();
+    const request = spy.mock.calls[0][0];
+    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
+    assert.equal(request.method, "PATCH");
+    assert.deepEqual(JSON.parse(request.body as string), { retentionPolicy: null });
+  });
+
+  it("makes successful update thread retention policy to none retention policy", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    await chatThreadClient.updateProperties({ retentionPolicy: { kind: "none" } });
+
+    expect(spy).toHaveBeenCalledOnce();
+    const request = spy.mock.calls[0][0];
+    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
+    assert.equal(request.method, "PATCH");
+    assert.deepEqual(JSON.parse(request.body as string), { retentionPolicy: { kind: "none" } });
+  });
+
   it("makes successful send message request", async () => {
     const mockHttpClient = generateHttpClient(201, {
       id: mockMessage.id,
@@ -97,6 +205,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const sendOptions: SendMessageOptions = {
       senderDisplayName: mockMessage.senderDisplayName,
       metadata: mockMessage.metadata,
+      attachments: [mockImageAttachment],
     };
 
     const response = await chatThreadClient.sendMessage(sendRequest, sendOptions);
@@ -125,6 +234,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const {
       sender: responseUser,
       content: responseContent,
+      policyViolation: responsePolicyViolation,
       ...responseMessage
     } = await chatThreadClient.getMessage(mockMessage.id!);
     const {
@@ -154,20 +264,21 @@ describe("[Mocked] ChatThreadClient", async () => {
   });
 
   it("makes successful get message with image attachments request", async () => {
-    const mockHttpClient = generateHttpClient(200, mockMessageWithImageAttachment);
+    const mockHttpClient = generateHttpClient(200, mockMessageWithAttachment);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const {
       sender: responseUser,
       content: responseContent,
+      policyViolation: responsePolicyViolation,
       ...responseMessage
-    } = await chatThreadClient.getMessage(mockMessageWithImageAttachment.id!);
+    } = await chatThreadClient.getMessage(mockMessageWithAttachment.id!);
     const {
       senderCommunicationIdentifier: expectedIdentifier,
       content: expectedContent,
       ...expectedMessage
-    } = mockMessageWithImageAttachment;
+    } = mockMessageWithAttachment;
     const {
       participants: expectedParticipants,
       attachments: expectedAttachments,
@@ -182,27 +293,28 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.deepEqual(responseMessage, expectedMessage);
     assert.deepEqual(responseAttachments, expectedAttachments);
     assert.deepEqual(repsonseContents, expectedContents);
-    assert.equal(responseAttachments![0].attachmentType, "image");
     const request = spy.mock.calls[0][0];
 
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful get message with file attachments request", async () => {
-    const mockHttpClient = generateHttpClient(200, mockMessageWithFileAttachment);
+  it("makes successful get message with data loss prevention content blocked", async function () {
+    const mockHttpClient = generateHttpClient(200, mockMessageWithDLPContentBlocked);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const {
       sender: responseUser,
       content: responseContent,
+      policyViolation: responsePolicyViolation,
       ...responseMessage
-    } = await chatThreadClient.getMessage(mockMessageWithFileAttachment.id!);
+    } = await chatThreadClient.getMessage(mockMessageWithAttachment.id!);
     const {
       senderCommunicationIdentifier: expectedIdentifier,
       content: expectedContent,
+      policyViolation: expectedPolicyViolation,
       ...expectedMessage
-    } = mockMessageWithFileAttachment;
+    } = mockMessageWithDLPContentBlocked;
     const {
       participants: expectedParticipants,
       attachments: expectedAttachments,
@@ -217,7 +329,44 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.deepEqual(responseMessage, expectedMessage);
     assert.deepEqual(responseAttachments, expectedAttachments);
     assert.deepEqual(repsonseContents, expectedContents);
-    assert.equal(responseAttachments![0].attachmentType, "file");
+    assert.deepEqual(responsePolicyViolation?.result, expectedPolicyViolation?.state);
+    const request = spy.mock.calls[0][0];
+
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful get message with data loss prevention warning", async function () {
+    const mockHttpClient = generateHttpClient(200, mockMessageWithDLPWarning);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    const {
+      sender: responseUser,
+      content: responseContent,
+      policyViolation: responsePolicyViolation,
+      ...responseMessage
+    } = await chatThreadClient.getMessage(mockMessageWithAttachment.id!);
+    const {
+      senderCommunicationIdentifier: expectedIdentifier,
+      content: expectedContent,
+      policyViolation: expectedPolicyViolation,
+      ...expectedMessage
+    } = mockMessageWithDLPWarning;
+    const {
+      participants: expectedParticipants,
+      attachments: expectedAttachments,
+      ...expectedContents
+    } = expectedContent!;
+    const {
+      participants: responseParticipants,
+      attachments: responseAttachments,
+      ...repsonseContents
+    } = responseContent!;
+    expect(spy).toHaveBeenCalledOnce();
+    assert.deepEqual(responseMessage, expectedMessage);
+    assert.deepEqual(responseAttachments, expectedAttachments);
+    assert.deepEqual(repsonseContents, expectedContents);
+    assert.deepEqual(responsePolicyViolation?.result, expectedPolicyViolation?.state);
     const request = spy.mock.calls[0][0];
 
     assert.equal(request.method, "GET");
@@ -241,6 +390,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       const {
         senderCommunicationIdentifier: expectedIdentifier,
         content: expectedContent,
+        policyViolation: expectedPolicyViolation,
         ...expectedMessage
       } = mockResponse.value[count];
       const { participants: expectedParticipants, ...expectedContents } = expectedContent!;
@@ -316,6 +466,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const sendOptions: UpdateMessageOptions = {
       content: mockMessage.content?.message,
       metadata: mockMessage.metadata,
+      attachments: [mockImageAttachment],
     };
 
     await chatThreadClient.updateMessage(mockMessage.id!, sendOptions);
@@ -330,6 +481,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.deepEqual(JSON.parse(request.body as string), {
       content: mockMessage.content?.message,
       metadata: mockMessage.metadata,
+      attachments: [mockImageAttachment],
     });
   });
 
@@ -380,9 +532,44 @@ describe("[Mocked] ChatThreadClient", async () => {
     );
   });
 
+  it("makes successful add chat participants request with metadata", async function () {
+    const mockHttpClient = generateHttpClient(201);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    const sendRequest: AddParticipantsRequest = {
+      participants: [
+        {
+          ...mockSdkModelParticipant,
+          metadata: {
+            userType: "C2",
+          },
+        },
+      ],
+    };
+
+    await chatThreadClient.addParticipants(sendRequest);
+
+    expect(spy).toHaveBeenCalledOnce();
+    const request = spy.mock.calls[0][0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/participants/:add?api-version=${API_VERSION}`,
+    );
+    assert.equal(request.method, "POST");
+    const requestJson = JSON.parse(request.body as string);
+    assert.equal(
+      (sendRequest.participants[0].id as CommunicationUserIdentifier).communicationUserId,
+      requestJson.participants[0].communicationIdentifier.communicationUser.id,
+    );
+    assert.equal(sendRequest.participants[0].displayName, requestJson.participants[0].displayName);
+    assert.deepEqual(sendRequest.participants[0].metadata, requestJson.participants[0].metadata);
+  });
+
   it("makes successful list chat participants request", async () => {
     const mockHttpClient = generateHttpClient(200, {
-      value: [mockParticipant],
+      value: [mockParticipantWithMetadata],
     });
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = vi.spyOn(mockHttpClient, "sendRequest");
@@ -391,7 +578,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     for await (const participant of chatThreadClient.listParticipants()) {
       ++count;
       const { id, ...requestParticipant } = participant;
-      const { communicationIdentifier, ...expectedParticipant } = mockParticipant;
+      const { communicationIdentifier, ...expectedParticipant } = mockParticipantWithMetadata;
 
       assert.equal(
         (id as CommunicationUserIdentifier).communicationUserId,
@@ -412,7 +599,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful list chat participants request by page", async () => {
+  it("makes successful list chat participants request by page", async function () {
     const mockHttpClient = generateHttpClient(200, {
       value: [mockParticipant, mockParticipant, mockParticipant],
     });
@@ -423,9 +610,16 @@ describe("[Mocked] ChatThreadClient", async () => {
     let count = 0;
     for await (const page of iterator.byPage()) {
       // loop over each item in the page
-      for (const info of page) {
+      for (const participant of page) {
         ++count;
-        assert.isNotNull(info);
+        const { id, ...requestParticipant } = participant;
+        const { communicationIdentifier, ...expectedParticipant } = mockParticipant;
+
+        assert.equal(
+          (id as CommunicationUserIdentifier).communicationUserId,
+          communicationIdentifier?.communicationUser?.id,
+        );
+        assert.deepEqual(requestParticipant, expectedParticipant);
       }
     }
 
@@ -565,5 +759,53 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/readReceipts?api-version=${API_VERSION}`,
     );
     assert.equal(request.method, "GET");
+  });
+
+  it("makes successful upload image request", async function () {
+    const mockHttpClient = generateHttpClient(201, {
+      id: mockImageAttachment.id,
+    });
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    const imageArrayBuff = new TextEncoder().encode("someImageBase64EncodedBytes");
+    const imageBlob = new Blob([new Uint8Array(imageArrayBuff, 0, imageArrayBuff.length)]);
+
+    const imageFilename = mockImageAttachment.name ?? "image.png";
+
+    const response = await chatThreadClient.uploadImage(
+      imageBlob.stream(),
+      imageFilename,
+      imageArrayBuff.length,
+    );
+
+    expect(spy).toHaveBeenCalledOnce();
+    assert.equal(response.id, mockImageAttachment.id);
+
+    const request = spy.mock.calls[0][0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/images?api-version=${API_VERSION}`,
+    );
+
+    assert.equal(request.method, "POST");
+    assert.deepEqual(request.body, imageArrayBuff);
+  });
+
+  it("makes successful delete image request", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    await chatThreadClient.deleteImage(mockImageAttachment.id!);
+
+    expect(spy).toHaveBeenCalledOnce();
+    const request = spy.mock.calls[0][0];
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/images/${mockImageAttachment.id}?api-version=${API_VERSION}`,
+    );
+    assert.equal(request.method, "DELETE");
   });
 });
