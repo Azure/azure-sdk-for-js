@@ -3,9 +3,10 @@
 
 // @ts-check
 
-import { spawnNode } from "./spawn.js";
+import { spawnNode, spawnNodeWithOutput } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 import { join as pathJoin } from "node:path";
+import { runTestProxyRestore } from "./testProxyRestore.js";
 
 /**
  * Helper to run a global rush command
@@ -52,6 +53,32 @@ export function rushRunAllWithDirection(action, packagesWithDirection, rushParam
     invocation,
   });
 
+  // Restore assets for packages that are being 'unit-test'-ed in the CI pipeline
+  if (
+    // 1. Check if running in Public CI (process.env["BUILD_BUILDNUMBER"] is set)
+    process.env["BUILD_BUILDNUMBER"]
+    // 2. Ensure not in "live" or "record" mode (run only in playback mode)
+    && (!["live", "record"].includes(process.env.TEST_MODE))
+    // 3. Ensure the action is either 'unit-test:node' or 'unit-test:browser' (unit tests)
+    && (['unit-test:node', 'unit-test:browser'].includes(action))
+  ) {
+    console.log(`Running rush list with ${invocation.join(" ")}`);
+
+    // Get the list of packages to run the action on
+    const output = spawnNodeWithOutput(
+      getBaseDir(),
+      "common/scripts/install-run-rush.js",
+      "list",
+      ...invocation,
+    );
+
+    // Parse the output to get package names
+    const packages = parsePackageNames(output);
+
+    // Run test-proxy restore for the parsed packages
+    runTestProxyRestore(packages);
+  }
+
   return spawnNode(
     getBaseDir(),
     "common/scripts/install-run-rush.js",
@@ -79,4 +106,24 @@ export function runRushInPackageDirs(action, packageDirs, onError) {
     exitCode = exitCode || dirExitCode;
   }
   return exitCode;
+}
+
+/**
+ * Parses the output of the `rush list ...` command to extract package names.
+ *
+ * @param {string} rushListOutput - The output string from the rush list command.
+ * @returns {string[]} - An array of package names that start with '@azure'.
+ */
+function parsePackageNames(rushListOutput) {
+  const packageNames = [];
+  const lines = rushListOutput.split('\n'); // Split the output into lines
+
+  for (const line of lines) {
+    const trimmedLine = line.trim(); // Trim whitespace
+    if (trimmedLine.startsWith('@azure')) { // Assuming package names start with '@azure'
+      packageNames.push(trimmedLine);
+    }
+  }
+
+  return packageNames;
 }
