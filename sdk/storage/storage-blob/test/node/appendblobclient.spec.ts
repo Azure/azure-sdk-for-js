@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type {
   StorageSharedKeyCredential,
   ContainerClient,
@@ -429,22 +430,22 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
-  it("appendBlock - append large block", async function (ctx) {
-    if (!isLiveMode()) {
-      // Recorder file larger than github limitation
-      ctx.skip();
-    }
-    await appendBlobClient.create();
+  it(
+    "appendBlock - append large block",
+    { timeout: timeoutForLargeFileUploadingTest, skip: !isLiveMode() },
+    async () => {
+      await appendBlobClient.create();
 
-    const largeBlockSize = 100 * 1024 * 1024;
-    const content = new Uint8Array(largeBlockSize);
-    for (let i = 0; i < largeBlockSize; i = i + 1000) {
-      content[i] = i;
-    }
-    await appendBlobClient.appendBlock(content, content.length);
+      const largeBlockSize = 100 * 1024 * 1024;
+      const content = new Uint8Array(largeBlockSize);
+      for (let i = 0; i < largeBlockSize; i = i + 1000) {
+        content[i] = i;
+      }
+      await appendBlobClient.appendBlock(content, content.length);
 
-    const downloadResponse = await appendBlobClient.downloadToBuffer(0);
-    assert.deepStrictEqual(downloadResponse, content);
-    assert.equal(downloadResponse.length, content.length);
-  }).timeout(timeoutForLargeFileUploadingTest);
+      const downloadResponse = await appendBlobClient.downloadToBuffer(0);
+      assert.deepStrictEqual(downloadResponse, content);
+      assert.equal(downloadResponse.length, content.length);
+    },
+  );
 });

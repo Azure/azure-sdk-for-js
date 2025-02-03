@@ -1,19 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { randomBytes } from "node:crypto";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import type { ReadableOptions } from "node:stream";
 import { Readable, PassThrough } from "node:stream";
-import {
-  readStreamToLocalFile,
-  streamToBuffer2,
-  streamToBuffer3,
-} from "../../src/utils/utils.js";
+import { readStreamToLocalFile, streamToBuffer2, streamToBuffer3 } from "../../src/utils/utils.js";
 import type { ReadableStreamGetter } from "../../src/utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "../../src/utils/RetriableReadableStream.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, afterEach } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";
@@ -188,7 +185,7 @@ describe("Utility Helpers Node.js only", () => {
 
     const validFilePath = path.join("./", "read_stream_to_local_file_test.txt");
 
-    afterEach("remove temporary file", () => {
+    afterEach(() => {
       if (fs.existsSync(validFilePath)) {
         fs.unlinkSync(validFilePath);
       }

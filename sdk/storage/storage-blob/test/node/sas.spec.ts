@@ -228,7 +228,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.ok(error);
   });
 
-  it("generateAccountSASQueryParameters should work with encryption scope", async function (ctx) {
+  it("generateAccountSASQueryParameters should work with encryption scope", async (ctx) => {
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -322,7 +322,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work with encryption scope for container", async function (ctx) {
+  it("generateBlobSASQueryParameters should work with encryption scope for container", async (ctx) => {
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -527,7 +527,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work with encryption scope for blob", async function (ctx) {
+  it("generateBlobSASQueryParameters should work with encryption scope for blob", async (ctx) => {
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -996,7 +996,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with all configurations", async function (ctx) {
+  it("GenerateUserDelegationSAS should work for container with all configurations", async (ctx) => {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -1052,7 +1052,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with minimum parameters", async function (ctx) {
+  it("GenerateUserDelegationSAS should work for container with minimum parameters", async (ctx) => {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -1101,7 +1101,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob", async function (ctx) {
+  it("GenerateUserDelegationSAS should work for blob", async (ctx) => {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -1171,7 +1171,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob with permanentDelete permssion", async function (ctx) {
+  it("GenerateUserDelegationSAS should work for blob with permanentDelete permssion", async (ctx) => {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -1235,7 +1235,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work with encryption scope for blob", async function (ctx) {
+  it("GenerateUserDelegationSAS should work with encryption scope for blob", async (ctx) => {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -1305,7 +1305,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob snapshot", async function (ctx) {
+  it("GenerateUserDelegationSAS should work for blob snapshot", async (ctx) => {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -1378,7 +1378,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work with permanentDelete permission for blob snapshot", async function (ctx) {
+  it("GenerateUserDelegationSAS should work with permanentDelete permission for blob snapshot", async (ctx) => {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -1624,7 +1624,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob version delete", async function (ctx) {
+  it("GenerateUserDelegationSAS should work for blob version delete", async (ctx) => {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -1686,7 +1686,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work with permanentDelete permission for blob version delete", async function (ctx) {
+  it("GenerateUserDelegationSAS should work with permanentDelete permission for blob version delete", async (ctx) => {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient;
@@ -2007,7 +2007,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await serviceClientWithDefaultSAS.getProperties();
   });
 
-  it("generateAccountSasUrl with encryption scope", async function (ctx) {
+  it("generateAccountSasUrl with encryption scope", async (ctx) => {
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -2125,7 +2125,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("ContainerClient.generateSasUrl with encryption scope", async function (ctx) {
+  it("ContainerClient.generateSasUrl with encryption scope", async (ctx) => {
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -2260,7 +2260,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("BlobClient.generateSasUrl should work with encryption scope for blob", async function (ctx) {
+  it("BlobClient.generateSasUrl should work with encryption scope for blob", async (ctx) => {
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();
@@ -3260,7 +3260,7 @@ describe("Generation for user delegation SAS against blob Node.js only", () => {
     await blobClientWithSAS.delete();
   });
 
-  it("generateUserDelegationSasUrl should work with encryption scope", async function (ctx) {
+  it("generateUserDelegationSasUrl should work with encryption scope", async (ctx) => {
     let encryptionScopeName: string;
     try {
       encryptionScopeName = getEncryptionScope_1();

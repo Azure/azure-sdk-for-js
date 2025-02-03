@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as zlib from "zlib";
 
+import * as zlib from "node:zlib";
 import {
   SimpleTokenCredential,
   base64encode,
@@ -38,7 +38,7 @@ import { streamToBuffer3 } from "../../src/utils/utils.js";
 import * as crypto from "node:crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;
@@ -283,11 +283,8 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("should not decompress during downloading", async () => {
+  it("should not decompress during downloading", { skip: !isLiveMode() }, async () => {
     // recorder doesn't save binary payload correctly
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);
 
@@ -321,7 +318,7 @@ describe("syncUploadFromURL", () => {
     blobContentType: "blobContentType",
   };
 
-  before(async function () {
+  beforeAll(async () => {
     largeContent = generateRandomUint8Array(BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES);
   });
 
@@ -658,7 +655,7 @@ describe("syncUploadFromURL", () => {
   });
 
   // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("syncUploadFromURL - should fail with copy source error message", async function () {
+  it.skip("syncUploadFromURL - should fail with copy source error message", async () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
@@ -685,7 +682,7 @@ describe("syncUploadFromURL", () => {
   });
 
   // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("stageBlockFromURL - should fail with copy source error message", async function () {
+  it.skip("stageBlockFromURL - should fail with copy source error message", async () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
@@ -795,30 +792,28 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("large content", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("large content", { skip: !isLiveMode(), timeout: 10 * 60 * 1000 }, async () => {
     await sourceBlob.uploadData(largeContent);
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
-  }).timeout(10 * 60 * 1000);
+  });
 
   // TODO: should enable this case when service is ready
-  it.skip("large content with timeout", async function () {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    await sourceBlob.uploadData(largeContent);
+  it.skip(
+    "large content with timeout",
+    { skip: !isLiveMode(), timeout: 10 * 60 * 1000 },
+    async () => {
+      await sourceBlob.uploadData(largeContent);
 
-    let exceptionCaught = false;
-    try {
-      await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
-        timeoutInSeconds: 1,
-      });
-    } catch (err: any) {
-      assert.deepStrictEqual(err.code, "OperationTimedOut");
-      exceptionCaught = true;
-    }
-    assert.ok(exceptionCaught);
-  }).timeout(10 * 60 * 1000);
+      let exceptionCaught = false;
+      try {
+        await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
+          timeoutInSeconds: 1,
+        });
+      } catch (err: any) {
+        assert.deepStrictEqual(err.code, "OperationTimedOut");
+        exceptionCaught = true;
+      }
+      assert.ok(exceptionCaught);
+    },
+  );
 });

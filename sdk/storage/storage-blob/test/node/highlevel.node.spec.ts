@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import * as buffer from "node:buffer";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -25,7 +26,7 @@ import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 
 describe("Highlevel", () => {
   let containerName: string;
@@ -74,7 +75,7 @@ describe("Highlevel", () => {
     await recorder.stop();
   });
 
-  before(async function () {
+  beforeAll(async () => {
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -93,59 +94,57 @@ describe("Highlevel", () => {
     );
   });
 
-  after(async function () {
+  afterAll(async () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
   });
 
-  it("put blob with maximum size", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const MB = 1024 * 1024;
-    const maxPutBlobSizeLimitInMB = 5000;
-    const tempFile = await createRandomLocalFile(tempFolderPath, maxPutBlobSizeLimitInMB, MB);
-    const inputStream = fs.createReadStream(tempFile);
+  it(
+    "put blob with maximum size",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const MB = 1024 * 1024;
+      const maxPutBlobSizeLimitInMB = 5000;
+      const tempFile = await createRandomLocalFile(tempFolderPath, maxPutBlobSizeLimitInMB, MB);
+      const inputStream = fs.createReadStream(tempFile);
 
-    try {
-      await blockBlobClient.upload(() => inputStream, maxPutBlobSizeLimitInMB * MB, {
-        abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
+      try {
+        await blockBlobClient.upload(() => inputStream, maxPutBlobSizeLimitInMB * MB, {
+          abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
+        });
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+      }
+
+      fs.unlinkSync(tempFile);
+    },
+  );
+
+  it(
+    "uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      await blockBlobClient.uploadFile(tempFileLarge, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 20,
       });
-    } catch (err: any) {
-      assert.equal(err.name, "AbortError");
-    }
 
-    fs.unlinkSync(tempFile);
-  }).timeout(timeoutForLargeFileUploadingTest);
+      const downloadResponse = await blockBlobClient.download(0);
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-  it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    await blockBlobClient.uploadFile(tempFileLarge, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
-    });
+      const downloadedData = await fs.readFileSync(downloadedFile);
+      const uploadedData = await fs.readFileSync(tempFileLarge);
 
-    const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
+      fs.unlinkSync(downloadedFile);
+      assert.ok(downloadedData.equals(uploadedData));
+    },
+  );
 
-    const downloadedData = await fs.readFileSync(downloadedFile);
-    const uploadedData = await fs.readFileSync(tempFileLarge);
-
-    fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
-  }).timeout(timeoutForLargeFileUploadingTest);
-
-  it("uploadFile should work with tags", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-
+  it("uploadFile should work with tags", { skip: isNodeLike && !isLiveMode() }, async () => {
     const tags = {
       tag1: "val1",
       tag2: "val2",
@@ -161,50 +160,52 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    await blockBlobClient.uploadFile(tempFileSmall, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
-    });
+  it(
+    "uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      await blockBlobClient.uploadFile(tempFileSmall, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 20,
+      });
 
-    const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
+      const downloadResponse = await blockBlobClient.download(0);
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-    const downloadedData = await fs.readFileSync(downloadedFile);
-    const uploadedData = await fs.readFileSync(tempFileSmall);
+      const downloadedData = await fs.readFileSync(downloadedFile);
+      const uploadedData = await fs.readFileSync(tempFileSmall);
 
-    fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
-  });
+      fs.unlinkSync(downloadedFile);
+      assert.ok(downloadedData.equals(uploadedData));
+    },
+  );
 
-  it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    await blockBlobClient.uploadFile(tempFileSmall, {
-      maxSingleShotSize: 0,
-    });
+  it(
+    "uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      await blockBlobClient.uploadFile(tempFileSmall, {
+        maxSingleShotSize: 0,
+      });
 
-    const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
+      const downloadResponse = await blockBlobClient.download(0);
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
-    const downloadedData = await fs.readFileSync(downloadedFile);
-    const uploadedData = await fs.readFileSync(tempFileSmall);
+      const downloadedData = await fs.readFileSync(downloadedFile);
+      const uploadedData = await fs.readFileSync(tempFileSmall);
 
-    fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
-  });
+      fs.unlinkSync(downloadedFile);
+      assert.ok(downloadedData.equals(uploadedData));
+    },
+  );
 
   it("uploadFile should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = AbortSignal.timeout(1);
@@ -236,131 +237,133 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadFile should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    let eventTriggered = false;
-    const aborter = new AbortController();
+  it(
+    "uploadFile should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: !isLiveMode() },
+    async () => {
+      let eventTriggered = false;
+      const aborter = new AbortController();
 
-    try {
-      await blockBlobClient.uploadFile(tempFileLarge, {
-        abortSignal: aborter.signal,
-        blockSize: 4 * 1024 * 1024,
-        concurrency: 20,
-        onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
-          eventTriggered = true;
-          aborter.abort();
-        },
+      try {
+        await blockBlobClient.uploadFile(tempFileLarge, {
+          abortSignal: aborter.signal,
+          blockSize: 4 * 1024 * 1024,
+          concurrency: 20,
+          onProgress: (ev) => {
+            assert.ok(ev.loadedBytes);
+            eventTriggered = true;
+            aborter.abort();
+          },
+        });
+      } catch (err: any) {}
+      assert.ok(eventTriggered);
+    },
+  );
+
+  it(
+    "uploadFile should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: !isLiveMode() },
+    async () => {
+      let eventTriggered = false;
+      const aborter = new AbortController();
+
+      try {
+        await blockBlobClient.uploadFile(tempFileSmall, {
+          abortSignal: aborter.signal,
+          blockSize: 4 * 1024 * 1024,
+          concurrency: 20,
+          onProgress: (ev) => {
+            assert.ok(ev.loadedBytes);
+            eventTriggered = true;
+            aborter.abort();
+          },
+        });
+      } catch (err: any) {}
+      assert.ok(eventTriggered);
+    },
+  );
+
+  it(
+    "uploadFile should succeed with blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const tempFile = await createRandomLocalFile(
+        tempFolderPath,
+        BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
+        1024 * 1024,
+      );
+      try {
+        await blockBlobClient.uploadFile(tempFile, {
+          blockSize: BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+          abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
+        });
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+      }
+
+      fs.unlinkSync(tempFile);
+    },
+  );
+
+  it(
+    "uploadStream should success",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const rs = fs.createReadStream(tempFileLarge);
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+
+      const downloadResponse = await blockBlobClient.download(0);
+
+      const downloadFilePath = path.join(
+        tempFolderPath,
+        recorder.variable("downloadFile", getUniqueName("downloadFile")),
+      );
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
+
+      const downloadedBuffer = fs.readFileSync(downloadFilePath);
+      const uploadedBuffer = fs.readFileSync(tempFileLarge);
+      assert.ok(uploadedBuffer.equals(downloadedBuffer));
+
+      fs.unlinkSync(downloadFilePath);
+    },
+  );
+
+  it(
+    "uploadStream with CPK should success",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const rs = fs.createReadStream(tempFileLarge);
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
+        customerProvidedKey: Test_CPK_INFO,
       });
-    } catch (err: any) {}
-    assert.ok(eventTriggered);
-  });
 
-  it("uploadFile should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    let eventTriggered = false;
-    const aborter = new AbortController();
+      try {
+        await blockBlobClient.download(0);
+        assert.fail("Downloading without CPK should fail.");
+      } catch (err) {
+        assert.deepEqual((err as any).statusCode, 409);
+        assert.deepEqual((err as any).details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
+      }
 
-    try {
-      await blockBlobClient.uploadFile(tempFileSmall, {
-        abortSignal: aborter.signal,
-        blockSize: 4 * 1024 * 1024,
-        concurrency: 20,
-        onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
-          eventTriggered = true;
-          aborter.abort();
-        },
+      const downloadResponse = await blockBlobClient.download(0, undefined, {
+        customerProvidedKey: Test_CPK_INFO,
       });
-    } catch (err: any) {}
-    assert.ok(eventTriggered);
-  });
 
-  it("uploadFile should succeed with blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const tempFile = await createRandomLocalFile(
-      tempFolderPath,
-      BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
-      1024 * 1024,
-    );
-    try {
-      await blockBlobClient.uploadFile(tempFile, {
-        blockSize: BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
-        abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
-      });
-    } catch (err: any) {
-      assert.equal(err.name, "AbortError");
-    }
+      const downloadFilePath = path.join(
+        tempFolderPath,
+        recorder.variable("downloadFile", getUniqueName("downloadFile")),
+      );
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
-    fs.unlinkSync(tempFile);
-  }).timeout(timeoutForLargeFileUploadingTest);
+      const downloadedBuffer = fs.readFileSync(downloadFilePath);
+      const uploadedBuffer = fs.readFileSync(tempFileLarge);
+      assert.ok(uploadedBuffer.equals(downloadedBuffer));
 
-  it("uploadStream should success", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const rs = fs.createReadStream(tempFileLarge);
-    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+      fs.unlinkSync(downloadFilePath);
+    },
+  );
 
-    const downloadResponse = await blockBlobClient.download(0);
-
-    const downloadFilePath = path.join(
-      tempFolderPath,
-      recorder.variable("downloadFile", getUniqueName("downloadFile")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
-
-    const downloadedBuffer = fs.readFileSync(downloadFilePath);
-    const uploadedBuffer = fs.readFileSync(tempFileLarge);
-    assert.ok(uploadedBuffer.equals(downloadedBuffer));
-
-    fs.unlinkSync(downloadFilePath);
-  }).timeout(timeoutForLargeFileUploadingTest);
-
-  it("uploadStream with CPK should success", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const rs = fs.createReadStream(tempFileLarge);
-    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
-      customerProvidedKey: Test_CPK_INFO,
-    });
-
-    try {
-      await blockBlobClient.download(0);
-      assert.fail("Downloading without CPK should fail.");
-    } catch (err) {
-      assert.deepEqual((err as any).statusCode, 409);
-      assert.deepEqual((err as any).details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
-    }
-
-    const downloadResponse = await blockBlobClient.download(0, undefined, {
-      customerProvidedKey: Test_CPK_INFO,
-    });
-
-    const downloadFilePath = path.join(
-      tempFolderPath,
-      recorder.variable("downloadFile", getUniqueName("downloadFile")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
-
-    const downloadedBuffer = fs.readFileSync(downloadFilePath);
-    const uploadedBuffer = fs.readFileSync(tempFileLarge);
-    assert.ok(uploadedBuffer.equals(downloadedBuffer));
-
-    fs.unlinkSync(downloadFilePath);
-  }).timeout(timeoutForLargeFileUploadingTest);
-
-  it("uploadStream should success for tiny buffers", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadStream should success for tiny buffers", { skip: !isLiveMode() }, async () => {
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
@@ -373,11 +376,7 @@ describe("Highlevel", () => {
     assert.ok(buf.equals(downloadBuffer));
   });
 
-  it("uploadStream should work with tags", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-
+  it("uploadStream should work with tags", { skip: isNodeLike && !isLiveMode() }, async () => {
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
@@ -393,10 +392,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadStream should abort", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
+  it("uploadStream should abort", { skip: isNodeLike && !isLiveMode() }, async () => {
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortSignal.timeout(1);
 
@@ -410,21 +406,22 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadStream should update progress event", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const rs = fs.createReadStream(tempFileLarge);
-    let eventTriggered = false;
+  it(
+    "uploadStream should update progress event",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const rs = fs.createReadStream(tempFileLarge);
+      let eventTriggered = false;
 
-    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
-      onProgress: (ev) => {
-        assert.ok(ev.loadedBytes);
-        eventTriggered = true;
-      },
-    });
-    assert.ok(eventTriggered);
-  }).timeout(timeoutForLargeFileUploadingTest);
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
+        onProgress: (ev) => {
+          assert.ok(ev.loadedBytes);
+          eventTriggered = true;
+        },
+      });
+      assert.ok(eventTriggered);
+    },
+  );
 
   it("uploadStream should work with empty data", async () => {
     const emptyReadable = new Readable();
@@ -440,10 +437,8 @@ describe("Highlevel", () => {
   // Skipped due to memory limitation of the testing VM. This was failing in the "Windows Node 10" testing environment.
   it.skip(
     "uploadStream should work when blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES",
-    async function () {
-      if (isNodeLike && !isLiveMode()) {
-        ctx.skip();
-      }
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
       const tempFile = await createRandomLocalFile(
         tempFolderPath,
         BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
@@ -462,24 +457,25 @@ describe("Highlevel", () => {
 
       fs.unlinkSync(tempFile);
     },
-  ).timeout(timeoutForLargeFileUploadingTest);
+  );
 
-  it("downloadToBuffer should success - without passing the buffer", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const rs = fs.createReadStream(tempFileLarge);
-    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+  it(
+    "downloadToBuffer should success - without passing the buffer",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const rs = fs.createReadStream(tempFileLarge);
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
-    const buf = await blockBlobClient.downloadToBuffer(0, undefined, {
-      blockSize: 4 * 1024 * 1024,
-      maxRetryRequestsPerBlock: 5,
-      concurrency: 20,
-    });
+      const buf = await blockBlobClient.downloadToBuffer(0, undefined, {
+        blockSize: 4 * 1024 * 1024,
+        maxRetryRequestsPerBlock: 5,
+        concurrency: 20,
+      });
 
-    const localFileContent = fs.readFileSync(tempFileLarge);
-    assert.ok(localFileContent.equals(buf));
-  }).timeout(timeoutForLargeFileUploadingTest);
+      const localFileContent = fs.readFileSync(tempFileLarge);
+      assert.ok(localFileContent.equals(buf));
+    },
+  );
 
   it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async () => {
     let error;
@@ -496,23 +492,24 @@ describe("Highlevel", () => {
     );
   });
 
-  it("downloadToBuffer should success", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const rs = fs.createReadStream(tempFileLarge);
-    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+  it(
+    "downloadToBuffer should success",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const rs = fs.createReadStream(tempFileLarge);
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
-    const buf = Buffer.alloc(tempFileLargeLength);
-    await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
-      blockSize: 4 * 1024 * 1024,
-      maxRetryRequestsPerBlock: 5,
-      concurrency: 20,
-    });
+      const buf = Buffer.alloc(tempFileLargeLength);
+      await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
+        blockSize: 4 * 1024 * 1024,
+        maxRetryRequestsPerBlock: 5,
+        concurrency: 20,
+      });
 
-    const localFileContent = fs.readFileSync(tempFileLarge);
-    assert.ok(localFileContent.equals(buf));
-  }).timeout(timeoutForLargeFileUploadingTest);
+      const localFileContent = fs.readFileSync(tempFileLarge);
+      assert.ok(localFileContent.equals(buf));
+    },
+  );
 
   it("downloadBlobToBuffer should success when downloading a range inside blob", async () => {
     await blockBlobClient.upload("aaaabbbb", 8);
@@ -547,52 +544,54 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(buf.toString(), "aaab");
   });
 
-  it("downloadToBuffer should abort", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const rs = fs.createReadStream(tempFileLarge);
-    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+  it(
+    "downloadToBuffer should abort",
+    { skip: isNodeLike && !isLiveMode(), timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const rs = fs.createReadStream(tempFileLarge);
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
-    try {
-      const buf = Buffer.alloc(tempFileLargeLength);
-      await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
-        abortSignal: AbortSignal.timeout(1),
-        blockSize: 4 * 1024 * 1024,
-        maxRetryRequestsPerBlock: 5,
-        concurrency: 20,
-      });
-      assert.fail();
-    } catch (err: any) {
-      assert.equal(err.name, "AbortError");
-    }
-  }).timeout(timeoutForLargeFileUploadingTest);
+      try {
+        const buf = Buffer.alloc(tempFileLargeLength);
+        await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
+          abortSignal: AbortSignal.timeout(1),
+          blockSize: 4 * 1024 * 1024,
+          maxRetryRequestsPerBlock: 5,
+          concurrency: 20,
+        });
+        assert.fail();
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+      }
+    },
+  );
 
-  it("downloadToBuffer should update progress event", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const rs = fs.createReadStream(tempFileSmall);
-    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 10);
+  it(
+    "downloadToBuffer should update progress event",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      const rs = fs.createReadStream(tempFileSmall);
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 10);
 
-    let eventTriggered = false;
-    const buf = Buffer.alloc(tempFileSmallLength);
-    const aborter = new AbortController();
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
-    try {
-      await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
-        abortSignal: aborter.signal,
-        blockSize: 1 * 1024,
-        maxRetryRequestsPerBlock: 5,
-        concurrency: 1,
-        onProgress: () => {
-          eventTriggered = true;
-          aborter.abort();
-        },
-      });
-    } catch (err: any) {}
-    assert.ok(eventTriggered);
-  });
+      let eventTriggered = false;
+      const buf = Buffer.alloc(tempFileSmallLength);
+      const aborter = new AbortController();
+      /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+      try {
+        await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
+          abortSignal: aborter.signal,
+          blockSize: 1 * 1024,
+          maxRetryRequestsPerBlock: 5,
+          concurrency: 1,
+          onProgress: () => {
+            eventTriggered = true;
+            aborter.abort();
+          },
+        });
+      } catch (err: any) {}
+      assert.ok(eventTriggered);
+    },
+  );
 
   it("downloadToBuffer with CPK", async () => {
     const content = "Hello World";
@@ -618,242 +617,245 @@ describe("Highlevel", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("blobclient.download should success when internal stream unexpected ends at the stream end", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
-    });
+  it(
+    "blobclient.download should success when internal stream unexpected ends at the stream end",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 20,
+      });
 
-    /* eslint-disable prefer-const */
-    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
-    const downloadResponse = await blockBlobClient.download(0, undefined, {
-      conditions: {
-        ifMatch: uploadResponse.etag,
-      },
-      maxRetryRequests: 1,
-      onProgress: (ev) => {
-        if (ev.loadedBytes >= tempFileSmallLength) {
-          retirableReadableStreamOptions.doInjectErrorOnce = true;
-        }
-      },
-    });
-
-    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-    /* eslint-enable prefer-const */
-
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-
-    const downloadedData = await fs.readFileSync(downloadedFile);
-    const uploadedData = await fs.readFileSync(tempFileSmall);
-
-    fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
-  });
-
-  it("blobclient.download should download full data successfully when internal stream unexpected ends", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
-    });
-
-    /* eslint-disable prefer-const */
-    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
-    let injectedErrors = 0;
-    const downloadResponse = await blockBlobClient.download(0, undefined, {
-      conditions: {
-        ifMatch: uploadResponse.etag,
-      },
-      maxRetryRequests: 3,
-      onProgress: () => {
-        if (injectedErrors++ < 3) {
-          retirableReadableStreamOptions.doInjectErrorOnce = true;
-        }
-      },
-    });
-
-    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-    /* eslint-enable prefer-const */
-
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-
-    const downloadedData = await fs.readFileSync(downloadedFile);
-    const uploadedData = await fs.readFileSync(tempFileSmall);
-
-    fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.equals(uploadedData));
-  });
-
-  it("blobclient.download should download partial data when internal stream unexpected ends", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
-    });
-
-    const partialSize = 500 * 1024;
-
-    /* eslint-disable prefer-const */
-    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
-    let injectedErrors = 0;
-    const downloadResponse = await blockBlobClient.download(0, partialSize, {
-      conditions: {
-        ifMatch: uploadResponse.etag,
-      },
-      maxRetryRequests: 3,
-      onProgress: () => {
-        if (injectedErrors++ < 3) {
-          retirableReadableStreamOptions.doInjectErrorOnce = true;
-        }
-      },
-    });
-
-    retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-    /* eslint-enable prefer-const */
-
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-
-    const downloadedData = await fs.readFileSync(downloadedFile);
-    const uploadedData = await fs.readFileSync(tempFileSmall);
-
-    fs.unlinkSync(downloadedFile);
-    assert.ok(downloadedData.slice(0, partialSize).equals(uploadedData.slice(0, partialSize)));
-  });
-
-  it("blobclient.download should download data failed when exceeding max stream retry requests", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
-    });
-
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
-
-    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
-    let injectedErrors = 0;
-    let expectedError = false;
-
-    try {
+      /* eslint-disable prefer-const */
+      let retirableReadableStreamOptions: RetriableReadableStreamOptions;
       const downloadResponse = await blockBlobClient.download(0, undefined, {
         conditions: {
           ifMatch: uploadResponse.etag,
         },
-        maxRetryRequests: 0,
-        onProgress: () => {
-          if (injectedErrors++ < 1) {
+        maxRetryRequests: 1,
+        onProgress: (ev) => {
+          if (ev.loadedBytes >= tempFileSmallLength) {
             retirableReadableStreamOptions.doInjectErrorOnce = true;
           }
         },
       });
+
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+      /* eslint-enable prefer-const */
+
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-    } catch (error: any) {
-      expectedError = true;
-    }
 
-    assert.ok(expectedError);
-    fs.unlinkSync(downloadedFile);
-  });
+      const downloadedData = await fs.readFileSync(downloadedFile);
+      const uploadedData = await fs.readFileSync(tempFileSmall);
 
-  it("blobclient.download should abort after retries", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
-    });
+      fs.unlinkSync(downloadedFile);
+      assert.ok(downloadedData.equals(uploadedData));
+    },
+  );
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
-    );
+  it(
+    "blobclient.download should download full data successfully when internal stream unexpected ends",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 20,
+      });
 
-    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
-    let injectedErrors = 0;
-    let caughtError: Error | undefined = undefined;
-
-    try {
-      const aborter = new AbortController();
+      /* eslint-disable prefer-const */
+      let retirableReadableStreamOptions: RetriableReadableStreamOptions;
+      let injectedErrors = 0;
       const downloadResponse = await blockBlobClient.download(0, undefined, {
-        abortSignal: aborter.signal,
         conditions: {
           ifMatch: uploadResponse.etag,
         },
         maxRetryRequests: 3,
         onProgress: () => {
-          if (injectedErrors++ < 2) {
-            // Trigger 2 times of retry
+          if (injectedErrors++ < 3) {
             retirableReadableStreamOptions.doInjectErrorOnce = true;
-          } else {
-            // Trigger aborter
-            aborter.abort();
           }
         },
       });
+
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+      /* eslint-enable prefer-const */
+
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-    } catch (error: any) {
-      caughtError = error;
-    }
-    fs.unlinkSync(downloadedFile);
-    assert.equal(caughtError?.name, "AbortError");
-  });
 
-  it("download abort should work when still fetching body", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    await blockBlobClient.uploadFile(tempFileSmall, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 20,
-    });
+      const downloadedData = await fs.readFileSync(downloadedFile);
+      const uploadedData = await fs.readFileSync(tempFileSmall);
 
-    const aborter = new AbortController();
-    const res = await blobClient.download(0, undefined, { abortSignal: aborter.signal });
+      fs.unlinkSync(downloadedFile);
+      assert.ok(downloadedData.equals(uploadedData));
+    },
+  );
 
-    const bodyEnded = new Promise<void>((resolve, reject) => {
-      res.readableStreamBody!.on("error", (err) => {
-        if (err.name === "AbortError") {
-          resolve();
-        } else {
-          reject(new Error("Expected readableStreamBody to emit AbortError"));
-        }
+  it(
+    "blobclient.download should download partial data when internal stream unexpected ends",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 20,
       });
-    });
 
-    aborter.abort();
-    await bodyEnded;
-  });
+      const partialSize = 500 * 1024;
 
-  it("downloadToFile should success", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
+      /* eslint-disable prefer-const */
+      let retirableReadableStreamOptions: RetriableReadableStreamOptions;
+      let injectedErrors = 0;
+      const downloadResponse = await blockBlobClient.download(0, partialSize, {
+        conditions: {
+          ifMatch: uploadResponse.etag,
+        },
+        maxRetryRequests: 3,
+        onProgress: () => {
+          if (injectedErrors++ < 3) {
+            retirableReadableStreamOptions.doInjectErrorOnce = true;
+          }
+        },
+      });
+
+      retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+      /* eslint-enable prefer-const */
+
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
+
+      const downloadedData = await fs.readFileSync(downloadedFile);
+      const uploadedData = await fs.readFileSync(tempFileSmall);
+
+      fs.unlinkSync(downloadedFile);
+      assert.ok(downloadedData.slice(0, partialSize).equals(uploadedData.slice(0, partialSize)));
+    },
+  );
+
+  it(
+    "blobclient.download should download data failed when exceeding max stream retry requests",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 20,
+      });
+
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
+
+      let retirableReadableStreamOptions: RetriableReadableStreamOptions;
+      let injectedErrors = 0;
+      let expectedError = false;
+
+      try {
+        const downloadResponse = await blockBlobClient.download(0, undefined, {
+          conditions: {
+            ifMatch: uploadResponse.etag,
+          },
+          maxRetryRequests: 0,
+          onProgress: () => {
+            if (injectedErrors++ < 1) {
+              retirableReadableStreamOptions.doInjectErrorOnce = true;
+            }
+          },
+        });
+        retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+        await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
+      } catch (error: any) {
+        expectedError = true;
+      }
+
+      assert.ok(expectedError);
+      fs.unlinkSync(downloadedFile);
+    },
+  );
+
+  it(
+    "blobclient.download should abort after retries",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      const uploadResponse = await blockBlobClient.uploadFile(tempFileSmall, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 20,
+      });
+
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
+
+      let retirableReadableStreamOptions: RetriableReadableStreamOptions;
+      let injectedErrors = 0;
+      let caughtError: Error | undefined = undefined;
+
+      try {
+        const aborter = new AbortController();
+        const downloadResponse = await blockBlobClient.download(0, undefined, {
+          abortSignal: aborter.signal,
+          conditions: {
+            ifMatch: uploadResponse.etag,
+          },
+          maxRetryRequests: 3,
+          onProgress: () => {
+            if (injectedErrors++ < 2) {
+              // Trigger 2 times of retry
+              retirableReadableStreamOptions.doInjectErrorOnce = true;
+            } else {
+              // Trigger aborter
+              aborter.abort();
+            }
+          },
+        });
+        retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+        await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
+      } catch (error: any) {
+        caughtError = error;
+      }
+      fs.unlinkSync(downloadedFile);
+      assert.equal(caughtError?.name, "AbortError");
+    },
+  );
+
+  it(
+    "download abort should work when still fetching body",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      await blockBlobClient.uploadFile(tempFileSmall, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 20,
+      });
+
+      const aborter = new AbortController();
+      const res = await blobClient.download(0, undefined, { abortSignal: aborter.signal });
+
+      const bodyEnded = new Promise<void>((resolve, reject) => {
+        res.readableStreamBody!.on("error", (err) => {
+          if (err.name === "AbortError") {
+            resolve();
+          } else {
+            reject(new Error("Expected readableStreamBody to emit AbortError"));
+          }
+        });
+      });
+
+      aborter.abort();
+      await bodyEnded;
+    },
+  );
+
+  it("downloadToFile should success", { skip: isNodeLike && !isLiveMode() }, async () => {
     const downloadedFilePath = recorder.variable(
       "downloadedtofile.",
       getUniqueName("downloadedtofile."),
@@ -880,25 +882,23 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadedFilePath);
   });
 
-  it("downloadToFile should fail when saving to directory", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const rs = fs.createReadStream(tempFileSmall);
-    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+  it(
+    "downloadToFile should fail when saving to directory",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      const rs = fs.createReadStream(tempFileSmall);
+      await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
-    try {
-      await blobClient.downloadToFile(".");
-      throw new Error("Test failure.");
-    } catch (err: any) {
-      assert.notEqual(err.message, "Test failure.");
-    }
-  });
+      try {
+        await blobClient.downloadToFile(".");
+        throw new Error("Test failure.");
+      } catch (err: any) {
+        assert.notEqual(err.message, "Test failure.");
+      }
+    },
+  );
 
-  it("set tier while upload", async () => {
-    if (isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
+  it("set tier while upload", { skip: isNodeLike && !isLiveMode() }, async () => {
     // single upload
     await blockBlobClient.uploadFile(tempFileSmall, {
       tier: "Hot",

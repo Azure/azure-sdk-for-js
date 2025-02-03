@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { readFileSync, unlinkSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-
 import type { TokenCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-
 import type {
   BlobImmutabilityPolicyMode,
   BlobServiceClient,
@@ -37,7 +36,7 @@ import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { streamToBuffer3 } from "../../src/utils/utils.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;
@@ -81,7 +80,7 @@ describe("BlobClient Node.js only", () => {
     await recorder.stop();
   });
 
-  before(async function () {
+  beforeAll(async () => {
     if (!existsSync(tempFolderPath)) {
       mkdirSync(tempFolderPath);
     }
@@ -144,7 +143,7 @@ describe("BlobClient Node.js only", () => {
       blobContentDisposition: "blobContentDisposition",
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
-      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentMD5: isNodeLike ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType",
     };
     await blobClient.setHTTPHeaders(headers);
@@ -225,7 +224,7 @@ describe("BlobClient Node.js only", () => {
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
 
-  it("syncCopyFromURL - destination encryption scope", async function (ctx) {
+  it("syncCopyFromURL - destination encryption scope", async (ctx) => {
     let encryptionScopeName: string;
 
     try {
@@ -699,10 +698,7 @@ describe("BlobClient Node.js only", () => {
     response.readableStreamBody?.resume();
   });
 
-  it("query should work with large file", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("query should work with large file", { skip: !isLiveMode() }, async () => {
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
       tempFolderPath,
@@ -728,10 +724,7 @@ describe("BlobClient Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("query should work with aborter", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("query should work with aborter", { skip: !isLiveMode() }, async () => {
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
       tempFolderPath,
@@ -919,7 +912,7 @@ describe("BlobClient Node.js only", () => {
     response.readableStreamBody?.resume();
   });
 
-  it("query should work with Parquet input configuration", async function (ctx) {
+  it("query should work with Parquet input configuration", async (ctx) => {
     // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
     ctx.skip();
     const parquetFilePath = join("test", "resources", "parquet.parquet");
@@ -947,7 +940,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("syncCopyFromURL - should fail with copy source error message", async function () {
+  it.skip("syncCopyFromURL - should fail with copy source error message", async () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 

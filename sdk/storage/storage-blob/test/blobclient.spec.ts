@@ -3,7 +3,7 @@
 
 import * as fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import {
   bodyToString,
   getBSU,
@@ -28,7 +28,7 @@ import { BlobClient, BlockBlobTier, BlobServiceClient } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { base64encode } from "../src/utils/utils.common.js";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
@@ -215,10 +215,7 @@ describe("BlobClient", () => {
     assert.exists(result.createdOn);
   });
 
-  it("download with progress report", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("download with progress report", { skip: !isLiveMode() }, async () => {
     let downloadedBytes = 0;
     const result = await blobClient.download(0, undefined, {
       onProgress: (data) => {
@@ -310,7 +307,7 @@ describe("BlobClient", () => {
       blobContentDisposition: "blobContentDisposition",
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
-      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentMD5: isNodeLike ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType",
     };
     await blobClient.setHTTPHeaders(headers);
@@ -705,7 +702,7 @@ describe("BlobClient", () => {
       blobContentDisposition: "blobContentDisposition",
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
-      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentMD5: isNodeLike ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType",
     };
     await blobClient.setHTTPHeaders(headers, { customerProvidedKey: Test_CPK_INFO });
@@ -743,7 +740,7 @@ describe("BlobClient", () => {
   });
 
   it("beginCopyFromURL with rehydrate priority", async () => {
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeLike && !isLiveMode()) {
       ctx.skip();
     }
     const newBlobURL = containerClient.getBlobClient(
@@ -1450,7 +1447,8 @@ describe("BlobClient - Verify Name Properties", () => {
   });
 });
 
-describe("BlobClient - Object Replication", () => {
+// Need to re-record these tests
+describe("BlobClient - Object Replication", { skip: true }, () => {
   const srcContainerName = "orssrc";
   const destContainerName = "orsdst";
   const blobName = "orsBlob";
@@ -1483,11 +1481,6 @@ describe("BlobClient - Object Replication", () => {
       ],
     },
   ];
-
-  before(async function (ctx) {
-    // need special setup to re-record these tests
-    ctx.skip();
-  });
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -1556,7 +1549,7 @@ describe("BlobClient - Object Replication", () => {
   });
 
   it("download to file", async function (ctx) {
-    if (!isNode || !isLiveMode()) {
+    if (!isNodeLike || !isLiveMode()) {
       ctx.skip();
     }
     const srcDownloadedFilePath = recorder.variable(

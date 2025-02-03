@@ -1,16 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import {
+  // @ts-expect-error browser only
   arrayBufferEqual,
+  // @ts-expect-error browser only
   blobToArrayBuffer,
+  // @ts-expect-error browser only
   blobToString,
   bodyToString,
+  // @ts-expect-error browser only
   getBrowserFile,
   getBSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
-} from "../utils/index.browser.js";
+} from "../utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
@@ -18,7 +23,7 @@ import type {
   BlockBlobClient,
   BlobServiceClient,
 } from "../../src/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("Highlevel", () => {
   let containerName: string;
@@ -54,28 +59,29 @@ describe("Highlevel", () => {
     await recorder.stop();
   });
 
-  before(async function () {
+  beforeAll(async () => {
     if (isLiveMode()) {
       tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
       tempFile2 = getBrowserFile(getUniqueName("browserfile2"), tempFile2Length);
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    const aborter = AbortSignal.timeout(1);
+  it(
+    "uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: !isLiveMode() },
+    async () => {
+      const aborter = AbortSignal.timeout(1);
 
-    try {
-      await blockBlobClient.uploadBrowserData(tempFile1, {
-        abortSignal: aborter,
-      });
-      assert.fail();
-    } catch (err: any) {
-      assert.equal(err.name, "AbortError");
-    }
-  });
+      try {
+        await blockBlobClient.uploadBrowserData(tempFile1, {
+          abortSignal: aborter,
+        });
+        assert.fail();
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+      }
+    },
+  );
 
   it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (!isLiveMode()) {
@@ -95,88 +101,88 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    let eventTriggered = false;
-    const aborter = new AbortController();
+  it(
+    "uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: !isLiveMode() },
+    async () => {
+      let eventTriggered = false;
+      const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
-    try {
-      await blockBlobClient.uploadBrowserData(tempFile1, {
-        abortSignal: aborter.signal,
-        blockSize: 4 * 1024 * 1024,
-        concurrency: 2,
-        onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
-          eventTriggered = true;
-          aborter.abort();
-        },
-      });
-    } catch (err: any) {}
-    assert.ok(eventTriggered);
-  });
+      /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+      try {
+        await blockBlobClient.uploadBrowserData(tempFile1, {
+          abortSignal: aborter.signal,
+          blockSize: 4 * 1024 * 1024,
+          concurrency: 2,
+          onProgress: (ev) => {
+            assert.ok(ev.loadedBytes);
+            eventTriggered = true;
+            aborter.abort();
+          },
+        });
+      } catch (err: any) {}
+      assert.ok(eventTriggered);
+    },
+  );
 
-  it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    let eventTriggered = false;
-    const aborter = new AbortController();
+  it(
+    "uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: !isLiveMode() },
+    async () => {
+      let eventTriggered = false;
+      const aborter = new AbortController();
 
-    try {
+      try {
+        await blockBlobClient.uploadBrowserData(tempFile2, {
+          abortSignal: aborter.signal,
+          blockSize: 4 * 1024 * 1024,
+          concurrency: 2,
+          onProgress: (ev) => {
+            assert.ok(ev.loadedBytes);
+            eventTriggered = true;
+            aborter.abort();
+          },
+        });
+      } catch (err: any) {}
+      assert.isTrue(eventTriggered);
+    },
+  );
+
+  it(
+    "uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: !isLiveMode() },
+    async () => {
       await blockBlobClient.uploadBrowserData(tempFile2, {
-        abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         concurrency: 2,
-        onProgress: (ev) => {
-          assert.ok(ev.loadedBytes);
-          eventTriggered = true;
-          aborter.abort();
-        },
       });
-    } catch (err: any) {}
-    assert.isTrue(eventTriggered);
-  });
 
-  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    await blockBlobClient.uploadBrowserData(tempFile2, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 2,
-    });
+      const downloadResponse = await blockBlobClient.download(0);
+      const downloadedString = await bodyToString(downloadResponse);
+      const uploadedString = await blobToString(tempFile2);
 
-    const downloadResponse = await blockBlobClient.download(0);
-    const downloadedString = await bodyToString(downloadResponse);
-    const uploadedString = await blobToString(tempFile2);
+      assert.equal(uploadedString, downloadedString);
+    },
+  );
 
-    assert.equal(uploadedString, downloadedString);
-  });
+  it(
+    "uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize",
+    { skip: !isLiveMode() },
+    async () => {
+      await blockBlobClient.uploadBrowserData(tempFile2, {
+        blockSize: 512 * 1024,
+        maxSingleShotSize: 0,
+      });
 
-  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES and configured maxSingleShotSize", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    await blockBlobClient.uploadBrowserData(tempFile2, {
-      blockSize: 512 * 1024,
-      maxSingleShotSize: 0,
-    });
+      const downloadResponse = await blockBlobClient.download(0);
+      const downloadedString = await bodyToString(downloadResponse);
+      const uploadedString = await blobToString(tempFile2);
 
-    const downloadResponse = await blockBlobClient.download(0);
-    const downloadedString = await bodyToString(downloadResponse);
-    const uploadedString = await blobToString(tempFile2);
+      assert.equal(uploadedString, downloadedString);
+    },
+  );
 
-    assert.equal(uploadedString, downloadedString);
-  });
-
-  it("uploadBrowserDataToBlockBlob should work with tags", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-
+  it("uploadBrowserDataToBlockBlob should work with tags", { skip: !isLiveMode() }, async () => {
     const tags = {
       tag1: "val1",
       tag2: "val2",
@@ -192,26 +198,24 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-    await blockBlobClient.uploadBrowserData(tempFile1, {
-      blockSize: 4 * 1024 * 1024,
-      concurrency: 2,
-    });
+  it(
+    "uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
+    { skip: !isLiveMode() },
+    async () => {
+      await blockBlobClient.uploadBrowserData(tempFile1, {
+        blockSize: 4 * 1024 * 1024,
+        concurrency: 2,
+      });
 
-    const downloadResponse = await blockBlobClient.download(0);
-    const buf1 = await blobToArrayBuffer(await downloadResponse.blobBody!);
-    const buf2 = await blobToArrayBuffer(tempFile1);
+      const downloadResponse = await blockBlobClient.download(0);
+      const buf1 = await blobToArrayBuffer(await downloadResponse.blobBody!);
+      const buf2 = await blobToArrayBuffer(tempFile1);
 
-    assert.ok(arrayBufferEqual(buf1, buf2));
-  });
+      assert.ok(arrayBufferEqual(buf1, buf2));
+    },
+  );
 
-  it("set tier while upload", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("set tier while upload", { skip: !isLiveMode() }, async () => {
     // single upload
     await blockBlobClient.uploadBrowserData(tempFile2, {
       tier: "Hot",
