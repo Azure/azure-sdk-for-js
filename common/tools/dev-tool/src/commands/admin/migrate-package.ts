@@ -98,11 +98,43 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   return true;
 });
 
+async function upgradeMetaJson(projectFolder: string): Promise<void> {
+  const metaJsonPath = resolve(projectFolder, "_meta.json");
+  if (!existsSync(metaJsonPath)) {
+    log.warn(
+      `Could not find _meta.json at ${metaJsonPath} - this is expected for non-ARM packages`,
+    );
+    return;
+  }
+
+  const metaJson = JSON.parse(await readFile(metaJsonPath, "utf-8"));
+
+  if (!metaJson.use) {
+    metaJson.use = "@autorest/typescript@6.0.34";
+  } else {
+    metaJson.use = metaJson.use.replace(/@autorest\/typescript@.*$/, "@autorest/typescript@6.0.34");
+  }
+
+  const autorestCommand = metaJson.autorest_command;
+  if (autorestCommand) {
+    metaJson.autorest_command = autorestCommand.replace(
+      /@autorest\/typescript@.*\s/,
+      "@autorest/typescript@6.0.34 ",
+    );
+    if (!metaJson.autorest_command.includes("module-kind")) {
+      metaJson.autorest_command += " --module-kind=esm";
+    }
+  }
+
+  saveJson(metaJsonPath, metaJson);
+}
+
 async function prepareFiles(projectFolder: string, options: { browser: boolean }): Promise<void> {
   log.info("Migrating package.json, tsconfig.json, and api-extractor.json");
   await upgradePackageJson(projectFolder, resolve(projectFolder, "package.json"), options);
   await upgradeTypeScriptConfig(resolve(projectFolder, "tsconfig.json"));
   await fixApiExtractorConfig(resolve(projectFolder, "api-extractor.json"));
+  await upgradeMetaJson(projectFolder);
   await commitChanges(projectFolder, "Update package.json, tsconfig.json, and api-extractor.json");
 
   log.info("Migrating test config");
