@@ -3,6 +3,7 @@
 
 import type {
   AzureAISearchToolDefinition,
+  AzureFunctionToolDefinition,
   CodeInterpreterToolDefinition,
   FileSearchToolDefinition,
   FileSearchToolDefinitionDetails,
@@ -17,6 +18,8 @@ import type {
   ToolResources,
   VectorStoreConfigurations,
   VectorStoreDataSource,
+  AzureFunctionStorageQueue,
+  AzureFunctionDefinition,
 } from "./inputOutputs.js";
 
 /**
@@ -42,12 +45,15 @@ export enum connectionToolType {
   MicrosoftFabric = "microsoft_fabric",
   /** Sharepoint tool */
   SharepointGrounding = "sharepoint_grounding",
+  /** Azure Function tool */
+  AzureFunction = "azure_function",
 }
 
 const toolMap = {
   bing_grounding: "bingGrounding",
   microsoft_fabric: "microsoftFabric",
   sharepoint_grounding: "sharepointGrounding",
+  azure_function: "azureFunction",
 };
 
 /**
@@ -117,6 +123,36 @@ export class ToolUtility {
     };
   }
 
+  /**
+   * Creates an Azure Function tool
+   * @param name - The name of the Azure Function.
+   * @param description - The description of the Azure Function.
+   * @param parameters - The parameters of the Azure Function.
+   * @param inputQueue - The input queue configuration.
+   * @param outputQueue - The output queue configuration.
+   * @returns An object containing the definition and resources for the Azure Function tool.
+   */
+  static createAzureFunctionTool(
+    name: string,
+    description: string,
+    parameters: unknown,
+    inputQueue: AzureFunctionStorageQueue,
+    outputQueue: AzureFunctionStorageQueue,
+    definitionDetails: AzureFunctionDefinition,
+  ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
+    return {
+      definition: { type: "azure_function", azureFunction: definitionDetails },
+      resources: {
+        azureFunction: {
+          name: name,
+          description: description,
+          parameters: parameters,
+          inputQueue: inputQueue,
+          outputQueue: outputQueue,
+        },
+      },
+    };
+  }
   /**
    * Creates an Azure AI search tool
    *
@@ -271,6 +307,38 @@ export class ToolSet {
   } {
     const tool = ToolUtility.createOpenApiTool(openApiFunctionDefinition);
     this.toolDefinitions.push(tool.definition);
+    return tool;
+  }
+
+  /**
+   * Adds an Azure Function tool to the tool set.
+   *
+   * @param name - The name of the Azure Function.
+   * @param description - The description of the Azure Function.
+   * @param parameters - The parameters of the Azure Function.
+   * @param inputQueue - The input queue configuration.
+   * @param outputQueue - The output queue configuration.
+   *
+   * @returns An object containing the definition and resources for the Azure Function tool.
+   */
+  addAzureFunctionTool(
+    name: string,
+    description: string,
+    parameters: unknown,
+    inputQueue: AzureFunctionStorageQueue,
+    outputQueue: AzureFunctionStorageQueue,
+    definitionDetails: AzureFunctionDefinition,
+  ): { definition: AzureFunctionToolDefinition; resources: ToolResources } {
+    const tool = ToolUtility.createAzureFunctionTool(
+      name,
+      description,
+      parameters,
+      inputQueue,
+      outputQueue,
+      definitionDetails,
+    );
+    this.toolDefinitions.push(tool.definition);
+    this.toolResources = { ...this.toolResources, ...tool.resources };
     return tool;
   }
 }

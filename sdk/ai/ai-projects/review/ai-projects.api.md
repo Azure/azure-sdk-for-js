@@ -308,6 +308,7 @@ export interface ConnectionsOperations {
 
 // @public
 export enum connectionToolType {
+    AzureFunction = "azure_function",
     BingGrounding = "bing_grounding",
     MicrosoftFabric = "microsoft_fabric",
     SharepointGrounding = "sharepoint_grounding"
@@ -1690,6 +1691,8 @@ export interface ToolOutput {
 // @public
 export interface ToolResources {
     azureAISearch?: AzureAISearchResource;
+    // Warning: (ae-forgotten-export) The symbol "AzureFunctionToolResource" needs to be exported by the entry point index.d.ts
+    azureFunction?: AzureFunctionToolResource;
     codeInterpreter?: CodeInterpreterToolResource;
     fileSearch?: FileSearchToolResource;
 }
@@ -1705,6 +1708,10 @@ export interface ToolResourcesOutput {
 export class ToolSet {
     addAzureAISearchTool(indexConnectionId: string, indexName: string): {
         definition: AzureAISearchToolDefinition;
+        resources: ToolResources;
+    };
+    addAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue, definitionDetails: AzureFunctionDefinition): {
+        definition: AzureFunctionToolDefinition;
         resources: ToolResources;
     };
     addCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
@@ -1729,6 +1736,10 @@ export class ToolSet {
 export class ToolUtility {
     static createAzureAISearchTool(indexConnectionId: string, indexName: string): {
         definition: AzureAISearchToolDefinition;
+        resources: ToolResources;
+    };
+    static createAzureFunctionTool(name: string, description: string, parameters: unknown, inputQueue: AzureFunctionStorageQueue, outputQueue: AzureFunctionStorageQueue, definitionDetails: AzureFunctionDefinition): {
+        definition: AzureFunctionToolDefinition;
         resources: ToolResources;
     };
     static createCodeInterpreterTool(fileIds?: string[], dataSources?: Array<VectorStoreDataSource>): {
@@ -1829,6 +1840,7 @@ export interface UpdateRunOptionalParams extends OperationOptions {
 // @public
 export interface UpdateToolResourcesOptions {
     azureAISearch?: AzureAISearchResource;
+    azureFunction?: AzureFunctionToolResource;
     codeInterpreter?: UpdateCodeInterpreterToolResourceOptions;
     fileSearch?: UpdateFileSearchToolResourceOptions;
 }
