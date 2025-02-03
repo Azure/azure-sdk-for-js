@@ -13,9 +13,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -41,13 +39,13 @@ const getCurrentWeather = {
 };
 
 const getWeatherFunc = (location: string, unit: string): string => {
-  if (unit != "celsius") {
+  if (unit !== "celsius") {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
 };
 
-const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
+const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>): void => {
   const dummyFunction = { name: "", arguments: "", id: "" };
   while (functionArray.length < toolCallArray.length) {
     functionArray.push(dummyFunction);
@@ -68,7 +66,14 @@ const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) =
   }
 };
 
-const handleToolCalls = (functionArray: Array<any>) => {
+const handleToolCalls = (
+  functionArray: Array<any>,
+): {
+  role: string;
+  content: string;
+  tool_call_id: any;
+  name: any;
+}[] => {
   const messageArray = [];
   for (const func of functionArray) {
     const funcArgs = JSON.parse(func.arguments);
@@ -93,7 +98,7 @@ const handleToolCalls = (functionArray: Array<any>) => {
   return messageArray;
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   const client = createModelClient();
 
   const messages: ChatRequestMessage[] = [
@@ -142,11 +147,11 @@ export async function main() {
         }
         updateToolCalls(toolCallArray, functionArray);
       }
-      if (choice.finish_reason == "tool_calls") {
+      if (choice.finish_reason === "tool_calls") {
         const messageArray = handleToolCalls(functionArray);
         messages.push(...messageArray);
       } else {
-        if (choice.message?.content && choice.message.content != "") {
+        if (choice.message?.content && choice.message.content !== "") {
           toolCallAnswer += choice.message?.content;
           awaitingToolCallAnswer = false;
         }
@@ -161,7 +166,7 @@ export async function main() {
 /*
  * This function creates a model client.
  */
-function createModelClient() {
+function createModelClient(): ModelClient {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

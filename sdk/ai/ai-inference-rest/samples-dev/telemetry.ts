@@ -16,11 +16,8 @@ import {
   SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import { AzureKeyCredential } from "@azure/core-auth";
-
-dotenv.config();
-
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
@@ -42,7 +39,7 @@ registerInstrumentations({
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== Chat Completions Sample ==");
 
   const tracer = trace.getTracer("sample", "0.1.0");
@@ -62,9 +59,9 @@ async function main() {
         },
         tracingOptions: { tracingContext: context.active() },
       })
-      .then((response) => {
+      .then((res) => {
         span.end();
-        return response;
+        return res;
       });
   });
 
@@ -80,7 +77,7 @@ async function main() {
 /*
  * This function creates a model client.
  */
-function createModelClient() {
+function createModelClient(): ModelClient {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)
