@@ -72,7 +72,7 @@
     "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-util": "^1.11.0",
     "@azure/eventgrid": "^5.8.0",
     "@azure/logger": "^1.1.4",
@@ -90,12 +90,13 @@
     "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.49.0",
+    "playwright": "^1.50.1",
     "typescript": "~5.7.2",
     "vitest": "^3.0.3"
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -108,8 +109,7 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "browser": "./dist/browser/index.js",
   "exports": {
@@ -132,5 +132,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }
