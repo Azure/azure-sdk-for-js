@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AvroReadableFromBlob } from "../../src/index.browser.js";
+// @ts-expect-error For browser only
+import { AvroReadableFromBlob } from "../../src/index.js";
 import { arraysEqual } from "../../src/utils/utils.common.js";
 import { describe, it, assert } from "vitest";
 
