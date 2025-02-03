@@ -96,7 +96,7 @@
     "@opentelemetry/instrumentation-http": "^0.57.1",
     "@opentelemetry/instrumentation-mongodb": "^0.51.0",
     "@opentelemetry/instrumentation-mysql": "^0.45.0",
-    "@opentelemetry/instrumentation-pg": "^0.50.0",
+    "@opentelemetry/instrumentation-pg": "^0.51.0",
     "@opentelemetry/instrumentation-redis": "^0.46.0",
     "@opentelemetry/instrumentation-redis-4": "^0.46.0",
     "@opentelemetry/instrumentation-winston": "^0.44.0",
