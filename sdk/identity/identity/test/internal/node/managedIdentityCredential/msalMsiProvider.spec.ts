@@ -149,7 +149,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       await expect(credential.getToken(["scope1", "scope2"])).rejects.toThrow(/Multiple scopes/);
     });
 
-    it.only("validates Service Fabric error for specifying clientID", async function () {
+    it("validates Service Fabric error for specifying clientID", async function () {
       vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
         "ServiceFabric",
       );
@@ -159,7 +159,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       await expect(credential.getToken("scope")).rejects.toThrow(serviceFabricErrorString);
     });
 
-    it.only("validates Service Fabric error for specifying resourceID", async function () {
+    it("validates Service Fabric error for specifying resourceID", async function () {
       vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
         "ServiceFabric",
       );

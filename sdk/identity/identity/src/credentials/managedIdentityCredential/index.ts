@@ -198,7 +198,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
         logger.getToken.info(`MSAL Identity source: ${identitySource}`);
 
-        if (identitySource == "ServiceFabric" && (this.clientId || this.resourceId)) {
+        if (identitySource === "ServiceFabric" && (this.clientId || this.resourceId)) {
           throw new CredentialUnavailableError(serviceFabricErrorString);
         }
 
