@@ -35,7 +35,7 @@ describe("image file test suite", () => {
     await recorder.stop();
   });
 
-  it("chat with image file test", async function () {
+  it("chat with image file test", async () => {
     const response = await client.path("/chat/completions").post({
       body: {
         messages: [

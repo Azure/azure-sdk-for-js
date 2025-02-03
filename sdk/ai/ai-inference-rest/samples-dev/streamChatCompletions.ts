@@ -61,11 +61,11 @@ export async function main(): Promise<void> {
     }
   }
 
-  async function streamToString(stream: NodeJS.ReadableStream): Promise<void> {
+  async function streamToString(streamToConvert: NodeJS.ReadableStream): Promise<string> {
     // lets have a ReadableStream as a stream variable
     const chunks = [];
 
-    for await (const chunk of stream) {
+    for await (const chunk of streamToConvert) {
       chunks.push(Buffer.from(chunk));
     }
 
@@ -76,7 +76,7 @@ export async function main(): Promise<void> {
 /*
  * This function creates a model client.
  */
-function createModelClient() {
+function createModelClient(): ModelClient {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)
