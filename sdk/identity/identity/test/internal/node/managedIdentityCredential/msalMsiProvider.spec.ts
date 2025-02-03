@@ -166,7 +166,6 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
 
       const credential = new ManagedIdentityCredential({ resourceId: "testResourceID" });
-      await credential.getToken("scope");
       await expect(credential.getToken("scope")).rejects.toThrow(serviceFabricErrorString);
     });
 
