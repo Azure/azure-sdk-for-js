@@ -17,7 +17,7 @@ import type {
   ContentFilterDetailedResults,
   ContentFilterCompletionTextSpanResultOutput,
   ContentFilterCompletionTextSpan,
-} from "../../../src/types/index.js";
+} from "../../src/types/index.js";
 import type { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import type {
   Batch,

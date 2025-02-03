@@ -4,8 +4,8 @@
 import { assert, describe, beforeEach, it } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import type { OpenAI, AzureOpenAI } from "openai";
-import { createClient } from "./utils/createClient.js";
-import { APIMatrix, type APIVersion } from "./utils/utils.js";
+import { createClient } from "../utils/createClient.js";
+import { APIMatrix, type APIVersion } from "../utils/utils.js";
 
 describe("AbortSignal", () => {
   let client: AzureOpenAI | OpenAI;

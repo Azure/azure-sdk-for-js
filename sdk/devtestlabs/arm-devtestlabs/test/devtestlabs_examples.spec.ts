@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { DevTestLabsClient } from "../src/devTestLabsClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -43,11 +39,10 @@ describe("DevTestLabs test", () => {
   let resourceGroup: string;
   let name: string;
 
-
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new DevTestLabsClient(credential, subscriptionId, recorder.configureClientOptions({}));
@@ -60,37 +55,42 @@ describe("DevTestLabs test", () => {
     await recorder.stop();
   });
 
-  it("labs create test", async function () {
-    const res = await client.labs.beginCreateOrUpdateAndWait(resourceGroup, name, { location: location }, testPollingOptions);
+  it("labs create test", async () => {
+    const res = await client.labs.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      name,
+      { location: location },
+      testPollingOptions,
+    );
     assert.equal(res.name, name);
   });
 
-  it("labs get test", async function () {
+  it("labs get test", async () => {
     const res = await client.labs.get(resourceGroup, name);
     assert.equal(res.name, name);
   });
 
-  it("labs list test", async function () {
+  it("labs list test", async () => {
     const resArray = new Array();
-    for await (let item of client.labs.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.labs.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("labs update test", async function () {
+  it("labs update test", async () => {
     const res = await client.labs.update(resourceGroup, name, {
       tags: {
-        tag1: "vaue1"
-      }
+        tag1: "vaue1",
+      },
     });
     assert.equal(res.type, "Microsoft.DevTestLab/labs");
   });
 
-  it("labs delete test", async function () {
+  it("labs delete test", async () => {
     const resArray = new Array();
     await client.labs.beginDeleteAndWait(resourceGroup, name);
-    for await (let item of client.labs.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.labs.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
