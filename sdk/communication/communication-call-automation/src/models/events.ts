@@ -49,7 +49,7 @@ import type {
   RestHoldAudioResumed,
   RestHoldAudioCompleted,
   CustomCallingContextInternal,
-  IncomingCall,
+  RestIncomingCall,
   CommunicationIdentifierModel,
 } from "../generated/src/models/index.js";
 
@@ -210,9 +210,9 @@ export interface CallConnected
 }
 
 /** Event when call was initiated. */
-export interface IncomingCallEvent
+export interface IncomingCall
   extends Omit<
-    IncomingCall,
+    RestIncomingCall,
     | "to"
     | "from"
     | "customContext"
