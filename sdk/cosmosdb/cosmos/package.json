@@ -115,7 +115,7 @@
     "eslint": "^9.9.0",
     "execa": "^5.0.0",
     "mocha": "^11.0.2",
-    "nock": "^14.0.0",
+    "nock": "^13.5.4",
     "requirejs": "^2.3.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",

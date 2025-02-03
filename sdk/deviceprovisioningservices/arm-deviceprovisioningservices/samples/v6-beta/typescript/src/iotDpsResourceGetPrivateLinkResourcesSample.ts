@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get the specified private link resource for the given provisioning service
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSGetPrivateLinkResources.json
  */
-async function privateLinkResourcesList() {
+async function privateLinkResourcesList(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -34,7 +34,7 @@ async function privateLinkResourcesList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateLinkResourcesList();
 }
 

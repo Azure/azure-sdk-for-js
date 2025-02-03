@@ -3,10 +3,15 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it, assert, beforeAll } from "vitest";
-import { createClient } from "./utils/createClient.js";
-import { APIVersion, type DeploymentInfo, getDeployments, withDeployments } from "./utils/utils.js";
+import { createClient } from "../utils/createClient.js";
+import {
+  APIVersion,
+  type DeploymentInfo,
+  getDeployments,
+  withDeployments,
+} from "../utils/utils.js";
 import type { OpenAI, AzureOpenAI } from "openai";
-import { ttsModelsToSkip } from "./utils/models.js";
+import { ttsModelsToSkip } from "../utils/models.js";
 
 describe("OpenAI", function () {
   let deployments: DeploymentInfo[] = [];
