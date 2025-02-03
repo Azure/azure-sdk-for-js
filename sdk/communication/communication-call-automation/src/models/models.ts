@@ -257,4 +257,6 @@ export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustom
 export interface CallIntelligenceOptions {
   /** The identifier of the Cognitive Service resource assigned to this call. */
   cognitiveServicesEndpoint?: string;
+  /** A backup identifier of the Cognitive Service resource assigned to this call. */
+  backupCognitiveServicesEndpoint?: string;
 }
