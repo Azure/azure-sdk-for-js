@@ -73,7 +73,6 @@ export function uploadFile(
         : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
-    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -97,7 +96,6 @@ export function uploadFileAndPoll(
         : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
-    onResponse: options.pollingOptions?.onResponse,
   });
 }
 

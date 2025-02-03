@@ -1142,7 +1142,6 @@ export interface OpenApiToolDefinitionOutput extends ToolDefinitionOutputParent 
 
 // @public
 export interface PollingOptions {
-    onResponse?: (response: any) => void;
     sleepIntervalInMs?: number;
 }
 

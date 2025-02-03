@@ -80,7 +80,6 @@ export function createVectorStoreFile(
         : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
-    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -152,7 +151,6 @@ export function createVectorStoreFileAndPoll(
         : undefined;
     },
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
-    onResponse: options.pollingOptions?.onResponse,
   });
 }
 

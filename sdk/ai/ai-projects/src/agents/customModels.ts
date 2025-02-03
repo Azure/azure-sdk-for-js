@@ -65,8 +65,6 @@ export interface PollingOptions {
    * The interval, in milliseconds, to wait between polling attempts. If not specified, a default interval of 1000ms will be used.
    */
   sleepIntervalInMs?: number;
-  /** Callback used on every response received */
-  onResponse?: (response: any) => void;
 }
 
 /**

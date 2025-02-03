@@ -46,7 +46,6 @@ export function createVectorStoreFileBatch(
     },
     getOperationStatus: getLroOperationStatus,
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
-    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -125,7 +124,6 @@ export function createVectorStoreFileBatchAndPoll(
     },
     getOperationStatus: getLroOperationStatus,
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
-    onResponse: options.pollingOptions?.onResponse,
   });
 }
 

@@ -36,16 +36,14 @@ export async function main(): Promise<void> {
   readable2.push(null); // end the stream
 
   // (Optional) Define an onResponse callback to monitor the progress of polling
-  function onResponse(response: OpenAIFileOutput): void {
-    console.log(`Received response with status: ${response.status}`);
+  function onResponse(response: any): void {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
   }
 
   // Upload file, which will automatically poll until the operation is complete
   const file1 = await client.agents.uploadFile(readable1, "assistants", {
     fileName: "myPollingFile.txt",
-    pollingOptions: {
-      onResponse,
-    },
+    onResponse: onResponse,
   });
   console.log(`Uploaded file with status ${file1.status}, file ID : ${file1.id}`);
 
@@ -55,9 +53,7 @@ export async function main(): Promise<void> {
   const abortController = new AbortController();
   const filePoller = client.agents.uploadFile(readable2, "assistants", {
     fileName: "myPollingFile.txt",
-    pollingOptions: {
-      onResponse,
-    },
+    onResponse: onResponse,
   });
   const file2 = await filePoller.pollUntilDone({ abortSignal: abortController.signal });
   console.log(`Uploaded file with status ${file2.status}, file ID: ${file2.id}`);

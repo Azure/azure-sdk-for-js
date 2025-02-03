@@ -69,7 +69,6 @@ export function createVectorStore(
     },
     getOperationStatus: getLroOperationStatus,
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
-    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
@@ -154,7 +153,6 @@ export function createVectorStoreAndPoll(
     },
     getOperationStatus: getLroOperationStatus,
     intervalInMs: options.pollingOptions?.sleepIntervalInMs,
-    onResponse: options.pollingOptions?.onResponse,
   });
 }
 
