@@ -623,7 +623,8 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
 
 // @public
-export type RecordingState = string;
+type RecordingState_2 = string;
+export { RecordingState_2 as RecordingState }
 
 // @public
 export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
@@ -643,7 +644,7 @@ export interface RecordingStateResult {
     // (undocumented)
     recordingKind: RecordingKind_2;
     // (undocumented)
-    recordingState: RecordingState;
+    recordingState: RecordingState_2;
 }
 
 // @public
@@ -930,7 +931,7 @@ export interface RestRecordingStateChanged {
     serverCallId?: string;
     readonly startDateTime?: Date;
     // (undocumented)
-    state?: RecordingState;
+    state?: RecordingState_2;
 }
 
 // @public
