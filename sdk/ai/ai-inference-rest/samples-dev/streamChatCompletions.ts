@@ -12,17 +12,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { createSseStream } from "@azure/core-sse";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-import type { IncomingMessage } from "http";
+import "dotenv/config";
+import type { IncomingMessage } from "node:http";
 import { AzureKeyCredential } from "@azure/core-auth";
-dotenv.config();
-
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Streaming Chat Completions Sample ==");
 
   const client = createModelClient();
@@ -63,7 +61,7 @@ export async function main() {
     }
   }
 
-  async function streamToString(stream: NodeJS.ReadableStream) {
+  async function streamToString(stream: NodeJS.ReadableStream): Promise<void> {
     // lets have a ReadableStream as a stream variable
     const chunks = [];
 

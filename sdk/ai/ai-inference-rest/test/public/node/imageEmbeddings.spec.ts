@@ -10,8 +10,8 @@ import type {
   EmbeddingsResultOutput,
 } from "../../../src/index.js";
 import { isUnexpected } from "../../../src/index.js";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 function getImageDataUrl(imageFile: string, imageFormat: string): string {
   try {
