@@ -14,7 +14,7 @@ import {
   DataLakeStoreAccountsGetOptionalParams,
   DataLakeStoreAccountsGetResponse,
   DataLakeStoreAccountsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataLakeStoreAccounts. */

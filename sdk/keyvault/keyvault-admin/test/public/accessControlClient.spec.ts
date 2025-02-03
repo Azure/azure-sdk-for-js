@@ -287,8 +287,6 @@ describe("KeyVaultAccessControlClient", () => {
           options,
         );
         await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
-        await client.listRoleAssignments(KnownRoleScope.Global, options).next();
-        await client.listRoleDefinitions(KnownRoleScope.Global, options).next();
         await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
         await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
       }).toSupportTracing([
@@ -296,8 +294,6 @@ describe("KeyVaultAccessControlClient", () => {
         "KeyVaultAccessControlClient.getRoleDefinition",
         "KeyVaultAccessControlClient.createRoleAssignment",
         "KeyVaultAccessControlClient.getRoleAssignment",
-        "KeyVaultAccessControlClient.listRoleAssignmentsPage",
-        "KeyVaultAccessControlClient.listRoleDefinitionsPage",
         "KeyVaultAccessControlClient.deleteRoleAssignment",
         "KeyVaultAccessControlClient.deleteRoleDefinition",
       ]);

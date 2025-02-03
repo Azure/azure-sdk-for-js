@@ -27,7 +27,7 @@ async function standbyVirtualMachinePoolsUpdate() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsUpdate();
+  await standbyVirtualMachinePoolsUpdate();
 }
 
 main().catch(console.error);

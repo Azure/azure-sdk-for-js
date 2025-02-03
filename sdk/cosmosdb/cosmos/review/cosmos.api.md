@@ -433,6 +433,7 @@ export const Constants: {
         ContentEncoding: string;
         CharacterSet: string;
         UserAgent: string;
+        CustomUserAgent: string;
         IfModifiedSince: string;
         IfMatch: string;
         IfNoneMatch: string;
@@ -502,6 +503,7 @@ export const Constants: {
         EnableCrossPartitionQuery: string;
         ParallelizeCrossPartitionQuery: string;
         ResponseContinuationTokenLimitInKB: string;
+        SDKSupportedCapabilities: string;
         PopulateQueryMetrics: string;
         QueryMetrics: string;
         PopulateIndexMetrics: string;
@@ -544,6 +546,10 @@ export const Constants: {
         ForceRefresh: string;
         PriorityLevel: string;
     };
+    ThrottledRequestMaxRetryAttemptCount: number;
+    ThrottledRequestMaxWaitTimeInSeconds: number;
+    ThrottledRequestFixedRetryIntervalInMs: number;
+    PREFER_RETURN_MINIMAL: string;
     WritableLocations: string;
     ReadableLocations: string;
     LocationUnavailableExpirationTimeInMs: number;
@@ -706,6 +712,7 @@ export interface CosmosClientOptions {
     aadCredentials?: TokenCredential;
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
+    connectionString?: string;
     consistencyLevel?: keyof typeof ConsistencyLevel;
     // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
@@ -713,7 +720,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    endpoint: string;
+    endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
@@ -1236,12 +1243,12 @@ export enum IndexKind {
 
 // @public
 export class Item {
-    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
+    constructor(container: Container, clientContext: ClientContext, id?: string, partitionKey?: PartitionKey);
     // (undocumented)
     readonly container: Container;
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
-    readonly id: string;
+    readonly id?: string;
     patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
@@ -1268,9 +1275,13 @@ export class Items {
     constructor(container: Container, clientContext: ClientContext);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
+    // @deprecated
     changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    // @deprecated
     changeFeed<T>(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+    // @deprecated
     changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;
@@ -1931,9 +1942,8 @@ export interface RequestOptions extends SharedOptions {
         type: string;
         condition: string;
     };
-    consistencyLevel?: string;
+    contentResponseOnWriteEnabled?: boolean;
     disableAutomaticIdGeneration?: boolean;
-    disableRUPerMinuteUsage?: boolean;
     enableScriptLogging?: boolean;
     indexingDirective?: string;
     offerThroughput?: number;
@@ -2029,9 +2039,9 @@ export type RetryDiagnostics = {
 
 // @public
 export interface RetryOptions {
-    fixedRetryIntervalInMilliseconds: number;
-    maxRetryAttemptCount: number;
-    maxWaitTimeInSeconds: number;
+    fixedRetryIntervalInMilliseconds?: number;
+    maxRetryAttemptCount?: number;
+    maxWaitTimeInSeconds?: number;
 }
 
 // @public (undocumented)
@@ -2195,6 +2205,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 export interface SharedOptions {
     abortSignal?: AbortSignal;
     bypassIntegratedCache?: boolean;
+    consistencyLevel?: string;
+    disableRUPerMinuteUsage?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

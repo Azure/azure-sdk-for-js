@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a connected registry from a container registry.
@@ -20,29 +16,24 @@ dotenv.config();
  * @summary Deletes a connected registry from a container registry.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ConnectedRegistryDelete.json
  */
-async function connectedRegistryDelete() {
+async function connectedRegistryDelete(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const connectedRegistryName = "myConnectedRegistry";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.connectedRegistries.beginDeleteAndWait(
     resourceGroupName,
     registryName,
-    connectedRegistryName
+    connectedRegistryName,
   );
   console.log(result);
 }
 
-async function main() {
-  connectedRegistryDelete();
+async function main(): Promise<void> {
+  await connectedRegistryDelete();
 }
 
 main().catch(console.error);

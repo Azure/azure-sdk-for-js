@@ -26,8 +26,8 @@ export async function main(): Promise<void> {
   // Create and upload file
   const fileContent = "Hello, World!";
   const readable = new Readable();
-  readable.push(fileContent);
-  readable.push(null); // end the stream
+  await readable.push(fileContent);
+  await readable.push(null); // end the stream
   const file = await client.agents.uploadFile(readable, "assistants", { fileName: "myFile.txt" });
   console.log(`Uploaded file, file ID : ${file.id}`);
 

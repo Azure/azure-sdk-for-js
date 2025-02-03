@@ -1,5 +1,12 @@
 # Release History
 
+## 2.3.3 (2025-02-06)
+
+### Bugs Fixed
+
+- Handle error responses with no body without causing a `TypeError`. PR [#32566](https://github.com/Azure/azure-sdk-for-js/pull/32566)
+- Content-Type header now defaults to `application/json` instead of `application/json; charset=UTF-8` to conform to the HTTP standard. PR [#32672](https://github.com/Azure/azure-sdk-for-js/pull/32672)
+
 ## 2.3.2 (2025-01-10)
 
 ### Bugs Fixed

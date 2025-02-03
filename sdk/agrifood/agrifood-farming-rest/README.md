@@ -54,7 +54,7 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 Use the returned token credential to authenticate the client:
 
 ```ts snippet:CreateFarmBeatsClient
-import { FarmBeats } from "@azure-rest/agrifood-farming";
+import FarmBeats from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = FarmBeats(
@@ -96,7 +96,7 @@ Once you have authenticated and created the client object as shown in the [Authe
 section, you can create a party within the Data Manager for Agriculture resource like this:
 
 ```ts snippet:CreateParty
-import { FarmBeats, isUnexpected } from "@azure-rest/agrifood-farming";
+import FarmBeats, { isUnexpected } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = FarmBeats(
@@ -127,7 +127,7 @@ console.log(`Created Party: ${party.name}`);
 ### List Parties
 
 ```ts snippet:ListParties
-import { FarmBeats, isUnexpected, paginate } from "@azure-rest/agrifood-farming";
+import FarmBeats, { isUnexpected, paginate } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = FarmBeats(

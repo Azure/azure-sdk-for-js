@@ -247,6 +247,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [triggersstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datafactory/arm-datafactory/samples/v18/javascript/triggersStopSample.js
 [triggerssubscribetoeventssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datafactory/arm-datafactory/samples/v18/javascript/triggersSubscribeToEventsSample.js
 [triggersunsubscribefromeventssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/datafactory/arm-datafactory/samples/v18/javascript/triggersUnsubscribeFromEventsSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-datafactory?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-datafactory?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datafactory/arm-datafactory/README.md

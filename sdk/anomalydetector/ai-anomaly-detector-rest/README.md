@@ -90,12 +90,12 @@ The following section provides several code snippets covering some of the most c
 ### Batch detection
 
 ```ts snippet:batch_detection
-import {
+import AnomalyDetector, {
   TimeSeriesPoint,
-  AnomalyDetector,
   DetectUnivariateEntireSeriesParameters,
   isUnexpected,
 } from "@azure-rest/ai-anomaly-detector";
+import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -105,7 +105,7 @@ const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   const result = Array<TimeSeriesPoint>();
-  const input = fs.readFileSync(path).toString();
+  const input = readFileSync(path).toString();
   const parsed = parse(input, { skip_empty_lines: true });
   parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
@@ -149,12 +149,12 @@ if (result.body.isAnomaly) {
 ### Streaming Detection
 
 ```ts snippet:streaming_detection
-import {
+import AnomalyDetector, {
   TimeSeriesPoint,
-  AnomalyDetector,
   DetectUnivariateLastPointParameters,
   isUnexpected,
 } from "@azure-rest/ai-anomaly-detector";
+import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -164,7 +164,7 @@ const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   const result = Array<TimeSeriesPoint>();
-  const input = fs.readFileSync(path).toString();
+  const input = readFileSync(path).toString();
   const parsed = parse(input, { skip_empty_lines: true });
   parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });
@@ -205,12 +205,12 @@ if (result.body.isAnomaly) {
 ### Detect change points
 
 ```ts snippet:detect_change_points
-import {
+import AnomalyDetector, {
   TimeSeriesPoint,
-  AnomalyDetector,
   DetectUnivariateChangePointParameters,
   isUnexpected,
 } from "@azure-rest/ai-anomaly-detector";
+import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -220,7 +220,7 @@ const timeSeriesDataPath = "./samples-dev/example-data/request-data.csv";
 
 function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   const result = Array<TimeSeriesPoint>();
-  const input = fs.readFileSync(path).toString();
+  const input = readFileSync(path).toString();
   const parsed = parse(input, { skip_empty_lines: true });
   parsed.forEach(function (e: Array<string>) {
     result.push({ timestamp: new Date(e[0]), value: Number(e[1]) });

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary deletes an existing customer Enterprise resource
  * x-ms-original-file: 2023-05-01-preview/EnterpriseCustomerOperations_Delete_MaximumSet_Gen.json
  */
-async function enterpriseCustomerOperationsDelete() {
+async function enterpriseCustomerOperationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -20,8 +20,8 @@ async function enterpriseCustomerOperationsDelete() {
   );
 }
 
-async function main() {
-  enterpriseCustomerOperationsDelete();
+async function main(): Promise<void> {
+  await enterpriseCustomerOperationsDelete();
 }
 
 main().catch(console.error);

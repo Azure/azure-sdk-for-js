@@ -46,13 +46,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.5",
-    "@vitest/coverage-istanbul": "^2.1.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.5"
+    "vitest": "^3.0.3"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -91,10 +91,10 @@
       "azure-synapse"
     ],
     "requiredResources": {
-      "Creating and managing Synapse compute resources": "https://docs.microsoft.com/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources"
+      "Creating and managing Synapse compute resources": "https://learn.microsoft.com/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/synapse/"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/synapse/"
   },
   "sideEffects": false,
   "type": "module",

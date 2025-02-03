@@ -15,7 +15,7 @@ async function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool() {
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.standbyVirtualMachinePoolRuntimeViews.listByStandbyPool(
+  for await (const item of client.standbyVirtualMachinePoolRuntimeViews.listByStandbyPool(
     "rgstandbypool",
     "pool",
   )) {
@@ -26,7 +26,7 @@ async function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolRuntimeViewsListByStandbyPool();
+  await standbyVirtualMachinePoolRuntimeViewsListByStandbyPool();
 }
 
 main().catch(console.error);

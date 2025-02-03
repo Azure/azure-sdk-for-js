@@ -445,7 +445,7 @@
 - Added `DirectoryClient.forceCloseHandlesSegment()`, `FileClient.forceCloseHandlesSegment()`, `DirectoryClient.forceCloseHandle()` and `FileClient.forceCloseHandle()` to close handles.
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/samples-dev/proxyAuth.ts)
-- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
+- Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://learn.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 12.0.0-preview.2 (2019-08-01)
 
@@ -502,11 +502,11 @@ For release notes and more information please visit https://aka.ms/azsdk/release
 - Export `RetryPolicyType`.
 - Updated HTTP client from axios to node-fetch in Node.js runtime.
 - A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
-- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
+- Updated Azure Storage Service API version to [2018-11-09](https://learn.microsoft.com/rest/api/storageservices/version-2018-11-09).
 - The `ShareURL.getStatistics()` now returns the approximate size in bytes with `shareUsageBytes`.
 - Added `DirectoryURL.listHandlesSegment()` and `FileURL.listHandlesSegment()` to returns a list of open handles on a directory or a file.
 - Added `DirectoryURL.forceCloseHandlesSegment()`, `FileURL.forceCloseHandlesSegment()`, `DirectoryURL.forceCloseHandle()` and `FileURL.forceCloseHandle()` to close handles.
-- Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
+- Updated Azure Storage Service API version to [2018-11-09](https://learn.microsoft.com/rest/api/storageservices/version-2018-11-09).
 
 ## 10.1.0 (2019-01-01)
 

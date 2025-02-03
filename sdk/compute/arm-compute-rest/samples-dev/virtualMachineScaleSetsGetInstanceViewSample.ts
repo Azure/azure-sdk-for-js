@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineScaleSetsGetInstanceViewParameters,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineScaleSetsGetInstanceViewParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Gets the status of a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetInstanceView_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetsGetInstanceViewMaximumSetGen() {
+async function virtualMachineScaleSetsGetInstanceViewMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -42,7 +39,7 @@ virtualMachineScaleSetsGetInstanceViewMaximumSetGen().catch(console.error);
  * @summary Gets the status of a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetInstanceView_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetsGetInstanceViewMinimumSetGen() {
+async function virtualMachineScaleSetsGetInstanceViewMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

@@ -21,7 +21,7 @@ import {
   FleetMembersImpl,
   UpdateRunsImpl,
   FleetUpdateStrategiesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Fleets,
@@ -29,8 +29,8 @@ import {
   FleetMembers,
   UpdateRuns,
   FleetUpdateStrategies,
-} from "./operationsInterfaces";
-import { ContainerServiceFleetClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ContainerServiceFleetClientOptionalParams } from "./models/index.js";
 
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
   $host: string;

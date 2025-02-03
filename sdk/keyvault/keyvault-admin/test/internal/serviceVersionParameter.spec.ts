@@ -31,6 +31,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
             id: `${baseUrl}${path}`,
             startTime: new Date(),
             attributes: {},
+            value: [],
           }),
         };
       },

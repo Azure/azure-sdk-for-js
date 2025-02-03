@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -18,22 +16,20 @@ import "dotenv/config";
  * @summary Lists all the jobs available under the given resource group.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsListByResourceGroup.json
  */
-async function jobsListByResourceGroup() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+async function jobsListByResourceGroup(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.jobs.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  jobsListByResourceGroup();
+async function main(): Promise<void> {
+  await jobsListByResourceGroup();
 }
 
 main().catch(console.error);

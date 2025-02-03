@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the alerts for scope defined.
@@ -20,7 +16,7 @@ dotenv.config();
  * @summary Lists the alerts for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountAlerts.json
  */
-async function billingAccountAlerts() {
+async function billingAccountAlerts(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -34,9 +30,8 @@ async function billingAccountAlerts() {
  * @summary Lists the alerts for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingProfileAlerts.json
  */
-async function billingProfileAlerts() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
+async function billingProfileAlerts(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.alerts.list(scope);
@@ -49,9 +44,8 @@ async function billingProfileAlerts() {
  * @summary Lists the alerts for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentAlerts.json
  */
-async function departmentAlerts() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123";
+async function departmentAlerts(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/departments/123";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.alerts.list(scope);
@@ -64,9 +58,8 @@ async function departmentAlerts() {
  * @summary Lists the alerts for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountAlerts.json
  */
-async function enrollmentAccountAlerts() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456";
+async function enrollmentAccountAlerts(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/enrollmentAccounts/456";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.alerts.list(scope);
@@ -79,7 +72,7 @@ async function enrollmentAccountAlerts() {
  * @summary Lists the alerts for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/InvoiceSectionAlerts.json
  */
-async function invoiceSectionAlerts() {
+async function invoiceSectionAlerts(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const credential = new DefaultAzureCredential();
@@ -94,7 +87,7 @@ async function invoiceSectionAlerts() {
  * @summary Lists the alerts for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ResourceGroupAlerts.json
  */
-async function resourceGroupAlerts() {
+async function resourceGroupAlerts(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer";
   const credential = new DefaultAzureCredential();
@@ -109,7 +102,7 @@ async function resourceGroupAlerts() {
  * @summary Lists the alerts for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/SubscriptionAlerts.json
  */
-async function subscriptionAlerts() {
+async function subscriptionAlerts(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -117,14 +110,14 @@ async function subscriptionAlerts() {
   console.log(result);
 }
 
-async function main() {
-  billingAccountAlerts();
-  billingProfileAlerts();
-  departmentAlerts();
-  enrollmentAccountAlerts();
-  invoiceSectionAlerts();
-  resourceGroupAlerts();
-  subscriptionAlerts();
+async function main(): Promise<void> {
+  await billingAccountAlerts();
+  await billingProfileAlerts();
+  await departmentAlerts();
+  await enrollmentAccountAlerts();
+  await invoiceSectionAlerts();
+  await resourceGroupAlerts();
+  await subscriptionAlerts();
 }
 
 main().catch(console.error);

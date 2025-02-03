@@ -72,7 +72,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [convpiitranscriptinput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/javascript/convPiiTranscriptInput.js
 [convsummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/javascript/convSummarization.js
 [authentication]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-conversations/samples/v1-beta/javascript/authentication.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-language-conversations
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-language-conversations
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/README.md

@@ -187,7 +187,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [viewslistbyhubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/customer-insights/arm-customerinsights/samples/v4/typescript/src/viewsListByHubSample.ts
 [widgettypesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/customer-insights/arm-customerinsights/samples/v4/typescript/src/widgetTypesGetSample.ts
 [widgettypeslistbyhubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/customer-insights/arm-customerinsights/samples/v4/typescript/src/widgetTypesListByHubSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-customerinsights?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-customerinsights?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/customer-insights/arm-customerinsights/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

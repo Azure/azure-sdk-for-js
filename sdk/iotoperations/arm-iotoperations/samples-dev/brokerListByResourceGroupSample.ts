@@ -15,7 +15,10 @@ async function brokerListByResourceGroup() {
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.broker.listByResourceGroup("rgiotoperations", "resource-name123")) {
+  for await (const item of client.broker.listByResourceGroup(
+    "rgiotoperations",
+    "resource-name123",
+  )) {
     resArray.push(item);
   }
 
@@ -23,7 +26,7 @@ async function brokerListByResourceGroup() {
 }
 
 async function main() {
-  brokerListByResourceGroup();
+  await brokerListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -107,7 +107,7 @@ For simpler use-cases, you can use the `template` build mode which uses a differ
 - [Custom template models](https://aka.ms/custom-template-models)
 - [Custom neural models](https://aka.ms/custom-neural-models)
 
-_See also_: [`DocumentModelBuildMode` reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer/documentmodelbuildmode).
+_See also_: [`DocumentModelBuildMode` reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-form-recognizer/documentmodelbuildmode).
 
 ### Form Recognizer errors
 

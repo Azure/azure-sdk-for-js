@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -18,24 +16,20 @@ import "dotenv/config";
  * @summary List of clusters in a subscription.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/ListClusters.json
  */
-async function listClusters() {
+async function listClusters(): Promise<void> {
   const subscriptionId =
-    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
-    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
   const credential = new DefaultAzureCredential();
-  const client = new AzureArcVMwareManagementServiceAPI(
-    credential,
-    subscriptionId
-  );
+  const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.list()) {
+  for await (const item of client.clusters.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  listClusters();
+async function main(): Promise<void> {
+  await listClusters();
 }
 
 main().catch(console.error);

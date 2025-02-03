@@ -3,6 +3,7 @@
 An Azure Table storage based solution to store checkpoints and to aid in load balancing when using `EventHubConsumerClient` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
 Key Links:
+
 - [Source code](#)
 - [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-table)
 - [API Reference Documentation](#)
@@ -11,16 +12,17 @@ Key Links:
 ## Getting started
 
 ### Currently supported environments
+
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
-
 ### Prerequisites
+
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package
-- A [Storage account](https://docs.microsoft.com/azure/storage/tables/table-storage-overview)
+- An [Event Hubs Namespace](https://learn.microsoft.com/azure/event-hubs/) to use this package
+- A [Storage account](https://learn.microsoft.com/azure/storage/tables/table-storage-overview)
 
 ### Install the package
 
@@ -56,11 +58,8 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
   Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
-
-
   A [TableCheckpointStore](#)
   is a class that implements key methods required by the EventHubConsumerClient to balance load and update checkpoints.
-
 
 ## Examples
 
@@ -81,16 +80,16 @@ if (!tableClient.exists()) {
   await tableClient.create(); // This can be skipped if the table already exists
 }
 
-const checkpointStore =  new TableCheckpointStore(tableClient);
+const checkpointStore = new TableCheckpointStore(tableClient);
 ```
 
 ### Checkpoint events using Azure Table storage
 
 To checkpoint events received using Azure Table Storage, you will need to pass an object
-that is compatible with the [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers)
+that is compatible with the [SubscriptionEventHandlers](https://learn.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers)
 interface along with code to call the `updateCheckpoint()` method.
 
-In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://docs.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
+In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://learn.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
 
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");
@@ -115,7 +114,7 @@ async function main() {
     consumerGroup,
     eventHubConnectionString,
     eventHubName,
-    checkpointStore
+    checkpointStore,
   );
 
   const subscription = consumerClient.subscribe({
@@ -138,7 +137,7 @@ async function main() {
       // handle any errors that occur during the course of
       // this subscription
       console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
-    }
+    },
   });
 
   // Wait for a few seconds to receive events before closing
@@ -209,11 +208,8 @@ export DEBUG=azure:eventhubs-checkpointstore-table:info
 
 ## Next steps
 
-
-
 Please take a look at the [samples](#)
 directory for detailed example.
-
 
 ## Contributing
 

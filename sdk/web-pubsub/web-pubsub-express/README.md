@@ -2,7 +2,7 @@
 
 [Azure Web PubSub service](https://aka.ms/awps/doc) is an Azure-managed service that helps developers easily build web applications with real-time features and publish-subscribe pattern. Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients can use Azure Web PubSub service. Traditional real-time features that often require polling from server or submitting HTTP requests can also use Azure Web PubSub service.
 
-When a WebSocket connection connects, the Web PubSub service transforms the connection lifecycle and messages into [events in CloudEvents format](https://docs.microsoft.com/azure/azure-web-pubsub/concept-service-internals#workflow). This library provides an express middleware to handle events representing the WebSocket connection's lifecycle and messages, as shown in below diagram:
+When a WebSocket connection connects, the Web PubSub service transforms the connection lifecycle and messages into [events in CloudEvents format](https://learn.microsoft.com/azure/azure-web-pubsub/concept-service-internals#workflow). This library provides an express middleware to handle events representing the WebSocket connection's lifecycle and messages, as shown in below diagram:
 
 ![cloudevents](https://user-images.githubusercontent.com/668244/140321213-6442b3b8-72ee-4c28-aec1-127f9ea8f5d9.png)
 
@@ -45,7 +45,7 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );
 ```
 
@@ -87,10 +87,10 @@ const handler = new WebPubSubEventHandler("chat", {
   handleConnect: (req, res) => {
     // auth the connection and set the userId of the connection
     res.success({
-      userId: "<userId>"
+      userId: "<userId>",
     });
   },
-  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
 });
 
 const app = express();
@@ -98,11 +98,12 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );
 ```
 
 ### Handle the `connect` request and reject the connection if auth failed
+
 ```js
 const express = require("express");
 
@@ -114,7 +115,7 @@ const handler = new WebPubSubEventHandler("chat", {
     // the following method is also a valid approach
     // res.failWith({ code: 401, detail: "Unauthorized" });
   },
-  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
 });
 
 const app = express();
@@ -122,7 +123,7 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );
 ```
 
@@ -136,7 +137,7 @@ const handler = new WebPubSubEventHandler("chat", {
   onConnected: (connectedRequest) => {
     // Your onConnected logic goes here
   },
-  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
 });
 
 const app = express();
@@ -144,7 +145,7 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );
 ```
 
@@ -158,7 +159,7 @@ const handler = new WebPubSubEventHandler("chat", {
   onDisconnected: (disconnectedRequest) => {
     // Your onDisconnected logic goes here
   },
-  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
 });
 
 const app = express();
@@ -166,11 +167,12 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );
 ```
 
 ### Handle the `connect` request for mqtt and assign `<userId>` and `<mqtt>` properties
+
 ```js
 const express = require("express");
 
@@ -206,6 +208,7 @@ app.listen(3000, () =>
 ```
 
 ### Handle the `connect` request for mqtt and reject the connection if auth failed
+
 ```js
 const express = require("express");
 
@@ -276,8 +279,8 @@ const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler("chat", {
   allowedEndpoints: [
     "https://<yourAllowedService1>.webpubsub.azure.com",
-    "https://<yourAllowedService2>.webpubsub.azure.com"
-  ]
+    "https://<yourAllowedService2>.webpubsub.azure.com",
+  ],
 });
 
 const app = express();
@@ -285,7 +288,7 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );
 ```
 
@@ -296,7 +299,7 @@ const express = require("express");
 
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler("chat", {
-  path: "/customPath1"
+  path: "/customPath1",
 });
 
 const app = express();
@@ -305,7 +308,7 @@ app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
   // Azure WebPubSub Upstream ready at http://localhost:3000/customPath1
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );
 ```
 
@@ -328,7 +331,7 @@ const handler = new WebPubSubEventHandler("chat", {
     // You can also set the state here
     res.setState("calledTime", calledTime);
     res.success();
-  }
+  },
 });
 
 const app = express();
@@ -336,7 +339,7 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );
 ```
 

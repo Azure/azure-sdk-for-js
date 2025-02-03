@@ -55,7 +55,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [logsquerymultipleworkspaces]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/logsQueryMultipleWorkspaces.js
 [logsresourcecentricquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/logsResourceCentricQuery.js
 [metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/metricsQuery.js
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/
+[createinstance_azuremonitor]: https://learn.microsoft.com/azure/azure-monitor/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/README.md

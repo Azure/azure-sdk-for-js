@@ -460,7 +460,7 @@ export interface SignedIdentifier {
     expiresOn: Date;
     /**
      * the permissions for the acl policy
-     * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
+     * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-acl
      */
     permissions: string;
   };
@@ -592,7 +592,7 @@ export interface CommonGenerateSasUrlOptions {
   /**
    * Optional. The name of the access policy on the share this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 
@@ -779,7 +779,7 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a new share under the specified account. If the share with
    * the same name already exists, the operation fails.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-share
    *
    * @param options - Options to Share Create operation.
    * @returns Response data for the Share Create operation.
@@ -799,7 +799,7 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a new share under the specified account. If the share with
    * the same name already exists, it is not changed.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-share
    *
    * @param options -
    */
@@ -861,7 +861,7 @@ export class ShareClient extends StorageClient {
 
   /**
    * Creates a new subdirectory under this share.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
    * @param directoryName -
    * @param options - Options to Directory Create operation.
@@ -891,7 +891,7 @@ export class ShareClient extends StorageClient {
   /**
    * Removes the specified empty sub directory under this share.
    * Note that the directory must be empty before it can be deleted.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
    * @param directoryName -
    * @param options - Options to Directory Delete operation.
@@ -914,7 +914,7 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a new file or replaces a file under the root directory of this share.
    * Note it only initializes the file with no content.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param fileName -
    * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
@@ -950,7 +950,7 @@ export class ShareClient extends StorageClient {
    * a share. An attempt to perform this operation on a share snapshot will fail with 400
    * (`InvalidQueryParameterValue`)
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
    * @param directoryName -
    * @param fileName -
@@ -994,7 +994,7 @@ export class ShareClient extends StorageClient {
   /**
    * Returns all user-defined metadata and system properties for the specified
    * share.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-share-properties
    *
    * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
    * they originally contained uppercase characters. This differs from the metadata keys returned by
@@ -1021,7 +1021,7 @@ export class ShareClient extends StorageClient {
   /**
    * Marks the specified share for deletion. The share and any directories or files
    * contained within it are later deleted during garbage collection.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
    * @param options - Options to Share Delete operation.
    * @returns Response data for the Share Delete operation.
@@ -1040,7 +1040,7 @@ export class ShareClient extends StorageClient {
   /**
    * Marks the specified share for deletion if it exists. The share and any directories or files
    * contained within it are later deleted during garbage collection.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
    * @param options -
    */
@@ -1072,7 +1072,7 @@ export class ShareClient extends StorageClient {
    *
    * If no option provided, or no metadata defined in the option parameter, the share
    * metadata will be removed.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-metadata
    *
    * @param metadata - If no metadata provided, all existing directory metadata will be removed.
    * @param option - Options to Share Set Metadata operation.
@@ -1100,7 +1100,7 @@ export class ShareClient extends StorageClient {
    * WARNING: JavaScript Date will potential lost precision when parsing start and expiry string.
    * For example, new Date("2018-12-31T03:44:23.8827891Z").toISOString() will get "2018-12-31T03:44:23.882Z".
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-acl
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-share-acl
    *
    * @param option - Options to Share Get Access Policy operation.
    * @returns Response data for the Share Get Access Policy operation.
@@ -1171,7 +1171,7 @@ export class ShareClient extends StorageClient {
    * When you establish a stored access policy on a share, it may take up to 30 seconds to take effect.
    * During this interval, a shared access signature that is associated with the stored access policy will
    * fail with status code 403 (Forbidden), until the access policy becomes active.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-share-acl
    *
    * @param shareAcl - Array of signed identifiers, each having a unique Id and details of access policy.
    * @param option - Options to Share Set Access Policy operation.
@@ -1305,7 +1305,7 @@ export class ShareClient extends StorageClient {
   /**
    * Creates a file permission (a security descriptor) at the share level.
    * The created security descriptor can be used for the files/directories in the share.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-permission
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-permission
    *
    * @param options - Options to Share Create Permission operation.
    * @param filePermission - File permission described in the SDDL
@@ -1331,7 +1331,7 @@ export class ShareClient extends StorageClient {
   /**
    * Gets the Security Descriptor Definition Language (SDDL) for a given file permission key
    * which indicates a security descriptor.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-permission
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-permission
    *
    * @param options - Options to Share Create Permission operation.
    * @param filePermissionKey - File permission key which indicates the security descriptor of the permission.
@@ -1370,7 +1370,7 @@ export class ShareClient extends StorageClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -1399,7 +1399,7 @@ export class ShareClient extends StorageClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -1795,7 +1795,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Creates a new directory under the specified share or parent directory.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
    * @param options - Options to Directory Create operation.
    * @returns Response data for the Directory  operation.
@@ -1833,7 +1833,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Creates a new directory under the specified share or parent directory if it does not already exists.
    * If the directory already exists, it is not modified.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
    * @param options -
    */
@@ -1866,7 +1866,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Sets properties on the directory.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-directory-properties
    *
    * @param DirectoryProperties - Directory properties. If no values are provided,
    *                                            existing values will be preserved.
@@ -1921,7 +1921,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Creates a new subdirectory under this directory.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
    * @param directoryName -
    * @param options - Options to Directory Create operation.
@@ -1951,7 +1951,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Removes the specified empty sub directory under this directory.
    * Note that the directory must be empty before it can be deleted.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
    * @param directoryName -
    * @param options - Options to Directory Delete operation.
@@ -1973,7 +1973,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Creates a new file or replaces a file under this directory. Note it only initializes the file with no content.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param fileName -
    * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
@@ -2011,7 +2011,7 @@ export class ShareDirectoryClient extends StorageClient {
    * Delete File is not supported on a share snapshot, which is a read-only copy of
    * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
    * @param fileName - Name of the file to delete
    * @param options - Options to File Delete operation.
@@ -2092,7 +2092,7 @@ export class ShareDirectoryClient extends StorageClient {
    * Returns all system properties for the specified directory, and can also be used to check the
    * existence of a directory. The data returned does not include the files in the directory or any
    * subdirectories.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-directory-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-directory-properties
    *
    * @param options - Options to Directory Get Properties operation.
    * @returns Response data for the Directory Get Properties operation.
@@ -2114,7 +2114,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Removes the specified empty directory. Note that the directory must be empty before it can be
    * deleted.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
    * @param options - Options to Directory Delete operation.
    * @returns Response data for the Directory Delete operation.
@@ -2134,7 +2134,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Removes the specified empty directory if it exists. Note that the directory must be empty before it can be
    * deleted.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
    * @param options -
    */
@@ -2170,7 +2170,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Updates user defined metadata for the specified directory.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-directory-metadata
    *
    * @param metadata - If no metadata provided, all existing directory metadata will be removed
    * @param options - Options to Directory Set Metadata operation.
@@ -2402,7 +2402,7 @@ export class ShareDirectoryClient extends StorageClient {
   /**
    * Returns a list of files or directories under the specified share or directory. It lists the
    * contents only for a single level of the directory hierarchy.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files
    *
    * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
    * @param options - Options to Directory List Files and Directories Segment operation.
@@ -2593,7 +2593,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Lists handles for a directory.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-handles
    *
    * @param marker - Optional. A string value that identifies the portion of the list to be
    *                          returned with the next list handles operation. The operation returns a
@@ -2643,7 +2643,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Force close all handles for a directory.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
    * @param marker - Optional. A string value that identifies the position of handles that will
    *                          be closed with the next force close handles operation.
@@ -2684,7 +2684,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Force close all handles for a directory.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
    * @param options -
    */
@@ -2720,7 +2720,7 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Force close a specific handle for a directory.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
    * @param aborter - Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
@@ -2978,7 +2978,7 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
-   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * href="https://learn.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
@@ -3477,7 +3477,7 @@ export interface FileRenameOptions extends CommonOptions {
 
   /**
    * Optional.
-   * The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
+   * The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
 
@@ -3547,7 +3547,7 @@ export interface DirectoryRenameOptions extends CommonOptions {
 
   /**
    * Optional.
-   * The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
+   * The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
 
@@ -3712,7 +3712,7 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
    * @param options - Options to File Create operation.
@@ -3764,7 +3764,7 @@ export class ShareFileClient extends StorageClient {
    * * In Node.js, data returns in a Readable stream `readableStreamBody`
    * * In browsers, data returns in a promise `contentAsBlob`
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-file
    *
    * @param offset - From which position of the file to download, greater than or equal to 0
    * @param count - How much data to be downloaded, greater than 0. Will download to the end when undefined
@@ -3924,7 +3924,7 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns all user-defined metadata, standard HTTP properties, and system properties
    * for the file. It does not return the content of the file.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
    * @param options - Options to File Get Properties operation.
    * @returns Response data for the File Get Properties operation.
@@ -3945,7 +3945,7 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * Sets properties on the file.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
    * @param properties - File properties. For file HTTP headers(e.g. Content-Type),
    *                                       if no values are provided, existing HTTP headers will be removed.
@@ -3989,7 +3989,7 @@ export class ShareFileClient extends StorageClient {
    * Delete File is not supported on a share snapshot, which is a read-only copy of
    * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
    * @param options - Options to File Delete operation.
    * @returns Response data for the File Delete operation.
@@ -4014,7 +4014,7 @@ export class ShareFileClient extends StorageClient {
    * Delete File is not supported on a share snapshot, which is a read-only copy of
    * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
    * @param options -
    */
@@ -4053,7 +4053,7 @@ export class ShareFileClient extends StorageClient {
    *
    * If no option provided, or no value provided for the file HTTP headers in the options,
    * these file HTTP headers without a value will be cleared.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
    * @param FileHttpHeaders - File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
@@ -4092,7 +4092,7 @@ export class ShareFileClient extends StorageClient {
   /**
    * Resize file.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
    * @param length - Resizes a file to the specified size in bytes.
    *                        If the specified byte value is less than the current size of the file,
@@ -4128,7 +4128,7 @@ export class ShareFileClient extends StorageClient {
    *
    * If no metadata defined in the option parameter, the file
    * metadata will be removed.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-file-metadata
    *
    * @param metadata - If no metadata provided, all existing directory metadata will be removed
    * @param options - Options to File Set Metadata operation.
@@ -4401,7 +4401,7 @@ export class ShareFileClient extends StorageClient {
   /**
    * Aborts a pending Copy File operation, and leaves a destination file with zero length and full
    * metadata.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-file
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/abort-copy-file
    *
    * @param copyId - Id of the Copy File operation to abort.
    * @param options - Options to File Abort Copy From URL operation.
@@ -4900,7 +4900,7 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * Lists handles for a file.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-handles
    *
    * @param marker - Optional. A string value that identifies the portion of the list to be
    *                          returned with the next list handles operation. The operation returns a
@@ -5033,7 +5033,7 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * Force close all handles for a file.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
    * @param marker - Optional. A string value that identifies the position of handles that will
    *                          be closed with the next force close handles operation.
@@ -5066,7 +5066,7 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * Force close all handles for a file.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
    * @param options - Options to force close handles operation.
    */
@@ -5105,7 +5105,7 @@ export class ShareFileClient extends StorageClient {
 
   /**
    * Force close a specific handle for a file.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
    * @param handleId - Specific handle ID, cannot be asterisk "*".
    *                          Use forceCloseAllHandles() to close all handles.
@@ -5153,7 +5153,7 @@ export class ShareFileClient extends StorageClient {
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -5183,7 +5183,7 @@ export class ShareFileClient extends StorageClient {
    * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
@@ -5341,9 +5341,9 @@ export interface LeaseOperationOptions extends CommonOptions {
 
 /**
  * A client that manages leases for a {@link ShareFileClient} or {@link ShareClient}.
- * @see https://docs.microsoft.com/rest/api/storageservices/lease-file
+ * @see https://learn.microsoft.com/rest/api/storageservices/lease-file
  * and
- * @see https://docs.microsoft.com/rest/api/storageservices/lease-share
+ * @see https://learn.microsoft.com/rest/api/storageservices/lease-share
  */
 export class ShareLeaseClient {
   private _leaseId: string;

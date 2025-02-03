@@ -61,7 +61,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [databoundariesgetscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoundaries/arm-databoundaries/samples/v1-beta/typescript/src/dataBoundariesGetScopeSample.ts
 [databoundariesgettenantsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoundaries/arm-databoundaries/samples/v1-beta/typescript/src/dataBoundariesGetTenantSample.ts
 [databoundariesputsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoundaries/arm-databoundaries/samples/v1-beta/typescript/src/dataBoundariesPutSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databoundaries/arm-databoundaries/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

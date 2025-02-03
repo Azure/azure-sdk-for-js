@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ManagedClusterAADProfile,
-  ContainerServiceClient,
-} from "@azure/arm-containerservice";
+import type { ManagedClusterAADProfile } from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
@@ -23,12 +17,10 @@ dotenv.config();
  * @summary **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/ManagedClustersResetAADProfile.json
  */
-async function resetAadProfile() {
+async function resetAadProfile(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: ManagedClusterAADProfile = {
     clientAppID: "clientappid",
@@ -46,8 +38,8 @@ async function resetAadProfile() {
   console.log(result);
 }
 
-async function main() {
-  resetAadProfile();
+async function main(): Promise<void> {
+  await resetAadProfile();
 }
 
 main().catch(console.error);

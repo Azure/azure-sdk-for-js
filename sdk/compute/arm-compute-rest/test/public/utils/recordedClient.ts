@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
-
 import type { TokenCredential } from "@azure/core-auth";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { ComputeManagementClient } from "../../../src/clientDefinitions.js";

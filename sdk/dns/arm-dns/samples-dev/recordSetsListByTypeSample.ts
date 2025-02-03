@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a DNS zone.
@@ -20,7 +16,7 @@ dotenv.config();
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListARecordset.json
  */
-async function listARecordsets() {
+async function listARecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -28,11 +24,7 @@ async function listARecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -44,7 +36,7 @@ async function listARecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListAAAARecordset.json
  */
-async function listAaaaRecordsets() {
+async function listAaaaRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -52,11 +44,7 @@ async function listAaaaRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -68,7 +56,7 @@ async function listAaaaRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListCaaRecordset.json
  */
-async function listCaaRecordsets() {
+async function listCaaRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -76,11 +64,7 @@ async function listCaaRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -92,7 +76,7 @@ async function listCaaRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListCNAMERecordset.json
  */
-async function listCnameRecordsets() {
+async function listCnameRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -100,11 +84,7 @@ async function listCnameRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -116,7 +96,7 @@ async function listCnameRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListDSRecordset.json
  */
-async function listDsRecordsets() {
+async function listDsRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -124,11 +104,7 @@ async function listDsRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -140,7 +116,7 @@ async function listDsRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListMXRecordset.json
  */
-async function listMxRecordsets() {
+async function listMxRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -148,11 +124,7 @@ async function listMxRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -164,7 +136,7 @@ async function listMxRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListNAPTRRecordset.json
  */
-async function listNaptrRecordsets() {
+async function listNaptrRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -172,11 +144,7 @@ async function listNaptrRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -188,7 +156,7 @@ async function listNaptrRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListNSRecordset.json
  */
-async function listNsRecordsets() {
+async function listNsRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -196,11 +164,7 @@ async function listNsRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -212,7 +176,7 @@ async function listNsRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListPTRRecordset.json
  */
-async function listPtrRecordsets() {
+async function listPtrRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "0.0.127.in-addr.arpa";
@@ -220,11 +184,7 @@ async function listPtrRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -236,7 +196,7 @@ async function listPtrRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListSOARecordset.json
  */
-async function listSoaRecordsets() {
+async function listSoaRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -244,11 +204,7 @@ async function listSoaRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -260,7 +216,7 @@ async function listSoaRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListSRVRecordset.json
  */
-async function listSrvRecordsets() {
+async function listSrvRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -268,11 +224,7 @@ async function listSrvRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -284,7 +236,7 @@ async function listSrvRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListTLSARecordset.json
  */
-async function listTlsaRecordsets() {
+async function listTlsaRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -292,11 +244,7 @@ async function listTlsaRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -308,7 +256,7 @@ async function listTlsaRecordsets() {
  * @summary Lists the record sets of a specified type in a DNS zone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListTXTRecordset.json
  */
-async function listTxtRecordsets() {
+async function listTxtRecordsets(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -316,30 +264,26 @@ async function listTxtRecordsets() {
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.recordSets.listByType(
-    resourceGroupName,
-    zoneName,
-    recordType,
-  )) {
+  for await (const item of client.recordSets.listByType(resourceGroupName, zoneName, recordType)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  listARecordsets();
-  listAaaaRecordsets();
-  listCaaRecordsets();
-  listCnameRecordsets();
-  listDsRecordsets();
-  listMxRecordsets();
-  listNaptrRecordsets();
-  listNsRecordsets();
-  listPtrRecordsets();
-  listSoaRecordsets();
-  listSrvRecordsets();
-  listTlsaRecordsets();
-  listTxtRecordsets();
+async function main(): Promise<void> {
+  await listARecordsets();
+  await listAaaaRecordsets();
+  await listCaaRecordsets();
+  await listCnameRecordsets();
+  await listDsRecordsets();
+  await listMxRecordsets();
+  await listNaptrRecordsets();
+  await listNsRecordsets();
+  await listPtrRecordsets();
+  await listSoaRecordsets();
+  await listSrvRecordsets();
+  await listTlsaRecordsets();
+  await listTxtRecordsets();
 }
 
 main().catch(console.error);

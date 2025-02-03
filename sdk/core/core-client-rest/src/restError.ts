@@ -18,14 +18,14 @@ export function createRestError(
   response?: PathUncheckedResponse,
 ): RestError {
   const resp = typeof messageOrResponse === "string" ? response! : messageOrResponse;
-  const internalError = resp.body.error || resp.body;
+  const internalError = resp.body?.error ?? resp.body;
   const message =
     typeof messageOrResponse === "string"
       ? messageOrResponse
       : (internalError.message ?? `Unexpected status code: ${resp.status}`);
   return new RestError(message, {
     statusCode: statusCodeToNumber(resp.status),
-    code: internalError.code,
+    code: internalError?.code,
     request: resp.request,
     response: toPipelineResponse(resp),
   });

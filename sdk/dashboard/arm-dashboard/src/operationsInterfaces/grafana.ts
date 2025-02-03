@@ -24,7 +24,7 @@ import {
   GrafanaCheckEnterpriseDetailsResponse,
   GrafanaFetchAvailablePluginsOptionalParams,
   GrafanaFetchAvailablePluginsResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Grafana. */

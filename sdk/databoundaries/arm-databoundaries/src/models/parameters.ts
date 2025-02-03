@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
-import { DataBoundaryDefinition as DataBoundaryDefinitionMapper } from "../models/mappers";
+import { DataBoundaryDefinition as DataBoundaryDefinitionMapper } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

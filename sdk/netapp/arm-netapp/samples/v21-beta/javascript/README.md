@@ -245,6 +245,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [volumesrevertsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/netapp/arm-netapp/samples/v21-beta/javascript/volumesRevertSample.js
 [volumessplitclonefromparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/netapp/arm-netapp/samples/v21-beta/javascript/volumesSplitCloneFromParentSample.js
 [volumesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/netapp/arm-netapp/samples/v21-beta/javascript/volumesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-netapp?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-netapp?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/netapp/arm-netapp/README.md

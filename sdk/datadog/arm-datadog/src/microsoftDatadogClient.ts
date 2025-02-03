@@ -22,7 +22,7 @@ import {
   TagRulesImpl,
   SingleSignOnConfigurationsImpl,
   MonitoredSubscriptionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   MarketplaceAgreements,
   CreationSupported,
@@ -31,8 +31,8 @@ import {
   TagRules,
   SingleSignOnConfigurations,
   MonitoredSubscriptions
-} from "./operationsInterfaces";
-import { MicrosoftDatadogClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MicrosoftDatadogClientOptionalParams } from "./models/index.js";
 
 export class MicrosoftDatadogClient extends coreClient.ServiceClient {
   $host: string;

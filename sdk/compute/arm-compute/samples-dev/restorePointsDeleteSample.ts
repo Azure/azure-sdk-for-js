@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete the restore point.
@@ -20,11 +16,9 @@ dotenv.config();
  * @summary The operation to delete the restore point.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePoint_Delete_MaximumSet_Gen.json
  */
-async function restorePointDeleteMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function restorePointDeleteMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaaaa";
   const restorePointName = "a";
   const credential = new DefaultAzureCredential();
@@ -43,11 +37,9 @@ async function restorePointDeleteMaximumSetGen() {
  * @summary The operation to delete the restore point.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePoint_Delete_MinimumSet_Gen.json
  */
-async function restorePointDeleteMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function restorePointDeleteMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaa";
   const restorePointName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -60,9 +52,9 @@ async function restorePointDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  restorePointDeleteMaximumSetGen();
-  restorePointDeleteMinimumSetGen();
+async function main(): Promise<void> {
+  await restorePointDeleteMaximumSetGen();
+  await restorePointDeleteMinimumSetGen();
 }
 
 main().catch(console.error);

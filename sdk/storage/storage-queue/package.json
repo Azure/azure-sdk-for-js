@@ -37,7 +37,7 @@
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/storage-queue/test/**/*.spec.js'",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/storage-queue/test/**/*.spec.js\"",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix",
     "pack": "npm pack 2>&1",
@@ -106,7 +106,7 @@
       "azure-storage"
     ],
     "requiredResources": {
-      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+      "Azure Storage Account": "https://learn.microsoft.com/azure/storage/common/storage-account-overview"
     }
   },
   "dependencies": {
@@ -149,7 +149,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^11.0.2",
     "nyc": "^17.0.0",
-    "puppeteer": "^23.0.2",
+    "puppeteer": "^24.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "typescript": "~5.7.2",

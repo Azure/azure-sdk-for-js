@@ -6,7 +6,7 @@ You can use existing Azure resources for the live tests, or generate new ones by
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview). Your Azure application needs to be assigned as the **owner** of this Azure App Configuration resource. The steps are provided [below](#aad-based-authentication).
+- An [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview). Your Azure application needs to be assigned as the **owner** of this Azure App Configuration resource. The steps are provided [below](#aad-based-authentication).
 
 To run the live tests, you will also need to set the below environment variables:
 
@@ -25,7 +25,7 @@ The following steps will help you setup the AAD credentials.
 
 ### Register a new application in AAD
 
-- Follow [Documentation to register a new application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
+- Follow [Documentation to register a new application](https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
 - Note down the `CLIENT_ID` and `TENANT_ID`.
 - In the "Certificates & Secrets" tab, create a secret and note that down.
 

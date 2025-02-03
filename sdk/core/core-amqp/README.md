@@ -1,7 +1,7 @@
 # Azure Core AMQP client library for JavaScript
 
 The `@azure/core-amqp` package provides common functionality for **Azure** JavaScript
-libraries that use the [AMQP protocol](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-protocol-guide)
+libraries that use the [AMQP protocol](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-protocol-guide)
 like the ones for Azure Service Bus and Azure Event Hubs.
 
 ## Getting started
@@ -25,8 +25,8 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 Some of the key features of Azure Core AMQP library are:
 
-- [Claims based Authorization](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization)
-- Request-Response link for [sending request and receiving response over AMQP](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-protocol-guide#amqp-management)
+- [Claims based Authorization](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization)
+- Request-Response link for [sending request and receiving response over AMQP](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-protocol-guide#amqp-management)
 - Error translation of AMQP error codes along with errors specific to Azure Service Bus and Azure Event Hubs.
 - RetryPolicy for retrying a given operation if a retryable error was encountered.
 

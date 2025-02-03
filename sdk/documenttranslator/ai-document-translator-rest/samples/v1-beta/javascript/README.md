@@ -51,7 +51,7 @@ node listFormats.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" DOCUMENT_TRANSLATOR_API_KEY="<document translator api key>" node listFormats.js
+npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" DOCUMENT_TRANSLATOR_API_KEY="<document translator api key>" node listFormats.js
 ```
 
 ## Next Steps
@@ -60,7 +60,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [listformats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documenttranslator/ai-document-translator-rest/samples/v1-beta/javascript/listFormats.js
 [translatefromblob]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documenttranslator/ai-document-translator-rest/samples/v1-beta/javascript/translateFromBlob.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-document-translator
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-document-translator?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documenttranslator/ai-document-translator-rest/README.md

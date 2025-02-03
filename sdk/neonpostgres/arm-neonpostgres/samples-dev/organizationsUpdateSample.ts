@@ -56,7 +56,7 @@ async function organizationsUpdate() {
 }
 
 async function main() {
-  organizationsUpdate();
+  await organizationsUpdate();
 }
 
 main().catch(console.error);

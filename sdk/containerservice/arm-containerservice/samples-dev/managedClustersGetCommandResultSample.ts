@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
@@ -20,12 +16,10 @@ dotenv.config();
  * @summary Gets the results of a command which has been run on the Managed Cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/RunCommandResultFailed.json
  */
-async function commandFailedResult() {
+async function commandFailedResult(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const commandId = "def7b3ea71bd4f7e9d226ddbc0f00ad9";
   const credential = new DefaultAzureCredential();
@@ -44,12 +38,10 @@ async function commandFailedResult() {
  * @summary Gets the results of a command which has been run on the Managed Cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-09-02-preview/examples/RunCommandResultSucceed.json
  */
-async function commandSucceedResult() {
+async function commandSucceedResult(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const commandId = "def7b3ea71bd4f7e9d226ddbc0f00ad9";
   const credential = new DefaultAzureCredential();
@@ -62,9 +54,9 @@ async function commandSucceedResult() {
   console.log(result);
 }
 
-async function main() {
-  commandFailedResult();
-  commandSucceedResult();
+async function main(): Promise<void> {
+  await commandFailedResult();
+  await commandSucceedResult();
 }
 
 main().catch(console.error);

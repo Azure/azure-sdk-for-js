@@ -43,10 +43,10 @@
       "azure"
     ],
     "requiredResources": {
-      "Azure Iot Device Update instance": "https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update"
+      "Azure Iot Device Update instance": "https://learn.microsoft.com/azure/iot-hub-device-update/understand-device-update"
     },
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update"
+    "apiRefLink": "https://learn.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update"
   },
   "browser": "./dist/browser/index.js",
   "scripts": {
@@ -56,7 +56,7 @@
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md && npm run format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -71,17 +71,17 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure/core-lro": "^3.1.0",
-    "@azure/abort-controller": "^2.1.2",
     "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
   },
@@ -92,18 +92,19 @@
     "@azure/core-util": "^1.11.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.8",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.49.0",
+    "playwright": "^1.50.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.3"
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -116,8 +117,7 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
@@ -139,5 +139,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }

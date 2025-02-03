@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ListNetworkManagerEffectiveSecurityAdminRulesParameters,
 } from "@azure-rest/arm-network";
