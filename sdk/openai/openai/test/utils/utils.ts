@@ -13,17 +13,18 @@ import {
 } from "@azure/core-rest-pipeline";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import {
-  EnvironmentVariableNamesAzureCommon,
-  EnvironmentVariableNamesForAzureSearch,
-  EnvironmentVariableNamesForCompletions,
-  EnvironmentVariableNamesForVision,
-  EnvironmentVariableNamesForAudio,
-} from "./envVars.js";
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import { createClientLogger } from "@azure/logger";
-import type { AzureChatExtensionConfiguration } from "../../../src/types/index.js";
+import type { AzureChatExtensionConfiguration } from "../../src/types/index.js";
+import {
+  getAccountNameAudio,
+  getAccountNameCompletions,
+  getAccountNameVision,
+  getAzureSearchEndpoint,
+  getAzureSearchIndex,
+  getResourceGroup,
+  getSubscriptionId,
+} from "./injectables.js";
 
 const logger = createClientLogger("openai");
 
@@ -163,20 +164,18 @@ export function getSucceeded(
 function getAccountNameFromResourceType(deploymentType: DeploymentType): string {
   switch (deploymentType) {
     case "completions":
-      return assertEnvironmentVariable(
-        EnvironmentVariableNamesForCompletions.ACCOUNT_NAME_COMPLETIONS,
-      );
+      return getAccountNameCompletions();
     case "vision":
-      return assertEnvironmentVariable(EnvironmentVariableNamesForVision.ACCOUNT_NAME_VISION);
+      return getAccountNameVision();
     case "audio":
-      return assertEnvironmentVariable(EnvironmentVariableNamesForAudio.ACCOUNT_NAME_AUDIO);
+      return getAccountNameAudio();
   }
 }
 
 export async function getDeployments(deploymentType: DeploymentType): Promise<DeploymentInfo[]> {
   return listDeployments(
-    assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.SUBSCRIPTION_ID),
-    assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.RESOURCE_GROUP),
+    getSubscriptionId(),
+    getResourceGroup(),
     getAccountNameFromResourceType(deploymentType),
   );
 }
@@ -203,12 +202,8 @@ export function createAzureSearchExtension(): AzureChatExtensionConfiguration {
   return {
     type: "azure_search",
     parameters: {
-      endpoint: assertEnvironmentVariable(
-        EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_ENDPOINT,
-      ),
-      index_name: assertEnvironmentVariable(
-        EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX,
-      ),
+      endpoint: getAzureSearchEndpoint(),
+      index_name: getAzureSearchIndex(),
       authentication: {
         type: "system_assigned_managed_identity",
       },
