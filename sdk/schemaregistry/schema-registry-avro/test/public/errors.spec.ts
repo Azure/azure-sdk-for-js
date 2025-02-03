@@ -25,32 +25,32 @@ describe("Error scenarios", function () {
   let client: HttpClient;
   let pipeline: Pipeline;
 
-  beforeEach(async function (ctx) {
-    client = createDefaultHttpClient();
-    pipeline = createPipelineWithCredential();
-    recorder = new Recorder(ctx);
-    registry = createTestRegistry({ recorder });
-    serializer = await createTestSerializer({
-      registry,
-      serializerOptions: {
-        autoRegisterSchemas: true,
-        groupName: testGroup,
-      },
-      recorder,
+  beforeEach(async (ctx) => {
+      client = createDefaultHttpClient();
+      pipeline = createPipelineWithCredential();
+      recorder = new Recorder(ctx);
+      registry = createTestRegistry({ recorder });
+      serializer = await createTestSerializer({
+        registry,
+        serializerOptions: {
+          autoRegisterSchemas: true,
+          groupName: testGroup,
+        },
+        recorder,
+      });
     });
-  });
 
   describe("Schema validation", function () {
     describe("Without auto register schema", function () {
-      beforeEach(async function () {
-        serializerNoAutoReg = await createTestSerializer({
-          serializerOptions: {
-            autoRegisterSchemas: false,
-            groupName: testGroup,
-          },
-          recorder,
-        });
-      });
+      beforeEach(async () => {
+              serializerNoAutoReg = await createTestSerializer({
+                serializerOptions: {
+                  autoRegisterSchemas: false,
+                  groupName: testGroup,
+                },
+                recorder,
+              });
+            });
 
       afterAll(async function () {
         schemaList.push(testSchemaName);
@@ -79,9 +79,9 @@ describe("Error scenarios", function () {
     });
 
     describe("With auto register schema", function () {
-      afterEach(async function () {
-        await removeSchemas(schemaList, pipeline, client);
-      });
+      afterEach(async () => {
+              await removeSchemas(schemaList, pipeline, client);
+            });
       it("invalid reader schema", async function () {
         const writerSchema = {
           type: "record",
@@ -437,10 +437,10 @@ describe("Error scenarios", function () {
     });
   });
   describe("Unserialized value validation", function () {
-    afterEach(async function () {
-      schemaList.push("validation.User");
-      await removeSchemas(schemaList, pipeline, client);
-    });
+    afterEach(async () => {
+          schemaList.push("validation.User");
+          await removeSchemas(schemaList, pipeline, client);
+        });
 
     it("schema is still registered if serialization fails", async function ({ skip }) {
       /**
@@ -854,10 +854,10 @@ describe("Error scenarios", function () {
     });
   });
   describe("Serialized value validation", function () {
-    afterEach(async function () {
-      schemaList.push("validation.User");
-      await removeSchemas(schemaList, pipeline, client);
-    });
+    afterEach(async () => {
+          schemaList.push("validation.User");
+          await removeSchemas(schemaList, pipeline, client);
+        });
 
     it("record", async function () {
       const serializedValue = await serializer.serialize(
@@ -970,9 +970,9 @@ describe("Error scenarios", function () {
   });
 
   describe("Deserialized value validation", function () {
-    afterEach(async function () {
-      await removeSchemas(schemaList, pipeline, client);
-    });
+    afterEach(async () => {
+          await removeSchemas(schemaList, pipeline, client);
+        });
 
     it("long with logical DateTime type", async function () {
       const schema = await registry.registerSchema({

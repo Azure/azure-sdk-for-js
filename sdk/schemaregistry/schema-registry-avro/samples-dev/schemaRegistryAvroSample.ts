@@ -10,9 +10,7 @@ import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry"
 import { AvroSerializer } from "@azure/schema-registry-avro";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<endpoint>";
@@ -53,7 +51,7 @@ const schemaDescription: SchemaDescription = {
   definition: schema,
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a new client
   const client = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
