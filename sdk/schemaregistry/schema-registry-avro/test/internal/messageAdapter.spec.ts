@@ -37,7 +37,7 @@ describe("Message Adapters", function () {
     adapterFactoryName: createEventDataAdapter.name,
   };
   describe("MessageAdapter types are identical", function () {
-    it("Event Hubs", function () {
+    it("Event Hubs", () => {
       const areEqual: AssertEqualKeys<MessageAdapter<unknown>, EHMessageAdapter<unknown>> = true;
       assert.isTrue(
         areEqual,
@@ -46,7 +46,7 @@ describe("Message Adapters", function () {
     });
   });
   describe("Input types for message adapter factories are sound", function () {
-    it("EventDataAdapterParameters", function () {
+    it("EventDataAdapterParameters", () => {
       const areEqual: AssertEqualKeys<
         EventDataAdapterParameters,
         Omit<EventData, "body" | "contentType">
