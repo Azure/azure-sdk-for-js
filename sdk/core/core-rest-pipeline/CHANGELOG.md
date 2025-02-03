@@ -1,14 +1,10 @@
 # Release History
 
-## 1.18.3 (Unreleased)
+## 1.19.0 (2025-02-06)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add `agent` option to `PipelineOptions` [PR #32809](https://github.com/Azure/azure-sdk-for-js/pull/32809)
 
 ## 1.18.2 (2025-01-10)
 
