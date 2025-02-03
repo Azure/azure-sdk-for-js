@@ -52,7 +52,7 @@ describe("BlobServiceClient", () => {
   });
 
   // needs feature enabled to record test
-  it.skip("ListContainers including system containers", async function (ctx) {
+  it.skip("ListContainers including system containers", async (ctx) => {
     if (isLiveMode()) {
       // Skip the test case until the feature is enabled in production.
       ctx.skip();
@@ -396,23 +396,12 @@ describe("BlobServiceClient", () => {
     assert.deepEqual(result.hourMetrics, serviceProperties.hourMetrics);
   });
 
-  it("getStatistics", (done) => {
-    let blobServiceClient: BlobServiceClient | undefined;
-    try {
-      blobServiceClient = getAlternateBSU(recorder);
-    } catch (err: any) {
-      done();
-      return;
-    }
+  it("getStatistics", async () => {
+    const blobServiceClient = getAlternateBSU(recorder);
 
-    blobServiceClient!
-      .getStatistics()
-      .then((result) => {
-        assert.ok(result.geoReplication!.lastSyncOn);
-        done();
-        return;
-      })
-      .catch(done);
+    const result = await blobServiceClient!.getStatistics();
+
+    assert.ok(result.geoReplication!.lastSyncOn);
   });
 
   it("getAccountInfo", async () => {
@@ -461,7 +450,7 @@ describe("BlobServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("getUserDelegationKey should work", async function (ctx) {
+  it("getUserDelegationKey should work", async (ctx) => {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: BlobServiceClient;
@@ -471,6 +460,7 @@ describe("BlobServiceClient", () => {
       // Requires bearer token for this case which cannot be generated in the runtime
       // Make sure this case passed in sanity test
       ctx.skip();
+      return;
     }
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() + 1);
@@ -588,12 +578,13 @@ describe("BlobServiceClient", () => {
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
   });
 
-  it("restore container", async function (ctx) {
+  it("restore container", async (ctx) => {
     let blobServiceClient: BlobServiceClient;
     try {
       blobServiceClient = getGenericBSU(recorder, "SOFT_DELETE_");
     } catch (err: any) {
       ctx.skip();
+      return;
     }
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -626,12 +617,7 @@ describe("BlobServiceClient", () => {
   });
 
   // need feature to record test
-  it.skip("rename container", async function (ctx) {
-    if (isLiveMode()) {
-      // Turn on this case when the Container Rename feature is ready in the service side.
-      ctx.skip();
-    }
-
+  it.skip("rename container", { skip: isLiveMode() }, async () => {
     const blobServiceClient = getBSU(recorder);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -651,12 +637,8 @@ describe("BlobServiceClient", () => {
   });
 
   // need feature to record test
-  it.skip("rename container should work with source lease", async function (ctx) {
-    if (isLiveMode()) {
-      // Turn on this case when the Container Rename feature is ready in the service side.
-      ctx.skip();
-    }
-
+  // Turn on this case when the Container Rename feature is ready in the service side.
+  it.skip("rename container should work with source lease", { skip: isLiveMode() }, async () => {
     const blobServiceClient = getBSU(recorder);
 
     const containerName = recorder.variable("container", getUniqueName("container"));

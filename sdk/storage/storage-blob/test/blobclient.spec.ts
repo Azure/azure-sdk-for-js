@@ -30,6 +30,7 @@ import { base64encode } from "../src/utils/utils.common.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });
 
@@ -739,52 +740,53 @@ describe("BlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("beginCopyFromURL with rehydrate priority", async () => {
-    if (!isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const newBlobURL = containerClient.getBlobClient(
-      recorder.variable("copiedblobrehydrate", getUniqueName("copiedblobrehydrate")),
-    );
-    const initialTier = BlockBlobTier.Archive;
-    const result = await (
-      await newBlobURL.beginCopyFromURL(blobClient.url, {
-        tier: initialTier,
-        rehydratePriority: "Standard",
-      })
-    ).pollUntilDone();
-    assert.ok(result.copyId);
-    delay(1 * 1000);
-
-    const properties1 = await blobClient.getProperties();
-    const properties2 = await newBlobURL.getProperties();
-    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
-    assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.equal(properties2.accessTier, initialTier);
-
-    // we don't record this header so we can't find it during playback
-    if (isLiveMode()) {
-      // A service feature is being rolling out which will sanitize the sig field
-      // so we remove it before comparing urls.
-      assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
-
-      const sanitizedActualUrl = new URL(properties2.copySource!);
-      sanitizedActualUrl.searchParams.delete("sig");
-
-      const sanitizedExpectedUrl = new URL(blobClient.url);
-      sanitizedExpectedUrl.searchParams.delete("sig");
-
-      assert.strictEqual(
-        sanitizedActualUrl.toString(),
-        sanitizedExpectedUrl.toString(),
-        "copySource does not match original source",
+  it(
+    "beginCopyFromURL with rehydrate priority",
+    { skip: !isNodeLike && !isLiveMode() },
+    async () => {
+      const newBlobURL = containerClient.getBlobClient(
+        recorder.variable("copiedblobrehydrate", getUniqueName("copiedblobrehydrate")),
       );
-    }
+      const initialTier = BlockBlobTier.Archive;
+      const result = await (
+        await newBlobURL.beginCopyFromURL(blobClient.url, {
+          tier: initialTier,
+          rehydratePriority: "Standard",
+        })
+      ).pollUntilDone();
+      assert.ok(result.copyId);
+      delay(1 * 1000);
 
-    await newBlobURL.setAccessTier(BlockBlobTier.Hot);
-    const properties3 = await newBlobURL.getProperties();
-    assert.equal(properties3.archiveStatus!.toLowerCase(), "rehydrate-pending-to-hot");
-  });
+      const properties1 = await blobClient.getProperties();
+      const properties2 = await newBlobURL.getProperties();
+      assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+      assert.deepStrictEqual(properties2.copyId, result.copyId);
+      assert.equal(properties2.accessTier, initialTier);
+
+      // we don't record this header so we can't find it during playback
+      if (isLiveMode()) {
+        // A service feature is being rolling out which will sanitize the sig field
+        // so we remove it before comparing urls.
+        assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+        const sanitizedActualUrl = new URL(properties2.copySource!);
+        sanitizedActualUrl.searchParams.delete("sig");
+
+        const sanitizedExpectedUrl = new URL(blobClient.url);
+        sanitizedExpectedUrl.searchParams.delete("sig");
+
+        assert.strictEqual(
+          sanitizedActualUrl.toString(),
+          sanitizedExpectedUrl.toString(),
+          "copySource does not match original source",
+        );
+      }
+
+      await newBlobURL.setAccessTier(BlockBlobTier.Hot);
+      const properties3 = await newBlobURL.getProperties();
+      assert.equal(properties3.archiveStatus!.toLowerCase(), "rehydrate-pending-to-hot");
+    },
+  );
 
   it("beginCopyFromURL with cold tier", async () => {
     const newBlobURL = containerClient.getBlobClient(
@@ -816,9 +818,9 @@ describe("BlobClient", () => {
   });
 
   it("download with default parameters and tracing", async () => {
-    await expect((options) => blobClient.download(undefined, undefined, options)).toSupportTracing([
-      "BlobClient-download",
-    ]);
+    await expect((options: OperationOptions) =>
+      blobClient.download(undefined, undefined, options),
+    ).toSupportTracing(["BlobClient-download"]);
   });
 
   it("exists returns true on an existing blob", async () => {

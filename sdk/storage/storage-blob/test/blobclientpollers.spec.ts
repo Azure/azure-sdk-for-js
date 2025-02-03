@@ -57,46 +57,44 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     await recorder.stop();
   });
 
-  it("supports automatic polling via pollUntilDone", async () => {
-    if (!isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
-    const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob")),
-    );
+  it(
+    "supports automatic polling via pollUntilDone",
+    { skip: !isNodeLike && !isLiveMode() },
+    async () => {
+      const newBlobClient = destinationContainerClient.getBlobClient(
+        recorder.variable("copiedblob", getUniqueName("copiedblob")),
+      );
 
-    // specify poller type to ensure types are properly exported
-    const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
+      // specify poller type to ensure types are properly exported
+      const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
 
-    const result = await poller.pollUntilDone();
-    assert.ok(result.copyId);
+      const result = await poller.pollUntilDone();
+      assert.ok(result.copyId);
 
-    const properties1 = await blobClient.getProperties();
-    const properties2 = await newBlobClient.getProperties();
-    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
-    assert.deepStrictEqual(properties2.copyId, result.copyId);
+      const properties1 = await blobClient.getProperties();
+      const properties2 = await newBlobClient.getProperties();
+      assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+      assert.deepStrictEqual(properties2.copyId, result.copyId);
 
-    // A service feature is being rolling out which will sanitize the sig field
-    // so we remove it before comparing urls.
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+      // A service feature is being rolling out which will sanitize the sig field
+      // so we remove it before comparing urls.
+      assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = new URL(properties2.copySource!);
-    sanitizedActualUrl.searchParams.delete("sig");
+      const sanitizedActualUrl = new URL(properties2.copySource!);
+      sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = new URL(blobClient.url);
-    sanitizedExpectedUrl.searchParams.delete("sig");
+      const sanitizedExpectedUrl = new URL(blobClient.url);
+      sanitizedExpectedUrl.searchParams.delete("sig");
 
-    assert.strictEqual(
-      sanitizedActualUrl.toString(),
-      sanitizedExpectedUrl.toString(),
-      "copySource does not match original source",
-    );
-  });
+      assert.strictEqual(
+        sanitizedActualUrl.toString(),
+        sanitizedExpectedUrl.toString(),
+        "copySource does not match original source",
+      );
+    },
+  );
 
-  it("supports manual polling via poll", async () => {
-    if (!isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
+  it("supports manual polling via poll", { skip: !isNodeLike && !isLiveMode() }, async () => {
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
@@ -189,29 +187,29 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.equal(onProgressCalled, true, "onProgress handler was not called.");
   });
 
-  it("supports restoring poller state from another poller", async () => {
-    if (!isNodeLike && !isLiveMode()) {
-      ctx.skip();
-    }
+  it(
+    "supports restoring poller state from another poller",
+    { skip: !isNodeLike && !isLiveMode() },
+    async () => {
+      const newBlobClient = destinationContainerClient.getBlobClient(
+        recorder.variable("copiedblob", getUniqueName("copiedblob")),
+      );
 
-    const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob")),
-    );
+      const copySourceUrl = "https://azure.github.io/azure-sdk-for-js/index.html";
 
-    const copySourceUrl = "https://azure.github.io/azure-sdk-for-js/index.html";
+      const poller1 = await newBlobClient.beginCopyFromURL(copySourceUrl, testPollerProperties);
 
-    const poller1 = await newBlobClient.beginCopyFromURL(copySourceUrl, testPollerProperties);
+      poller1.stopPolling();
 
-    poller1.stopPolling();
+      const state = poller1.toString();
 
-    const state = poller1.toString();
-
-    const poller2 = await newBlobClient.beginCopyFromURL(copySourceUrl, {
-      resumeFrom: state,
-      ...testPollerProperties,
-    });
-    const result = await poller2.pollUntilDone();
-    assert.ok(result.copyId);
-    assert.equal(result.copyStatus, "success", "Poller2 copy failed.");
-  });
+      const poller2 = await newBlobClient.beginCopyFromURL(copySourceUrl, {
+        resumeFrom: state,
+        ...testPollerProperties,
+      });
+      const result = await poller2.pollUntilDone();
+      assert.ok(result.copyId);
+      assert.equal(result.copyStatus, "success", "Poller2 copy failed.");
+    },
+  );
 });

@@ -19,7 +19,7 @@ describe("Utility Helpers", () => {
   const customDomainBlobEndpoint = `${protocol}://customdomain.com`;
   const sharedAccessSignature = "sasToken";
 
-  function verifySASConnectionString(sasConnectionString: string) {
+  function verifySASConnectionString(sasConnectionString: string): void {
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
     assert.equal(
       "SASConnString",

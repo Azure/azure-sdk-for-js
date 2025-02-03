@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   base64encode,
@@ -15,7 +16,7 @@ import type { ContainerClient, BlobClient } from "../src/index.js";
 import { BlockBlobClient } from "../src/index.js";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { BlockBlobTier } from "../src/index.js";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BlockBlobClient", () => {
@@ -141,7 +142,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeLike) {
       await containerClient.setAccessPolicy("container");
     }
 
@@ -162,7 +163,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeLike) {
       await containerClient.setAccessPolicy("container");
     }
 
@@ -274,22 +275,23 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length * 2), "HelloWorldHelloWorld");
   });
 
-  it("can be created with a sas connection string", async () => {
-    if (isNode && !isLiveMode()) {
-      ctx.skip();
-    }
-    const newClient = new BlockBlobClient(
-      getSASConnectionStringFromEnvironment(recorder),
-      containerName,
-      blobName,
-    );
-    configureBlobStorageClient(recorder, newClient);
+  it(
+    "can be created with a sas connection string",
+    { skip: isNodeLike && !isLiveMode() },
+    async () => {
+      const newClient = new BlockBlobClient(
+        getSASConnectionStringFromEnvironment(recorder),
+        containerName,
+        blobName,
+      );
+      configureBlobStorageClient(recorder, newClient);
 
-    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
-    await newClient.upload(body, body.length);
-    const result = await newClient.download(0);
-    assert.deepStrictEqual(await bodyToString(result, body.length), body);
-  });
+      const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
+      await newClient.upload(body, body.length);
+      const result = await newClient.download(0);
+      assert.deepStrictEqual(await bodyToString(result, body.length), body);
+    },
+  );
 
   it("throws error if constructor containerName parameter is empty", async () => {
     try {
@@ -355,7 +357,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeLike) {
       await containerClient.setAccessPolicy("container");
     }
 

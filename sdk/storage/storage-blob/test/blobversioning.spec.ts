@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import * as fs from "node:fs";
-import { isNode, delay } from "@azure/core-util";
+import { isNodeLike, delay } from "@azure/core-util";
 import {
   getBSU,
   recorderEnvSetup,
@@ -97,14 +98,14 @@ describe("Blob versioning", () => {
     assert.deepStrictEqual(await bodyToString(downloadRes2), "");
     assert.deepStrictEqual(downloadRes2.versionId, uploadRes2.versionId);
 
-    if (isNode) {
+    if (isNodeLike) {
       const downloadToBufferRes = await blobVersionClient.downloadToBuffer();
       assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
     }
   });
 
   it("download a version to file", async function (ctx) {
-    if (!isNode || !isLiveMode()) {
+    if (!isNodeLike || !isLiveMode()) {
       // downloadToFile only available in Node.js
       ctx.skip();
     }
@@ -156,10 +157,7 @@ describe("Blob versioning", () => {
     assert.ok(rootExists);
   });
 
-  it("deleteBlobs should work for batch delete", async () => {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it("deleteBlobs should work for batch delete", { skip: !isLiveMode() }, async () => {
     const blockBlobCount = 3;
     const blockBlobClients: BlockBlobClient[] = new Array(blockBlobCount);
     const versions: string[] = new Array(blockBlobCount);
@@ -350,13 +348,13 @@ describe("Blob versioning", () => {
     );
     assert.ok(containerUploadRes.response.versionId);
 
-    if (!isNode) {
+    if (!isNodeLike) {
       const uploadBrowserDataRes = await blockBlobClient.uploadBrowserData(new Blob([content]));
       assert.ok(uploadBrowserDataRes.versionId);
     }
   });
 
-  it("asynchorous copy return versionId", async () => {
+  it("asynchronous copy return versionId", async () => {
     const newBlobClient = containerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
