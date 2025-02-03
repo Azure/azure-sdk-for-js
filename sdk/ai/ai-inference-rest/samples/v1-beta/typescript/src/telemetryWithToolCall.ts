@@ -19,9 +19,7 @@ import {
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -116,7 +114,7 @@ const handleToolCalls = (functionArray: Array<any>) => {
 import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-export async function main() {
+export async function main(): Promise<void> {
   const client = createModelClient();
 
   const messages: ChatRequestMessage[] = [
