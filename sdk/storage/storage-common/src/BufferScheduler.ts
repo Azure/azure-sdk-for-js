@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventEmitter } from "events";
-import { Readable } from "stream";
-import { PooledBuffer } from "./PooledBuffer";
+import { EventEmitter } from "node:events";
+import { Readable } from "node:stream";
+import { PooledBuffer } from "./PooledBuffer.js";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
