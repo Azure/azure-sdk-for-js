@@ -14,9 +14,9 @@ Key links:
 ## Getting started
 
 ```javascript
-import createClient, { isUnexpected } from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
-const client = createClient(
+const client = ModelClient(
   "https://<Azure Model endpoint>",
   new AzureKeyCredential("<Azure API key>"),
 );
@@ -66,10 +66,10 @@ Use the [Azure Portal][azure_portal] to browse to your Model deployment and retr
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```javascript
-import createClient from "@azure-rest/ai-inference";
+import ModelClient from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const client = createClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = ModelClient("<endpoint>", new AzureKeyCredential("<API key>"));
 ```
 
 #### Using an Azure Active Directory Credential
@@ -84,10 +84,10 @@ npm install @azure/identity
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```javascript
-import createClient from "@azure-rest/ai-inference";
+import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = createClient("<endpoint>", new DefaultAzureCredential());
+const client = ModelClient("<endpoint>", new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -95,11 +95,11 @@ const client = createClient("<endpoint>", new DefaultAzureCredential());
 The main concept to understand is [Completions][azure_openai_completions_docs]. Briefly explained, completions provides its functionality in the form of a text prompt, which by using a specific [model](https://learn.microsoft.com/azure/cognitive-services/openai/concepts/models), will then attempt to match the context and patterns, providing an output text. The following code snippet provides a rough overview:
 
 ```javascript
-import createClient, { isUnexpected } from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 async function main() {
-  const client = createClient(
+  const client = ModelClient(
     "https://your-model-endpoint/",
     new AzureKeyCredential("your-model-api-key"),
   );
@@ -135,13 +135,13 @@ npm install @azure/core-sse
 This example authenticates using a DefaultAzureCredential, then generates chat responses to input chat question and messages.
 
 ```javascript
-import createClient from "@azure-rest/ai-inference";
+import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createSseStream } from "@azure/core-sse";
 
 async function main() {
   const endpoint = "https://myaccount.openai.azure.com/";
-  const client = createClient(endpoint, new DefaultAzureCredential());
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
 
   const messages = [
     // NOTE: "system" role is not supported on all Azure Models
@@ -195,14 +195,14 @@ main().catch((err) => {
 This example generates text responses to input prompts using an Azure subscription key
 
 ```javascript
-import createClient from "@azure-rest/ai-inference";
+import ModelClient from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 async function main() {
   // Replace with your Model API key
   const key = "YOUR_MODEL_API_KEY";
   const endpoint = "https://your-model-endpoint/";
-  const client = createClient(endpoint, new AzureKeyCredential(key));
+  const client = ModelClient(endpoint, new AzureKeyCredential(key));
 
   const messages = [
     { role: "user", content: "How are you today?" },
@@ -243,12 +243,12 @@ main().catch((err) => {
 This example generates a summarization of the given input prompt.
 
 ```javascript
-import createClient from "@azure-rest/ai-inference";
+import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
   const endpoint = "https://your-model-endpoint/";
-  const client = createClient(endpoint, new DefaultAzureCredential());
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
 
   const textToSummarize = `
     Two independent experiments reported their results this morning at CERN, Europe's high-energy physics laboratory near Geneva in Switzerland. Both show convincing evidence of a new boson particle weighing around 125 gigaelectronvolts, which so far fits predictions of the Higgs previously made by theoretical physicists.
@@ -412,14 +412,14 @@ console.log(`Chatbot: ${response.choices[0].message?.content}`);
 This example demonstrates how to get text embeddings with Entra ID authentication.
 
 ```javascript
-import createClient, { isUnexpected } from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const endpoint = "<your_model_endpoint>";
 const credential = new DefaultAzureCredential();
 
 async function main() {
-  const client = createClient(endpoint, credential);
+  const client = ModelClient(endpoint, credential);
   const response = await client.path("/embeddings").post({
     body: {
       input: ["first phrase", "second phrase", "third phrase"],
@@ -456,7 +456,7 @@ To generate embeddings for additional phrases, simply call `client.path("/embedd
 This example demonstrates how to get image embeddings with Entra ID authentication.
 
 ```javascript
-import createClient, { isUnexpected } from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import fs from "fs";
 
@@ -476,7 +476,7 @@ function getImageDataUrl(imageFile, imageFormat) {
 }
 
 async function main() {
-  const client = createClient(endpoint, credential);
+  const client = ModelClient(endpoint, credential);
   const image = getImageDataUrl("<image_file>", "<image_format>");
   const response = await client.path("/images/embeddings").post({
     body: {
@@ -553,7 +553,7 @@ registerInstrumentations({
   instrumentations: [createAzureSdkInstrumentation()],
 });
 
-import createClient from "@azure-rest/ai-inference";
+import ModelClient from "@azure-rest/ai-inference";
 ```
 
 Finally when you are making a call for chat completion, you need to include
