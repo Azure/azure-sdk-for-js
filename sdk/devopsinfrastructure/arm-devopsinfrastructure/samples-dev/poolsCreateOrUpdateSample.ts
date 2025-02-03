@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a Pool
  * x-ms-original-file: 2024-10-19/CreateOrUpdatePool.json
  */
-async function poolsCreateOrUpdate() {
+async function poolsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a2e95d27-c161-4b61-bda4-11512c14c2c2";
   const client = new DevOpsInfrastructureClient(credential, subscriptionId);
@@ -40,8 +40,8 @@ async function poolsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  poolsCreateOrUpdate();
+async function main(): Promise<void> {
+  await poolsCreateOrUpdate();
 }
 
 main().catch(console.error);

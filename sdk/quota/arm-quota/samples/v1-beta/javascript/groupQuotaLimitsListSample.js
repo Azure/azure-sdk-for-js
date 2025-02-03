@@ -10,37 +10,32 @@
 // Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets the GroupQuotaLimits for the all resource for a specific  resourceProvider and $filter passed.
-The $filter=location eq {location} is required to location specific resources groupQuota.
+ * This sample demonstrates how to Gets the GroupQuotaLimits for the specified resource provider and location for resource names passed in $filter=resourceName eq {SKU}.
  *
- * @summary Gets the GroupQuotaLimits for the all resource for a specific  resourceProvider and $filter passed.
-The $filter=location eq {location} is required to location specific resources groupQuota.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotaLimits/ListGroupQuotaLimits-Compute.json
+ * @summary Gets the GroupQuotaLimits for the specified resource provider and location for resource names passed in $filter=resourceName eq {SKU}.
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GroupQuotaLimits/ListGroupQuotaLimits-Compute.json
  */
-async function groupQuotaLimitsListRequestForCompute() {
+async function groupQuotaLimitsGetRequestForCompute() {
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
   const resourceProviderName = "Microsoft.Compute";
-  const filter = "location eq westus";
+  const location = "westus";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const resArray = new Array();
-  for await (let item of client.groupQuotaLimits.list(
+  const result = await client.groupQuotaLimits.list(
     managementGroupId,
     groupQuotaName,
     resourceProviderName,
-    filter,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    location,
+  );
+  console.log(result);
 }
 
 async function main() {
-  groupQuotaLimitsListRequestForCompute();
+  await groupQuotaLimitsGetRequestForCompute();
 }
 
 main().catch(console.error);

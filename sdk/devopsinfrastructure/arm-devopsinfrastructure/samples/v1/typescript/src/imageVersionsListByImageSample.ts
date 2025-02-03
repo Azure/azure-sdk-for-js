@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list ImageVersion resources by Image
  * x-ms-original-file: 2024-10-19/ImageVersions_ListByImage.json
  */
-async function imageVersionsListByImage() {
+async function imageVersionsListByImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a2e95d27-c161-4b61-bda4-11512c14c2c2";
   const client = new DevOpsInfrastructureClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function imageVersionsListByImage() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   imageVersionsListByImage();
 }
 

@@ -10,8 +10,8 @@ import type {
   EmbeddingsResultOutput,
 } from "../../../src/index.js";
 import { isUnexpected } from "../../../src/index.js";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 function getImageDataUrl(imageFile: string, imageFormat: string): string {
   try {
@@ -32,19 +32,19 @@ describe("image embeddings test suite", () => {
 
   beforeEach(async (context) => {
     recorder = await createRecorder(context);
-    client = await createModelClient("imageEmbeddings", recorder, { credentials: {}});
+    client = await createModelClient("imageEmbeddings", recorder, { credentials: {} });
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("image embeddings regression test", async function () {
+  it("image embeddings regression test", async () => {
     const headers = { "extra-parameters": "allow" };
     const image = getImageDataUrl("sample.png", "png");
     const embeddingParams = {
       body: {
-        input: [{image}],
+        input: [{ image }],
         dimensions: 1,
         encoding_format: "foo",
         input_type: "foo",
@@ -83,11 +83,11 @@ describe("image embeddings test suite", () => {
     assert.isTrue(json["input_type"] === embeddingParams.body?.input_type);
   });
 
-  it("simple embeddings test", async function () {
+  it("simple embeddings test", async () => {
     const image = getImageDataUrl("sample.png", "png");
     const response = await client.path("/images/embeddings").post({
       body: {
-        input: [{image}],
+        input: [{ image }],
       },
     });
     console.log(response);

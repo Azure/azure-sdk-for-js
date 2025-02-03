@@ -16,7 +16,7 @@
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* *.tgz *.log temp \"types/!(schema-registry-avro.shims.d.ts)\"",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --browser --no-test-proxy",
@@ -28,9 +28,9 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -66,11 +66,11 @@
     }
   },
   "dependencies": {
-    "@azure/logger": "^1.0.0",
+    "@azure/logger": "^1.1.4",
     "@azure/schema-registry": "^1.2.0",
     "avsc": "^5.5.1",
-    "lru-cache": "^10.2.0",
-    "tslib": "^2.2.0"
+    "lru-cache": "^10.4.3",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
@@ -78,24 +78,23 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.12.1",
+    "@azure/core-util": "^1.11.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/event-hubs": "^5.8.0",
-    "@azure/identity": "^4.4.1",
+    "@azure/event-hubs": "^6.0.0-beta.1",
+    "@azure/identity": "^4.6.0",
     "@rollup/plugin-inject": "^5.0.5",
     "@types/node": "^18.0.0",
-    "@types/uuid": "^8.3.0",
-    "@vitest/browser": "^2.1.1",
-    "@vitest/coverage-istanbul": "^2.1.1",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "buffer": "^6.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.47.1",
+    "playwright": "^1.50.1",
     "process": "^0.11.10",
     "stream": "^0.0.3",
     "typescript": "~5.7.2",
-    "uuid": "^8.3.0",
-    "vitest": "^2.1.1"
+    "vitest": "^3.0.3"
   },
   "type": "module",
   "tshy": {
@@ -134,5 +133,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }

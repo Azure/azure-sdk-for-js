@@ -41,7 +41,7 @@ async function updateADiskEncryptionSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await updateADiskEncryptionSet()
+  await updateADiskEncryptionSet();
 }
 
 main().catch(console.error);

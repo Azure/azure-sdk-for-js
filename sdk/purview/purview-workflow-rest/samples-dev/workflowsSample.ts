@@ -161,20 +161,20 @@ async function main(): Promise<void> {
       ],
     },
   };
-  workflowCreateOrUpdate(client, workflowPayload); // This payload is an example payload, please replace the payload with real data.
+  await workflowCreateOrUpdate(client, workflowPayload); // This payload is an example payload, please replace the payload with real data.
 
   // ================================================== List workflows ==================================================
 
-  workflowsList(client);
+  await workflowsList(client);
 
   // ================================================== Get a workflow ==================================================
 
   const workflowId1 = "d503b2d2-84da-4a85-9e85-6e82e39d59a0"; // This is an example workflow id, user could get workflow id either from the response of creating or updating workflow api or list workflows api.
-  workflowGet(client, workflowId1);
+  await workflowGet(client, workflowId1);
 
   // ================================================== Get a workflow ==================================================
   const workflowId2 = "2689fe8e-b410-11ed-afa1-0242ac120002"; // This is an example workflow id, user could get workflow id either from the response of creating or updating workflow api or list workflows api.
-  workflowDelete(client, workflowId2);
+  await workflowDelete(client, workflowId2);
 }
 
 main().catch(console.error);

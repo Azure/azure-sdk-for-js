@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary this api gets secrets of the ispCacheNode resource install details
  * x-ms-original-file: 2023-05-01-preview/IspCacheNodesOperations_GetCacheNodeInstallDetails_MaximumSet_Gen.json
  */
-async function ispCacheNodeResourceGetInstallDetailsGeneratedByMaximumSetRule() {
+async function ispCacheNodeResourceGetInstallDetailsGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function ispCacheNodeResourceGetInstallDetailsGeneratedByMaximumSetRule() 
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   ispCacheNodeResourceGetInstallDetailsGeneratedByMaximumSetRule();
 }
 

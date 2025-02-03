@@ -22,7 +22,7 @@ async function deleteAPrivateEndpointConnectionOnAMongoClusterResource() {
 }
 
 async function main() {
-  deleteAPrivateEndpointConnectionOnAMongoClusterResource();
+  await deleteAPrivateEndpointConnectionOnAMongoClusterResource();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ async function dataflowEndpointDelete() {
 }
 
 async function main() {
-  dataflowEndpointDelete();
+  await dataflowEndpointDelete();
 }
 
 main().catch(console.error);

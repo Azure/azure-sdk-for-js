@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusters";
-export * from "./clusterPrincipalAssignments";
-export * from "./skus";
-export * from "./databases";
-export * from "./attachedDatabaseConfigurations";
-export * from "./managedPrivateEndpoints";
-export * from "./databaseOperations";
-export * from "./databasePrincipalAssignments";
-export * from "./scripts";
-export * from "./sandboxCustomImages";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./dataConnections";
-export * from "./operations";
-export * from "./operationsResults";
-export * from "./operationsResultsLocation";
+export * from "./clusters.js";
+export * from "./clusterPrincipalAssignments.js";
+export * from "./skus.js";
+export * from "./databases.js";
+export * from "./attachedDatabaseConfigurations.js";
+export * from "./managedPrivateEndpoints.js";
+export * from "./databaseOperations.js";
+export * from "./databasePrincipalAssignments.js";
+export * from "./scripts.js";
+export * from "./sandboxCustomImages.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./dataConnections.js";
+export * from "./operations.js";
+export * from "./operationsResults.js";
+export * from "./operationsResultsLocation.js";

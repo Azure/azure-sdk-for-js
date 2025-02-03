@@ -364,6 +364,7 @@ export interface ServiceBusConnectionStringProperties {
     sharedAccessKey?: string;
     sharedAccessKeyName?: string;
     sharedAccessSignature?: string;
+    useDevelopmentEmulator?: boolean;
 }
 
 // @public

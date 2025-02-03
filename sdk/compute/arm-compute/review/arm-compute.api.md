@@ -970,6 +970,7 @@ export interface CloudServiceVaultAndSecretReference {
 // @public
 export interface CloudServiceVaultCertificate {
     certificateUrl?: string;
+    isBootstrapCertificate?: boolean;
 }
 
 // @public

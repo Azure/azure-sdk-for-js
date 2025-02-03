@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Refreshes any information about the association.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Refreshes any information about the association.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/NetworkSecurityPerimeterConfigurationReconcile.json
  */
-async function networkSecurityPerimeterConfigurationList() {
+async function networkSecurityPerimeterConfigurationList(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName =
     process.env["EVENTHUB_RESOURCE_GROUP"] || "SDK-EventHub-4794";
@@ -37,7 +35,7 @@ async function networkSecurityPerimeterConfigurationList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkSecurityPerimeterConfigurationList();
 }
 

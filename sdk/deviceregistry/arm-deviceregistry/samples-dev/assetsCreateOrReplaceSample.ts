@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a Asset
  * x-ms-original-file: 2024-09-01-preview/Create_Asset_Without_DisplayName.json
  */
-async function createAssetWithoutDisplayName() {
+async function createAssetWithoutDisplayName(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -85,7 +85,7 @@ async function createAssetWithoutDisplayName() {
  * @summary create a Asset
  * x-ms-original-file: 2024-09-01-preview/Create_Asset_Without_ExternalAssetId.json
  */
-async function createAssetWithoutExternalAssetId() {
+async function createAssetWithoutExternalAssetId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -160,7 +160,7 @@ async function createAssetWithoutExternalAssetId() {
  * @summary create a Asset
  * x-ms-original-file: 2024-09-01-preview/Create_Asset_With_DiscoveredAssetRef.json
  */
-async function createAssetWithDiscoveredAssetRefs() {
+async function createAssetWithDiscoveredAssetRefs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -237,7 +237,7 @@ async function createAssetWithDiscoveredAssetRefs() {
  * @summary create a Asset
  * x-ms-original-file: 2024-09-01-preview/Create_Asset_With_ExternalAssetId.json
  */
-async function createAssetWithExternalAssetId() {
+async function createAssetWithExternalAssetId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -307,11 +307,11 @@ async function createAssetWithExternalAssetId() {
   console.log(result);
 }
 
-async function main() {
-  createAssetWithoutDisplayName();
-  createAssetWithoutExternalAssetId();
-  createAssetWithDiscoveredAssetRefs();
-  createAssetWithExternalAssetId();
+async function main(): Promise<void> {
+  await createAssetWithoutDisplayName();
+  await createAssetWithoutExternalAssetId();
+  await createAssetWithDiscoveredAssetRefs();
+  await createAssetWithExternalAssetId();
 }
 
 main().catch(console.error);

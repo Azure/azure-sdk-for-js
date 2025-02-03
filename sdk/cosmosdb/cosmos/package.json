@@ -72,7 +72,7 @@
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 100000 './test/internal/unit/*.spec.ts'",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 100000 './test/internal/unit/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",

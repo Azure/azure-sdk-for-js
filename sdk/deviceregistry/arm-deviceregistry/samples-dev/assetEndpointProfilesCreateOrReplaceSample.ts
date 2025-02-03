@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a AssetEndpointProfile
  * x-ms-original-file: 2024-09-01-preview/Create_AssetEndpointProfile.json
  */
-async function createAssetEndpointProfile() {
+async function createAssetEndpointProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function createAssetEndpointProfile() {
  * @summary create a AssetEndpointProfile
  * x-ms-original-file: 2024-09-01-preview/Create_AssetEndpointProfile_With_DiscoveredAepRef.json
  */
-async function createAssetEndpointProfileWithDiscoveredAepRef() {
+async function createAssetEndpointProfileWithDiscoveredAepRef(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -65,9 +65,9 @@ async function createAssetEndpointProfileWithDiscoveredAepRef() {
   console.log(result);
 }
 
-async function main() {
-  createAssetEndpointProfile();
-  createAssetEndpointProfileWithDiscoveredAepRef();
+async function main(): Promise<void> {
+  await createAssetEndpointProfile();
+  await createAssetEndpointProfileWithDiscoveredAepRef();
 }
 
 main().catch(console.error);

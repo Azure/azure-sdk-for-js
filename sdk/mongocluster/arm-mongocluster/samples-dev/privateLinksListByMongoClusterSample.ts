@@ -15,7 +15,7 @@ async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateLinks.listByMongoCluster("TestGroup", "myMongoCluster")) {
+  for await (const item of client.privateLinks.listByMongoCluster("TestGroup", "myMongoCluster")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource() {
 }
 
 async function main() {
-  listsThePrivateLinkResourcesAvailableOnAMongoClusterResource();
+  await listsThePrivateLinkResourcesAvailableOnAMongoClusterResource();
 }
 
 main().catch(console.error);

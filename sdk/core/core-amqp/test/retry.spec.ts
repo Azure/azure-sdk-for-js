@@ -16,6 +16,12 @@ import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");
 
+function assertAggregateError(err: unknown, check: RegExp): asserts err is AggregateError {
+  assert.instanceOf(err, AggregateError);
+  const errors = (err as AggregateError).errors;
+  assert.match(errors[errors.length - 1].message, check);
+}
+
 [RetryMode.Exponential, RetryMode.Fixed].forEach((mode) => {
   describe(`retry function for "${
     mode === RetryMode.Exponential ? "Exponential" : "Fixed"
@@ -169,9 +175,7 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         };
         await retry(config);
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, MessagingError);
-        assert.match((err as MessagingError).message, /I would like to fail./);
+        assertAggregateError(err, /I would like to fail./);
         assert.equal(counter, 3);
       }
     });
@@ -193,12 +197,7 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         };
         await retry(config);
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, MessagingError);
-        assert.match(
-          (err as MessagingError).message,
-          /I would always like to fail, keep retrying./,
-        );
+        assertAggregateError(err, /I would always like to fail, keep retrying./);
         assert.equal(counter, 5);
       }
     });
@@ -266,12 +265,7 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         // If we get here, `delay` won :-(
         throw new Error("TestFailure: 'retry' took longer than expected to return.");
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, MessagingError);
-        assert.match(
-          (err as MessagingError).message,
-          /I would always like to fail, keep retrying./,
-        );
+        assertAggregateError(err, /I would always like to fail, keep retrying./);
         assert.equal(counter, 2);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
@@ -460,9 +454,7 @@ const debug = debugModule("azure:core-amqp:retry-spec");
           };
           await retry(config);
         } catch (err) {
-          assert.isDefined(err);
-          assert.instanceOf(err, MessagingError);
-          assert.match((err as MessagingError).message, /I would like to fail./);
+          assertAggregateError(err, /I would like to fail./);
           assert.equal(counter, 3);
         }
       });

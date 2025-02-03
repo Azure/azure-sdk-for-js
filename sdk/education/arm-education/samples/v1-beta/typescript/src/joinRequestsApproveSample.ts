@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Approve student joining the redeemable lab
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Approve student joining the redeemable lab
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/JoinRequestApproveAndDeny.json
  */
-async function joinRequestApprove() {
+async function joinRequestApprove(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const invoiceSectionName = "{invoiceSectionName}";
@@ -36,7 +34,7 @@ async function joinRequestApprove() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   joinRequestApprove();
 }
 

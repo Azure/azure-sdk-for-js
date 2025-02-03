@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the preview feature with the specified name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/getFeature.json
  */
-async function getFeature() {
+async function getFeature(): Promise<void> {
   const subscriptionId = "subid";
   const resourceProviderNamespace = "Resource Provider Namespace";
   const featureName = "feature";

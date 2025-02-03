@@ -53,10 +53,10 @@ export async function main() {
     doWork(parentSpan);
   }
   // Be sure to end the span.
-  parentSpan.end();
+  await parentSpan.end();
 
   // flush and close the connection.
-  exporter.shutdown();
+  await exporter.shutdown();
 }
 
 function doWork(parent: opentelemetry.Span) {

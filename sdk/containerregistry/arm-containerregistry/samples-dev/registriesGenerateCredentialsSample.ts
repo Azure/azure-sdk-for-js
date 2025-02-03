@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GenerateCredentialsParameters,
-  ContainerRegistryManagementClient
-} from "@azure/arm-containerregistry";
+import type { GenerateCredentialsParameters } from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,31 +19,26 @@ import "dotenv/config";
  */
 async function registryGenerateCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const generateCredentialsParameters: GenerateCredentialsParameters = {
     expiry: new Date("2020-12-31T15:59:59.0707808Z"),
     tokenId:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tokens/myToken"
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tokens/myToken",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.registries.beginGenerateCredentialsAndWait(
     resourceGroupName,
     registryName,
-    generateCredentialsParameters
+    generateCredentialsParameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  registryGenerateCredentials();
+  await registryGenerateCredentials();
 }
 
 main().catch(console.error);

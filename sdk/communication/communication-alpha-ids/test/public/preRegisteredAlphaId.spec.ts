@@ -6,21 +6,19 @@ import { createRecordedClient } from "./utils/recordedClient.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
+describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, () => {
   let recorder: Recorder;
   let client: AlphaIdsClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (ctx) {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
-  it("can list all pre-registered alpha ids", { timeout: 40000 }, async function () {
+  it("can list all pre-registered alpha ids", { timeout: 40000 }, async () => {
     let configurationResponse: FullOperationResponse | undefined;
     const getConfigurationRequest: OperationOptions = {
       onResponse: (response) => {
@@ -67,7 +65,7 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
     }
   });
 
-  it("can list all pre-registered alpha ids countries", { timeout: 20000 }, async function () {
+  it("can list all pre-registered alpha ids countries", { timeout: 20000 }, async () => {
     let configurationResponse: FullOperationResponse | undefined;
     const getConfigurationRequest: OperationOptions = {
       onResponse: (response) => {
