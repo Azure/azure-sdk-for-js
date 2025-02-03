@@ -4270,28 +4270,45 @@ export class BlockBlobClient extends BlobClient {
 
         const blockList: string[] = [];
         const blockIDPrefix = randomUUID();
-        let transferProgress: number = 0;
+        // Stores the amount of bytes progressed in each block
+        let transferProgressPerBlock: number[] = [];
 
         const batch = new Batch(options.concurrency);
         for (let i = 0; i < numBlocks; i++) {
+          // Initialize at 0
+          transferProgressPerBlock[i] = 0;
+          // Calculate block parameters
+          const start = blockSize * i;
+          const end = i === numBlocks - 1 ? size : start + blockSize;
+          const contentLength = end - start;
+          // Queue the block upload
           batch.addOperation(async (): Promise<any> => {
             const blockID = generateBlockID(blockIDPrefix, i);
-            const start = blockSize * i;
-            const end = i === numBlocks - 1 ? size : start + blockSize;
-            const contentLength = end - start;
             blockList.push(blockID);
             await this.stageBlock(blockID, bodyFactory(start, contentLength), contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
               tracingOptions: updatedOptions.tracingOptions,
+              onProgress(progress) {
+                // Record the progress in this block by index. Will overwrite if block is retried.
+                transferProgressPerBlock[i] = progress.loadedBytes;
+                // Report progress externally
+                if (options.onProgress) {
+                  options.onProgress!({
+                    // Report the sum of the array
+                    loadedBytes: transferProgressPerBlock.reduce((sum, a) => sum + a, 0),
+                  });
+                }
+              },
             });
+            // In case of inconsistencies in `onProgress` report, write the final value ourselves
+            transferProgressPerBlock[i] = contentLength;
             // Update progress after block is successfully uploaded to server, in case of block trying
-            // TODO: Hook with convenience layer progress event in finer level
-            transferProgress += contentLength;
             if (options.onProgress) {
               options.onProgress!({
-                loadedBytes: transferProgress,
+                // Report the sum of the array
+                loadedBytes: transferProgressPerBlock.reduce((sum, a) => sum + a, 0),
               });
             }
           });
