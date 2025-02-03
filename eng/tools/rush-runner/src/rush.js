@@ -42,7 +42,7 @@ export function rushRunAll(action, direction, packages, rushParams) {
  * @param {string[][]} packagesWithDirection - Any array of strings containing ["direction packageName"...]
  * @param {string[]} rushParams - what parameters to pass to rush
  */
-export function rushRunAllWithDirection(action, packagesWithDirection, rushParams) {
+export function rushRunAllWithDirection(action, packagesWithDirection, rushParams, ciFlag) {
   const invocation = packagesWithDirection.flatMap(([direction, packageName]) => [
     direction,
     packageName,
@@ -55,8 +55,9 @@ export function rushRunAllWithDirection(action, packagesWithDirection, rushParam
 
   // Restore assets for packages that are being 'unit-test'-ed in the CI pipeline
   if (
-    // 1. Check if running in Azure dev ops pipelines (process.env["BUILD_BUILDNUMBER"] is set)
-    process.env["BUILD_BUILDNUMBER"]
+    // 1. eng/tools/rush-runner/index.js is running in CI: "--ci" flag is set
+    // Example: node eng/tools/rush-runner/index.js unit-test:node servicebus template -packages "azure-service-bus,azure-template" --ci --verbose -p max
+    ciFlag
     // 2. Ensure not in "live" or "record" mode (run only in playback mode)
     && (!["live", "record"].includes(process.env.TEST_MODE))
     // 3. Ensure the action is either 'unit-test:node' or 'unit-test:browser' (unit tests)

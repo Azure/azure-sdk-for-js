@@ -23,7 +23,7 @@ import {
  * @param {string} artifactNames - package names to filter to
  * @returns
  */
-export function executeActions(action, serviceDirs, rushParams, artifactNames) {
+export function executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag) {
   const actionComponents = action.toLowerCase().split(":");
 
   console.log(`Packages to build: ${artifactNames}`);
@@ -43,6 +43,7 @@ export function executeActions(action, serviceDirs, rushParams, artifactNames) {
           action,
           getDirectionMappedPackages(packageNames, action, serviceDirs),
           rushParams,
+          ciFlag
         );
         break;
 
