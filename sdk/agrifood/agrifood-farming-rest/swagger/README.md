@@ -21,8 +21,8 @@ rest-level-client: true
 security: AADToken
 security-scopes: https://farmbeats.azure.net/.default
 use-extension:
-  "@autorest/typescript": "latest"
-
+  "@autorest/typescript": "6.0.34"
 modelerfour:
   treat-type-object-as-anything: true
+module-kind: esm
 ```

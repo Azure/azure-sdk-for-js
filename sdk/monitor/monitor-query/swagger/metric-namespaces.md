@@ -22,5 +22,6 @@ hide-clients: true
 v3: true
 typescript: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```
