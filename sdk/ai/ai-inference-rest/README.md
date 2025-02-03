@@ -16,7 +16,7 @@ Key links:
 ```javascript
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
-const client = new ModelClient(
+const client = ModelClient(
   "https://<Azure Model endpoint>",
   new AzureKeyCredential("<Azure API key>"),
 );
@@ -43,13 +43,13 @@ console.log(response.body.choices[0].message.content);
 
 ### Install the `@azure-rest/ai-inference` package
 
-Install the Azure ModelClient REST client REST client library for JavaScript with `npm`:
+Install the Azure Inference REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/ai-inference
 ```
 
-### Create and authenticate a `ModelClient`
+### Create and authenticate the Inference client
 
 #### Using an API Key from Azure
 
@@ -69,7 +69,7 @@ Once you have an API key and endpoint, you can use the `AzureKeyCredential` clas
 import ModelClient from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const client = new ModelClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = ModelClient("<endpoint>", new AzureKeyCredential("<API key>"));
 ```
 
 #### Using an Azure Active Directory Credential
@@ -87,7 +87,7 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = new ModelClient("<endpoint>", new DefaultAzureCredential());
+const client = ModelClient("<endpoint>", new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -99,7 +99,7 @@ import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 async function main() {
-  const client = new ModelClient(
+  const client = ModelClient(
     "https://your-model-endpoint/",
     new AzureKeyCredential("your-model-api-key"),
   );
@@ -141,7 +141,7 @@ import { createSseStream } from "@azure/core-sse";
 
 async function main() {
   const endpoint = "https://myaccount.openai.azure.com/";
-  const client = new ModelClient(endpoint, new DefaultAzureCredential());
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
 
   const messages = [
     // NOTE: "system" role is not supported on all Azure Models
@@ -202,7 +202,7 @@ async function main() {
   // Replace with your Model API key
   const key = "YOUR_MODEL_API_KEY";
   const endpoint = "https://your-model-endpoint/";
-  const client = new ModelClient(endpoint, new AzureKeyCredential(key));
+  const client = ModelClient(endpoint, new AzureKeyCredential(key));
 
   const messages = [
     { role: "user", content: "How are you today?" },
@@ -248,7 +248,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
   const endpoint = "https://your-model-endpoint/";
-  const client = new ModelClient(endpoint, new DefaultAzureCredential());
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
 
   const textToSummarize = `
     Two independent experiments reported their results this morning at CERN, Europe's high-energy physics laboratory near Geneva in Switzerland. Both show convincing evidence of a new boson particle weighing around 125 gigaelectronvolts, which so far fits predictions of the Higgs previously made by theoretical physicists.
