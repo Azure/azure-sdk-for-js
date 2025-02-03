@@ -4,7 +4,13 @@
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { Link, Attributes, SpanContext } from "@opentelemetry/api";
-import { diag, SpanKind, SpanStatusCode, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
+import {
+  diag,
+  SpanKind,
+  SpanStatusCode,
+  isValidTraceId,
+  isValidSpanId,
+} from "@opentelemetry/api";
 import {
   DBSYSTEMVALUES_MONGODB,
   DBSYSTEMVALUES_MYSQL,
@@ -49,7 +55,10 @@ import {
   DependencyTypes,
   MS_LINKS,
 } from "./constants/applicationinsights.js";
-import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes.js";
+import {
+  AzNamespace,
+  MicrosoftEventHub,
+} from "./constants/span/azAttributes.js";
 import type {
   TelemetryExceptionData,
   MessageData,
@@ -88,13 +97,13 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         // AiOperationName max lenght is 1024
         // https://github.com/MohanGsk/ApplicationInsights-Home/blob/master/EndpointSpecs/Schemas/Bond/ContextTagKeys.bond
         tags[KnownContextTagKeys.AiOperationName] = String(
-          `${httpMethod as string} ${httpRoute as string}`,
+          `${httpMethod as string} ${httpRoute as string}`
         ).substring(0, MaxPropertyLengths.TEN_BIT);
       } else if (httpUrl) {
         try {
           const url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = String(
-            `${httpMethod} ${url.pathname}`,
+            `${httpMethod} ${url.pathname}`
           ).substring(0, MaxPropertyLengths.TEN_BIT);
         } catch {
           /* no-op */
@@ -162,8 +171,12 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
   return properties;
 }
 
-function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements] {
-  const properties: Properties = createPropertiesFromSpanAttributes(span.attributes);
+function createPropertiesFromSpan(
+  span: ReadableSpan
+): [Properties, Measurements] {
+  const properties: Properties = createPropertiesFromSpanAttributes(
+    span.attributes
+  );
   const measurements: Measurements = {};
 
   const links: MSLink[] = span.links.map((link: Link) => ({
@@ -262,7 +275,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     const target = getDependencyTarget(span.attributes);
     const dbName = span.attributes[SEMATTRS_DB_NAME];
     if (target) {
-      remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`;
+      remoteDependencyData.target = dbName
+        ? `${target}|${dbName}`
+        : `${target}`;
     } else {
       remoteDependencyData.target = dbName ? `${dbName}` : `${dbSystem}`;
     }
@@ -289,7 +304,8 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 }
 
 function createRequestData(span: ReadableSpan): RequestData {
-  const httpStatusCode = (Number(span.attributes[SEMATTRS_HTTP_STATUS_CODE]) || 0)
+  const httpStatusCode =
+    Number(span.attributes[SEMATTRS_HTTP_STATUS_CODE]) || 0;
   const requestData: RequestData = {
     id: `${span.spanContext().spanId}`,
     success:
@@ -304,7 +320,6 @@ function createRequestData(span: ReadableSpan): RequestData {
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.url = getUrl(span.attributes);
-    const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
     if (httpStatusCode) {
       requestData.responseCode = String(httpStatusCode);
     }
@@ -318,7 +333,10 @@ function createRequestData(span: ReadableSpan): RequestData {
  * Span to Azure envelope parsing.
  * @internal
  */
-export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelope {
+export function readableSpanToEnvelope(
+  span: ReadableSpan,
+  ikey: string
+): Envelope {
   let name: string;
   let baseType: "RemoteDependencyData" | "RequestData";
   let baseData: RemoteDependencyData | RequestData;
@@ -371,22 +389,34 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     baseData.name = baseData.name.substring(0, MaxPropertyLengths.TEN_BIT);
   }
   if (baseData.resultCode) {
-    baseData.resultCode = String(baseData.resultCode).substring(0, MaxPropertyLengths.TEN_BIT);
+    baseData.resultCode = String(baseData.resultCode).substring(
+      0,
+      MaxPropertyLengths.TEN_BIT
+    );
   }
   if (baseData.data) {
-    baseData.data = String(baseData.data).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+    baseData.data = String(baseData.data).substring(
+      0,
+      MaxPropertyLengths.THIRTEEN_BIT
+    );
   }
   if (baseData.type) {
-    baseData.type = String(baseData.type).substring(0, MaxPropertyLengths.TEN_BIT);
+    baseData.type = String(baseData.type).substring(
+      0,
+      MaxPropertyLengths.TEN_BIT
+    );
   }
   if (baseData.target) {
-    baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
+    baseData.target = String(baseData.target).substring(
+      0,
+      MaxPropertyLengths.TEN_BIT
+    );
   }
   if (baseData.properties) {
     for (const key of Object.keys(baseData.properties)) {
       baseData.properties[key] = baseData.properties[key].substring(
         0,
-        MaxPropertyLengths.THIRTEEN_BIT,
+        MaxPropertyLengths.THIRTEEN_BIT
       );
     }
   }
@@ -413,7 +443,10 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
  * Span Events to Azure envelopes parsing.
  * @internal
  */
-export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelope[] {
+export function spanEventsToEnvelopes(
+  span: ReadableSpan,
+  ikey: string
+): Envelope[] {
   const envelopes: Envelope[] = [];
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
@@ -438,13 +471,18 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           : undefined;
         if (parentSpanContext) {
           isValidParent =
-            isValidTraceId(parentSpanContext.traceId) && isValidSpanId(parentSpanContext.spanId);
+            isValidTraceId(parentSpanContext.traceId) &&
+            isValidSpanId(parentSpanContext.spanId);
         }
         /*
          * Only generate exception telemetry for children of a remote span,
          * internal spans, and top level spans. This is to avoid unresolvable exceptions from outgoing calls.
          */
-        if (!isValidParent || parentSpanContext?.isRemote || span.kind === SpanKind.INTERNAL) {
+        if (
+          !isValidParent ||
+          parentSpanContext?.isRemote ||
+          span.kind === SpanKind.INTERNAL
+        ) {
           name = "Microsoft.ApplicationInsights.Exception";
           baseType = "ExceptionData";
           let typeName = "";
@@ -498,13 +536,16 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       }
       // Truncate properties
       if (baseData.message) {
-        baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+        baseData.message = String(baseData.message).substring(
+          0,
+          MaxPropertyLengths.FIFTEEN_BIT
+        );
       }
       if (baseData.properties) {
         for (const key of Object.keys(baseData.properties)) {
           baseData.properties[key] = baseData.properties[key].substring(
             0,
-            MaxPropertyLengths.THIRTEEN_BIT,
+            MaxPropertyLengths.THIRTEEN_BIT
           );
         }
       }
