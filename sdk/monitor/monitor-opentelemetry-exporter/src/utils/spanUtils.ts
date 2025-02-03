@@ -289,11 +289,12 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 }
 
 function createRequestData(span: ReadableSpan): RequestData {
+  const httpStatusCode = (Number(span.attributes[SEMATTRS_HTTP_STATUS_CODE]) || 0)
   const requestData: RequestData = {
     id: `${span.spanContext().spanId}`,
     success:
       span.status.code !== SpanStatusCode.ERROR &&
-      (Number(span.attributes[SEMATTRS_HTTP_STATUS_CODE]) || 0) < 400,
+      (httpStatusCode < 400 || httpStatusCode === 404),
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,
