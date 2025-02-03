@@ -4,15 +4,15 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it } from "vitest";
 import { type OpenAI, type AzureOpenAI, toFile } from "openai";
-import { createClient } from "../utils/createClient.js";
+import { createClient } from "../../utils/createClient.js";
 import {
   APIVersion,
   type DeploymentInfo,
   getDeployments,
   withDeployments,
-} from "../utils/utils.js";
-import { assertBatch, assertNonEmptyArray } from "../utils/asserts.js";
-import { delay } from "@azure-tools/test-recorder";
+} from "../../utils/utils.js";
+import { assertBatch, assertNonEmptyArray } from "../../utils/asserts.js";
+import { delay } from "@azure/core-util";
 import type { FileObject } from "openai/resources/index";
 
 describe("Batches", () => {

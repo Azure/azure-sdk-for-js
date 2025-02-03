@@ -3,10 +3,10 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
-import { assertAssistantEquality } from "./utils/asserts.js";
-import { createClient } from "./utils/createClient.js";
+import { assertAssistantEquality } from "../utils/asserts.js";
+import { createClient } from "../utils/createClient.js";
 import type { OpenAI, AzureOpenAI } from "openai";
-import { APIVersion, isRateLimitRun, type Metadata } from "./utils/utils.js";
+import { APIVersion, isRateLimitRun, type Metadata } from "../utils/utils.js";
 
 describe("OpenAIAssistants", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
