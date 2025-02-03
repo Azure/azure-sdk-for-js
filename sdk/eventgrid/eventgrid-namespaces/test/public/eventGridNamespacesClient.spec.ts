@@ -12,7 +12,7 @@ import type {
 } from "../../src/index.js";
 import { EventGridDeserializer } from "../../src/index.js";
 import { createRecordedClient } from "./utils/recordedClient.js";
-import { Buffer } from "node:buffer";
+import { Buffer } from "buffer";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 /* eslint no-constant-condition: "off" */
