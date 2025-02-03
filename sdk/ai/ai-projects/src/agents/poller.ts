@@ -2,111 +2,160 @@
 // Licensed under the MIT License.
 
 import { delay } from "@azure/core-util";
-import type { PollOperationState, PollOperation } from "@azure/core-lro";
-import { Poller } from "@azure/core-lro";
+import type { PollerLike, OperationState, OperationStatus } from "@azure/core-lro";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollingOptions } from "./customModels.js";
 
-interface PollResult {
-  status?: string;
-}
+const DEFAULT_POLL_INTERVAL_IN_MS = 1000;
 
-interface AgentsPollOperationState<T extends PollResult> extends PollOperationState<T> {
-  updateInternal: (state?: T) => Promise<{ result: T; completed: boolean }>;
-  cancelInternal?: (state: T) => Promise<boolean>;
-  abortSignal?: AbortSignalLike;
-  cancelled?: boolean;
-}
-
-interface AgentsPollOperation<T extends PollResult>
-  extends PollOperation<AgentsPollOperationState<T>, T> {}
-
-export class AgentsPoller<T extends PollResult> extends Poller<AgentsPollOperationState<T>, T> {
-  sleepIntervalInMs: number = 1000;
-
-  constructor({
-    update,
-    pollingOptions,
-    cancel,
-    baseOperation,
-    onProgress,
-  }: {
-    update: (state?: T) => Promise<{ result: T; completed: boolean }>;
-    pollingOptions?: PollingOptions;
-    cancel?: (state: T) => Promise<boolean>;
-    baseOperation?: AgentsPollOperation<T>;
-    onProgress?: (state: AgentsPollOperationState<T>) => void;
-  }) {
-    let state: AgentsPollOperationState<T> = {
-      updateInternal: update,
-      cancelInternal: cancel,
-      abortSignal: pollingOptions?.abortSignal,
+export function createPoller<T>({
+  initOperation,
+  pollOperation,
+  getOperationStatus,
+  getOperationError,
+  intervalInMs,
+}: {
+  initOperation: () => Promise<T>;
+  pollOperation: (currentResult: T) => Promise<T>;
+  getOperationStatus: (result: T) => OperationStatus;
+  getOperationError?: (result: T) => Error | undefined;
+  intervalInMs?: number;
+}): PollerLike<OperationState<T>, T> {
+  let state: OperationState<T>;
+  const statePromise = initOperation().then((result) => {
+    state = {
+      result,
+      status: getOperationStatus(result),
     };
-
-    if (baseOperation) {
-      state = baseOperation.state;
-    }
-
-    const operation = makeOperation(state);
-    super(operation);
-
-    this.sleepIntervalInMs = pollingOptions?.sleepIntervalInMs ?? this.sleepIntervalInMs;
-
-    if (onProgress) {
-      this.onProgress(onProgress);
-    }
-  }
-
-  async delay(): Promise<void> {
-    await delay(this.sleepIntervalInMs);
-  }
-}
-
-/**
- * Utility function to create a new instance of operation state.
- * Recommended to avoid no references are left or manipulated by mistake
- */
-function makeOperation<T extends PollResult>(
-  state: AgentsPollOperationState<T>,
-): PollOperation<AgentsPollOperationState<T>, T> {
-  return {
-    state: {
-      ...state,
-    },
-    update: updateWrapper,
-    cancel: cancelWrapper,
-    toString: toString,
-  };
-}
-
-async function updateWrapper<T extends PollResult>(
-  this: AgentsPollOperation<T>,
-): Promise<PollOperation<AgentsPollOperationState<T>, T>> {
-  if (this.state.abortSignal?.aborted) {
-    return makeOperation(this.state);
-  }
-  const { result, completed } = await this.state.updateInternal(this.state.result);
-  this.state.result = result;
-  this.state.isCompleted = completed;
-  return makeOperation(this.state);
-}
-
-async function cancelWrapper<T extends PollResult>(
-  this: AgentsPollOperation<T>,
-): Promise<PollOperation<AgentsPollOperationState<T>, T>> {
-  if (!this.state.result || !this.state.cancelInternal) {
-    return makeOperation({
-      ...this.state,
-      cancelled: false,
-    });
-  }
-  const cancelled = await this.state.cancelInternal(this.state.result);
-  return makeOperation({
-    ...this.state,
-    cancelled: cancelled,
+    return state;
   });
-}
 
-function toString<T extends PollResult>(this: AgentsPollOperation<T>): string {
-  return JSON.stringify(this.state);
+  let resultPromise: Promise<T> | undefined;
+  const abortController = new AbortController();
+  type Handler = (state: OperationState<T>) => void;
+  const handlers = new Map<symbol, Handler>();
+  const handleProgressEvents = async (): Promise<void> => handlers.forEach((h) => h(state));
+  const currentPollIntervalInMs = intervalInMs ?? DEFAULT_POLL_INTERVAL_IN_MS;
+
+  const poller: PollerLike<OperationState<T>, T> = {
+    get operationState(): OperationState<T> | undefined {
+      return state;
+    },
+    get result(): T | undefined {
+      return state?.result;
+    },
+    get isDone(): boolean {
+      return ["succeeded", "failed", "canceled"].includes(state?.status ?? "");
+    },
+    onProgress: (callback: (state: OperationState<T>) => void) => {
+      const s = Symbol();
+      handlers.set(s, callback);
+      return () => handlers.delete(s);
+    },
+    serialize: async () => {
+      await statePromise;
+      return JSON.stringify({
+        state,
+      });
+    },
+    submitted: async () => {
+      await statePromise;
+    },
+    pollUntilDone: async (pollOptions?: { abortSignal?: AbortSignalLike }) => {
+      resultPromise ??= (async () => {
+        await statePromise;
+        if (!state) {
+          throw new Error("Poller is not initialized");
+        }
+        const { abortSignal: inputAbortSignal } = pollOptions || {};
+        function abortListener(): void {
+          abortController.abort();
+        }
+        const abortSignal = abortController.signal;
+        if (inputAbortSignal?.aborted) {
+          abortController.abort();
+        } else if (!abortSignal.aborted) {
+          inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
+        }
+
+        try {
+          if (!poller.isDone) {
+            await poller.poll({ abortSignal });
+            while (!poller.isDone) {
+              await delay(currentPollIntervalInMs, { abortSignal });
+              await poller.poll({ abortSignal });
+            }
+          }
+        } finally {
+          inputAbortSignal?.removeEventListener("abort", abortListener);
+        }
+        switch (state.status) {
+          case "succeeded":
+            return poller.result as T;
+          case "canceled":
+            throw new Error("Operation cancelled");
+          case "failed":
+            throw state.error ?? new Error("Operation failed");
+          case "notStarted":
+          case "running":
+            throw new Error("Polling completed without succeeding or failing");
+        }
+      })().finally(() => {
+        resultPromise = undefined;
+      });
+      return resultPromise;
+    },
+
+    async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<OperationState<T>> {
+      // Check state before polling
+      await statePromise;
+      if (!state || !state.result) {
+        throw new Error("Poller is not initialized");
+      }
+      switch (state.status) {
+        case "succeeded":
+          return state;
+        case "canceled":
+          throw new Error("Operation was canceled");
+        case "failed":
+          throw state.error ?? new Error("Operation failed");
+      }
+
+      // Poll
+      if (pollOptions?.abortSignal?.aborted) {
+        throw new Error("Operation aborted");
+      }
+      const result = await pollOperation(state.result);
+      state = {
+        result,
+        status: getOperationStatus(result),
+        error: getOperationError ? getOperationError(result) : undefined,
+      };
+
+      await handleProgressEvents();
+      switch (state.status) {
+        case "canceled":
+          throw new Error("Operation was canceled");
+        case "failed":
+          throw state.error ?? new Error("Operation failed");
+      }
+      return state;
+    },
+
+    then<T1 = T, T2 = never>(
+      onfulfilled?: ((value: T) => T1 | PromiseLike<T1>) | undefined | null,
+      onrejected?: ((reason: any) => T2 | PromiseLike<T2>) | undefined | null,
+    ): Promise<T1 | T2> {
+      return poller.pollUntilDone().then(onfulfilled, onrejected);
+    },
+    catch<T2 = never>(
+      onrejected?: ((reason: any) => T2 | PromiseLike<T2>) | undefined | null,
+    ): Promise<T | T2> {
+      return poller.pollUntilDone().catch(onrejected);
+    },
+    finally(onfinally?: (() => void) | undefined | null): Promise<T> {
+      return poller.pollUntilDone().finally(onfinally);
+    },
+    [Symbol.toStringTag]: "Poller",
+  };
+  return poller;
 }

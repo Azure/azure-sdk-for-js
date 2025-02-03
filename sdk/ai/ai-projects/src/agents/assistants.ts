@@ -40,6 +40,7 @@ enum Tools {
   MicrosoftFabric = "microsoft_fabric",
   SharepointGrounding = "sharepoint_grounding",
   AzureAISearch = "azure_ai_search",
+  OpenApi = "openapi",
   AzureFunction = "azure_function",
 }
 
