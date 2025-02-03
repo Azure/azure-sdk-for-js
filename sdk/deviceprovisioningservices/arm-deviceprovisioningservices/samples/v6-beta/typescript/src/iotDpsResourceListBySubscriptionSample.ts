@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List all the provisioning services for a given subscription id.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSListBySubscription.json
  */
-async function dpsListBySubscription() {
+async function dpsListBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -28,7 +28,7 @@ async function dpsListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsListBySubscription();
 }
 

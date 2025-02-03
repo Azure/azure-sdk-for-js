@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes the specified compute policy from the specified Data Lake Analytics account
  * x-ms-original-file: specification/datalake-analytics/resource-manager/Microsoft.DataLakeAnalytics/preview/2019-11-01-preview/examples/ComputePolicies_Delete.json
  */
-async function deletesTheSpecifiedComputePolicyFromTheAdlaAccount() {
+async function deletesTheSpecifiedComputePolicyFromTheAdlaAccount(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = "contosorg";
   const accountName = "contosoadla";

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/PatchResourceGuard.json
  */
-async function patchResourceGuard() {
+async function patchResourceGuard(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -36,7 +36,7 @@ async function patchResourceGuard() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchResourceGuard();
 }
 

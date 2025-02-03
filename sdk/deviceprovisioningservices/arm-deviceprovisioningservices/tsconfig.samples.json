@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-deviceprovisioningservices": [
-        "./dist/esm"
-      ]
+      "@azure/arm-deviceprovisioningservices": ["./dist/esm"]
     }
   }
 }

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns ResourceGuards collection belonging to a ResourceGroup.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/GetResourceGuardsInResourceGroup.json
  */
-async function getResourceGuardsInResourceGroup() {
+async function getResourceGuardsInResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -32,7 +32,7 @@ async function getResourceGuardsInResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getResourceGuardsInResourceGroup();
 }
 

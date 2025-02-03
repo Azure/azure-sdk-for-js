@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Generate verification code for Proof of Possession.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSGenerateVerificationCode.json
  */
-async function dpsGenerateVerificationCode() {
+async function dpsGenerateVerificationCode(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -36,7 +36,7 @@ async function dpsGenerateVerificationCode() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsGenerateVerificationCode();
 }
 

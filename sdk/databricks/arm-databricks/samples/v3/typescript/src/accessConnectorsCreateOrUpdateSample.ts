@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates azure databricks accessConnector.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorCreateOrUpdate.json
  */
-async function createAnAzureDatabricksAccessConnectorWithSystemAssignedIdentity() {
+async function createAnAzureDatabricksAccessConnectorWithSystemAssignedIdentity(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const connectorName = "myAccessConnector";
@@ -42,7 +42,7 @@ async function createAnAzureDatabricksAccessConnectorWithSystemAssignedIdentity(
  * @summary Creates or updates azure databricks accessConnector.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorCreateOrUpdateWithUserAssigned.json
  */
-async function createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity() {
+async function createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const connectorName = "myAccessConnector";
@@ -60,7 +60,7 @@ async function createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity() 
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAnAzureDatabricksAccessConnectorWithSystemAssignedIdentity();
   createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity();
 }

@@ -1,10 +1,14 @@
 # Release History
 
-## 1.0.0-beta.28 ()
+## 1.0.0-beta.28 (2025-01-28)
 
 ### Features Added
 
 - Added support for operation name on dependencies and logs.
+
+### Bugs Fixed
+
+- Fixed usage of environment variable to disable resource metric creation.
 
 ### Other Changes
 

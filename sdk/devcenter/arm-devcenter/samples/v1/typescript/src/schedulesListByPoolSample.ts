@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists schedules for a pool
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Schedules_ListByPool.json
  */
-async function schedulesListByPool() {
+async function schedulesListByPool(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -35,7 +35,7 @@ async function schedulesListByPool() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   schedulesListByPool();
 }
 

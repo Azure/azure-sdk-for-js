@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns the ResourceGuardProxy object associated with the vault, and that matches the name in the request
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
  */
-async function getResourceGuardProxy() {
+async function getResourceGuardProxy(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "5e13b949-1218-4d18-8b99-7e12155ec4f7";
@@ -33,7 +33,7 @@ async function getResourceGuardProxy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getResourceGuardProxy();
 }
 

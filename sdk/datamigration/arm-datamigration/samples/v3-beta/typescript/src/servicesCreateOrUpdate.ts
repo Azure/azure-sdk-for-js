@@ -17,7 +17,7 @@ import {
 } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function servicesCreateOrUpdate() {
+async function servicesCreateOrUpdate(): Promise<void> {
   const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const groupName = "DmsSdkRg";
   const serviceName = "DmsSdkService";

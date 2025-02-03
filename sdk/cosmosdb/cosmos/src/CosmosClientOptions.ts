@@ -20,7 +20,7 @@ export interface Agent {
 
 export interface CosmosClientOptions {
   /** The service endpoint to use to create the client. */
-  endpoint: string;
+  endpoint?: string;
   /** The account master or readonly key */
   key?: string;
   /** An object that contains resources tokens.
@@ -60,4 +60,6 @@ export interface CosmosClientOptions {
   diagnosticLevel?: CosmosDbDiagnosticLevel;
   /** @internal */
   plugins?: PluginConfig[];
+  /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
+  connectionString?: string;
 }

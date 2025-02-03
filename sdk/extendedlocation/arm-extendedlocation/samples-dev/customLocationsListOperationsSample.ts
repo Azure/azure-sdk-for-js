@@ -7,9 +7,7 @@
  */
 import { CustomLocationsManagementClient } from "@azure/arm-extendedlocation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all available Custom Locations operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all available Custom Locations operations.
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsListOperations.json
  */
-async function listCustomLocationsOperations() {
+async function listCustomLocationsOperations(): Promise<void> {
   const subscriptionId =
     process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listCustomLocationsOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listCustomLocationsOperations();
 }
 

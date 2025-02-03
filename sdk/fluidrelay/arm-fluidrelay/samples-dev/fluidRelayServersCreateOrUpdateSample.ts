@@ -8,9 +8,7 @@
 import type { FluidRelayServer } from "@azure/arm-fluidrelay";
 import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update a Fluid Relay server.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or Update a Fluid Relay server.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_CreateOrUpdate.json
  */
-async function createAFluidRelayServer() {
+async function createAFluidRelayServer(): Promise<void> {
   const subscriptionId = process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
   const fluidRelayServerName = "myFluidRelayServer";
@@ -44,7 +42,7 @@ async function createAFluidRelayServer() {
  * @summary Create or Update a Fluid Relay server.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_CreateWithAmi.json
  */
-async function createAFluidRelayServerWithAmi() {
+async function createAFluidRelayServerWithAmi(): Promise<void> {
   const subscriptionId = process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
   const fluidRelayServerName = "myFluidRelayServer";
@@ -78,7 +76,7 @@ async function createAFluidRelayServerWithAmi() {
  * @summary Create or Update a Fluid Relay server.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_CreateWithCmk.json
  */
-async function createAFluidRelayServerWithCmk() {
+async function createAFluidRelayServerWithCmk(): Promise<void> {
   const subscriptionId = process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
   const fluidRelayServerName = "myFluidRelayServer";
@@ -114,7 +112,7 @@ async function createAFluidRelayServerWithCmk() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createAFluidRelayServer();
   await createAFluidRelayServerWithAmi();
   await createAFluidRelayServerWithCmk();
